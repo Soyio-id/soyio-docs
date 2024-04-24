@@ -2,46 +2,38 @@
 sidebar_position: 1
 ---
 
-# Tutorial Intro
+# Introducción
 
-Let's discover **Docusaurus in less than 5 minutes**.
+¿Así que quieres integrar Soyio? Estás en el **lugar correcto**. A continuación te contamos en esta documentación sobre lo necesario para poder integrarte a nuestra plataforma.
 
-## Getting Started
+## Lo que necesitas
 
-Get started by **creating a new site**.
+- Ganas
+- Talento (no tanto la verdad)
+- Paciencia (esperemos que no)
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
+## Autenticación
 
-### What you'll need
+Soyio utiliza [Token Based Authentication](https://web.archive.org/web/20220629183322/https://www.w3.org/2001/sw/Europe/events/foaf-galway/papers/fp/token_based_authentication/) sobre HTTPS para la autenticación. Los request no autenticados retornarán una respuesta HTTP 401. Las llamadas sobre HTTP simple también fallarán.
 
-- [Node.js](https://nodejs.org/en/download/) version 18.0 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
+### **Header de autenticación**
 
-## Generate a new site
+Este tiene el siguiente formato:
 
-Generate a new Docusaurus site using the **classic template**.
+`Authorization: <api_token>`
 
-The classic template will automatically be added to your project after you run the command:
+Donde `api_token` es el asociado a tu cuenta.
 
-```bash
-npm init docusaurus@latest my-website classic
-```
+## Ambientes
 
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
+Para facilitar la integración, contamos las siguientes URLs:
 
-The command also installs all necessary dependencies you need to run Docusaurus.
+- `sandbox.soyio.id`: Corresponde al ambiente de **Sandbox**. Todo lo que hagas acá está asilado de producción y las validaciones son mocks.
+- `app.soyio.id`: Corresponde al ambiente de **Producción.**
 
-## Start your site
 
-Run the development server:
+:::info[Pro Tip]
 
-```bash
-cd my-website
-npm run start
-```
+Podrás acceder a ambas URLs con el mismo `api_token`
 
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
-
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
-
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
+:::
