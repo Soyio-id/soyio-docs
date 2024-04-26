@@ -1,0 +1,21 @@
+.filter {
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.canvas {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  overflow: hidden;
+  filter: blur(120px) url(#grainy);
+  opacity: 0.6;
+}
+
+.canvasMuted {
+  opacity: 0.3;
+}

@@ -9,6 +9,8 @@
   position: relative;
   overflow: hidden;
   height: 80vh;
+  background: none;
+  color: var(--ifm-hero-text-color--inverse);
 }
 
 @media screen and (max-width: 996px) {
