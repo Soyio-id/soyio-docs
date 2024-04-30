@@ -12,7 +12,7 @@
   bottom: 0;
   z-index: -1;
   overflow: hidden;
-  filter: blur(120px) url(#grainy);
+  filter: blur(90px) url(#grainy);
   opacity: 0.6;
 }
 

@@ -58,6 +58,25 @@ const config = {
         },
       }),
     ],
+    [
+      'redocusaurus',
+      {
+        // Plugin Options for loading OpenAPI files
+        specs: [
+          // Pass it a path to a local OpenAPI YAML file
+          {
+            // Redocusaurus will automatically bundle your spec into a single file during the build
+            spec: 'api/soyioapi.yaml',
+            route: '/api/',
+          },
+        ],
+        // Theme Options for modifying how redoc renders them
+        theme: {
+          // Change with your site colors
+          primaryColor: '#40287F',
+        },
+      },
+    ],
   ],
 
   themeConfig:
@@ -78,6 +97,11 @@ const config = {
             position: 'left',
             label: 'Guía de integración',
           },
+          {
+            label: 'Referencia de la API',
+            to: '/api/',
+            position: 'left',
+          },
           // {to: '/blog', label: 'Blog', position: 'left'},
           {
             href: 'https://github.com/soyio-id/soyio-docs',
@@ -95,6 +119,10 @@ const config = {
               {
                 label: 'Guía de integración',
                 to: '/docs/intro',
+              },
+              {
+                label: 'Referencia de la API',
+                to: '/api/',
               },
             ],
           },

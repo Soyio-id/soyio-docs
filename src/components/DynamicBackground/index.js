@@ -52,7 +52,9 @@ export default function DynamicBackground({mutedBg, ...props}) {
   createCircle(circles, "#b17dff");
   createCircle(circles, "#0091ff");
   createCircle(circles, "#87cbff");
+  createCircle(circles, "#87cbff");
   createCircle(circles, "#858dff");
+  createCircle(circles, "#b17dff");
   createCircle(circles, "#b17dff");
 
   const draw = () => {
