@@ -24,6 +24,11 @@ function HomepageHeader() {
             to="/docs/intro">
             Guía de integración →
           </Link>
+          <Link
+            className="button button--secondary button--lg"
+            to="/api">
+            Referencia de la API
+          </Link>
         </div>
       </div>
     </header>
