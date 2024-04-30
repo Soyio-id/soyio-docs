@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Soyio API
   description: |-
-    Soyio Identity Service API
+    Soyio Identity Service API proporciona servicios de gestión de identidades digitales para autenticación y autorización de usuarios. Permite a los desarrolladores integrar y gestionar identidades de usuario de forma segura en sus aplicaciones.
   contact:
     email: soporte@soyio.id
   version: 1.0.0
@@ -14,51 +14,51 @@ servers:
   - url: https://app.soyio.id/api/v1
 tags:
   - name: identity
-    description: Identidades
+    description: Operaciones relacionadas con la gestión de identidades de usuario.
 paths:
   /identities:
     get:
       tags:
         - identity
-      summary: Get all identities
-      description: Multiple status values can be provided with comma separated strings
+      summary: Obtener todas las identidades
+      description: Retorna una lista de todas las identidades registradas.
       operationId: indexIdentities
       responses:
         '200':
-          description: successful operation
+          description: Operación exitosa, retorna una lista de identidades.
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Identity'          
+                  $ref: '#/components/schemas/Identity'
         '400':
-          description: Invalid status value
+          description: Valor de estado inválido
       security:
         - api_key: []
   /identities/{identity_id}:
     get:
       tags:
         - identity
-      summary: Get specific Identity by ID
+      summary: Obtener identidad específica por ID
       operationId: getIdentity
       parameters:
         - name: identity_id
           in: path
-          description: Identity ID to find
+          description: ID de la identidad que se quiere encontrar.
           required: true
           explode: true
           schema:
             type: string
       responses:
         '200':
-          description: successful operation
+          description: Operación exitosa, retorna la identidad solicitada.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Identity'          
+                $ref: '#/components/schemas/Identity'
         '400':
-          description: Invalid tag value
+          description: Valor de ID inválido
       security:
         - api_key: []
 components:
@@ -100,8 +100,8 @@ components:
       xml:
         name: '##default'
   requestBodies:
-    Pet:
-      description: Pet object that needs to be added to the store
+    Identity:
+      description: Objeto Identity que necesita ser creado o actualizado
       content:
         application/json:
           schema:
