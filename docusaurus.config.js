@@ -5,6 +5,7 @@
 // See: https://docusaurus.io/docs/api/docusaurus-config
 
 import {themes as prismThemes} from 'prism-react-renderer';
+import path from 'path';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -61,12 +62,13 @@ const config = {
     [
       'redocusaurus',
       {
+        config: path.join(__dirname, 'redocly.yaml'),
         // Plugin Options for loading OpenAPI files
         specs: [
           // Pass it a path to a local OpenAPI YAML file
           {
             // Redocusaurus will automatically bundle your spec into a single file during the build
-            spec: 'api/soyioapi.yaml',
+            spec: 'https://soyio-docs.s3.amazonaws.com/swagger.yaml',
             route: '/api/',
           },
         ],
@@ -74,6 +76,7 @@ const config = {
         theme: {
           // Change with your site colors
           primaryColor: '#40287F',
+          primaryColorDark : '#9177d4',
         },
       },
     ],

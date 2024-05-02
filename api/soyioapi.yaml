@@ -1,31 +1,43 @@
-openapi: 3.0.3
+openapi: 3.1.0
 info:
   title: Soyio API
   description: |-
-    Soyio Identity Service API proporciona servicios de gestión de identidades digitales para autenticación y autorización de usuarios. Permite a los desarrolladores integrar y gestionar identidades de usuario de forma segura en sus aplicaciones.
+    API del Servicio de Identidad de Soyio
   contact:
     email: soporte@soyio.id
   version: 1.0.0
-externalDocs:
-  description: Más información acerca de Soyio
-  url: http://soyio.id
 servers:
   - url: https://sandbox.soyio.id/api/v1
   - url: https://app.soyio.id/api/v1
 tags:
-  - name: identity
-    description: Operaciones relacionadas con la gestión de identidades de usuario.
+  - name: Identities
+    description: Los objetos de identidad permiten gestionar los datos de identidad de tus usuarios.
+  - name: Validation flows
+    description: Los flujos de validación, representan los procesos de validación de identidades de los usuarios. Estos obedecen a una serie de reglas de validación representadas por un template de flujo de validación.
+  - name: Auth attempts
+    description: >
+      Los intentos de autenticación representan movimientos de una identidad al intentar autenticarse con tu sistema.
+
+      El tipo de autenticación dependerá del registro del dispositivo de autenticación del usuario. En el caso de que un usuario no tenga su dispositivo de autenticación registrado, el tipo de validación será facial. En ese momento se le pedirá registrar el dispositivo.
+  - name: Events
+    description: >
+      Los eventos nos permiten comunicarte cambios relevantes en el sistema. Cuando ocurre un evento interesante, se crea un objeto evento. Por ejemplo, cuando se valida una identidad, se crea un evento `validation_flow.succeeded`; cuando una validación falla, se crea un objeto `validation_flow.failed`.
+
+      > Una llamada a la API **puede generar 1 o más eventos**.
+
+
+      Los eventos pueden ser enviados directamente a tu servidor a través de la utilización de webhooks.
 paths:
   /identities:
     get:
       tags:
-        - identity
+        - Identities
       summary: Obtener todas las identidades
-      description: Retorna una lista de todas las identidades registradas.
+      description: Se pueden proporcionar varios valores de estado con cadenas separadas por comas
       operationId: indexIdentities
       responses:
         '200':
-          description: Operación exitosa, retorna una lista de identidades.
+          description: Operación exitosa
           content:
             application/json:
               schema:
@@ -36,81 +48,307 @@ paths:
           description: Valor de estado inválido
       security:
         - api_key: []
-  /identities/{identity_id}:
+  /identities/{id}:
     get:
       tags:
-        - identity
-      summary: Obtener identidad específica por ID
+        - Identities
+      summary: Obtener una identidad específica
       operationId: getIdentity
       parameters:
-        - name: identity_id
+        - name: id
           in: path
-          description: ID de la identidad que se quiere encontrar.
+          description: ID de la identidad a buscar
           required: true
           explode: true
           schema:
             type: string
       responses:
         '200':
-          description: Operación exitosa, retorna la identidad solicitada.
+          description: Operación exitosa
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Identity'
         '400':
-          description: Valor de ID inválido
+          description: Valor de etiqueta inválido
       security:
         - api_key: []
+  /auth_attempts:
+    get:
+      tags:
+      - Auth attempts
+      summary: Obtener todos los intentos de autenticación
+      description: Retorna una lista de intentos de autenticación. Los intentos se encuentran ordenados por defecto por la fecha de creación, donde las mas recientes aparecerán primero.
+      operationId: indexAuthAttempts
+      responses:
+        '200':
+          description: Intentos de autenticación encontrados
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AuthAttempt'
+        '401':
+          description: No autorizado
+  /auth_attempts/{id}:
+    get:
+      tags:
+      - Auth attempts
+      summary: Obtener un intento de autenticación específico
+      description: Retorna un intento de autenticación dado su ID.
+      operationId: getAuthAttempt
+      parameters:
+        - name: id
+          in: path
+          description: ID del intento de autenticación a buscar
+          required: true
+          explode: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Intento de autenticación encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthAttempt'
+        '404':
+          description: No encontrado
+        '401':
+          description: No autorizado
+  /validation_flows:
+    get:
+      tags:
+      - Validation flows
+      summary: Obtener todos los flujos de validación
+      description: Retorna una lista de flujos de validación. Los flujos se encuentran ordenados por defecto por la fecha de creación, donde las mas recientes aparecerán primero.
+      operationId: indexValidationFlows
+      responses:
+        '200':
+          description: Flujos de validación encontrados
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ValidationFlow'
+        '401':
+          description: No autorizado
+  /validation_flows/{id}:
+    get:
+      tags:
+      - Validation flows
+      summary: Obtener un flujo de validación específico
+      description: Retorna un flujo de validación dado su ID.
+      operationId: getValidationFlow
+      parameters:
+        - name: id
+          in: path
+          description: ID del flujo de validación a buscar
+          required: true
+          explode: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Flujo de validación encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationFlow'
+        '404':
+          description: No encontrado
+        '401':
+          description: No autorizado
+  /events:
+    get:
+      tags:
+      - Events
+      summary: Obtener todos los eventos
+      description: Retorna una lista de eventos. Los eventos se encuentran ordenadas por defecto por la fecha de creación, donde las mas recientes aparecerán primero.
+      operationId: indexEvents
+      responses:
+        '200':
+          description: Eventos encontrados
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+        '401':
+          description: No autorizado
+  /events/{id}:
+    get:
+      tags:
+      - Events
+      summary: Obtener un evento específico
+      description: Obtiene los detalles de un evento existente.
+      operationId: getEvent
+      parameters:
+        - name: id
+          in: path
+          description: ID del evento a buscar
+          required: true
+          explode: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Evento encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '404':
+          description: No encontrado
+        '401':
+          description: No autorizado
 components:
   schemas:
     IdentityInformation:
       type: object
+      description: Información detallada de un atributo específico de una identidad.
       properties:
         key:
           type: string
+          description: Clave o nombre del atributo de la identidad.
           example: "name"
         value:
           type: string
+          description: Valor asociado a la clave del atributo.
           example: "Jon"
       xml:
         name: tag
     Identity:
       type: object
+      description: Representa una identidad de usuario en el sistema.
       properties:
         id:
           type: string
-          example: 'id_ma21KLsmaslopask912Aa2'
+          description: Identificador único de la identidad.
+          example: id_ma21KLsmaslopask912Aa2
         email:
           type: string
+          description: Correo electrónico asociado a la identidad.
           example: jonsnow@nightswatch.com
         data:
           type: array
+          description: Colección de información adicional sobre la identidad en forma de pares clave-valor.
           items:
             $ref: '#/components/schemas/IdentityInformation'
+    AuthAttempt:
+      type: object
+      description: Registro de un intento de autenticación por parte de una identidad.
+      properties:
+        id:
+          type: string
+          description: Identificador único del intento de autenticación.
+          example: aa_Kop19_kEe23i7hSw8QG4-a
+        identity_id:
+          type: string
+          description: Identificador de la identidad que realiza el intento.
+          example: id_ma21KLsmaslopask912Aa2
+        status:
+          type: string
+          enum:
+            - pending
+            - in_progress
+            - successful
+            - failed
+          description: Estado actual del intento de autenticación (por ejemplo, "exitoso", "fallido").
+        user_reference:
+          type: string
+          description: Referencia opcional proporcionada por el usuario para el intento de autenticación.
+          example: nAjjJ11lOokanasyk12LmX8l
+        validation_type:
+          type: string
+          enum:
+            - facial_validation
+            - passkey_validation
+          description: Tipo de validación utilizada en el intento de autenticación. `passkey_validation` corresponde a cuando un usuario validó a través de un dispositivo registrado.
+        error_reason:
+          type:
+            - 'null'
+            - string
+          description: Razón del error en caso de que el intento haya fallado. Campo opcional.
+        created_at:
+          type: string
+          format: date-time
+          description: Fecha y hora en que se creó el registro del intento de autenticación.
+    ValidationFlow:
+      type: object
+      description: Descripción de un flujo de validación para una identidad.
+      properties:
+        id:
+          type: string
+          description: Identificador único del flujo de validación.
+          example: vf_HkrLZ_I33CnY7hZW8QG4-w
+        identity_email:
+          type: string
+          description: Correo electrónico de la identidad asociada al flujo.
+          example: gus@polloshermanos.com
+        status:
+          type: string
+          enum:
+            - pending
+            - in_progress
+            - successful
+            - failed
+          description: Estado actual del flujo de validación.
+        user_reference:
+          type:
+           - string
+           - 'null'
+          description: Referencia de usuario de tu sistema para el flujo de validación. Campo opcional.
+          example: nAjjJ11lOokanasyk12LmX8l
+        error_reason:
+          type:
+            - 'null'
+            - string
+          description: Motivo del error, si el flujo no fue exitoso. Campo opcional.
+        created_at:
+          type: string
+          format: date-time
+          description: Fecha y hora de creación del flujo de validación.
+    Event:
+      type: object
+      description: Información sobre un evento específico dentro del sistema.
+      properties:
+        id:
+          type: string
+          description: Identificador único del evento.
+        name:
+          type: string
+          description: Nombre descriptivo del evento.
+          example: validation_flow.successful
+        payload:
+          type: string
+          description: Datos adicionales asociados al evento.
+        created_at:
+          type: string
+          format: date-time
+          description: Fecha y hora en que se registró el evento.
     ApiResponse:
       type: object
+      description: Respuesta estándar para las operaciones de la API que incluyen código y mensaje de estado.
       properties:
         code:
           type: integer
           format: int32
+          description: Código numérico que representa el estado de la respuesta.
         type:
           type: string
+          description: Tipo de mensaje de la respuesta, por ejemplo, "error" o "success".
         message:
           type: string
+          description: Mensaje descriptivo acerca del resultado de la operación.
       xml:
         name: '##default'
-  requestBodies:
-    Identity:
-      description: Objeto Identity que necesita ser creado o actualizado
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Identity'
-        application/xml:
-          schema:
-            $ref: '#/components/schemas/Identity'
   securitySchemes:
     api_key:
       type: apiKey
+      description: Esquema de autenticación mediante una clave API proporcionada en el encabezado de las solicitudes.
       name: Authorization
       in: header
