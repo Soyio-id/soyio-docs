@@ -68,7 +68,7 @@ const config = {
           // Pass it a path to a local OpenAPI YAML file
           {
             // Redocusaurus will automatically bundle your spec into a single file during the build
-            spec: 'https://soyio-docs.s3.amazonaws.com/swagger.yaml',
+            spec: 'https://soyio-docs.s3.amazonaws.com/soyio-open-api.yaml',
             route: '/api/',
           },
         ],
