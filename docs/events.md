@@ -1,5 +1,5 @@
 ---
-sidebar_position: 3
+sidebar_position: 4
 ---
 
 # Eventos
@@ -14,7 +14,7 @@ En este momento, los eventos que enviamos por Webhooks tienen la siguiente estru
 {
   id: "evt_...",
   name: "validation_attempt.successful",
-  payload: { 
+  payload: {
     user_reference: "<user-reference>",
     validation_attempt_id: "va_...",
     identity_id: "id_..."
@@ -29,7 +29,7 @@ En este momento, los eventos que enviamos por Webhooks tienen la siguiente estru
 {
   id: "evt_...",
   name: "validation_attempt.failed",
-  payload: { 
+  payload: {
     user_reference: "<user-reference>",
     validation_attempt_id: "va_...",
     error_reason: "passive_liveness_verification_not_passed",

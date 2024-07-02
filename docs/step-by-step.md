@@ -23,7 +23,7 @@ Hoy contamos con dos librerías de front para que puedas instalar de manera senc
 Sigue los pasos del `Readme` de cada uno de estos proyectos para instalar
 :::
 
-Estas librerías proveen dos funciones principales:
+Estas librerías proveen tres funciones principales:
 
 ### Registro y validación de identidad
 
@@ -32,6 +32,10 @@ Para un onboarding (o posterior validación) se valida y registra la identidad d
 ### Autenticación
 
 Úsalo para autenticar a un usuario cuando necesites. Simplemente nos pasas su `identityId` asociado y nosotros hacemos el resto.
+
+### Firma de documentos
+
+Cuando necesitas que tu usuario firme un documento de manera segura y autenticada. Revisa nuestra [guía de firma de documentos](./signature).
 
 ## 3. Escucha los eventos
 
