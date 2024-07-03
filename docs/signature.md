@@ -48,7 +48,7 @@ Cuando requieras que el usuario firme un documento, deberás primero crear un in
 
 Donde el payload debiera contener el `identity_id` de tu usuario, el `template_id` de la plantilla y las variables necesarias para completar el documento. Por ejemplo:
 
-```json title="Payload Ejemplo POST /api/v1/signature_attempts"
+```javascript title="Payload Ejemplo POST /api/v1/signature_attempts"
 {
   "identity_id": "id_...",
   "template_id": "st_...",
@@ -86,13 +86,14 @@ Sigue las instrucciones del `Readme` del SDK correspondiente para iniciar el int
 Una vez que el usuario completa el flujo:
 
 - Se emitirá un evento `signature_attempt.successful` con el `signed_document_id` del documento firmado. Esto lo recibirás mediante un webhook. Por ejemplo:
+
 ```javascript
 {
   id: "evt_...",
   name: "signature_attempt.successful",
   payload: {
     user_reference: "<user-reference>",
-    signatre_attempt_id: "sa_...",
+    signature_attempt_id: "sa_...",
     identity_id: "id_...",
     signed_document_id: "sd_...",
   },
