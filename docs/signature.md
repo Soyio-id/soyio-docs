@@ -30,16 +30,12 @@ Nuestras plantillas soportan variables a través de handlebars siguiendo el sigu
 
 Donde `variable` es el **nombre de la variable** y `type` es el **tipo de variable**. Los tipos soportados son:
 
-- `string`
-- `number`
-- `signature`
-
-:::tip[Tip]
-Si no declara un tipo de variable (Por ejemplo `{{variable}}`), la variable se parseará como un `string`.
-:::
+- `string`: Representa un texto en el documento. Si no declara un tipo de variable (Por ejemplo `{{variable}}`), la variable se parseará por defecto como un `string`.
+- `number`: Representa un número o cifra en el documento. Al reemplazarse, se desplegará formateado como un número, por ejemplo 10000 se convertirá en `10.000`.
+- `signature`: Representa una firma en el documento. Debe ubicarse en el lugar dónde irá la firma en el documento final.
 
 :::warning[Ojo]
-Se requiere al menos una variable de tipo `signature` para poder crear la plantilla.
+Se requiere al menos una variable de tipo `signature` en el documento para poder crear la plantilla.
 :::
 
 Una vez creada, te haremos llegar el id de la plantilla, por ejemplo: `st_m02aAsla_021UiN12s`.
