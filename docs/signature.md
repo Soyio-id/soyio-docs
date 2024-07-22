@@ -95,7 +95,7 @@ Una vez que el usuario completa el flujo:
     user_reference: "<user-reference>",
     signature_attempt_id: "sa_...",
     identity_id: "id_...",
-    signed_document_id: "sd_...",
+    signed_document_ids: ["sd_1...", ..., "sd_n..."],
   },
   created_at: "<created_at>"
 }
