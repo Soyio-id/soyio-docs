@@ -4,11 +4,29 @@ sidebar_position: 3
 
 # Firma de documentos
 
-En esta guía de explicaremos acerca de nuestra funcionalidad de firma electrónica de documentos.
+En esta guía te explicaremos nuestra funcionalidad de firma electrónica de documentos.
 
 ## Cómo funciona
 
-TBD
+Con nuestra funcionalidad de firma podrás generar documentos automáticamente a partir de una plantilla e integrar el proceso de firma en tu aplicación.
+
+Cuando tus usuarios firmen los documentos, Soyio garantizará la integridad del documento agregando una capa extra de seguridad basada en autenticación biométrica y una firma criptográfica con sello de tiempo en el documento. Nuestra firma es válida legalmente para documentos que requieren Firma Electrónica Simple.
+
+Sigue el paso a paso para crear la plantilla del proceso de firma e integrarla en tu aplicación.
+
+### Qué es autenticación biométrica
+
+Para iniciar un proceso de firma de documentos, el usuario previamente deberá haber validado su identidad en Soyio. Durante ese proceso de validación confirmamos que el usuario es quien dice ser. Al finalizar la validación, el usuario podrá crear una llave de acceso biométrica que queda almacenada en su dispositivo (passkey) y que le permitirá identificarse y autenticarse en otros servicios ofrecidos por Soyio, entre ellos, el servicio de firma digital.
+
+Al iniciar el proceso de firma, al usuario se le presentará el documento listo para firmar, el que podrá previsualizar o descargar.
+
+Cuando el usuario esté seguro de firmar y haga click en el botón "Firmar con Soyio", deberá confirmar esta acción usando su llave de acceso biométrica almacenada en su dispositivo (passkey) o usando la autenticación facial. Mediante este acto, podemos asegurar que quien está firmando el documento es quien dice ser.
+
+### Qué es una firma criptográfica
+
+Cuando el usuario firma, se agregarán algunas marcas visuales en el documento. Las marcas visuales son un timbre con el nombre del usuario, una marca con el id del documento en todas las hojas y un registro temporal con todos los pasos del proceso de firma.
+
+Sin embargo, lo más importante, es que se generará una firma criptográfica sobre el documento. La firma criptográfica usa un algoritmo de llave pública para mantener la integridad de los datos. Esta firma incluye la hora exacta en que el documento fue firmado y evita que documento pueda ser modificado posteriormente. Por lo tanto, cualquier persona podrá comprobar que la firma se realizó mediante el servicio que ofrece Soyio y que el documento no ha sido modificado después de ser firmado.
 
 ## Pre Requisitos
 
@@ -77,9 +95,10 @@ Ahora, desde el front, debes iniciar el intento de firma con tu usuario. Para ha
 
 :::tip[Tip]
 Sigue las instrucciones del `Readme` del SDK correspondiente para iniciar el intento de firma.
+
 - [SDK Web](https://www.npmjs.com/package/@soyio/soyio-widget)
 - [SDK React Native](https://www.npmjs.com/package/@soyio/soyio-rn-sdk)
-:::
+  :::
 
 ### 4. Escucha los eventos
 
@@ -100,6 +119,7 @@ Una vez que el usuario completa el flujo:
   created_at: "<created_at>"
 }
 ```
+
 - Se emitirá un evento en el front. Revisa el detalle en la documentación del SDK correspondiente.
 
 ### 5. Obtén el documento firmado
