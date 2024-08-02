@@ -13,15 +13,19 @@
   color: var(--ifm-hero-text-color--inverse);
 }
 
-@media screen and (max-width: 996px) {
-  .heroBanner {
-    padding: 2rem;
-  }
-}
-
 .buttons {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 1rem;
+}
+
+@media screen and (max-width: 996px) {
+  .heroBanner {
+    padding: 1rem;
+  }
+
+  .buttons {
+    flex-direction: column;
+  }
 }
