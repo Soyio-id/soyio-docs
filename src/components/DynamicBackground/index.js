@@ -6,12 +6,16 @@ import styles from './styles.module.css';
 
 const circleBaseRadius = 60;
 
+function getRandomArbitrary(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
 const createCircle = (circles, color) => {
   if(isBrowser){
     circles.push({
       x:  Math.random() * window.innerWidth,
-      y: -(circleBaseRadius *  Math.random(50, 100) * 50),
-      radius: circleBaseRadius * Math.random(10, 20) * 10,
+      y: -(circleBaseRadius *  getRandomArbitrary(5,15)),
+      radius: circleBaseRadius * getRandomArbitrary(5,15),
       color: color,
       speedX: (1 + Math.random() * 3) * (Math.round(Math.random()) * 2 - 1),
       speedY: (1 + Math.random() * 3) * (Math.round(Math.random()) * 2 - 1)
