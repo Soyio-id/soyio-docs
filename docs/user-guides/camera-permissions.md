@@ -12,7 +12,7 @@ Si accidentalmente o inicialmente bloqueaste el acceso a tu cámara, verás una 
 
 <img src="/img/error-view.png" alt="vista de error" width="200"/>
 
-## iPone o iPad
+## iPhone o iPad
 
 ### Otorgar permisos a tu cámara en un iPhone o iPad
 
