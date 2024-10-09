@@ -1,0 +1,243 @@
+---
+id: get-signed-document
+title: "Obtener un documento firmado."
+description: "Obtiene los detalles de un documento firmado."
+sidebar_label: "Obtener un documento firmado."
+hide_title: true
+hide_table_of_contents: true
+api: eJyVVU1v4zYQ/SvEnFpA9Uewl+rUALstgi26RdOegsAYk2NrdiWSIUdGXEG/am+95o8VQ8tp1koXWF9MicN5j2/ejAYQ3Geo7+CW956cccH2HXnJcF+Bo2wTR+HgoYYPW2HyZNqQjSPBtiVdmN4/nwpmx6lDFxZQQYiUUM/eOKhhT3KCeDvFQgURE3YklJTBAB47ghrYQQWsiBGlgUsaN2+No3YOCRUkeug5kYNaUk8V0GNsg6PzY7YNdQj1AHKMipQlsd/DON7r2RyDz5R1/2q10r8vgc/Ez4CGvA1e0glbl3qregCMsWVbrr78mPXsMMcO249kiwhJhRI+IdNhSnIZdiGC34XUoeWnz97ksE2vl2GWnt38+rPcjrzwji26kMzTP55tKJIXbmEBYwVcYuS4+faEjkyL5pTAoTMRk7DliF7IkNfNwl4tRI/YxZaKQdltOrxav/81d5jbEDF/+nF9dY1XcD9WYBOhkNugvManiCVQg0OhH4Q7mpH8mWyD5miakFBpPPRkMplEe86Snj6blwKMFQhLqxgXph7Lr4I3q/XcQb8Fg72ExH9rbUrUm1ejXjhLk3UkTZiaqLSNNFDDMhfozXPLLgd2I1SQKR3OPdWnFmpoRGKul8uM3m3D4yKHI4cFuyVGXh7WMFaXkRjjPOpec9s+sRxv1c8nT2HkzSc6vtAdI7+n40zid/mhpw7VAdhrs7CdHNyR41L/3qOxLR7IXP9+Y9S7IVkOHl0pitbAW9ySCnhyUjY5tGxZekdZPTNNketemqJ0AZ8GSkPoKBVN2e9CoXyuo15WUWe0lYna/5bSgS0X3Jtn+zoy5eg0AtAWA1KHrHJmvYDQT2cpteham1Pm9WK1WOmrGLJ0WAbFRP/DVshT+t/h+gXF4b/p881TeiqZ0KMsY4vslU/xwjAZ7Q4ujQYV1Oz0C9GELBoxDFvM9Fdqx1FfP/SUjlDf3VdwwMS4VYnvBnCcde2g3mGb6SvX+O6PaZZ/b74y8F8lfzahVwcesO31CSooHtUJOOrAmKygrE4b19ZSlBdHZmNc/f/cir+8+xPG8V8NjIa3
+sidebar_class_name: "get api-method"
+info_path: docs/api/soyio-api
+custom_edit_url: null
+---
+
+import ApiTabs from "@theme/ApiTabs";
+import DiscriminatorTabs from "@theme/DiscriminatorTabs";
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import SecuritySchemes from "@theme/ApiExplorer/SecuritySchemes";
+import MimeTabs from "@theme/MimeTabs";
+import ParamsItem from "@theme/ParamsItem";
+import ResponseSamples from "@theme/ResponseSamples";
+import SchemaItem from "@theme/SchemaItem";
+import SchemaTabs from "@theme/SchemaTabs";
+import Heading from "@theme/Heading";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Obtener un documento firmado."}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/signed_documents/{id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Obtiene los detalles de un documento firmado.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<details
+  style={{"marginBottom":"1rem"}}
+  className={"openapi-markdown__details"}
+  data-collapsed={false}
+  open={true}
+>
+  <summary
+    style={{}}
+  >
+    <h3
+      className={"openapi-markdown__details-summary-header-params"}
+    >
+      Path Parameters
+    </h3>
+  </summary><div>
+    <ul>
+      <ParamsItem
+        className={"paramsItem"}
+        param={{"name":"id","in":"path","description":"ID del documento firmado","required":true,"explode":true,"schema":{"type":"string"},"enumDescriptions":[]}}
+      >
+        
+      </ParamsItem>
+    </ul>
+  </div>
+</details><div>
+  <div>
+    <ApiTabs
+      label={undefined}
+      id={undefined}
+    >
+      <TabItem
+        label={"200"}
+        value={"200"}
+      >
+        <div>
+          
+          
+          Document firmado encontrado
+          
+          
+        </div><div>
+          <MimeTabs
+            className={"openapi-tabs__mime"}
+            schemaType={"response"}
+          >
+            <TabItem
+              label={"application/json"}
+              value={"application/json"}
+            >
+              <SchemaTabs
+                className={"openapi-tabs__schema"}
+              >
+                <TabItem
+                  label={"Schema"}
+                  value={"Schema"}
+                >
+                  <details
+                    style={{}}
+                    className={"openapi-markdown__details response"}
+                    data-collapsed={false}
+                    open={true}
+                  >
+                    <summary
+                      style={{}}
+                      className={"openapi-markdown__details-summary-response"}
+                    >
+                      <strong>
+                        Schema
+                      </strong>
+                    </summary><div
+                      style={{"textAlign":"left","marginLeft":"1rem"}}
+                    >
+                      
+                    </div><ul
+                      style={{"marginLeft":"1rem"}}
+                    >
+                      <SchemaItem
+                        collapsible={true}
+                        className={"schemaItem"}
+                      >
+                        <details
+                          style={{}}
+                          className={"openapi-markdown__details"}
+                        >
+                          <summary
+                            style={{}}
+                          >
+                            <span
+                              className={"openapi-schema__container"}
+                            >
+                              <strong
+                                className={"openapi-schema__property"}
+                              >
+                                event
+                              </strong><span
+                                className={"openapi-schema__name"}
+                              >
+                                 object
+                              </span>
+                            </span>
+                          </summary><div
+                            style={{"marginLeft":"1rem"}}
+                          >
+                            <div
+                              style={{"marginTop":".5rem","marginBottom":".5rem"}}
+                            >
+                              
+                              
+                              Información sobre un documento firmado
+                              
+                              
+                            </div><SchemaItem
+                              collapsible={false}
+                              name={"id"}
+                              required={false}
+                              schemaName={"string"}
+                              qualifierMessage={undefined}
+                              schema={{"type":"string","description":"Identificador único del evento."}}
+                            >
+                              
+                            </SchemaItem><SchemaItem
+                              collapsible={false}
+                              name={"identity_id"}
+                              required={false}
+                              schemaName={"string"}
+                              qualifierMessage={undefined}
+                              schema={{"type":"string","description":"Identificador de la identidad participante en la firma.","examples":["id_ma21KLsmaslopask912Aa2"]}}
+                            >
+                              
+                            </SchemaItem><SchemaItem
+                              collapsible={false}
+                              name={"created_at"}
+                              required={false}
+                              schemaName={"date-time"}
+                              qualifierMessage={undefined}
+                              schema={{"type":"string","format":"date-time","description":"Fecha y hora en que se registró el evento."}}
+                            >
+                              
+                            </SchemaItem>
+                          </div>
+                        </details>
+                      </SchemaItem>
+                    </ul>
+                  </details>
+                </TabItem><TabItem
+                  label={"Example (from schema)"}
+                  value={"Example (from schema)"}
+                >
+                  <ResponseSamples
+                    responseExample={"{\n  \"event\": {\n    \"id\": \"string\",\n    \"identity_id\": \"string\",\n    \"created_at\": \"2024-07-29T15:51:28.071Z\"\n  }\n}"}
+                    language={"json"}
+                  >
+                    
+                  </ResponseSamples>
+                </TabItem>
+              </SchemaTabs>
+            </TabItem>
+          </MimeTabs>
+        </div>
+      </TabItem><TabItem
+        label={"401"}
+        value={"401"}
+      >
+        <div>
+          
+          
+          No autorizado
+          
+          
+        </div><div>
+          
+        </div>
+      </TabItem><TabItem
+        label={"404"}
+        value={"404"}
+      >
+        <div>
+          
+          
+          No encontrado
+          
+          
+        </div><div>
+          
+        </div>
+      </TabItem>
+    </ApiTabs>
+  </div>
+</div>
+      

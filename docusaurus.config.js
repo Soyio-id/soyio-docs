@@ -42,48 +42,40 @@ const config = {
       ({
         docs: {
           sidebarPath: './sidebars.js',
+          docItemComponent: "@theme/ApiItem", // Derived from docusaurus-theme-openapi
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           // editUrl:
           //   'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+
         },
-        // blog: {
-        //   showReadingTime: true,
-        //   // Please change this to your repo.
-        //   // Remove this to remove the "edit this page" links.
-        //   editUrl:
-        //     'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
-        // },
         theme: {
           customCss: './src/css/custom.css',
         },
       }),
     ],
+  ],
+
+  plugins: [
     [
-      'redocusaurus',
+      'docusaurus-plugin-openapi-docs',
       {
-        config: path.join(__dirname, 'redocly.yaml'),
-        // Plugin Options for loading OpenAPI files
-        specs: [
-          // Pass it a path to a local OpenAPI YAML file
-          {
-            // Redocusaurus will automatically bundle your spec into a single file during the build
-            spec: 'https://soyio-docs.s3.amazonaws.com/soyio-open-api.yaml',
-            route: '/api/',
-          },
-        ],
-        // Theme Options for modifying how redoc renders them
-        theme: {
-          // Change with your site colors
-          primaryColor: '#40287F',
-          primaryColorDark : '#9177d4',
-        },
+        id: "api", // plugin id
+        docsPluginId: "classic", // configured for preset-classic
+        config: {
+          petstore: {
+            specPath: 'https://soyio-docs.s3.amazonaws.com/soyio-open-api.yaml',
+            outputDir: "docs/api",
+            sidebarOptions: {
+              groupPathsBy: "tag",
+            },
+          }
+        }
       },
-    ],
+    ]
   ],
 
   themeConfig:
-    /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       // Replace with your project's social card
       image: 'img/socialcarddocs.png',
@@ -102,7 +94,7 @@ const config = {
           },
           {
             label: 'Referencia de la API',
-            to: '/api/',
+            to: '/docs/api/soyio-api',
             position: 'left',
           },
           // {to: '/blog', label: 'Blog', position: 'left'},
@@ -149,10 +141,6 @@ const config = {
           {
             title: 'Más',
             items: [
-              // {
-              //   label: 'Blog',
-              //   to: '/blog',
-              // },
               {
                 label: 'Página principal',
                 href: 'https://soyio.id',
@@ -169,8 +157,68 @@ const config = {
       prism: {
         theme: prismThemes.github,
         darkTheme: prismThemes.dracula,
+        prism: {
+          additionalLanguages: [
+            "ruby",
+            "csharp",
+            "php",
+            "java",
+            "powershell",
+            "json",
+            "bash",
+          ],
+        },
+        languageTabs: [
+          {
+            highlight: "python",
+            language: "python",
+            logoClass: "python",
+          },
+          {
+            highlight: "bash",
+            language: "curl",
+            logoClass: "bash",
+          },
+          {
+            highlight: "csharp",
+            language: "csharp",
+            logoClass: "csharp",
+          },
+          {
+            highlight: "go",
+            language: "go",
+            logoClass: "go",
+          },
+          {
+            highlight: "javascript",
+            language: "nodejs",
+            logoClass: "nodejs",
+          },
+          {
+            highlight: "ruby",
+            language: "ruby",
+            logoClass: "ruby",
+          },
+          {
+            highlight: "php",
+            language: "php",
+            logoClass: "php",
+          },
+          {
+            highlight: "java",
+            language: "java",
+            logoClass: "java",
+            variant: "unirest",
+          },
+          {
+            highlight: "powershell",
+            language: "powershell",
+            logoClass: "powershell",
+          },
+        ],
       },
     }),
+  themes: ["docusaurus-theme-openapi-docs"], // export theme components
 };
 
 export default config;

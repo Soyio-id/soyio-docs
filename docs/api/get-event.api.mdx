@@ -1,0 +1,252 @@
+---
+id: get-event
+title: "Obtener un evento específico"
+description: "Obtiene los detalles de un evento existente."
+sidebar_label: "Obtener un evento específico"
+hide_title: true
+hide_table_of_contents: true
+api: eJyVVcFu4zYQ/RViTi2g2k6xJ50aYNNFUGC3aNpTYAQjchzNViIZcmTEFfRJPe2t1/xYMbS8m0RuF+uLRYqcN/PmzdMIgvcZ6lu42pOXDNsKHGWbOAoHDzV8aITJk+lCNo4Eu470wQzekF4Jhh45C3mhFVQQIiXUq9cOargnKXGhgogJexJKijaCx56gBnZQAStORGnhNfj1W+OoOwGhaYZsMUEFiR4GTuSgljRQBfQYu+DotMy2pR6hHkEOUXGyJPb3ME1bvZtj8Jmyvv9xs9G/l7BXc2HeBi8JXYAK9FErqUfAGDu2pcr1x6w3xiViaD6SLYUn5UT4iFdKOXfsVeF+F1KPlp8+eZNDk14QniPZp793bINx5CWFwlLWNvS4WmCyWzKxANRAvGOLLiTz9I8/Bj9xv4Kpmnv2tUjvQ6/pft7cv4yjvcI+dlRUt8eOXWHyDkWoj7LKg7WU827oYDupbg5dQPd1yt6ihGzQseXgUVWKOVhGp7sv6rCJUMjdoZyrphAvUINDoR+Ee1pA/Uy2RXMwbUhoyJuHgUwmk+ies6SnT+Y5b1MFwtLRSVcwlV8FbzYXS+m9DwYHCYn/UtmVU2/OnnomTg3Wk7RhHrkybdJCDeuSRV6P7CaoIFPanwZwSB3U0IrEXK/XGb1rwuMqhwOHFbs1Rl7vL2CqXp/EGJenthrbDonlcKODcNQdRr77kw7PSMbIv9BhwedVfhioR7UVHHTK2M7S78kxelH1o7Ed7slc/nptVN8hlUa70gEl3FtsSGnTOB1mk0PHlmVwlFV3s+VcDtIWfgv47D4toaNUmGS/CyXluWk3WqyiLtLWTFTaN5T2qjrFPc6RQ6eLcnX2DrRFbdQjK51ZCxD66USltlp7c4x8sdqsNroVQ5Yei8PM6X9ohDyl83bwOsXxi219q5HPHRN6lHXskL2mU6Qwzuq6PZpZhgpqdvrlaEMW3R/HBjP9kbpp0u2HgdIB6tttBXtMjI3yejuC46zPDuoddpn+J/fvfpv9/nvzn5+EswmfdOdVdHvsBl1BBUWWaoyTeszcfc3p+OLSWory7MrC8lXyn2fu3dXvME3/AryIiuw=
+sidebar_class_name: "get api-method"
+info_path: docs/api/soyio-api
+custom_edit_url: null
+---
+
+import ApiTabs from "@theme/ApiTabs";
+import DiscriminatorTabs from "@theme/DiscriminatorTabs";
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import SecuritySchemes from "@theme/ApiExplorer/SecuritySchemes";
+import MimeTabs from "@theme/MimeTabs";
+import ParamsItem from "@theme/ParamsItem";
+import ResponseSamples from "@theme/ResponseSamples";
+import SchemaItem from "@theme/SchemaItem";
+import SchemaTabs from "@theme/SchemaTabs";
+import Heading from "@theme/Heading";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Obtener un evento específico"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/events/{id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Obtiene los detalles de un evento existente.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<details
+  style={{"marginBottom":"1rem"}}
+  className={"openapi-markdown__details"}
+  data-collapsed={false}
+  open={true}
+>
+  <summary
+    style={{}}
+  >
+    <h3
+      className={"openapi-markdown__details-summary-header-params"}
+    >
+      Path Parameters
+    </h3>
+  </summary><div>
+    <ul>
+      <ParamsItem
+        className={"paramsItem"}
+        param={{"name":"id","in":"path","description":"ID del evento a buscar","required":true,"explode":true,"schema":{"type":"string"},"enumDescriptions":[]}}
+      >
+        
+      </ParamsItem>
+    </ul>
+  </div>
+</details><div>
+  <div>
+    <ApiTabs
+      label={undefined}
+      id={undefined}
+    >
+      <TabItem
+        label={"200"}
+        value={"200"}
+      >
+        <div>
+          
+          
+          Evento encontrado
+          
+          
+        </div><div>
+          <MimeTabs
+            className={"openapi-tabs__mime"}
+            schemaType={"response"}
+          >
+            <TabItem
+              label={"application/json"}
+              value={"application/json"}
+            >
+              <SchemaTabs
+                className={"openapi-tabs__schema"}
+              >
+                <TabItem
+                  label={"Schema"}
+                  value={"Schema"}
+                >
+                  <details
+                    style={{}}
+                    className={"openapi-markdown__details response"}
+                    data-collapsed={false}
+                    open={true}
+                  >
+                    <summary
+                      style={{}}
+                      className={"openapi-markdown__details-summary-response"}
+                    >
+                      <strong>
+                        Schema
+                      </strong>
+                    </summary><div
+                      style={{"textAlign":"left","marginLeft":"1rem"}}
+                    >
+                      
+                    </div><ul
+                      style={{"marginLeft":"1rem"}}
+                    >
+                      <SchemaItem
+                        collapsible={true}
+                        className={"schemaItem"}
+                      >
+                        <details
+                          style={{}}
+                          className={"openapi-markdown__details"}
+                        >
+                          <summary
+                            style={{}}
+                          >
+                            <span
+                              className={"openapi-schema__container"}
+                            >
+                              <strong
+                                className={"openapi-schema__property"}
+                              >
+                                event
+                              </strong><span
+                                className={"openapi-schema__name"}
+                              >
+                                 object
+                              </span>
+                            </span>
+                          </summary><div
+                            style={{"marginLeft":"1rem"}}
+                          >
+                            <div
+                              style={{"marginTop":".5rem","marginBottom":".5rem"}}
+                            >
+                              
+                              
+                              Información sobre un evento específico dentro del sistema.
+                              
+                              
+                            </div><SchemaItem
+                              collapsible={false}
+                              name={"id"}
+                              required={false}
+                              schemaName={"string"}
+                              qualifierMessage={undefined}
+                              schema={{"type":"string","description":"Identificador único del evento."}}
+                            >
+                              
+                            </SchemaItem><SchemaItem
+                              collapsible={false}
+                              name={"name"}
+                              required={false}
+                              schemaName={"string"}
+                              qualifierMessage={undefined}
+                              schema={{"type":"string","description":"Nombre descriptivo del evento.","examples":["validation_attempt.successful"]}}
+                            >
+                              
+                            </SchemaItem><SchemaItem
+                              collapsible={false}
+                              name={"payload"}
+                              required={false}
+                              schemaName={"object"}
+                              qualifierMessage={undefined}
+                              schema={{"type":"object","description":"Datos adicionales asociados al evento."}}
+                            >
+                              
+                            </SchemaItem><SchemaItem
+                              collapsible={false}
+                              name={"created_at"}
+                              required={false}
+                              schemaName={"date-time"}
+                              qualifierMessage={undefined}
+                              schema={{"type":"string","format":"date-time","description":"Fecha y hora en que se registró el evento."}}
+                            >
+                              
+                            </SchemaItem>
+                          </div>
+                        </details>
+                      </SchemaItem>
+                    </ul>
+                  </details>
+                </TabItem><TabItem
+                  label={"Example (from schema)"}
+                  value={"Example (from schema)"}
+                >
+                  <ResponseSamples
+                    responseExample={"{\n  \"event\": {\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"payload\": {},\n    \"created_at\": \"2024-07-29T15:51:28.071Z\"\n  }\n}"}
+                    language={"json"}
+                  >
+                    
+                  </ResponseSamples>
+                </TabItem>
+              </SchemaTabs>
+            </TabItem>
+          </MimeTabs>
+        </div>
+      </TabItem><TabItem
+        label={"401"}
+        value={"401"}
+      >
+        <div>
+          
+          
+          No autorizado
+          
+          
+        </div><div>
+          
+        </div>
+      </TabItem><TabItem
+        label={"404"}
+        value={"404"}
+      >
+        <div>
+          
+          
+          No encontrado
+          
+          
+        </div><div>
+          
+        </div>
+      </TabItem>
+    </ApiTabs>
+  </div>
+</div>
+      

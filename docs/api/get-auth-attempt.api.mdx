@@ -1,0 +1,279 @@
+---
+id: get-auth-attempt
+title: "Obtener un intento de autenticación específico"
+description: "Retorna un intento de autenticación dado su ID."
+sidebar_label: "Obtener un intento de autenticación específico"
+hide_title: true
+hide_table_of_contents: true
+api: eJydVk1vGzcQ/SvEnBJgI1lugCY61WjcwE3QtHEKFHAMZUSOrLG5JE1yVSvC/qAeesqtV/+xYrjrWNU6ClJdtLv8mMf33sxwAxkvEkzP4KjJS4U5Ux1ygvMKDCUdOWT2DqbwlrKPDlXjFLtMLntlSGEjj6xR8+0npwwar1KjTl6MoAIfKKIsPzEwhQvKEuKoiwAVBIxYU6Yo4TfgsCaYAhuogCViwLyEXRgnL5QhuwcCqnmTNEaoINJ1w5EMTHNsqAK6CdYbuntNekk1wnQDeR0kdMqR3QW07bmsTcG7REnGDw8O5G8HyRchkNPe5YjGQwXySC7LegzBsi6MjC+TbLIZgvDzS9KFnij8Ze4gYJOXs16dh2bvinXBKccCbq9gwUcVMGbqZqJiI8MGzWgAgc2Qq4E8ZfmCNRof1e0/jrXfL5jEoRusg6ViQ8TZKx8mz2dXx3T4HX+/PP3z2W8vnz5BOG8r6ODl9ezbwRhSdut86rohFQktf0R1D3AXDptZjYeTV69Tjcn6gOnq+eTwCA8LnJQxN+khJOSaWtYHcqb7wm4Wor+IlBJUkBqtKaVFY6GCBbIlM8y545QloVDnBu1XfP9IpKRLqoP1lXoPdMPZJ/8e5GWB1rLx7+HxCNoKmkRxFmlBkZymrxP5tp/KqHzQ7B1aJd7wsbwYLD4iq5rUYGQvltom9euqu6PLy58nE/vGX6HDtL6aHL6u/3hmC8srtGxK2sw6nF+me4Ga0c7uV5Q6k9IVrbc/Dph+x6Gg7OZ0jDaZxRwGFbn9h1EfhjE+KO1jV0VkgdINOuMlG+9IKnNvPylUOeLq9q/UZ6vhFHzizCuvYpfIaHwRjmL0ohz21aOj4QxcY8VHPR3D2o0fS3Umq8oOciCNqRxF0mDrcEtcoxK7SEj1I9bBf9a8QNCRMJOZYX5Ih4WPtYyAwUxPMtc0MNNPpJeo1mrpY2FWACRSOtLtJ0ES72vXXgO1bQWZs5X4242lLb8Knh5MhkX7Fy/7+Ci6eiiznj44a6uGy2Y15aXvu1ixVF7CFMbbVTmNN2xaUYHi6q6pNdHCFJY5hzQdjxM6M/c3o+TX7Edsxhh4vJpAW+3OxBCGs85lb91EzutTaRt9Zwg8u6L1lhoY+BWtB8Qfp+uGanygdtRkGF3uOoC2uCJ19OvJTop3SUBO45yEva6gJpW8Zc25MZQkq/s2LooUmvskLB19SWgoFkLZLXyB3Ct4KoeVqAPYgkSscEpxxZpL3JPPVdyQKkv7Tou62JJqZKEzyQEy/XBHpSgu2nQ7T0YHowP5FHzKNZaM6uG/mWdyFPc3T0qB9O3fC9Z+F/Xmvu//n5tTL2SmmzwOFtmVqi0O2fTeO/vPjUA6ypRLB1n6lGV4s5ljot+jbVv5fN1QXMP07FzKaWScC+tnGzCc5NnAdIE20Z5jPHrbX6ceq2+5hD14lDujOnHpCm0jb1BB8bFcNFqp+71dBGY3cKQ1lavj3ZLBjUpy5HOuvjx+B237L3a93ZE=
+sidebar_class_name: "get api-method"
+info_path: docs/api/soyio-api
+custom_edit_url: null
+---
+
+import ApiTabs from "@theme/ApiTabs";
+import DiscriminatorTabs from "@theme/DiscriminatorTabs";
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import SecuritySchemes from "@theme/ApiExplorer/SecuritySchemes";
+import MimeTabs from "@theme/MimeTabs";
+import ParamsItem from "@theme/ParamsItem";
+import ResponseSamples from "@theme/ResponseSamples";
+import SchemaItem from "@theme/SchemaItem";
+import SchemaTabs from "@theme/SchemaTabs";
+import Heading from "@theme/Heading";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Obtener un intento de autenticación específico"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/auth_attempts/{id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Retorna un intento de autenticación dado su ID.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<details
+  style={{"marginBottom":"1rem"}}
+  className={"openapi-markdown__details"}
+  data-collapsed={false}
+  open={true}
+>
+  <summary
+    style={{}}
+  >
+    <h3
+      className={"openapi-markdown__details-summary-header-params"}
+    >
+      Path Parameters
+    </h3>
+  </summary><div>
+    <ul>
+      <ParamsItem
+        className={"paramsItem"}
+        param={{"name":"id","in":"path","description":"ID del intento de autenticación a buscar","required":true,"explode":true,"schema":{"type":"string"},"enumDescriptions":[]}}
+      >
+        
+      </ParamsItem>
+    </ul>
+  </div>
+</details><div>
+  <div>
+    <ApiTabs
+      label={undefined}
+      id={undefined}
+    >
+      <TabItem
+        label={"200"}
+        value={"200"}
+      >
+        <div>
+          
+          
+          Intento de autenticación encontrado
+          
+          
+        </div><div>
+          <MimeTabs
+            className={"openapi-tabs__mime"}
+            schemaType={"response"}
+          >
+            <TabItem
+              label={"application/json"}
+              value={"application/json"}
+            >
+              <SchemaTabs
+                className={"openapi-tabs__schema"}
+              >
+                <TabItem
+                  label={"Schema"}
+                  value={"Schema"}
+                >
+                  <details
+                    style={{}}
+                    className={"openapi-markdown__details response"}
+                    data-collapsed={false}
+                    open={true}
+                  >
+                    <summary
+                      style={{}}
+                      className={"openapi-markdown__details-summary-response"}
+                    >
+                      <strong>
+                        Schema
+                      </strong>
+                    </summary><div
+                      style={{"textAlign":"left","marginLeft":"1rem"}}
+                    >
+                      
+                    </div><ul
+                      style={{"marginLeft":"1rem"}}
+                    >
+                      <SchemaItem
+                        collapsible={true}
+                        className={"schemaItem"}
+                      >
+                        <details
+                          style={{}}
+                          className={"openapi-markdown__details"}
+                        >
+                          <summary
+                            style={{}}
+                          >
+                            <span
+                              className={"openapi-schema__container"}
+                            >
+                              <strong
+                                className={"openapi-schema__property"}
+                              >
+                                auth_attempt
+                              </strong><span
+                                className={"openapi-schema__name"}
+                              >
+                                 object
+                              </span>
+                            </span>
+                          </summary><div
+                            style={{"marginLeft":"1rem"}}
+                          >
+                            <div
+                              style={{"marginTop":".5rem","marginBottom":".5rem"}}
+                            >
+                              
+                              
+                              Registro de un intento de autenticación por parte de una identidad.
+                              
+                              
+                            </div><SchemaItem
+                              collapsible={false}
+                              name={"id"}
+                              required={false}
+                              schemaName={"string"}
+                              qualifierMessage={undefined}
+                              schema={{"type":"string","description":"Identificador único del intento de autenticación.","examples":["aa_Kop19_kEe23i7hSw8QG4-a"]}}
+                            >
+                              
+                            </SchemaItem><SchemaItem
+                              collapsible={false}
+                              name={"identity_id"}
+                              required={false}
+                              schemaName={"string"}
+                              qualifierMessage={undefined}
+                              schema={{"type":"string","description":"Identificador de la identidad que realiza el intento.","examples":["id_ma21KLsmaslopask912Aa2"]}}
+                            >
+                              
+                            </SchemaItem><SchemaItem
+                              collapsible={false}
+                              name={"status"}
+                              required={false}
+                              schemaName={"string"}
+                              qualifierMessage={"**Possible values:** [`pending`, `in_progress`, `successful`, `failed`]"}
+                              schema={{"type":"string","enum":["pending","in_progress","successful","failed"],"description":"Estado actual del intento de autenticación (por ejemplo, \"exitoso\", \"fallido\")."}}
+                            >
+                              
+                            </SchemaItem><SchemaItem
+                              collapsible={false}
+                              name={"user_reference"}
+                              required={false}
+                              schemaName={"string"}
+                              qualifierMessage={undefined}
+                              schema={{"type":"string","description":"Referencia opcional proporcionada por el usuario para el intento de autenticación.","examples":["nAjjJ11lOokanasyk12LmX8l"]}}
+                            >
+                              
+                            </SchemaItem><SchemaItem
+                              collapsible={false}
+                              name={"validation_type"}
+                              required={false}
+                              schemaName={"string"}
+                              qualifierMessage={"**Possible values:** [`facial_validation`, `passkey_validation`]"}
+                              schema={{"type":"string","enum":["facial_validation","passkey_validation"],"description":"Tipo de validación utilizada en el intento de autenticación. `passkey_validation` corresponde a cuando un usuario validó a través de un dispositivo registrado."}}
+                            >
+                              
+                            </SchemaItem><SchemaItem
+                              collapsible={false}
+                              name={"error_reason"}
+                              required={false}
+                              schemaName={["null","string"]}
+                              qualifierMessage={undefined}
+                              schema={{"type":["null","string"],"description":"Razón del error en caso de que el intento haya fallado. Campo opcional."}}
+                            >
+                              
+                            </SchemaItem><SchemaItem
+                              collapsible={false}
+                              name={"created_at"}
+                              required={false}
+                              schemaName={"date-time"}
+                              qualifierMessage={undefined}
+                              schema={{"type":"string","format":"date-time","description":"Fecha y hora en que se creó el registro del intento de autenticación."}}
+                            >
+                              
+                            </SchemaItem>
+                          </div>
+                        </details>
+                      </SchemaItem>
+                    </ul>
+                  </details>
+                </TabItem><TabItem
+                  label={"Example (from schema)"}
+                  value={"Example (from schema)"}
+                >
+                  <ResponseSamples
+                    responseExample={"{\n  \"auth_attempt\": {\n    \"id\": \"string\",\n    \"identity_id\": \"string\",\n    \"status\": \"pending\",\n    \"user_reference\": \"string\",\n    \"validation_type\": \"facial_validation\",\n    \"created_at\": \"2024-07-29T15:51:28.071Z\"\n  }\n}"}
+                    language={"json"}
+                  >
+                    
+                  </ResponseSamples>
+                </TabItem>
+              </SchemaTabs>
+            </TabItem>
+          </MimeTabs>
+        </div>
+      </TabItem><TabItem
+        label={"401"}
+        value={"401"}
+      >
+        <div>
+          
+          
+          No autorizado
+          
+          
+        </div><div>
+          
+        </div>
+      </TabItem><TabItem
+        label={"404"}
+        value={"404"}
+      >
+        <div>
+          
+          
+          No encontrado
+          
+          
+        </div><div>
+          
+        </div>
+      </TabItem>
+    </ApiTabs>
+  </div>
+</div>
+      
