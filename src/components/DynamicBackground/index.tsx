@@ -23,7 +23,11 @@ const createCircle = (circles, color) => {
   }
 }
 
-export default function DynamicBackground({mutedBg, ...props}) {
+type Props = {
+  mutedBg?: boolean;
+} & React.CanvasHTMLAttributes<HTMLCanvasElement>;
+
+export default function DynamicBackground({mutedBg, ...props}: Props) {
   const { width = '100%', height = '100%',  ...rest } = props;
   const canvasRef = useRef(null);
   const [context, setContext] = useState(null);
