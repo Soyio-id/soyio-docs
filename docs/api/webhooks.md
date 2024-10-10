@@ -1,8 +1,4 @@
----
-sidebar_position: 4
----
-
-# Eventos
+# Webhooks
 
 En este momento, los eventos que enviamos por Webhooks tienen la siguiente estructura:
 

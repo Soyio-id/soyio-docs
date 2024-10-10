@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-# Firma de documentos
+# Signature
 
 En esta guía te explicaremos nuestra funcionalidad de firma electrónica de documentos.
 
