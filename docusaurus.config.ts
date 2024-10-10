@@ -80,7 +80,7 @@ const config: Config = {
         },
         {
           label: 'Referencia de la API',
-          to: '/docs/api/soyio-api',
+          to: '/docs/api/intro',
           position: 'left',
         },
         {

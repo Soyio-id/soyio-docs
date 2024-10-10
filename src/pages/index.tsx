@@ -28,7 +28,7 @@ function HomepageHeader() {
           </Link>
           <Link
             className="button button--secondary button--lg"
-            to="/docs/api/soyio-api"
+            to="/docs/api/intro"
           >
             Referencia de la API
           </Link>
