@@ -72,17 +72,22 @@ const config: Config = {
       },
       items: [
         {
-          type: 'docSidebar',
-          sidebarId: 'guideSidebar',
+          sidebarId: 'integrationSidebar',
           position: 'left',
           label: 'Guías de integración',
+          to: '/docs/integration-guide/intro',
         },
         {
           label: 'Referencia de la API',
           to: '/docs/api/soyio-api',
           position: 'left',
         },
-        // {to: '/blog', label: 'Blog', position: 'left'},
+        {
+          label: 'Guías de usuario',
+          to: '/docs/user-guide/troubleshooting',
+          sidebarId: 'userGuideSidebar',
+          position: 'left',
+        },
         {
           href: 'https://github.com/soyio-id/soyio-docs',
           label: 'GitHub',
