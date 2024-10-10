@@ -1,13 +1,13 @@
 ---
-id: get-validation-attempt
-title: "Obtener un flujo de validación específico"
-description: "Retorna un flujo de validación dado su ID."
-sidebar_label: "Obtener un flujo de validación específico"
+id: index-validation-attempts
+title: "Obtener todos los intentos de validación"
+description: "Retorna una lista de intentos de validación. Los intentos se encuentran ordenados por defecto por la fecha de creación, donde las mas recientes aparecerán primero."
+sidebar_label: "Obtener todos los intentos de validación"
 hide_title: true
 hide_table_of_contents: true
-api: eJyVVk1vGzcQ/SvEnFpgI1mJgQY6xbCdVG3apHE/YwjCiBxZtLkkww9FqrA/qafcevUfK4a7shyvnLa+WEtyOI9v3jxyCwmvIowv4Vc0WmHSzgpMiWqfIkwrUBRl0J7HYQzvKLlgUWQrFiZfO6FIrEqg1LefrFConIhZTM4GUIHzFMqOEwVjuKK0z3HSpoAKPAasKVFgFFuwWBOMQSuoQHNKj2kJD3FMzoQicxgDinmOEgNUEOhD1oEUjFPIVAGtvXGKdp9RLqlGGG8hbTxnjSloewVNM+XY6J2NFHn+6dER//scxMtD2clKZ1NA5aAC/kk2cSh6b7QsZx9eR47f9vO7+TXJQkpg7pJus6/uaJt1pTkU8zm4s/arKws9WjGmX2SLQiuySStUg15+rfoc9SpSwhdaonJB3P5ttXSP1ohT0Bprb6hob7WYfXsTXr+fTZ49O7V/fLN8/9vzn14dP/kI06aCFlnazKhGbf4dyqkLgZwgQzKF208dEmHunVFgdFKjQoEdwoeQrnJ84Z0xLi4p1GhdHEhXFzwxYcrxEA6yueZgT1a1I9rOfHBXgWKECmKWkmJcZAMVLFAbUv0eO4+Juwhlymi+QGFTQY4UZoEWFMhK2iO63EOy2ZhDfdzGaCzaiBmDLhlSFlHHRDW2yngsuzjF2jvhvNTOonnInj25vv5uNDJv3A1ajJub0dPX9e/PTeGPQnAMG7s22GEuUKsd9OmezmxvrPtoZyWQy+1krsmm2b3G2M0tUGo0h2Zo7XW4P9Rj5QeX9KpVbVlRiaj3DFgnFpkErXVy0fUZaCqQgTCRmmE6pI6FCzXPgMJET5KuqSfdlySXKDZi6UKpDG+4a+FHddBUkHQynKtvsE35q+D4aNR3sB+dwJxc0H+yX5VVxwdX3XM13qymtHSdpxcLT0sYw7DvU3G41arholJY7Sw+BwNjWKbk43g4jGjV3K0H0W20G2g1RK+HqxE01cOV6H1/1ZT3ljnotLlgO20dC72e3dDmXhXQ6+9p0yP8PH7ILHZFzAS7g+wIr0lptImKOUqDKxInbyeCndGFUnOFgizrg6zEOTGHrc9EEZ3RUqesKHJrdJfaSU7LQnZJ3t1vS0JFodCq7cIVyF01L/iwnLUHm5GwIi4orLRsW3dyZ26KRAntbiCURY6de0LkAyR6saOS6861aXceDY4GRzzkXUw1lgbt4L+ZJ7IUHr1KKHqSt38ttHQPAW/3V+H/fEN05Uu0TkNvUNvie6FcA63uLg/cj2y2Y13Mdeli4kXb7Rwj/RJM0/Dwh0xhA+PLaQUrDBrnzPjlFpSO/FvBeIEm0hfO8dW77nXxtfiPz5GDZ9np07I4V2gyf0EFRb589TbsmZ1KGGE7cSIllffTLqT3wODWuGvUV+c/Q9P8Ax2+gok=
+api: eJzVVs1yGzcMfhUOzxvJSjLTjE7xuG6qNm3aur/xeDQQibVocwmGBBWpGj1MnyG3Xv1iHXBly5bU9FxdxCUXwAfgw8dda4brrMeX+lfwzgI7CgqYsYuc9VWjLWaTXJR9PdY/IVMKoEoA5V1mUBaVC4yBKct6Ub0Yd/cpDNRbyrvDjAqDKRg4QVCULAawlFWkpCy2aJjq2oNq0cyrZ5Ow99UoS8Gi8pBVB1klNA4DY1YQIaHBdPdXUDG5DhMNdKMpYqrJTKweaxcsLncJnt7n1+iEOVLImPV4rZ+fnMjf05Qnx7OTZEhysSR+ZI2BxRxi9M7UQMObLD7WOps5diArXkXUY02zGzSsGx2TQGXXI1g8YJw+NGFnBCnBSjfaMXb5mLOnyL/sn3q4FlUJqvXlhvYziZD6jjqLgZ0FOzgA5uyjeJmTC9cH8SbVvHUGLCV193dwRmL5o1ElBC6hix4r/Rbt9Ovb9Pb9dPLixVn444v5+99e/fjm5bOP+mrT6B4Zr6bYgfP/DeWMUkJS6NFwuvu0RSLceshRQSbjwIKCLcJ9SNclv47kPeU5pg4C5YGhruLJDFzyMRwYSifGEYPtd1yYxkTXCbMQJRdjMOe2eN3oFpxHezhm55nBkgLDBfxnSrhpdMmYpglbTBgM7hBd7iCF4v2xUe5tXJ20kgskVyNwUdllxg56ZvxbdHUGXSRF0TgK4PerF05vbr4Zjfw7uoUAeXU7ev62+/2Vr/XDlEhgw3Y+7jFXqM099KtdOUu4DfQxTKuhtJtM6TDw9NHE3J+1YBz4Yye4jC493jqoynfEbtGztr7RqOx2FQik2oIKl44p02EFNo0WyWK0U+Bj7GgpdXKiLTA+Y9fhAXW/quK3UnNKTzXwczzYNJode4l1IHN60/8a/fJkdKhv35OCwpTcn2CpeuqQ5ySyeY1VoYDneqyHx7Sp0RnTApN0fK1L8nqs58wxj4fDDMHOaDnItHI0cHYI0Q0XI71p9t+EGA/fuhLfpiTHqwtRz16HILrpLa4ei2J03+LqoIzn+UMRCluU9GTmzbaMHVoHgbFKnvGwQHX6w0SJ3lGqnbSgMEjXMRiYoRRGbS+fTN4Zx8ViFsIH6ATDaeF5rWANLiMv2SFYTLWiLrRUIW97dCHJStQD2IJE+nyBaeFMP5CTB8myqKrp9sIBU0m21USdJQHG1/elFDpKb3rPo8HJ4ES2ImXuoI7dFv67GWPApJjkQvaPb+2nTNuHu97de/+fT4MtbxiXPIweXKgymuqt0nP98ug9fNXoOWWW4/V6Bhl/SX6zke0PBdNKjy+vGr2A5GAmTb4UndtyQIajslafGoNRpmoBvvT03ftaEOI/TOCb85/1ZvMPyoN0Wg==
 sidebar_class_name: "get api-method"
-info_path: docs/api/soyio-api
+info_path: docs/api/resources/soyio-api
 custom_edit_url: null
 ---
 
@@ -27,13 +27,13 @@ import TabItem from "@theme/TabItem";
 <Heading
   as={"h1"}
   className={"openapi__heading"}
-  children={"Obtener un flujo de validación específico"}
+  children={"Obtener todos los intentos de validación"}
 >
 </Heading>
 
 <MethodEndpoint
   method={"get"}
-  path={"/validation_attempts/{id}"}
+  path={"/validation_attempts"}
   context={"endpoint"}
 >
   
@@ -41,41 +41,9 @@ import TabItem from "@theme/TabItem";
 
 
 
-Retorna un flujo de validación dado su ID.
+Retorna una lista de intentos de validación. Los intentos se encuentran ordenados por defecto por la fecha de creación, donde las mas recientes aparecerán primero.
 
-<Heading
-  id={"request"}
-  as={"h2"}
-  className={"openapi-tabs__heading"}
-  children={"Request"}
->
-</Heading>
-
-<details
-  style={{"marginBottom":"1rem"}}
-  className={"openapi-markdown__details"}
-  data-collapsed={false}
-  open={true}
->
-  <summary
-    style={{}}
-  >
-    <h3
-      className={"openapi-markdown__details-summary-header-params"}
-    >
-      Path Parameters
-    </h3>
-  </summary><div>
-    <ul>
-      <ParamsItem
-        className={"paramsItem"}
-        param={{"name":"id","in":"path","description":"ID del flujo de validación a buscar","required":true,"explode":true,"schema":{"type":"string"},"enumDescriptions":[]}}
-      >
-        
-      </ParamsItem>
-    </ul>
-  </div>
-</details><div>
+<div>
   <div>
     <ApiTabs
       label={undefined}
@@ -88,7 +56,7 @@ Retorna un flujo de validación dado su ID.
         <div>
           
           
-          Flujo de validación encontrado
+          Intentos de validación encontrados
           
           
         </div><div>
@@ -144,25 +112,23 @@ Retorna un flujo de validación dado su ID.
                               <strong
                                 className={"openapi-schema__property"}
                               >
-                                validation_attempt
+                                validation_attempts
                               </strong><span
                                 className={"openapi-schema__name"}
                               >
-                                 object
+                                 object[]
                               </span>
                             </span>
                           </summary><div
                             style={{"marginLeft":"1rem"}}
                           >
-                            <div
-                              style={{"marginTop":".5rem","marginBottom":".5rem"}}
-                            >
-                              
-                              
-                              Descripción de un flujo de validación para una identidad.
-                              
-                              
-                            </div><SchemaItem
+                            <li>
+                              <div
+                                style={{"fontSize":"var(--ifm-code-font-size)","opacity":"0.6","marginLeft":"-.5rem","paddingBottom":".5rem"}}
+                              >
+                                Array [
+                              </div>
+                            </li><SchemaItem
                               collapsible={false}
                               name={"id"}
                               required={false}
@@ -216,7 +182,13 @@ Retorna un flujo de validación dado su ID.
                               schema={{"type":"string","format":"date-time","description":"Fecha y hora de creación del flujo de validación."}}
                             >
                               
-                            </SchemaItem>
+                            </SchemaItem><li>
+                              <div
+                                style={{"fontSize":"var(--ifm-code-font-size)","opacity":"0.6","marginLeft":"-.5rem"}}
+                              >
+                                ]
+                              </div>
+                            </li>
                           </div>
                         </details>
                       </SchemaItem>
@@ -227,7 +199,7 @@ Retorna un flujo de validación dado su ID.
                   value={"Example (from schema)"}
                 >
                   <ResponseSamples
-                    responseExample={"{\n  \"validation_attempt\": {\n    \"id\": \"string\",\n    \"identity_email\": \"string\",\n    \"status\": \"pending\",\n    \"error_reason\": \"unknown_error\",\n    \"created_at\": \"2024-07-29T15:51:28.071Z\"\n  }\n}"}
+                    responseExample={"{\n  \"validation_attempts\": [\n    {\n      \"id\": \"string\",\n      \"identity_email\": \"string\",\n      \"status\": \"pending\",\n      \"error_reason\": \"unknown_error\",\n      \"created_at\": \"2024-07-29T15:51:28.071Z\"\n    }\n  ]\n}"}
                     language={"json"}
                   >
                     
@@ -245,19 +217,6 @@ Retorna un flujo de validación dado su ID.
           
           
           No autorizado
-          
-          
-        </div><div>
-          
-        </div>
-      </TabItem><TabItem
-        label={"404"}
-        value={"404"}
-      >
-        <div>
-          
-          
-          No encontrado
           
           
         </div><div>
