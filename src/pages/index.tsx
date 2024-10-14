@@ -24,13 +24,19 @@ function HomepageHeader() {
             className="button button--primary button--lg"
             to="/docs/integration-guide/intro"
           >
-            Guía de integración →
+            Guías de integración →
           </Link>
           <Link
             className="button button--secondary button--lg"
             to="/docs/api/soyio-api"
           >
             Referencia de la API
+          </Link>
+          <Link
+            className="button button--secondary button--lg"
+            to="/docs/user-guide/troubleshooting"
+          >
+            Guías de usuario
           </Link>
         </div>
       </div>
