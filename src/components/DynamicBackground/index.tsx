@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const isBrowser = typeof window !== "undefined"
 
@@ -46,7 +46,7 @@ export default function DynamicBackground({mutedBg, ...props}: Props) {
 		return false;
 	};
 
-  var circles = [];
+  const circles = [];
 
   // Create an array of circles, each with random position, size, color, and speed
   createCircle(circles, "#0091ff");
@@ -71,7 +71,7 @@ export default function DynamicBackground({mutedBg, ...props}: Props) {
 
     // Update and draw each circle
     for(let i = 0; i < circles.length; i++){
-      let circle = circles[i];
+      const circle = circles[i];
       circle.y += circle.speedY; // Update position
       circle.x += circle.speedX; // Update position
 
