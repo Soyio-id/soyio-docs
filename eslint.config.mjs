@@ -19,7 +19,7 @@ export default [
   {
     files: ['src/**/*.{js,ts,jsx,tsx}'],
     plugins: {
-      'react-hooks': pluginReactHooks
+      'react-hooks': pluginReactHooks,
     },
     rules: pluginReactHooks.configs.recommended.rules,
   },

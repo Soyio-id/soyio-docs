@@ -124,10 +124,25 @@ export default function DynamicBackground({ mutedBg, ...props }: Props) {
   return (
     <>
       <svg className={styles.filter}>
-        <filter id="grainy" x="0" y="0" width="100%" height="100%">
-          <feTurbulence type="fractalNoise" baseFrequency=".537"></feTurbulence>
-          <feColorMatrix type="saturate" values="0.2"></feColorMatrix>
-          <feBlend mode="hard-light" in="SourceGraphic"></feBlend>
+        <filter
+          id="grainy"
+          x="0"
+          y="0"
+          width="100%"
+          height="100%"
+        >
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency=".537"
+          ></feTurbulence>
+          <feColorMatrix
+            type="saturate"
+            values="0.2"
+          ></feColorMatrix>
+          <feBlend
+            mode="hard-light"
+            in="SourceGraphic"
+          ></feBlend>
         </filter>
       </svg>
 

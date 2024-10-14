@@ -8,24 +8,28 @@ import styles from './index.module.css';
 import DynamicBackground from '../components/DynamicBackground';
 
 function HomepageHeader() {
-  const {siteConfig} = useDocusaurusContext();
+  const { siteConfig } = useDocusaurusContext();
   return (
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
-
       <div className="container">
-        <Heading as="h1" className="hero__title">
+        <Heading
+          as="h1"
+          className="hero__title"
+        >
           {siteConfig.title}
         </Heading>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
         <div className={styles.buttons}>
           <Link
             className="button button--primary button--lg"
-            to="/docs/intro">
+            to="/docs/intro"
+          >
             Guía de integración →
           </Link>
           <Link
             className="button button--secondary button--lg"
-            to="/api">
+            to="/api"
+          >
             Referencia de la API
           </Link>
         </div>
@@ -35,12 +39,13 @@ function HomepageHeader() {
 }
 
 export default function Home() {
-  const {siteConfig} = useDocusaurusContext();
+  const { siteConfig } = useDocusaurusContext();
   return (
     <Layout
       title={`${siteConfig.title}`}
-      description="Soyio docs homepage">
-      <DynamicBackground/>
+      description="Soyio docs homepage"
+    >
+      <DynamicBackground />
       <HomepageHeader />
     </Layout>
   );
