@@ -12,6 +12,12 @@ const sidebar: SidebarsConfig = {
       items: [
         {
           type: "doc",
+          id: "api/resources/schemas/identity",
+          label: "Identity",
+          className: "schema",
+        },
+        {
+          type: "doc",
           id: "api/resources/index-identities",
           label: "Obtener todas las identidades",
           className: "api-method get",
@@ -28,6 +34,12 @@ const sidebar: SidebarsConfig = {
       type: "category",
       label: "Validation attempts",
       items: [
+        {
+          type: "doc",
+          id: "api/resources/schemas/validationattempt",
+          label: "ValidationAttempt",
+          className: "schema",
+        },
         {
           type: "doc",
           id: "api/resources/index-validation-attempts",
@@ -48,6 +60,12 @@ const sidebar: SidebarsConfig = {
       items: [
         {
           type: "doc",
+          id: "api/resources/schemas/authattempt",
+          label: "AuthAttempt",
+          className: "schema",
+        },
+        {
+          type: "doc",
           id: "api/resources/index-auth-attempts",
           label: "Obtener todos los intentos de autenticación",
           className: "api-method get",
@@ -64,6 +82,12 @@ const sidebar: SidebarsConfig = {
       type: "category",
       label: "Signature attempts",
       items: [
+        {
+          type: "doc",
+          id: "api/resources/schemas/signatureattempt",
+          label: "SignatureAttempt",
+          className: "schema",
+        },
         {
           type: "doc",
           id: "api/resources/create-signature-attempt",
@@ -90,6 +114,12 @@ const sidebar: SidebarsConfig = {
       items: [
         {
           type: "doc",
+          id: "api/resources/schemas/event",
+          label: "Event",
+          className: "schema",
+        },
+        {
+          type: "doc",
           id: "api/resources/index-events",
           label: "Obtener todos los eventos",
           className: "api-method get",
@@ -106,6 +136,12 @@ const sidebar: SidebarsConfig = {
       type: "category",
       label: "Signed documents",
       items: [
+        {
+          type: "doc",
+          id: "api/resources/schemas/signeddocument",
+          label: "SignedDocument",
+          className: "schema",
+        },
         {
           type: "doc",
           id: "api/resources/index-signed-documents",

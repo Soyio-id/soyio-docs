@@ -1,0 +1,85 @@
+---
+id: validationattempt
+title: "ValidationAttempt"
+description: "Descripción de un flujo de validación para una identidad."
+sidebar_label: "ValidationAttempt"
+hide_title: true
+schema: true
+custom_edit_url: null
+---
+
+import DiscriminatorTabs from "@theme/DiscriminatorTabs";
+import SchemaItem from "@theme/SchemaItem";
+import SchemaTabs from "@theme/SchemaTabs";
+import Heading from "@theme/Heading";
+import TabItem from "@theme/TabItem";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"ValidationAttempt"}
+>
+</Heading>
+
+
+
+Descripción de un flujo de validación para una identidad.
+
+<ul>
+  <SchemaItem
+    collapsible={false}
+    name={"id"}
+    required={false}
+    schemaName={"string"}
+    qualifierMessage={undefined}
+    schema={{"type":"string","description":"Identificador único del flujo de validación.","examples":["vf_HkrLZ_I33CnY7hZW8QG4-w"]}}
+  >
+    
+  </SchemaItem><SchemaItem
+    collapsible={false}
+    name={"identity_email"}
+    required={false}
+    schemaName={"string"}
+    qualifierMessage={undefined}
+    schema={{"type":"string","description":"Correo electrónico de la identidad asociada al flujo.","examples":["gus@polloshermanos.com"]}}
+  >
+    
+  </SchemaItem><SchemaItem
+    collapsible={false}
+    name={"status"}
+    required={false}
+    schemaName={"string"}
+    qualifierMessage={"**Possible values:** [`pending`, `in_progress`, `successful`, `failed`]"}
+    schema={{"type":"string","enum":["pending","in_progress","successful","failed"],"description":"Estado actual del flujo de validación."}}
+  >
+    
+  </SchemaItem><SchemaItem
+    collapsible={false}
+    name={"user_reference"}
+    required={false}
+    schemaName={["string","null"]}
+    qualifierMessage={undefined}
+    schema={{"type":["string","null"],"description":"Referencia de usuario de tu sistema para el flujo de validación. Campo opcional.","examples":["nAjjJ11lOokanasyk12LmX8l"]}}
+  >
+    
+  </SchemaItem><SchemaItem
+    collapsible={false}
+    name={"error_reason"}
+    required={false}
+    schemaName={["null","string"]}
+    qualifierMessage={"**Possible values:** [`unknown_error`, `document_validation_error`, `facial_validation_error`, `expiration_error`]"}
+    schema={{"type":["null","string"],"enum":["unknown_error","document_validation_error","facial_validation_error","expiration_error"],"description":"Motivo del error, si el flujo no fue exitoso. Campo opcional."}}
+  >
+    
+  </SchemaItem><SchemaItem
+    collapsible={false}
+    name={"created_at"}
+    required={false}
+    schemaName={"date-time"}
+    qualifierMessage={undefined}
+    schema={{"type":"string","format":"date-time","description":"Fecha y hora de creación del flujo de validación."}}
+  >
+    
+  </SchemaItem>
+</ul>
+            

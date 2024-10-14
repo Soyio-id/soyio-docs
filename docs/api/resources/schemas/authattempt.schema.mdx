@@ -1,0 +1,94 @@
+---
+id: authattempt
+title: "AuthAttempt"
+description: "Registro de un intento de autenticación por parte de una identidad."
+sidebar_label: "AuthAttempt"
+hide_title: true
+schema: true
+custom_edit_url: null
+---
+
+import DiscriminatorTabs from "@theme/DiscriminatorTabs";
+import SchemaItem from "@theme/SchemaItem";
+import SchemaTabs from "@theme/SchemaTabs";
+import Heading from "@theme/Heading";
+import TabItem from "@theme/TabItem";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"AuthAttempt"}
+>
+</Heading>
+
+
+
+Registro de un intento de autenticación por parte de una identidad.
+
+<ul>
+  <SchemaItem
+    collapsible={false}
+    name={"id"}
+    required={false}
+    schemaName={"string"}
+    qualifierMessage={undefined}
+    schema={{"type":"string","description":"Identificador único del intento de autenticación.","examples":["aa_Kop19_kEe23i7hSw8QG4-a"]}}
+  >
+    
+  </SchemaItem><SchemaItem
+    collapsible={false}
+    name={"identity_id"}
+    required={false}
+    schemaName={"string"}
+    qualifierMessage={undefined}
+    schema={{"type":"string","description":"Identificador de la identidad que realiza el intento.","examples":["id_ma21KLsmaslopask912Aa2"]}}
+  >
+    
+  </SchemaItem><SchemaItem
+    collapsible={false}
+    name={"status"}
+    required={false}
+    schemaName={"string"}
+    qualifierMessage={"**Possible values:** [`pending`, `in_progress`, `successful`, `failed`]"}
+    schema={{"type":"string","enum":["pending","in_progress","successful","failed"],"description":"Estado actual del intento de autenticación (por ejemplo, \"exitoso\", \"fallido\")."}}
+  >
+    
+  </SchemaItem><SchemaItem
+    collapsible={false}
+    name={"user_reference"}
+    required={false}
+    schemaName={"string"}
+    qualifierMessage={undefined}
+    schema={{"type":"string","description":"Referencia opcional proporcionada por el usuario para el intento de autenticación.","examples":["nAjjJ11lOokanasyk12LmX8l"]}}
+  >
+    
+  </SchemaItem><SchemaItem
+    collapsible={false}
+    name={"validation_type"}
+    required={false}
+    schemaName={"string"}
+    qualifierMessage={"**Possible values:** [`facial_validation`, `passkey_validation`]"}
+    schema={{"type":"string","enum":["facial_validation","passkey_validation"],"description":"Tipo de validación utilizada en el intento de autenticación. `passkey_validation` corresponde a cuando un usuario validó a través de un dispositivo registrado."}}
+  >
+    
+  </SchemaItem><SchemaItem
+    collapsible={false}
+    name={"error_reason"}
+    required={false}
+    schemaName={["null","string"]}
+    qualifierMessage={undefined}
+    schema={{"type":["null","string"],"description":"Razón del error en caso de que el intento haya fallado. Campo opcional."}}
+  >
+    
+  </SchemaItem><SchemaItem
+    collapsible={false}
+    name={"created_at"}
+    required={false}
+    schemaName={"date-time"}
+    qualifierMessage={undefined}
+    schema={{"type":"string","format":"date-time","description":"Fecha y hora en que se creó el registro del intento de autenticación."}}
+  >
+    
+  </SchemaItem>
+</ul>
+            

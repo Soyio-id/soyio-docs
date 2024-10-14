@@ -1,0 +1,126 @@
+---
+id: identity
+title: "Identity"
+description: "Representa una identidad de usuario en el sistema."
+sidebar_label: "Identity"
+hide_title: true
+schema: true
+custom_edit_url: null
+---
+
+import DiscriminatorTabs from "@theme/DiscriminatorTabs";
+import SchemaItem from "@theme/SchemaItem";
+import SchemaTabs from "@theme/SchemaTabs";
+import Heading from "@theme/Heading";
+import TabItem from "@theme/TabItem";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Identity"}
+>
+</Heading>
+
+
+
+Representa una identidad de usuario en el sistema.
+
+<ul>
+  <SchemaItem
+    collapsible={false}
+    name={"id"}
+    required={false}
+    schemaName={"string"}
+    qualifierMessage={undefined}
+    schema={{"type":"string","description":"Identificador único de la identidad.","examples":["id_ma21KLsmaslopask912Aa2"]}}
+  >
+    
+  </SchemaItem><SchemaItem
+    collapsible={false}
+    name={"email"}
+    required={false}
+    schemaName={"string"}
+    qualifierMessage={undefined}
+    schema={{"type":"string","description":"Correo electrónico asociado a la identidad.","examples":["jonsnow@nightswatch.com"]}}
+  >
+    
+  </SchemaItem><SchemaItem
+    collapsible={true}
+    className={"schemaItem"}
+  >
+    <details
+      style={{}}
+      className={"openapi-markdown__details"}
+    >
+      <summary
+        style={{}}
+      >
+        <span
+          className={"openapi-schema__container"}
+        >
+          <strong
+            className={"openapi-schema__property"}
+          >
+            data
+          </strong><span
+            className={"openapi-schema__name"}
+          >
+             tag[]
+          </span>
+        </span>
+      </summary><div
+        style={{"marginLeft":"1rem"}}
+      >
+        <div
+          style={{"marginTop":".5rem","marginBottom":".5rem"}}
+        >
+          
+          
+          Colección de información adicional sobre la identidad en forma de pares clave-valor.
+          
+          
+        </div><li>
+          <div
+            style={{"fontSize":"var(--ifm-code-font-size)","opacity":"0.6","marginLeft":"-.5rem","paddingBottom":".5rem"}}
+          >
+            Array [
+          </div>
+        </li><SchemaItem
+          collapsible={false}
+          name={"key"}
+          required={false}
+          schemaName={"string"}
+          qualifierMessage={undefined}
+          schema={{"type":"string","description":"Clave o nombre del atributo de la identidad.","examples":["name"]}}
+        >
+          
+        </SchemaItem><SchemaItem
+          collapsible={false}
+          name={"value"}
+          required={false}
+          schemaName={"string"}
+          qualifierMessage={undefined}
+          schema={{"type":"string","description":"Valor asociado a la clave del atributo.","examples":["Jon"]}}
+        >
+          
+        </SchemaItem><li>
+          <div
+            style={{"fontSize":"var(--ifm-code-font-size)","opacity":"0.6","marginLeft":"-.5rem"}}
+          >
+            ]
+          </div>
+        </li>
+      </div>
+    </details>
+  </SchemaItem><SchemaItem
+    collapsible={false}
+    name={"signed_documents"}
+    required={false}
+    schemaName={"string[]"}
+    qualifierMessage={undefined}
+    schema={{"type":"array","description":"Lista de todos los `ids` de los documentos firmados por la identidad.","items":{"type":"string","description":"Identificador único del documento firmado.","examples":["sd_1B2M2Y8AsgTpgAmY7PhCfg"]}}}
+  >
+    
+  </SchemaItem>
+</ul>
+            
