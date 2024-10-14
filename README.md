@@ -23,3 +23,9 @@ $ npm build
 ```
 
 This command generates static content into the `build` directory and can be served using any static contents hosting service.
+
+### Linting and code style
+
+The codebase uses `prettier` as code style enforcer. Please install it within your corresponding code editor.
+
+We also use `eslint` as linter. Just run `npm run lint` to check if any offenses were commited.
