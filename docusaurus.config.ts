@@ -2,6 +2,7 @@ import { themes as prismThemes } from 'prism-react-renderer';
 import { Config } from '@docusaurus/types';
 import * as Preset from '@docusaurus/preset-classic';
 import type * as OpenApiPlugin from 'docusaurus-plugin-openapi-docs';
+import { sidebarItemGenerator } from './lib/sidebarItemGenerator';
 
 const config: Config = {
   title: 'Soyio Docs',
@@ -56,6 +57,9 @@ const config: Config = {
             outputDir: 'docs/api/resources',
             sidebarOptions: {
               groupPathsBy: 'tag',
+              sidebarGenerators: {
+                createDocItem: sidebarItemGenerator,
+              },
             },
           } as OpenApiPlugin.Options,
         },

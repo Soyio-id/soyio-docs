@@ -13,7 +13,7 @@ const sidebar: SidebarsConfig = {
         {
           type: "doc",
           id: "api/resources/schemas/identity",
-          label: "Identity",
+          label: "El objeto Identity",
           className: "schema",
         },
         {
@@ -37,7 +37,7 @@ const sidebar: SidebarsConfig = {
         {
           type: "doc",
           id: "api/resources/schemas/validationattempt",
-          label: "ValidationAttempt",
+          label: "El objeto ValidationAttempt",
           className: "schema",
         },
         {
@@ -61,7 +61,7 @@ const sidebar: SidebarsConfig = {
         {
           type: "doc",
           id: "api/resources/schemas/authattempt",
-          label: "AuthAttempt",
+          label: "El objeto AuthAttempt",
           className: "schema",
         },
         {
@@ -85,7 +85,7 @@ const sidebar: SidebarsConfig = {
         {
           type: "doc",
           id: "api/resources/schemas/signatureattempt",
-          label: "SignatureAttempt",
+          label: "El objeto SignatureAttempt",
           className: "schema",
         },
         {
@@ -115,7 +115,7 @@ const sidebar: SidebarsConfig = {
         {
           type: "doc",
           id: "api/resources/schemas/event",
-          label: "Event",
+          label: "El objeto Event",
           className: "schema",
         },
         {
@@ -139,7 +139,7 @@ const sidebar: SidebarsConfig = {
         {
           type: "doc",
           id: "api/resources/schemas/signeddocument",
-          label: "SignedDocument",
+          label: "El objeto SignedDocument",
           className: "schema",
         },
         {
