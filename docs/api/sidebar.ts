@@ -7,6 +7,10 @@ const sidebar: SidebarsConfig = {
       id: 'api/soyio-api',
     },
     {
+      type: 'doc',
+      id: 'api/webhooks',
+    },
+    {
       type: 'category',
       label: 'Identities',
       items: [
