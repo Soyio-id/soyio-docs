@@ -65,6 +65,7 @@ const config: Config = {
         },
       },
     ],
+    './lib/soyioDocs/index.ts',
   ],
   themeConfig: {
     // Replace with your project's social card
