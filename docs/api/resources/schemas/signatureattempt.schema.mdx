@@ -1,0 +1,84 @@
+---
+id: signatureattempt
+title: "SignatureAttempt"
+description: "Registro de un intento de firma por parte de una identidad."
+hide_title: true
+schema: true
+custom_edit_url: null
+---
+
+import DiscriminatorTabs from "@theme/DiscriminatorTabs";
+import SchemaItem from "@theme/SchemaItem";
+import SchemaTabs from "@theme/SchemaTabs";
+import Heading from "@theme/Heading";
+import TabItem from "@theme/TabItem";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"SignatureAttempt"}
+>
+</Heading>
+
+
+
+Registro de un intento de firma por parte de una identidad.
+
+<ul>
+  <SchemaItem
+    collapsible={false}
+    name={"id"}
+    required={false}
+    schemaName={"string"}
+    qualifierMessage={undefined}
+    schema={{"type":"string","description":"Identificador único del intento de firma.","examples":["sa_Kop19_kEe23i7hSw8QG4-a"]}}
+  >
+    
+  </SchemaItem><SchemaItem
+    collapsible={false}
+    name={"identity_id"}
+    required={false}
+    schemaName={"string"}
+    qualifierMessage={undefined}
+    schema={{"type":"string","description":"Identificador de la identidad que realiza el intento.","examples":["id_ma21KLsmaslopask912Aa2"]}}
+  >
+    
+  </SchemaItem><SchemaItem
+    collapsible={false}
+    name={"status"}
+    required={false}
+    schemaName={"string"}
+    qualifierMessage={"**Possible values:** [`awaiting_authentication`, `authenticating_by_video`, `authentication_failed`, `successful`]"}
+    schema={{"type":"string","enum":["awaiting_authentication","authenticating_by_video","authentication_failed","successful"],"description":"Estado actual del intento de firma."}}
+  >
+    
+  </SchemaItem><SchemaItem
+    collapsible={false}
+    name={"user_reference"}
+    required={false}
+    schemaName={"string"}
+    qualifierMessage={undefined}
+    schema={{"type":"string","description":"Referencia opcional proporcionada por el usuario para el intento de firma.","examples":["nAjjJ11lOokanasyk12LmX8l"]}}
+  >
+    
+  </SchemaItem><SchemaItem
+    collapsible={false}
+    name={"auth_type"}
+    required={false}
+    schemaName={"string"}
+    qualifierMessage={"**Possible values:** [`passkey_validation`, `facial_validation`]"}
+    schema={{"type":"string","enum":["passkey_validation","facial_validation"],"description":"Tipo de autenticación utilizada en el intento de firma. `passkey_validation` corresponde a cuando un usuario validó a través de una llave de acceso."}}
+  >
+    
+  </SchemaItem><SchemaItem
+    collapsible={false}
+    name={"created_at"}
+    required={false}
+    schemaName={"date-time"}
+    qualifierMessage={undefined}
+    schema={{"type":"string","format":"date-time","description":"Fecha y hora en que se creó el registro del intento de autenticación."}}
+  >
+    
+  </SchemaItem>
+</ul>
+            

@@ -1,0 +1,57 @@
+---
+id: signeddocument
+title: "SignedDocument"
+description: "Información sobre un documento firmado"
+hide_title: true
+schema: true
+custom_edit_url: null
+---
+
+import DiscriminatorTabs from "@theme/DiscriminatorTabs";
+import SchemaItem from "@theme/SchemaItem";
+import SchemaTabs from "@theme/SchemaTabs";
+import Heading from "@theme/Heading";
+import TabItem from "@theme/TabItem";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"SignedDocument"}
+>
+</Heading>
+
+
+
+Información sobre un documento firmado
+
+<ul>
+  <SchemaItem
+    collapsible={false}
+    name={"id"}
+    required={false}
+    schemaName={"string"}
+    qualifierMessage={undefined}
+    schema={{"type":"string","description":"Identificador único del evento."}}
+  >
+    
+  </SchemaItem><SchemaItem
+    collapsible={false}
+    name={"identity_id"}
+    required={false}
+    schemaName={"string"}
+    qualifierMessage={undefined}
+    schema={{"type":"string","description":"Identificador de la identidad participante en la firma.","examples":["id_ma21KLsmaslopask912Aa2"]}}
+  >
+    
+  </SchemaItem><SchemaItem
+    collapsible={false}
+    name={"created_at"}
+    required={false}
+    schemaName={"date-time"}
+    qualifierMessage={undefined}
+    schema={{"type":"string","format":"date-time","description":"Fecha y hora en que se registró el evento."}}
+  >
+    
+  </SchemaItem>
+</ul>
+            

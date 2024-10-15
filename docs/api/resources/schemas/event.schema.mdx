@@ -1,0 +1,66 @@
+---
+id: event
+title: "Event"
+description: "Información sobre un evento específico dentro del sistema."
+hide_title: true
+schema: true
+custom_edit_url: null
+---
+
+import DiscriminatorTabs from "@theme/DiscriminatorTabs";
+import SchemaItem from "@theme/SchemaItem";
+import SchemaTabs from "@theme/SchemaTabs";
+import Heading from "@theme/Heading";
+import TabItem from "@theme/TabItem";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Event"}
+>
+</Heading>
+
+
+
+Información sobre un evento específico dentro del sistema.
+
+<ul>
+  <SchemaItem
+    collapsible={false}
+    name={"id"}
+    required={false}
+    schemaName={"string"}
+    qualifierMessage={undefined}
+    schema={{"type":"string","description":"Identificador único del evento."}}
+  >
+    
+  </SchemaItem><SchemaItem
+    collapsible={false}
+    name={"name"}
+    required={false}
+    schemaName={"string"}
+    qualifierMessage={undefined}
+    schema={{"type":"string","description":"Nombre descriptivo del evento.","examples":["validation_attempt.successful"]}}
+  >
+    
+  </SchemaItem><SchemaItem
+    collapsible={false}
+    name={"payload"}
+    required={false}
+    schemaName={"object"}
+    qualifierMessage={undefined}
+    schema={{"type":"object","description":"Datos adicionales asociados al evento."}}
+  >
+    
+  </SchemaItem><SchemaItem
+    collapsible={false}
+    name={"created_at"}
+    required={false}
+    schemaName={"date-time"}
+    qualifierMessage={undefined}
+    schema={{"type":"string","format":"date-time","description":"Fecha y hora en que se registró el evento."}}
+  >
+    
+  </SchemaItem>
+</ul>
+            

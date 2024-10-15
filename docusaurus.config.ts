@@ -1,6 +1,8 @@
 import { themes as prismThemes } from 'prism-react-renderer';
 import { Config } from '@docusaurus/types';
 import * as Preset from '@docusaurus/preset-classic';
+import type * as OpenApiPlugin from 'docusaurus-plugin-openapi-docs';
+import { sidebarItemGenerator } from './lib/sidebarItemGenerator';
 
 const config: Config = {
   title: 'Soyio Docs',
@@ -50,16 +52,20 @@ const config: Config = {
         id: 'api', // plugin id
         docsPluginId: 'classic', // configured for preset-classic
         config: {
-          petstore: {
+          soyio: {
             specPath: 'https://soyio-docs.s3.amazonaws.com/soyio-open-api.yaml',
-            outputDir: 'docs/api',
+            outputDir: 'docs/api/resources',
             sidebarOptions: {
               groupPathsBy: 'tag',
+              sidebarGenerators: {
+                createDocItem: sidebarItemGenerator,
+              },
             },
-          },
+          } as OpenApiPlugin.Options,
         },
       },
     ],
+    './lib/soyioDocs/index.ts',
   ],
   themeConfig: {
     // Replace with your project's social card
@@ -79,7 +85,7 @@ const config: Config = {
         },
         {
           label: 'Referencia de la API',
-          to: '/docs/api/soyio-api',
+          to: '/docs/api/intro',
           position: 'left',
         },
         {

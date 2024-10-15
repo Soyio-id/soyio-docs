@@ -1,13 +1,13 @@
 ---
-id: get-signature-attempt
-title: "Obtener un intento de firma específico"
-description: "Retorna un intento de firma dado su ID."
-sidebar_label: "Obtener un intento de firma específico"
+id: get-validation-attempt
+title: "Obtener un flujo de validación específico"
+description: "Retorna un flujo de validación dado su ID."
+sidebar_label: "Obtener un flujo de validación específico"
 hide_title: true
 hide_table_of_contents: true
-api: eJyVVk1vGzcQ/SvEnFpgI1lugCY61UDcwHXQtHYKFDCMzYgcSWPvkjQ/FKvC/qAeesqtV/+xYriS42iVttFFu1wOZ+a9NzPcQMJFhOkVXPLCYsqBFKZErU8RriswFHVgn9hZmMIFJRcsqmwV20Q2OWVIzTm0qAwap2JWZ69GUIHzFFCszgxMYUHp8fiT/nSowGPAlhIF8b8Biy3BFNhABSzePKYl7Idw9koZaobuUc1y1BiggkB3mQMZmKaQqQK6940ztHuNekktwnQDae3FY0yB7QK67lpso3c2UpTvx0dH8rcXwL5nstrZFNA4qEAeySYxQ+8b1gWE8U0U283Qt5vdkC5gBIEsce857tCqt2QcMtnnZsExhRLYIX68C8pjSNRvQMWGbGKDZjRwz2YIz4CIYj5njcYF9fC3Ze0OUiPH0z22vqEitIj1ufOTl/XtKR1/x98vLz+8+PX182cI110FfVRpXX99DIZU8yQtdZdJBcKG/0D1Ka79cNjULR5Pzt/EFmPjPMbbl5PjEzwu4cSEKcdDkZDNrdjjB+TEdlFjTktx3VMOFTxdsIt6tq5XbMjtfXG2niM3JLKPWWuKcZ6bYe2dxiQVhjplbL4AdFdBjhTqQHMKZDX9N4QX262MynnNzmKjRAwulBfTC4calWPGwE409BTOL9JsT25ufppMmrfuFi3G9e3k+E37+4umwCoA1H1gX0bWY4y3tK5X2LDZgTpHzdg8XRsg9Y59CQtz6kHW/PDRqpxYpGCkYg8moN4PPb5X2oW+KciJSme0xkmB7fAoex8+KlQp4Orhz7irr6bBVSk2FFJdYUcHwkSmxnQo8bkLrXwBg4meJW5pQNePpJeo1mrpQslDNB5J6UAPHyWp8KkLfJbh51iMoOsqSJwa8T9ozV35VfD8aDLsfz87OcwFgdJB2fX84K4nfVEOaykt3XYYlOafljCF8aDTxfGGTSfFQGG1mw05NDCFZUo+TsfjiNbM3P0oujW7EZsxeh6vJtBV+zvR++Guazlb58BpfSn9uO956Lm+pfUTXtDzOa0HFJzGu0wy8AYKa8kw2tTTrwv9J7+c7ZVTLz6yGmckEPZtK6roGtacsqEopbSdhic5LQvWW/mXwbgkNBQKqmznroS841KSFa+DsCUSEcUlhRVrLn7PHnulIVVMtyMMdREotcgCZ5QEEv2wg1JoF276kyejo9GRLHkXU4tl0G3DfztLZCkcHEgUPemHv+as3X6wm09z9CvuHFvaEt2nsW+QbemHoofNVm5Xw8EaoYIpG+kiSxeT7NlsZhjpt9B0nSzfZQprmF5dV7DCwDgToK82YDjKs4HpHJtI/5LCNxfbG8m36n9cXw6msZOkFT2usMnyBhUUxcq87qStboUh0fUfTrSmctfamQwuJVINj6X5+vQddN0/XwGL2g==
+api: eJyVVk1vGzcQ/SvEnFpgI1mJgQY6xbCdVG3apHE/YwjCiBxZtLkkww9FqrA/qafcevUfK4a7shyvnLa+WEtyOI9v3jxyCwmvIowv4Vc0WmHSzgpMiWqfIkwrUBRl0J7HYQzvKLlgUWQrFiZfO6FIrEqg1LefrFConIhZTM4GUIHzFMqOEwVjuKK0z3HSpoAKPAasKVFgFFuwWBOMQSuoQHNKj2kJD3FMzoQicxgDinmOEgNUEOhD1oEUjFPIVAGtvXGKdp9RLqlGGG8hbTxnjSloewVNM+XY6J2NFHn+6dER//scxMtD2clKZ1NA5aAC/kk2cSh6b7QsZx9eR47f9vO7+TXJQkpg7pJus6/uaJt1pTkU8zm4s/arKws9WjGmX2SLQiuySStUg15+rfoc9SpSwhdaonJB3P5ttXSP1ohT0Bprb6hob7WYfXsTXr+fTZ49O7V/fLN8/9vzn14dP/kI06aCFlnazKhGbf4dyqkLgZwgQzKF208dEmHunVFgdFKjQoEdwoeQrnJ84Z0xLi4p1GhdHEhXFzwxYcrxEA6yueZgT1a1I9rOfHBXgWKECmKWkmJcZAMVLFAbUv0eO4+Juwhlymi+QGFTQY4UZoEWFMhK2iO63EOy2ZhDfdzGaCzaiBmDLhlSFlHHRDW2yngsuzjF2jvhvNTOonnInj25vv5uNDJv3A1ajJub0dPX9e/PTeGPQnAMG7s22GEuUKsd9OmezmxvrPtoZyWQy+1krsmm2b3G2M0tUGo0h2Zo7XW4P9Rj5QeX9KpVbVlRiaj3DFgnFpkErXVy0fUZaCqQgTCRmmE6pI6FCzXPgMJET5KuqSfdlySXKDZi6UKpDG+4a+FHddBUkHQynKtvsE35q+D4aNR3sB+dwJxc0H+yX5VVxwdX3XM13qymtHSdpxcLT0sYw7DvU3G41arholJY7Sw+BwNjWKbk43g4jGjV3K0H0W20G2g1RK+HqxE01cOV6H1/1ZT3ljnotLlgO20dC72e3dDmXhXQ6+9p0yP8PH7ILHZFzAS7g+wIr0lptImKOUqDKxInbyeCndGFUnOFgizrg6zEOTGHrc9EEZ3RUqesKHJrdJfaSU7LQnZJ3t1vS0JFodCq7cIVyF01L/iwnLUHm5GwIi4orLRsW3dyZ26KRAntbiCURY6de0LkAyR6saOS6861aXceDY4GRzzkXUw1lgbt4L+ZJ7IUHr1KKHqSt38ttHQPAW/3V+H/fEN05Uu0TkNvUNvie6FcA63uLg/cj2y2Y13Mdeli4kXb7Rwj/RJM0/Dwh0xhA+PLaQUrDBrnzPjlFpSO/FvBeIEm0hfO8dW77nXxtfiPz5GDZ9np07I4V2gyf0EFRb589TbsmZ1KGGE7cSIllffTLqT3wODWuGvUV+c/Q9P8Ax2+gok=
 sidebar_class_name: "get api-method"
-info_path: docs/api/soyio-api
+info_path: docs/api/resources/soyio-api
 custom_edit_url: null
 ---
 
@@ -27,13 +27,13 @@ import TabItem from "@theme/TabItem";
 <Heading
   as={"h1"}
   className={"openapi__heading"}
-  children={"Obtener un intento de firma específico"}
+  children={"Obtener un flujo de validación específico"}
 >
 </Heading>
 
 <MethodEndpoint
   method={"get"}
-  path={"/signature_attempts/{id}"}
+  path={"/validation_attempts/{id}"}
   context={"endpoint"}
 >
   
@@ -41,7 +41,7 @@ import TabItem from "@theme/TabItem";
 
 
 
-Retorna un intento de firma dado su ID.
+Retorna un flujo de validación dado su ID.
 
 <Heading
   id={"request"}
@@ -69,7 +69,7 @@ Retorna un intento de firma dado su ID.
     <ul>
       <ParamsItem
         className={"paramsItem"}
-        param={{"name":"id","in":"path","description":"ID del intento de firma a buscar","required":true,"explode":true,"schema":{"type":"string"},"enumDescriptions":[]}}
+        param={{"name":"id","in":"path","description":"ID del flujo de validación a buscar","required":true,"explode":true,"schema":{"type":"string"},"enumDescriptions":[]}}
       >
         
       </ParamsItem>
@@ -88,7 +88,7 @@ Retorna un intento de firma dado su ID.
         <div>
           
           
-          Intento de firma encontrado
+          Flujo de validación encontrado
           
           
         </div><div>
@@ -144,7 +144,7 @@ Retorna un intento de firma dado su ID.
                               <strong
                                 className={"openapi-schema__property"}
                               >
-                                signature_attempt
+                                validation_attempt
                               </strong><span
                                 className={"openapi-schema__name"}
                               >
@@ -159,7 +159,7 @@ Retorna un intento de firma dado su ID.
                             >
                               
                               
-                              Registro de un intento de firma por parte de una identidad.
+                              Descripción de un flujo de validación para una identidad.
                               
                               
                             </div><SchemaItem
@@ -168,16 +168,16 @@ Retorna un intento de firma dado su ID.
                               required={false}
                               schemaName={"string"}
                               qualifierMessage={undefined}
-                              schema={{"type":"string","description":"Identificador único del intento de firma.","examples":["sa_Kop19_kEe23i7hSw8QG4-a"]}}
+                              schema={{"type":"string","description":"Identificador único del flujo de validación.","examples":["vf_HkrLZ_I33CnY7hZW8QG4-w"]}}
                             >
                               
                             </SchemaItem><SchemaItem
                               collapsible={false}
-                              name={"identity_id"}
+                              name={"identity_email"}
                               required={false}
                               schemaName={"string"}
                               qualifierMessage={undefined}
-                              schema={{"type":"string","description":"Identificador de la identidad que realiza el intento.","examples":["id_ma21KLsmaslopask912Aa2"]}}
+                              schema={{"type":"string","description":"Correo electrónico de la identidad asociada al flujo.","examples":["gus@polloshermanos.com"]}}
                             >
                               
                             </SchemaItem><SchemaItem
@@ -185,26 +185,26 @@ Retorna un intento de firma dado su ID.
                               name={"status"}
                               required={false}
                               schemaName={"string"}
-                              qualifierMessage={"**Possible values:** [`awaiting_authentication`, `authenticating_by_video`, `authentication_failed`, `successful`]"}
-                              schema={{"type":"string","enum":["awaiting_authentication","authenticating_by_video","authentication_failed","successful"],"description":"Estado actual del intento de firma."}}
+                              qualifierMessage={"**Possible values:** [`pending`, `in_progress`, `successful`, `failed`]"}
+                              schema={{"type":"string","enum":["pending","in_progress","successful","failed"],"description":"Estado actual del flujo de validación."}}
                             >
                               
                             </SchemaItem><SchemaItem
                               collapsible={false}
                               name={"user_reference"}
                               required={false}
-                              schemaName={"string"}
+                              schemaName={["string","null"]}
                               qualifierMessage={undefined}
-                              schema={{"type":"string","description":"Referencia opcional proporcionada por el usuario para el intento de firma.","examples":["nAjjJ11lOokanasyk12LmX8l"]}}
+                              schema={{"type":["string","null"],"description":"Referencia de usuario de tu sistema para el flujo de validación. Campo opcional.","examples":["nAjjJ11lOokanasyk12LmX8l"]}}
                             >
                               
                             </SchemaItem><SchemaItem
                               collapsible={false}
-                              name={"auth_type"}
+                              name={"error_reason"}
                               required={false}
-                              schemaName={"string"}
-                              qualifierMessage={"**Possible values:** [`passkey_validation`, `facial_validation`]"}
-                              schema={{"type":"string","enum":["passkey_validation","facial_validation"],"description":"Tipo de autenticación utilizada en el intento de firma. `passkey_validation` corresponde a cuando un usuario validó a través de una llave de acceso."}}
+                              schemaName={["null","string"]}
+                              qualifierMessage={"**Possible values:** [`unknown_error`, `document_validation_error`, `facial_validation_error`, `expiration_error`]"}
+                              schema={{"type":["null","string"],"enum":["unknown_error","document_validation_error","facial_validation_error","expiration_error"],"description":"Motivo del error, si el flujo no fue exitoso. Campo opcional."}}
                             >
                               
                             </SchemaItem><SchemaItem
@@ -213,7 +213,7 @@ Retorna un intento de firma dado su ID.
                               required={false}
                               schemaName={"date-time"}
                               qualifierMessage={undefined}
-                              schema={{"type":"string","format":"date-time","description":"Fecha y hora en que se creó el registro del intento de autenticación."}}
+                              schema={{"type":"string","format":"date-time","description":"Fecha y hora de creación del flujo de validación."}}
                             >
                               
                             </SchemaItem>
@@ -227,7 +227,7 @@ Retorna un intento de firma dado su ID.
                   value={"Example (from schema)"}
                 >
                   <ResponseSamples
-                    responseExample={"{\n  \"signature_attempt\": {\n    \"id\": \"string\",\n    \"identity_id\": \"string\",\n    \"status\": \"awaiting_authentication\",\n    \"user_reference\": \"string\",\n    \"auth_type\": \"passkey_validation\",\n    \"created_at\": \"2024-07-29T15:51:28.071Z\"\n  }\n}"}
+                    responseExample={"{\n  \"validation_attempt\": {\n    \"id\": \"string\",\n    \"identity_email\": \"string\",\n    \"status\": \"pending\",\n    \"error_reason\": \"unknown_error\",\n    \"created_at\": \"2024-07-29T15:51:28.071Z\"\n  }\n}"}
                     language={"json"}
                   >
                     

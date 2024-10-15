@@ -28,3 +28,5 @@
   --ifm-color-primary-lightest: #efecf9;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
+
+@import url('./sidebar-method-badges.css');
