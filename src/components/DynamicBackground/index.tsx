@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 const isBrowser = typeof window !== 'undefined';
 
@@ -6,33 +6,50 @@ import styles from './styles.module.css';
 
 const circleBaseRadius = 60;
 
-function getRandomArbitrary(min, max) {
+type Circle = { x: number; y: number; radius: number; color: string; speedX: number; speedY: number; };
+
+function getRandomArbitrary(min: number, max: number) {
   return Math.random() * (max - min) + min;
 }
 
-const createCircle = (circles, color) => {
-  if (isBrowser) {
-    circles.push({
-      x: Math.random() * window.innerWidth,
-      y: -(circleBaseRadius * getRandomArbitrary(5, 15)),
-      radius: circleBaseRadius * getRandomArbitrary(5, 15),
-      color: color,
-      speedX: (1 + Math.random() * 3) * (Math.round(Math.random()) * 2 - 1),
-      speedY: (1 + Math.random() * 3) * (Math.round(Math.random()) * 2 - 1),
-    });
-  }
+const createCircle = (color: string): Circle => {
+  return {
+    x: Math.random() * window.innerWidth,
+    y: -(circleBaseRadius * getRandomArbitrary(5, 15)),
+    radius: circleBaseRadius * getRandomArbitrary(5, 15),
+    color: color,
+    speedX: (1 + Math.random() * 3) * (Math.round(Math.random()) * 2 - 1),
+    speedY: (1 + Math.random() * 3) * (Math.round(Math.random()) * 2 - 1),
+  };
 };
 
 type Props = {
   mutedBg?: boolean;
 } & React.CanvasHTMLAttributes<HTMLCanvasElement>;
 
+const colorCounts = [
+  { color: '#0091ff', count: 3 },
+  { color: '#393cff', count: 1 },
+  { color: '#87cbff', count: 3 },
+  { color: '#858dff', count: 4 },
+  { color: '#004585', count: 1 },
+  { color: '#b17dff', count: 3 },
+];
+
+const generateCircles = (count: number): Circle[] => {
+  return colorCounts.flatMap(({ color, count }) =>
+    Array(count).fill(null).map(() => createCircle(color))
+  );
+};
+
 export default function DynamicBackground({ mutedBg, ...props }: Props) {
   const { width = '100%', height = '100%', ...rest } = props;
   const canvasRef = useRef(null);
-  const [context, setContext] = useState(null);
+  const [context, setContext] = useState<CanvasRenderingContext2D | null>(null);
+  const [circles] = useState<Circle[]>(() => generateCircles(15));
 
-  const resizeCanvas = (context) => {
+  const resizeCanvas = (context: CanvasRenderingContext2D | null) => {
+    if (!context) return;
     const canvas = context.canvas;
     const { width, height } = canvas.getBoundingClientRect();
 
@@ -46,26 +63,8 @@ export default function DynamicBackground({ mutedBg, ...props }: Props) {
     return false;
   };
 
-  const circles = useMemo(() => [], []);
-
-  // Create an array of circles, each with random position, size, color, and speed
-  createCircle(circles, '#0091ff');
-  createCircle(circles, '#0091ff');
-  createCircle(circles, '#393cff');
-  createCircle(circles, '#87cbff');
-  createCircle(circles, '#858dff');
-  createCircle(circles, '#858dff');
-  createCircle(circles, '#858dff');
-  createCircle(circles, '#004585');
-  createCircle(circles, '#b17dff');
-  createCircle(circles, '#0091ff');
-  createCircle(circles, '#87cbff');
-  createCircle(circles, '#87cbff');
-  createCircle(circles, '#858dff');
-  createCircle(circles, '#b17dff');
-  createCircle(circles, '#b17dff');
-
   const draw = useCallback(() => {
+    if (!context) return;
     const canvas = context.canvas;
     context.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
 
@@ -95,14 +94,14 @@ export default function DynamicBackground({ mutedBg, ...props }: Props) {
 
   useEffect(() => {
     if (canvasRef.current) {
-      const canvas = canvasRef.current;
+      const canvas = canvasRef.current as HTMLCanvasElement;
       const ctx = canvas.getContext('2d');
       setContext(ctx);
     }
   }, []);
 
   useEffect(() => {
-    let animationFrameId;
+    let animationFrameId: number;
 
     // Check if null context has been replaced on component mount
     if (context) {
