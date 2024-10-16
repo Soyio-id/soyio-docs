@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Basic Navigation', () => {
+test.describe.parallel('Basic Navigation', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('http://localhost:3000');
   });
