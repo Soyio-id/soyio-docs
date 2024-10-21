@@ -88,6 +88,38 @@ En este momento, los eventos que enviamos por Webhooks tienen la siguiente estru
 }
 ```
 
+
+### 3. Para *disclosure requests*:
+
+  * Disclosure request exitoso:
+
+```javascript
+{
+  id: "evt_...",
+  name: "disclosure_request.granted",
+  payload: {
+    user_reference: "<user-reference>",
+    disclosure_request_id: "dreq_...",
+    identity_id: "id_..."
+  },
+  created_at: "<created_at>"
+}
+```
+
+  * Disclosure request caducado:
+
+```javascript
+{
+  id: "evt_...",
+  name: "disclosure_request.timed_out",
+  payload: {
+    user_reference: "<user-reference>",
+    disclosure_request_id: "dreq_...",
+  },
+  created_at: "<created_at>"
+}
+```
+
 ## Tipos de errores:
 
 Los tipos de errores que pueden aparecer en el campo de `error_reason` son los siguientes:
