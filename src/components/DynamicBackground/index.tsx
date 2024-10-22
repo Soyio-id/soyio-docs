@@ -36,7 +36,7 @@ const colorCounts = [
   { color: '#b17dff', count: 3 },
 ];
 
-const generateCircles = (count: number): Circle[] => {
+const generateCircles = (): Circle[] => {
   return colorCounts.flatMap(({ color, count }) =>
     Array(count).fill(null).map(() => createCircle(color))
   );
@@ -46,7 +46,7 @@ export default function DynamicBackground({ mutedBg, ...props }: Props) {
   const { width = '100%', height = '100%', ...rest } = props;
   const canvasRef = useRef(null);
   const [context, setContext] = useState<CanvasRenderingContext2D | null>(null);
-  const [circles] = useState<Circle[]>(() => generateCircles(15));
+  const [circles] = useState<Circle[]>(() => generateCircles());
 
   const resizeCanvas = (context: CanvasRenderingContext2D | null) => {
     if (!context) return;
@@ -122,28 +122,7 @@ export default function DynamicBackground({ mutedBg, ...props }: Props) {
 
   return (
     <>
-      <svg className={styles.filter}>
-        <filter
-          id="grainy"
-          x="0"
-          y="0"
-          width="100%"
-          height="100%"
-        >
-          <feTurbulence
-            type="fractalNoise"
-            baseFrequency=".537"
-          ></feTurbulence>
-          <feColorMatrix
-            type="saturate"
-            values="0.2"
-          ></feColorMatrix>
-          <feBlend
-            mode="hard-light"
-            in="SourceGraphic"
-          ></feBlend>
-        </filter>
-      </svg>
+      <div className={styles.noise} />
 
       <canvas
         className={`${styles.canvas} ${mutedBg ? styles.canvasMuted : ''}`}
