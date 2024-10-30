@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-# Paso a paso
+# Inicio Rápido
 
 A continuación te resumimos el proceso de integración en una serie de pasos a seguir:
 

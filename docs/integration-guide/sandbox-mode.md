@@ -2,4 +2,4 @@
 sidebar_position: 3
 ---
 
-# Consentimiento
+# Modo de Pruebas (Sandbox)
