@@ -22,7 +22,7 @@ Si un usuario ya tiene una cuenta en Soyio podrá firmar simplemente autenticán
 
 ## ¿Cómo aseguramos la integridad del documento firmado?
 
-Para mantener la integridad del documento y evitar modificaciones después de la firma, Soyio utiliza una firma criptográfica con un sello de tiempo. Esta firma criptográfica aplica un algoritmo de llave pública que genera una huella digital única e inalterable del documento en el momento exacto de la firma. Así, cualquier intento de cambiar el documento después de la firma invalidaría la firma criptográfica, proporcionando una garantía de integridad.
+Para mantener la integridad del documento y evitar modificaciones después de la firma, nuestra solución utiliza una firma criptográfica con un sello de tiempo. Esta firma criptográfica aplica un algoritmo de llave pública que genera una huella digital única e inalterable del documento en el momento exacto de la firma. Así, cualquier intento de cambiar el documento después de la firma invalidaría la firma criptográfica, proporcionando una garantía de integridad.
 
 ## Documento de evidencia electrónica
 
