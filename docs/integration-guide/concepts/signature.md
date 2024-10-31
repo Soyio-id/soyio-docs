@@ -4,7 +4,7 @@ sidebar_position: 5
 
 # Firma de Documentos
 
-Integra nuestro módulo de firma en tus productos y canales digitales para automatizar la firma electrónica de documentos. En esta sección te explicaremos cómo funciona nuestra solución de firma y la validez que tiene para que evalúes si se adapta a tus requerimientos.
+Integra nuestro módulo de firma en tus productos y canales digitales para automatizar la firma electrónica de documentos. En esta sección te explicaremos cómo funciona nuestra solución de firma, cómo asegura la identidad del firmante y la integridad del documento, y su validez legal, para que evalúes si se adapta a tus necesidades.
 
 ## ¿Qué es una Firma Electrónica Simple?
 
