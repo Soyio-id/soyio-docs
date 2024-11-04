@@ -1,0 +1,67 @@
+import SchemaItem from "@theme/SchemaItem";
+
+# Errores
+
+Soyio usa respuestas HTTP convencionales para indicar el éxito o fracaso de un request. En general,
+
+- Códigos en el rango de los `2XX` indican éxito.
+- Códigos en el rango `4XX` indican problemas en el request por la información proporcionada (ej: un parámetro requerido fue omitido, una validación falló, etc.).
+- Códigos en el rango de los `5XX` indican un error con los servidores de Soyio (aunque estos son raros).
+
+## Atributos
+
+<ul>
+  <SchemaItem
+    collapsible={false}
+    name={"type"}
+    required={true}
+    schemaName={"string"}
+    qualifierMessage={"**Possible values:** [`api_error`, `authentication_error`, `invalid_request_error`, `rate_limit_error`]"}
+    schema={{"type":"string","enum":["api_error","authentication_error","invalid_request_error","rate_limit_error"],"description":"El tipo de error."}}
+  >
+  </SchemaItem>
+  <SchemaItem
+    collapsible={false}
+    name={"message"}
+    required={false}
+    schemaName={"string"}
+    qualifierMessage={undefined}
+    schema={{"type":"string","description":"Un mensaje legible que provee mas detalles acerca del error."}}
+  >
+  </SchemaItem>
+  <SchemaItem
+    collapsible={false}
+    name={"param"}
+    required={false}
+    schemaName={"string"}
+    qualifierMessage={undefined}
+    schema={{"type":"string","description":"El parámetro al cual se relaciona el error."}}
+  >
+  </SchemaItem>
+</ul>
+
+Ejemplo de un error:
+
+```json
+{
+  "type": "invalid_request_error",
+  "message": "Invalid request",
+  "param": "amount"
+}
+```
+
+## Códigos de error
+| Error | Descripción |
+|-------|-------------|
+| `400`<br/>*Bad Request* | Hay un problema con tu request 🙈 |
+| `401`<br/>*Unauthorized* | Tu api key es incorrecta 🔐 |
+| `403`<br/>*Forbidden* | No tienes permiso para ver esta página 🚫 |
+| `404`<br/>*Not Found* | El recurso especificado no fue encontrado 😔 |
+| `405`<br/>*Method Not Allowed* | Trataste de ingresar a un recurso con un método inválido |
+| `406`<br/>*Not Acceptable* | Solicistaste un formato que no es json 😣 |
+| `410`<br/>*Gone* | El recurso solicitado fue removido de nuestros servidores 🏃 |
+| `418` | Soy una tetera 😗☕️ |
+| `422`<br/>*Unprocessable Entity* | No podemos procesar tu solicitud, revísala. 👀️ |
+| `429`<br/>*Too Many Requests* | Estas solicitando muchos recursos! Detente! ✋ |
+| `500`<br/>*Internal Server Error* | Tuvimos un problema con nuestro servidor. 😰 Inténtalo nuevamente mas tarde (estos son raros) |
+| `503`<br/>*Service Unavailable* | Estamos offline por mantenimiento. Inténtalo nuevamente mas tarde ‍👷🛠 |

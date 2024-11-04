@@ -11,17 +11,22 @@ const sidebar: SidebarsConfig = {
       type: 'doc',
       id: 'api/authentication',
     },
+
     {
       type: 'doc',
-      id: 'api/pagination',
+      id: 'api/pagination-and-filters',
     },
     {
       type: 'doc',
-      id: 'api/errors',
+      id: 'api/sandbox-mode',
     },
     {
       type: 'doc',
       id: 'api/webhooks',
+    },
+    {
+      type: 'doc',
+      id: 'api/errors',
     },
     {
       type: 'category',

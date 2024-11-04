@@ -6,7 +6,7 @@ import { sidebarItemGenerator } from './lib/sidebarItemGenerator';
 
 const config: Config = {
   title: 'Soyio Docs',
-  tagline: 'Documentación para la era de la identidad digital',
+  tagline: 'Documentación de la infraestructura de la privacidad digital',
   favicon: 'img/favicon.png',
 
   // Set the production url of your site here
