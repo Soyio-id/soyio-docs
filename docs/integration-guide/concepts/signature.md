@@ -4,7 +4,7 @@ sidebar_position: 5
 
 # Firma de Documentos
 
-Integra nuestro módulo de firma en tus productos y canales digitales para automatizar la firma electrónica de documentos. En esta sección te explicaremos cómo funciona nuestra solución de firma, cómo asegura la identidad del firmante y la integridad del documento, y su validez legal, para que evalúes si se adapta a tus necesidades.
+En esta sección te explicaremos cómo funciona la solución de firma de Soyio, cómo asegura la identidad del firmante y la integridad del documento, y su validez legal, para que evalúes si se adapta a tus necesidades.
 
 ## ¿Qué es una Firma Electrónica Simple?
 
@@ -14,7 +14,7 @@ Por lo tanto, un mecanismo electrónico que permita incorporar la firma en un do
 
 ## ¿Cómo aseguramos la autenticidad del firmante?
 
-Aunque la ley no específica métodos específicos para identificar al autor de la firma, en Soyio utilizamos autenticación biométrica para confirmar la identidad del firmante, lo que fortalece la seguridad del proceso y eleva su valor legal.
+Aunque la ley no específica métodos específicos para identificar al autor de la firma, Soyio utiliza autenticación biométrica para confirmar la identidad del firmante, lo que fortalece la seguridad del proceso y eleva su valor probatorio.
 
 Antes de que un usuario pueda firmar, debe validar su identidad mediante un proceso de autenticación biométrica y generar una llave de acceso biométrica (passkey) almacenada en su dispositivo. Al iniciar el proceso de firma, el usuario confirma la acción con esta llave biométrica o mediante autenticación facial, lo que garantiza que solo el usuario autorizado pueda firmar el documento en su nombre. Esto asegura que la firma sea auténtica y realizada por quien corresponde.
 
@@ -22,7 +22,7 @@ Si un usuario ya tiene una cuenta en Soyio podrá firmar simplemente autenticán
 
 ## ¿Cómo aseguramos la integridad del documento firmado?
 
-Para mantener la integridad del documento y evitar modificaciones después de la firma, nuestra solución utiliza una firma criptográfica con un sello de tiempo. Esta firma criptográfica aplica un algoritmo de llave pública que genera una huella digital única e inalterable del documento en el momento exacto de la firma. Así, cualquier intento de cambiar el documento después de la firma invalidaría la firma criptográfica, proporcionando una garantía de integridad.
+Para mantener la integridad del documento y evitar modificaciones después de la firma, Soyio utiliza una firma criptográfica con un sello de tiempo. Esta firma criptográfica aplica un algoritmo de llave pública que genera una huella digital única e inalterable del documento en el momento exacto de la firma. Así, cualquier intento de cambiar el documento después de la firma invalidaría la firma criptográfica, proporcionando una garantía de integridad.
 
 ## Documento de evidencia electrónica
 
@@ -32,11 +32,11 @@ Además, se añaden marcas visuales a cada página del documento, incluyendo un 
 
 ## ¿Cuándo puedo utilizar la firma electrónica de Soyio?
 
-Nuestra firma electrónica simple es válida legalmente para celebrar toda clase de actos y contratos, especialmente contratos entre privados.
+La firma electrónica de Soyio es válida legalmente para celebrar toda clase de actos y contratos, especialmente contratos entre privados.
 
 Al ser una Firma Electrónica Simple (FES) existen excepciones que se detallan a continuación:
 
-1. No puede utilizarse FES cuando la ley exige expresamente el uso de FEA, por ejemplo:
+1. No puede utilizarse FES cuando la ley exige expresamente el uso de Firma Electrónica Avanzada (FEA), por ejemplo:
 
     i. Los instrumentos públicos en formato electrónico deben llevar la FEA del funcionario que los emite.
 

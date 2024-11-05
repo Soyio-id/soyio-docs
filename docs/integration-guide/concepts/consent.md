@@ -18,9 +18,9 @@ El **consentimiento** es una manifestación de voluntad en la que un usuario, de
 
 - **Informado**: El usuario debe contar con el contexto suficiente para tomar una decisión informada. Esto implica que se le brinde información clara sobre qué datos se recopilan, para qué se utilizarán, por cuánto tiempo y con qué derechos cuenta.
 
-> **Importante**
->
-> El consentimiento no se reduce a una mera "aceptación de términos" general. Un consentimiento es válido solo si están todos los elementos  presentes, de acuerdo a los principios LEII. Esto garantiza que el consentimiento sea una autorización legítima, protegiendo tanto al usuario como a la empresa en su uso de los datos personales.
+:::tip[Importante]
+El consentimiento no se reduce a una mera "aceptación de términos" general. Un consentimiento es válido solo si están todos los elementos  presentes, de acuerdo a los principios LEII. Esto garantiza que el consentimiento sea una autorización legítima, protegiendo tanto al usuario como a la empresa en su uso de los datos personales.
+:::
 
 ## Ciclo de vida del consentimiento
 
@@ -33,10 +33,10 @@ La primera etapa implica solicitar el consentimiento del usuario. Este proceso d
 Una vez que el usuario ha comprendido los términos, otorga su consentimiento explícitamente. En esta etapa, el consentimiento queda registrado de forma que pueda verificarse su legitimidad en el futuro. Este registro incluye detalles como el momento en que se otorgó el consentimiento y el contexto en el que fue proporcionado.
 
 ### 3. Almacenamiento y gestión del consentimiento
-Después de otorgarse, el consentimiento debe ser almacenado de forma segura y accesible. Nuestra plataforma permite a las empresas gestionar los consentimientos otorgados, almacenándolos como *Agreements* que se pueden actualizar a lo largo del tiempo según nuevas interacciones con el usuario o cambios en los fines para los cuales se usan los datos.
+Después de otorgarse, el consentimiento debe ser almacenado de forma segura y accesible. Soyio permite a las empresas gestionar los consentimientos otorgados, almacenándolos como *Agreements* que se pueden actualizar a lo largo del tiempo según nuevas interacciones con el usuario o cambios en los fines para los cuales se usan los datos.
 
 ### 4. Actualización o revocación de consentimiento
 El consentimiento no es definitivo; los usuarios tienen el derecho de actualizar o revocar su consentimiento en cualquier momento. La revocación o actualización se registra y modifica el *Agreement* en consecuencia, asegurando que las empresas solo utilicen los datos personales de acuerdo con la voluntad actual del usuario.
 
 ### 5. Auditoría y evidencia
-El consentimiento registrado puede necesitar ser verificado en auditorías o en casos de consulta o impugnación. En nuestra plataforma, cada etapa del ciclo de vida del consentimiento queda documentada como *Evidencia Electrónica*, proporcionando una base confiable que demuestra que se ha cumplido con las normativas de protección de datos.
+El consentimiento registrado puede necesitar ser verificado en auditorías o en casos de consulta o impugnación. En la plataforma de Soyio, cada etapa del ciclo de vida del consentimiento queda documentada como *Evidencia Electrónica*, proporcionando una base confiable que demuestra que se ha cumplido con las normativas de protección de datos.
