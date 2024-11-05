@@ -5,52 +5,121 @@ import SchemaItem from "@theme/SchemaItem";
 Soyio usa respuestas HTTP convencionales para indicar el éxito o fracaso de un request. En general,
 
 - Códigos en el rango de los `2XX` indican éxito.
-- Códigos en el rango `4XX` indican problemas en el request por la información proporcionada (ej: un parámetro requerido fue omitido, una validación falló, etc.).
-- Códigos en el rango de los `5XX` indican un error con los servidores de Soyio (aunque estos son raros).
+- Códigos en el rango `4XX` indican problemas con el request por la información proporcionada (ej: un parámetro requerido fue omitido, una validación falló, etc.).
+- Códigos en el rango de los `5XX` indican un error desde el lado de Soyio (aunque estos son raros).
 
-## Atributos
+:::info
+Los mensajes de error usan un `Content-Type` de `application/problem+json`.
+:::
+
+## Errores Generales
+
+El formato general del payload de error es el siguiente:
 
 <ul>
   <SchemaItem
     collapsible={false}
     name={"type"}
-    required={true}
     schemaName={"string"}
-    qualifierMessage={"**Possible values:** [`api_error`, `authentication_error`, `invalid_request_error`, `rate_limit_error`]"}
+    qualifierMessage={"**Valores posibles:** [`api_error`, `authentication_error`, `invalid_request_error`, `rate_limit_error`]"}
     schema={{"type":"string","enum":["api_error","authentication_error","invalid_request_error","rate_limit_error"],"description":"El tipo de error."}}
   >
   </SchemaItem>
   <SchemaItem
     collapsible={false}
-    name={"message"}
-    required={false}
+    name={"title"}
     schemaName={"string"}
     qualifierMessage={undefined}
-    schema={{"type":"string","description":"Un mensaje legible que provee mas detalles acerca del error."}}
+    schema={{"type":"string","description":"Resumen corto y legible del tipo de problema"}}
   >
   </SchemaItem>
   <SchemaItem
     collapsible={false}
-    name={"param"}
-    required={false}
-    schemaName={"string"}
+    name={"status"}
+    schemaName={"integer"}
     qualifierMessage={undefined}
-    schema={{"type":"string","description":"El parámetro al cual se relaciona el error."}}
+    schema={{"type":"integer","description":"El código de estado HTTP generado por el servidor para esta ocurrencia del problema. Revisa los [códigos de error HTTP](#códigos-de-error-http)."}}
+  >
+  </SchemaItem>
+  <SchemaItem
+    collapsible={false}
+    name={"detail"}
+    schemaName={"integer"}
+    qualifierMessage={undefined}
+    schema={{"type":"integer","description":"Una explicación breve, legible y específica para esta ocurrencia del problema."}}
   >
   </SchemaItem>
 </ul>
 
-Ejemplo de un error:
+### Ejemplo
+
+```json
+{
+  "type": "authentication_error",
+  "title": "Authentication failed",
+  "status": 401,
+  "detail": "Invalid API key"
+}
+```
+
+## Errores de validación
+
+Corresponden a errores de validación (`422`) de los datos enviados en la request. Estos errores a diferencia de los generales, poseen un atributo `errors` que contiene la lista de errores asociados para contextualizar de mejor manera lo que necesita ser corregido. Estos siguen el siguiente formato:
+
+
+<ul>
+  <SchemaItem
+    collapsible={false}
+    name={"type"}
+    schemaName={"string"}
+    qualifierMessage={"**Valores posibles:** [`validation_error`]" }
+    schema={{"type":"string","enum":["validation_error"],"description":"El tipo de error."}}
+  >
+  </SchemaItem>
+  <SchemaItem
+    collapsible={false}
+    name={"title"}
+    schemaName={"string"}
+    qualifierMessage={undefined}
+    schema={{"type":"string","description":"Resumen corto y legible del tipo de problema"}}
+  >
+  </SchemaItem>
+  <SchemaItem
+    collapsible={false}
+    name={"status"}
+    schemaName={"integer"}
+    qualifierMessage={undefined}
+    schema={{"type":"integer","description":"El código de estado HTTP generado por el servidor para esta ocurrencia del problema. Revisa los [códigos de error HTTP](#códigos-de-error-http)."}}
+  >
+  </SchemaItem>
+  <SchemaItem
+    collapsible={false}
+    name={"errors"}
+    schemaName={"string[]"}
+    qualifierMessage={undefined}
+    schema={{"type":"string[]","description":"Una lista legible de errores de validación específicos."}}
+  >
+  </SchemaItem>
+</ul>
+
+### Ejemplo
 
 ```json
 {
   "type": "invalid_request_error",
-  "message": "Invalid request",
-  "param": "amount"
+  "title": "Invalid request",
+  "status": 422,
+  "errors": [
+    "amount must be greater than 0",
+    "name is required"
+  ]
 }
 ```
 
-## Códigos de error
+## Códigos de error HTTP
+
+A continuación se describen los códigos de error HTTP que puedes recibir.
+
 | Error | Descripción |
 |-------|-------------|
 | `400`<br/>*Bad Request* | Hay un problema con tu request 🙈 |

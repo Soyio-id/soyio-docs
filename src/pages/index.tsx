@@ -16,7 +16,7 @@ function HomepageHeader() {
           as="h1"
           className="hero__title"
         >
-          Bienvenid@ a la documentación de Soyio
+          Soyio Docs
         </Heading>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
         <div className={styles.buttons}>
