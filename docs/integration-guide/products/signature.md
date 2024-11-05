@@ -6,6 +6,8 @@ sidebar_position: 3
 
 Integra el proceso de firma en tu aplicación generando documentos listos para ser firmados automáticamente a partir de una plantilla.
 
+## ¿Cómo funciona?
+
 Al iniciar el proceso de firma, al usuario se le presentará el documento listo para firmar, el que podrá previsualizar o descargar. Cuando el usuario esté seguro de firmar y haga click en el botón "Firmar con Soyio", deberá confirmar esta acción usando su llave de acceso almacenada en su dispositivo (passkey) o usando autenticación facial.
 
 Revisa [la documentación conceptual sobre firma electrónica](../concepts/signature.md) para profundizar en las características de este producto y sus aplicaciones.
