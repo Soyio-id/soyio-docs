@@ -14,11 +14,11 @@ Por lo tanto, un mecanismo electrónico que permita incorporar la firma en un do
 
 ## ¿Cómo aseguramos la autenticidad del firmante?
 
-Aunque la ley no específica métodos específicos para identificar al autor de la firma, Soyio utiliza autenticación biométrica para confirmar la identidad del firmante, lo que fortalece la seguridad del proceso y eleva su valor probatorio.
+Aunque la ley no específica métodos específicos para identificar al autor de la firma, Soyio utiliza autenticación fuerte (SCA) para confirmar la identidad del firmante, lo que fortalece la seguridad del proceso y eleva su valor probatorio.
 
-Antes de que un usuario pueda firmar, debe validar su identidad mediante un proceso de autenticación biométrica y generar una llave de acceso biométrica (passkey) almacenada en su dispositivo. Al iniciar el proceso de firma, el usuario confirma la acción con esta llave biométrica o mediante autenticación facial, lo que garantiza que solo el usuario autorizado pueda firmar el documento en su nombre. Esto asegura que la firma sea auténtica y realizada por quien corresponde.
+Para que un usuario pueda firmar usando Soyio deberá completar previamente un proceso de [Disclosure](../products/disclosure.md). Al hacerlo creará una identidad verificada en el sistema, podrá crear una llave de acceso (passkey) y además registraremos su consentimiento. Una vez creada su cuenta podrá iniciar un proceso de firma.
 
-Si un usuario ya tiene una cuenta en Soyio podrá firmar simplemente autenticándose biométricamente utilizando su passkey o mediante autenticación facial.
+Al iniciar el proceso de firma, al usuario se le presentará el documento listo para firmar, el que podrá previsualizar o descargar. Cuando el usuario esté seguro de firmar y haga click en el botón "Firmar con Soyio", deberá confirmar esta acción usando su llave de acceso almacenada en su dispositivo (passkey) o usando autenticación facial. Esté método garantiza que solo el usuario autorizado pueda firmar el documento en su nombre, asegurando que la firma sea auténtica y realizada por quien corresponde.
 
 ## ¿Cómo aseguramos la integridad del documento firmado?
 
