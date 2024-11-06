@@ -50,7 +50,7 @@ export default async function soyioDocsPlugin(
     name: 'soyio-openapi-docs',
     extendCli(cli) {
       cli
-        .command('regenerate-docs')
+        .command('regenerate-api-docs')
         .description(
           'regenerate docs using openapi plugin + some custom tweaks',
         )
