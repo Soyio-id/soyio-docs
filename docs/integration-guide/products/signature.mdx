@@ -9,6 +9,10 @@ Al iniciar el proceso de firma, al usuario se le presentará el documento listo 
 
 Revisa [la documentación conceptual sobre firma electrónica](../concepts/signature.md) para profundizar en las características de este producto y sus aplicaciones.
 
+:::tip[Tip]
+Por ahora, este servicio está disponible solo para el SDK Web.
+:::
+
 ## Pre requisitos
 
 1. El usuario debe tener una [identidad creada en el sistema](./disclosure.md).
@@ -73,80 +77,36 @@ Si no incluyes alguna variable, o envías un valor inválido de acuerdo al tipo 
 
 Inicia el intento de firma con tu usuario desde el front-end de tu aplicación. Utiliza el SDK de Soyio y el `signature_attempt_id` obtenido en el paso anterior al crear el intento de firma.
 
-<Tabs>
+```javascript
+<button id="start-signature-attempt">Start signature attempt</button>
 
-  <TabItem value="web" label="SDK Web" default>
-    ```javascript
-    <button id="start-signature-attempt">Start signature attempt</button>
+<script>
+  import { SoyioWidget } from "@soyio/soyio-widget";
 
-    <script>
-      import { SoyioWidget } from "@soyio/soyio-widget";
+  // Configuración
+  const widgetConfig = {
+    request: "signature",
+    configProps: {
+      signatureAttemptId: "<signature_attempt_id>",
+    },
+    onEvent: (data) => console.log(data),
+    isSandbox: true, // Opcional, recomendado para pruebas
+  };
 
-      // Configuración
-      const widgetConfig = {
-        request: "signature",
-        configProps: {
-          signatureAttemptId: "<signature_attempt_id>",
-        },
-        onEvent: (data) => console.log(data),
-        isSandbox: true, // Opcional, recomendado para pruebas
-      };
+  // Creación del widget
+  function initWidget() {
+    new SoyioWidget(widgetConfig);
+  }
 
-      // Creación del widget
-      function initWidget() {
-        new SoyioWidget(widgetConfig);
-      }
-
-      // Añade un escuchador de eventos al botón para inicializar el widget al hacer clic
-      document
-        .getElementById("start-signature-attempt")
-        .addEventListener("click", initWidget);
-    </script>
-    ```
-  </TabItem>
-
-  <TabItem value="mobile" label="SDK Mobile">
-    ``` javascript
-    import { useSoyioAuth } from "@soyio/soyio-rn-sdk";
-
-    export default function App() {
-
-      // Configuración
-      const options = {
-        isSandbox: true, // Opcional, recomendado para pruebas
-      };
-
-      const signatureParams = {
-        signatureAttemptId: "<signature_attempt_id>",
-      }
-
-      const onEventChange = (event) => {
-        console.log("Event:", event);
-      };
-
-      const { signature } = useSoyioAuth({ options, onEventChange });
-
-      // Crea el proceso
-      const initSignatureAttempt = () => {
-        signature(signatureParams);
-      };
-
-      // Renderiza un boton que inicia el proceso al hacer click
-      return (
-        <View>
-          <Button title="Signature Request" onPress={initSignatureAttempt} />
-        </View>
-      );
-    }
-    ```
-  </TabItem>
-</Tabs>
+  // Añade un escuchador de eventos al botón para inicializar el widget al hacer clic
+  document
+    .getElementById("start-signature-attempt")
+    .addEventListener("click", initWidget);
+</script>
+```
 
 :::tip[Tip]
-Para más detalles de la configuración revisa las instrucciones del `Readme` del SDK correspondiente.
-
-- [SDK Web](https://www.npmjs.com/package/@soyio/soyio-widget)
-- [SDK React Native](https://www.npmjs.com/package/@soyio/soyio-rn-sdk)
+Para más detalles de la configuración revisa las instrucciones del `Readme` del [SDK Web](https://www.npmjs.com/package/@soyio/soyio-widget).
 :::
 
 ### 4. Escucha los eventos en el front-end de tu aplicación
@@ -154,32 +114,16 @@ Para más detalles de la configuración revisa las instrucciones del `Readme` de
 Cuando el usuario complete el flujo o si ocurre un problema en el proceso se emitirá un evento.
 En la siguiente tabla se detallan los eventos que puedes escuchar:
 
-<Tabs>
-  <TabItem value="web" label="SDK Web" default>
-    | Evento | Descripción |
-    | --- | --- |
-    | `IDENTITY_SIGNATURE` | El usuario completó el proceso de firma exitosamente. |
-    | `REJECTED_SIGNATURE` | El usuario hizo click en el botón para cancelar el proceso de firma. |
-    | `WIDGET_CLOSED` | El usuario cierra el popup de Soyio. |
-    | `WIDGET_OPENED` | El usuario abre el popup de Soyio. |
-    | `UNEXPECTED_ERROR` | Ocurrió un error inesperado en el proceso de firma. |
-  </TabItem>
-
-  <TabItem value="mobile" label="SDK Mobile">
-    | Evento | Descripción |
-    | --- | --- |
-    | `success` | El usuario completó el proceso de firma exitosamente. |
-    | `open_signature` | Cuando el webview se abre. |
-    | `close` | Cuando el webview se cierra. |
-    | `error` | Ocurrió un error en el proceso de firma. |
-  </TabItem>
-</Tabs>
+| Evento | Descripción |
+| --- | --- |
+| `IDENTITY_SIGNATURE` | El usuario completó el proceso de firma exitosamente. |
+| `REJECTED_SIGNATURE` | El usuario hizo click en el botón para cancelar el proceso de firma. |
+| `WIDGET_CLOSED` | El usuario cierra el popup de Soyio. |
+| `WIDGET_OPENED` | El usuario abre el popup de Soyio. |
+| `UNEXPECTED_ERROR` | Ocurrió un error inesperado en el proceso de firma. |
 
 :::tip[Tip]
-Para más detalles de la configuración revisa las instrucciones del `Readme` del SDK correspondiente.
-
-- [SDK Web](https://www.npmjs.com/package/@soyio/soyio-widget)
-- [SDK React Native](https://www.npmjs.com/package/@soyio/soyio-rn-sdk)
+Para más detalles de la configuración revisa las instrucciones del `Readme` del [SDK Web](https://www.npmjs.com/package/@soyio/soyio-widget).
 :::
 
 ### 5. Escucha los eventos en el back-end de tu aplicación
