@@ -46,10 +46,10 @@ export default function SequenceDiagram({ actors, actions }: Props) {
         nodeTypes={nodeTypes}
         fitView
         fitViewOptions={{
-          padding: 16,
+          padding: 8,
         }}
-        minZoom={0.85}
-        maxZoom={2}
+        minZoom={0.7}
+        maxZoom={7}
         proOptions={{ hideAttribution: true }}
       >
         <Background  />

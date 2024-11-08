@@ -20,6 +20,9 @@ const parseText = (text: string) => {
           style={{
             fontFamily: 'var(--ifm-font-family-monospace)',
             padding: '0em 0.4em',
+            fontSize: '90%',
+            background: 'var(--ifm-code-background)',
+            borderRadius: '4px',
           }}
         >
           {part.slice(1, -1)}
