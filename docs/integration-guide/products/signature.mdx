@@ -9,7 +9,7 @@ Al iniciar el proceso de firma, al usuario se le presentará el documento listo 
 
 Revisa [la documentación conceptual sobre firma electrónica](../concepts/signature.md) para profundizar en las características de este producto y sus aplicaciones.
 
-:::tip[Tip]
+:::info[Información]
 Por ahora, este servicio está disponible solo para el SDK Web.
 :::
 
@@ -43,12 +43,12 @@ Se requiere al menos una variable de tipo `signature` en el documento para poder
 
 ### 2. Crea un intento de firma
 
-Cuando requieras que un usuario firme un documento, realiza un `POST` *request* desde tu back-end al *endpoint* de intentos de firma de Soyio para crear un intento de firma. Al crearse el intento, obtendrás un `signature_attempt_id`, el cual utilizarás en el próximo paso.
+Cuando requieras que un usuario firme un documento, realiza un `POST` *request* desde tu back-end al [*endpoint* de intentos de firma de Soyio](../../api/resources/create-signature-attempt.api.mdx) para crear un intento de firma. Al crearse el intento, obtendrás un `signature_attempt_id`, el cual utilizarás en el próximo paso.
 
 #### Endpoint
 `POST /api/v1/signature_attempts`
 
-#### Payload
+#### Ejemplo del Payload
 
 Especifica en el *payload* del *request* el `identity_id` de tu usuario, el `template_id` de la plantilla y los valores de las variables necesarias para completar el documento. Por ejemplo:
 
@@ -77,7 +77,7 @@ Si no incluyes alguna variable, o envías un valor inválido de acuerdo al tipo 
 
 Inicia el intento de firma con tu usuario desde el front-end de tu aplicación. Utiliza el SDK de Soyio y el `signature_attempt_id` obtenido en el paso anterior al crear el intento de firma.
 
-```javascript
+```html
 <button id="start-signature-attempt">Start signature attempt</button>
 
 <script>
@@ -90,7 +90,6 @@ Inicia el intento de firma con tu usuario desde el front-end de tu aplicación. 
       signatureAttemptId: "<signature_attempt_id>",
     },
     onEvent: (data) => console.log(data),
-    isSandbox: true, // Opcional, recomendado para pruebas
   };
 
   // Creación del widget
@@ -111,7 +110,7 @@ Para más detalles de la configuración revisa las instrucciones del `Readme` de
 
 ### 4. Escucha los eventos en el front-end de tu aplicación
 
-Cuando el usuario complete el flujo o si ocurre un problema en el proceso se emitirá un evento.
+Cuando el usuario complete el flujo se emitirá un evento. También puedes escuchar otros eventos para mejorar la experiencia de usuario.
 En la siguiente tabla se detallan los eventos que puedes escuchar:
 
 | Evento | Descripción |
