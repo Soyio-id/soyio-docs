@@ -1,7 +1,3 @@
----
-sidebar_position: 1
----
-
 # Introducción
 
 ¿Así que quieres integrar Soyio? Estás en el **lugar correcto**. A continuación te contamos en esta documentación sobre lo necesario para poder integrarte a nuestra plataforma.

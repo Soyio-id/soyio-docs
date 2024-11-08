@@ -1,6 +1,3 @@
----
-sidebar_position: 3
----
 
 # Consentimiento y Finalidades
 
@@ -8,7 +5,7 @@ El consentimiento es la base que permite a los usuarios decidir qué datos perso
 
 ## ¿Qué es el consentimiento?
 
-El **consentimiento** es una manifestación de voluntad en la que un usuario, de manera explícita, autoriza el uso de sus datos personales. Para que el consentimiento sea válido, debe cumplir con los siguientes principios, conocidos por sus siglas **LEII**:
+El **consentimiento** es una manifestación de voluntad en la que un usuario, de manera explícita, autoriza el uso de sus datos personales. Para que el consentimiento sea válido, debe cumplir con los siguientes principios (LEII):
 
 - **Libre**: El consentimiento debe ser otorgado sin ninguna presión o influencia externa. El usuario debe sentirse en control total sobre su decisión, sin sentir que se le obliga o manipula para consentir.
 
