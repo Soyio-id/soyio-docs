@@ -33,7 +33,7 @@ Some customizations are made, so we made our own plugin to bypass some non-custo
 In order to regenerate the API docs given new changes in the API spec, you should run:
 
 ```bash
-npm run docusaurus regenerate-api-docs
+npm run docusaurus regenerate-docs
 ```
 
 This should:
