@@ -16,5 +16,5 @@ El API esta organizado alrededor de [REST](https://es.wikipedia.org/wiki/REST). 
 Utilizamos características incluidas en el protocolo HTTP, como autenticación y verbos, los cuales son soportados por la gran mayoría de los clientes HTTP. Soportamos [CORS](https://es.wikipedia.org/wiki/Cross-Origin_Resource_Sharing), lo cual permite interactuar de manera segura con nuestra API desde una aplicación web desde el lado del cliente.
 
 :::tip
-**¿Recién empezando?** Te recomendamos revisar nuestra [guía de inicio rápido](../integration-guide/quickstart.md).
+**¿Recién empezando?** Te recomendamos revisar nuestra [guía de inicio rápido](../integration-guide/quickstart.mdx).
 :::
