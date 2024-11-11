@@ -36,6 +36,7 @@ Los eventos pueden ser enviados directamente a tu servidor a través de la utili
 
 
 <Schema
+	defaultCollapsibleOpen={true}
   schema={{"x-tags":["Events"],"type":"object","description":"Los eventos nos permiten comunicarte cambios relevantes en el sistema. Cuando ocurre un evento interesante,\nse crea un objeto evento. Por ejemplo, cuando se valida una identidad, se crea un evento `validation_attempt.succeeded`;\ncuando una validación falla, se crea un objeto `validation_attempt.failed`.\n\n:::info\nUna llamada a la API **puede generar 1 o más eventos**.\n:::\n\nLos eventos pueden ser enviados directamente a tu servidor a través de la utilización de webhooks.\n\n### Guias relacionadas\n- [Webhooks](/docs/api/webhooks)\n","properties":{"id":{"type":"string","description":"Identificador único del evento.","example":"evt_1B2M2Y8AsgTpgAmY7PhCfg"},"name":{"type":"string","description":"Nombre descriptivo del evento.","example":"disclosure_request.granted"},"payload":{"type":"object","description":"Datos adicionales asociados al evento.","example":{"disclosure_request_id":"dreq_1B2M2Y8AsgTpgAmY7PhCfg","identity_id":"id_ma21KLsmaslopask912Aa2","user_reference":"user_123"}},"created_at":{"type":"string","format":"date-time","description":"Fecha y hora en que se registró el evento.","example":"2024-03-20T15:30:00Z"}},"title":"Event"}}
   schemaType={"response"}
 >

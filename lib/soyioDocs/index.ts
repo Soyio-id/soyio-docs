@@ -1,10 +1,22 @@
 import { spawn } from 'node:child_process';
 import { readFileSync, writeFileSync, readdirSync } from 'fs';
+import { LoadContext, Plugin, PluginOptions } from '@docusaurus/types';
+import type * as OpenApiPlugin from 'docusaurus-plugin-openapi-docs';
 
 function removeSidebarLabelFromFile(path: string) {
   console.log(`Removing 'sidebar_label' from ${path}`);
   const content = readFileSync(path, 'utf-8');
   const replacedContent = content.replace(/sidebar_label:\s?["\w]+\n/m, '');
+  writeFileSync(path, replacedContent);
+}
+
+function addDefaultCollapsibleOpenToFile(path: string) {
+  console.log(`Adding 'defaultCollapsibleOpen' to ${path}`);
+  const content = readFileSync(path, 'utf-8');
+  const replacedContent = content.replace(
+    /<Schema/m,
+    '<Schema\n\tdefaultCollapsibleOpen={true}',
+  );
   writeFileSync(path, replacedContent);
 }
 
@@ -26,24 +38,37 @@ async function spawnProcess(command: string, args: string[]) {
   });
 }
 
-export default async function soyioDocsPlugin(context) {
-  const [, openApiConfig] = context.siteConfig.plugins.find((plugin) => {
+export default async function soyioDocsPlugin(
+  context: LoadContext,
+): Promise<Plugin<unknown>> {
+  const openApiPlugin = context.siteConfig.plugins.find((plugin) => {
+    if (!plugin) return false;
     if (typeof plugin !== 'object') return false;
     const [pluginName] = plugin;
 
     return pluginName === 'docusaurus-plugin-openapi-docs';
   });
 
+  if (!openApiPlugin)
+    throw new Error(
+      'docusaurus-plugin-openapi-docs not found in config, needed for soyio docs plugin',
+    );
+
+  const [, openApiConfig] = openApiPlugin as [string, PluginOptions];
+
   return {
     name: 'soyio-openapi-docs',
     extendCli(cli) {
       cli
-        .command('regenerate-docs')
+        .command('regenerate-api-docs')
         .description(
           'regenerate docs using openapi plugin + some custom tweaks',
         )
         .action(async () => {
-          const { outputDir } = openApiConfig.config.soyio;
+          const apis = openApiConfig.config as {
+            [key: string]: OpenApiPlugin.Options;
+          };
+          const { outputDir } = apis.soyio;
 
           await spawnProcess('npm', [
             'run',
@@ -63,7 +88,10 @@ export default async function soyioDocsPlugin(context) {
           const items = readdirSync(dir);
           const paths = items.map((item) => `./${dir}/${item}`);
 
-          paths.forEach((path) => removeSidebarLabelFromFile(path));
+          paths.forEach((path) => {
+            removeSidebarLabelFromFile(path);
+            addDefaultCollapsibleOpenToFile(path);
+          });
         });
     },
   };
