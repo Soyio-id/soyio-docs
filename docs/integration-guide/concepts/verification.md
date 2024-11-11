@@ -1,4 +1,3 @@
-
 # Verificación de Identidad
 
 La **verificación de identidad** es un proceso que confirma que una persona es quien dice ser, garantizando así la autenticidad de las interacciones digitales. En la plataforma de Soyio, este proceso es esencial para ofrecer a las empresas y a sus usuarios un entorno seguro y confiable. La verificación de identidad puede realizarse a través de **validación** o **autenticación de identidad**.
@@ -26,18 +25,18 @@ La autenticación de identidad se utiliza para confirmar la identidad de un usua
 
 La autenticación puede realizarse mediante métodos biométricos (como reconocimiento facial) o mediante una llave de acceso segura (passkey) que valida que la persona que se presenta es efectivamente la que fue validada previamente.
 
-## ¿Cómo se define el método de verificación de identidad utilizado?
+## Determinación del método de verificación
 
-Soyio actúa como intermediario entre el usuario y la empresa, adaptando el método de verificación según la relación del usuario con Soyio y con la empresa con la que interactúa. Dos factores principales determinan el método de verificación:
+El método de verificación se determina automáticamente según dos factores clave:
 
-1. **Existencia de una cuenta de usuario en Soyio:** Si el usuario ha creado una cuenta en Soyio puede usar métodos de autenticación en interacciones con empresas que integran los módulos de Soyio.
+### 1. Estado del usuario en Soyio
+- **Usuario nuevo**: Requiere validación completa de identidad
+- **Usuario existente**: Puede usar métodos de autenticación rápida
 
-2. **Estado de la validación de identidad en la empresa:** Si el usuario ya validó su identidad utilizando Soyio en la empresa con la que está interactuando, es posible utilizar una autenticación en lugar de realizar nuevamente la validación completa.
+### 2. Historial con la empresa
+- **Primera interacción**: Requiere validación completa
+- **Usuario verificado previamente**: Puede usar autenticación simplificada
 
-### Cuándo se usa la validación de identidad
-
-Se utiliza la validación de identidad cuando es la primera vez que el usuario interactúa con Soyio o si, a pesar de haber realizado una validación de identidad previamente, optó por no crear una cuenta en Soyio.
-
-### Cuándo se usa la autenticación de identidad
-
-Se utiliza la autenticación de identidad cuando el usuario ya ha completado exitosamente una validación de identidad con la empresa utilizando Soyio o cuando ha optado por crear una cuenta en Soyio. Este método permite una verificación rápida y segura para confirmar que la persona es quien dice ser, sin necesidad de realizar una validación completa cada vez.
+:::tip[Pro Tip]
+La autenticación simplificada es **más rápida y conveniente** para el usuario, **manteniendo el mismo nivel de seguridad**.
+:::

@@ -4,22 +4,42 @@ import SequenceDiagram from '../../../src/components/SequenceDiagram';
 
 # Revelación de datos y consentimiento (Disclosure)
 
-Solicita a tus usuarios la revelación inicial de sus datos personales verificados al mismo tiempo que registras su consentimiento y creas una identidad en tu sistema.
-Este módulo mejora tu proceso de onboarding para adaptarlo a las regulaciones más estrictas de protección de datos personales.
+Solicita a tus usuarios la revelación inicial de sus datos personales verificados.
 
-:::tip[Pro Tip]
+Este módulo mejora tu proceso de onboarding para adaptarlo a las regulaciones más estrictas de protección de datos personales, permitiendote cumplir con la captura de consentimiento y la verificación de identidad.
+
+A grandes rasgos, el módulo Disclosure te permite:
+- **Verificar identidad**: Confirma que tus usuarios son quienes dicen ser
+- **Obtener consentimiento**: Registra la autorización explícita para el uso de datos
+- **Recolectar datos**: Recibe información verificada de tus usuarios
+
+## El proceso de disclosure
+
+El proceso de disclosure se compone de los siguientes pasos:
+
+1. El usuario otorga su **consentimiento** para compartir datos
+2. Se realiza la **verificación de identidad**
+3. (Opcional) Se realiza un match entre los datos verificados y los datos almacenados en tu sistema.
+4. Se crea una **identidad verificada** en el sistema
+5. Se genera un **Agreement** con evidencia del proceso
+
+:::info
 Este módulo **incluye la verificación de identidad** de tu usuario. Puedes leer más detalles de cómo Soyio realiza la verificación en la [documentación sobre verificación de identidad](../concepts/verification.md).
 :::
 
+#### Descripción detallada
+
 Este flujo comienza con la entrega de [consentimiento](../concepts/consent.md). El usuario verá los datos que estás solicitando y deberá confirmar su consentimiento para continuar.
-Luego, [verificará su identidad](../concepts/verification.md). Al completar este paso, se creará una identidad con los datos verificados, que podrás consultar utilizando la API de Soyio.
+
+Luego, [se verificará la identidad](../concepts/verification.md) del usuario. Al completar este paso, se creará una identidad con los datos verificados, que podrás consultar utilizando la API de Soyio.
+
 Al finalizar el proceso de entrega de datos y consentimiento, se creará un [acuerdo (*Agreement*)](../concepts/agreement.md) y la evidencia asociada, que podrás utilizar para demostrar que el usuario otorgó su consentimiento libre, específico, inequívoco e informado.
 
-Opcionalmente, si el usuario creó una cuenta en tu sistema previamente y entregó datos de identificación,
-puedes incluir como parte del proceso que Soyio verifique el match entre los datos verificados que el usuario entrega en este proceso y la información almacenada en tu sistema.
-Si ocupas esta opción y el match no es exitoso, el proceso concluye sin crear una identidad.
+#### Match de datos
 
-Revisa la documentación sobre [verificación de identidad](../concepts/verification.md), [consentimiento](../concepts/consent.md) y [agreements](../concepts/agreement.md) para profundizar en las características de este módulo y sus aplicaciones.
+Opcionalmente, si el usuario creó una cuenta en tu sistema previamente y entregó datos de identificación, puedes incluir como parte del proceso que Soyio **verifique el match entre los datos verificados** que el usuario entrega en este proceso y la información almacenada en tu sistema. Si ocupas esta opción y el match no es exitoso, el **proceso concluye sin crear una identidad**.
+
+### Integración
 
 El flujo que integrarás es el siguiente:
 
@@ -93,12 +113,11 @@ El flujo que integrarás es el siguiente:
 
 ### 1. Crea una plantilla de disclosure
 
-Define qué datos necesitas solicitar a tus usuarios de forma obligatoria para que puedan continuar con el proceso en tu empresa.
+Para comenzar, deberás definor qué datos necesitas solicitar a tus usuarios de forma obligatoria para que puedan continuar con el proceso en tu empresa. Para ello, identifica la [finalidad](../concepts/consent.md) que tendrá cada uno de estos datos y por cuánto tiempo los almacenarás.
 
-Identifica la finalidad que tendrá cada uno de estos datos y por cuánto tiempo los almacenarás.
-Envíanos la información vía Slack y te haremos llegar el id de la plantilla (`template_id`) que utilizarás en el próximo paso.
+Luego, envía la información vía Slack y te haremos llegar el id de la plantilla (`disclosure_template_id`) que utilizarás en el próximo paso.
 
-Ejemplos de finalidades son:
+Aluunos ejemplos de finalidades son:
 - **Gestión de clientes:** Para el registro, mantenimiento y soporte de clientes.
 - **Marketing:** Envío de comunicaciones promocionales, boletines informativos y ofertas personalizadas.
 - **Recursos Humanos:** Para la administración del personal, procesos de selección y evaluaciones de desempeño.
@@ -115,17 +134,12 @@ Profundiza en estos conceptos revisando nuestra [documentación sobre consentimi
 
 Soyio soporta dos formas de crear el proceso de entrega de datos y consentimiento (disclosure):
 
-- **Desde el back-end:** en esta opción debes crear un Disclosure Request desde tu back-end.
+- **Desde el back-end:** esta opción te permite **acceder a la funcionalidad de match de parámetros**.
 
-:::tip[Pro Tip]
-    Crea la solicitud de disclosure desde el back-end si quieres utilizar la **funcionalidad de match de parámetros**. Esta funcionalidad te permite verificar que los datos entregados por el usuario coincidan con los datos almacenados en tu sistema.
-:::
+- **Desde el front-end:** en esta opción te permite iniciar el proceso de manera flexible desde el front-end de tu aplicación a través de nuestro SDK, el cual se encargará de crear la solicitud de disclosure. Si deseas utilizar esta opción, salta este paso y [avanza directamente al paso 4](#4-inicia-el-proceso-desde-el-front-end).
 
-- **Desde el front-end:** en esta opción debes configurar algunos parámetros e iniciar el flujo directamente desde el front-end de tu aplicación.
 
-:::warning[Importante]
-    Si deseas crear el proceso directamente desde el front-end salta este paso y avanza directamente al paso 3.
-:::
+### 3. Crea el proceso desde el backend (opcional)
 
 Para crear el proceso desde el backend realiza un `POST` *request* desde tu back-end al [*endpoint* de disclosure requests](../../api/resources/create-disclosure-request.api.mdx) de Soyio.
 Esto creará una solicitud de disclosure y obtendrás un `disclosure_request_id`, que utilizarás en el siguiente paso.
@@ -135,7 +149,7 @@ Esto creará una solicitud de disclosure y obtendrás un `disclosure_request_id`
 
 #### Ejemplo del Payload
 
-Inicia el proceso indicando el `template_id` de la plantilla creada previamente y opcionalmente indica el o los datos con los que deseas hacer match.
+Inicia el proceso indicando el `disclosure_template_id` de la plantilla creada (el que comienza con `dtpl_...`) previamente y opcionalmente indica el o los datos con los que deseas hacer match.
 Puedes revisar más detalles en la [documentación de la API](../../api/resources/schemas/disclosurerequest.schema.mdx).
 
 ```json
@@ -154,100 +168,27 @@ Puedes revisar más detalles en la [documentación de la API](../../api/resource
 
 :::tip[Pro Tip]
     Si deseas hacer match de más de un dato, agrega más objetos al array `matchers`.
-    Considera que el match es exitoso si todos los datos coinciden.
-    En caso contrario, el proceso de disclosure no se completará.
+    Considera que el match es exitoso **si todos los datos coinciden**.
+    En caso contrario, el proceso de disclosure **no se completará**.
 :::
 
-### 3. Inicia el proceso desde el front-end
+### 4. Inicia el proceso desde el front-end
 
 Inicia el proceso de entrega de datos y consentimiento desde el front-end de tu aplicación utilizando el SDK de Soyio.
 
 :::warning[Importante]
-Para soportar navegadores Safari, asegúrate de que el widget se inicialice solo a través de una interacción directa del usuario, como un clic, debido a las políticas de seguridad del navegador contra ventanas emergentes.
+Para **evitar que el navegador bloquee el popup**, asegúrate de que el widget se inicialice solo a través de una interacción directa del usuario, como un clic, debido a las políticas de seguridad del navegador contra ventanas emergentes. Revisa mas detalles en la documentación de nuestros SDKs.
 :::
 
-* Ejemplos para crear e iniciar el proceso directamente desde el front-end
-    <Tabs>
-        <TabItem value="web" label="SDK Web" default>
+#### Ejemplos
 
-            ```html
-            <button id="start-disclosure-request">Start disclosure request</button>
+A continuación te dejamos ejemplos de como incializar el flujo de disclosure en nuestros SDKs:
 
-            <script>
-                import { SoyioWidget } from "@soyio/soyio-widget";
+<Tabs>
 
-                // Configuracion
-                const widgetConfig = {
-                    request: "disclosure",
-                    configProps: {
-                        companyId: "<company id>",
-                        userReference: "<user identifier of company>",
-                        userEmail: "<user email>",
-                        templateId: "<template id>",
-                    },
-                    onEvent: (data) => console.log(data),
-                };
+    <TabItem value="web" label="SDK Web" default>
 
-                // Creación del widget
-                function initWidget() {
-                    new SoyioWidget(widgetConfig);
-                }
-
-                // Añade un escuchador de eventos al botón para inicializar el widget al hacer clic
-                document
-                    .getElementById("start-disclosure-request")
-                    .addEventListener("click", initWidget);
-            </script>
-            ```
-
-        </TabItem>
-        <TabItem value="mobile" label="SDK Mobile">
-
-            ```javascript
-            import { useSoyioAuth } from "@soyio/soyio-rn-sdk";
-
-            export default function App() {
-
-                // Configuración
-                const options = {
-                    companyId: "<company id>",
-                    uriScheme: "<company custom uri scheme>",
-                    userReference: "<company identifier of user>",
-                };
-
-                const disclosureParams = {
-                    templateId: "<template id>",
-                    userEmail: "<user email>",
-                };
-
-                const onEventChange = (event) => {
-                    console.log("Event:", event);
-                };
-
-                const { disclosure } = useSoyioAuth({ options, onEventChange });
-
-                // Inicia el proceso de entrega de datos y consentimiento
-                const initDisclosureRequest = () => {
-                    disclosure(disclosureParams);
-                };
-
-                // Botón para iniciar el proceso
-                return (
-                    <View>
-                    <Button title="Disclosure request" onPress={initDisclosureRequest} />
-                    </View>
-                );
-            }
-            ```
-        </TabItem>
-    </Tabs>
-
-* Ejemplos si en el paso anterior (paso 2) creaste el proceso desde el back-end
-
-    <Tabs>
-        <TabItem value="web" label="SDK Web" default>
-
-            ```html
+            ```html title="Disclosure request creado en backend"
             <button id="start-disclosure-request">Start disclosure request</button>
 
             <script>
@@ -274,10 +215,40 @@ Para soportar navegadores Safari, asegúrate de que el widget se inicialice solo
             </script>
             ```
 
+            ```html title="Disclosure request que se crea en frontend"
+            <button id="start-disclosure-request">Start disclosure request</button>
+
+        <script>
+            import { SoyioWidget } from "@soyio/soyio-widget";
+
+            // Configuracion
+            const widgetConfig = {
+                request: "disclosure",
+                configProps: {
+                    companyId: "<company id>",
+                    userReference: "<user identifier of company>",
+                    userEmail: "<user email>",
+                    templateId: "<template id>",
+                },
+                onEvent: (data) => console.log(data),
+            };
+
+            // Creación del widget
+            function initWidget() {
+                new SoyioWidget(widgetConfig);
+            }
+
+            // Añade un escuchador de eventos al botón para inicializar el widget al hacer clic
+            document
+                .getElementById("start-disclosure-request")
+                .addEventListener("click", initWidget);
+            </script>
+            ```
+
         </TabItem>
         <TabItem value="mobile" label="SDK Mobile">
 
-            ```javascript
+            ```javascript title="Disclosure request creado en backend"
             import { useSoyioAuth } from "@soyio/soyio-rn-sdk";
 
             export default function App() {
@@ -310,8 +281,45 @@ Para soportar navegadores Safari, asegúrate de que el widget se inicialice solo
                 );
             }
             ```
+
+            ```javascript title="Disclosure request que se crea en frontend"
+            import { useSoyioAuth } from "@soyio/soyio-rn-sdk";
+
+            export default function App() {
+
+            // Configuración
+            const options = {
+                companyId: "<company id>",
+                uriScheme: "<company custom uri scheme>",
+                userReference: "<company identifier of user>",
+            };
+
+            const disclosureParams = {
+                templateId: "<template id>",
+                userEmail: "<user email>",
+            };
+
+            const onEventChange = (event) => {
+                console.log("Event:", event);
+            };
+
+            const { disclosure } = useSoyioAuth({ options, onEventChange });
+
+            // Inicia el proceso de entrega de datos y consentimiento
+            const initDisclosureRequest = () => {
+                disclosure(disclosureParams);
+            };
+
+            // Botón para iniciar el proceso
+            return (
+                <View>
+                <Button title="Disclosure request" onPress={initDisclosureRequest} />
+                </View>
+            );
+            }
+            ```
         </TabItem>
-    </Tabs>
+</Tabs>
 
 :::info[Detalles]
 Para más detalles sobre la configuración revisa las instrucciones del `Readme` del respectivo SDK:
@@ -319,10 +327,11 @@ Para más detalles sobre la configuración revisa las instrucciones del `Readme`
 - [SDK Mobile](https://www.npmjs.com/package/@soyio/soyio-rn-sdk).
 :::
 
-### 4. Escucha los eventos en el front-end de tu aplicación
+### 5. Escucha los eventos en el front-end de tu aplicación
 
-Cuando el usuario complete el proceso exitosamente se emitirá un evento. También puedes escuchar otros eventos para mejorar la experiencia de usuario.
-En la siguiente tabla se detallan los eventos que puedes escuchar:
+A medida que el usuario completando el flujo se emitirán eventos, los cuales informarán sobre el estado del proceso, y dependiendo del caso, tu sistema deberá manejarlos. Cuando el usuario complete el proceso exitosamente se emitirá un evento de `DISCLOSURE_REQUEST_SUCCESSFUL`.
+
+A continuación te detallamos los eventos que puedes escuchar:
 
 <Tabs>
     <TabItem value="web" label="SDK Web" default>
@@ -349,130 +358,137 @@ Para más detalles sobre los eventos revisa las instrucciones del `Readme` del r
 - [SDK Mobile](https://www.npmjs.com/package/@soyio/soyio-rn-sdk).
 :::
 
-### 5. Escucha los eventos en el back-end de tu aplicación
+### 6. Escucha los eventos en el back-end de tu aplicación
 
-Cuando el usuario finaliza el proceso con éxito o si surge un problema, se generarán varios eventos.
-Los eventos más importantes son los relacionados con el `disclosure request`.
-Por ejemplo, el evento `disclosure_request.granted` proporciona el `identity_id` de la nueva identidad, información necesaria para el paso siguiente.
+Al igual que en el front, a medida que el usuario avanza en el flujo, se enviarán varios eventos mediante [webhooks](../../api/webhooks.md), que representan cambios en el estado del proceso y sus objetos asociados.
 
-* Disclosure request exitoso:
-    ```javascript
-    {
-        id: "evt_...",
-        name: "disclosure_request.granted",
-        payload: {
-            user_reference: "<user-reference>",
-            disclosure_request_id: "dreq_...",
-            identity_id: "id_..."
-        },
-        created_at: "<created_at>"
-    }
-    ```
+Los eventos relacionados al flujo principal son los relacionados al recurso de `disclosure request` y tienen el prefijo de `disclosure_request.`.
 
-* Disclosure request caducado:
 
-    ```javascript
-    {
-        id: "evt_...",
-        name: "disclosure_request.timed_out",
-        payload: {
-            user_reference: "<user-reference>",
-            disclosure_request_id: "dreq_...",
-        },
-        created_at: "<created_at>"
-    }
-    ```
+<Tabs>
+    <TabItem value="success" label="Disclosure request exitoso" default>
+        ```javascript
+        {
+            id: "evt_...",
+            name: "disclosure_request.granted",
+            payload: {
+                user_reference: "<user-reference>",
+                disclosure_request_id: "dreq_...",
+                identity_id: "id_..."
+            },
+            created_at: "<created_at>"
+        }
+        ```
+    </TabItem>
+    <TabItem value="timeout" label="Disclosure request caducado">
+        ```javascript
+        {
+            id: "evt_...",
+            name: "disclosure_request.timed_out",
+            payload: {
+                user_reference: "<user-reference>",
+                disclosure_request_id: "dreq_...",
+            },
+            created_at: "<created_at>"
+        }
+        ```
+    </TabItem>
+</Tabs>
 
-Puedes escuchar eventos del proceso de [verificación de identidad](../concepts/verification.md), que se lleva a cabo durante el disclosure, para obtener detalles adicionales sobre la validación y autenticación.
+El evento que determina que un disclosure **se ha terminado con éxito** es el de `disclosure_request.granted`. En el encontraras el `identity_id` de la identidad creada, con el cual podrás consultar la información de la identidad en el [endpoint de identidades](../../api/resources/get-identity.api.mdx).
+
+Adicionalmente, puedes escuchar eventos del proceso de [verificación de identidad](../concepts/verification.md), que se lleva a cabo durante el disclosure, para obtener detalles adicionales sobre la validación y autenticación.
+
 Estos eventos pueden incluir información sobre errores en el proceso de verificación, como fallos en la autenticación o problemas al validar datos de identidad.
+
 Además, siempre que se emita un evento `disclosure_request.granted`, también recibirás un evento correspondiente de validación o autenticación exitosa, lo que indica que el proceso ha concluido satisfactoriamente.
 
 <Tabs>
     <TabItem value="validation" label="Eventos de Validación" default>
-        * Validación exitosa:
 
-            ```javascript
-            {
-                id: "evt_...",
-                name: "validation_attempt.successful",
-                payload: {
-                    user_reference: "<user-reference>",
-                    validation_attempt_id: "va_...",
-                    identity_id: "id_..."
+
+        ```javascript title="Validación exitosa"
+        {
+            id: "evt_...",
+            name: "validation_attempt.successful",
+            payload: {
+                user_reference: "<user-reference>",
+                validation_attempt_id: "va_...",
+                identity_id: "id_..."
+            },
+            created_at: "<created_at>"
+        }
+        ```
+
+
+
+        ```javascript title="Validación fallida"
+        {
+            id: "evt_...",
+            name: "validation_attempt.failed",
+            payload: {
+                user_reference: "<user-reference>",
+                validation_attempt_id: "va_...",
+                error_reason: "passive_liveness_verification_not_passed",
+                errors_array: [
+                {
+                    code: "auth-XXX",
+                    type: "facial",
+                    message: "passive_liveness_verification_not_passed",
+                    detail: "La verificación de vivacidad pasiva no fue exitosa."
                 },
-                created_at: "<created_at>"
-            }
-            ```
-
-        * Validación fallida:
-
-            ```javascript
-            {
-                id: "evt_...",
-                name: "validation_attempt.failed",
-                payload: {
-                    user_reference: "<user-reference>",
-                    validation_attempt_id: "va_...",
-                    error_reason: "passive_liveness_verification_not_passed",
-                    errors_array: [
-                    {
-                        code: "auth-XXX",
-                        type: "facial",
-                        message: "passive_liveness_verification_not_passed",
-                        detail: "La verificación de vivacidad pasiva no fue exitosa."
-                    },
-                    ...
-                    ]
-                },
-                created_at: "<created_at>"
-            }
-            ```
+                ...
+                ]
+            },
+            created_at: "<created_at>"
+        }
+        ```
     </TabItem>
     <TabItem value="authentication" label="Eventos de Autenticación">
-        * Autenticación exitosa:
+        ```javascript title="Autenticación exitosa"
+        {
+            id: "evt_...",
+            name: "auth_attempt.successful",
+            payload: {
+                user_reference: "<user-reference>",
+                auth_attempt_id: "aa_...",
+                identity_id: "id_..."
+            },
+            created_at: "<created_at>"
+        }
+        ```
 
-            ```javascript
-            {
-                id: "evt_...",
-                name: "auth_attempt.successful",
-                payload: {
-                    user_reference: "<user-reference>",
-                    auth_attempt_id: "aa_...",
-                    identity_id: "id_..."
+
+
+        ```javascript title="Autenticación fallida"
+        {
+            id: "evt_...",
+            name: "auth_attempt.failed",
+            payload: {
+                user_reference: "<user-reference>",
+                auth_attempt_id: "aa_...",
+                error_reason: "passive_liveness_verification_not_passed",
+                errors_array: [
+                {
+                    code: "auth-XXX",
+                    type: "facial",
+                    message: "passive_liveness_verification_not_passed",
+                    detail: "La verificación de vivacidad pasiva no fue exitosa."
                 },
-                created_at: "<created_at>"
-            }
-            ```
-
-        * Autenticación fallida:
-
-            ```javascript
-            {
-                id: "evt_...",
-                name: "auth_attempt.failed",
-                payload: {
-                    user_reference: "<user-reference>",
-                    auth_attempt_id: "aa_...",
-                    error_reason: "passive_liveness_verification_not_passed",
-                    errors_array: [
-                    {
-                        code: "auth-XXX",
-                        type: "facial",
-                        message: "passive_liveness_verification_not_passed",
-                        detail: "La verificación de vivacidad pasiva no fue exitosa."
-                    },
-                    ...
-                    ]
-                },
-                created_at: "<created_at>"
-            }
-            ```
+                ...
+                ]
+            },
+            created_at: "<created_at>"
+        }
+        ```
     </TabItem>
 </Tabs>
 
-### 6. Consulta los datos de la identidad creada
+### 7. Consulta los datos de la identidad creada
 
 Utiliza el `identity_id` para consultar la identidad creada por tu usuario desde el [endpoint de identidades](../../api/resources/get-identity.api.mdx).
 
-#### Endpoint
-`GET /api/v1/identities/:identity_id`
+
+## Prueba tu integración
+
+Para probar tu integración, en ambiente de pruebas (Sandbox) puedes utilizar el parámetro `force_error` en el payload de la solicitud de disclosure, tanto en el backend como en el frontend. Por ejemplo, puedes simular una validación fallida pasando `force_error: "validation_error"`.
