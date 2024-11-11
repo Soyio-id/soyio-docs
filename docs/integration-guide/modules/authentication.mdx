@@ -1,3 +1,5 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 import SequenceDiagram from '../../../src/components/SequenceDiagram';
 
 # Autenticación (Authentication)
@@ -80,8 +82,193 @@ El flujo que integrarás es el siguiente:
 
 ## Paso a paso
 
-### 1. Crea un intento de autenticación
+### 1. Crea una solicitud de autenticación
+
+Cuando quieras que un usuario se autentique, realiza un POST request desde tu back-end al endpoint de autenticación de Soyio.
+Esto creará una solicitud de autenticación y obtendrás un `auth_attempt_id`, que utilizarás en el siguiente paso.
+
+#### Endpoint
+
+POST /api/v1/authentication_requests
+
+#### Ejemplo del Payload
+
+Especifica en el *payload* del *request* el `identity_id` de tu usuario.
+Puedes revisar más detalles en la documentación de la API.
+
+```json
+{
+  "identity_id": "id_...",
+  "user_reference": "<identificador de usuario de la empresa>",
+  "user_email": "<email del usuario>"
+}
+```
 
 ### 2. Inicia el proceso de autenticación
 
-### 3. Escucha los eventos
+Inicia el proceso de autenticación desde el front-end de tu aplicación utilizando el SDK de Soyio.
+
+:::warning[Importante]
+Para **evitar que el navegador bloquee el popup**, asegúrate de que el widget se inicialice solo a través de una interacción directa del usuario, como un clic, debido a las políticas de seguridad del navegador contra ventanas emergentes. Revisa mas detalles en la documentación de nuestros SDKs.
+:::
+
+#### Ejemplos
+
+A continuación te dejamos ejemplos de cómo inicializar el flujo de autenticación en nuestros SDKs:
+
+<Tabs>
+    <TabItem value="web" label="SDK Web" default>
+
+        ```html
+        <button id="start-authentication-request">Start authentication request</button>
+
+        <script>
+            import { SoyioWidget } from "@soyio/soyio-widget";
+
+            // Configuración
+            const widgetConfig = {
+                request: "authentication",
+                configProps: {
+                    authAttemptId: "<auth_attempt_id>",
+                },
+                onEvent: (data) => console.log(data)
+            };
+
+            // Creación del widget
+            function initWidget() {
+                new SoyioWidget(widgetConfig);
+            }
+
+            // Añade un escuchador de eventos al botón para inicializar el widget al hacer clic
+            document
+                .getElementById("start-authentication-request")
+                .addEventListener("click", initWidget);
+        </script>
+        ```
+    </TabItem>
+    <TabItem value="mobile" label="SDK Mobile">
+
+        ```javascript
+        import { useSoyioAuth } from "@soyio/soyio-rn-sdk";
+
+        export default function App() {
+
+            // Configuración
+            const options = {
+                uriScheme: "<company custom uri scheme>"
+            };
+
+            const authenticationParams = {
+                authAttemptId: "<auth_attempt_id>"
+            };
+
+            const onEventChange = (event) => {
+                console.log("Event:", event);
+            };
+
+            const { authenticate } = useSoyioAuth({ options, onEventChange });
+
+            // Inicia el proceso de autenticación
+            const initAuthenticationRequest = () => {
+                authenticate(authenticationParams);
+            };
+
+            // Botón para iniciar el proceso
+            return (
+                <View>
+                <Button title="Authentication request" onPress={initAuthenticationRequest} />
+                </View>
+            );
+        }
+        ```
+    </TabItem>
+</Tabs>
+
+:::info[Detalles]
+Para más detalles sobre la configuración revisa las instrucciones del `Readme` del respectivo SDK:
+- [SDK Web](https://www.npmjs.com/package/@soyio/soyio-widget).
+- [SDK Mobile](https://www.npmjs.com/package/@soyio/soyio-rn-sdk).
+:::
+
+### 3. Escucha los eventos en el front-end de tu aplicación
+
+A medida que el usuario complete el flujo, se emitirán eventos que informan sobre el estado del proceso y
+dependiendo del caso, tu sistema deberá manejarlos.
+Cuando el usuario complete el proceso exitosamente se emitirá un evento de `AUTH_SUCCESSFUL`.
+
+A continuación te detallamos los eventos que puedes escuchar:
+
+<Tabs>
+    <TabItem value="web" label="SDK Web" default>
+        | Evento | Descripción |
+        | --- | --- |
+        | `AUTH_SUCCESSFUL` | El usuario se autenticó exitosamente. |
+        | `AUTH_FAILED` | El usuario no se autenticó exitosamente. |
+        | `WIDGET_CLOSED` | El usuario cierra el popup de Soyio. |
+        | `WIDGET_OPENED` | El usuario abre el popup de Soyio. |
+        | `UNEXPECTED_ERROR` | Ocurrió un error inesperado en el proceso de autenticación. |
+    </TabItem>
+    <TabItem value="mobile" label="SDK Mobile">
+        | Evento | Descripción |
+        | --- | --- |
+        | `success` | El usuario se autenticó exitosamente. |
+        | `failure` | El usuario no se autenticó exitosamente. |
+        | `open` | El usuario abre el *webview*. |
+        | `cancel` | El usuario cierra el *webview*. |
+        | `error` | El usuario sale debido a un error. |
+    </TabItem>
+</Tabs>
+
+:::info[Detalles]
+Para más detalles sobre los eventos revisa las instrucciones del `Readme` del respectivo SDK:
+- [SDK Web](https://www.npmjs.com/package/@soyio/soyio-widget).
+- [SDK Mobile](https://www.npmjs.com/package/@soyio/soyio-rn-sdk).
+:::
+
+### 4. Escucha los eventos en el back-end de tu aplicación
+
+Cuando el usuario se autentique exitosamente se emitirá un evento `auth_attempt.successful`.
+Esto lo recibirás mediante el [webhook](../../api/webhooks.md) configurado en tu cuenta.
+
+#### Ejemplo
+
+```javascript title="Autenticación exitosa"
+{
+    id: "evt_...",
+    name: "auth_attempt.successful",
+    payload: {
+        user_reference: "<user-reference>",
+        auth_attempt_id: "aa_...",
+        identity_id: "id_..."
+    },
+    created_at: "<created_at>"
+}
+```
+
+```javascript title="Autenticación fallida"
+{
+    id: "evt_...",
+    name: "auth_attempt.failed",
+    payload: {
+        user_reference: "<user-reference>",
+        auth_attempt_id: "aa_...",
+        error_reason: "passive_liveness_verification_not_passed",
+        errors_array: [
+        {
+            code: "auth-XXX",
+            type: "facial",
+            message: "passive_liveness_verification_not_passed",
+            detail: "La verificación de vivacidad pasiva no fue exitosa."
+        },
+        ...
+        ]
+    },
+    created_at: "<created_at>"
+}
+```
+
+### 5. Prueba tu integración
+
+Para probar tu integración, en ambiente de pruebas (Sandbox) puedes utilizar el parámetro `force_error`
+en el payload de la solicitud de autenticación, tanto en el backend como en el frontend.
+Por ejemplo, puedes simular una autentiación fallida pasando `force_error: "authentication_error"`.
