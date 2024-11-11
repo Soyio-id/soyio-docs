@@ -12,7 +12,6 @@ const sidebar: SidebarsConfig = {
       type: 'doc',
       id: 'integration-guide/quickstart',
     },
-
     {
         type: 'category',
         label: 'Conceptos',
