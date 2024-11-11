@@ -1,9 +1,8 @@
-
 # Descripción General
 
-## Productos Soyio
+## Módulos Soyio
 
-Los productos de Soyio son servicios diseñados para integrarse fácilmente en su sitio web o aplicación. Estos servicios abarcan tres áreas principales:
+Los módulos de Soyio son servicios diseñados para integrarse fácilmente en su sitio web o aplicación. Estos módulos abarcan tres áreas principales:
 
 ### [Solicitudes de revelación de datos y consentimiento (Disclosure)](./disclosure.mdx).
 

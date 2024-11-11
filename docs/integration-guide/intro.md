@@ -9,7 +9,7 @@ Bienvenido a la guía de integración de Soyio. Esta documentación está diseñ
 A continuación encontrarás información detallada sobre:
 - Requisitos de tu sistema
 - Proceso de instalación y configuración inicial
-- Paso a paso para integrar los productos de Soyio
+- Paso a paso para integrar los [módulos de Soyio](../integration-guide/modules/overview.md)
 - Ejemplos de implementación
 - Mejores prácticas
 - Solución de problemas comunes

@@ -2,8 +2,8 @@
 
 Cuando estés listo para comenzar a utilizar Soyio en un ambiente productivo, deberás seguir estos pasos importantes.
 
-:::warning
-**IMPORTANTE**: En el ambiente de producción, todas las solicitudes y transacciones serán reales.
+:::warning[Importante]
+En el ambiente de producción, todas las solicitudes y transacciones **serán reales**.
 :::
 
 

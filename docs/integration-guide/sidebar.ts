@@ -1,9 +1,9 @@
 import type { SidebarsConfig } from '@docusaurus/plugin-content-docs';
 import conceptsSidebar from './concepts/sidebar';
-import productsSidebar from './products/sidebar';
+import modulesSidebar from './modules/sidebar';
 
 const sidebar: SidebarsConfig = {
-  integrationsidebar: [
+  integrationSidebar: [
     {
       type: 'doc',
       id: 'integration-guide/intro',
@@ -21,8 +21,8 @@ const sidebar: SidebarsConfig = {
     },
     {
         type: 'category',
-        label: 'Productos',
-        items: productsSidebar,
+        label: 'Módulos',
+        items: modulesSidebar,
         collapsed: false,
     },
     {
@@ -32,4 +32,4 @@ const sidebar: SidebarsConfig = {
   ],
 };
 
-export default sidebar.integrationsidebar;
+export default sidebar.integrationSidebar;

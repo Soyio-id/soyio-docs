@@ -731,7 +731,7 @@ components:
         verificados.
 
         ### Guias relacionadas
-        - [Revelación de datos y consentimiento](/docs/integration-guide/products/disclosure)
+        - [Revelación de datos y consentimiento](/docs/integration-guide/modules/disclosure)
         - [Verificación de identidad](/docs/integration-guide/concepts/verification)
 
       x-tags:
@@ -856,7 +856,7 @@ components:
         registrar el dispositivo.
 
         **Guias relacionadas**:
-        - [Autenticación de usuarios](/docs/integration-guide/products/authentication)
+        - [Autenticación de usuarios](/docs/integration-guide/modules/authentication)
         - [Verificación de identidad](/docs/integration-guide/concepts/verification)
       properties:
         id:
@@ -904,7 +904,7 @@ components:
         facial cuando el usuario por alguna razón no puede usar la llave de acceso.
 
         ### Guias relacionadas
-        - [Solicitudes de firma de documentos](/docs/integration-guide/products/signature)
+        - [Solicitudes de firma de documentos](/docs/integration-guide/modules/signature)
         - [Firma de documentos](/docs/integration-guide/concepts/signature)
       properties:
         id:
@@ -946,7 +946,7 @@ components:
         Estos obedecen a una serie de reglas de validación representadas por un template de validación.
 
         ### Guias relacionadas
-        - [Revelación de datos y consentimiento](/docs/integration-guide/products/disclosure)
+        - [Revelación de datos y consentimiento](/docs/integration-guide/modules/disclosure)
         - [Verificación de identidad](/docs/integration-guide/concepts/verification)
       properties:
         id:
@@ -1036,7 +1036,7 @@ components:
         y asegura que la firma sea válida y segura.
 
         ### Guias relacionadas
-        - [Solicitudes de firma de documentos](/docs/integration-guide/products/signature)
+        - [Solicitudes de firma de documentos](/docs/integration-guide/modules/signature)
       properties:
         id:
           type: string
