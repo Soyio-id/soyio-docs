@@ -1,17 +1,16 @@
 ---
 id: identity
 title: "Identity"
-description: "Representa una identidad de usuario en el sistema."
+description: "Los objetos de identidad permiten gestionar los datos de identidad de tus usuarios."
 hide_title: true
+hide_table_of_contents: true
 schema: true
+sample: {"id":"id_ma21KLsmaslopask912Aa2","email":"jonsnow@nightswatch.com","data":[{"key":"name","value":"Jon"}],"signed_documents":["sd_1B2M2Y8AsgTpgAmY7PhCfg"]}
 custom_edit_url: null
 ---
 
-import DiscriminatorTabs from "@theme/DiscriminatorTabs";
-import SchemaItem from "@theme/SchemaItem";
-import SchemaTabs from "@theme/SchemaTabs";
+import Schema from "@theme/Schema";
 import Heading from "@theme/Heading";
-import TabItem from "@theme/TabItem";
 
 <Heading
   as={"h1"}
@@ -22,104 +21,18 @@ import TabItem from "@theme/TabItem";
 
 
 
-Representa una identidad de usuario en el sistema.
+Los objetos de identidad permiten gestionar los datos de identidad de tus usuarios.
+Una identidad representa a un usuario verificado en el sistema y contiene toda la información
+validada sobre esa persona.
 
-<ul>
-  <SchemaItem
-    collapsible={false}
-    name={"id"}
-    required={false}
-    schemaName={"string"}
-    qualifierMessage={undefined}
-    schema={{"type":"string","description":"Identificador único de la identidad.","examples":["id_ma21KLsmaslopask912Aa2"]}}
-  >
-    
-  </SchemaItem><SchemaItem
-    collapsible={false}
-    name={"email"}
-    required={false}
-    schemaName={"string"}
-    qualifierMessage={undefined}
-    schema={{"type":"string","description":"Correo electrónico asociado a la identidad.","examples":["jonsnow@nightswatch.com"]}}
-  >
-    
-  </SchemaItem><SchemaItem
-    collapsible={true}
-    className={"schemaItem"}
-  >
-    <details
-      style={{}}
-      className={"openapi-markdown__details"}
-    >
-      <summary
-        style={{}}
-      >
-        <span
-          className={"openapi-schema__container"}
-        >
-          <strong
-            className={"openapi-schema__property"}
-          >
-            data
-          </strong><span
-            className={"openapi-schema__name"}
-          >
-             tag[]
-          </span>
-        </span>
-      </summary><div
-        style={{"marginLeft":"1rem"}}
-      >
-        <div
-          style={{"marginTop":".5rem","marginBottom":".5rem"}}
-        >
-          
-          
-          Colección de información adicional sobre la identidad en forma de pares clave-valor.
-          
-          
-        </div><li>
-          <div
-            style={{"fontSize":"var(--ifm-code-font-size)","opacity":"0.6","marginLeft":"-.5rem","paddingBottom":".5rem"}}
-          >
-            Array [
-          </div>
-        </li><SchemaItem
-          collapsible={false}
-          name={"key"}
-          required={false}
-          schemaName={"string"}
-          qualifierMessage={undefined}
-          schema={{"type":"string","description":"Clave o nombre del atributo de la identidad.","examples":["name"]}}
-        >
-          
-        </SchemaItem><SchemaItem
-          collapsible={false}
-          name={"value"}
-          required={false}
-          schemaName={"string"}
-          qualifierMessage={undefined}
-          schema={{"type":"string","description":"Valor asociado a la clave del atributo.","examples":["Jon"]}}
-        >
-          
-        </SchemaItem><li>
-          <div
-            style={{"fontSize":"var(--ifm-code-font-size)","opacity":"0.6","marginLeft":"-.5rem"}}
-          >
-            ]
-          </div>
-        </li>
-      </div>
-    </details>
-  </SchemaItem><SchemaItem
-    collapsible={false}
-    name={"signed_documents"}
-    required={false}
-    schemaName={"string[]"}
-    qualifierMessage={undefined}
-    schema={{"type":"array","description":"Lista de todos los `ids` de los documentos firmados por la identidad.","items":{"type":"string","description":"Identificador único del documento firmado.","examples":["sd_1B2M2Y8AsgTpgAmY7PhCfg"]}}}
-  >
-    
-  </SchemaItem>
-</ul>
+### Guias relacionadas
+- [Conceptos Generales](/docs/integration-guide/concepts/general-concepts)
+
+
+<Schema
+  schema={{"x-tags":["Identities"],"type":"object","description":"Los objetos de identidad permiten gestionar los datos de identidad de tus usuarios.\nUna identidad representa a un usuario verificado en el sistema y contiene toda la información\nvalidada sobre esa persona.\n\n### Guias relacionadas\n- [Conceptos Generales](/docs/integration-guide/concepts/general-concepts)\n","properties":{"id":{"type":"string","description":"Identificador único de la identidad.","example":"id_ma21KLsmaslopask912Aa2"},"email":{"type":"string","description":"Correo electrónico asociado a la identidad.","example":"jonsnow@nightswatch.com"},"data":{"type":"array","description":"Colección de información adicional sobre la identidad en forma de pares clave-valor.","items":{"type":"object","description":"Información detallada de un atributo específico de una identidad.","properties":{"key":{"type":"string","description":"Clave o nombre del atributo de la identidad.","example":"name"},"value":{"type":"string","description":"Valor asociado a la clave del atributo.","example":"Jon"}},"xml":{"name":"tag"},"title":"IdentityInformation"}},"signed_documents":{"type":"array","description":"Lista de todos los `ids` de los documentos firmados por la identidad.","items":{"type":"string","description":"Identificador único del documento firmado.","example":"sd_1B2M2Y8AsgTpgAmY7PhCfg"}}},"title":"Identity"}}
+  schemaType={"response"}
+>
+  
+</Schema>
             

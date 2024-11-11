@@ -1,17 +1,16 @@
 ---
 id: validationattempt
 title: "ValidationAttempt"
-description: "Descripción de un flujo de validación para una identidad."
+description: "Los intentos de validación representan los procesos de validación de identidades de los usuarios."
 hide_title: true
+hide_table_of_contents: true
 schema: true
+sample: {"id":"va_1B2M2Y8AsgTpgAmY7PhCfg","identity_email":"gus@polloshermanos.com","status":"pending","user_reference":"user_123","error_reason":"unknown_error","created_at":"2024-07-29T15:51:28.071Z"}
 custom_edit_url: null
 ---
 
-import DiscriminatorTabs from "@theme/DiscriminatorTabs";
-import SchemaItem from "@theme/SchemaItem";
-import SchemaTabs from "@theme/SchemaTabs";
+import Schema from "@theme/Schema";
 import Heading from "@theme/Heading";
-import TabItem from "@theme/TabItem";
 
 <Heading
   as={"h1"}
@@ -22,63 +21,18 @@ import TabItem from "@theme/TabItem";
 
 
 
-Descripción de un flujo de validación para una identidad.
+Los intentos de validación representan los procesos de validación de identidades de los usuarios.
+Estos obedecen a una serie de reglas de validación representadas por un template de validación.
 
-<ul>
-  <SchemaItem
-    collapsible={false}
-    name={"id"}
-    required={false}
-    schemaName={"string"}
-    qualifierMessage={undefined}
-    schema={{"type":"string","description":"Identificador único del flujo de validación.","examples":["vf_HkrLZ_I33CnY7hZW8QG4-w"]}}
-  >
-    
-  </SchemaItem><SchemaItem
-    collapsible={false}
-    name={"identity_email"}
-    required={false}
-    schemaName={"string"}
-    qualifierMessage={undefined}
-    schema={{"type":"string","description":"Correo electrónico de la identidad asociada al flujo.","examples":["gus@polloshermanos.com"]}}
-  >
-    
-  </SchemaItem><SchemaItem
-    collapsible={false}
-    name={"status"}
-    required={false}
-    schemaName={"string"}
-    qualifierMessage={"**Possible values:** [`pending`, `in_progress`, `successful`, `failed`]"}
-    schema={{"type":"string","enum":["pending","in_progress","successful","failed"],"description":"Estado actual del flujo de validación."}}
-  >
-    
-  </SchemaItem><SchemaItem
-    collapsible={false}
-    name={"user_reference"}
-    required={false}
-    schemaName={["string","null"]}
-    qualifierMessage={undefined}
-    schema={{"type":["string","null"],"description":"Referencia de usuario de tu sistema para el flujo de validación. Campo opcional.","examples":["nAjjJ11lOokanasyk12LmX8l"]}}
-  >
-    
-  </SchemaItem><SchemaItem
-    collapsible={false}
-    name={"error_reason"}
-    required={false}
-    schemaName={["null","string"]}
-    qualifierMessage={"**Possible values:** [`unknown_error`, `document_validation_error`, `facial_validation_error`, `expiration_error`]"}
-    schema={{"type":["null","string"],"enum":["unknown_error","document_validation_error","facial_validation_error","expiration_error"],"description":"Motivo del error, si el flujo no fue exitoso. Campo opcional."}}
-  >
-    
-  </SchemaItem><SchemaItem
-    collapsible={false}
-    name={"created_at"}
-    required={false}
-    schemaName={"date-time"}
-    qualifierMessage={undefined}
-    schema={{"type":"string","format":"date-time","description":"Fecha y hora de creación del flujo de validación."}}
-  >
-    
-  </SchemaItem>
-</ul>
+### Guias relacionadas
+- [Revelación de datos y consentimiento](/docs/integration-guide/products/disclosure)
+- [Verificación de identidad](/docs/integration-guide/concepts/verification)
+
+
+<Schema
+  schema={{"x-tags":["Validation attempts"],"type":"object","description":"Los intentos de validación representan los procesos de validación de identidades de los usuarios.\nEstos obedecen a una serie de reglas de validación representadas por un template de validación.\n\n### Guias relacionadas\n- [Revelación de datos y consentimiento](/docs/integration-guide/products/disclosure)\n- [Verificación de identidad](/docs/integration-guide/concepts/verification)\n","properties":{"id":{"type":"string","description":"Identificador único del flujo de validación.","example":"va_1B2M2Y8AsgTpgAmY7PhCfg"},"identity_email":{"type":"string","description":"Correo electrónico de la identidad asociada al flujo.","example":"gus@polloshermanos.com"},"status":{"type":"string","enum":["pending","in_progress","successful","failed"],"description":"Estado actual del flujo de validación."},"user_reference":{"type":["string","null"],"description":"Referencia de usuario de tu sistema para el flujo de validación.","example":"user_123"},"error_reason":{"type":["null","string"],"enum":["unknown_error","document_validation_error","facial_validation_error","expiration_error"],"description":"Motivo del error, si el flujo no fue exitoso. Campo opcional."},"created_at":{"type":"string","format":"date-time","description":"Fecha y hora de creación del flujo de validación."}},"title":"ValidationAttempt"}}
+  schemaType={"response"}
+>
+  
+</Schema>
             

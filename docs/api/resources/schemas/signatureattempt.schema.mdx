@@ -1,17 +1,16 @@
 ---
 id: signatureattempt
 title: "SignatureAttempt"
-description: "Registro de un intento de firma por parte de una identidad."
+description: "Representan los intentos de los usuarios para firmar ciertos documentos, los cuales dependen del SignatureAttemptTemplate."
 hide_title: true
+hide_table_of_contents: true
 schema: true
+sample: {"id":"sa_1B2M2Y8AsgTpgAmY7PhCfg","identity_id":"id_ma21KLsmaslopask912Aa2","status":"awaiting_authentication","user_reference":"user_123","auth_type":"passkey_validation","created_at":"2024-07-29T15:51:28.071Z"}
 custom_edit_url: null
 ---
 
-import DiscriminatorTabs from "@theme/DiscriminatorTabs";
-import SchemaItem from "@theme/SchemaItem";
-import SchemaTabs from "@theme/SchemaTabs";
+import Schema from "@theme/Schema";
 import Heading from "@theme/Heading";
-import TabItem from "@theme/TabItem";
 
 <Heading
   as={"h1"}
@@ -22,63 +21,19 @@ import TabItem from "@theme/TabItem";
 
 
 
-Registro de un intento de firma por parte de una identidad.
+Representan los intentos de los usuarios para firmar ciertos documentos, los cuales dependen del SignatureAttemptTemplate.
+La firma puede realizarse por medio de llaves de acceso para cuando el usuario haya registrado una, o por medio de video
+facial cuando el usuario por alguna razón no puede usar la llave de acceso.
 
-<ul>
-  <SchemaItem
-    collapsible={false}
-    name={"id"}
-    required={false}
-    schemaName={"string"}
-    qualifierMessage={undefined}
-    schema={{"type":"string","description":"Identificador único del intento de firma.","examples":["sa_Kop19_kEe23i7hSw8QG4-a"]}}
-  >
-    
-  </SchemaItem><SchemaItem
-    collapsible={false}
-    name={"identity_id"}
-    required={false}
-    schemaName={"string"}
-    qualifierMessage={undefined}
-    schema={{"type":"string","description":"Identificador de la identidad que realiza el intento.","examples":["id_ma21KLsmaslopask912Aa2"]}}
-  >
-    
-  </SchemaItem><SchemaItem
-    collapsible={false}
-    name={"status"}
-    required={false}
-    schemaName={"string"}
-    qualifierMessage={"**Possible values:** [`awaiting_authentication`, `authenticating_by_video`, `authentication_failed`, `successful`]"}
-    schema={{"type":"string","enum":["awaiting_authentication","authenticating_by_video","authentication_failed","successful"],"description":"Estado actual del intento de firma."}}
-  >
-    
-  </SchemaItem><SchemaItem
-    collapsible={false}
-    name={"user_reference"}
-    required={false}
-    schemaName={"string"}
-    qualifierMessage={undefined}
-    schema={{"type":"string","description":"Referencia opcional proporcionada por el usuario para el intento de firma.","examples":["nAjjJ11lOokanasyk12LmX8l"]}}
-  >
-    
-  </SchemaItem><SchemaItem
-    collapsible={false}
-    name={"auth_type"}
-    required={false}
-    schemaName={"string"}
-    qualifierMessage={"**Possible values:** [`passkey_validation`, `facial_validation`]"}
-    schema={{"type":"string","enum":["passkey_validation","facial_validation"],"description":"Tipo de autenticación utilizada en el intento de firma. `passkey_validation` corresponde a cuando un usuario validó a través de una llave de acceso."}}
-  >
-    
-  </SchemaItem><SchemaItem
-    collapsible={false}
-    name={"created_at"}
-    required={false}
-    schemaName={"date-time"}
-    qualifierMessage={undefined}
-    schema={{"type":"string","format":"date-time","description":"Fecha y hora en que se creó el registro del intento de autenticación."}}
-  >
-    
-  </SchemaItem>
-</ul>
+### Guias relacionadas
+- [Solicitudes de firma de documentos](/docs/integration-guide/products/signature)
+- [Firma de documentos](/docs/integration-guide/concepts/signature)
+
+
+<Schema
+  schema={{"x-tags":["Signature attempts"],"type":"object","description":"Representan los intentos de los usuarios para firmar ciertos documentos, los cuales dependen del SignatureAttemptTemplate.\nLa firma puede realizarse por medio de llaves de acceso para cuando el usuario haya registrado una, o por medio de video\nfacial cuando el usuario por alguna razón no puede usar la llave de acceso.\n\n### Guias relacionadas\n- [Solicitudes de firma de documentos](/docs/integration-guide/products/signature)\n- [Firma de documentos](/docs/integration-guide/concepts/signature)\n","properties":{"id":{"type":"string","description":"Identificador único del intento de firma.","example":"sa_1B2M2Y8AsgTpgAmY7PhCfg"},"identity_id":{"type":"string","description":"Identificador de la identidad que realiza el intento.","example":"id_ma21KLsmaslopask912Aa2"},"status":{"type":"string","enum":["awaiting_authentication","authenticating_by_video","authentication_failed","successful"],"description":"Estado actual del intento de firma."},"user_reference":{"type":"string","description":"Referencia de usuario de tu sistema para el intento de firma.","example":"user_123"},"auth_type":{"type":"string","enum":["passkey_validation","facial_validation"],"description":"Tipo de autenticación utilizada en el intento de firma. `passkey_validation` corresponde a cuando un usuario validó a través de una llave de acceso."},"created_at":{"type":"string","format":"date-time","description":"Fecha y hora en que se creó el registro del intento de autenticación."}},"title":"SignatureAttempt"}}
+  schemaType={"response"}
+>
+  
+</Schema>
             

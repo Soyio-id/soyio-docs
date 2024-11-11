@@ -3,8 +3,34 @@ import type { SidebarsConfig } from "@docusaurus/plugin-content-docs";
 const sidebar: SidebarsConfig = {
   apisidebar: [
     {
-      type: "doc",
-      id: "api/resources/soyio-api",
+      type: "category",
+      label: "Disclosure requests",
+      items: [
+        {
+          type: "doc",
+          id: "api/resources/schemas/disclosurerequest",
+          label: "El objeto DisclosureRequest",
+          className: "schema",
+        },
+        {
+          type: "doc",
+          id: "api/resources/index-disclosure-requests",
+          label: "Obtener todos los disclosure requests",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/create-disclosure-request",
+          label: "Crear un disclosure request",
+          className: "api-method post",
+        },
+        {
+          type: "doc",
+          id: "api/resources/get-disclosure-request",
+          label: "Obtener un disclosure request específico",
+          className: "api-method get",
+        },
+      ],
     },
     {
       type: "category",
