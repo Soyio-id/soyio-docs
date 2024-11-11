@@ -27,6 +27,9 @@ A cada documento firmado se adjunta un registro temporal que documenta todas las
 
 Además, se añaden marcas visuales a cada página del documento, incluyendo un timbre con el nombre verificado del usuario y un identificador único del documento. Estas marcas refuerzan la transparencia y facilitan la validación visual del documento.
 
+### Ejemplo de evidencia electrónica
+<img src="/img/audit_trail.png" alt="audit trail" width="70%"/>
+
 ## ¿Cuándo puedo utilizar la firma electrónica de Soyio?
 
 La firma electrónica de Soyio es válida legalmente para celebrar toda clase de actos y contratos, especialmente contratos entre privados.
