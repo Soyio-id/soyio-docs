@@ -39,7 +39,23 @@ Al finalizar el proceso de entrega de datos y consentimiento, se creará un [acu
 
 Opcionalmente, si el usuario creó una cuenta en tu sistema previamente y entregó datos de identificación, puedes incluir como parte del proceso que Soyio **verifique el match entre los datos verificados** que el usuario entrega en este proceso y la información almacenada en tu sistema. Si ocupas esta opción y el match no es exitoso, el **proceso concluye sin crear una identidad**.
 
-### Integración
+
+#### Flujo de estados
+
+El flujo de los estados del disclosure request está representado en el siguiente diagrama:
+
+<img src="/img/Diagrama Flujo Estados Disclosure.png" alt="disclosure flow" width="100%"/>
+
+- **Pending**: Es el estado inicial de la solicitud. El proceso está listo para comenzar pero aún no se ha iniciado
+- **Authenticating**: El usuario registrado está en proceso de Autenticación
+- **Awaiting Permissions**: El sistema está esperando que el usuario otorgue los consentimientos necesarios. Se muestran los permisos y datos que se solicitan al usuario
+- **Validating**: Se están validando los datos proporcionados por el usuario. Se verifica que la información cumpla con los requisitos establecidos
+- **Awaiting missing data**: Se requiere información adicional del usuario. El sistema espera que el usuario complete los datos faltantes
+- **Granted**: El proceso se ha completado exitosamente. Se han validado los datos y obtenido los consentimientos necesarios
+- **Timed Out**: La solicitud ha expirado por inactividad. El proceso no se completó dentro del tiempo establecido
+- **Failed**: La solicitud ha fallado por que los datos no hacen match. Este chequeo solo ocurre cuando se realiza un match de datos. El proceso no se completó exitosamente.
+
+## Integración
 
 El flujo que integrarás es el siguiente:
 
@@ -103,8 +119,7 @@ El flujo que integrarás es el siguiente:
   ]}
 />
 
-
-## Pre requisitos
+### Pre requisitos
 
 1. Tener el [SDK](../quickstart.mdx) instalado en tu sitio o aplicación.
 2. Tener un [Webhook](../../api/webhooks.md) configurado en tu cuenta.
