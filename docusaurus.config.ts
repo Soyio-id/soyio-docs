@@ -90,7 +90,7 @@ const config: Config = {
         },
         {
           label: 'Guías de usuario',
-          to: '/docs/user-guide/troubleshooting',
+          to: '/docs/user-guide/intro',
           sidebarId: 'userGuideSidebar',
           position: 'left',
         },

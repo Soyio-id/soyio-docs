@@ -1,4 +1,9 @@
-# Introducción
+---
+sidebar_position: 1
+title: Introducción
+---
+
+# Guías de integración
 
 <img src="/img/Welcome Banner.png" alt="welcome" width="100%"/>
 <br/>

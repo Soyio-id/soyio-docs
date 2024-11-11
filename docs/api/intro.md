@@ -1,4 +1,9 @@
-# Introducción
+---
+sidebar_position: 1
+title: Introducción
+---
+
+# Referencia de la API
 
 Bienvenido a la API de Soyio. A través de ella, podrás acceder a los distintos endpoints que te permitirán operar y obtener información de los recursos de la plataforma.
 
