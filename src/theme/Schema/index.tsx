@@ -108,9 +108,14 @@ const Summary: React.FC<SummaryProps> = ({
 interface SchemaProps {
   schema: SchemaObject;
   schemaType: 'request' | 'response';
+  defaultCollapsibleOpen?: boolean;
 }
 
-const AnyOneOf: React.FC<SchemaProps> = ({ schema, schemaType }) => {
+const AnyOneOf: React.FC<SchemaProps> = ({
+  schema,
+  schemaType,
+  defaultCollapsibleOpen,
+}) => {
   const type = schema.oneOf ? 'oneOf' : 'anyOf';
   return (
     <>
@@ -167,30 +172,35 @@ const AnyOneOf: React.FC<SchemaProps> = ({ schema, schemaType }) => {
                 <Properties
                   schema={anyOneSchema}
                   schemaType={schemaType}
+                  defaultCollapsibleOpen={defaultCollapsibleOpen}
                 />
               )}
               {anyOneSchema.allOf && (
                 <SchemaNode
                   schema={anyOneSchema}
                   schemaType={schemaType}
+                  defaultCollapsibleOpen={defaultCollapsibleOpen}
                 />
               )}
               {anyOneSchema.oneOf && (
                 <SchemaNode
                   schema={anyOneSchema}
                   schemaType={schemaType}
+                  defaultCollapsibleOpen={defaultCollapsibleOpen}
                 />
               )}
               {anyOneSchema.anyOf && (
                 <SchemaNode
                   schema={anyOneSchema}
                   schemaType={schemaType}
+                  defaultCollapsibleOpen={defaultCollapsibleOpen}
                 />
               )}
               {anyOneSchema.items && (
                 <Items
                   schema={anyOneSchema}
                   schemaType={schemaType}
+                  defaultCollapsibleOpen={defaultCollapsibleOpen}
                 />
               )}
             </TabItem>
@@ -201,7 +211,11 @@ const AnyOneOf: React.FC<SchemaProps> = ({ schema, schemaType }) => {
   );
 };
 
-const Properties: React.FC<SchemaProps> = ({ schema, schemaType }) => {
+const Properties: React.FC<SchemaProps> = ({
+  schema,
+  schemaType,
+  defaultCollapsibleOpen,
+}) => {
   const discriminator = schema.discriminator;
   if (discriminator && !discriminator.mapping) {
     const anyOneOf = schema.oneOf ?? schema.anyOf ?? {};
@@ -245,6 +259,7 @@ const Properties: React.FC<SchemaProps> = ({ schema, schemaType }) => {
             }
             discriminator={discriminator}
             schemaType={schemaType}
+            defaultCollapsibleOpen={defaultCollapsibleOpen}
           />
         ),
       )}
@@ -259,6 +274,7 @@ const PropertyDiscriminator: React.FC<SchemaEdgeProps> = ({
   schemaType,
   discriminator,
   required,
+  defaultCollapsibleOpen,
 }) => {
   if (!schema) {
     return null;
@@ -297,6 +313,7 @@ const PropertyDiscriminator: React.FC<SchemaEdgeProps> = ({
                 <SchemaNode
                   schema={discriminator.mapping[key]}
                   schemaType={schemaType}
+                  defaultCollapsibleOpen={defaultCollapsibleOpen}
                 />
               </TabItem>
             ))}
@@ -318,6 +335,7 @@ const PropertyDiscriminator: React.FC<SchemaEdgeProps> = ({
                 }
                 discriminator={false}
                 schemaType={schemaType}
+                defaultCollapsibleOpen={defaultCollapsibleOpen}
               />
             ),
         )}
@@ -329,12 +347,14 @@ interface DiscriminatorNodeProps {
   discriminator: any;
   schema: SchemaObject;
   schemaType: 'request' | 'response';
+  defaultCollapsibleOpen?: boolean;
 }
 
 const DiscriminatorNode: React.FC<DiscriminatorNodeProps> = ({
   discriminator,
   schema,
   schemaType,
+  defaultCollapsibleOpen,
 }) => {
   let discriminatedSchemas: any = {};
   const inferredMapping: any = {};
@@ -400,6 +420,7 @@ const DiscriminatorNode: React.FC<DiscriminatorNodeProps> = ({
           ? schema.required.includes(name)
           : schema.required
       }
+      defaultCollapsibleOpen={defaultCollapsibleOpen}
     />
   );
 };
@@ -407,6 +428,7 @@ const DiscriminatorNode: React.FC<DiscriminatorNodeProps> = ({
 const AdditionalProperties: React.FC<SchemaProps> = ({
   schema,
   schemaType,
+  defaultCollapsibleOpen,
 }) => {
   const additionalProperties = schema.additionalProperties;
 
@@ -447,6 +469,7 @@ const AdditionalProperties: React.FC<SchemaProps> = ({
         nullable={schema.nullable}
         schema={additionalProperties}
         schemaType={schemaType}
+        defaultCollapsibleOpen={defaultCollapsibleOpen}
       />
     );
   }
@@ -484,11 +507,13 @@ const SchemaNodeDetails: React.FC<SchemaEdgeProps> = ({
   schema,
   required,
   schemaType,
+  defaultCollapsibleOpen,
 }) => {
   return (
     <SchemaItem collapsible={true}>
       <Details
         className="openapi-markdown__details"
+        open={defaultCollapsibleOpen}
         summary={
           <Summary
             name={name}
@@ -506,6 +531,7 @@ const SchemaNodeDetails: React.FC<SchemaEdgeProps> = ({
           <SchemaNode
             schema={schema}
             schemaType={schemaType}
+            defaultCollapsibleOpen={defaultCollapsibleOpen}
           />
         </div>
       </Details>
@@ -516,7 +542,8 @@ const SchemaNodeDetails: React.FC<SchemaEdgeProps> = ({
 const Items: React.FC<{
   schema: any;
   schemaType: 'request' | 'response';
-}> = ({ schema, schemaType }) => {
+  defaultCollapsibleOpen?: boolean;
+}> = ({ schema, schemaType, defaultCollapsibleOpen }) => {
   // Handles case when schema.items has properties
   if (schema.items?.properties) {
     return (
@@ -525,6 +552,7 @@ const Items: React.FC<{
         <Properties
           schema={schema.items}
           schemaType={schemaType}
+          defaultCollapsibleOpen={defaultCollapsibleOpen}
         />
         <ClosingArrayBracket />
       </>
@@ -539,6 +567,7 @@ const Items: React.FC<{
         <AdditionalProperties
           schema={schema.items}
           schemaType={schemaType}
+          defaultCollapsibleOpen={defaultCollapsibleOpen}
         />
         <ClosingArrayBracket />
       </>
@@ -553,6 +582,7 @@ const Items: React.FC<{
         <AnyOneOf
           schema={schema.items}
           schemaType={schemaType}
+          defaultCollapsibleOpen={defaultCollapsibleOpen}
         />
         <ClosingArrayBracket />
       </>
@@ -574,10 +604,12 @@ const Items: React.FC<{
           <AnyOneOf
             schema={mergedSchemas}
             schemaType={schemaType}
+            defaultCollapsibleOpen={defaultCollapsibleOpen}
           />
           <Properties
             schema={mergedSchemas}
             schemaType={schemaType}
+            defaultCollapsibleOpen={defaultCollapsibleOpen}
           />
           <ClosingArrayBracket />
         </>
@@ -592,6 +624,7 @@ const Items: React.FC<{
           <AnyOneOf
             schema={mergedSchemas}
             schemaType={schemaType}
+            defaultCollapsibleOpen={defaultCollapsibleOpen}
           />
           <ClosingArrayBracket />
         </>
@@ -606,6 +639,7 @@ const Items: React.FC<{
           <Properties
             schema={mergedSchemas}
             schemaType={schemaType}
+            defaultCollapsibleOpen={defaultCollapsibleOpen}
           />
           <ClosingArrayBracket />
         </>
@@ -653,6 +687,7 @@ const Items: React.FC<{
               ? schema.required.includes(key)
               : false
           }
+          defaultCollapsibleOpen={defaultCollapsibleOpen}
         />
       ))}
       <ClosingArrayBracket />
@@ -668,6 +703,7 @@ interface SchemaEdgeProps {
   nullable?: boolean | undefined;
   discriminator?: any;
   schemaType: 'request' | 'response';
+  defaultCollapsibleOpen?: boolean;
 }
 
 const SchemaEdge: React.FC<SchemaEdgeProps> = ({
@@ -676,6 +712,7 @@ const SchemaEdge: React.FC<SchemaEdgeProps> = ({
   required,
   discriminator,
   schemaType,
+  defaultCollapsibleOpen,
 }) => {
   if (
     (schemaType === 'request' && schema.readOnly) ||
@@ -695,6 +732,7 @@ const SchemaEdge: React.FC<SchemaEdgeProps> = ({
         schemaType={schemaType}
         discriminator={discriminator}
         required={required}
+        defaultCollapsibleOpen={defaultCollapsibleOpen}
       />
     );
   }
@@ -703,6 +741,7 @@ const SchemaEdge: React.FC<SchemaEdgeProps> = ({
     // return <AnyOneOf schema={schema} schemaType={schemaType} />;
     return (
       <SchemaNodeDetails
+        defaultCollapsibleOpen={defaultCollapsibleOpen}
         name={name}
         schemaName={schemaName}
         schemaType={schemaType}
@@ -716,6 +755,7 @@ const SchemaEdge: React.FC<SchemaEdgeProps> = ({
   if (schema.properties) {
     return (
       <SchemaNodeDetails
+        defaultCollapsibleOpen={defaultCollapsibleOpen}
         name={name}
         schemaName={schemaName}
         schemaType={schemaType}
@@ -729,6 +769,7 @@ const SchemaEdge: React.FC<SchemaEdgeProps> = ({
   if (schema.additionalProperties) {
     return (
       <SchemaNodeDetails
+        defaultCollapsibleOpen={defaultCollapsibleOpen}
         name={name}
         schemaName={schemaName}
         schemaType={schemaType}
@@ -742,6 +783,7 @@ const SchemaEdge: React.FC<SchemaEdgeProps> = ({
   if (schema.items?.properties) {
     return (
       <SchemaNodeDetails
+        defaultCollapsibleOpen={defaultCollapsibleOpen}
         name={name}
         schemaName={schemaName}
         required={required}
@@ -755,6 +797,7 @@ const SchemaEdge: React.FC<SchemaEdgeProps> = ({
   if (schema.items?.anyOf || schema.items?.oneOf) {
     return (
       <SchemaNodeDetails
+        defaultCollapsibleOpen={defaultCollapsibleOpen}
         name={name}
         schemaName={schemaName}
         required={required}
@@ -802,6 +845,7 @@ const SchemaEdge: React.FC<SchemaEdgeProps> = ({
     if (mergedSchemas.oneOf || mergedSchemas.anyOf) {
       return (
         <SchemaNodeDetails
+          defaultCollapsibleOpen={defaultCollapsibleOpen}
           name={name}
           schemaName={mergedSchemaName}
           required={
@@ -819,6 +863,7 @@ const SchemaEdge: React.FC<SchemaEdgeProps> = ({
     if (mergedSchemas.properties !== undefined) {
       return (
         <SchemaNodeDetails
+          defaultCollapsibleOpen={defaultCollapsibleOpen}
           name={name}
           schemaName={mergedSchemaName}
           required={
@@ -835,6 +880,7 @@ const SchemaEdge: React.FC<SchemaEdgeProps> = ({
 
     if (mergedSchemas.items?.properties) {
       <SchemaNodeDetails
+        defaultCollapsibleOpen={defaultCollapsibleOpen}
         name={name}
         schemaName={mergedSchemaName}
         required={
@@ -876,7 +922,11 @@ const SchemaEdge: React.FC<SchemaEdgeProps> = ({
   );
 };
 
-const SchemaNode: React.FC<SchemaProps> = ({ schema, schemaType }) => {
+const SchemaNode: React.FC<SchemaProps> = ({
+  schema,
+  schemaType,
+  defaultCollapsibleOpen,
+}) => {
   if (
     (schemaType === 'request' && schema.readOnly) ||
     (schemaType === 'response' && schema.writeOnly)
@@ -888,6 +938,7 @@ const SchemaNode: React.FC<SchemaProps> = ({ schema, schemaType }) => {
     const { discriminator } = schema;
     return (
       <DiscriminatorNode
+        defaultCollapsibleOpen={defaultCollapsibleOpen}
         discriminator={discriminator}
         schema={schema}
         schemaType={schemaType}
@@ -912,24 +963,28 @@ const SchemaNode: React.FC<SchemaProps> = ({ schema, schemaType }) => {
           <AnyOneOf
             schema={mergedSchemas}
             schemaType={schemaType}
+            defaultCollapsibleOpen={defaultCollapsibleOpen}
           />
         )}
         {mergedSchemas.anyOf && (
           <AnyOneOf
             schema={mergedSchemas}
             schemaType={schemaType}
+            defaultCollapsibleOpen={defaultCollapsibleOpen}
           />
         )}
         {mergedSchemas.properties && (
           <Properties
             schema={mergedSchemas}
             schemaType={schemaType}
+            defaultCollapsibleOpen={defaultCollapsibleOpen}
           />
         )}
         {mergedSchemas.items && (
           <Items
             schema={mergedSchemas}
             schemaType={schemaType}
+            defaultCollapsibleOpen={defaultCollapsibleOpen}
           />
         )}
       </div>
@@ -941,6 +996,7 @@ const SchemaNode: React.FC<SchemaProps> = ({ schema, schemaType }) => {
       <AnyOneOf
         schema={schema}
         schemaType={schemaType}
+        defaultCollapsibleOpen={defaultCollapsibleOpen}
       />
     );
   }
@@ -976,30 +1032,35 @@ const SchemaNode: React.FC<SchemaProps> = ({ schema, schemaType }) => {
         <AnyOneOf
           schema={schema}
           schemaType={schemaType}
+          defaultCollapsibleOpen={defaultCollapsibleOpen}
         />
       )}
       {schema.anyOf && (
         <AnyOneOf
           schema={schema}
           schemaType={schemaType}
+          defaultCollapsibleOpen={defaultCollapsibleOpen}
         />
       )}
       {schema.properties && (
         <Properties
           schema={schema}
           schemaType={schemaType}
+          defaultCollapsibleOpen={defaultCollapsibleOpen}
         />
       )}
       {schema.additionalProperties && (
         <AdditionalProperties
           schema={schema}
           schemaType={schemaType}
+          defaultCollapsibleOpen={defaultCollapsibleOpen}
         />
       )}
       {schema.items && (
         <Items
           schema={schema}
           schemaType={schemaType}
+          defaultCollapsibleOpen={defaultCollapsibleOpen}
         />
       )}
     </div>
