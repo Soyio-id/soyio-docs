@@ -12,13 +12,13 @@ test.describe.parallel('Basic Navigation', () => {
   test('Navigate to Integration Guides', async ({ page }) => {
     await page.locator('.navbar__item').getByText('Guías de Integración').click();
     await expect(page).toHaveURL(/\/docs\/integration-guide\/intro/);
-    await expect(page.getByRole('heading', { name: 'Introducción' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Guías de integración' })).toBeVisible();
   });
 
   test('Navigate to API Reference', async ({ page }) => {
     await page.locator('.navbar__item').getByText('Referencia de la API').click();
     await expect(page).toHaveURL(/\/docs\/api\/intro/);
-    await expect(page.getByRole('heading', { name: 'Introducción' })).toBeVisible();
+    await expect(page.getByText('Bienvenido a la API de Soyio')).toBeVisible();
   });
 
   test('Navigate to User Guides', async ({ page }) => {
