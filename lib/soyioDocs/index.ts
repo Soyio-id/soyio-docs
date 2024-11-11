@@ -10,6 +10,16 @@ function removeSidebarLabelFromFile(path: string) {
   writeFileSync(path, replacedContent);
 }
 
+function addDefaultCollapsibleOpenToFile(path: string) {
+  console.log(`Adding 'defaultCollapsibleOpen' to ${path}`);
+  const content = readFileSync(path, 'utf-8');
+  const replacedContent = content.replace(
+    /<Schema/m,
+    '<Schema\n\tdefaultCollapsibleOpen={true}',
+  );
+  writeFileSync(path, replacedContent);
+}
+
 async function spawnProcess(command: string, args: string[]) {
   const alias = [command, ...args].join(' ');
   console.log(`Executing '${alias}'`);
@@ -78,7 +88,10 @@ export default async function soyioDocsPlugin(
           const items = readdirSync(dir);
           const paths = items.map((item) => `./${dir}/${item}`);
 
-          paths.forEach((path) => removeSidebarLabelFromFile(path));
+          paths.forEach((path) => {
+            removeSidebarLabelFromFile(path);
+            addDefaultCollapsibleOpenToFile(path);
+          });
         });
     },
   };
