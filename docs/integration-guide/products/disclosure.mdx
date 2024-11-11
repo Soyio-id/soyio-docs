@@ -7,6 +7,10 @@ import SequenceDiagram from '../../../src/components/SequenceDiagram';
 Solicita a tus usuarios la revelación inicial de sus datos personales verificados al mismo tiempo que registras su consentimiento y creas una identidad en tu sistema.
 Este producto mejora tu proceso de onboarding para adaptarlo a las regulaciones más estrictas de protección de datos personales.
 
+:::tip[Verificación de Identidad]
+Este módulo incluye la verificación de identidad de tu usuario. Puedes leer más detalles de cómo Soyio realiza la verificación en nuestra [documentación sobre verificación de identidad](../concepts/verification.md).
+:::
+
 Este flujo comienza con la entrega de [consentimiento](../concepts/consent.md). El usuario verá los datos que estás solicitando y deberá confirmar su consentimiento para continuar.
 Luego, [verificará su identidad](../concepts/verification.md). Al completar este paso, se creará una identidad con los datos verificados, que podrás consultar utilizando la API de Soyio.
 Al finalizar el proceso de entrega de datos y consentimiento, se creará un [acuerdo (*Agreement*)](../concepts/agreement.md) y la evidencia asociada, que podrás utilizar para demostrar que el usuario otorgó su consentimiento libre, específico, inequívoco e informado.
