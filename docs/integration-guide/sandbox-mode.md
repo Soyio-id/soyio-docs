@@ -1,2 +1,0 @@
-
-# Modo de Pruebas (Sandbox)

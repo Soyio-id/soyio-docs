@@ -1,0 +1,119 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Inicio Rápido
+
+Esta guía te ayudará a comenzar con la integración de Soyio en tu aplicación. Soyio ofrece tres productos principales:
+
+- **Disclosure**: Revelación de datos y consentimiento
+- **Signature**: Firma de documentos
+- **Authentication**: Autenticación de usuarios
+
+## Pre-requisitos
+
+1. Una cuenta de Soyio. Si no tienes una cuenta, contacta a nuestro equipo a [soporte@soyio.id](mailto:soporte@soyio.id).
+2. Credenciales de API
+3. Un [Webhook](../api/webhooks.md) configurado en tu cuenta
+
+## Ambiente de pruebas
+
+Soyio proporciona un ambiente sandbox para desarrollo y pruebas, el cual puedes usar para probar tu integración antes de ir a producción.
+
+```bash
+Base URL: https://sandbox.soyio.id
+```
+
+
+:::info
+El ambiente de pruebas **no genera solicitudes reales**, por lo que no se generarán documentos firmados, consentimientos, ni se realizarán verificaciones de identidad reales.
+
+Revisa más información en nuestra guía de [sandbox](../api/sandbox-mode.mdx).
+:::
+
+## Instala el SDK
+
+Soyio proporciona SDKs para diferentes plataformas que facilitan la integración con nuestros servicios. Puedes instalar el SDK que mejor se adapte a tus necesidades usando npm:
+
+
+<Tabs>
+  <TabItem value="web" label="SDK Web">
+    ```bash
+    npm install @soyio/soyio-widget
+    ```
+  </TabItem>
+  <TabItem value="mobile" label="SDK Mobile">
+    ```bash
+    npm install @soyio/soyio-rn-sdk
+    ```
+  </TabItem>
+</Tabs>
+
+
+
+
+## Crea tu primera solicitud de Disclosure
+
+El siguiente ejemplo muestra cómo implementar una solicitud de revelación de datos hacia el usuario:
+
+1. Crea una solicitud de disclosure desde tu backend:
+
+```javascript
+const response = await fetch('https://sandbox.soyio.id/api/v1/disclosure_requests', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer YOUR_API_KEY'
+  },
+  body: JSON.stringify({
+    disclosure_template_id: "dtpl_...",
+    user_reference: "user_123",
+    user_email: "user@example.com"
+  })
+});
+const { disclosure_request_id } = await response.json();
+```
+
+
+2. Inicia el widget en tu frontend:
+
+```javascript
+import { SoyioWidget } from "@soyio/soyio-widget";
+const widgetConfig = {
+  request: "disclosure",
+  configProps: {
+    disclosureRequestId: disclosure_request_id
+  },
+  onEvent: (event) => {
+    switch(event.type) {
+      case 'DISCLOSURE_REQUEST_SUCCESSFUL':
+        console.log('¡Proceso completado!');
+        break;
+      case 'WIDGET_CLOSED':
+        console.log('Widget cerrado');
+        break;
+    }
+  }
+};
+new SoyioWidget(widgetConfig);
+```
+
+
+## Siguientes Pasos
+
+1. Explora la documentación detallada de nuestros productos:
+   - [Disclosure](./products/disclosure.mdx)
+   - [Signature](./products/signature.mdx)
+   - [Authentication](./products/authentication.mdx)
+
+2. Revisa los conceptos fundamentales:
+   - [Verificación de Identidad](./concepts/verification.md)
+   - [Consentimiento](./concepts/consent.md)
+   - [Agreements](./concepts/agreement.md)
+
+3. Consulta la [documentación de la API](../api/intro.md) para más detalles sobre los endpoints disponibles.
+
+## ¿Necesitas Ayuda?
+
+Si encuentras algún problema durante la integración, puedes:
+- Contactar a nuestro equipo de soporte vía correo electrónico a [soporte@soyio.id](mailto:soporte@soyio.id)
+- Consultar nuestros canales de Slack

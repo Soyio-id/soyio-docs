@@ -1,35 +1,31 @@
 # Introducción
 
-¿Así que quieres integrar Soyio? Estás en el **lugar correcto**. A continuación te contamos en esta documentación sobre lo necesario para poder integrarte a nuestra plataforma.
+<img src="/img/Welcome Banner.png" alt="welcome" width="100%"/>
+<br/>
+<br/>
 
-## Lo que necesitas
+Bienvenido a la guía de integración de Soyio. Esta documentación está diseñada para ayudarte a implementar y utilizar nuestro sistema de manera efectiva y eficiente.
 
-- Ganas
-- Talento (no tanto la verdad)
-- Paciencia (esperemos que no)
+A continuación encontrarás información detallada sobre:
+- Requisitos de tu sistema
+- Proceso de instalación y configuración inicial
+- Paso a paso para integrar los productos de Soyio
+- Ejemplos de implementación
+- Mejores prácticas
+- Solución de problemas comunes
 
-## Autenticación
+## Antes de Comenzar
 
-Soyio utiliza [Token Based Authentication](https://web.archive.org/web/20220629183322/https://www.w3.org/2001/sw/Europe/events/foaf-galway/papers/fp/token_based_authentication/) sobre HTTPS para la autenticación. Los request no autenticados retornarán una respuesta HTTP 401. Las llamadas sobre HTTP simple también fallarán.
+Asegúrate de tener una cuenta de Soyio y las credenciales necesarias para acceder a la API. Si no tienes una cuenta, ¿qué esperas? Contacta a nuestro equipo para obtener más información a [soporte@soyio.id](mailto:soporte@soyio.id).
 
-### **Header de autenticación**
+## Estructura de la Documentación
 
-Este tiene el siguiente formato:
+Esta documentación está organizada de manera progresiva, comenzando con los conceptos básicos y avanzando hacia características más complejas. Cada sección incluye ejemplos prácticos y casos de uso para facilitar tu comprensión.
 
-`Authorization: <api_token>`
+## ¿Necesitas Ayuda?
 
-Donde `api_token` es el asociado a tu cuenta.
+Si encuentras algún problema o tienes preguntas durante el proceso de integración, puedes:
+- Contacta a nuestro equipo de soporte via correo electrónico a [soporte@soyio.id](mailto:soporte@soyio.id) o via nuestros canales de Slack.
+- Visita nuestro [repositorio de GitHub](https://github.com/soyio-id/soyio-docs) para reportar errores o sugerencias.
 
-## Ambientes
-
-Para facilitar la integración, contamos las siguientes URLs:
-
-- `sandbox.soyio.id`: Corresponde al ambiente de **Sandbox**. Todo lo que hagas acá está asilado de producción y las validaciones son mocks.
-- `app.soyio.id`: Corresponde al ambiente de **Producción.**
-
-
-:::info[Pro Tip]
-
-Podrás acceder a ambas URLs con el mismo `api_token`
-
-:::
+**¡Comencemos con la integración!**

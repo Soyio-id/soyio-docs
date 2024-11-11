@@ -3,65 +3,11 @@ import SequenceDiagram from '../../src/components/SequenceDiagram';
 
 # Paginación y filtros
 
-Todos los recursos que retornen un arreglo o lista, soportan paginación, filtros y orden. Por defecto, los valores se ordenan por fecha de creación, donde los mas recientes se ubicarán primero en el arreglo.
+Todos los recursos que retornen un arreglo o lista, soportan paginación, filtros y orden. Por defecto, **los valores se ordenan por fecha de creación**, donde los mas recientes se ubicarán primero en el arreglo.
 
 ## Paginación
 
-La paginación se realiza definiendo el número de entradas por página a través del parámetro per_page y se navega mediante el parámetro page.
-
-<SequenceDiagram
-  actors={[
-    { id: 'client', label: 'Client' },
-    { id: 'server', label: 'Server' },
-    { id: 'api', label: 'API' },
-    { id: 'checkout', label: 'Checkout' },
-  ]}
-  actions={[
-    {
-      from: 'client',
-      to: 'server',
-      label: 'Send order information'
-    },
-    {
-      from: 'server',
-      to: 'api',
-      label: 'Create Checkout Session'
-    },
-    {
-      from: 'api',
-      to: 'server',
-      label: 'Return Checkout Session'
-    },
-    {
-      from: 'server',
-      to: 'checkout',
-      label: 'Redirect customer to `url` from Checkout Session'
-    },
-    {
-      from: 'server',
-      to: 'client',
-      label: 'Hola!'
-    },
-    {
-      from: 'checkout',
-      to: 'checkout',
-      label: 'Customer completes payment',
-    },
-    {
-      from: 'checkout',
-      to: 'client',
-      label: 'Customer returns to your application'
-    },
-    {
-      from: 'api',
-      to: 'server',
-      label: 'Handle fulfillment',
-      isDashed: true,
-      webhook: 'disclosure.created'
-    }
-  ]}
-/>
-
+La paginación se realiza definiendo el número de entradas por página a través del parámetro `per_page` y se navega mediante el parámetro `page`.
 
 Por ejemplo, para obtener la segunda página desplegando 20 entradas por página:
 
@@ -109,6 +55,7 @@ Ejemplo:
 ```
 
 ## Orden
+
 Se puede definir el orden de despligue de las entradas mediante el parámetro order_by. Este acepta un string con la siguiente estructura:
 
 `:atributo :orden`

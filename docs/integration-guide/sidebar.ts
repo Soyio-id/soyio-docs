@@ -12,14 +12,7 @@ const sidebar: SidebarsConfig = {
       type: 'doc',
       id: 'integration-guide/quickstart',
     },
-    {
-      type: 'doc',
-      id: 'integration-guide/sandbox-mode',
-    },
-    {
-      type: 'doc',
-      id: 'integration-guide/production',
-    },
+
     {
         type: 'category',
         label: 'Conceptos',
@@ -31,6 +24,10 @@ const sidebar: SidebarsConfig = {
         label: 'Productos',
         items: productsSidebar,
         collapsed: false,
+    },
+    {
+      type: 'doc',
+      id: 'integration-guide/production',
     },
   ],
 };
