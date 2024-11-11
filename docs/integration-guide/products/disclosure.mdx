@@ -7,8 +7,8 @@ import SequenceDiagram from '../../../src/components/SequenceDiagram';
 Solicita a tus usuarios la revelación inicial de sus datos personales verificados al mismo tiempo que registras su consentimiento y creas una identidad en tu sistema.
 Este producto mejora tu proceso de onboarding para adaptarlo a las regulaciones más estrictas de protección de datos personales.
 
-:::tip[Verificación de Identidad]
-Este módulo incluye la verificación de identidad de tu usuario. Puedes leer más detalles de cómo Soyio realiza la verificación en nuestra [documentación sobre verificación de identidad](../concepts/verification.md).
+:::tip[Pro Tip]
+Este módulo **incluye la verificación de identidad** de tu usuario. Puedes leer más detalles de cómo Soyio realiza la verificación en la [documentación sobre verificación de identidad](../concepts/verification.md).
 :::
 
 Este flujo comienza con la entrega de [consentimiento](../concepts/consent.md). El usuario verá los datos que estás solicitando y deberá confirmar su consentimiento para continuar.
@@ -106,7 +106,7 @@ Ejemplos de finalidades son:
 - **Cumplimiento legal:** Mantener registros conforme a las normativas y responder a solicitudes legales.
 - **Ciberseguridad:** protección contra accesos no autorizados o actividades fraudulentas.
 
-:::tip[Información]
+:::info[Información]
 Si tu empresa no tiene una definición específica en sus políticas contáctanos para ayudarte a determinarlas adecuadamente.
 Profundiza en estos conceptos revisando nuestra [documentación sobre consentimiento y finalidades](../concepts/consent.mdx).
 :::
@@ -115,11 +115,16 @@ Profundiza en estos conceptos revisando nuestra [documentación sobre consentimi
 
 Soyio soporta dos formas de crear el proceso de entrega de datos y consentimiento (disclosure):
 
-- **Desde el front-end:** en esta opción debes configurar algunos parámetros e iniciar el flujo directamente desde el front-end de tu aplicación. Si deseas utilizar esta opción salta al paso 3.
-- **Desde el back-end:** en esta opción debes crear un Disclosure Request desde tu back-end. Esta opción soporta el match de datos verificados con los datos almacenados en tu sistema.
+- **Desde el back-end:** en esta opción debes crear un Disclosure Request desde tu back-end.
 
-:::info[Importante]
-    Si deseas crear el proceso directamente desde el front-end salta este paso y avanza al paso 3.
+:::tip[Pro Tip]
+    Crea la solicitud de disclosure desde el back-end si quieres utilizar la **funcionalidad de match de parámetros**. Esta funcionalidad te permite verificar que los datos entregados por el usuario coincidan con los datos almacenados en tu sistema.
+:::
+
+- **Desde el front-end:** en esta opción debes configurar algunos parámetros e iniciar el flujo directamente desde el front-end de tu aplicación.
+
+:::warning[Importante]
+    Si deseas crear el proceso directamente desde el front-end salta este paso y avanza directamente al paso 3.
 :::
 
 Para crear el proceso desde el backend realiza un `POST` *request* desde tu back-end al [*endpoint* de disclosure requests](../../api/resources/create-disclosure-request.api.mdx) de Soyio.
@@ -130,7 +135,8 @@ Esto creará una solicitud de disclosure y obtendrás un `disclosure_request_id`
 
 #### Ejemplo del Payload
 
-Inicia el proceso `template_id` de la plantilla creada previamente y opcionalmente indica el o los datos con los que deseas hacer match.
+Inicia el proceso indicando el `template_id` de la plantilla creada previamente y opcionalmente indica el o los datos con los que deseas hacer match.
+Puedes revisar más detalles en la [documentación de la API](../../api/resources/schemas/disclosurerequest.schema.mdx).
 
 ```json
 {
@@ -155,6 +161,10 @@ Inicia el proceso `template_id` de la plantilla creada previamente y opcionalmen
 ### 3. Inicia el proceso desde el front-end
 
 Inicia el proceso de entrega de datos y consentimiento desde el front-end de tu aplicación utilizando el SDK de Soyio.
+
+:::warning[Importante]
+Para soportar navegadores Safari, asegúrate de que el widget se inicialice solo a través de una interacción directa del usuario, como un clic, debido a las políticas de seguridad del navegador contra ventanas emergentes.
+:::
 
 * Ejemplos para crear e iniciar el proceso directamente desde el front-end
     <Tabs>
@@ -303,7 +313,7 @@ Inicia el proceso de entrega de datos y consentimiento desde el front-end de tu 
         </TabItem>
     </Tabs>
 
-:::tip[Tip]
+:::info[Detalles]
 Para más detalles sobre la configuración revisa las instrucciones del `Readme` del respectivo SDK:
 - [SDK Web](https://www.npmjs.com/package/@soyio/soyio-widget).
 - [SDK Mobile](https://www.npmjs.com/package/@soyio/soyio-rn-sdk).
@@ -333,7 +343,7 @@ En la siguiente tabla se detallan los eventos que puedes escuchar:
     </TabItem>
 </Tabs>
 
-:::tip[Tip]
+:::info[Detalles]
 Para más detalles sobre los eventos revisa las instrucciones del `Readme` del respectivo SDK:
 - [SDK Web](https://www.npmjs.com/package/@soyio/soyio-widget).
 - [SDK Mobile](https://www.npmjs.com/package/@soyio/soyio-rn-sdk).
