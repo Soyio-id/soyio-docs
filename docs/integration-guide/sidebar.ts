@@ -13,10 +13,6 @@ const sidebar: SidebarsConfig = {
       id: 'integration-guide/quickstart',
     },
     {
-      type: 'doc',
-      id: 'integration-guide/production',
-    },
-    {
         type: 'category',
         label: 'Conceptos',
         items: conceptsSidebar,
