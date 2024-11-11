@@ -1,5 +1,6 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import SequenceDiagram from '../../../src/components/SequenceDiagram';
 
 # Revelación de datos y consentimiento (Disclosure)
 
@@ -15,6 +16,69 @@ puedes incluir como parte del proceso que Soyio verifique el match entre los dat
 Si ocupas esta opción y el match no es exitoso, el proceso concluye sin crear una identidad.
 
 Revisa la documentación sobre [verificación de identidad](../concepts/verification.md), [consentimiento](../concepts/consent.md) y [agreements](../concepts/agreement.md) para profundizar en las características de este producto y sus aplicaciones.
+
+El flujo que integrarás es el siguiente:
+
+<SequenceDiagram
+  actors={[
+    { id: 'frontend', label: 'Frontend' },
+    { id: 'backend', label: 'Backend' },
+    { id: 'soyio_api', label: 'Soyio API' },
+    { id: 'soyio_widget', label: 'Soyio Widget' },
+  ]}
+  actions={[
+    {
+      from: 'backend',
+      to: 'soyio_api',
+      label: 'Crear solicitud de revelación (opcional)'
+    },
+    {
+      from: 'soyio_api',
+      to: 'backend',
+      label: 'Retorna ID de disclosure request'
+    },
+    {
+      from: 'frontend',
+      to: 'soyio_widget',
+      label: 'Iniciar widget con configuración ó `disclosure_request_id`'
+    },
+    {
+      from: 'soyio_widget',
+      to: 'frontend',
+      label: 'Evento `WIDGET_OPENED`',
+      isDashed: true,
+    },
+    {
+      from: 'soyio_widget',
+      to: 'soyio_widget',
+      label: 'El usuario completa el flujo'
+    },
+    {
+      from: 'soyio_widget',
+      to: 'frontend',
+      label: 'Evento `DISCLOSURE_REQUEST_SUCCESSFUL`',
+      isDashed: true,
+    },
+    {
+      from: 'soyio_api',
+      to: 'backend',
+      label: 'Webhook: `disclosure_request.granted`',
+      isDashed: true,
+      webhook: 'disclosure_request.granted'
+    },
+    {
+      from: 'backend',
+      to: 'soyio_api',
+      label: 'Obtener datos de identidad'
+    },
+    {
+      from: 'soyio_api',
+      to: 'backend',
+      label: 'Retorna información de identidad'
+    }
+  ]}
+/>
+
 
 ## Pre requisitos
 

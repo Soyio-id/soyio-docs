@@ -15,7 +15,7 @@ export const DIAGRAM_CONSTANTS = {
 
   // Actor Related
   ACTOR: {
-    WIDTH: 200,
+    WIDTH: 400,
     FONT_SIZE: '18px',
     LINE_OPACITY: 0.6,
   },
@@ -43,7 +43,7 @@ export const DIAGRAM_CONSTANTS = {
   LAYOUT: {
     START_X: 50,
     START_Y: 100,
-    LANE_SPACING: 250,
+    LANE_SPACING: 300,
     MESSAGE_SPACING: 80,
   },
 

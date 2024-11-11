@@ -1,5 +1,6 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import SequenceDiagram from '../../../src/components/SequenceDiagram';
 
 # Firma de documentos (Signature)
 
@@ -12,6 +13,68 @@ Revisa [la documentación conceptual sobre firma electrónica](../concepts/signa
 :::info[Información]
 Por ahora, este servicio está disponible solo para el SDK Web.
 :::
+
+El flujo que integrarás es el siguiente:
+
+<SequenceDiagram
+  actors={[
+    { id: 'frontend', label: 'Frontend' },
+    { id: 'backend', label: 'Backend' },
+    { id: 'soyio_api', label: 'Soyio API' },
+    { id: 'soyio_widget', label: 'Soyio Widget' },
+  ]}
+  actions={[
+    {
+      from: 'backend',
+      to: 'soyio_api',
+      label: 'Crear intento de firma'
+    },
+    {
+      from: 'soyio_api',
+      to: 'backend',
+      label: 'Retorna ID de intento de firma'
+    },
+    {
+      from: 'frontend',
+      to: 'soyio_widget',
+      label: 'Iniciar widget con `signature_attempt_id`'
+    },
+    {
+      from: 'soyio_widget',
+      to: 'frontend',
+      label: 'Evento `WIDGET_OPENED`',
+      isDashed: true,
+    },
+    {
+      from: 'soyio_widget',
+      to: 'soyio_widget',
+      label: 'Usuario firma el documento y completa el flujo'
+    },
+    {
+      from: 'soyio_widget',
+      to: 'frontend',
+      label: 'Evento `IDENTITY_SIGNATURE`',
+      isDashed: true,
+    },
+    {
+      from: 'soyio_api',
+      to: 'backend',
+      label: 'Webhook: `signature_attempt.successful`',
+      isDashed: true,
+      webhook: 'signature_attempt.successful'
+    },
+    {
+      from: 'backend',
+      to: 'soyio_api',
+      label: 'Obtener documento firmado'
+    },
+    {
+      from: 'soyio_api',
+      to: 'backend',
+      label: 'Retorna documento firmado'
+    }
+  ]}
+/>
 
 ## Pre requisitos
 
@@ -127,7 +190,7 @@ Para más detalles de la configuración revisa las instrucciones del `Readme` de
 
 ### 5. Escucha los eventos en el back-end de tu aplicación
 
-Cuando el usuario complete el flujo se emitirá un evento `signature_attempt.successful` con el `signed_document_id` del documento firmado. 
+Cuando el usuario complete el flujo se emitirá un evento `signature_attempt.successful` con el `signed_document_id` del documento firmado.
 Esto lo recibirás mediante el [webhook](../../api/webhooks.md) configurado en tu cuenta.
 
 #### Ejemplo
