@@ -109,11 +109,15 @@ const config: Config = {
           items: [
             {
               label: 'Guía de integración',
-              to: '/docs/intro',
+              to: '/docs/integration-guide/intro',
             },
             {
               label: 'Referencia de la API',
-              to: '/api/',
+              to: '/docs/api/intro',
+            },
+            {
+              label: 'Guía de usuario',
+              to: '/docs/user-guide/intro',
             },
           ],
         },
