@@ -17,6 +17,27 @@ Soyio ofrece tres módulos principales:
 
 Además, Soyio registra el consentimiento y los almacena de manera segura para que puedas **ejercer tus derechos sobre tus datos**.
 
+
+### ¿Qué son las passkeys?
+
+Las passkeys son una alternativa moderna y segura a las contraseñas tradicionales. Son credenciales digitales que:
+
+- No requieren que memorices contraseñas complejas.
+- Son únicas para cada sitio web.
+- Están protegidas por la biometría de tu dispositivo (huella digital o reconocimiento facial).
+- No pueden ser robadas o phisheadas como las contraseñas tradicionales.
+
+### ¿Qué significa crearme una cuenta con Soyio?
+
+Crear una cuenta en Soyio te permite:
+- Almacenar de forma segura tus datos verificados.
+- Agilizar futuros procesos de verificación.
+- Evitar cargar tus documentos múltiples veces.
+- Autenticarte fácilmente usando tu passkey o biometría facial en futuros procesos.
+
+Una vez verificada tu identidad, podrás completar nuevos procesos en segundos sin necesidad de volver a subir documentación. Tu información está protegida y tú mantienes el control sobre qué datos compartir en cada caso.
+
+
 ## Verificación de Identidad
 
 ### ¿Qué necesito para verificar mi identidad?
@@ -47,6 +68,20 @@ Intenta nuevamente asegurándote de:
 - Tener buena iluminación
 - Mantener el documento estable
 - Usar una cámara de buena calidad
+
+### ¿Por qué no puedo elegir autenticarme?
+
+Esto puede ocurrir por dos razones principales:
+- Nunca has realizado una validación con Soyio.
+- Si ya hiciste una validación, no elegiste crear una cuenta, por lo que tus datos no quedaron almacenados para reutilizarlos.
+
+Para evitar esto en el futuro, te recomendamos crear una cuenta Soyio durante tu próxima verificación. Así podrás reutilizar tus datos verificados en futuros procesos.
+
+### ¿Qué significa que me faltan datos para validarme?
+
+Cada proceso de verificación puede requerir distintos tipos de datos. Si te aparece este mensaje, significa que:
+- El nuevo proceso requiere información adicional que no fue validada anteriormente.
+- Necesitas completar una verificación complementaria para obtener los datos faltantes.
 
 ## Privacidad y Seguridad
 
