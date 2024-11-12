@@ -3,7 +3,7 @@
 
 ### Persona identificable
 
-Toda persona natural que puedo determinar su identidad mediante [identificadores](./glossary.md#identificadores-personales).
+Toda persona natural que se puede determinar su identidad mediante [identificadores](./glossary.md#identificadores-personales).
 
 ### Identificadores personales
 

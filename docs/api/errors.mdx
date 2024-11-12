@@ -2,11 +2,11 @@ import SchemaItem from "@theme/SchemaItem";
 
 # Errores
 
-Soyio usa respuestas HTTP convencionales para indicar el éxito o fracaso de un request. En general,
+Soyio usa códigos de respuesta HTTP estándar para indicar el resultado de cada petición:
 
-- Códigos en el rango de los `2XX` indican éxito.
-- Códigos en el rango `4XX` indican problemas con el request por la información proporcionada (ej: un parámetro requerido fue omitido, una validación falló, etc.).
-- Códigos en el rango de los `5XX` indican un error desde el lado de Soyio (aunque estos son raros).
+- `2XX`: Éxito (ejemplo: 200 OK para una petición exitosa)
+- `4XX`: Error del cliente (ejemplo: 400 Bad Request para parámetros inválidos)
+- `5XX`: Error del servidor (ejemplo: 500 Internal Server Error)
 
 :::info
 Los mensajes de error usan un `Content-Type` de `application/problem+json`.
@@ -127,7 +127,7 @@ A continuación se describen los códigos de error HTTP que puedes recibir.
 | `403`<br/>*Forbidden* | No tienes permiso para ver esta página 🚫 |
 | `404`<br/>*Not Found* | El recurso especificado no fue encontrado 😔 |
 | `405`<br/>*Method Not Allowed* | Trataste de ingresar a un recurso con un método inválido |
-| `406`<br/>*Not Acceptable* | Solicistaste un formato que no es json 😣 |
+| `406`<br/>*Not Acceptable* | Solicitaste un formato que no es json 😣 |
 | `410`<br/>*Gone* | El recurso solicitado fue removido de nuestros servidores 🏃 |
 | `418` | Soy una tetera 😗☕️ |
 | `422`<br/>*Unprocessable Entity* | No podemos procesar tu solicitud, revísala. 👀️ |

@@ -15,6 +15,8 @@ Soyio ofrece tres módulos principales:
 - Firma de documentos (Signature)
 - Autenticación de usuarios (Authentication)
 
+Además, Soyio registra el consentimiento y los almacena de manera segura para que puedas **ejercer tus derechos sobre tus datos**.
+
 ## Verificación de Identidad
 
 ### ¿Qué necesito para verificar mi identidad?
@@ -24,7 +26,7 @@ Para verificar tu identidad necesitarás:
 - Buena iluminación para la captura de imágenes
 
 ### ¿Es seguro compartir mis datos personales?
-Sí. Soyio implementa estrictas medidas de seguridad y cumple con las normativas de protección de datos. Toda la información se maneja de forma encriptada y solo se comparte con las empresas que tú autorices específicamente.
+Sí. Soyio implementa estrictas medidas de seguridad y cumple con las normativas de protección de datos. Toda la información se maneja de forma encriptada y sólo se comparte con las empresas que tú autorices específicamente.
 
 ## Firma de Documentos
 
@@ -46,12 +48,6 @@ Intenta nuevamente asegurándote de:
 - Mantener el documento estable
 - Usar una cámara de buena calidad
 
-### ¿Qué hago si tengo problemas técnicos?
-Si encuentras problemas técnicos, puedes:
-- Contactar al soporte técnico en [soporte@soyio.id](mailto:soporte@soyio.id)
-- Consultar la documentación detallada
-- Verificar tu conexión a internet
-
 ## Privacidad y Seguridad
 
 ### ¿Cómo se protegen mis datos personales?
@@ -69,8 +65,7 @@ Solo las empresas que tú autorices específicamente pueden acceder a tu informa
 ### ¿Cómo puedo obtener ayuda adicional?
 Puedes obtener ayuda de varias formas:
 - Contactando al equipo de soporte vía email: [soporte@soyio.id](mailto:soporte@soyio.id)
-- Consultando la documentación detallada
-- A través de los canales de Slack de soporte
+- Consultando nuestras guías de usuario
 
 ### ¿Cuál es el horario de atención del soporte?
 Para información sobre horarios de atención y tiempos de respuesta, contacta a [soporte@soyio.id](mailto:soporte@soyio.id)
