@@ -408,6 +408,18 @@ Los eventos relacionados al flujo principal son los relacionados al recurso de `
         }
         ```
     </TabItem>
+    <TabItem value="error" label="Disclosure request fallido (error en el match)">
+        ```javascript
+        {
+            id: "evt_...",
+            name: "disclosure_request.failed",
+            payload: {
+                user_reference: "<user-reference>",
+                disclosure_request_id: "dreq_...",
+            },
+        }
+        ```
+    </TabItem>
 </Tabs>
 
 El evento que determina que un disclosure **se ha terminado con éxito** es el de `disclosure_request.granted`. En el encontraras el `identity_id` de la identidad creada, con el cual podrás consultar la información de la identidad en el [endpoint de identidades](../../api/resources/get-identity.api.mdx).
