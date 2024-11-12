@@ -5,7 +5,7 @@ title: Introducción
 
 # Referencia de la API
 
-<img src="/img/Welcome Banner - API.png" alt="welcome" width="100%"/>
+<img src="/img/welcome-banner-api.png" alt="welcome" width="100%"/>
 <br/>
 <br/>
 

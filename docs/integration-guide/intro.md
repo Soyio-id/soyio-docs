@@ -5,7 +5,7 @@ title: Introducción
 
 # Guías de integración
 
-<img src="/img/Welcome Banner.png" alt="welcome" width="100%"/>
+<img src="/img//img/welcome-banner-guide.png" alt="welcome" width="100%"/>
 <br/>
 <br/>
 
