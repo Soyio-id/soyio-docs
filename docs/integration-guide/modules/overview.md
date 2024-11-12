@@ -17,6 +17,6 @@ Este servicio garantiza un manejo transparente y seguro de la información del u
 
 El servicio de signature permite a tus usuarios firmar documentos digitalmente de manera segura y legal. Este proceso simplifica la autenticación de documentos y acuerdos en línea, mejorando la eficiencia en transacciones que requieren firma electrónica simple.
 
-### [Autenticación de usuarios](./authentication.md)
+### [Autenticación de usuarios](./authentication.mdx)
 
 El servicio de autenticación proporciona una capa adicional de seguridad para verificar la identidad de tus usuarios. Esto ayuda a proteger tanto a los usuarios como a tu empresa contra accesos no autorizados y fraudes.
