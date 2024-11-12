@@ -45,6 +45,15 @@ const config: Config = {
       } satisfies Preset.Options,
     ],
   ],
+  headTags: [
+    {
+      tagName: "link",
+      attributes: {
+        rel: "preconnect",
+        href: "https://fonts.googleapis.com",
+      },
+    },
+  ],
   plugins: [
     [
       'docusaurus-plugin-openapi-docs',
