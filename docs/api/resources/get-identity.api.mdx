@@ -1,0 +1,71 @@
+---
+id: get-identity
+title: "Obtener una identidad específica"
+description: "Obtener una identidad específica"
+sidebar_label: "Obtener una identidad específica"
+hide_title: true
+hide_table_of_contents: true
+api: eJyVVs1uHDcMfhWBuSTAeNc2CrSdU1w3CNy4aBAnBQLbcLgSvatYI41FzcbOYB6mD9BTbr36xQpqZtf71yS97I9E6SM/fiTVQsIpQ3kOJ4Z8sskSw2UBoaaIyQZ/YqCEKaVh+x4KqDFiRYminGvBY0VQgjVQgPVQQo1pBgUYYh1tLZdACSe/KkPKobL5IoNGoZo0rDFCAZFuGxvJQJliQwXQXe2CocVf1jOqEMoW0n0tYJyi9VPouks5y3XwTCz7h/v78rWO/YcEo+3DF6/ozqbACAXo4BP5JNZY187qHO74I8uRdhsyTD6SThJ+FHIyUWULdsFL2cLd3m4yN29Y9+40sJKtFFgoeuSnpljZRF5NicUWo3Jig1uWhlRqWDXcYLSBRxf+nV9lOlIdicknVKgavzBUc4r22mo0QZFX5BRbTlShuldCjyVPKgWDOW/+OsSqp/HCz9HJzag4TCIpYhR3OXgcXfgL/+TJE/WyscgqkkMtzhvkC7+nzo+D11RLCC/JU0RHfPl0bILmsfWJpr3s9qaNNTTWvTGPp73t3mLh2YXfkYpthWzJMHPSxxzVwz/e6rApzBGIALGqXa/rqwoPD16dcoXsQo188/PB4REeQlcAVWjdt1GPQ4wUFDnSKT58yaDIQVthHr8C/jF49uHTc2+ns8SfMOnZSIdKoA2mVXlijHi/A9iR7pUvgllJoUJjc17ckMK10iSvsqmcqjESK+1wTntzdCGKizZRxbuqY4PuVURDCZ0T0RgSFWKKdtKkoIhr0g9/Xw+5aPwGH+tpvqH772Bc3FVB+VBJcIbcI9xX0527WVfAHF1D38b5UwjZyGWmag1yHeK34KHrCrirsnSG/plwKrjJpmy06LcDgxlODrGdejJXJuimIp/4mxI4tZwy4ymYwLmDfLCGP2QapJEMNwVW1zZWKEZ1iFsUbWb8/xWYe8RZwKyTwubq4JfD3w/f/3TE07f19Kh6/+Pr2fG1NPkdtMhq3vhhV8Pvs2JIUbK3DSXpXvOHv5w1oSeRdBNz0z6X7m+vsqbOL2WcbIyOSZLOs67JFcHKJKkozcIwJvN4TDMoYWyXM2DcWtOBwMb5Ymo20UEJs5RqLsdjRm8m4W7E4d6GkTVjrO14fgBdsWmJdb1tdfkY0pnMrb5QloE9KqS2r2hbIi/4tqG+2LGRoWj1ULIVGYs+9TXZ6/ro9YmSggxxaOvD6CCvcUKfpQpygbHi4Ky2qTHEkutB50dNmoVoP/eSHp4MM0JDMedGmlR2ecj4mQQrqFtuiyeirDOKc+llgnuyOhPz0WHUo86jfmjYwBJAoucLKnPJU+T+5oPR/mhflurAqUK/UqbfI4g1N5fkJ7pL49qh9XJzzmo7iOUcHsUCBZTWyLNhFjjJXttOkOlddF0ny7cNxaxWaVLR4kRoOm/BWJbfBsprdExbbiwfPPD0zfDceqa+/izb6flCS16ENLRJgKLvyzKEu8uuWGRUHOs3jrQM7pUjW68ukfGyll6+eAsFYCP0rOr3Jut3+CG373RnU2S9C/IpFbXzSNv21dF1S/t+6z9PDCEuI5cIuq77F7n2+dE=
+sidebar_class_name: "get api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Obtener una identidad específica"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/identities/{id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Obtener una identidad específica
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"id","in":"path","description":"ID de la identidad a buscar","required":true,"explode":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Operación exitosa","content":{"application/json":{"schema":{"type":"object","properties":{"identity":{"x-tags":["Identities"],"type":"object","description":"Los objetos de identidad permiten gestionar los datos de identidad de tus usuarios.\nUna identidad representa a un usuario verificado en el sistema y contiene toda la información\nvalidada sobre esa persona.\n\n### Guias relacionadas\n- [Conceptos Generales](/docs/integration-guide/concepts/general-concepts)\n","properties":{"id":{"type":"string","description":"Identificador único de la identidad.","example":"id_ma21KLsmaslopask912Aa2"},"email":{"type":"string","description":"Correo electrónico asociado a la identidad.","example":"jonsnow@nightswatch.com"},"data":{"type":"array","description":"Colección de información adicional sobre la identidad en forma de pares clave-valor.","items":{"type":"object","description":"Información detallada de un atributo específico de una identidad.","properties":{"key":{"type":"string","description":"Clave o nombre del atributo de la identidad.","example":"name"},"value":{"type":"string","description":"Valor asociado a la clave del atributo.","example":"Jon"}},"xml":{"name":"tag"},"title":"IdentityInformation"}},"signed_documents":{"type":"array","description":"Lista de todos los `ids` de los documentos firmados por la identidad.","items":{"type":"string","description":"Identificador único del documento firmado.","example":"sd_1B2M2Y8AsgTpgAmY7PhCfg"}}},"title":"Identity"}}}}}},"400":{"description":"Valor de etiqueta inválido"}}}
+>
+  
+</StatusCodes>
+
+
+      

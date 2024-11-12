@@ -1,0 +1,39 @@
+---
+id: validationattempt
+title: "ValidationAttempt"
+description: "Los intentos de validación representan los procesos de validación de identidades de los usuarios."
+hide_title: true
+hide_table_of_contents: true
+schema: true
+sample: {"id":"va_1B2M2Y8AsgTpgAmY7PhCfg","identity_email":"gus@polloshermanos.com","status":"pending","user_reference":"user_123","error_reason":"unknown_error","created_at":"2024-07-29T15:51:28.071Z"}
+custom_edit_url: null
+---
+
+import Schema from "@theme/Schema";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"ValidationAttempt"}
+>
+</Heading>
+
+
+
+Los intentos de validación representan los procesos de validación de identidades de los usuarios.
+Estos obedecen a una serie de reglas de validación representadas por un template de validación.
+
+### Guias relacionadas
+- [Revelación de datos y consentimiento](/docs/integration-guide/modules/disclosure)
+- [Verificación de identidad](/docs/integration-guide/concepts/verification)
+
+
+<Schema
+	defaultCollapsibleOpen={true}
+  schema={{"x-tags":["Validation attempts"],"type":"object","description":"Los intentos de validación representan los procesos de validación de identidades de los usuarios.\nEstos obedecen a una serie de reglas de validación representadas por un template de validación.\n\n### Guias relacionadas\n- [Revelación de datos y consentimiento](/docs/integration-guide/modules/disclosure)\n- [Verificación de identidad](/docs/integration-guide/concepts/verification)\n","properties":{"id":{"type":"string","description":"Identificador único del flujo de validación.","example":"va_1B2M2Y8AsgTpgAmY7PhCfg"},"identity_email":{"type":"string","description":"Correo electrónico de la identidad asociada al flujo.","example":"gus@polloshermanos.com"},"status":{"type":"string","enum":["pending","in_progress","successful","failed"],"description":"Estado actual del flujo de validación."},"user_reference":{"type":["string","null"],"description":"Referencia de usuario de tu sistema para el flujo de validación.","example":"user_123"},"error_reason":{"type":["null","string"],"enum":["unknown_error","document_validation_error","facial_validation_error","expiration_error"],"description":"Motivo del error, si el flujo no fue exitoso. Campo opcional."},"created_at":{"type":"string","format":"date-time","description":"Fecha y hora de creación del flujo de validación."}},"title":"ValidationAttempt"}}
+  schemaType={"response"}
+>
+  
+</Schema>
+            

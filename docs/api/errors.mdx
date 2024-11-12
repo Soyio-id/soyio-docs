@@ -1,0 +1,136 @@
+import SchemaItem from "@theme/SchemaItem";
+
+# Errores
+
+Soyio usa códigos de respuesta HTTP estándar para indicar el resultado de cada petición:
+
+- `2XX`: Éxito (ejemplo: 200 OK para una petición exitosa)
+- `4XX`: Error del cliente (ejemplo: 400 Bad Request para parámetros inválidos)
+- `5XX`: Error del servidor (ejemplo: 500 Internal Server Error)
+
+:::info
+Los mensajes de error usan un `Content-Type` de `application/problem+json`.
+:::
+
+## Errores Generales
+
+El formato general del payload de error es el siguiente:
+
+<ul>
+  <SchemaItem
+    collapsible={false}
+    name={"type"}
+    schemaName={"string"}
+    qualifierMessage={"**Valores posibles:** [`api_error`, `authentication_error`, `invalid_request_error`, `rate_limit_error`]"}
+    schema={{"type":"string","enum":["api_error","authentication_error","invalid_request_error","rate_limit_error"],"description":"El tipo de error."}}
+  >
+  </SchemaItem>
+  <SchemaItem
+    collapsible={false}
+    name={"title"}
+    schemaName={"string"}
+    qualifierMessage={undefined}
+    schema={{"type":"string","description":"Resumen corto y legible del tipo de problema"}}
+  >
+  </SchemaItem>
+  <SchemaItem
+    collapsible={false}
+    name={"status"}
+    schemaName={"integer"}
+    qualifierMessage={undefined}
+    schema={{"type":"integer","description":"El código de estado HTTP generado por el servidor para esta ocurrencia del problema. Revisa los [códigos de error HTTP](#códigos-de-error-http)."}}
+  >
+  </SchemaItem>
+  <SchemaItem
+    collapsible={false}
+    name={"detail"}
+    schemaName={"integer"}
+    qualifierMessage={undefined}
+    schema={{"type":"integer","description":"Una explicación breve, legible y específica para esta ocurrencia del problema."}}
+  >
+  </SchemaItem>
+</ul>
+
+### Ejemplo
+
+```json
+{
+  "type": "authentication_error",
+  "title": "Authentication failed",
+  "status": 401,
+  "detail": "Invalid API key"
+}
+```
+
+## Errores de validación
+
+Corresponden a errores de validación (`422`) de los datos enviados en la request. Estos errores a diferencia de los generales, poseen un atributo `errors` que contiene la lista de errores asociados para contextualizar de mejor manera lo que necesita ser corregido. Estos siguen el siguiente formato:
+
+
+<ul>
+  <SchemaItem
+    collapsible={false}
+    name={"type"}
+    schemaName={"string"}
+    qualifierMessage={"**Valores posibles:** [`validation_error`]" }
+    schema={{"type":"string","enum":["validation_error"],"description":"El tipo de error."}}
+  >
+  </SchemaItem>
+  <SchemaItem
+    collapsible={false}
+    name={"title"}
+    schemaName={"string"}
+    qualifierMessage={undefined}
+    schema={{"type":"string","description":"Resumen corto y legible del tipo de problema"}}
+  >
+  </SchemaItem>
+  <SchemaItem
+    collapsible={false}
+    name={"status"}
+    schemaName={"integer"}
+    qualifierMessage={undefined}
+    schema={{"type":"integer","description":"El código de estado HTTP generado por el servidor para esta ocurrencia del problema. Revisa los [códigos de error HTTP](#códigos-de-error-http)."}}
+  >
+  </SchemaItem>
+  <SchemaItem
+    collapsible={false}
+    name={"errors"}
+    schemaName={"string[]"}
+    qualifierMessage={undefined}
+    schema={{"type":"string[]","description":"Una lista legible de errores de validación específicos."}}
+  >
+  </SchemaItem>
+</ul>
+
+### Ejemplo
+
+```json
+{
+  "type": "invalid_request_error",
+  "title": "Invalid request",
+  "status": 422,
+  "errors": [
+    "amount must be greater than 0",
+    "name is required"
+  ]
+}
+```
+
+## Códigos de error HTTP
+
+A continuación se describen los códigos de error HTTP que puedes recibir.
+
+| Error | Descripción |
+|-------|-------------|
+| `400`<br/>*Bad Request* | Hay un problema con tu request 🙈 |
+| `401`<br/>*Unauthorized* | Tu api key es incorrecta 🔐 |
+| `403`<br/>*Forbidden* | No tienes permiso para ver esta página 🚫 |
+| `404`<br/>*Not Found* | El recurso especificado no fue encontrado 😔 |
+| `405`<br/>*Method Not Allowed* | Trataste de ingresar a un recurso con un método inválido |
+| `406`<br/>*Not Acceptable* | Solicitaste un formato que no es json 😣 |
+| `410`<br/>*Gone* | El recurso solicitado fue removido de nuestros servidores 🏃 |
+| `418` | Soy una tetera 😗☕️ |
+| `422`<br/>*Unprocessable Entity* | No podemos procesar tu solicitud, revísala. 👀️ |
+| `429`<br/>*Too Many Requests* | Estas solicitando muchos recursos! Detente! ✋ |
+| `500`<br/>*Internal Server Error* | Tuvimos un problema con nuestro servidor. 😰 Inténtalo nuevamente mas tarde (estos son raros) |
+| `503`<br/>*Service Unavailable* | Estamos offline por mantenimiento. Inténtalo nuevamente mas tarde ‍👷🛠 |

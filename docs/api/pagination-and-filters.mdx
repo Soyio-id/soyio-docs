@@ -1,0 +1,114 @@
+import SchemaItem from "@theme/SchemaItem";
+import SequenceDiagram from '../../src/components/SequenceDiagram';
+
+# Paginación y filtros
+
+Todos los recursos que retornen un arreglo o lista, soportan paginación, filtros y orden. Por defecto, **los valores se ordenan por fecha de creación**, donde los mas recientes se ubicarán primero en el arreglo.
+
+## Paginación
+
+La paginación se realiza definiendo el número de entradas por página a través del parámetro `per_page` y se navega mediante el parámetro `page`. Por defecto, `page` tiene un valor de `1` y `per_page` tiene un valor de `20`.
+
+Por ejemplo, para obtener la segunda página desplegando 20 entradas por página:
+
+`GET /recurso&page=1&per_page=20`
+
+Para facilitar la navegación y el despliegue de número de páginas, en la respuesta existen los parámetros `page`, `per-page` y `total` que representan la página actual, la cantidad de entradas por página y el total de entradas respectivamente.
+
+Por ejemplo si `page = 2`, `per-page = 10` y `total = 45`, es fácil definir que se trata de 5 páginas en total.
+
+## Filtros
+
+El parámetro `where` acepta un hash para filtrar el contenido con respecto a una serie de reglas. La sintáxis corresponde a un objeto JSON de la siguiente manera:
+
+`{ ":atributo": { ":operador": ":variable" } }`
+
+:atributo pertenece a los atributos del recurso u objeto.
+:operador puede ser:
+- `<` menor a
+- `<=` menor o igual a
+- `>` mayor a
+- `>=` mayor o igual a
+- `=` igual a
+- `like` parecido a
+- `!` distinto a
+- `:variable` representa al valor con el cual se aplicará el operador
+
+:::tip
+
+Múltiples atributos y múltiples operadores por atributo son soportados.
+
+:::
+
+Ejemplo:
+
+```json
+{
+  "amount" : {
+    ">=" : 1000,
+    "<" : 8000
+  },
+  "status": {
+    "=": "successful"
+  }
+}
+```
+
+## Orden
+
+Se puede definir el orden de despligue de las entradas mediante el parámetro order_by. Este acepta un string con la siguiente estructura:
+
+`:atributo :orden`
+
+- `:atributo` pertenece a los atributos del recurso u objeto.
+- `:order` puede ser:
+  - `DESC` orden descendente
+  - `ASC` orden ascentente
+El órden sólo se puede aplicar sobre un argumento y no soporta órdenes anidados.
+
+Por ejemplo, si deseamos ordenar un recurso por fecha de creación de manera ascendente, realizamos: `created_at ASC`
+
+## Atributos
+
+<ul>
+  <SchemaItem
+    collapsible={false}
+    name={"page"}
+    required={false}
+    schemaName={"integer"}
+    qualifierMessage={undefined}
+    schema={{"type":"integer","description":"Número de página"}}
+  >
+
+  </SchemaItem>
+  <SchemaItem
+    collapsible={false}
+    name={"per_page"}
+    required={false}
+    schemaName={"integer"}
+    qualifierMessage={undefined}
+    schema={{"type":"integer","description":"Número de entradas por página"}}
+  >
+
+  </SchemaItem>
+  <SchemaItem
+    collapsible={false}
+    name={"where"}
+    required={false}
+    schemaName={"hash"}
+    qualifierMessage={undefined}
+    schema={{"type":"hash","description":"Corresponde a un conjunto de reglas (ej: {\"amount\": {\">\":2000}})"}}
+  >
+
+  </SchemaItem>
+  <SchemaItem
+    collapsible={false}
+    name={"order_by"}
+    required={false}
+    schemaName={"string"}
+    qualifierMessage={undefined}
+    schema={{"type":"string","description":"Orden de despliegue de las entradas"}}
+  >
+
+  </SchemaItem>
+</ul>

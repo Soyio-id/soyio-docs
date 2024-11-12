@@ -10,41 +10,194 @@ servers:
   - url: https://sandbox.soyio.id/api/v1
   - url: https://app.soyio.id/api/v1
 tags:
+  - name: Disclosure requests
+    description: |
+      Los disclosure requests representan el proceso en que una compañía solicita datos de una identidad verificada.
   - name: Identities
     description: Los objetos de identidad permiten gestionar los datos de identidad de tus usuarios.
-  - name: Validation flows
-    description: Los flujos de validación, representan los procesos de validación de identidades de los usuarios. Estos obedecen a una serie de reglas de validación representadas por un template de flujo de validación.
+  - name: Validation attempts
+    description: |
+      Los intentos de validación, representan los procesos de validación de identidades de los usuarios. Estos obedecen a una serie de reglas de validación representadas por un template de validación.
   - name: Auth attempts
-    description: >
+    description: |
       Los intentos de autenticación representan movimientos de una identidad al intentar autenticarse con tu sistema.
 
       El tipo de autenticación dependerá del registro del dispositivo de autenticación del usuario. En el caso de que un usuario no tenga su dispositivo de autenticación registrado, el tipo de validación será facial. En ese momento se le pedirá registrar el dispositivo.
+  - name: Signature attempts
+    description: |
+      Representan los intentos de los usuario para firmar ciertos documentos, los cuales dependen del SignatureAttemptTemplate. La firma puede realizarse por medio de llaves de acceso para cuando el usuario haya registrado una, o por medio de video facial cuando el usuario por alguna razón no puede usar la llave de acceso.
   - name: Events
-    description: >
-      Los eventos nos permiten comunicarte cambios relevantes en el sistema. Cuando ocurre un evento interesante, se crea un objeto evento. Por ejemplo, cuando se valida una identidad, se crea un evento `validation_flow.succeeded`; cuando una validación falla, se crea un objeto `validation_flow.failed`.
+    description: |
+      Los eventos nos permiten comunicarte cambios relevantes en el sistema. Cuando ocurre un evento interesante, se crea un objeto evento. Por ejemplo, cuando se valida una identidad, se crea un evento `validation_attempt.succeeded`; cuando una validación falla, se crea un objeto `validation_attempt.failed`.
 
       > Una llamada a la API **puede generar 1 o más eventos**.
 
 
       Los eventos pueden ser enviados directamente a tu servidor a través de la utilización de webhooks.
+  - name: Signed documents
+    description: |
+      Los documentos firmados son documentos digitales que han sido autenticados por los usuarios mediante su firma electrónica. Estos documentos pueden incluir contratos, acuerdos legales, y otros documentos importantes que requieren confirmación de identidad y consentimiento explícito del usuario.
+
+      La firma de estos documentos se gestiona a través del modelo `SignatureAttempt`, que verifica la identidad del usuario y asegura que la firma sea válida y segura.
 paths:
+  /disclosure_requests:
+    get:
+      tags:
+        - Disclosure requests
+      summary: Obtener todos los disclosure requests
+      operationId: indexDisclosureRequests
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
+        - name: where
+          in: query
+          description: Filtros en formato JSON
+          required: false
+          schema:
+            type: string
+          examples:
+            status_filter:
+              summary: Filtrar por estado
+              value: '{"status":{"=":"pending"}}'
+            date_filter:
+              summary: Filtrar por fecha de creación
+              value: '{"created_at":{">":"2024-01-01"}}'
+            combined_filter:
+              summary: Filtros combinados
+              value: '{"status":{"=":"pending"},"created_at":{">":"2024-01-01"}}'
+        - $ref: '#/components/parameters/OrderByParam'
+      responses:
+        "200":
+          description: Disclosure requests encontrados
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DisclosureRequestList"
+        "401":
+          description: No autorizado
+      security:
+        - api_key: []
+    post:
+      tags:
+        - Disclosure requests
+      summary: Crear un disclosure request
+      operationId: createDisclosureRequest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                disclosure_template_id:
+                  type: string
+                  description: Identificador del disclosure template.
+                  example: "dtpl_3D4O4A0CuiVriCnA9RjEhi"
+                user_reference:
+                  type: string
+                  description: Referencia de usuario de tu sistema para el disclosure request.
+                  example: "user_123"
+                user_email:
+                  type: string
+                  description: Correo electrónico del usuario para el disclosure request. Campo opcional
+                  example: "walter@white.com"
+                matchers:
+                  type: array
+                  description: Matchers del disclosure request. Campo opcional.
+                  items:
+                    type: object
+                    properties:
+                      key:
+                        type: string
+                        description: Clave del matcher.
+                        example: "rut"
+                      value:
+                        type: string
+                        description: Valor del matcher.
+                        example: "12.345.678-9"
+      responses:
+        "201":
+          description: Disclosure request creado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  disclosure_request:
+                    $ref: "#/components/schemas/DisclosureRequest"
+        "400":
+          description: Datos de entrada inválidos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+      security:
+        - api_key: []
+  /disclosure_requests/{id}:
+    get:
+      tags:
+        - Disclosure requests
+      summary: Obtener un disclosure request específico
+      operationId: getDisclosureRequest
+      parameters:
+        - name: id
+          in: path
+          description: Identificador único del disclosure request
+          required: true
+          explode: true
+          schema:
+            type: string
+          example: "dreq_1B2M2Y8AsgTpgAmY7PhCfg"
+      responses:
+        "200":
+          description: Disclosure request encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  disclosure_request:
+                    $ref: "#/components/schemas/DisclosureRequest"
+        "404":
+          description: No encontrado
+      security:
+        - api_key: []
   /identities:
     get:
       tags:
         - Identities
       summary: Obtener todas las identidades
-      description: Se pueden proporcionar varios valores de estado con cadenas separadas por comas
       operationId: indexIdentities
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
+        - name: where
+          in: query
+          description: Filtros en formato JSON
+          required: false
+          schema:
+            type: string
+          examples:
+            email_filter:
+              summary: Filtrar por email
+              value: '{"email":{"like":"@example.com"}}'
+            data_filter:
+              summary: Filtrar por datos personales
+              value: '{"data":{"name":{"=":"John"}}}'
+        - $ref: '#/components/parameters/OrderByParam'
       responses:
-        '200':
-          description: Operación exitosa
+        "200":
+          description: Identidades encontradas
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Identity'
-        '400':
+                $ref: "#/components/schemas/IdentityList"
+        "400":
           description: Valor de estado inválido
       security:
         - api_key: []
@@ -63,38 +216,116 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Operación exitosa
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Identity'
-        '400':
+                type: object
+                properties:
+                  identity:
+                    $ref: "#/components/schemas/Identity"
+        "400":
           description: Valor de etiqueta inválido
       security:
         - api_key: []
+  /validation_attempts:
+    get:
+      tags:
+        - Validation attempts
+      summary: Obtener todos los intentos de validación
+      operationId: indexValidationAttempts
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
+        - name: where
+          in: query
+          description: Filtros en formato JSON
+          required: false
+          schema:
+            type: string
+          examples:
+            status_filter:
+              summary: Filtrar por estado
+              value: '{"status":{"=":"successful"}}'
+            date_range:
+              summary: Filtrar por rango de fechas
+              value: '{"created_at":{">":"2024-01-01","<":"2024-12-31"}}'
+        - $ref: '#/components/parameters/OrderByParam'
+      responses:
+        "200":
+          description: Intentos de validación encontrados
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationAttemptList"
+        "401":
+          description: No autorizado
+  /validation_attempts/{id}:
+    get:
+      tags:
+        - Validation attempts
+      summary: Obtener un flujo de validación específico
+      description: Retorna un flujo de validación dado su ID.
+      operationId: getValidationAttempt
+      parameters:
+        - name: id
+          in: path
+          description: ID del flujo de validación a buscar
+          required: true
+          explode: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Flujo de validación encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  validation_attempt:
+                    $ref: "#/components/schemas/ValidationAttempt"
+        "404":
+          description: No encontrado
+        "401":
+          description: No autorizado
   /auth_attempts:
     get:
       tags:
-      - Auth attempts
+        - Auth attempts
       summary: Obtener todos los intentos de autenticación
-      description: Retorna una lista de intentos de autenticación. Los intentos se encuentran ordenados por defecto por la fecha de creación, donde las mas recientes aparecerán primero.
       operationId: indexAuthAttempts
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
+        - name: where
+          in: query
+          description: Filtros en formato JSON
+          required: false
+          schema:
+            type: string
+          examples:
+            status_filter:
+              summary: Filtrar por estado
+              value: '{"status":{"=":"successful"}}'
+            type_filter:
+              summary: Filtrar por tipo de autenticación
+              value: '{"auth_type":{"=":"passkey_validation"}}'
+        - $ref: '#/components/parameters/OrderByParam'
       responses:
-        '200':
+        "200":
           description: Intentos de autenticación encontrados
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/AuthAttempt'
-        '401':
+                $ref: "#/components/schemas/AuthAttemptList"
+        "401":
           description: No autorizado
   /auth_attempts/{id}:
     get:
       tags:
-      - Auth attempts
+        - Auth attempts
       summary: Obtener un intento de autenticación específico
       description: Retorna un intento de autenticación dado su ID.
       operationId: getAuthAttempt
@@ -107,82 +338,204 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Intento de autenticación encontrado
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AuthAttempt'
-        '404':
+                type: object
+                properties:
+                  auth_attempt:
+                    $ref: "#/components/schemas/AuthAttempt"
+        "404":
           description: No encontrado
-        '401':
+        "401":
           description: No autorizado
-  /validation_flows:
-    get:
+  /signature_attempts:
+    post:
       tags:
-      - Validation flows
-      summary: Obtener todos los flujos de validación
-      description: Retorna una lista de flujos de validación. Los flujos se encuentran ordenados por defecto por la fecha de creación, donde las mas recientes aparecerán primero.
-      operationId: indexValidationFlows
+        - Signature attempts
+      summary: Crear un intento de firma
+      description: |
+        Crea un nuevo intento de firma para un documento basado en un template específico.
+        Se deben proporcionar variables clave-valor dinámicas necesarias para el proceso de firma.
+      operationId: createSignatureAttempt
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                identity_id:
+                  type: string
+                  description: Identificador único de la identidad que realiza el intento de firma.
+                  example: "id_ma21KLsmaslopask912Aa2"
+                template_id:
+                  type: string
+                  description: Identificador del template de firma a utilizar.
+                  example: "st_9F42D8L0JQ7p82H"
+                variables:
+                  type: array
+                  description: Array de pares clave-valor que serán utilizados en el documento a firmar.
+                  items:
+                    type: object
+                    properties:
+                      key:
+                        type: string
+                        description: Nombre de la variable que se utilizará en el template de firma.
+                      value:
+                        type: string
+                        description: Valor asociado a la clave especificada.
+                  examples:
+                    [
+                      [
+                        {
+                          key: "first_variable_key",
+                          value: "first_variable_value",
+                        },
+                        {
+                          key: "second_variable_key",
+                          value: "second_variable_value",
+                        },
+                      ],
+                    ]
+              required:
+                - identity_id
+                - template_id
+                - variables
       responses:
-        '200':
-          description: Flujos de validación encontrados
+        "201":
+          description: Intento de firma creado exitosamente
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ValidationFlow'
-        '401':
+                type: object
+                properties:
+                  signature_attempt:
+                    $ref: "#/components/schemas/SignatureAttempt"
+        "400":
+          description: Datos de entrada inválidos, ya sea porque faltan variables, o se entregaron variables extra.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    description: Lista de mensajes de error describiendo los problemas con la solicitud.
+                    items:
+                      type: array
+                      items:
+                        type: string
+                    examples:
+                      [
+                        [
+                          "Missing key: <missing_example_key>",
+                          "Missing key: <another_missing_example_key>",
+                          "Key <extra_key> does not exist in the signature template",
+                        ],
+                      ]
+        "401":
           description: No autorizado
-  /validation_flows/{id}:
+      security:
+        - api_key: []
     get:
       tags:
-      - Validation flows
-      summary: Obtener un flujo de validación específico
-      description: Retorna un flujo de validación dado su ID.
-      operationId: getValidationFlow
+        - Signature attempts
+      summary: Obtener todos los intentos de firma
+      operationId: indexSignatureAttempts
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
+        - name: where
+          in: query
+          description: Filtros en formato JSON
+          required: false
+          schema:
+            type: string
+          examples:
+            status_filter:
+              summary: Filtrar por estado
+              value: '{"status":{"=":"successful"}}'
+            identity_filter:
+              summary: Filtrar por identidad
+              value: '{"identity_id":{"=":"id_ma21KLsmaslopask912Aa2"}}'
+        - $ref: '#/components/parameters/OrderByParam'
+      responses:
+        "200":
+          description: Intentos de firma encontrados
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignatureAttemptList"
+        "401":
+          description: No autorizado
+  /signature_attempts/{id}:
+    get:
+      tags:
+        - Signature attempts
+      summary: Obtener un intento de firma específico
+      description: Retorna un intento de firma dado su ID.
+      operationId: getSignatureAttempt
       parameters:
         - name: id
           in: path
-          description: ID del flujo de validación a buscar
+          description: ID del intento de firma a buscar
           required: true
           explode: true
           schema:
             type: string
       responses:
-        '200':
-          description: Flujo de validación encontrado
+        "200":
+          description: Intento de firma encontrado
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ValidationFlow'
-        '404':
+                type: object
+                properties:
+                  signature_attempt:
+                    $ref: "#/components/schemas/SignatureAttempt"
+        "404":
           description: No encontrado
-        '401':
+        "401":
           description: No autorizado
   /events:
     get:
       tags:
-      - Events
+        - Events
       summary: Obtener todos los eventos
-      description: Retorna una lista de eventos. Los eventos se encuentran ordenadas por defecto por la fecha de creación, donde las mas recientes aparecerán primero.
       operationId: indexEvents
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
+        - name: where
+          in: query
+          description: Filtros en formato JSON
+          required: false
+          schema:
+            type: string
+          examples:
+            event_name:
+              summary: Filtrar por nombre del evento
+              value: '{"name":{"=":"disclosure_request.granted"}}'
+            date_range:
+              summary: Filtrar por rango de fechas
+              value: '{"created_at":{">":"2024-01-01","<":"2024-12-31"}}'
+        - $ref: '#/components/parameters/OrderByParam'
       responses:
-        '200':
+        "200":
           description: Eventos encontrados
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Event'
-        '401':
+                $ref: "#/components/schemas/EventList"
+        "401":
           description: No autorizado
   /events/{id}:
     get:
       tags:
-      - Events
+        - Events
       summary: Obtener un evento específico
       description: Obtiene los detalles de un evento existente.
       operationId: getEvent
@@ -195,18 +548,255 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Evento encontrado
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Event'
-        '404':
+                type: object
+                properties:
+                  event:
+                    $ref: "#/components/schemas/Event"
+        "404":
           description: No encontrado
-        '401':
+        "401":
+          description: No autorizado
+  /signed_documents:
+    get:
+      tags:
+        - Signed documents
+      summary: Obtener todos los documentos firmados.
+      description: Retorna una lista de documentos firmados. Los documentod se encuentran ordenadas por defecto por la fecha de creación, donde las mas recientes aparecerán primero.
+      operationId: indexSignedDocuments
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
+        - name: where
+          in: query
+          description: Filtros en formato JSON
+          required: false
+          schema:
+            type: string
+          examples:
+            identity_filter:
+              summary: Filtrar por identidad
+              value: '{"identity_id":{"=":"id_ma21KLsmaslopask912Aa2"}}'
+            date_filter:
+              summary: Filtrar por fecha de firma
+              value: '{"created_at":{">":"2024-01-01"}}'
+        - $ref: '#/components/parameters/OrderByParam'
+      responses:
+        "200":
+          description: Documentos firmados encontrados
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedDocumentList"
+        "401":
+          description: No autorizado
+  /signed_documents/{id}:
+    get:
+      tags:
+        - Signed documents
+      summary: Obtener un documento firmado.
+      description: Obtiene los detalles de un documento firmado.
+      operationId: getSignedDocument
+      parameters:
+        - name: id
+          in: path
+          description: ID del documento firmado
+          required: true
+          explode: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Document firmado encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  event:
+                    $ref: "#/components/schemas/SignedDocument"
+        "404":
+          description: No encontrado
+        "401":
           description: No autorizado
 components:
   schemas:
+    FilterOrderAndPaginationMetadata:
+      type: object
+      properties:
+        page:
+          type: integer
+          description: Página actual
+          example: 1
+        per_page:
+          type: integer
+          description: Entradas por página
+          example: 20
+        total:
+          type: integer
+          description: Total de entradas
+          example: 45
+        order_by:
+          type: string
+          description: Orden de los resultados (ej. "created_at DESC")
+          example: "created_at DESC"
+        filters:
+          type: object
+          description: Filtros aplicados a la consulta
+          example: {"status": {"=": "pending"}}
+
+    DisclosureRequestList:
+      type: object
+      properties:
+        disclosure_requests:
+          type: array
+          items:
+            $ref: "#/components/schemas/DisclosureRequest"
+        metadata:
+          $ref: "#/components/schemas/FilterOrderAndPaginationMetadata"
+
+    IdentityList:
+      type: object
+      properties:
+        identities:
+          type: array
+          items:
+            $ref: "#/components/schemas/Identity"
+        metadata:
+          $ref: "#/components/schemas/FilterOrderAndPaginationMetadata"
+
+    ValidationAttemptList:
+      type: object
+      properties:
+        validation_attempts:
+          type: array
+          items:
+            $ref: "#/components/schemas/ValidationAttempt"
+        metadata:
+          $ref: "#/components/schemas/FilterOrderAndPaginationMetadata"
+
+    AuthAttemptList:
+      type: object
+      properties:
+        auth_attempts:
+          type: array
+          items:
+            $ref: "#/components/schemas/AuthAttempt"
+        metadata:
+          $ref: "#/components/schemas/FilterOrderAndPaginationMetadata"
+
+    SignatureAttemptList:
+      type: object
+      properties:
+        signature_attempts:
+          type: array
+          items:
+            $ref: "#/components/schemas/SignatureAttempt"
+        metadata:
+          $ref: "#/components/schemas/FilterOrderAndPaginationMetadata"
+
+    EventList:
+      type: object
+      properties:
+        events:
+          type: array
+          items:
+            $ref: "#/components/schemas/Event"
+        metadata:
+          $ref: "#/components/schemas/FilterOrderAndPaginationMetadata"
+
+    SignedDocumentList:
+      type: object
+      properties:
+        signed_documents:
+          type: array
+          items:
+            $ref: "#/components/schemas/SignedDocument"
+        metadata:
+          $ref: "#/components/schemas/FilterOrderAndPaginationMetadata"
+
+    DisclosureRequest:
+      description: |
+        Representa una solicitud de divulgación de datos en el sistema. Este proceso integral incluye:
+        - Verificación de identidad del usuario
+        - Registro del consentimiento
+        - Revelación de datos hacia la empresa solicitante
+
+        El proceso comienza con la entrega de consentimiento, donde el usuario verá los datos solicitados y deberá confirmar
+        su consentimiento. Luego, verificará su identidad y al completar este paso, se creará una identidad con los datos
+        verificados.
+
+        ### Guias relacionadas
+        - [Revelación de datos y consentimiento](/docs/integration-guide/modules/disclosure)
+        - [Verificación de identidad](/docs/integration-guide/concepts/verification)
+
+      x-tags:
+        - Disclosure requests
+      type: object
+      properties:
+        id:
+          type: string
+          description: Identificador único del disclosure request.
+          example: "dreq_1B2M2Y8AsgTpgAmY7PhCfg"
+        company_id:
+          type: string
+          description: Identificador de la compañía.
+          example: "com_2C3N3Z9BthUqhBmZ8QiDgh"
+        disclosure_template_id:
+          type: string
+          description: Identificador del template de divulgación.
+          example: "dtpl_3D4O4A0CuiVriCnA9RjEhi"
+        identity_id:
+          type: string
+          description: Identificador únicode la identidad.
+          example: "id_ma21KLsmaslopask912Aa2"
+        status:
+          type: string
+          description: Estado de la solicitud de divulgación.
+          enum:
+            - pending
+            - authenticating
+            - validating
+            - awaiting_permissions
+            - awaiting_missing_data
+            - timed_out
+            - granted
+          example: "pending"
+        matchers:
+          type: array
+          description: Matchers de la solicitud de divulgación.
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+                description: Clave del matcher.
+                example: "rut"
+              value:
+                type: string
+                description: Valor del matcher.
+                example: "12.345.678-9"
+        sdk:
+          type: string
+          description: SDK utilizado para iniciar la solicitud.
+          example: "web"
+        user_reference:
+          type: string
+          description: Referencia de usuario de tu sistema para el disclosure request.
+          example: "user_123"
+        identity_email:
+          type: string
+          description: Correo electrónico proveído por el comercio a la hora de crear la solicitud de divulgación.
+          example: "walter@white.com"
+        created_at:
+          type: string
+          format: date-time
+          description: Fecha y hora en que se creó el disclosure request.
+          example: "2024-03-20T15:30:00Z"
     IdentityInformation:
       type: object
       description: Información detallada de un atributo específico de una identidad.
@@ -222,34 +812,61 @@ components:
       xml:
         name: tag
     Identity:
+      x-tags:
+        - Identities
       type: object
-      description: Representa una identidad de usuario en el sistema.
+      description: |
+        Los objetos de identidad permiten gestionar los datos de identidad de tus usuarios.
+        Una identidad representa a un usuario verificado en el sistema y contiene toda la información
+        validada sobre esa persona.
+
+        ### Guias relacionadas
+        - [Conceptos Generales](/docs/integration-guide/concepts/general-concepts)
       properties:
         id:
           type: string
           description: Identificador único de la identidad.
-          example: id_ma21KLsmaslopask912Aa2
+          example: "id_ma21KLsmaslopask912Aa2"
         email:
           type: string
           description: Correo electrónico asociado a la identidad.
-          example: jonsnow@nightswatch.com
+          example: "jonsnow@nightswatch.com"
         data:
           type: array
           description: Colección de información adicional sobre la identidad en forma de pares clave-valor.
           items:
-            $ref: '#/components/schemas/IdentityInformation'
+            $ref: "#/components/schemas/IdentityInformation"
+        signed_documents:
+          type: array
+          description: Lista de todos los `ids` de los documentos firmados por la identidad.
+          items:
+            type: string
+            description: Identificador único del documento firmado.
+            example: "sd_1B2M2Y8AsgTpgAmY7PhCfg"
+
     AuthAttempt:
+      x-tags:
+        - Auth attempts
       type: object
-      description: Registro de un intento de autenticación por parte de una identidad.
+      description: |
+        Los intentos de autenticación representan movimientos de una identidad al intentar autenticarse con tu sistema.
+
+        El tipo de autenticación dependerá del registro del dispositivo de autenticación del usuario. En el caso de que un usuario
+        no tenga su dispositivo de autenticación registrado, el tipo de validación será facial. En ese momento se le pedirá
+        registrar el dispositivo.
+
+        **Guias relacionadas**:
+        - [Autenticación de usuarios](/docs/integration-guide/modules/authentication)
+        - [Verificación de identidad](/docs/integration-guide/concepts/verification)
       properties:
         id:
           type: string
           description: Identificador único del intento de autenticación.
-          example: aa_Kop19_kEe23i7hSw8QG4-a
+          example: "aa_Kop19_kEe23i7hSw8QG4-a"
         identity_id:
           type: string
           description: Identificador de la identidad que realiza el intento.
-          example: id_ma21KLsmaslopask912Aa2
+          example: "id_ma21KLsmaslopask912Aa2"
         status:
           type: string
           enum:
@@ -260,8 +877,8 @@ components:
           description: Estado actual del intento de autenticación (por ejemplo, "exitoso", "fallido").
         user_reference:
           type: string
-          description: Referencia opcional proporcionada por el usuario para el intento de autenticación.
-          example: nAjjJ11lOokanasyk12LmX8l
+          description: Referencia de usuario de tu sistema para el intento de autenticación.
+          example: "user_123"
         validation_type:
           type: string
           enum:
@@ -270,25 +887,76 @@ components:
           description: Tipo de validación utilizada en el intento de autenticación. `passkey_validation` corresponde a cuando un usuario validó a través de un dispositivo registrado.
         error_reason:
           type:
-            - 'null'
+            - "null"
             - string
           description: Razón del error en caso de que el intento haya fallado. Campo opcional.
         created_at:
           type: string
           format: date-time
           description: Fecha y hora en que se creó el registro del intento de autenticación.
-    ValidationFlow:
+    SignatureAttempt:
+      x-tags:
+        - Signature attempts
       type: object
-      description: Descripción de un flujo de validación para una identidad.
+      description: |
+        Representan los intentos de los usuarios para firmar ciertos documentos, los cuales dependen del SignatureAttemptTemplate.
+        La firma puede realizarse por medio de llaves de acceso para cuando el usuario haya registrado una, o por medio de video
+        facial cuando el usuario por alguna razón no puede usar la llave de acceso.
+
+        ### Guias relacionadas
+        - [Solicitudes de firma de documentos](/docs/integration-guide/modules/signature)
+        - [Firma de documentos](/docs/integration-guide/concepts/signature)
+      properties:
+        id:
+          type: string
+          description: Identificador único del intento de firma.
+          example: "sa_1B2M2Y8AsgTpgAmY7PhCfg"
+        identity_id:
+          type: string
+          description: Identificador de la identidad que realiza el intento.
+          example: "id_ma21KLsmaslopask912Aa2"
+        status:
+          type: string
+          enum:
+            - awaiting_authentication
+            - authenticating_by_video
+            - authentication_failed
+            - successful
+          description: Estado actual del intento de firma.
+        user_reference:
+          type: string
+          description: Referencia de usuario de tu sistema para el intento de firma.
+          example: "user_123"
+        auth_type:
+          type: string
+          enum:
+            - passkey_validation
+            - facial_validation
+          description: Tipo de autenticación utilizada en el intento de firma. `passkey_validation` corresponde a cuando un usuario validó a través de una llave de acceso.
+        created_at:
+          type: string
+          format: date-time
+          description: Fecha y hora en que se creó el registro del intento de autenticación.
+    ValidationAttempt:
+      x-tags:
+        - Validation attempts
+      type: object
+      description: |
+        Los intentos de validación representan los procesos de validación de identidades de los usuarios.
+        Estos obedecen a una serie de reglas de validación representadas por un template de validación.
+
+        ### Guias relacionadas
+        - [Revelación de datos y consentimiento](/docs/integration-guide/modules/disclosure)
+        - [Verificación de identidad](/docs/integration-guide/concepts/verification)
       properties:
         id:
           type: string
           description: Identificador único del flujo de validación.
-          example: vf_HkrLZ_I33CnY7hZW8QG4-w
+          example: "va_1B2M2Y8AsgTpgAmY7PhCfg"
         identity_email:
           type: string
           description: Correo electrónico de la identidad asociada al flujo.
-          example: gus@polloshermanos.com
+          example: "gus@polloshermanos.com"
         status:
           type: string
           enum:
@@ -299,37 +967,90 @@ components:
           description: Estado actual del flujo de validación.
         user_reference:
           type:
-           - string
-           - 'null'
-          description: Referencia de usuario de tu sistema para el flujo de validación. Campo opcional.
-          example: nAjjJ11lOokanasyk12LmX8l
+            - string
+            - "null"
+          description: Referencia de usuario de tu sistema para el flujo de validación.
+          example: "user_123"
         error_reason:
           type:
-            - 'null'
+            - "null"
             - string
+          enum:
+            - unknown_error
+            - document_validation_error
+            - facial_validation_error
+            - expiration_error
           description: Motivo del error, si el flujo no fue exitoso. Campo opcional.
         created_at:
           type: string
           format: date-time
           description: Fecha y hora de creación del flujo de validación.
     Event:
+      x-tags:
+        - Events
       type: object
-      description: Información sobre un evento específico dentro del sistema.
+      description: |
+        Los eventos nos permiten comunicarte cambios relevantes en el sistema. Cuando ocurre un evento interesante,
+        se crea un objeto evento. Por ejemplo, cuando se valida una identidad, se crea un evento `validation_attempt.succeeded`;
+        cuando una validación falla, se crea un objeto `validation_attempt.failed`.
+
+        :::info
+        Una llamada a la API **puede generar 1 o más eventos**.
+        :::
+
+        Los eventos pueden ser enviados directamente a tu servidor a través de la utilización de webhooks.
+
+        ### Guias relacionadas
+        - [Webhooks](/docs/api/webhooks)
       properties:
         id:
           type: string
           description: Identificador único del evento.
+          example: "evt_1B2M2Y8AsgTpgAmY7PhCfg"
         name:
           type: string
           description: Nombre descriptivo del evento.
-          example: validation_flow.successful
+          example: "disclosure_request.granted"
         payload:
-          type: string
+          type: object
           description: Datos adicionales asociados al evento.
+          example:
+            disclosure_request_id: "dreq_1B2M2Y8AsgTpgAmY7PhCfg"
+            identity_id: "id_ma21KLsmaslopask912Aa2"
+            user_reference: "user_123"
         created_at:
           type: string
           format: date-time
           description: Fecha y hora en que se registró el evento.
+          example: "2024-03-20T15:30:00Z"
+    SignedDocument:
+      x-tags:
+        - Signed documents
+      type: object
+      description: |
+        Los documentos firmados son documentos digitales que han sido autenticados por los usuarios mediante su firma electrónica.
+        Estos documentos pueden incluir contratos, acuerdos legales, y otros documentos importantes que requieren confirmación
+        de identidad y consentimiento explícito del usuario.
+
+        La firma de estos documentos se gestiona a través del modelo `SignatureAttempt`, que verifica la identidad del usuario
+        y asegura que la firma sea válida y segura.
+
+        ### Guias relacionadas
+        - [Solicitudes de firma de documentos](/docs/integration-guide/modules/signature)
+      properties:
+        id:
+          type: string
+          description: Identificador único del documento firmado.
+          example: "sd_1B2M2Y8AsgTpgAmY7PhCfg"
+        identity_id:
+          type: string
+          description: Identificador de la identidad participante en la firma.
+          example: "id_ma21KLsmaslopask912Aa2"
+        created_at:
+          type: string
+          format: date-time
+          description: Fecha y hora en que se registró el documento firmado.
+          example: "2024-03-20T15:30:00Z"
     ApiResponse:
       type: object
       description: Respuesta estándar para las operaciones de la API que incluyen código y mensaje de estado.
@@ -338,17 +1059,53 @@ components:
           type: integer
           format: int32
           description: Código numérico que representa el estado de la respuesta.
+          example: 200
         type:
           type: string
           description: Tipo de mensaje de la respuesta, por ejemplo, "error" o "success".
+          example: "success"
         message:
           type: string
           description: Mensaje descriptivo acerca del resultado de la operación.
+          example: "Operación completada exitosamente"
       xml:
-        name: '##default'
+        name: "##default"
   securitySchemes:
     api_key:
       type: apiKey
       description: Esquema de autenticación mediante una clave API proporcionada en el encabezado de las solicitudes.
       name: Authorization
       in: header
+
+  parameters:
+    PageParam:
+      name: page
+      in: query
+      description: Número de página
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+      example: 1
+
+    PerPageParam:
+      name: per_page
+      in: query
+      description: Número de entradas por página
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+      example: 20
+
+    OrderByParam:
+      name: order_by
+      in: query
+      description: Orden de los resultados (ej. "created_at DESC")
+      required: false
+      schema:
+        type: string
+      example: "created_at DESC"

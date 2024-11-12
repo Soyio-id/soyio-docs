@@ -1,0 +1,71 @@
+---
+id: get-auth-attempt
+title: "Obtener un intento de autenticación específico"
+description: "Retorna un intento de autenticación dado su ID."
+sidebar_label: "Obtener un intento de autenticación específico"
+hide_title: true
+hide_table_of_contents: true
+api: eJydVk1vGzcQ/SsET4mxlmwnQBudajRuYCToh532YhnKmBxJjLkkzSFVK4J+TI499JRbr/pjxXBXtuyVlaa6aHdJzjzOvHkzC5lgQnJwIY9zmgpICeuQSF5WUiOpaEIy3smBPMPkowORnTAuoUteaBSQ+dEoUGb1xQkN2gvK4vR1T1bSB4zAx0+1HMgJJnZx3HiQlQwQocaEkd0vpIMa5UAaLStp2GOANJWPYZy+FhrtDgggrjIpiLKSEW+yiajlIMWMlcTbYL3G9SupKdYgBwuZ5oFdU4rGTeRyeclnKXhHSLx+dHDAf4+QPAkBnfIuRdBeVpIf0SU+DyFYo0pE+h+JjSy6IPzVR1QlPJHjl0wDAXKajtrs8Pvt/pN5e2zoIex3ntbRoy3YI4aIhC6BE7Wfmdrc7cwOhNG8WYMWsE4CxHsbkVAo70TKggwlrKE3dEN3YkUyYSthMKDTGFefS1ojTgyl6MuLNhQ8mWRm209akSlDNL4nTpxAKxRQ2XmTGex6deicFwndBJiZu422/kH7ig2uQc/AGt1uoQJ2DMqAbRwTitrXhQuEwqIIqE1cfR66tbkoHl6nBGVv7002QCKiBWW8Aw20tzcYun1xcfz4ruvL0OWzvvaK+hz7SVNd+5NsNPZrr7NF6jNTmsO8+LzY+wOjGW+au8vj0/aUdwpDov6sPdya61DT6G4Ndcq2+GMr2kex+scZ5XcXMgsI3kIdLJsFGL314fDV6PoEj16Y76bnf37/25uX+yCXlWwuk+ajb0eiUdhNVjN1IoI1n0Dco3uIxehRDUeHb99RDWR9ALp+dXh0DEeMhRKkTNtgoMs11ysTvvli3ChEP4lIJCtJWSkkGmcrKzkGY1F3VfiEEkssqJTBfkUJnwUfBX7EOlhfiaHEW5M8+aHklzFYa7Qfyuc9hp0J4yjiGCM6hV+P4lm71cAGOfnxvvIF67v47ykuEA6PXjCcpuDY16jB8XQ4m0oc3Z8onYXoGuebHzuRfL+ltnMynHkNAt1u5OJD18cHoXxs+gYfECqD035DiRpfqy8CRIowW/3VyuoDUbqXoJIYjNFzZqDtF00YLqTLlnnShqPbreHTWiSLBb7QpjxuXG4KcxBMB3YpfoQ6eOFDUSRbIKiIkFCPIG3Lw9jHmlekhoT7ydTYIctPqKYg5mLqY4ksA+BGEXH1RTxW/R1sWS4rmUwqbNkcJZblV8mXB4fdNv2zZzs+cl69LLtebt210bXZWI1p6tu5pVAqTeVA9jf7MPUXRi85Cxhn6zEmRysHcppSoEG/T+D0lb/tkZ8b3zO6D8H0Z4dyWT3eCSF0d12ybZWjSfNzHhTaWSCY0TXON7IBwbzFeSfwJ3STuRK72lCjNuBS09SVhRmK419PBQu7j203aosAnYIr5Og1akmCvDXKpKyRuITbwY0zUsLcFmGZ4aYIGmMJqHFjXyC3GTzny7LXDmxGwlQ4xzgzqtGV0zuJ1ijK0Xa2AlVoiTUYDifxBRL+sA5lUROM1Fg+7B30DvhT8JRqKBXVwv/lKqHDuHu+RQqoVn+PjfKPUS/uJ73/Myu3iUx4m/rBgnFFlZkhi5Z7Fw9mQO4YA1M6xNRT4uXF4goIf492ueTPNxnjXA4uLllOo4ErjvrFQmpD/KzlYAyWcMc1np21A/Rz8S1j99arrInqmKUzsJnfZCULj3mEWF4uqzVdGGazcKx4Btk40pmhuUbuavXNyXu5XP4L1r2cWA==
+sidebar_class_name: "get api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Obtener un intento de autenticación específico"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/auth_attempts/{id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Retorna un intento de autenticación dado su ID.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"id","in":"path","description":"ID del intento de autenticación a buscar","required":true,"explode":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Intento de autenticación encontrado","content":{"application/json":{"schema":{"type":"object","properties":{"auth_attempt":{"x-tags":["Auth attempts"],"type":"object","description":"Los intentos de autenticación representan movimientos de una identidad al intentar autenticarse con tu sistema.\n\nEl tipo de autenticación dependerá del registro del dispositivo de autenticación del usuario. En el caso de que un usuario\nno tenga su dispositivo de autenticación registrado, el tipo de validación será facial. En ese momento se le pedirá\nregistrar el dispositivo.\n\n**Guias relacionadas**:\n- [Autenticación de usuarios](/docs/integration-guide/modules/authentication)\n- [Verificación de identidad](/docs/integration-guide/concepts/verification)\n","properties":{"id":{"type":"string","description":"Identificador único del intento de autenticación.","example":"aa_Kop19_kEe23i7hSw8QG4-a"},"identity_id":{"type":"string","description":"Identificador de la identidad que realiza el intento.","example":"id_ma21KLsmaslopask912Aa2"},"status":{"type":"string","enum":["pending","in_progress","successful","failed"],"description":"Estado actual del intento de autenticación (por ejemplo, \"exitoso\", \"fallido\")."},"user_reference":{"type":"string","description":"Referencia de usuario de tu sistema para el intento de autenticación.","example":"user_123"},"validation_type":{"type":"string","enum":["facial_validation","passkey_validation"],"description":"Tipo de validación utilizada en el intento de autenticación. `passkey_validation` corresponde a cuando un usuario validó a través de un dispositivo registrado."},"error_reason":{"type":["null","string"],"description":"Razón del error en caso de que el intento haya fallado. Campo opcional."},"created_at":{"type":"string","format":"date-time","description":"Fecha y hora en que se creó el registro del intento de autenticación."}},"title":"AuthAttempt"}}}}}},"401":{"description":"No autorizado"},"404":{"description":"No encontrado"}}}
+>
+  
+</StatusCodes>
+
+
+      

@@ -1,0 +1,71 @@
+---
+id: get-validation-attempt
+title: "Obtener un flujo de validación específico"
+description: "Retorna un flujo de validación dado su ID."
+sidebar_label: "Obtener un flujo de validación específico"
+hide_title: true
+hide_table_of_contents: true
+api: eJyVVltvUzkQ/iuWeQHpNGm7SLvKE10oqNobAhYJtVU0sSfJgI9tPHY22Sg/aZ9429f+sdU4J6T0pMD2pSf2XL65feO1zjBjPbrUb8GRhUzBK8gZ25hZXzfaIptEUc71SL/CHJIHVbyauvI+KItqURUN3XzyyoINiou6eDbQjQ4RU7V4YfVIzzDvfZxtXehGR0jQYsYkKNbaQ4t6pMnqRpO4jJDn+i6Oi2fKojuMAdSksIGkG53wY6GEVo9yKthoXEYXLO5+spljC3q01nkVxSvnRH6mN5tr0eUYPCPL/enxsfz7EsTzQ97Rm+BzAht0o+UTfRZViNGRqbEP37Por/v+w+Q9mpqUJLnLtPW++Jy2cVcaOV0efaN0d41+if7XwIoqvMB3g0gYEzL6DF65wCqmYJD7chYVWfSZLFistyJduECiwIMrf85iPUzQokEpTfGgGBOhCCecOfiKcwusYkjSbRKVg4x3hAdX/so/ePBAvSgErBI6MBS8aF75I3X5Chf1qANrQeCslJHC+kwtSfjXD4c2GB5KNmbbhj2aFbI4bIMtDnloiY0LXBI+qmbfYqIpmQNZuN+WCd5gzDxcdMpy9+jK96pNtt+Rvf6v/sSKDUnd/OvJhHsnQkYRl9BGJxYXMD75+fS303c/nfHsTZydte9+fDl/Op3pTaO3ceTVGFsg920cT0NKGBQ6NDndfOpgKAf7jCjgYAgsKOjgfYlnVvhJDM4FnmNqwQcemNAKGM6QCx8Cgb600vgRvd2ekB/HFGYJmXWjuRiDzNPidKOnQA5tn8vOOQtbgckF3FeSt2l0YUzjhFNM6A3uEV3uIfni3CG+3OoQiNluMOQzF8XEGVtQQoDqu0pXYZyc/iCQMKUgmKDjkh2giqPZ4bre56r4Dz785cdVUQoZTGnR5/EtdtndTcEQuEM3uIyUbh/1Qv4tZFpsm7FKNIppH54PalpQ4ZJy4DBQT6GNQYVYp9bVZJuEkNGOIR8q/TSkVm60hYxHmVrsNeVzNHNQKzUPqaZdDO4m9d4ibxqdKdc097fUpv41+vHxSX8N/B4UlBwS/S2kX6UeH5S6tRrEWIt5HrrFWPdgnuuRHvbJnodrshspKqbFbk+W5PRIz3OOPBoOGbydhOWAw4rCgOwQIg0XJ3rT3JWEGPtS12LblER59Vp20paIINL4A65uVQEi/YKrXsLP+WORTrYomZC531Fji5bAZ6y8bxwsUJ29vJB9EkPqmFqhl/5Ab2CCksMtg7Di4MhQLhZZ5qB7GZyVPK/Jrs67R8IcwWKqaSU/DRVyV83XEqx47cEWJNIRrzEtyGzn8uIzbVlUVbVb42BqO3a8qFkCyPhkl0qpu9Rma/lkcDw4lqMYOLdQB7SD/8cko8d07wsKOaK5+WdKJtwFvN6/J/7nQ6wrX8ZlHkYH5CuppUrw2767PPDIECYdUWXOeeAsQuv1BBj/TG6zkeOPBdNKjy6vG72ARDCRjF+utSWWb6tHU3CMX4nj4avuifZIfeeb7mAsu/700pwLcEV+6UbX9pWNurneNLsuEYTbizMjK/mWSu+VJqPxeVBfnL/Rm81/c27+bw==
+sidebar_class_name: "get api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Obtener un flujo de validación específico"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/validation_attempts/{id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Retorna un flujo de validación dado su ID.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"id","in":"path","description":"ID del flujo de validación a buscar","required":true,"explode":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Flujo de validación encontrado","content":{"application/json":{"schema":{"type":"object","properties":{"validation_attempt":{"x-tags":["Validation attempts"],"type":"object","description":"Los intentos de validación representan los procesos de validación de identidades de los usuarios.\nEstos obedecen a una serie de reglas de validación representadas por un template de validación.\n\n### Guias relacionadas\n- [Revelación de datos y consentimiento](/docs/integration-guide/modules/disclosure)\n- [Verificación de identidad](/docs/integration-guide/concepts/verification)\n","properties":{"id":{"type":"string","description":"Identificador único del flujo de validación.","example":"va_1B2M2Y8AsgTpgAmY7PhCfg"},"identity_email":{"type":"string","description":"Correo electrónico de la identidad asociada al flujo.","example":"gus@polloshermanos.com"},"status":{"type":"string","enum":["pending","in_progress","successful","failed"],"description":"Estado actual del flujo de validación."},"user_reference":{"type":["string","null"],"description":"Referencia de usuario de tu sistema para el flujo de validación.","example":"user_123"},"error_reason":{"type":["null","string"],"enum":["unknown_error","document_validation_error","facial_validation_error","expiration_error"],"description":"Motivo del error, si el flujo no fue exitoso. Campo opcional."},"created_at":{"type":"string","format":"date-time","description":"Fecha y hora de creación del flujo de validación."}},"title":"ValidationAttempt"}}}}}},"401":{"description":"No autorizado"},"404":{"description":"No encontrado"}}}
+>
+  
+</StatusCodes>
+
+
+      

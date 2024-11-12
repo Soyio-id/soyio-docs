@@ -1,0 +1,13 @@
+{
+  // Este archivo no se utiliza en la compilación. Está aquí solo para una mejor experiencia de edición.
+  "extends": "@docusaurus/tsconfig",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "ES2018",
+    "module": "ES2015",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  }
+}

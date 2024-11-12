@@ -1,0 +1,42 @@
+---
+id: signeddocument
+title: "SignedDocument"
+description: "Los documentos firmados son documentos digitales que han sido autenticados por los usuarios mediante su firma electrónica."
+hide_title: true
+hide_table_of_contents: true
+schema: true
+sample: {"id":"sd_1B2M2Y8AsgTpgAmY7PhCfg","identity_id":"id_ma21KLsmaslopask912Aa2","created_at":"2024-03-20T15:30:00Z"}
+custom_edit_url: null
+---
+
+import Schema from "@theme/Schema";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"SignedDocument"}
+>
+</Heading>
+
+
+
+Los documentos firmados son documentos digitales que han sido autenticados por los usuarios mediante su firma electrónica.
+Estos documentos pueden incluir contratos, acuerdos legales, y otros documentos importantes que requieren confirmación
+de identidad y consentimiento explícito del usuario.
+
+La firma de estos documentos se gestiona a través del modelo `SignatureAttempt`, que verifica la identidad del usuario
+y asegura que la firma sea válida y segura.
+
+### Guias relacionadas
+- [Solicitudes de firma de documentos](/docs/integration-guide/modules/signature)
+
+
+<Schema
+	defaultCollapsibleOpen={true}
+  schema={{"x-tags":["Signed documents"],"type":"object","description":"Los documentos firmados son documentos digitales que han sido autenticados por los usuarios mediante su firma electrónica.\nEstos documentos pueden incluir contratos, acuerdos legales, y otros documentos importantes que requieren confirmación\nde identidad y consentimiento explícito del usuario.\n\nLa firma de estos documentos se gestiona a través del modelo `SignatureAttempt`, que verifica la identidad del usuario\ny asegura que la firma sea válida y segura.\n\n### Guias relacionadas\n- [Solicitudes de firma de documentos](/docs/integration-guide/modules/signature)\n","properties":{"id":{"type":"string","description":"Identificador único del documento firmado.","example":"sd_1B2M2Y8AsgTpgAmY7PhCfg"},"identity_id":{"type":"string","description":"Identificador de la identidad participante en la firma.","example":"id_ma21KLsmaslopask912Aa2"},"created_at":{"type":"string","format":"date-time","description":"Fecha y hora en que se registró el documento firmado.","example":"2024-03-20T15:30:00Z"}},"title":"SignedDocument"}}
+  schemaType={"response"}
+>
+  
+</Schema>
+            
