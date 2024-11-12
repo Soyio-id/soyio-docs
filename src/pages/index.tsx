@@ -6,6 +6,7 @@ import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
 import styles from './index.module.css';
 import DynamicBackground from '../components/DynamicBackground';
+import BrowserOnly from '@docusaurus/BrowserOnly';
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
@@ -51,7 +52,9 @@ export default function Home() {
       title={`${siteConfig.title}`}
       description="Soyio docs homepage"
     >
-      <DynamicBackground />
+      <BrowserOnly>
+        {() => <DynamicBackground />}
+      </BrowserOnly>
       <HomepageHeader />
     </Layout>
   );
