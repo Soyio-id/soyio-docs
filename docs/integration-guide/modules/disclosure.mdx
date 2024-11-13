@@ -37,8 +37,15 @@ Al finalizar el proceso de entrega de datos y consentimiento, se creará un [acu
 
 ### Match de datos
 
-Opcionalmente, si el usuario creó una cuenta en tu sistema previamente y entregó datos de identificación, puedes incluir como parte del proceso que Soyio **verifique el match entre los datos verificados** que el usuario entrega en este proceso y la información almacenada en tu sistema. Si ocupas esta opción y el match no es exitoso, el **proceso concluye sin crear una identidad**.
+Opcionalmente, si el usuario creó una cuenta en tu sistema previamente y entregó datos de identificación, puedes incluir como parte del proceso que Soyio **verifique el match entre los datos verificados** que el usuario entrega en este proceso y la información almacenada en tu sistema. Si ocupas esta opción y el match no es exitoso, el **proceso concluye sin crear una identidad**. 
+Los campos disponibles para realizar el match son:
 
+| Campo | Descripción |
+| --- | --- |
+| `cl_carnet_rut` | RUT chileno (sin puntos y con guión) |
+| `name` | Nombres del usuario (separados por un espacio) |
+| `last_name` | Apellidos del usuario (separados por un espacio)|
+| `date_of_birth` | Fecha de nacimiento del usuario (formato: `YYYY-MM-DD`) |
 
 ### Estados
 
@@ -173,10 +180,10 @@ Puedes revisar más detalles en la [documentación de la API](../../api/resource
     "disclosure_template_id": "dtpl_...",
     "user_reference": "<identificador de usuario de la empresa>",
     "user_email": "<email del usuario>",
-    "matchers": [ // Opcional
+    "matchers": [ // Comprobación del RUT (Opcional)
         {
-        "key": "RUT",
-        "value": "12.345.678-9"
+        "key": "cl_carnet_rut",
+        "value": "12345678-9" // sin puntos y con guión
         }
     ]
 }
