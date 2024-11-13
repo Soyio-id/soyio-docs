@@ -11,7 +11,7 @@ Por lo tanto, un mecanismo electrónico que permita incorporar la firma en un do
 
 ## ¿Cómo aseguramos la autenticidad del firmante?
 
-Aunque la ley no específica métodos específicos para identificar al autor de la firma, Soyio utiliza autenticación fuerte (SCA) para confirmar la identidad del firmante, lo que fortalece la seguridad del proceso y eleva su valor probatorio.
+Aunque la ley no señala métodos específicos para identificar al autor de la firma, Soyio utiliza autenticación fuerte (SCA) para confirmar la identidad del firmante, lo que fortalece la seguridad del proceso y eleva su valor probatorio.
 
 Para que un usuario pueda firmar usando Soyio deberá completar previamente un proceso de [Disclosure](../modules/disclosure.mdx). Al hacerlo creará una identidad verificada en el sistema, podrá crear una llave de acceso (passkey) y además registraremos su consentimiento. Una vez creada su cuenta podrá iniciar un proceso de firma.
 
@@ -23,7 +23,7 @@ Para mantener la integridad del documento y evitar modificaciones después de la
 
 ## Documento de evidencia electrónica
 
-A cada documento firmado se adjunta un registro temporal que documenta todas las pruebas electrónicas del proceso de firma. Este documento incluye el nombre y correo del firmante, fecha y hora, ubicación geográfica, dirección IP y las acciones realizadas. Esta evidencia puede presentarse ante un tribunal en caso de impugnación o en un proceso de auditoría, ofreciendo un alto nivel de fiabilidad.
+A cada documento firmado se adjunta un registro temporal que recopila todas las pruebas electrónicas del proceso de firma. Este registro incluye el nombre y correo del firmante, fecha y hora, ubicación geográfica, dirección IP y las acciones realizadas. Toda esta evidencia puede presentarse ante un tribunal en caso de impugnación o en un proceso de auditoría, ofreciendo un alto nivel de fiabilidad
 
 Además, se añaden marcas visuales a cada página del documento, incluyendo un timbre con el nombre verificado del usuario y un identificador único del documento. Estas marcas refuerzan la transparencia y facilitan la validación visual del documento.
 
@@ -32,9 +32,7 @@ Además, se añaden marcas visuales a cada página del documento, incluyendo un 
 
 ## ¿Cuándo puedo utilizar la firma electrónica de Soyio?
 
-La firma electrónica de Soyio es válida legalmente para celebrar toda clase de actos y contratos, especialmente contratos entre privados.
-
-Al ser una Firma Electrónica Simple (FES) existen excepciones que se detallan a continuación:
+La firma electrónica de Soyio puede ser utilizada en todos aquellos contratos que no requieran Firma Electrónica Avanzada (FEA), estos casos son los siguientes:
 
 1. No puede utilizarse FES cuando la ley exige expresamente el uso de Firma Electrónica Avanzada (FEA), por ejemplo:
 

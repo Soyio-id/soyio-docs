@@ -38,7 +38,7 @@ Estas finalidades son ejemplos comunes y se pueden adaptar dependiendo del caso 
 El consentimiento, como manifestación de voluntad del usuario, tiene un ciclo de vida que permite a las empresas gestionar los datos personales de manera continua y en cumplimiento con las normativas de protección de datos.
 
 ### 1. Solicitud de consentimiento
-La primera etapa implica solicitar el consentimiento del usuario. Este proceso debe ser claro, transparente y cumplir con los principios LEII. El usuario recibe toda la información necesaria sobre el propósito y uso de sus datos antes de aceptar, de modo que pueda tomar una decisión informada.
+La primera etapa implica solicitar el consentimiento del usuario. Este proceso debe cumplir con los principios LEII. El usuario recibe toda la información necesaria sobre el propósito y uso de sus datos antes de aceptar, de modo que pueda tomar una decisión informada.
 
 ### 2. Otorgamiento de consentimiento
 Una vez que el usuario ha comprendido los términos, otorga su consentimiento explícitamente. En esta etapa, el consentimiento queda registrado de forma que pueda verificarse su legitimidad en el futuro. Este registro incluye detalles como el momento en que se otorgó el consentimiento y el contexto en el que fue proporcionado.

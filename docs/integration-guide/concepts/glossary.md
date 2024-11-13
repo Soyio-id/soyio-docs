@@ -28,7 +28,7 @@ Toda **información que identifica** a una persona natural. Ver [identificadores
 
 Son una subcategoría de [datos personales](./glossary.md#datos-personales), que se caracterizan por ser altamente privados y que pueden revelar información crucial sobre una persona, como su salud, origen étnico, creencias religiosas, orientación sexual o datos biométricos.
 
-**Su divulgación puede tener un impacto significativo en su privacidad y bienestar**, ya que otorgan a quien los posea un poder considerable sobre su persona. Estos datos **no pueden ser modificados** o alterados fácilmente.
+**Su divulgación tiene un impacto significativo en su privacidad y bienestar**, ya que otorgan a quien los posea un poder considerable sobre su persona. Estos datos **no pueden ser modificados** o alterados fácilmente.
 
 ### Dato confidencial
 
@@ -49,13 +49,10 @@ Derechos de una persona en materia de datos personales. Las siglas corresponden 
 
 - **A**cceso - qué información tienen o procesan de mi, para qué y por cuanto.
 - **R**ectificación - quiero modificar información inexacta, desactualizada o incompleta (IDI) que me afecta
-- **C**ancelación - quiero eliminar mi dato
-    :::tip[Supresión]
-        En Chile este derecho se reemplazará por **Supresión** ya que el dato efectivamente se elimina. Además tiene limitaciones. Más información en Artículo 7°.
-    :::
+- **C**ancelación/Supresión - quiero eliminar mi dato
 - **O**posición - no quiero que traten un(os) dato(s) específico
 
-#### Orros Derechos Específicos de la Ley Chilena
+#### Derechos que se incluirán con la futura Ley de Protección de Datos en Chile
 - Decisiones individuales automatizadas - no quiero que me perfilen de manera automática
 - Bloqueo del tratamiento - no trates mis datos mientras ejerzo mis derechos
 - Portabilidad - quiero una copia de mis datos para usar en otro lado

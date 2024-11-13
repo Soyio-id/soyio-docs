@@ -2,10 +2,10 @@
 
 ## Contexto Regulatorio
 
-La protección de datos personales y la privacidad es una prioridad global, con países adoptando leyes y normativas cada vez más estrictas. Leyes como GDPR y CCPA han establecido nuevos estándares que exigen a las empresas:
-- Adaptar sus procesos
-- Implementar controles de cumplimiento
-- Asegurar mecanismos para ejercer derechos sobre datos personales
+La protección de datos personales y la privacidad es una prioridad global, con países adoptando leyes y normativas cada vez más estrictas. Regulaciones como GDPR y CCPA han establecido nuevos estándares que exigen a las empresas:
+- Responsabilidad y sanciones
+- Obligaciones de transparencias y consentimientos
+- Derechos ampliados a los individuos
 
 ## Nuestra Solución
 
@@ -39,7 +39,7 @@ Revisa la documentación de [Agreements y Evidencia](agreement.md) para descubri
 :::
 
 ### Consentimiento
-El consentimiento es la piedra angular de las leyes modernas de protección de datos. Representa la aprobación libre, informada e inequívoca de un individuo para procesar sus datos personales con fines específicos. La correcta administración del consentimiento incluye la obtención, registro y respeto de las preferencias del usuario respecto al uso de sus datos.
+El consentimiento es la piedra angular de las leyes modernas de protección de datos. Representa la aprobación libre, informada e inequívoca de un individuo para procesar sus datos personales con fines específicos. La correcta administración del consentimiento incluye la obtención, registro y respeto de las preferencias del usuario respecto al uso de sus datos, así como la garantía de que el individuo pueda retirar su consentimiento en cualquier momento, de forma tan sencilla como otorgarlo.
 
 :::tip[Aprende más]
 Para profundizar en el tema del consentimiento y su rol en la protección de datos, [revisa la documentación sobre consentimiento y finalidades](./consent.md).
