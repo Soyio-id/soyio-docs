@@ -77,7 +77,14 @@ const config: Config = {
     './lib/soyioDocs/index.ts',
   ],
   themeConfig: {
-    // Replace with your project's social card
+    docs: {
+      sidebar: {
+        hideable: true,
+      },
+    },
+    colorMode: {
+      respectPrefersColorScheme: true,
+    },
     image: 'img/socialcarddocs.png',
     navbar: {
       title: 'Soyio Docs',
@@ -87,7 +94,6 @@ const config: Config = {
       },
       items: [
         {
-          sidebarId: 'integrationSidebar',
           position: 'left',
           label: 'Guías de integración',
           to: '/docs/integration-guide/intro',
@@ -100,7 +106,6 @@ const config: Config = {
         {
           label: 'Guías de usuario',
           to: '/docs/user-guide/intro',
-          sidebarId: 'userGuideSidebar',
           position: 'left',
         },
         {
@@ -161,7 +166,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Soyio SpA.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Soyio US LLC.`,
     },
     languageTabs: [
       { language: 'ruby' },
@@ -171,11 +176,11 @@ const config: Config = {
       { language: 'csharp' },
       { language: 'java', variant: 'unirest' },
       { language: 'php' },
-      { language: 'go', higlight: 'go' },
+      { language: 'go', highlight: 'go' },
       { language: 'powershell' },
     ],
     prism: {
-      theme: prismThemes.github,
+      theme: prismThemes.nightOwlLight,
       darkTheme: prismThemes.dracula,
       additionalLanguages: [
         'ruby',
@@ -189,6 +194,16 @@ const config: Config = {
       ],
     },
   } satisfies Preset.ThemeConfig,
+  future: {
+    experimental_faster: {
+      swcJsLoader: true,
+      swcJsMinimizer: true,
+      swcHtmlMinimizer: true,
+      lightningCssMinimizer: true,
+      rspackBundler: false,
+      mdxCrossCompilerCache: true,
+    },
+  },
   themes: ['docusaurus-theme-openapi-docs'], // export theme components
 };
 
