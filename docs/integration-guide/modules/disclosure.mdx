@@ -35,16 +35,12 @@ Luego, [se verificará la identidad](../concepts/verification.md) del usuario. A
 
 Al finalizar el proceso de entrega de datos y consentimiento, se creará un [acuerdo (*Agreement*)](../concepts/agreement.md) y la evidencia asociada, que podrás utilizar para demostrar que el usuario otorgó su consentimiento libre, específico, inequívoco e informado.
 
-#### Match de datos
+### Match de datos
 
 Opcionalmente, si el usuario creó una cuenta en tu sistema previamente y entregó datos de identificación, puedes incluir como parte del proceso que Soyio **verifique el match entre los datos verificados** que el usuario entrega en este proceso y la información almacenada en tu sistema. Si ocupas esta opción y el match no es exitoso, el **proceso concluye sin crear una identidad**.
 
 
-#### Flujo de estados
-
-El flujo de los estados del disclosure request está representado en el siguiente diagrama:
-
-<img src="/img/Diagrama Flujo Estados Disclosure.png" alt="disclosure flow" width="100%"/>
+### Estados
 
 - **Pending**: Es el estado inicial de la solicitud. El proceso está listo para comenzar pero aún no se ha iniciado
 - **Authenticating**: El usuario registrado está en proceso de Autenticación
@@ -54,6 +50,11 @@ El flujo de los estados del disclosure request está representado en el siguient
 - **Granted**: El proceso se ha completado exitosamente. Se han validado los datos y obtenido los consentimientos necesarios
 - **Timed Out**: La solicitud ha expirado por inactividad. El proceso no se completó dentro del tiempo establecido
 - **Failed**: La solicitud ha fallado por que los datos no hacen match. Este chequeo solo ocurre cuando se realiza un match de datos. El proceso no se completó exitosamente.
+
+<details>
+    <summary>Diagrama de estados</summary>
+    <img src="/img/Diagrama Flujo Estados Disclosure.png" alt="disclosure flow" width="100%"/>
+</details>
 
 ## Integración
 
