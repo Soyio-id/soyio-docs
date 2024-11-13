@@ -52,7 +52,7 @@ Sí. Soyio implementa estrictas medidas de seguridad y cumple con las normativas
 ## Firma de Documentos
 
 ### ¿Los documentos firmados digitalmente son legalmente válidos?
-Sí, los documentos firmados a través de Soyio tienen validez legal y cumplen con los requisitos de firma electrónica simple.
+Sí, los documentos firmados a través de Soyio cumplen con los requisitos de firma electrónica simple (FES).
 
 ### ¿Puedo acceder a mis documentos firmados posteriormente?
 Sí, puedes acceder a todos tus documentos firmados a través de la plataforma en cualquier momento.
@@ -93,7 +93,7 @@ Soyio implementa múltiples capas de seguridad:
 - Trazabilidad completa de accesos y consentimientos
 
 ### ¿Quién puede acceder a mi información?
-Solo las empresas que tú autorices específicamente pueden acceder a tu información, y únicamente a los datos para los que hayas dado tu consentimiento explícito.
+Solo las empresas que hayas autorizado específicamente puede acceder a tu información y únicamente a aquellos datos para los cuales hayas otorgado tu consentimiento explícito.
 
 ## Soporte
 
