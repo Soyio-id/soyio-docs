@@ -193,6 +193,14 @@ const config: Config = {
         'powershell',
       ],
     },
+    algolia: {
+      appId: 'CZDZ5E8BZZ',
+      apiKey: '6aa022bcee211c753518014f387fdd1d',
+      indexName: 'soyio',
+      searchPagePath: 'search',
+      contextualSearch: true,
+      insights: true,
+    },
   } satisfies Preset.ThemeConfig,
   future: {
     experimental_faster: {
