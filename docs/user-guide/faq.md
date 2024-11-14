@@ -93,7 +93,7 @@ Soyio implementa múltiples capas de seguridad:
 - Trazabilidad completa de accesos y consentimientos
 
 ### ¿Quién puede acceder a mi información?
-Solo las empresas que hayas autorizado específicamente puede acceder a tu información y únicamente a aquellos datos para los cuales hayas otorgado tu consentimiento explícito.
+Solo las empresas que hayas autorizado específicamente pueden acceder a tu información y únicamente a aquellos datos para los cuales hayas otorgado tu consentimiento explícito.
 
 ## Soporte
 
