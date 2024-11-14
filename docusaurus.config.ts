@@ -195,10 +195,10 @@ const config: Config = {
     },
     algolia: {
       appId: 'CZDZ5E8BZZ',
-      apiKey: '6aa022bcee211c753518014f387fdd1d',
+      apiKey: '5232edcb1c7751b28bdaab7c1b9cda53',
       indexName: 'soyio',
       searchPagePath: 'search',
-      contextualSearch: true,
+      contextualSearch: false,
       insights: true,
     },
   } satisfies Preset.ThemeConfig,
