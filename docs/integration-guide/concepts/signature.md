@@ -5,9 +5,7 @@ En esta sección te explicaremos cómo funciona la solución de firma de Soyio, 
 
 ## ¿Qué es una Firma Electrónica Simple?
 
-Como probablemente ya sepas, existen diferentes tipos de firma electrónica. En Chile, la Ley N°19.799 sobre documentos electrónicos, firma electrónica y servicios de certificación de dicha firma (LFE), establece dos tipos de firma: Firma Electrónica Simple (FES) y Firma Electrónica Avanzada (FEA). La Firma Electrónica Simple consiste en: «cualquier clase de sonido, símbolo o proceso electrónico que permita al receptor de un documento electrónico identificar, al menos formalmente, a su autor».
-
-Por lo tanto, un mecanismo electrónico que permita incorporar la firma en un documento electrónico e identifique formalmente al usuario cumple con los requisitos de la ley para ser considerado una firma electrónica simple.
+Una Firma Electrónica Simple (FES) es cualquier método electrónico que permita identificar al autor de un documento y refleje su intención de firmarlo. Su validez depende de la legislación local, como la Ley N°19.799 en Chile, el Reglamento eIDAS en la Unión Europea o la ESIGN Act en Estados Unidos. En general, si un mecanismo identifica formalmente al usuario y asocia su firma con el documento, puede ser considerado una FES bajo estos marcos legales.
 
 ## ¿Cómo aseguramos la autenticidad del firmante?
 
