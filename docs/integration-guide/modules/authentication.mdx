@@ -86,11 +86,11 @@ El flujo que integrarás es el siguiente:
 - Tener el [SDK](../quickstart.mdx) instalado en tu sitio o aplicación.
 - Tener un [Webhook](../../api/webhooks.md) configurado en tu cuenta.
 
-## Consideraciones de Seguridad
+## Consideraciones de seguridad
 
 - **Manejo del `auth_attempt_id`**: Nunca almacenes o transmitas este ID de forma insegura
 - **Timeout**: Los intentos de autenticación expiran después de 5 minutos
-- **Rate Limiting**: Existe un límite de intentos por usuario/hora
+- **Rate limiting**: Existe un límite de intentos por usuario/hora
 - **Validación**: Siempre valida el resultado de la autenticación en tu backend
 
 ## Paso a paso
@@ -104,7 +104,7 @@ Esto creará una solicitud de autenticación y obtendrás un `auth_attempt_id`, 
 
 POST /api/v1/authentication_requests
 
-#### Ejemplo del Payload
+#### Ejemplo del payload
 
 Especifica en el *payload* del *request* el `identity_id` de tu usuario.
 Puedes revisar más detalles en la documentación de la API.

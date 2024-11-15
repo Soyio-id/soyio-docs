@@ -19,15 +19,15 @@ A continuación encontrarás información detallada sobre:
 - Mejores prácticas
 - Solución de problemas comunes
 
-## Antes de Comenzar
+## Antes de comenzar
 
 Asegúrate de tener una cuenta de Soyio y las credenciales necesarias para acceder a la API. Si no tienes una cuenta, ¿qué esperas? Contacta a nuestro equipo para obtener más información a [soporte@soyio.id](mailto:soporte@soyio.id).
 
-## Estructura de la Documentación
+## Estructura de la documentación
 
 Esta documentación está organizada de manera progresiva, comenzando con los conceptos básicos y avanzando hacia características más complejas. Cada sección incluye ejemplos prácticos y casos de uso para facilitar tu comprensión.
 
-## ¿Necesitas Ayuda?
+## ¿Necesitas ayuda?
 
 Si encuentras algún problema o tienes preguntas durante el proceso de integración, puedes:
 - Contacta a nuestro equipo de soporte via correo electrónico a [soporte@soyio.id](mailto:soporte@soyio.id) o via nuestros canales de Slack.

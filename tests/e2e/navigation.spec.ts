@@ -10,7 +10,7 @@ test.describe.parallel('Basic Navigation', () => {
   });
 
   test('Navigate to Integration Guides', async ({ page }) => {
-    await page.locator('.navbar__item').getByText('Guías de Integración').click();
+    await page.locator('.navbar__item').getByText('Guías de integración').click();
     await expect(page).toHaveURL(/\/docs\/integration-guide\/intro/);
     await expect(page.getByRole('heading', { name: 'Guías de integración' })).toBeVisible();
   });
@@ -22,8 +22,8 @@ test.describe.parallel('Basic Navigation', () => {
   });
 
   test('Navigate to User Guides', async ({ page }) => {
-    await page.locator('.navbar__item').getByText('Guías de Usuario').click();
+    await page.locator('.navbar__item').getByText('Guías de usuario').click();
     await expect(page).toHaveURL(/\/docs\/user-guide\/intro/);
-    await expect(page.getByRole('heading', { name: 'Guías de Usuario' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Guías de usuario' })).toBeVisible();
   });
 });

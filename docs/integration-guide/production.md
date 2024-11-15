@@ -1,4 +1,4 @@
-# Paso a Producción
+# Paso a producción
 
 Cuando estés listo para comenzar a utilizar Soyio en un ambiente productivo, deberás seguir estos pasos importantes.
 
@@ -15,7 +15,7 @@ Asegúrate de:
 - Tener todos los flujos validados y funcionando correctamente
 - Contar con los procedimientos de contingencia necesarios
 
-## URL Base de Producción
+## URL base de producción
 
 Para el ambiente productivo, deberás utilizar la siguiente URL base:
 
@@ -23,9 +23,9 @@ Para el ambiente productivo, deberás utilizar la siguiente URL base:
 https://app.soyio.id
 ```
 
-## Consideraciones Importantes
+## Consideraciones importantes
 
-### API Token
+### API token
 
 El `api_token` que utilizas en sandbox seguirá siendo válido en producción. Solo necesitas actualizar la URL base en tu implementación para comenzar a operar en el ambiente productivo. Te recomendamos utilizar una variable de entorno asociada a tu ambiente para evitar errores de configuración.
 
@@ -33,13 +33,13 @@ El `api_token` que utilizas en sandbox seguirá siendo válido en producción. S
 
 Los webhooks configurados son transferibles entre ambientes. No necesitas realizar configuraciones adicionales una vez que migres a producción. Esto también aplica para los templates de Disclosure y Firma.
 
-### Ambiente Sandbox
+### Ambiente sandbox
 
 Incluso después de migrar a producción, mantendrás acceso al ambiente sandbox. Esto te permitirá:
 - Continuar realizando pruebas
 - Implementar nuevas funcionalidades
 
-## Activación de Cuenta en Producción
+## Activación de cuenta en producción
 
 Para habilitar tu cuenta en el ambiente de producción:
 

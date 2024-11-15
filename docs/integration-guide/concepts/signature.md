@@ -1,5 +1,5 @@
 
-# Firma de Documentos
+# Firma de documentos
 
 En esta sección te explicaremos cómo funciona la solución de firma de Soyio, cómo asegura la identidad del firmante y la integridad del documento, y su validez legal, para que evalúes si se adapta a tus necesidades.
 
