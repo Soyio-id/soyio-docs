@@ -59,6 +59,16 @@ Crear un disclosure request
   
 </RequestSchema>
 
+Parametros para hacer match con los datos del usuario
+
+| Campo | Descripción |
+| --- | --- |
+| `cl_carnet_rut` | RUT chileno (sin puntos y con guión) |
+| `name` | Nombres del usuario (separados por un espacio y sin tildes) |
+| `last_name` | Apellidos del usuario (separados por un espacio y sin tildes)|
+| `date_of_birth` | Fecha de nacimiento del usuario (formato: `YYYY-MM-DD`) |
+
+
 <StatusCodes
   id={undefined}
   label={undefined}
