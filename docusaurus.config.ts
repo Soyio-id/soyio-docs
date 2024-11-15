@@ -38,6 +38,10 @@ const config: Config = {
         docs: {
           sidebarPath: './sidebars.ts',
           docItemComponent: '@theme/ApiItem', // Derived from docusaurus-theme-openapi
+          admonitions: {
+            keywords: ['chile'],
+            extendDefaults: true,
+          },
         },
         theme: {
           customCss: './src/css/custom.css',
