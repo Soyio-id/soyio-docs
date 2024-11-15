@@ -52,10 +52,11 @@ Derechos de una persona en materia de datos personales. Las siglas corresponden 
 - **C**ancelación/Supresión - quiero eliminar mi dato
 - **O**posición - no quiero que traten un(os) dato(s) específico
 
-#### Derechos que se incluirán con la futura Ley de Protección de Datos en Chile
-- Decisiones individuales automatizadas - no quiero que me perfilen de manera automática
-- Bloqueo del tratamiento - no trates mis datos mientras ejerzo mis derechos
-- Portabilidad - quiero una copia de mis datos para usar en otro lado
+:::chile[Derechos que se incluirán con la futura Ley de Protección de Datos en Chile]
+    - Decisiones individuales automatizadas - no quiero que me perfilen de manera automática
+    - Bloqueo del tratamiento - no trates mis datos mientras ejerzo mis derechos
+    - Portabilidad - quiero una copia de mis datos para usar en otro lado
+:::
 
 ### DSAR (aplicación de los derechos)
 

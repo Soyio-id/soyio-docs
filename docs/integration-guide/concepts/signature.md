@@ -32,9 +32,10 @@ Además, se añaden marcas visuales a cada página del documento, incluyendo un 
 
 ## ¿Cuándo puedo utilizar la firma electrónica de Soyio?
 
-La firma electrónica de Soyio puede ser utilizada en todos aquellos contratos que no requieran Firma Electrónica Avanzada (FEA), estos casos son los siguientes:
+La firma electrónica de Soyio puede ser utilizada en todos aquellos contratos que no requieran Firma Electrónica Avanzada (FEA).
 
-1. No puede utilizarse FES cuando la ley exige expresamente el uso de Firma Electrónica Avanzada (FEA), por ejemplo:
+:::chile[Excepciones en Chile]
+1. En Chile no puede utilizarse FES cuando la ley exige expresamente el uso de Firma Electrónica Avanzada (FEA), por ejemplo:
 
     i. Los instrumentos públicos en formato electrónico deben llevar la FEA del funcionario que los emite.
 
@@ -42,10 +43,11 @@ La firma electrónica de Soyio puede ser utilizada en todos aquellos contratos q
 
     iii. Los formularios para la constitución, modificación, disolución o anotaciones de empresas del Registro de Empresas y Sociedad deben ser suscritos con la FEA de los constituyentes, socios o accionistas; o con la FEA del notario que autoriza el acto si es que estos no contaran con su propia FEA.
 
-2. No puede utilizarse firma electrónica (FES o FEA) cuando la LFE u otras leyes impiden el uso de firma electrónica:
+2. En Chile no puede utilizarse firma electrónica (FES o FEA) cuando la ley impide el uso de firma electrónica:
 
-    i. Cuando la ley exige una solemnidad que no sea susceptible de cumplirse mediante documento electrónico
+    i. Cuando la ley exige una solemnidad que no sea susceptible de cumplirse mediante documento electrónico.
 
-    ii. Cuando la ley requiere la concurrencia personal de alguna de las partes
+    ii. Cuando la ley requiere la concurrencia personal de alguna de las partes.
 
-    iii. En actos y contratos relativos al derecho de familia
+    iii. En actos y contratos relativos al derecho de familia.
+:::
