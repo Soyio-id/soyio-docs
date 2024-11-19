@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-# Preguntas Frecuentes (FAQs)
+# Preguntas frecuentes (FAQs)
 
 ## Generales
 
@@ -38,7 +38,7 @@ Crear una cuenta en Soyio te permite:
 Una vez verificada tu identidad, podrás completar nuevos procesos en segundos sin necesidad de volver a subir documentación. Tu información está protegida y tú mantienes el control sobre qué datos compartir en cada caso.
 
 
-## Verificación de Identidad
+## Verificación de identidad
 
 ### ¿Qué necesito para verificar mi identidad?
 Para verificar tu identidad necesitarás:
@@ -49,15 +49,15 @@ Para verificar tu identidad necesitarás:
 ### ¿Es seguro compartir mis datos personales?
 Sí. Soyio implementa estrictas medidas de seguridad y cumple con las normativas de protección de datos. Toda la información se maneja de forma encriptada y sólo se comparte con las empresas que tú autorices específicamente.
 
-## Firma de Documentos
+## Firma de documentos
 
 ### ¿Los documentos firmados digitalmente son legalmente válidos?
-Sí, los documentos firmados a través de Soyio tienen validez legal y cumplen con los requisitos de firma electrónica simple.
+Sí, los documentos firmados a través de Soyio cumplen con los requisitos de firma electrónica simple (FES).
 
 ### ¿Puedo acceder a mis documentos firmados posteriormente?
 Sí, puedes acceder a todos tus documentos firmados a través de la plataforma en cualquier momento.
 
-## Problemas Comunes
+## Problemas comunes
 
 ### ¿Qué hago si la verificación de identidad falla?
 Si la verificación falla, puede deberse a varios factores:
@@ -83,7 +83,7 @@ Cada proceso de verificación puede requerir distintos tipos de datos. Si te apa
 - El nuevo proceso requiere información adicional que no fue validada anteriormente.
 - Necesitas completar una verificación complementaria para obtener los datos faltantes.
 
-## Privacidad y Seguridad
+## Privacidad y seguridad
 
 ### ¿Cómo se protegen mis datos personales?
 Soyio implementa múltiples capas de seguridad:
@@ -93,7 +93,7 @@ Soyio implementa múltiples capas de seguridad:
 - Trazabilidad completa de accesos y consentimientos
 
 ### ¿Quién puede acceder a mi información?
-Solo las empresas que tú autorices específicamente pueden acceder a tu información, y únicamente a los datos para los que hayas dado tu consentimiento explícito.
+Solo las empresas que hayas autorizado específicamente pueden acceder a tu información y únicamente a aquellos datos para los cuales hayas otorgado tu consentimiento explícito.
 
 ## Soporte
 

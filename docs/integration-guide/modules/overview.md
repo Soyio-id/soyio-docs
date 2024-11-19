@@ -1,4 +1,4 @@
-# Descripción General
+# Descripción general
 
 ## Módulos Soyio
 

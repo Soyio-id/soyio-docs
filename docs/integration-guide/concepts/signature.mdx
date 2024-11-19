@@ -1,17 +1,16 @@
+import Admonition from '@theme/Admonition';
 
-# Firma de Documentos
+# Firma de documentos
 
 En esta sección te explicaremos cómo funciona la solución de firma de Soyio, cómo asegura la identidad del firmante y la integridad del documento, y su validez legal, para que evalúes si se adapta a tus necesidades.
 
 ## ¿Qué es una Firma Electrónica Simple?
 
-Como probablemente ya sepas, existen diferentes tipos de firma electrónica. En Chile, la Ley N°19.799 sobre documentos electrónicos, firma electrónica y servicios de certificación de dicha firma (LFE), establece dos tipos de firma: Firma Electrónica Simple (FES) y Firma Electrónica Avanzada (FEA). La Firma Electrónica Simple consiste en: «cualquier clase de sonido, símbolo o proceso electrónico que permita al receptor de un documento electrónico identificar, al menos formalmente, a su autor».
-
-Por lo tanto, un mecanismo electrónico que permita incorporar la firma en un documento electrónico e identifique formalmente al usuario cumple con los requisitos de la ley para ser considerado una firma electrónica simple.
+Una Firma Electrónica Simple (FES) es cualquier método electrónico que permita identificar al autor de un documento y refleje su intención de firmarlo. Su validez depende de la legislación local, como la Ley N°19.799 en Chile, el Reglamento eIDAS en la Unión Europea o la ESIGN Act en Estados Unidos. En general, si un mecanismo identifica formalmente al usuario y asocia su firma con el documento, puede ser considerado una FES bajo estos marcos legales.
 
 ## ¿Cómo aseguramos la autenticidad del firmante?
 
-Aunque la ley no específica métodos específicos para identificar al autor de la firma, Soyio utiliza autenticación fuerte (SCA) para confirmar la identidad del firmante, lo que fortalece la seguridad del proceso y eleva su valor probatorio.
+Aunque la ley no señala métodos específicos para identificar al autor de la firma, Soyio utiliza autenticación fuerte (SCA) para confirmar la identidad del firmante, lo que fortalece la seguridad del proceso y eleva su valor probatorio.
 
 Para que un usuario pueda firmar usando Soyio deberá completar previamente un proceso de [Disclosure](../modules/disclosure.mdx). Al hacerlo creará una identidad verificada en el sistema, podrá crear una llave de acceso (passkey) y además registraremos su consentimiento. Una vez creada su cuenta podrá iniciar un proceso de firma.
 
@@ -23,7 +22,7 @@ Para mantener la integridad del documento y evitar modificaciones después de la
 
 ## Documento de evidencia electrónica
 
-A cada documento firmado se adjunta un registro temporal que documenta todas las pruebas electrónicas del proceso de firma. Este documento incluye el nombre y correo del firmante, fecha y hora, ubicación geográfica, dirección IP y las acciones realizadas. Esta evidencia puede presentarse ante un tribunal en caso de impugnación o en un proceso de auditoría, ofreciendo un alto nivel de fiabilidad.
+A cada documento firmado se adjunta un registro temporal que recopila todas las pruebas electrónicas del proceso de firma. Este registro incluye el nombre y correo del firmante, fecha y hora, ubicación geográfica, dirección IP y las acciones realizadas. Toda esta evidencia puede presentarse ante un tribunal en caso de impugnación o en un proceso de auditoría, ofreciendo un alto nivel de fiabilidad
 
 Además, se añaden marcas visuales a cada página del documento, incluyendo un timbre con el nombre verificado del usuario y un identificador único del documento. Estas marcas refuerzan la transparencia y facilitan la validación visual del documento.
 
@@ -32,11 +31,10 @@ Además, se añaden marcas visuales a cada página del documento, incluyendo un 
 
 ## ¿Cuándo puedo utilizar la firma electrónica de Soyio?
 
-La firma electrónica de Soyio es válida legalmente para celebrar toda clase de actos y contratos, especialmente contratos entre privados.
+La firma electrónica de Soyio puede ser utilizada en todos aquellos contratos que no requieran Firma Electrónica Avanzada (FEA).
 
-Al ser una Firma Electrónica Simple (FES) existen excepciones que se detallan a continuación:
-
-1. No puede utilizarse FES cuando la ley exige expresamente el uso de Firma Electrónica Avanzada (FEA), por ejemplo:
+<Admonition type="note" icon="🇨🇱" title="Excepciones en Chile">
+1. En Chile **NO** puede utilizarse Firma Electrónica Simple (FES) cuando la ley exige expresamente el uso de Firma Electrónica Avanzada (FEA), por ejemplo:
 
     i. Los instrumentos públicos en formato electrónico deben llevar la FEA del funcionario que los emite.
 
@@ -44,10 +42,11 @@ Al ser una Firma Electrónica Simple (FES) existen excepciones que se detallan a
 
     iii. Los formularios para la constitución, modificación, disolución o anotaciones de empresas del Registro de Empresas y Sociedad deben ser suscritos con la FEA de los constituyentes, socios o accionistas; o con la FEA del notario que autoriza el acto si es que estos no contaran con su propia FEA.
 
-2. No puede utilizarse firma electrónica (FES o FEA) cuando la LFE u otras leyes impiden el uso de firma electrónica:
+2. En Chile **NO** puede utilizarse firma electrónica (FES o FEA) cuando la ley impide el uso de firma electrónica:
 
-    i. Cuando la ley exige una solemnidad que no sea susceptible de cumplirse mediante documento electrónico
+    i. Cuando la ley exige una solemnidad que no sea susceptible de cumplirse mediante documento electrónico.
 
-    ii. Cuando la ley requiere la concurrencia personal de alguna de las partes
+    ii. Cuando la ley requiere la concurrencia personal de alguna de las partes.
 
-    iii. En actos y contratos relativos al derecho de familia
+    iii. En actos y contratos relativos al derecho de familia.
+</Admonition>

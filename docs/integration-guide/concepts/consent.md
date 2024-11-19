@@ -1,5 +1,5 @@
 
-# Consentimiento y Finalidades
+# Consentimiento y finalidades
 
 El consentimiento es la base que permite a los usuarios decidir qué datos personales compartir y con qué finalidades. Por otro lado a las empresas les permite recopilar, procesar y utilizar esos datos de manera legal y ética. Un consentimiento adecuado protege los derechos del usuario, garantiza la transparencia y el cumplimiento de normativas de protección de datos.
 
@@ -23,12 +23,12 @@ El consentimiento no se reduce a una mera "aceptación de términos" general. Un
 
 Las finalidades de tratamiento de datos se refieren a los motivos específicos y legítimos por los cuales una organización recopila, procesa y almacena datos personales. Estas finalidades deben ser explícitas y justificadas, asegurando que el tratamiento se realice de manera transparente y conforme a la ley. Establecer finalidades claras es esencial para mantener la confianza de los usuarios y garantizar la protección de sus datos personales.
 
-#### Ejemplos de Finalidades de Tratamiento de Datos
-1. **Gestión de Clientes:** Utilizado para el registro, mantenimiento y soporte de clientes. Esto incluye todas las actividades necesarias para gestionar la relación con el cliente a lo largo de su ciclo de vida.
+#### Ejemplos de finalidades de tratamiento de datos
+1. **Gestión de clientes:** Utilizado para el registro, mantenimiento y soporte de clientes. Esto incluye todas las actividades necesarias para gestionar la relación con el cliente a lo largo de su ciclo de vida.
 2. **Marketing:** Envío de comunicaciones promocionales, boletines informativos y ofertas personalizadas a clientes. Estas actividades están orientadas a fomentar la lealtad del cliente y aumentar las ventas.
-3. **Recursos Humanos:** Para la administración del personal, incluyendo procesos de selección, contratación y evaluaciones de desempeño.
-4. **Mejora del Servicio:** Análisis de datos de uso para optimizar productos y servicios. Esta finalidad busca mejorar la calidad y la eficiencia de los servicios ofrecidos.
-5. **Cumplimiento Legal:** Mantenimiento de registros conforme a las normativas aplicables y respuesta a solicitudes legales.
+3. **Recursos humanos:** Para la administración del personal, incluyendo procesos de selección, contratación y evaluaciones de desempeño.
+4. **Mejora del servicio:** Análisis de datos de uso para optimizar productos y servicios. Esta finalidad busca mejorar la calidad y la eficiencia de los servicios ofrecidos.
+5. **Cumplimiento legal:** Mantenimiento de registros conforme a las normativas aplicables y respuesta a solicitudes legales.
 6. **Ciberseguridad:** Protección contra accesos no autorizados o actividades fraudulentas.
 
 Estas finalidades son ejemplos comunes y se pueden adaptar dependiendo del caso particular de tu empresa.
@@ -38,7 +38,7 @@ Estas finalidades son ejemplos comunes y se pueden adaptar dependiendo del caso 
 El consentimiento, como manifestación de voluntad del usuario, tiene un ciclo de vida que permite a las empresas gestionar los datos personales de manera continua y en cumplimiento con las normativas de protección de datos.
 
 ### 1. Solicitud de consentimiento
-La primera etapa implica solicitar el consentimiento del usuario. Este proceso debe ser claro, transparente y cumplir con los principios LEII. El usuario recibe toda la información necesaria sobre el propósito y uso de sus datos antes de aceptar, de modo que pueda tomar una decisión informada.
+La primera etapa implica solicitar el consentimiento del usuario. Este proceso debe cumplir con los [principios LEII](#qué-es-el-consentimiento). El usuario recibe toda la información necesaria sobre el propósito y uso de sus datos antes de aceptar, de modo que pueda tomar una decisión informada.
 
 ### 2. Otorgamiento de consentimiento
 Una vez que el usuario ha comprendido los términos, otorga su consentimiento explícitamente. En esta etapa, el consentimiento queda registrado de forma que pueda verificarse su legitimidad en el futuro. Este registro incluye detalles como el momento en que se otorgó el consentimiento y el contexto en el que fue proporcionado.
