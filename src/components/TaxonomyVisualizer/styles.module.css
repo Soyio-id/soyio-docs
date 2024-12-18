@@ -1,0 +1,203 @@
+.visContainer {
+  max-width: 1400px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+  margin: 0 auto;
+  background-color: var(--ifm-background-surface-color);
+  border-radius: 5px;
+  font-family: var(--ifm-font-family-base);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  letter-spacing: 0.15px;
+  color: var(--ifm-color-content);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.controlsContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.controlGroup {
+  display: inline-flex;
+  align-items: center;
+  margin: 0.25em;
+}
+
+.btnGroup {
+  display: inline-flex;
+  vertical-align: middle;
+  gap: 0;
+  margin: 0.25em;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.btn {
+  line-height: 1;
+  font-size: 0.875rem;
+  padding: 0.65em 0.75em;
+  border: none;
+  color: var(--ifm-color-gray-900);
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  background-color: var(--ifm-color-primary-light);
+  color: white;
+}
+
+.btnIcon {
+  padding: 0;
+  width: 48px;
+  height: 2.3em;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+.isSelected {
+  background-color: var(--ifm-color-primary);
+  color: white;
+}
+
+.chartContainer {
+  min-height: 400px;
+}
+
+.chartContainer svg {
+  display: block;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+.colorLegend {
+  display: inline-flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 0.5em;
+}
+
+.legendSwatch {
+  width: 1em;
+  height: 1em;
+  margin-right: 0.5em;
+}
+
+@media screen and (min-width: 1200px) {
+  .controlsContainer {
+    flex-wrap: nowrap;
+  }
+}
+
+/* Update highlight styles */
+.link {
+  transition: all 0.2s ease;
+}
+
+.link.is-highlighted {
+  opacity: 1;
+  stroke-width: 2px;
+}
+
+.link:not(.is-highlighted) {
+  opacity: 0.2;
+}
+
+/* Update node styles */
+.node {
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.node.is-highlighted {
+  opacity: 1;
+}
+
+.node:not(.is-highlighted) {
+  opacity: 0.2;
+}
+
+.node circle {
+  transition: all 0.2s ease;
+}
+
+.node text {
+  transition: all 0.2s ease;
+}
+
+/* Remove duplicate styles */
+.label-text {
+  transition: all 0.2s ease;
+  pointer-events: none;
+  user-select: none;
+  color: var(--ifm-color-content);
+}
+
+
+.label-text.is-highlighted {
+  opacity: 1;
+}
+
+.label-text:not(.is-highlighted) {
+  opacity: 0.2;
+}
+
+/* Add to existing highlight styles */
+.path {
+  transition: all 0.2s ease;
+}
+
+.path:hover {
+  cursor: pointer;
+}
+
+.paths-g text {
+  pointer-events: none;
+  user-select: none;
+}
+
+.paths-g path {
+  stroke-linejoin: round;
+}
+
+/* Add these styles for better visual hierarchy */
+.paths-g path:hover {
+  filter: brightness(1.1);
+}
+
+.paths-g path.is-highlighted {
+  filter: brightness(1.1);
+}
+
+/* Update existing styles */
+.node:hover {
+  cursor: pointer;
+}
+
+.label-text {
+  pointer-events: none;
+  user-select: none;
+}

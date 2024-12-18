@@ -1,0 +1,47 @@
+.tooltip {
+  position: absolute;
+  visibility: hidden;
+  background-color: var(--ifm-background-surface-color);
+  padding: .75rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 12px;
+  max-width: 300px;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.tooltipTitle {
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 4px;
+  color: var(--ifm-color-content);
+}
+
+.tooltipSection {
+
+  +.tooltipSection {
+    margin-top: .25rem;
+  }
+}
+
+.tooltipSectionTitle {
+  margin-bottom: 0;
+  font-size: 10px;
+}
+
+.tooltipContent {
+  color: var(--ifm-color-content);
+  font-size: 14px;
+}
+
+.tooltipHierarchyContent {
+  color: var(--ifm-color-content);
+  font-size: 12px;
+}
+
+.tooltipKey {
+  font-family: monospace;
+  font-size: 11px;
+  color: var(--ifm-color-content);
+}

@@ -39,6 +39,7 @@ export default function SequenceDiagram({ actors, actions }: Props) {
       background: 'transparent',
       borderRadius: '8px',
       marginBottom: '2rem',
+      boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
     }}>
       <ReactFlow
         nodes={nodes}
