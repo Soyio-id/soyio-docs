@@ -13,7 +13,7 @@ Soyio es una plataforma integral que ofrece servicios de verificación de identi
 Soyio ofrece tres módulos principales:
 - Revelación de datos y consentimiento (Disclosure)
 - Firma de documentos (Signature)
-- Autenticación de usuarios (Authentication)
+- Autenticación de usuarios (AuthRequest)
 
 Además, Soyio registra el consentimiento y los almacena de manera segura para que puedas **ejercer tus derechos sobre tus datos**.
 
