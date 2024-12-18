@@ -24,6 +24,7 @@
     "@types/d3": "^7.4.3",
     "clsx": "^2.0.0",
     "d3": "^7.9.0",
+    "docusaurus-plugin-fathom": "^1.2.0",
     "docusaurus-plugin-openapi-docs": "^4.1.0",
     "docusaurus-theme-openapi-docs": "^4.1.0",
     "prism-react-renderer": "^2.3.0",
