@@ -1,0 +1,71 @@
+---
+id: index-agreements
+title: "Obtener todos los acuerdos"
+description: "Retorna la lista de todos los acuerdos en su última versión."
+sidebar_label: "Obtener todos los acuerdos"
+hide_title: true
+hide_table_of_contents: true
+api: eJytl9tu3DYQhl9FmKsWkNe7htMAAlLESZ3CbeoYcdKijQ1jlpzdZSKRCjlyvV3oYfIMvcutX6wYSvJqDz7U7Y2tA8X/53D4zewCGKcBsg9wMPVEBVkOcJ6CpqC8Kdk4Cxm8JXbeYpJjkpvAmGhK2GkXktyFBFVFXm7IJqFKrr/mbApMLskHc/23HUAKriSPMtmRhgyM1XTV00uhRI8FMXmxsgCLBUEGJU4JUjBi4XNFfg7rxo6vvxbknfgpr79MjUVIwdPnynjSkE0wD5RCUDMqELIF8LykaIBpSh5SKIw1RVVANpKpJ1jlDNmoToGusChzijdLQ+Qv/pUpsuxRY0hK5/8HhwVetdfDYc/v3rBvWO5uHP85I3+P3VcmZ9/s3sT5AtklP52+OX6QzcDe2Cks5YO8DIxchYuJyZl8fFAVBfp5J4Y+xoMCo3aQwiXmlcy2OGs/PYNscQbPziA7A1RsLukM6lpkNDLdO/GE1CzmqPKESnJwVUQeM+kL5Ebo+yi0N9zb3xmOdoajTky5Ymws6dsFXUiaQahdePBK0odaqHs76bwmfzGe372Zb7wmK0uXg+kpVLnEOCTf0MdB0pdNfjg8fXkG3z5umyFbnwrqc5kplM6GJgv2hkP5t+rvYMkK5eLhiHGTa7Is47Esc6MiLHY/BvlosWnIjT+SYgGHF7SwaSRxyZTlWPQeY9SYirBtjnXWlZ4CWY64o8C+Ulx5TMbXX4JRMa8q20EvEXI1UGxWsmrI6M0orgseabJsJkahdj65/mqNEnbknYTwcxl2nPqLI/2C5r+9xNHh8ev3v9uTt6/Ll+/j9kTmNjHbAMmq6q8tnftKsIo9qAL5C08T8mQV3b+St+1Q0wQpVOiNSyQizivjLGpsDn6eqNyQZVpd2yTMnhtHAz3BePxuMmybdMMqyCISdtgUtEm2yIF5MnN+FQe3hzeewNFoZ2/0brSfPdnPnjwdjL57+gfUdQpsOA66KV0vMFB8UxCjRn5Aisbycf/2nDS1IkHFFebrG3NTh+6f6HB7BVqpFsCOMX/AZO9kXL+u9Wfaf1KnS0rdmyyPIdUd9EmhgfQDTnhHboygEc141JWz0URfp6tlcvUsNgBWRxLW/Xx4FZVlQf7A6hOUGIvWL11WbE2e1yZwO9H+cLSJymOXYMXOm7+kSsqwQKryhuexR8LSXHwiuT4X9BbEMyfN1ZRi0iHPIINd7HdZgfxl12JVPocMZsxlyHZ3A1o9dleD4ObGDYzexdLsXo5A6s/qSCzLzVHnS2+nguqWxp3DJYpL8zNtFq3D8LmiIh5RrKQOGNWe04K0QctCXExUjpeUHJwcrSGFrBCFrMIxSaxiUmFIgsuNMlxpCnLI2zp6UPEsBjWKt8V0RqjJxyAbO3HRcrtfp7JYUd2wLU4EJKfkL40yUbeBuUYtN/HTtrqhihSjAo2EM8gCmJ53oVyBN4wGw8FQHpUucIGR5639N2MmS35L+73ub7Gsqv+9gW83kOmKd8scjRV3MTMWba596Fff8xRmLrA8XSzGGOi9z+taHjdti2SgNgHHea/tuNX91i5/q6OYbt3vhq4Zi1n8KLVb2ve7pJe/EB4pf3s7fods1+Y/UvMxLL7DTa9VXRo6lxtvxFFkVtodOsmF5rsDpajk3lcbveAK6X48fAcpYCXZ10fMp4iY9kJm717ZvqN1DjQW5K/Ebusni0UDsLq+Gd+8uvWLdondaAnSeV3X/wDrl1W3
+sidebar_class_name: "get api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Obtener todos los acuerdos"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/agreements"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Retorna la lista de todos los acuerdos en su última versión.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"page","in":"query","description":"Número de página","required":false,"schema":{"type":"integer","minimum":1,"default":1},"example":1},{"name":"per_page","in":"query","description":"Número de entradas por página","required":false,"schema":{"type":"integer","minimum":1,"maximum":100,"default":20},"example":20},{"name":"where","in":"query","description":"Filtros en formato JSON","required":false,"schema":{"type":"string"},"examples":{"status_filter":{"summary":"Filtrar por estado","value":"{\"status\":{\"=\":\"active\"}}"},"date_filter":{"summary":"Filtrar por fecha de creación","value":"{\"created_at\":{\">\":\"2024-01-01\"}}"},"combined_filter":{"summary":"Filtros combinados","value":"{\"status\":{\"=\":\"active\"},\"created_at\":{\">\":\"2024-01-01\"}}"}}},{"name":"order_by","in":"query","description":"Orden de los resultados (ej. \"created_at DESC\")","required":false,"schema":{"type":"string"},"example":"created_at DESC"}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Acuerdos encontrados","content":{"application/json":{"schema":{"type":"object","properties":{"agreements":{"type":"array","items":{"type":"object","description":"Representa la estructura básica de un acuerdo para listados","properties":{"id":{"type":"string","description":"Identificador único del acuerdo.","example":"agr_IdBeyWCa1ENLUYnPRLpCUg"},"version":{"type":"integer","description":"Versión del acuerdo","example":1},"user_reference":{"type":"string","description":"Referencia de usuario proporcionada por el cliente.","example":"fsh@ioe.dfa"},"created_at":{"type":"string","format":"date-time","description":"Fecha y hora de creación del acuerdo.","example":"2024-11-21T14:54:57.167Z"}},"title":"AgreementBase"}},"metadata":{"type":"object","properties":{"page":{"type":"integer","description":"Página actual","example":1},"per_page":{"type":"integer","description":"Entradas por página","example":20},"total":{"type":"integer","description":"Total de entradas","example":45},"order_by":{"type":"string","description":"Orden de los resultados (ej. \"created_at DESC\")","example":"created_at DESC"},"filters":{"type":"object","description":"Filtros aplicados a la consulta","example":{"status":{"=":"pending"}}}},"title":"FilterOrderAndPaginationMetadata"}},"title":"AgreementList"}}}},"401":{"description":"No autorizado"}}}
+>
+  
+</StatusCodes>
+
+
+      

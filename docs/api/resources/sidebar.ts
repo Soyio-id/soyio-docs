@@ -3,6 +3,10 @@ import type { SidebarsConfig } from "@docusaurus/plugin-content-docs";
 const sidebar: SidebarsConfig = {
   apisidebar: [
     {
+      type: "doc",
+      id: "api/resources/soyio-api",
+    },
+    {
       type: "category",
       label: "Disclosure requests",
       items: [
@@ -178,6 +182,54 @@ const sidebar: SidebarsConfig = {
           type: "doc",
           id: "api/resources/get-signed-document",
           label: "Obtener un documento firmado.",
+          className: "api-method get",
+        },
+      ],
+    },
+    {
+      type: "category",
+      label: "Agreements",
+      items: [
+        {
+          type: "doc",
+          id: "api/resources/index-agreements",
+          label: "Obtener todos los acuerdos",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/get-agreement",
+          label: "Obtener un acuerdo específico",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/get-agreement-evidences",
+          label: "Obtener todas las evidencias de un acuerdo",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/get-agreement-evidence",
+          label: "Obtener una evidencia específica de un acuerdo",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/get-agreement-versions",
+          label: "Obtener todas las versiones de un acuerdo",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/get-agreement-version",
+          label: "Obtener una versión específica de un acuerdo",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/get-agreement-version-evidence",
+          label: "Obtener la evidencia de una versión específica",
           className: "api-method get",
         },
       ],
