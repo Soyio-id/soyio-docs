@@ -3,6 +3,7 @@ import { Config } from '@docusaurus/types';
 import * as Preset from '@docusaurus/preset-classic';
 import type * as OpenApiPlugin from 'docusaurus-plugin-openapi-docs';
 import { sidebarItemGenerator } from './lib/sidebarItemGenerator';
+import type * as FathomAnalyticsPlugin from 'docusaurus-plugin-fathom';
 
 const config: Config = {
   title: 'Soyio Docs',
@@ -75,6 +76,7 @@ const config: Config = {
       },
     ],
     './lib/soyioDocs/index.ts',
+    'docusaurus-plugin-fathom',
   ],
   themeConfig: {
     docs: {
@@ -201,6 +203,9 @@ const config: Config = {
       contextualSearch: false,
       insights: true,
     },
+    fathomAnalytics: {
+      siteId: 'FGFGWGHJ',
+    } satisfies FathomAnalyticsPlugin.Options,
   } satisfies Preset.ThemeConfig,
   future: {
     experimental_faster: {
