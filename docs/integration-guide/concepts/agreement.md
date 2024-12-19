@@ -13,9 +13,9 @@ El Agreement actúa como un eje central en las soluciones de gestión de consent
 
 La taxonomía de Soyio se basa en el modelo propuesto por [Fideslang](https://ethyca.github.io/fideslang/). Tiene como objetivo facilitar la categorización precisa y la comprensión del manejo de datos mediante el uso de categorías y usos de datos estructurados jerárquicamente. Esto permite tanto a las empresas como a los usuarios entender claramente las políticas de manejo de datos.
 
-- **Categorías de datos:** Las categorías de datos son etiquetas que describen el tipo de datos que procesa una empresa. Por ejemplo, los datos de contacto del usuario pueden clasificarse de manera general como ```user.contact``` o con mayor precisión como ```user.contact.email```.
+- **Categorías de datos:** Las categorías de datos son etiquetas que describen el tipo de datos que procesa una empresa. Por ejemplo, los datos de contacto del usuario pueden clasificarse de manera general como `user.contact` o con mayor precisión como `user.contact.email`. Puedes ver más detalles de las categorías de datos soportadas en [el siguiente enlace.](https://ethyca.github.io/fideslang/taxonomy/data_categories/)
 
-- **Usos de datos:** Los usos de datos son etiquetas que describen cómo o para qué propósitos se utiliza un componente de datos dentro del sistema. Al igual que las categorías de datos, los usos también son jerárquicos, lo que permite describir el uso de los datos de manera general (por ejemplo, ```provide.service.operations```) o con mayor precisión usando subcategorías (por ejemplo, ```provide.service.operations.support.optimization```).
+- **Usos de datos:** Los usos de datos son etiquetas que describen cómo o para qué propósitos se utiliza un componente de datos dentro del sistema. Al igual que las categorías de datos, los usos también son jerárquicos, lo que permite describir el uso de los datos de manera general (por ejemplo, `provide.service.operations`) o con mayor precisión usando subcategorías (por ejemplo, `provide.service.operations.support.optimization`). Puedes ver más detalles de los usos soportados en [el siguiente enlace.](https://ethyca.github.io/fideslang/taxonomy/data_uses/)
 
 ## Evidencia
 
@@ -24,11 +24,10 @@ La "evidencia" se refiere al log o registro auditable que documenta la creación
 ### Contenido del registro de evidencia
 El registro de evidencia incluye, pero no se limita a, los siguientes elementos:
 
-- **Acciones del usuario:** Detalla todas las actividades realizadas por el usuario que afectan la creación o modificación de un agreement.
-- **Información que se le presentó al usuario:** Detalles de la información que se le presentó al usuario para que diera su consentimiento informado e inequívoco.
-- **Fechas y hora de las acciones:** Registra las fechas y horas exactas en que se realizaron las acciones, proporcionando una línea de tiempo precisa de los eventos.
-- **Identidad asociada y mecanismos de verificación:** Incluye información para identificar al usuario y los mecanismos de verificación utilizados para autenticar al usuario antes de realizar acciones si es que las hubo.
-- **Identificadores personales:** Información del dispositivo utilizado por el usuario al momento de interactuar con el acuerdo.
+- **Acciones del usuario:** Detalla las interacciones realizadas por el usuario que afectan la creación o modificación de un agreement, junto a la fecha y hora en la que ocurrió cada una de ellas.
+- **Método utilizado para dar el consentimiento:** Detalles de la forma en la que se obtuvo el consentimiento, esto incluye el canal utilizado (website, aplicación movil, formulario, etc.), la forma en la que dio su consentimiento (opt-in checkbox, firma de contrato, etc.) y la información que se le presentó al usuario para que diera su consentimiento informado e inequívoco.
+- **Método de identificación del usuario:** Incluye un id del usuario e información sobre el mecanismo utilizado para identificarlo. El mecanismo puede ser uno dado por la empresa o podría ser algún método de verificación de identidad incorporado en los módulos Soyio.
+- **Información contextual:** Esta información incluye información del dispositivo utilizado por el usuario al momento de dar su consentimiento.
 
 ### Características del registro de evidencia
 - **Persistencia indefinida:** La evidencia se almacena de forma permanente y no puede ser eliminada.
