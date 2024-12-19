@@ -1,0 +1,71 @@
+---
+id: get-agreement-version
+title: "Obtener una versión específica de un acuerdo"
+description: "Retorna los detalles de una versión específica de un acuerdo."
+sidebar_label: "Obtener una versión específica de un acuerdo"
+hide_title: true
+hide_table_of_contents: true
+api: eJytVc1u40YMfhWBpxZQbMvINoVO66RpEXSbBvnZIg2MgJ6hrdmVZpSZkRFX0MP0AXrqba95sYIj2Yktb1oE9cEeS+TwI7+PZA0eFw7SO5gsLFFB2juYxiDJCatKr4yGFC7JG6sxyo2LJHnMc+JDVGmMlmSdevpbR+RKEk9/zZXA9l2EoiIrzQBiMCVZ5NvOJKSwIL8J95H9jYYYSrRYkCfLeGrQWBCkoCTEoBhFiT6DXWhnP0SS8nUoiMHSQ6UsSUi9rSgGJzIqENIa/KrkC523Si+giYEesShzfoYLe58cj38Z334/cYvrcjEpbo8uspM5222gLFuo51UxI/sqqvOnLwVZw3VY1+et0BJopuzqSqMdObYej0b8sx3y44YHLYz2FiVCDHwk7dkcyzJXIpAw/OTYp+4jMLNPJDyTYZkyr9qIXeb7DHeVUlpypD1GOUbkvK2EryxGs6c/XU8ZEVMe5cp5lMb1oirZr02Pf0naKxadNDZ6+qKVMC8VweLb5vlMHtPqtxNMTs8/3Nzqi8sP5clNKHo/S6U9LQLXXyn2tvY2gZImhsqRvbc0J0ta0L9nctmZqrZIrkKrTMQVMVYoo1FiVBobUR6JXJH2tJ3b3GXvlaGBnCMnIyyhJ3mPfl/oubEFvwGJng68KqiH50cSGUarKDM2IOILxW7S2xDGo/HhQZIcjJPr5DB9d5i+Oxok3x39Dk0Tg1c+GG06/xgdQRM+MRyOkr6mz02ElTdW/YHSQLA6fEX5ZqMrbZ7bwITojkRllV+F0YKluv9MfJ5ycxXkM9PNpTCHfAYpDHEzEYe1ks2wk4cb1luDoAG+3S7Xc6uyOaSQeV+6dDh0qOXMPA6cWSkzUHKIpRoukzBWti2xLPtW02fkV9yrbWNs8G+IxVL9TKseh6fuoaIi0IcVDwIlOg4Lkgq1b2e4yHFJ0eTibEdupFltpAXOiCnge3J0kTO5EspXkhwLoBuPk8pngSvfzvMwHjNCSTZQoPTcBMidEK44WY7ag81IWGRXZJdKqBC3bXSJkv8E1268oQgKpwIVl9NxAp7er0u51diQDEaDET8qjfMFhl7v4P8686TJ/seltou5fh61/8O67Fj19OiHZY5KM+Qgl7qT5x08yxNiSMOaXCuUH2wvq2kMmXGe/ep6ho5ubN40/PihIhs6IYYlWoUz5uauBqkcnyWkc8wdvZLuN5fdXvs26m3jvYmsNatZsEvMK/4HMQRJQ6DsjfH37903gNiuXjNt4rWSuTatzUQIKv0L796G3RouP51eQwxYMXsv+/Zz6NvuwLfvRbbbXC0E/uZi7XWp63YqNM1zWuHVVz26FDdMcAZN0/wD7yGH1w==
+sidebar_class_name: "get api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Obtener una versión específica de un acuerdo"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/agreements/{id}/versions/{versionNumber}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Retorna los detalles de una versión específica de un acuerdo.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"id","in":"path","description":"ID del acuerdo","required":true,"schema":{"type":"string"},"example":"agr_1B2M2Y8AsgTpgAmY7PhCfg"},{"name":"versionNumber","in":"path","description":"Número de versión","required":true,"schema":{"type":"string"},"example":"1"}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Versión encontrada","content":{"application/json":{"schema":{"type":"object","properties":{"version":{"type":"object","description":"Representa la estructura básica de un acuerdo para listados","properties":{"id":{"type":"string","description":"Identificador único del acuerdo.","example":"agr_IdBeyWCa1ENLUYnPRLpCUg"},"version":{"type":"integer","description":"Versión del acuerdo","example":1},"user_reference":{"type":"string","description":"Referencia de usuario proporcionada por el cliente.","example":"fsh@ioe.dfa"},"created_at":{"type":"string","format":"date-time","description":"Fecha y hora de creación del acuerdo.","example":"2024-11-21T14:54:57.167Z"}},"title":"AgreementBase"}}}}}},"401":{"description":"No autorizado"},"404":{"description":"Versión o acuerdo no encontrado"}}}
+>
+  
+</StatusCodes>
+
+
+      

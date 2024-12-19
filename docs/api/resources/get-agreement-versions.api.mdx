@@ -1,0 +1,71 @@
+---
+id: get-agreement-versions
+title: "Obtener todas las versiones de un acuerdo"
+description: "Retorna la lista de versiones asociadas a un acuerdo específico."
+sidebar_label: "Obtener todas las versiones de un acuerdo"
+hide_title: true
+hide_table_of_contents: true
+api: eJytV81uE0kQfpVWn0Aa/KewrEZaCRPCKloWoiSwYsGKyt1lu2Gme+iuseK15mF4gD3tjWtebFXtsT32mAQiLsnMdHXVV39flZeSYBpk+l4Opx4xR0tBjhKpMShvCjLOylSeIzlvQWQgMhMIhEYxRx+MsxgEBKcMaAgCRGkFqBK9dgJDgerm34lRriMT6Qr0wPpOtUzlFGlj8O1KU5CJLMBDjoSeIS2lhRxlKo2WiTQMpACayX10p8+FxmxtVybS4+fSeNQyJV9iIoOaYQ4yXUpaFKwwkDd2KqtE4jXkRcbfYOqv+s8Gfw7e/ToM08tiOszfPTmbHU9YbgOlgCmuwXwu0S9aaF7dfM3ROw5RcfNlaizsIJpAFg5BMpZwil4mMjfW5GUu0z6rnkCZkUz7Taz9JiD0Vz8ECi35mKzC+Z+AMIfr+rnXa+Ad9JqA+W2D2HmN/mq8uB3xa6/RMt7MBeExlBmBdkE8wI8d8UEqj0Cor4DE85OL4w/y4Xf5cCjxe6pkNWJNoXA2YOC7g16P/+3ie7spf7TK1TGVieRntMQXoCgyo2LNdz8GvrVsI3Ljj6iIS99zh5BZ2YRtN25lwXuIYSPMwyEd+11beAxoKTYuBvKlotKDGN98CUbFLm70K/feqr21Cy1ARrfD2GpEjZbMxCjQzoubr9Yo12xNpoHdhjvVz3Dx1zH0T169fPPOnp2/LI7fxPzU9HKw/g5k4uY/u0cCzW6RZUB/5XGCHq3Cuz05r0XNKkihBG+c4Ig4r4yzoCH2D2ZCZQYt4a5vkzB7ahx29ATYmW2JHTI9cT7nE6mB8BGZHFt4XqCagViImfMREStU+07vQhj0BkeP+v1Hg/5l/yh9fJQ+ftLp//Lkb1lViSRDUWjDwc8gYDzJkUADfUeJRta5Oz1nK4oRoKiEbD8xG/q6W9HJYeLaIRlJjiD7DmWXLNekw6amo8dVsqWpO4vlPlR1C/0kcmKy1Qi8q8NfmIy8CwIi0bDN2OrK2QiiaWcpAwGVUelvcW5YHamwatbDi2iZHfJDq8+AY8y2/lxXxcHieWkC1YqOev02V75yAkpy3vwD2skoddSWGtY8ZN2WUl00GFCV3tAi7gRQmKtPyM8jZuocaebqjSIuEDSTqexu+bO7NLrqzrc7RkA/Xy8Ypc9kKmdERUi73QBWj911J7iFcR2ju1CY7rwf5/+uJBRFW2q0RXrBNF8z+RrvlsYL8we2J95J+FxiHtsbSp4hRtU9nqM2YInZGoTKYI5ieHa6R0domY3QKhgjxzkWJAQRXGaUoVJjYIKoh/CwpFlMSDReT+IZgkYfQ27sxEXIda4v2Fm22oLNSJiELtDPjTLR7moQaND8Eq/WkxFUZEDMwXA4AztA+HQdyh3il/1Or9PjT4ULlEOcBTX812NCi16QY0JgN7fr6M5U24e73A7on7LV1iklvKZukYGxjDfWyrKuxffNWZ7INC6zm3IcJXLmArHYcjmGgG98VlX8ebUWcZFqE2CcNdaab3p0cPc8CDFW5HqbnUNWskgs9HtZ+8ZSeZvp7d56T/P3od1bADXW0i2gEb94w4h+MBUPzutl9KFo/T45iGJNDnYHwRod98aoStYtylhWB0OlsKDGldbWucOSv59cykRCyZXZJKRPkZDqB9Z+EM4+a6wg8F9O3cEry+WK7qpqI786+uaN2sWN5+xBVVX/A017Dyo=
+sidebar_class_name: "get api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Obtener todas las versiones de un acuerdo"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/agreements/{id}/versions"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Retorna la lista de versiones asociadas a un acuerdo específico.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"id","in":"path","description":"ID del acuerdo","required":true,"schema":{"type":"string"},"example":"agr_1B2M2Y8AsgTpgAmY7PhCfg"},{"name":"page","in":"query","description":"Número de página","required":false,"schema":{"type":"integer","minimum":1,"default":1},"example":1},{"name":"per_page","in":"query","description":"Número de entradas por página","required":false,"schema":{"type":"integer","minimum":1,"maximum":100,"default":20},"example":20},{"name":"order_by","in":"query","description":"Orden de los resultados (ej. \"created_at DESC\")","required":false,"schema":{"type":"string"},"example":"created_at DESC"}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Versiones encontradas","content":{"application/json":{"schema":{"type":"object","properties":{"agreements":{"type":"array","items":{"type":"object","description":"Representa la estructura básica de un acuerdo para listados","properties":{"id":{"type":"string","description":"Identificador único del acuerdo.","example":"agr_IdBeyWCa1ENLUYnPRLpCUg"},"version":{"type":"integer","description":"Versión del acuerdo","example":1},"user_reference":{"type":"string","description":"Referencia de usuario proporcionada por el cliente.","example":"fsh@ioe.dfa"},"created_at":{"type":"string","format":"date-time","description":"Fecha y hora de creación del acuerdo.","example":"2024-11-21T14:54:57.167Z"}},"title":"AgreementBase"}},"metadata":{"type":"object","properties":{"page":{"type":"integer","description":"Página actual","example":1},"per_page":{"type":"integer","description":"Entradas por página","example":20},"total":{"type":"integer","description":"Total de entradas","example":45},"order_by":{"type":"string","description":"Orden de los resultados (ej. \"created_at DESC\")","example":"created_at DESC"},"filters":{"type":"object","description":"Filtros aplicados a la consulta","example":{"status":{"=":"pending"}}}},"title":"FilterOrderAndPaginationMetadata"}},"title":"AgreementList"}}}},"401":{"description":"No autorizado"},"404":{"description":"Acuerdo no encontrado"}}}
+>
+  
+</StatusCodes>
+
+
+      

@@ -1,0 +1,71 @@
+---
+id: get-agreement
+title: "Obtener un acuerdo específico"
+description: "Retorna los detalles de un acuerdo en su última versión."
+sidebar_label: "Obtener un acuerdo específico"
+hide_title: true
+hide_table_of_contents: true
+api: eJylVs1S40YQfpWpOSVVwraMMeDTskBSVDZAWEhqQ1Gu9kzbnl1Jo50euXBcepg8wJ72tle/WKpHwlg2LCThAEKa6f76669/FtLDhOTgVh5NHGKKmSd5F0mNpJzJvbGZHMgr9NZlIBJLQqOHJEF+EEUmQBXotBWYCSrE8lviTQpiho7M8mvWkpG0OTpgQ2daDuQE/cqTjGQODlL06BjDQmaQohxIo2UkDXvOwU/lJpyzE6ExWbkGMSpIgZORdPi5MA61HHhXYCRJTTEFOVhIP8/ZMnlnsoksI4n3kOYJv4OJG8Zvu792Pxwc0eQ6nxylH/Yvp8fjiSzv2CblNiMkNtPtdPhPE8/RigNlM+9AWxlJfuQYBwsJeZ4YFThofyS+sthGZkcfUQVKHDPmTeUQVmQ9cXQzS7lDwsyDSEAgeVcoXzioUwYaNnNGOarll7FRDBiS5GIcsvAf3YyWf5NRm044wyIx5EFb2grP6O3kbKVbY+bN2CjQ1onlt8wouy4AFlkzm2f6Lc7/OIb49PzdzYfs8updfnwTsh6EWWWgdmoyjxN0W15/ryW87mndUVxGsiB0Q4djdJgpfDmSq/qoqUiiApyxghmxThmbcYpy6wQmQiUGM4/N2MY0fWMstvQYOBjlEDzqIfinXI+tS/mL1OBxx5sUt/D8hGoKYi6mNqhEsEG1GXQTQrfT7e3E8U43vo57g73eYG+/Fff3/5RlGUlvfDi0qvC3QCjL6CWR5w5nxhY0xJnRTOXQaFqLCZyD+RNtIDSh+o4BEpB5dMY6JOEwgZpSEspmLFRcy6PxmNL3G8OtxJke5ue/OnvWvTgdu5NzbQ7ur/ufLn6Td2XExMKLKE/AW1ovNWo0r7mggkRBlkSOLjXeVGWyie8Z5j7h/N8WEHvX4BtirhpvHdJQgceJda+wfFydXH6BlVkOg2wGScM+V0qLnbTGxpFfuSrqvvpdCm+a7FQtJeSzjuOVZBX0ihq9dDZffiXjG/0xhFeQfZo9JO6HBpIWoZsZhS0o/JRfVV2/klVuHNJrivWZOmWts5G1Eg2kBFQMbqNQd3s7cXen0w9kW1VwQT52q5dpf+xWJEA8WLDrtRWkulYw/f7hQXcXdU8dxtiHcXdvd398eNCTkez3R3FnF/Z0F+MOjuP9GA47nd5I3pUPP3dPdJAT9GASWR2IZK8Tb8/fcyug8NaZv3j0hlO9J0+tDWg2RqgKZ/w8DD3IzTBU0+0dA0nRT229sIQ9xU/lQLZX45jaC6NLyUbc7GF9KVwiB3LqfU6Ddpsg0yN73yI7N7ZldBty057FoR82T0Keb5+6ewT4npeFeh94gPmYvNz8gtvZO6XPBaZBNVD4SouVcFLUhjulKDIQKoEZiqPLs40xhBlPIcwUjJBpZTsJkCCbGGV8oZF4MNQL21Hhp4H/4Lze3aYIGl1g2mRjGyDX6X3PwbLXLdiMhJX9PhSSCX6r/qVB8z/har1fgQrFhClLZCCJA/D45oHKxsCXcavT6vCr3JJPIewANfyLkccM3fO7UQPj4nG3+3+bcZ1Aj/e+nSdgQp8IyljUgrt93P+40gZG83I+teT522IxAsIbl5Qlv/5coAv6jeQMnIFRqMmF1Ib4WcvBGBLC70Tzw1W9P/8ont+xn0T9oMWMhTiDpOD/ZFTNJ97ySh6YtSIYVPXhSCnM/dqVrVW5UYs/n17zolowNev6/xT0Xz+sbbBNOJsirSDw77UNpXllsaiqqyxX56tPz96oQ1xFzhGUZfkPgx+oxA==
+sidebar_class_name: "get api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Obtener un acuerdo específico"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/agreements/{id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Retorna los detalles de un acuerdo en su última versión.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"id","in":"path","description":"ID del acuerdo a buscar","required":true,"schema":{"type":"string"},"example":"agr_1B2M2Y8AsgTpgAmY7PhCfg"}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Acuerdo encontrado","content":{"application/json":{"schema":{"type":"object","properties":{"agreement":{"type":"object","description":"Representa la estructura detallada de un acuerdo específico","allOf":[{"type":"object","description":"Representa la estructura básica de un acuerdo para listados","properties":{"id":{"type":"string","description":"Identificador único del acuerdo.","example":"agr_IdBeyWCa1ENLUYnPRLpCUg"},"version":{"type":"integer","description":"Versión del acuerdo","example":1},"user_reference":{"type":"string","description":"Referencia de usuario proporcionada por el cliente.","example":"fsh@ioe.dfa"},"created_at":{"type":"string","format":"date-time","description":"Fecha y hora de creación del acuerdo.","example":"2024-11-21T14:54:57.167Z"}},"title":"AgreementBase"},{"type":"object","properties":{"previous_evidence_ids":{"type":"array","description":"IDs de evidencias anteriores relacionadas con este acuerdo","items":{"type":"string"},"example":["evd_pNMroI2OEfrDNdi8xT6kOQ"]},"data":{"type":"array","description":"Datos específicos del acuerdo y sus usos permitidos","items":{"type":"object","properties":{"key":{"type":"string","description":"Identificador del dato","example":"name"},"data_category":{"type":"string","description":"Categoría del dato personal","example":"user.name.first"},"data_uses":{"type":"array","description":"Usos permitidos para este dato","items":{"type":"object","properties":{"use":{"type":"string","description":"Propósito específico del uso del dato","example":"essential.service.authentication"},"expires_at":{"type":"string","format":"date","description":"Fecha de expiración del permiso de uso","example":"2034-12-06"},"document_references":{"type":"array","description":"Referencias a documentos relacionados","example":["669823ed4c91e6af2537f984","66b103a5d2e10ef171a9004b"]}}}}}}}}}],"title":"AgreementDetail"}}}}}},"401":{"description":"No autorizado"},"404":{"description":"No encontrado"}}}
+>
+  
+</StatusCodes>
+
+
+      
