@@ -31,13 +31,13 @@ Este módulo **incluye la verificación de identidad** de tu usuario. Puedes lee
 
 Este flujo comienza con la entrega de [consentimiento](../concepts/consent.md). El usuario verá los datos que estás solicitando y deberá confirmar su consentimiento para continuar.
 
-Luego, [se verificará la identidad](../concepts/verification.md) del usuario. Al completar este paso, se creará una identidad con los datos verificados, que podrás consultar utilizando la API de Soyio.
+Luego, [se verificará la identidad](../concepts/verification) del usuario. Al completar este paso, se creará una identidad con los datos verificados, que podrás consultar utilizando la API de Soyio.
 
-Al finalizar el proceso de entrega de datos y consentimiento, se creará un [acuerdo (*Agreement*)](../concepts/agreement.md) y la evidencia asociada, que podrás utilizar para demostrar que el usuario otorgó su consentimiento libre, específico, inequívoco e informado.
+Al finalizar el proceso de entrega de datos y consentimiento, se creará un [acuerdo (*Agreement*)](../concepts/agreement) y la evidencia asociada, que podrás utilizar para demostrar que el usuario otorgó su consentimiento libre, específico, inequívoco e informado.
 
 ### Match de datos
 
-Opcionalmente, si el usuario creó una cuenta en tu sistema previamente y entregó datos de identificación, puedes incluir como parte del proceso que Soyio **verifique el match entre los datos verificados** que el usuario entrega en este proceso y la información almacenada en tu sistema. Si ocupas esta opción y el match no es exitoso, el **proceso concluye sin crear una identidad**. 
+Opcionalmente, si el usuario creó una cuenta en tu sistema previamente y entregó datos de identificación, puedes incluir como parte del proceso que Soyio **verifique el match entre los datos verificados** que el usuario entrega en este proceso y la información almacenada en tu sistema. Si ocupas esta opción y el match no es exitoso, el **proceso concluye sin crear una identidad**.
 Los campos disponibles para realizar el match son:
 
 | Campo | Descripción |
