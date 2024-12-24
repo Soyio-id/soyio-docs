@@ -35,7 +35,7 @@ Revisa la documentación sobre [verificación de identidad](./verification.md) p
 La revelación de datos personales implica compartir información personal del titular con terceros autorizados por razones legales, comerciales o de seguridad. Es fundamental que este proceso se maneje con cuidado para proteger la privacidad del individuo, garantizando que el acceso a sus datos sea limitado a usos específicos y bajo condiciones de consentimiento bien definidas.
 
 :::tip[Aprende más]
-Revisa la documentación de [agreements y evidencia](agreement.md) para descubrir cómo Soyio garantiza el registro de los consentimientos otorgados por los usuarios a las empresas asegurando la transparencia y seguridad.
+Revisa la documentación de [agreements y evidencia](agreement) para descubrir cómo Soyio garantiza el registro de los consentimientos otorgados por los usuarios a las empresas asegurando la transparencia y seguridad.
 :::
 
 ### Consentimiento
