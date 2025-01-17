@@ -1,0 +1,37 @@
+---
+id: authrequest
+title: "AuthRequest"
+description: "Los auth requests son una forma de autenticar a identidades previamente validadas a través de un `disclosure_request`."
+hide_title: true
+hide_table_of_contents: true
+schema: true
+sample: {"id":"authreq_Kop19_kEe23i7hSw8QG4-a","identity_id":"id_ma21KLsmaslopask912Aa2","status":"awaiting_authentication","user_reference":"user_123","created_at":"2024-07-29T15:51:28.071Z"}
+custom_edit_url: null
+---
+
+import Schema from "@theme/Schema";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"AuthRequest"}
+>
+</Heading>
+
+
+
+Los auth requests son una forma de autenticar a identidades previamente validadas a través de un `disclosure_request`.
+
+### Guias relacionadas
+- [Conceptos Generales](/docs/integration-guide/concepts/general-concepts)
+
+
+<Schema
+	defaultCollapsibleOpen={true}
+  schema={{"x-tags":["Auth requests"],"type":"object","description":"Los auth requests son una forma de autenticar a identidades previamente validadas a través de un `disclosure_request`.\n\n### Guias relacionadas\n- [Conceptos Generales](/docs/integration-guide/concepts/general-concepts)\n","properties":{"id":{"type":"string","description":"Identificador único del request de autenticación.","example":"authreq_Kop19_kEe23i7hSw8QG4-a"},"identity_id":{"type":"string","description":"Identificador de la identidad que realiza el intento.","example":"id_ma21KLsmaslopask912Aa2"},"status":{"type":"string","enum":["awaiting_authentication","successful","timed_out"],"description":"Estado actual del request de autenticación."},"user_reference":{"type":"string","description":"Referencia de usuario de tu sistema para el request de autenticación.","example":"user_123"},"created_at":{"type":"string","format":"date-time","description":"Fecha y hora en que se creó el registro del intento de autenticación."}},"title":"AuthRequest"}}
+  schemaType={"response"}
+>
+  
+</Schema>
+            

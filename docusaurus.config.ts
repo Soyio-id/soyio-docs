@@ -64,6 +64,7 @@ const config: Config = {
         config: {
           soyio: {
             specPath: 'https://soyio-docs.s3.amazonaws.com/soyio-open-api.yaml',
+            // specPath: 'api/soyioapi.yaml',
             outputDir: 'docs/api/resources',
             sidebarOptions: {
               groupPathsBy: 'tag',

@@ -13,6 +13,15 @@ El servicio de disclosure es un proceso integral que incluye:
 
 Este servicio garantiza un manejo transparente y seguro de la información del usuario, cumpliendo con las normativas de protección de datos.
 
+### [Obtención de consentimiento (Consent)](./consent.mdx)
+
+El servicio de consent permite integrar componentes de consentimiento directamente en tus flujos de usuario. Este módulo te permite:
+- **Capturar consentimientos** de manera granular
+- **Personalizar la interfaz** para mantener la experiencia de usuario
+- **Generar evidencia** del consentimiento otorgado
+
+Este servicio asegura el cumplimiento de las regulaciones de protección de datos personales sin interrumpir la experiencia del usuario.
+
 ### [Firma de documentos (Signature)](./signature.mdx)
 
 El servicio de signature permite a tus usuarios firmar documentos digitalmente de manera segura y legal. Este proceso simplifica la autenticación de documentos y acuerdos en línea, mejorando la eficiencia en transacciones que requieren firma electrónica simple.

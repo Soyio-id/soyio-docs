@@ -1,0 +1,71 @@
+---
+id: show-consent-action
+title: "Obtener un consent action"
+description: "Obtener un consent action"
+sidebar_label: "Obtener un consent action"
+hide_title: true
+hide_table_of_contents: true
+api: eJy1Vm1v2zYQ/ivEfekGqH5r2g3CMCwN0qIYhmZpiq0LAuNCni02EqmSJ7euoV+1b/vaPzYcJTtxlGYruvmDLYt35HP3PHfHDTAuI+TncORdJMcKNVvvIlxk4GsKKP9eGMghFv59b3SYbCCDGgNWxBRkiw04rAhysAYysA5yqJELyCDQu8YGMpBzaCiDqAuqEPIN8LoWj8jBuiW0GRiKOtg67Z/DC6MMlUrvYYMM6ANWdSmesoSa59Ons19mb74/jMuzenlYvfnupDhaLKG9kNNjLRtEOXA2mcjP/jH7sSty2jsOaDxkcgCTY3HCui6tThkZv43iuRmG4i/fkmbJTZD8se3O7UOY9yHcYb8P6ZTqQOKBqnGoUGv76U+nDG2TYStLjr0KhKX9iAZV7YNqnGpig8H6AQJrhgkf5lt2XliNxgf16S9ntf9aBjKQPXk9/3IAhlSJSt4YNAqj1xYNjtRJQ4ZUpKBcU/rRHhxJ8uNnT359cjQ7fn/1O18d10+nZ+Xzt1eQgWvKEi/FToTYZtBECvNACwrkNP0zvtPe1GJKS59rRU5RqaKNTFW3okuhh/agpcOms0eSEx0Imcwc+a5DFz5UsgIGmR6yrWiA5BnpAtVaFT5gkkUg3GrkXr5mk9nBw8mjh7PJ2fRx/miSTyZ/QNtmwJaTwX6Rt+mTwcFkOiyc4xA6mrCRIrG6g/A1ZXPdK867tS2wDCIjNzFlgtGW0qL2Jd7tNUzndfDYcNEBFThzEvxwHft9rq+dOPtgP5IRlx7NtY91TEsKN50OJtN2B/fe3X+Twm5Ko5xndQMlqbVvgrCbKgPLOFInJWEkpQvSV4oLUsbrppJekdoXsiqY65iPx8brOIp+bf3ImhtUHgypPCXdhOiV8/9R//t/ibRuhaU1czmFIn8Rk6cUfRM0pVwvfOO+gM+Df8nnkZDpHrBaWGdUX1JMVV0Kp+8tF8oa9eAHa358cIvRRHgfl0JnFIe1wiXabTEKWGHL8jqNXazt/Irk+ULm3T6vLy+ZHKXJMGgKFXHhZbYvKU0smdY5jPdnVRxvrGmFNQqr7aRvQgk5bGUW0ZlL/2GntDHWdryaQpvdtsS6HlpdXMfzSuTUaWAX1S7NWNufaT3ohMfxXdO13VttSFVkLDqmNEJ1iStShycvlGjNB229k7HZ9W5yGi/pIxrfTZ2ooi+tttwYijJh+rvNYd8DsE9huuYUhIZCaqLWLXyC3DfTVxKsnDqALUikVb+isLLapnO78SfDzpBKrn0Fok4VSFUSHkQJgOmn69LOQLjpdp6OJqOJvKp95ApTnfbw71PDHrxd0pk+8Lguk/qyjs1Nr5TzW7caqejcGinnwkcWg83mEiO9DmXbyut3DYWk0wxWGGw3is83YGyUZwP5AstIAyy7JgTfnPZt5Vv1ucvhncC3EnKinxWWjfyDDJLC5G7UXrTZlkiB1C0cak0133AZ9EBR766Onh+fQZaGzL5sr5Js+wfZ/U44t7XVQZBvKaQ7XTabrijadmffLX3Wow9xF7lE0Lbt3wXdLGY=
+sidebar_class_name: "get api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Obtener un consent action"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/consent_actions/{id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Obtener un consent action
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"id","in":"path","required":true,"schema":{"type":"string"},"description":"Id del consent action","example":"consact_1B2M2Y8AsgTpgAmY7PhCfg"}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Consent action encontrado","content":{"application/json":{"schema":{"type":"object","properties":{"consent_action":{"type":"object","description":"Representa una acción de consentimiento realizada por un usuario","properties":{"id":{"type":"string","description":"Identificador único del consent action","example":"consact_1B2M2Y8AsgTpgAmY7PhCfg"},"entity_id":{"type":"string","description":"Identificador de la entidad asociada. Puede ser nulo.","example":"ent_5F6Q6C2EwkXtkEpB1TlGjk","nullable":true},"user_reference":{"type":"string","description":"Referencia del usuario en el sistema del cliente","example":"user_123"},"created_at":{"type":"string","format":"date-time","description":"Fecha y hora de creación del consent action","example":"2024-03-20T15:30:00Z"}},"title":"ConsentAction"}}}}}},"401":{"description":"Error de autenticación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"authentication_error"},"title":{"type":"string","example":"Unauthorized"},"status":{"type":"integer","example":401},"detail":{"type":"string","example":"We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"}}}}}},"404":{"description":"Recurso no encontrado","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"invalid_request_error"},"title":{"type":"string","example":"Resource not found"},"status":{"type":"integer","example":404},"detail":{"type":"string","example":"Couldn't find Consenttemplate with id '<id>'. Please check your request and try again"}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      
