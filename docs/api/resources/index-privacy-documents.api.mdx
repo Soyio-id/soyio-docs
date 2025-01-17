@@ -1,0 +1,71 @@
+---
+id: index-privacy-documents
+title: "Obtener todos los documentos de privacidad"
+description: "Obtener todos los documentos de privacidad"
+sidebar_label: "Obtener todos los documentos de privacidad"
+hide_title: true
+hide_table_of_contents: true
+api: eJytV01vGzcQ/SsETy2wlWQjvQgoEMNxEjdpasRxe3AEYUSOLdpcck3OKlYE/Zgee+4tV/+xYrha7erDkuP2YmuX5Mwbzps3szNJcB1l/1KeBTMBNRXaqzJHR1EOMukLDEDGu1Mt+9I4jfeLfa+W2zJZQIAcCQMbmkkHOcq+LOAaZSaNk315V2KYykxqjCqYgi3Kvvzw8C3H4IVGUTz8dW0cyEwGvCtNQC37V2AjZjKqMeYg+zNJ0wITDMJrDDKTuXEmL3PZP2DTV1Bakv2DeSbxHvLCYnpoAGEYfhcodBRAQxSFD/8DwhzuF797vRbew14bMD8tEfugMQxH092Ifw8aHeO1PoqAsbQE2kfxA950xGepAgKhHgKJVyfnx5/lj0+KIVIw7lq2sa2bkvMBW4qFdxEjnz3s9fjfKr6aKj6mTCf+GA1aoFM+XbFnFvFvdMTnoSisUYl43ZvIRmabAP3oBhUx/QLTlEwFobI/HTY8bo5ACJAukzCP20ytAv+IRcCIjkCUblkYfiMKgVZEE4nxrcMxevNO1/2canRkrowC7YN4+OaMYif2MZeynRN+rb0a3kwPD349fnM3+umPt+O3eKEPXf7uC+evItM+EB98Pgooli8naxBWnNLD3yE3zkcxFco7bZTxDiN7I8wLC4TDW5zu93psYYJVyCBYR0TAKwzolIEgVq4Anahtx1UwGPI4BKeHCQpbTkjKYPcDuPj4vvILSqHGIOCxmLvaf3HWgx6y4TmHaiitrEliWsuRQAM9hbAsSdu0YxXoWaU/AhSVYOWqxjXatt/QyXZVW1EgSZ7APsHYJ97X1sq2pRc/z7NGw/am4jk6tkObMnllbNWU9hX6a2Mp+CggyQ77BGGBmZ1AtP3MZCSgMhn9JTUVp5NOztuMeJ08c0DhyOkz4DtmX7/VrNhBn/cm0sLci97BppyehOADXxOUrJdGgTIP/7j/oqBNN7is1mpwWR0t3xiBsTwUrNK3srWZ2yYzUNK4Aspwhsj4ZRP/rqMXjg/7YL6i5iPN3W/wsmFdjwtiAXen9T9RKF9aLZwn0UKJYurLIFTAJMxgY0ecWYSIQo1R3Qoa41IkUlACSIyJitjvdrVXsRP91PiO0SmRKZcRVRkMTdOIBIWp9PFywD10rQ5GhA6DIM9M5GLQj3RQmXRm7Hk4u8YkLUBj1qrNLsgIwqSe0ZI2yhpyBKdH/n6JuguF6U4OJI8iqzuhKDZ3DZrozpljFTGWMTbttzDvcHN+OYl3JeawSWmRozbgCEXpQKjUKo7OTgUT0AduOaBh0X/RKRjhV9CpV1qIInprlKFSY+zIugvKowWfUtrquWqMoDGkojTuyifIi+I852DZ6wZsRsId8hzDhPsf+606OU8FGkU6uihLUKksMU+klJEDIHzZ0CSTnJvK8kGn1+nxq8JHyiEV7wL+d3FjBe8yC4T31C0sGNdqkhVvLrdMT4NMjn0kXpzNRhDxItj5nF9X0yizSZsII9uaJtc8L4Vp+8i/FViiTv0RMQFb8pbEyGd5e2SW3+W6+Vx4pvvnNLQdgFpfAw2gAT8Ew4iSmmQ1mTkv1bkjpbCg1qmN5sBWlkLy5uSTzJJor5bubSrdxQ+2Xi+5NqL1+qog8F++u61HZrNKGObz5f5q6dETixDr3XxJg/l8/i8PfSsQ
+sidebar_class_name: "get api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Obtener todos los documentos de privacidad"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/privacy_documents"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Obtener todos los documentos de privacidad
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"page","in":"query","description":"Número de página","required":false,"schema":{"type":"integer","minimum":1,"default":1},"example":1},{"name":"per_page","in":"query","description":"Número de entradas por página","required":false,"schema":{"type":"integer","minimum":1,"maximum":100,"default":20},"example":20},{"name":"order_by","in":"query","description":"Orden de los resultados (ej. \"created_at DESC\")","required":false,"schema":{"type":"string"},"example":"created_at DESC"}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Documentos de privacidad encontrados","content":{"application/json":{"schema":{"type":"object","properties":{"privacy_documents":{"type":"array","items":{"type":"object","description":"Representa un documento de privacidad en el sistema","properties":{"id":{"type":"string","description":"Identificador único del documento de privacidad","example":"privdoc_jy21JCGqb-VHhHeUd2nmKw"},"name":{"type":"string","description":"Nombre descriptivo del documento","example":"términos y condiciones"},"template_key":{"type":"string","description":"Clave única para referenciar el documento en templates","example":"terms_and_conditions"},"url":{"type":"string","description":"URL para acceder al documento","example":"/download_url"}},"title":"PrivacyDocument"}},"metadata":{"type":"object","properties":{"page":{"type":"integer","description":"Página actual","example":1},"per_page":{"type":"integer","description":"Entradas por página","example":20},"total":{"type":"integer","description":"Total de entradas","example":45},"order_by":{"type":"string","description":"Orden de los resultados (ej. \"created_at DESC\")","example":"created_at DESC"},"filters":{"type":"object","description":"Filtros aplicados a la consulta","example":{"status":{"=":"pending"}}}},"title":"FilterOrderAndPaginationMetadata"}},"title":"PrivacyDocumentList"}}}},"401":{"description":"Error de autenticación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"authentication_error"},"title":{"type":"string","example":"Unauthorized"},"status":{"type":"integer","example":401},"detail":{"type":"string","example":"We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

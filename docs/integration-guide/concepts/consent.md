@@ -51,3 +51,13 @@ El consentimiento no es definitivo; los usuarios tienen el derecho de actualizar
 
 ### 5. Auditoría y evidencia
 El consentimiento registrado puede necesitar ser verificado en auditorías o en casos de consulta o impugnación. En la plataforma de Soyio, cada etapa del ciclo de vida del consentimiento queda documentada como *Evidencia Electrónica*, proporcionando una base confiable que demuestra que se ha cumplido con las normativas de protección de datos.
+
+## Módulo de obtención de consentimiento
+
+El módulo de obtención de consentimiento te permite integrar un componente de consentimiento en tu interfaz para capturar el consentimiento de tus usuarios. Este módulo te permite:
+
+- **Obtener consentimiento informado**: Registra la autorización explícita para el uso de datos.
+- **Integración fluida**: Embebe el componente directamente en tu interfaz y personalizalo con el *look and feel* de tu aplicación
+- **Evidencia vinculante**: Genera evidencia del consentimiento otorgado mediante un [agreement y evidencia](../concepts/agreement).
+
+Para más detalles sobre el módulo de obtención de consentimiento, revisa la sección de [módulo de consentimiento](../modules/consent.mdx).

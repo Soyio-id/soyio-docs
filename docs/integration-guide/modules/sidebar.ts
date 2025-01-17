@@ -18,6 +18,10 @@ const sidebar: SidebarsConfig = {
       type: 'doc',
       id: 'integration-guide/modules/authentication',
     },
+    {
+      type: 'doc',
+      id: 'integration-guide/modules/consent',
+    },
   ],
 };
 

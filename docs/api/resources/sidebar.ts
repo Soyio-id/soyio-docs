@@ -34,6 +34,132 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: "category",
+      label: "Auth requests",
+      items: [
+        {
+          type: "doc",
+          id: "api/resources/schemas/authrequest",
+          label: "El objeto AuthRequest",
+          className: "schema",
+        },
+        {
+          type: "doc",
+          id: "api/resources/create-auth-request",
+          label: "Crear un request de autenticación",
+          className: "api-method post",
+        },
+        {
+          type: "doc",
+          id: "api/resources/index-auth-requests",
+          label: "Obtener todos los auth requests",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/get-auth-request",
+          label: "Obtener un auth request específico",
+          className: "api-method get",
+        },
+      ],
+    },
+    {
+      type: "category",
+      label: "Consent templates",
+      items: [
+        {
+          type: "doc",
+          id: "api/resources/index-consent-templates",
+          label: "Obtener todos los templates de consentimiento",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/create-consent-template",
+          label: "Crear un template de consentimiento",
+          className: "api-method post",
+        },
+        {
+          type: "doc",
+          id: "api/resources/get-consent-template",
+          label: "Obtener un template de consentimiento",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/update-consent-template",
+          label: "Actualizar un template de consentimiento",
+          className: "api-method patch",
+        },
+      ],
+    },
+    {
+      type: "category",
+      label: "Privacy documents",
+      items: [
+        {
+          type: "doc",
+          id: "api/resources/index-privacy-documents",
+          label: "Obtener todos los documentos de privacidad",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/get-privacy-document",
+          label: "Obtener un documento de privacidad específico",
+          className: "api-method get",
+        },
+      ],
+    },
+    {
+      type: "category",
+      label: "Consent actions",
+      items: [
+        {
+          type: "doc",
+          id: "api/resources/create-consent-action",
+          label: "Crear un consent action",
+          className: "api-method post",
+        },
+        {
+          type: "doc",
+          id: "api/resources/index-consent-actions",
+          label: "Listar consent actions",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/show-consent-action",
+          label: "Obtener un consent action",
+          className: "api-method get",
+        },
+      ],
+    },
+    {
+      type: "category",
+      label: "Consent commits",
+      items: [
+        {
+          type: "doc",
+          id: "api/resources/index-consent-commits",
+          label: "Listar commits de consentimiento",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/create-consent-commit",
+          label: "Crear un commit de consentimiento",
+          className: "api-method post",
+        },
+        {
+          type: "doc",
+          id: "api/resources/show-consent-commit",
+          label: "Obtener un commit de consentimiento",
+          className: "api-method get",
+        },
+      ],
+    },
+    {
+      type: "category",
       label: "Identities",
       items: [
         {
@@ -230,6 +356,7 @@ const sidebar: SidebarsConfig = {
         },
       ],
     },
+
   ],
 };
 

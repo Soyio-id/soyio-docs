@@ -1,0 +1,71 @@
+---
+id: index-consent-actions
+title: "Listar consent actions"
+description: "Listar consent actions"
+sidebar_label: "Listar consent actions"
+hide_title: true
+hide_table_of_contents: true
+api: eJytV9tuGzcQ/RVinlpgI62USwsBBaq4dhC0Sd3YQZs6gjAmRxLtXXJDcl0rwn5Mv6FvefWPFcNdaXWLnLh9sXfFuRwOD8/MLiDg1MPgAo6s8WSCQBm0NR5GCdiCHPLbSwUD0EbRbWM1bIwSKNBhToEcB1mAwZxgAAVOCRLQBgbwoSQ3hwQUeel0wY4wgNd3n3JyVigSxd3fU20QEnD0odSOFAwmmHlKwMsZ5QiDBYR5QRFEoCk5SCDXRudlDoMeh55gmQUY9KoE6BbzIqP40gIiN/4qUGSCQ4VeFNb9DwhzvG2e03QNbz9dB8xvK8TWKXLjy/lhxL86RYbxZtYLR77MAirrxTd01RHvQTrCQGqMQfx0fHb0Hr79oj344LSZwjq27VBQjTiSL5gQnn37acr/NvH9on1Axie36JWAtCaQCeyDRZFpGanWvfLsuNgFZS+vSAamnGNiBl2nbQKPl4FbB3QOY/kC5X5foE2ob6hwxKFQlAYFSqnv/jFr2HWuyQQrHGGmP6LCyI3SiNKX6LTdgabVbk23s75UHHmiJSrrxN0noyXzL9sqGGwchTUeZRj3nvdf9d99P/TT82I6zN99dzo7mtTHZoIO8/HXA2AmIZNfK1QCvZUaFXbEaUmKhCcnTJnZzgYcrv7Tk2e/PTvqH/91/Ue4Pi6e986zF1fXkIApswwv2S64kqoESk9u7GhCjoyk+/G9aUw1xrI0tRZkBGXCax8or1dkxsdDG9Bisl7/MdekJfC+pBPrcl4BhYEeBZ3TDpITkjMUczGzrqa0I1xy5OB59dP+k0fp40f99Lz3dPA4HaTpn1BVCQQdosGGqsaVnAIqDF/A/6hq++RnE/xpLWEMr8QMNmWylcf7Ax3vF8YNEYNgA2ZfEOyc7dbldj3Sk6dV0srgvUR5iBQekLcEJjqr+9p9ynGis+CsFxhVjHMi3yJmBINYz7MAHzCUMegPsS8ZFaW2WufDSczMG3JDo06Ra8y5Xi1ZUVW1w5O0t6u5x87VNxlLFlgta5b+F8ltW8ZFvbbEmiz3wzUJqDOeGzYJWsfaPb229liGWQ2U4YyJ8UNbjkOubw07W6c/kmKXtro7zGt5lTLlG7gHo//O2l9mShgbxBpKEnNbOhaAKJ6Y+Y44zQg9CTkjeS3CjISyssy5nfCmBAYxC6Hwg25XWek73s617WjVHCVDJ1k6HeZxjsJCj6+Jn0fcaPc0VbenpeYUZpZntSlFocAwgwF0t1sk53I3y5GtdBkMYAnOo1GX9naFr4uF7t70gCeTTUssil2rUbuPM2ZTTYHVbtreXOifaXecOfYfylrPt8grclIaTaDYm2WGNySGpy8FU806qa3hflw3BTISL+kjKlu3My+8zbTUoVTkuXU1E9awYQ42gh3HrBmhIhc1WJuJjZCbW3nGm+WsO7AZCfeAM3I3WuqYt+6r3EUViejaXECU8QJSHukHnjcQ6MeWEAnw2dSRe520k/JPhfUhx3hNG/ifZcEGtlXFA92GbpGhNhwuHuWiYcjFzhA1SmBmfeClxeISPb11WVXxz/UYyrxR2nNjb8fIrbwrsdk/6++FFUmy/Hq4waxkk8i9B2X7zBB/KHX7nfDA9A9pQwcArX0GtIBG/OJ0PVddjKpkSVs+l9pvKCUVYc1rR/A5ykowXhyfQxKFePOSXsdL2jxw9OWSWUe0fZNqCPyXa7fXZbGoJaCqVvb10mc9mi0urblIo6qq/gWHlh2O
+sidebar_class_name: "get api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Listar consent actions"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/consent_actions"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Listar consent actions
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"page","in":"query","description":"Número de página","required":false,"schema":{"type":"integer","minimum":1,"default":1},"example":1},{"name":"per_page","in":"query","description":"Número de entradas por página","required":false,"schema":{"type":"integer","minimum":1,"maximum":100,"default":20},"example":20},{"name":"order_by","in":"query","description":"Orden de los resultados (ej. \"created_at DESC\")","required":false,"schema":{"type":"string"},"example":"created_at DESC"}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Lista de consent actions","content":{"application/json":{"schema":{"type":"object","properties":{"consent_actions":{"type":"array","items":{"type":"object","description":"Representa una acción de consentimiento realizada por un usuario","properties":{"id":{"type":"string","description":"Identificador único del consent action","example":"consact_1B2M2Y8AsgTpgAmY7PhCfg"},"entity_id":{"type":"string","description":"Identificador de la entidad asociada. Puede ser nulo.","example":"ent_5F6Q6C2EwkXtkEpB1TlGjk","nullable":true},"user_reference":{"type":"string","description":"Referencia del usuario en el sistema del cliente","example":"user_123"},"created_at":{"type":"string","format":"date-time","description":"Fecha y hora de creación del consent action","example":"2024-03-20T15:30:00Z"}},"title":"ConsentAction"}},"metadata":{"type":"object","properties":{"page":{"type":"integer","description":"Página actual","example":1},"per_page":{"type":"integer","description":"Entradas por página","example":20},"total":{"type":"integer","description":"Total de entradas","example":45},"order_by":{"type":"string","description":"Orden de los resultados (ej. \"created_at DESC\")","example":"created_at DESC"},"filters":{"type":"object","description":"Filtros aplicados a la consulta","example":{"status":{"=":"pending"}}}},"title":"FilterOrderAndPaginationMetadata"}}}}}},"401":{"description":"Error de autenticación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"authentication_error"},"title":{"type":"string","example":"Unauthorized"},"status":{"type":"integer","example":401},"detail":{"type":"string","example":"We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      
