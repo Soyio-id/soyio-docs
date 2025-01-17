@@ -28,7 +28,7 @@ Si accidentalmente o inicialmente bloqueaste el acceso a tu cámara, verás una 
 
 5. Vuelve al navegador donde iniciaste tu proceso de verificación de identidad. Actualiza la ventana y vuelve a intentar.
 
-Para ver los pasos para gestionar los permisos de tu cámara en un iPhone, visita la <a href="https://support.apple.com/es-es/guide/iphone/iph168c4bbd5/ios" target="_blank">documentación de Google</a>.
+Para ver los pasos para gestionar los permisos de tu cámara en un iPhone, visita la <a href="https://support.apple.com/es-es/guide/iphone/iph168c4bbd5/ios" target="_blank">documentación de Apple</a>.
 
 ## Android
 
