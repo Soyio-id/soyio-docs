@@ -1,5 +1,5 @@
 import { spawn } from 'node:child_process';
-import { readFileSync, writeFileSync, readdirSync } from 'fs';
+import { readFileSync, writeFileSync, readdirSync, rmSync } from 'fs';
 import { LoadContext, Plugin, PluginOptions } from '@docusaurus/types';
 import type * as OpenApiPlugin from 'docusaurus-plugin-openapi-docs';
 
@@ -18,6 +18,22 @@ function addDefaultCollapsibleOpenToFile(path: string) {
     '<Schema\n\tdefaultCollapsibleOpen={true}',
   );
   writeFileSync(path, replacedContent);
+}
+
+function purgeIndexFile(dir?: string) {
+  if (!dir) return;
+
+  rmSync(`${dir}/soyio-api.info.mdx`);
+  const content = readFileSync(`${dir}/sidebar.ts`, 'utf-8');
+  const replacedContent = content.replace(
+    `
+    {
+      type: "doc",
+      id: "api/resources/soyio-api",
+    },`,
+    '',
+  );
+  writeFileSync(`${dir}/sidebar.ts`, replacedContent);
 }
 
 async function spawnProcess(command: string, args: string[]) {
@@ -92,6 +108,8 @@ export default async function soyioDocsPlugin(
             removeSidebarLabelFromFile(path);
             addDefaultCollapsibleOpenToFile(path);
           });
+
+          purgeIndexFile(outputDir);
         });
     },
   };
