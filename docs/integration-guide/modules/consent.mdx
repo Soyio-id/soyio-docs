@@ -180,7 +180,10 @@ Opcionalmente, puedes crear un registro de consentimiento agrupado (por ejemplo,
 POST /api/v1/consent_commits
 
 {
-    "action_tokens": ["<action_token_1>", "<action_token_2>"],
+    "consent_actions": [
+      { "action_token": "<action_token_1>" },
+      { "action_token": "<action_token_2>" }
+    ],
     "user_reference": "<identificador_usuario>" // Opcional
 }
 ```
