@@ -99,7 +99,7 @@ El flujo que integrarás es el siguiente:
 
 ### 1. Inicializa el componente en tu frontend
 
-Inicializa el componente de consentimiento en tu interfaz mediante el SDK de Soyio, utilizando el `consentTemplateId` de la plantilla de consentimiento que creaste previamente. Estos empiezan con el prefijo `constpl_`.
+Inicializa el componente de consentimiento en tu interfaz mediante el SDK de Soyio, utilizando el `templateId` de la plantilla de consentimiento que creaste previamente. Estos empiezan con el prefijo `constpl_`.
 
 <Tabs>
     <TabItem value="web" label="SDK Web" default>
@@ -108,7 +108,7 @@ Inicializa el componente de consentimiento en tu interfaz mediante el SDK de Soy
 
         // Configuración del componente
         const consentOptions = {
-            consentTemplateId: "<consent_template_id>",
+            templateId: "<consent_template_id>",
             onEvent: (data) => console.log(data),
             isSandbox: false,
             appearance: {} // Optional
@@ -116,7 +116,8 @@ Inicializa el componente de consentimiento en tu interfaz mediante el SDK de Soy
 
         // Montar el componente
         document.addEventListener("DOMContentLoaded", () => {
-            new ConsentBox(consentOptions).mount("#consent-box-container");
+            const consentBox = new ConsentBox(consentOptions);
+            consentBox.mount("#consent-box-container");
         });
         ```
 
@@ -151,10 +152,19 @@ De esta manera, puedes obtener el `actionToken` en el instante en que el usuario
 
 #### 2.2 Consultar el estado de consentimiento directamente
 
-También puedes consultar por el valor del consentimiento (útil para submits de formularios) mediante la función `getActionToken` del SDK. Este valor puede ser un string correspondiente al `actionToken` o `null` dependiendo si el usuario ha hecho click en el checkbox o no.
+También puedes consultar por el estado del consentimiento (útil para submits de formularios) mediante la función `getStatus` de la instancia del `ConsentBox`. Este método retorna un objeto con el siguiente formato:
 
 ```typescript
-const actionToken = await ConsentBox.getActionToken();
+{
+    isSelected: boolean,
+    actionToken: string | undefined
+}
+```
+
+Por ejemplo:
+
+```typescript
+const status = consentBox.getStatus();
 ```
 
 ### 3. Crea el registro de consentimiento
@@ -196,7 +206,7 @@ El componente puede ser personalizado para poder adaptarse a tu interfaz mediant
 
 ```jsx
 const consentOptions = {
-    consentTemplateId: "<consent_template_id>",
+    templateId: "<consent_template_id>",
     appearance: {
       variables: {
           fontFamily: 'system-ui, sans-serif',
