@@ -20,6 +20,12 @@ tags:
     description: |
       Los templates de consentimiento te permiten estandarizar la forma en que solicitas datos a tus usuarios.
       Contienen la lista de datos requeridos, sus usos, así como referencias a documentos de privacidad.
+  - name: Consent actions
+    description: |
+      Los consent actions permiten crear acciones de consentimiento.
+  - name: Consent commits
+    description: |
+      Los consent commits permiten crear múltiples acciones de consentimiento.
   - name: Privacy documents
     description: |
       Los documentos de privacidad son archivos que contienen información legal y de privacidad
@@ -45,6 +51,10 @@ tags:
 
 
       Los eventos pueden ser enviados directamente a tu servidor a través de la utilización de webhooks.
+
+      ### Guías relacionadas
+
+      - [Webhooks](/docs/api/webhooks)
   - name: Signed documents
     description: |
       Los documentos firmados son documentos digitales que han sido autenticados por los usuarios mediante su firma electrónica. Estos documentos pueden incluir contratos, acuerdos legales, y otros documentos importantes que requieren confirmación de identidad y consentimiento explícito del usuario.
@@ -54,6 +64,19 @@ tags:
     description: |
       Los acuerdos (agreements) representan las reglas de compartimiento de datos entre la empresa y un usuario.
       Cada acuerdo puede tener múltiples versiones y evidencias asociadas que respaldan su validez.
+  - name: Webhooks
+    description: |
+      Los webhooks permiten recibir notificaciones en tiempo real cuando ocurren eventos en el sistema.
+      Puedes configurar múltiples webhooks y suscribirlos a diferentes tipos de eventos.
+
+      > Cada webhook puede estar suscrito a uno o más tipos de eventos. Por ejemplo, puedes suscribirte a todos los eventos de la identidad, o a todos los eventos de validación.
+
+      :::danger[Atención]
+      Si un webhook falla, se intentará enviar nuevamente hasta un máximo de 15 veces. Luego de eso, el webhook se **deshabilitará automáticamente**.
+      :::
+
+      ### Guías relacionadas
+      - [Webhooks](/docs/api/webhooks)
 
 paths:
   /consent_templates:
@@ -185,6 +208,95 @@ paths:
           $ref: "#/components/responses/UnauthorizedError"
       security:
         - api_key: []
+    post:
+      tags:
+        - Privacy documents
+      summary: Crea un privacy document
+      operationId: createPrivacyDocument
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - name
+                - template_key
+                - file
+              properties:
+                name:
+                  type: string
+                  description: Texto que aparecerá en el módulo embebible, al referenciarlo con el `template_key`.
+                  example: "términos y condiciones"
+                template_key:
+                  type: string
+                  description: Llave única para referenciar el documento en templates.
+                  example: "terms_and_conditions"
+                file:
+                  type: string
+                  format: binary
+                  description: Archivo del documento
+      responses:
+        "201":
+          description: Documento de privacidad creado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  privacy_document:
+                    $ref: "#/components/schemas/PrivacyDocument"
+        "400":
+          description: Error de solicitud - falta algún campo requerido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: "invalid_request_error"
+                      title:
+                        type: string
+                        example: "Missing parameter"
+                      status:
+                        type: integer
+                        example: 400
+                      detail:
+                        type: string
+                        example: "The required parameter file is missing"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          description: Error de validación
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - type
+                  - title
+                  - status
+                  - errors
+                properties:
+                  type:
+                    type: string
+                    example: "validation_error"
+                  title:
+                    type: string
+                    example: "Validation error"
+                  status:
+                    type: integer
+                    example: 422
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                    example:
+                      - "Privacy documents is invalid"
 
   /privacy_documents/{id}:
     get:
@@ -848,6 +960,33 @@ paths:
           $ref: "#/components/responses/NotFoundError"
         "401":
           $ref: "#/components/responses/UnauthorizedError"
+  /events/{id}/broadcast:
+    post:
+      tags:
+        - Events
+      summary: Reenviar un evento a los webhooks suscritos
+      description: |
+        Permite reenviar manualmente un evento a todos los webhooks suscritos de la compañía.
+        Este endpoint es útil cuando necesitas retransmitir un evento específico, por ejemplo,
+        si hubo problemas en la recepción original del webhook.
+      operationId: broadcastEvent
+      parameters:
+        - name: id
+          in: path
+          description: Id del evento
+          required: true
+          schema:
+            type: string
+          example: "evt_jy21JCGqb-VHhHeUd2nmKw"
+      responses:
+        "204":
+          description: El evento fue enviado exitosamente a la cola de webhooks
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+      security:
+        - api_key: []
   /signed_documents:
     get:
       tags:
@@ -1396,6 +1535,197 @@ paths:
           $ref: "#/components/responses/NotFoundError"
       security:
         - api_key: []
+
+  /webhooks:
+    get:
+      tags:
+        - Webhooks
+      summary: Obtener todos los webhooks
+      operationId: indexWebhooks
+      parameters:
+        - $ref: "#/components/parameters/PageParam"
+        - $ref: "#/components/parameters/PerPageParam"
+        - $ref: "#/components/parameters/OrderByParam"
+      responses:
+        "200":
+          description: Webhooks encontrados
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WebhookList"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+      security:
+        - api_key: []
+
+    post:
+      tags:
+        - Webhooks
+      summary: Crear un webhook
+      operationId: createWebhook
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - url
+                - subscriptions
+              properties:
+                url:
+                  type: string
+                  description: URL donde se enviarán los eventos
+                  example: "https://company.com/your-webhook-endpoint"
+                subscriptions:
+                  type: array
+                  description: >
+                    Lista de eventos a los que se suscribirá el webhook. Usa '*' para suscribirse a todos los eventos. También puedes suscribirte a eventos específicos de un recurso usando el patrón de wildcard, por ejemplo: `identity.*` suscribirá a todos los eventos del recurso identity.
+                  items:
+                    type: string
+                  example: ["*", "identity.*", "validation_attempt.*"]
+                enabled_modes:
+                  type: array
+                  description: Lista de modos en los que el webhook estará habilitado. Si no se especifica, se usará el modo actual.
+                  items:
+                    type: string
+                  example: ["production", "sandbox"]
+                enabled:
+                  type: boolean
+                  description: Indica si el webhook está habilitado o no
+                  default: true
+                  example: true
+      responses:
+        "201":
+          description: Webhook creado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  webhook:
+                    $ref: "#/components/schemas/Webhook"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/ValidationError"
+      security:
+        - api_key: []
+
+  /webhooks/{id}:
+    get:
+      tags:
+        - Webhooks
+      summary: Obtener un webhook específico
+      operationId: getWebhook
+      parameters:
+        - name: id
+          in: path
+          description: Token del webhook
+          required: true
+          schema:
+            type: string
+          example: "wh_1B2M2Y8AsgTpgAmY7PhCfg"
+      responses:
+        "200":
+          description: Webhook encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  webhook:
+                    $ref: "#/components/schemas/Webhook"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+      security:
+        - api_key: []
+
+    patch:
+      tags:
+        - Webhooks
+      summary: Actualizar un webhook
+      operationId: updateWebhook
+      parameters:
+        - name: id
+          in: path
+          description: Token del webhook
+          required: true
+          schema:
+            type: string
+          example: "wh_1B2M2Y8AsgTpgAmY7PhCfg"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                  description: URL donde se enviarán los eventos
+                  example: "https://company.com/your-webhook-endpoint"
+                subscriptions:
+                  type: array
+                  description: >
+                    Lista de eventos a los que se suscribirá el webhook. Usa '*' para suscribirse a todos los eventos. También puedes suscribirte a eventos específicos de un recurso usando el patrón de wildcard, por ejemplo: `identity.*` suscribirá a todos los eventos del recurso identity.
+                  items:
+                    type: string
+                  example: ["*", "identity.created", "validation_attempt.*"]
+                enabled_modes:
+                  type: array
+                  description: Lista de modos en los que el webhook estará habilitado
+                  items:
+                    type: string
+                  example: ["production", "sandbox"]
+                enabled:
+                  type: boolean
+                  description: Indica si el webhook está habilitado o no
+                  example: true
+      responses:
+        "200":
+          description: Webhook actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  webhook:
+                    $ref: "#/components/schemas/Webhook"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "422":
+          $ref: "#/components/responses/ValidationError"
+      security:
+        - api_key: []
+
+    delete:
+      tags:
+        - Webhooks
+      summary: Eliminar un webhook
+      operationId: deleteWebhook
+      parameters:
+        - name: id
+          in: path
+          description: Token del webhook
+          required: true
+          schema:
+            type: string
+          example: "wh_1B2M2Y8AsgTpgAmY7PhCfg"
+      responses:
+        "204":
+          description: Webhook eliminado exitosamente
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+      security:
+        - api_key: []
+
 components:
   schemas:
     FilterOrderAndPaginationMetadata:
@@ -1440,10 +1770,7 @@ components:
         text:
           type: string
           description: |
-            Texto del template de consentimiento. Para referenciar documentos de privacidad (`privacy_documents`) en el texto,
-            se debe usar la sintaxis `{{ template_key }}` donde `template_key` es el identificador del privacy_document que
-            se desea incluir. Por ejemplo, si tienes un `privacy_document` con `template_key: "terms_and_conditions"`, puedes
-            referenciarlo como `{{ terms_and_conditions }}`.
+            Texto del template de consentimiento. Permite referenciar [documentos de privacidad](/docs/api/resources/schemas/privacydocument).
           example: "De acuerdo a los {{ terms_and_conditions }} y {{ privacy_policy }} de Soyio."
         data_requirements:
           type: array
@@ -1452,6 +1779,11 @@ components:
             $ref: "#/components/schemas/DataRequirementInput"
 
     ConsentTemplate:
+      description: |
+        Una _consent template_ (template de consentimiento) es una configuración necesaria para el módulo de [_consent_](/docs/integration-guide/modules/consent).
+
+      x-tags:
+        - Consent templates
       type: object
       required:
         - id
@@ -1463,27 +1795,27 @@ components:
       properties:
         id:
           type: string
-          description: ID del template de consentimiento
-          example: "ctpl_1234567890abcdefghijklmnopqrstuvwxyz1234"
+          description: Identificador único. Debe empezar con `constpl_`
+          example: "constpl_wAspvmEr4ACDZaPUtfwjsA"
         name:
           type: string
-          description: Nombre del template
-          example: Mi template de consentimiento
+          description: Nombre descriptivo de la template
+          example: Consentimiento básico
         availability_period_in_months:
           type: integer
-          description: Período de disponibilidad en meses. Esto determina por cuánto tiempo puedes solicitar los datos del usuario desde que te dio su consentimiento.
+          description: Periodo de retención de datos en meses
+          minimum: 1
+          maximum: 120
           example: 12
         text:
           type: string
           description: |
-            Texto del template de consentimiento. Para referenciar documentos de privacidad (`privacy_documents`) en el texto,
-            se debe usar la sintaxis `{{ template_key }}` donde `template_key` es el identificador del privacy_document que
-            se desea incluir. Por ejemplo, si tienes un `privacy_document` con `template_key: "terms_and_conditions"`, puedes
-            referenciarlo como `{{ terms_and_conditions }}`.
+            Texto del consentimiento. Permite referenciar [documentos de privacidad](/docs/api/resources/schemas/privacydocument).
           example: "De acuerdo a los {{ terms_and_conditions }} y {{ privacy_policy }} de Soyio."
         data_requirements:
           type: array
-          description: Lista de requerimientos de datos con información adicional
+          description: Lista de requerimientos de datos con información adicional. Ver [recurso](/docs/api/resources/schemas/datarequirement) para más información.
+          minItems: 1
           items:
             $ref: "#/components/schemas/DataRequirement"
         created_at:
@@ -1525,18 +1857,34 @@ components:
 
     DataRequirement:
       type: object
+      x-tags:
+        - Consent templates
+        - Disclosure templates
       properties:
         key:
           type: string
-          description: Clave del dato, parte de la taxonomía de datos
+          description: |
+            Nombre del dato a solicitar. Los valores permitidos son:
+
+            - `name`: Nombre
+            - `last_name`: Apellido
+            - `date_of_birth`: Fecha de nacimiento
+            - `cl_carnet_rut`: RUT (formato: 12345678-9)
+            - `cl_carnet_doc_number`: Número de documento
+            - `cl_carnet_expiration_date`: Fecha de vencimiento
+            - `cl_carnet_issue_date`: Fecha de emisión
+            - `gender`: Género
+            - `nationality`: Nacionalidad
+            - `email`: Correo electrónico
+            - `phone_number`: Número de celular
           example: name
         data_category:
           type: string
-          description: Categoría del dato personal. Este campo se incluye en las respuestas.
+          description: Categoría del dato. Asignada automáticamente según el `key`. Ver [taxonomía](/docs/integration-guide/concepts/taxonomy-and-data-management)
           example: "user.name.first"
         data_uses:
           type: array
-          description: Lista de usos permitidos para el dato, parte de la taxonomía de usos de datos
+          description: Lista de finalidades de tratamiento según Fideslang. Ver [taxonomía](/docs/integration-guide/concepts/taxonomy-and-data-management)
           items:
             type: string
 
@@ -2249,19 +2597,22 @@ components:
 
     PrivacyDocument:
       type: object
-      description: Representa un documento de privacidad en el sistema
+      x-tags:
+        - Privacy documents
+      description: |
+        Los documentos de privacidad son configuraciones que permiten gestionar documentos legales como términos y condiciones o políticas de privacidad. Estos documentos pueden ser referenciados desde distintos templates usando su `template_key`.
       properties:
         id:
           type: string
-          description: Identificador único del documento de privacidad
+          description: Identificador único. Debe empezar con `privdoc_`
           example: "privdoc_jy21JCGqb-VHhHeUd2nmKw"
         name:
           type: string
-          description: Nombre descriptivo del documento
+          description: Texto que se mostrará al usuario
           example: "términos y condiciones"
         template_key:
           type: string
-          description: Clave única para referenciar el documento en templates
+          description: Identificador para referenciar el documento
           example: "terms_and_conditions"
         url:
           type: string
@@ -2297,6 +2648,56 @@ components:
           example: "Operación completada exitosamente"
       xml:
         name: "##default"
+    Webhook:
+      type: object
+      description: |
+        Los webhooks son endpoints HTTP que reciben notificaciones cuando ocurren eventos en el sistema.
+        Cada webhook puede estar suscrito a uno o más tipos de eventos.
+      properties:
+        id:
+          type: string
+          description: Identificador único del webhook
+          example: "wh_1B2M2Y8AsgTpgAmY7PhCfg"
+        url:
+          type: string
+          description: URL donde se enviarán los eventos
+          example: "https://company.com/your-webhook-endpoint"
+        subscriptions:
+          type: array
+          description: Lista de eventos a los que está suscrito el webhook
+          items:
+            type: string
+          example: ["*", "identity.*", "validation_attempt.*"]
+        enabled_modes:
+          type: array
+          description: Lista de modos en los que el webhook está habilitado
+          items:
+            type: string
+          example: ["production", "sandbox"]
+        enabled:
+          type: boolean
+          description: Indica si el webhook está habilitado o no
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          description: Fecha y hora de creación del webhook
+          example: "2024-03-20T15:30:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: Fecha y hora de la última actualización del webhook
+          example: "2024-03-20T15:30:00Z"
+
+    WebhookList:
+      type: object
+      properties:
+        webhooks:
+          type: array
+          items:
+            $ref: "#/components/schemas/Webhook"
+        metadata:
+          $ref: "#/components/schemas/FilterOrderAndPaginationMetadata"
   securitySchemes:
     api_key:
       type: apiKey

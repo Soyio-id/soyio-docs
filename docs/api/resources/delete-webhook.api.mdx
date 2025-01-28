@@ -1,0 +1,71 @@
+---
+id: delete-webhook
+title: "Eliminar un webhook"
+description: "Eliminar un webhook"
+sidebar_label: "Eliminar un webhook"
+hide_title: true
+hide_table_of_contents: true
+api: eJzNVcFu4zYQ/RViLmkBwU6CAC2Eoqib5hC0BYIki8UiMIIxObG4oUiFHDnxCvqqfkJ/rBhKdhLbXXRv9cGSSM3wzbz3Rh0wLhOUd/CRFlUIjwnmBYSGIrIN/tJACYYcMY37UECDEWtiihLXgceaoARroADroYQGuYICDCUdbSNpoITb8EheGXLqeZso0lNrIxkoObZUQNIV1QhlB7xuJGfiaP0S+gLoBevGydpzdX/y6+mfp59+nKXlbbOc1Z9+uKrOH5bQzyVlaoJPlCTL6fGZXN4DGetQ5GxtPZqg6MVySFiTZ5Kzzo5P9sMuYgxRGVLYMnm2GrX9+y8PBejgZUVCsGmc1blz089J4rr9osLiM2l+V/7dsFcAW3ZyTYzcptxERuuEkyYKK2yH0oZcu4162ydsuRqACpx7EvxS3XDEV0M/eAkO0X4hIyEjmtcY65mWFN8GnR2f9Fu4X83+kZQOrTPKB1ZvUJJahzYqHcnICro0UVeOMJHSFelHxRUpE3QrROWiFLKqmJtUTqcm6DRJYW3DxBro80+oPKCAa9JtTEH5oMgLexFN+P8Saf0KnTX3cgol/iYmrymFNmrKvX4Irf8GPs/+I5/nQqY/YvVgvVHn4j7PTHXjhNNny5WyRh39ZM3PRzuMZsLHuhR6oziuFS7R+pFBAStsWV7nWYONvX8kuZ+L23csOjg6qta/GTI1cRVex1ieX1xBCdPxnTTtrOmFK4qrzVBro4MSNuJK6M0ivGz1NcXGTlcn0Be7b2LT7L81f63iRkQ0ML+tZdtcbOzvtN4bnRfpqaUa94ePqslY9Eyq9ai0wxWp2dWlEoWFqG3waFCRV+RE6bigLzLvDCmHSaXgrLbcGkoTKDZjfDY6P2t/M9ErQkMRhA7rH0KGPIgPbqRYOXUPtiCReX9DcWW1zedeZmsbNPKQQ0ffoc6+ozrLDZIUwPTLq6ELEG6GzCeT48mxLDUhcY3ZnSP8wxp4B2zbbqYXnjYuq60YeOxGcdzBRhxQQGmN+LYKiWWn6xaY6EN0fS/LTy3FLMgCVhgtLqQtdx0Ym+TeQPmALtEeiO20ge+ux/nxvTr0lTyIdqMYL3JZoWvlCQrIgpJvcT/viw1vAmfYmGlNDb8J2Rt0ItatZX67+OPi9gKK/DF5L9THLNTxRg44iGhXTQMK+RfrHAzpusEGfb99f9j614ixym3xUkTf9/8AxIgNrQ==
+sidebar_class_name: "delete api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Eliminar un webhook"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"delete"}
+  path={"/webhooks/{id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Eliminar un webhook
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"id","in":"path","description":"Token del webhook","required":true,"schema":{"type":"string"},"example":"wh_1B2M2Y8AsgTpgAmY7PhCfg"}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"204":{"description":"Webhook eliminado exitosamente"},"401":{"description":"Error de autenticación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"authentication_error"},"title":{"type":"string","example":"Unauthorized"},"status":{"type":"integer","example":401},"detail":{"type":"string","example":"We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"}}}}}},"404":{"description":"Recurso no encontrado","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"invalid_request_error"},"title":{"type":"string","example":"Resource not found"},"status":{"type":"integer","example":404},"detail":{"type":"string","example":"Couldn't find Consenttemplate with id '<id>'. Please check your request and try again"}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

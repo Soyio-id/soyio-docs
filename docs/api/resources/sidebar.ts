@@ -170,6 +170,12 @@ const sidebar: SidebarsConfig = {
         },
         {
           type: "doc",
+          id: "api/resources/create-privacy-document",
+          label: "Crea un privacy document",
+          className: "api-method post",
+        },
+        {
+          type: "doc",
           id: "api/resources/get-privacy-document",
           label: "Obtener un documento de privacidad específico",
           className: "api-method get",
@@ -300,6 +306,12 @@ const sidebar: SidebarsConfig = {
           label: "Obtener un evento específico",
           className: "api-method get",
         },
+        {
+          type: "doc",
+          id: "api/resources/broadcast-event",
+          label: "Reenviar un evento a los webhooks suscritos",
+          className: "api-method post",
+        },
       ],
     },
     {
@@ -371,6 +383,42 @@ const sidebar: SidebarsConfig = {
           id: "api/resources/get-agreement-version-evidence",
           label: "Obtener la evidencia de una versión específica",
           className: "api-method get",
+        },
+      ],
+    },
+    {
+      type: "category",
+      label: "Webhooks",
+      items: [
+        {
+          type: "doc",
+          id: "api/resources/index-webhooks",
+          label: "Obtener todos los webhooks",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/create-webhook",
+          label: "Crear un webhook",
+          className: "api-method post",
+        },
+        {
+          type: "doc",
+          id: "api/resources/get-webhook",
+          label: "Obtener un webhook específico",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/update-webhook",
+          label: "Actualizar un webhook",
+          className: "api-method patch",
+        },
+        {
+          type: "doc",
+          id: "api/resources/delete-webhook",
+          label: "Eliminar un webhook",
+          className: "api-method delete",
         },
       ],
     },

@@ -1,0 +1,33 @@
+---
+id: datarequirement
+title: "DataRequirement"
+description: ""
+hide_title: true
+hide_table_of_contents: true
+schema: true
+sample: {"key":"name","data_category":"user.name.first","data_uses":["string"]}
+custom_edit_url: null
+---
+
+import Schema from "@theme/Schema";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"DataRequirement"}
+>
+</Heading>
+
+
+
+
+
+<Schema
+	defaultCollapsibleOpen={true}
+  schema={{"type":"object","x-tags":["Consent templates","Disclosure templates"],"properties":{"key":{"type":"string","description":"Nombre del dato a solicitar. Los valores permitidos son:\n\n- `name`: Nombre\n- `last_name`: Apellido\n- `date_of_birth`: Fecha de nacimiento\n- `cl_carnet_rut`: RUT (formato: 12345678-9)\n- `cl_carnet_doc_number`: Número de documento\n- `cl_carnet_expiration_date`: Fecha de vencimiento\n- `cl_carnet_issue_date`: Fecha de emisión\n- `gender`: Género\n- `nationality`: Nacionalidad\n- `email`: Correo electrónico\n- `phone_number`: Número de celular\n","example":"name"},"data_category":{"type":"string","description":"Categoría del dato. Asignada automáticamente según el `key`. Ver [taxonomía](/docs/integration-guide/concepts/taxonomy-and-data-management)","example":"user.name.first"},"data_uses":{"type":"array","description":"Lista de finalidades de tratamiento según Fideslang. Ver [taxonomía](/docs/integration-guide/concepts/taxonomy-and-data-management)","items":{"type":"string"}}},"title":"DataRequirement"}}
+  schemaType={"response"}
+>
+  
+</Schema>
+            
