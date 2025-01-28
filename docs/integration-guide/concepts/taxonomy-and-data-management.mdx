@@ -2,12 +2,83 @@ import TaxonomyVisualizer from '@site/src/components/TaxonomyVisualizer'
 
 # Taxonomía y manejo de datos
 
-La taxonomía de Soyio se basa en el modelo propuesto por [Fideslang](https://ethyca.github.io/fideslang/). Tiene como objetivo facilitar la categorización precisa y la comprensión del manejo de datos mediante el uso de categorías y usos de datos estructurados jerárquicamente. Esto permite tanto a las empresas como a los usuarios entender claramente las políticas de manejo de datos.
+La taxonomía de Soyio se basa en el modelo propuesto por [Fideslang](https://ethyca.github.io/fideslang/).
 
-Los valores permitidos para `data_uses` y `data_categories` se encuentran en el tooltip al hacer hover sobre los nodos del visualizador - específicamente en el campo `key` del tooltip.
+Tiene como objetivo **facilitar la categorización precisa y la comprensión del manejo de datos** mediante el uso de categorías y usos de datos estructurados jerárquicamente. Esto permite tanto a las empresas como a los usuarios **entender claramente las políticas de manejo de datos**.
+
+## Categorías de datos (`data_categories`)
+
+Las categorías de datos son etiquetas que describen el tipo de datos que procesa una empresa. Por ejemplo, los datos de contacto del usuario pueden clasificarse de manera general como `user.contact` o con mayor precisión como `user.contact.email`.
+
+## Usos de datos (`data_uses`)
+
+Los usos de datos son etiquetas que describen cómo o para qué propósitos se utiliza un componente de datos dentro del sistema. Al igual que las categorías de datos, los usos también son jerárquicos, lo que permite describir el uso de los datos de manera general (por ejemplo, `essential`) o con mayor precisión usando subcategorías (por ejemplo, `essential.service.authentication`).
+
+### Simbología
+Soyio utiliza una simbología que apunta a representar de manera visual los usos de datos. La lista de categorías principales del uso de datos es la siguiente:
+
+#### Analitica
+<img src="/img/data_uses/analytics.png" alt="Uso de datos: Analítica" />
+
+Proporciona análisis para actividades como informes de rendimiento del sistema y publicidad, generación de información y detección de fraude.
+
+
+#### Empleo
+<img src="/img/data_uses/employment.png" alt="Uso de datos: Empleo" />
+
+Procesa datos con fines de reclutamiento, empleo y actividades relacionadas con recursos humanos (RRHH).
+
+#### Esencial
+<img src="/img/data_uses/essential.png" alt="Uso de datos: Esencial" />
+
+Opera el servicio o producto, incluyendo obligaciones legales, soporte y operaciones básicas del sistema.
+
+#### Finanzas
+<img src="/img/data_uses/finance.png" alt="Uso de datos: Finanzas" />
+
+Facilita actividades financieras y contables como auditorías y reportes fiscales.
+
+#### Funcional
+<img src="/img/data_uses/functional.png" alt="Uso de datos: Funcional" />
+
+Se utiliza para fines específicos, necesarios y legítimos.
+
+#### Marketing
+<img src="/img/data_uses/marketing.png" alt="Uso de datos: Marketing" />
+
+Permite actividades de marketing, promoción, publicidad y ventas del producto, servicio, aplicación o sistema.
+
+#### Operaciones
+<img src="/img/data_uses/operations.png" alt="Uso de datos: Operaciones" />
+
+Soporta procesos empresariales necesarios para el funcionamiento de la organización.
+
+#### Personalización
+<img src="/img/data_uses/personalize.png" alt="Uso de datos: Personalización" />
+
+Personaliza el producto, servicio, aplicación o sistema.
+
+#### Ventas
+<img src="/img/data_uses/sales.png" alt="Uso de datos: Ventas" />
+
+Soporta actividades de ventas como comunicaciones y alcance.
+
+#### Compartir con terceros
+<img src="/img/data_uses/third_party.png" alt="Uso de datos: Compartir con terceros" />
+
+Transfiere datos a terceros fuera del alcance del sistema o servicio.
+
+#### Entrenar sistema IA
+<img src="/img/data_uses/ia.png" alt="Uso de datos: Entrenar sistema IA" />
+
+Entrena un sistema de IA o modelo de datos para aprendizaje automático.
+
+## Visualizador de taxonomía
+
+A continuación, te mostramos una visualización de los valores permitidos para `data_uses` y `data_categories`.
+
+:::note
+Haz hover sobre los nodos del visualizador para ver los valores permitidos.
+:::
 
 <TaxonomyVisualizer />
-
-- **Categorías de datos (`data_category`):** Las categorías de datos son etiquetas que describen el tipo de datos que procesa una empresa. Por ejemplo, los datos de contacto del usuario pueden clasificarse de manera general como `user.contact` o con mayor precisión como `user.contact.email`.
-
-- **Usos de datos (`data_uses`):** Los usos de datos son etiquetas que describen cómo o para qué propósitos se utiliza un componente de datos dentro del sistema. Al igual que las categorías de datos, los usos también son jerárquicos, lo que permite describir el uso de los datos de manera general (por ejemplo, `essential`) o con mayor precisión usando subcategorías (por ejemplo, `essential.service.authentication`).
