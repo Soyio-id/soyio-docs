@@ -12,8 +12,6 @@ Este módulo te permite cumplir con las regulaciones de protección de datos per
 Por ahora, este servicio está disponible **sólo para el SDK Web**.
 :::
 
-<img src="/img/consent_example.png" alt="Consent Embed example" width="100%"/>
-
 Cada vez que el usuario marque el checkbox de consentimiento, se **creará un registro de consentimiento mediante un token de acción**. Este token se puede usar para crear un registro de consentimiento en el backend y generar [evidencia del consentimiento otorgado](../concepts/agreement).
 
 A grandes rasgos, el módulo Consent Box te permite:
@@ -50,7 +48,7 @@ Puedes utilizar este ejemplo como base para integrar el componente en tu aplicac
 
 ## Configuración inicial
 
-Para comenzar, deberás crear una [plantilla de consentimiento](../concepts/consent.md) que defina qué datos y permisos necesitas solicitar a tus usuarios. Para ello, utiliza el [endpoint de creación de plantillas de consentimiento](../../api/resources/create-consent-template.api.mdx).
+Para comenzar, deberás crear una [plantilla de consentimiento](../../api/resources/schemas/consenttemplate) que defina qué datos y permisos necesitas solicitar a tus usuarios.
 
 :::warning[Importante]
 Es importante que la plantilla de consentimiento describa de manera correcta los usos que se harán de los datos y que tenga al menos una finalidad y un periodo de retención.
@@ -105,13 +103,68 @@ El flujo que integrarás es el siguiente:
 ### Pre requisitos
 
 1. Tener el [SDK](../quickstart.mdx) instalado en tu sitio o aplicación.
-2. Tener una [plantilla de consentimiento](../../api/resources/create-consent-template.api.mdx) creada.
+2. Tener una [plantilla de consentimiento](../../api/resources/schemas/consenttemplate) creada.
+
+## Tipos de Consentimiento
+
+Según el cómo se estructuran los `data_uses` dentro de los [`data_requirements`](../../api/resources/schemas/datarequirement) del `consent_template` creado, se pueden crear dos tipos de consentimientos:
+
+```mermaid
+flowchart TD
+   A[Data Uses] --> B{¿Mismo nodo raíz?}
+   B -->|Sí| C[Consentimiento Granular]
+   B -->|No| D[Consentimiento Múltiple]
+```
+
+### Consentimiento Granular
+Se usa cuando todos los `data_uses` comparten el mismo nodo raíz.
+
+```json
+{
+    "data_requirements": [
+        {
+            "key": "name",
+            "data_category": "user.name.first",
+            "data_uses": [
+                "essential",
+                "essential.service",
+                "essential.service.operations"
+            ]
+        },
+        ...
+    ]
+}
+```
+
+<img src="/img/example_granular_consent.png" alt="Consent Embed example" width="100%"/>
+
+### Consentimiento Múltiple
+Se usa cuando los `data_uses` provienen de diferentes nodos raíz.
+
+```json
+{
+    "data_requirements": [
+        {
+            "key": "email",
+            "data_category": "user.contact.email",
+            "data_uses": [
+                "essential",
+                "marketing",
+                "third_party_sharing"
+            ]
+        },
+        ...
+    ]
+}
+```
+
+<img src="/img/example_multiple_consent.png" alt="Consent Embed example" width="100%"/>
 
 ## Paso a paso
 
 ### 1. Inicializa el componente en tu frontend
 
-Inicializa el componente de consentimiento en tu interfaz mediante el SDK de Soyio, utilizando el `templateId` de la plantilla de consentimiento que creaste previamente. Estos empiezan con el prefijo `constpl_`.
+Inicializa el componente de consentimiento en tu interfaz mediante el SDK de Soyio, utilizando el `id` del `consent_template` creado previamente. Estos empiezan con el prefijo `constpl_`.
 
 <Tabs>
     <TabItem value="web" label="SDK Web" default>

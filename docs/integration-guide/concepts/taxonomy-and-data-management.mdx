@@ -1,0 +1,13 @@
+import TaxonomyVisualizer from '@site/src/components/TaxonomyVisualizer'
+
+# Taxonomía y manejo de datos
+
+La taxonomía de Soyio se basa en el modelo propuesto por [Fideslang](https://ethyca.github.io/fideslang/). Tiene como objetivo facilitar la categorización precisa y la comprensión del manejo de datos mediante el uso de categorías y usos de datos estructurados jerárquicamente. Esto permite tanto a las empresas como a los usuarios entender claramente las políticas de manejo de datos.
+
+Los valores permitidos para `data_uses` y `data_categories` se encuentran en el tooltip al hacer hover sobre los nodos del visualizador - específicamente en el campo `key` del tooltip.
+
+<TaxonomyVisualizer />
+
+- **Categorías de datos (`data_category`):** Las categorías de datos son etiquetas que describen el tipo de datos que procesa una empresa. Por ejemplo, los datos de contacto del usuario pueden clasificarse de manera general como `user.contact` o con mayor precisión como `user.contact.email`.
+
+- **Usos de datos (`data_uses`):** Los usos de datos son etiquetas que describen cómo o para qué propósitos se utiliza un componente de datos dentro del sistema. Al igual que las categorías de datos, los usos también son jerárquicos, lo que permite describir el uso de los datos de manera general (por ejemplo, `essential`) o con mayor precisión usando subcategorías (por ejemplo, `essential.service.authentication`).

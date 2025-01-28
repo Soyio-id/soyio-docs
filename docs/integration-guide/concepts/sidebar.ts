@@ -20,6 +20,10 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: 'doc',
+      id: 'integration-guide/concepts/taxonomy-and-data-management',
+    },
+    {
+      type: 'doc',
       id: 'integration-guide/concepts/signature',
     },
     {
