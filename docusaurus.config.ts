@@ -6,6 +6,9 @@ import { sidebarItemGenerator } from './lib/sidebarItemGenerator';
 import type * as FathomAnalyticsPlugin from 'docusaurus-plugin-fathom';
 
 const config: Config = {
+  markdown: {
+    mermaid: true,
+  },
   title: 'Soyio Docs',
   tagline: 'Documentación de la infraestructura de la privacidad digital',
   favicon: 'img/favicon.png',
@@ -218,7 +221,7 @@ const config: Config = {
       mdxCrossCompilerCache: true,
     },
   },
-  themes: ['docusaurus-theme-openapi-docs'], // export theme components
+  themes: ['docusaurus-theme-openapi-docs', '@docusaurus/theme-mermaid'],
 };
 
 export default config;

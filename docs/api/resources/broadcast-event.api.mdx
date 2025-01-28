@@ -1,0 +1,74 @@
+---
+id: broadcast-event
+title: "Reenviar un evento a los webhooks suscritos"
+description: "Permite reenviar manualmente un evento a todos los webhooks suscritos de la compañía."
+sidebar_label: "Reenviar un evento a los webhooks suscritos"
+hide_title: true
+hide_table_of_contents: true
+api: eJzlVsFOI0cQ/ZVSXUikiQ2IkxVFQQhlyR6CIJscAKFyd8E0zHQ33TUGrzWftIcot1z5sah6bAOGoOwtUnywxz1T3a/q1Xs1CxS6zjg5w8MZe8l4UaHlbJKL4oLHCR5zap0wJGY/c5SgJd9R07IXhs4Da1wAAgk2ZGhChnue1iHcZsid7iQhg2VoCExoIz3+8fiFRuf+MAsDexuD8wKc4fEvcQ2YjrwN4NlwdkIZEksin1snLj07kHNk8/jlyplQQQwJ+Ibb2ITq3GcHdTcNEFOYNtxSBvZ6fGLD0bjHPz2E5K6dpwYsNyu8o3OPFYbIiTT3I4sTnKZA1lCWUh6sMFKiloWTFm2BnlrGCTqLFTotVySpcbOGR7acMyDHChPfdS6xxYmkjivMpuaWcLJAmUfdL0ty/hr7CvmB2tjoGs/k8ma+u/PzwU930+9++1B/4E9217cf77G/0D1zDD5z1m12t/f05yWKwxUCuOq08jNHNgA/KEE08EkDSw0pYSsaFcbe9s4bG6YUkj5JnbAXZ6gUFys0weuKhlCMjTOlouObrHGL1/mG6Q0beVGZs+FeheKk0d8sJF0utRVyjXZqTMqWuCHpYa/NGj4vIXVSD0AVziUrfs1uOOLd0E9eg0Nyn9lqyBLNU4zzwtecngftbe/0a7jv7v47gwldY8EHgWcoGeahS2ASW12hJo/guGHKDKZmcwtSM9hgOqWvJAUkUIvEPBmPbTB5lMPchZGz2JePUvlGb5yw6VIO4AOwV/YS2fDfJdL5GTXOXuopnOWrmDzhHLpkuNT6KnT+K/jc+5d8HiiZfkvgynkLB6pLL6L+pJzeO6nBWdj63tkftjYYLYQv8wLyFiTNga7J+SWDClbZcjIvFkTRXd6yXl+oD7QsdVDriiEPhiU1TnBcpJ/HC2f78drVlA1Os5WbdanBCa7aJ5O30/Cw7qAxRTee7WBfbT5JMb5+6uIJ56m2ycDtGu26fBTdR56/8szDfNdxS6/tBVq2jobpQ2AamjHsHx+p28eQjAueLKnjq+N6Q1P+rD5XJlCGHBpnnHSW8wirlX/vL7Vduntl5TWT5YRacOevQoE8tBeearJ66ivYikS9/pTTzBlXzj0q4rWkUwBK6FJZZIqyuC0NhVkTEP7xSbIVKjfDzjuj7dG2LimxLRX9LeGfrGbz83n89iTeBLx4kvj/btQvG1D4QcaxKQqrhs5eLGVzhoNssMJJmfFPyrmosFaFTc5wsZhS5k+p6Xtdvus4FTlWOKPkaKotc7ZA67JeW5xcUZP5HSK+OVm657ew+erwJuaVkrzKaEZNp/+wwiI0fTnpL/pq1c8KZbixbwxHeRbyyuJfGMrxL6e/YlWG6Ev53hb5Li90+zfxbGpswKDfaihvhiwWgzn0/fr54dY/RixzXKeuKfR9/zdGY9bo
+sidebar_class_name: "post api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Reenviar un evento a los webhooks suscritos"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/events/{id}/broadcast"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Permite reenviar manualmente un evento a todos los webhooks suscritos de la compañía.
+Este endpoint es útil cuando necesitas retransmitir un evento específico, por ejemplo,
+si hubo problemas en la recepción original del webhook.
+
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"id","in":"path","description":"Id del evento","required":true,"schema":{"type":"string"},"example":"evt_jy21JCGqb-VHhHeUd2nmKw"}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"204":{"description":"El evento fue enviado exitosamente a la cola de webhooks"},"401":{"description":"Error de autenticación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"authentication_error"},"title":{"type":"string","example":"Unauthorized"},"status":{"type":"integer","example":401},"detail":{"type":"string","example":"We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"}}}}}},"404":{"description":"Recurso no encontrado","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"invalid_request_error"},"title":{"type":"string","example":"Resource not found"},"status":{"type":"integer","example":404},"detail":{"type":"string","example":"Couldn't find Consenttemplate with id '<id>'. Please check your request and try again"}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

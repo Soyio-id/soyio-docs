@@ -1,0 +1,71 @@
+---
+id: create-privacy-document
+title: "Crea un privacy document"
+description: "Crea un privacy document"
+sidebar_label: "Crea un privacy document"
+hide_title: true
+hide_table_of_contents: true
+api: eJy9VztzGzcQ/is7qE8kxXHFKorliRU7E00k2YWioZbAkoSNAyAAR4vW8MekTJHKnVv+scziyDu+Isl5qRF5xO5+2O/bxz2IhJMoBtfiPOgZyjkoJ6uSbIriphDOU8CknT1TYiBkIEy0Oni6OicKEeiuopi+d2ouBg/5qw6kxCCFigohnU18cPAgysok7TGk7tiF8khhQn4c5ZTK/CnNPYmBcKMPJNeua1/XwmJJohCJSm8w0fAjzUUhxtoQQ/WBwSZNkf3ks62/mIK2E1EIRVEG7flKYiAu6T45uKsI0GMgSWH5G5AFMlAuv6jKOKByRCM9MlQAGgg0pkBWagzGgXT56O0motuOKATdY+kNB07L30OprYsw5+NKS+0sRbHYuceTUN8anBEsv1otETwG3MTCKNa8Ob7A2nfcQUOhjEO0apixsOsMJefwAAQmCZMYiJG2GOZ7oE6CnOqZA7UZXyzyH3MXvbOxJqTfO+Z/2/anDWZF4LOutEIFLDTlxJZ00HujZRZj90Nk88d0s62G2vV8uMZ4yOL+6NFK2GHDxfbCcQd9dJa5HutJFbDmO2vMUyh1IgsTiuwHw6YPQxM0FEG60sFfyAYceGeWfyQtcSdqB17FtI3KV6TIQqSwoRWV4UZFoHRMOh9s1AJVRKscxGpX1L/avaRq9bRqzxTZpMdaonKhVq/rwCmNCKj09BlDLqJbvodycni7Jdf10w/z/vGPL3+4Gx29ez19TVeqb8s3n1i431rmkaB0MQXkQkcDVawwaPfflOz25R+t2WdVaRXM00Gvfnlbh0IpSVHgWx4O01XukzUO1ZAdc8EmnfIvux1+XdAver39Gn4VggusxeiMljpVCo5gjCYhoJksv1qQWHoHeUgE/W+WNXHop4/Vv+4nrk2FtjM0Wg1Xg2xYO24z8pjtTzpGbSc56SUlynYxYao2ggttE00obFq+6PUWzF5CfZDXNsTllGA9CNs4wF0bdISyRrCiqSbqQLNtiMKKk68lSr38Yv8JHZvTOf+2zliTgeaCexP6aVawStMaKMP5JlKuLBu7oD+Tej4fx8/k4z2BdJVRYF2CDZQEc1cFnl658tHEDpwbwkggpyQ/QppSU4z5UoAJpin5OOh2lZOxE91cu45Wbc31+49QmWX7//CY0x//Do81yG/m8F1jBo3Zs3js9xcN3PYkhoC8wehEZdyPvNjwcGAF4DpbdQlx09TZNisvAyFUdjWUW2NRiJLS1PEK7V3MDQrTlFvw7mLCiY4UZsTQrx/qli/WCuHhPHL3jUi66HV3diwWxe5J9H7/1A37llXQaX7BUqj5Q693xhl6/Yb2l71X8a6iEvc7CJSkNNpEUFkEmRfVk/MzYJ24wNMTFa7WarISR/QZVV75DMZ2bNTLaj3RxcmqfDP/zBojmBIq7q8L/j52GfJqZF3wZTnq/o56fpb30wsKMx7lHLeezLyrKYJsuqoelLl6qMw9QES+QKLv2qosBHNTez7u9Do9fsSklmjb947HpLCFrsl5ovvU9Qa13Zj0tUqu99bXXIVTVtLgWjw8jDDSVTCLBT/mITsXg+ubQswwaBxlQd8sinX2WFaZb/GybhdHl3XFz9BUDOXQOxorrDY6kZJ82ji+12lYZ43ez3++uBSFGK1eDUun2IYdZ79F+5FBLhZ/AtonLOg=
+sidebar_class_name: "post api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Crea un privacy document"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/privacy_documents"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Crea un privacy document
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"required":true,"content":{"multipart/form-data":{"schema":{"type":"object","required":["name","template_key","file"],"properties":{"name":{"type":"string","description":"Texto que aparecerá en el módulo embebible, al referenciarlo con el `template_key`.","example":"términos y condiciones"},"template_key":{"type":"string","description":"Llave única para referenciar el documento en templates.","example":"terms_and_conditions"},"file":{"type":"string","format":"binary","description":"Archivo del documento"}}}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"201":{"description":"Documento de privacidad creado","content":{"application/json":{"schema":{"type":"object","properties":{"privacy_document":{"type":"object","x-tags":["Privacy documents"],"description":"Los documentos de privacidad son configuraciones que permiten gestionar documentos legales como términos y condiciones o políticas de privacidad. Estos documentos pueden ser referenciados desde distintos templates usando su `template_key`.\n","properties":{"id":{"type":"string","description":"Identificador único. Debe empezar con `privdoc_`","example":"privdoc_jy21JCGqb-VHhHeUd2nmKw"},"name":{"type":"string","description":"Texto que se mostrará al usuario","example":"términos y condiciones"},"template_key":{"type":"string","description":"Identificador para referenciar el documento","example":"terms_and_conditions"},"url":{"type":"string","description":"URL para acceder al documento","example":"/download_url"}},"title":"PrivacyDocument"}}}}}},"400":{"description":"Error de solicitud - falta algún campo requerido","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"object","properties":{"type":{"type":"string","example":"invalid_request_error"},"title":{"type":"string","example":"Missing parameter"},"status":{"type":"integer","example":400},"detail":{"type":"string","example":"The required parameter file is missing"}}}}}}}},"401":{"description":"Error de autenticación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"authentication_error"},"title":{"type":"string","example":"Unauthorized"},"status":{"type":"integer","example":401},"detail":{"type":"string","example":"We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"}}}}}},"422":{"description":"Error de validación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","errors"],"properties":{"type":{"type":"string","example":"validation_error"},"title":{"type":"string","example":"Validation error"},"status":{"type":"integer","example":422},"errors":{"type":"array","items":{"type":"string"},"example":["Privacy documents is invalid"]}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

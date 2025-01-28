@@ -1,0 +1,34 @@
+---
+id: privacydocument
+title: "PrivacyDocument"
+description: "Los documentos de privacidad son configuraciones que permiten gestionar documentos legales como términos y condiciones o políticas de privacidad. Estos documentos pueden ser referenciados desde distintos templates usando su `template_key`."
+hide_title: true
+hide_table_of_contents: true
+schema: true
+sample: {"id":"privdoc_jy21JCGqb-VHhHeUd2nmKw","name":"términos y condiciones","template_key":"terms_and_conditions","url":"/download_url"}
+custom_edit_url: null
+---
+
+import Schema from "@theme/Schema";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"PrivacyDocument"}
+>
+</Heading>
+
+
+
+Los documentos de privacidad son configuraciones que permiten gestionar documentos legales como términos y condiciones o políticas de privacidad. Estos documentos pueden ser referenciados desde distintos templates usando su `template_key`.
+
+
+<Schema
+	defaultCollapsibleOpen={true}
+  schema={{"type":"object","x-tags":["Privacy documents"],"description":"Los documentos de privacidad son configuraciones que permiten gestionar documentos legales como términos y condiciones o políticas de privacidad. Estos documentos pueden ser referenciados desde distintos templates usando su `template_key`.\n","properties":{"id":{"type":"string","description":"Identificador único. Debe empezar con `privdoc_`","example":"privdoc_jy21JCGqb-VHhHeUd2nmKw"},"name":{"type":"string","description":"Texto que se mostrará al usuario","example":"términos y condiciones"},"template_key":{"type":"string","description":"Identificador para referenciar el documento","example":"terms_and_conditions"},"url":{"type":"string","description":"URL para acceder al documento","example":"/download_url"}},"title":"PrivacyDocument"}}
+  schemaType={"response"}
+>
+  
+</Schema>
+            

@@ -68,6 +68,18 @@ const sidebar: SidebarsConfig = {
       items: [
         {
           type: "doc",
+          id: "api/resources/schemas/consenttemplate",
+          label: "El objeto ConsentTemplate",
+          className: "schema",
+        },
+        {
+          type: "doc",
+          id: "api/resources/schemas/datarequirement",
+          label: "El objeto DataRequirement",
+          className: "schema",
+        },
+        {
+          type: "doc",
           id: "api/resources/index-consent-templates",
           label: "Obtener todos los templates de consentimiento",
           className: "api-method get",
@@ -89,24 +101,6 @@ const sidebar: SidebarsConfig = {
           id: "api/resources/update-consent-template",
           label: "Actualizar un template de consentimiento",
           className: "api-method patch",
-        },
-      ],
-    },
-    {
-      type: "category",
-      label: "Privacy documents",
-      items: [
-        {
-          type: "doc",
-          id: "api/resources/index-privacy-documents",
-          label: "Obtener todos los documentos de privacidad",
-          className: "api-method get",
-        },
-        {
-          type: "doc",
-          id: "api/resources/get-privacy-document",
-          label: "Obtener un documento de privacidad específico",
-          className: "api-method get",
         },
       ],
     },
@@ -154,6 +148,36 @@ const sidebar: SidebarsConfig = {
           type: "doc",
           id: "api/resources/show-consent-commit",
           label: "Obtener un commit de consentimiento",
+          className: "api-method get",
+        },
+      ],
+    },
+    {
+      type: "category",
+      label: "Privacy documents",
+      items: [
+        {
+          type: "doc",
+          id: "api/resources/schemas/privacydocument",
+          label: "El objeto PrivacyDocument",
+          className: "schema",
+        },
+        {
+          type: "doc",
+          id: "api/resources/index-privacy-documents",
+          label: "Obtener todos los documentos de privacidad",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/create-privacy-document",
+          label: "Crea un privacy document",
+          className: "api-method post",
+        },
+        {
+          type: "doc",
+          id: "api/resources/get-privacy-document",
+          label: "Obtener un documento de privacidad específico",
           className: "api-method get",
         },
       ],
@@ -282,6 +306,12 @@ const sidebar: SidebarsConfig = {
           label: "Obtener un evento específico",
           className: "api-method get",
         },
+        {
+          type: "doc",
+          id: "api/resources/broadcast-event",
+          label: "Reenviar un evento a los webhooks suscritos",
+          className: "api-method post",
+        },
       ],
     },
     {
@@ -356,7 +386,54 @@ const sidebar: SidebarsConfig = {
         },
       ],
     },
-
+    {
+      type: "category",
+      label: "Webhooks",
+      items: [
+        {
+          type: "doc",
+          id: "api/resources/index-webhooks",
+          label: "Obtener todos los webhooks",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/create-webhook",
+          label: "Crear un webhook",
+          className: "api-method post",
+        },
+        {
+          type: "doc",
+          id: "api/resources/get-webhook",
+          label: "Obtener un webhook específico",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/update-webhook",
+          label: "Actualizar un webhook",
+          className: "api-method patch",
+        },
+        {
+          type: "doc",
+          id: "api/resources/delete-webhook",
+          label: "Eliminar un webhook",
+          className: "api-method delete",
+        },
+      ],
+    },
+    {
+      type: "category",
+      label: "Disclosure templates",
+      items: [
+        {
+          type: "doc",
+          id: "api/resources/schemas/datarequirement",
+          label: "El objeto DataRequirement",
+          className: "schema",
+        },
+      ],
+    },
   ],
 };
 

@@ -4,7 +4,7 @@ import SequenceDiagram from '../../../src/components/SequenceDiagram';
 
 # Obtención de consentimiento (Consent)
 
-Integra un componente de consentimiento directamente en tu flujos para capturar uno más d consentimientos explícitos de tus usuarios.
+Integra un componente de consentimiento directamente en tu flujos para capturar uno más consentimientos explícitos de tus usuarios.
 
 Este módulo te permite cumplir con las regulaciones de protección de datos personales al obtener y registrar el consentimiento de tus usuarios de manera transparente, granular y sin interrumpir su experiencia de compra.
 
@@ -12,18 +12,17 @@ Este módulo te permite cumplir con las regulaciones de protección de datos per
 Por ahora, este servicio está disponible **sólo para el SDK Web**.
 :::
 
-<img src="/img/consent_example.png" alt="Consent Embed example" width="100%"/>
-
 Cada vez que el usuario marque el checkbox de consentimiento, se **creará un registro de consentimiento mediante un token de acción**. Este token se puede usar para crear un registro de consentimiento en el backend y generar [evidencia del consentimiento otorgado](../concepts/agreement).
 
 A grandes rasgos, el módulo Consent Box te permite:
 - **Obtener consentimiento informado**: Registra la autorización explícita para el uso de datos. El usuario podrá revisar qué usos se harán de sus datos.
+- **Obtener consentimiento múltiple o granular**: Permite obtener el consentimiento de una o más [categorías de uso de datos](../concepts/taxonomy-and-data-management#categorías-de-uso-de-datos).
 - **Integración fluida**: Embebe el componente directamente en tu interfaz y personalizalo con el *look and feel* de tu aplicación
 - **Generar confianza**: Informamos al usuario sobre el uso de sus datos de manera transparente y clara, utilizando simbología sencilla y dando la opción de más información directamente en el componente.
 - **Evidencia vinculante**: Genera evidencia del consentimiento otorgado mediante un [agreement y evidencia](../concepts/agreement).
 
 :::tip
-Puedes averiguar más acerca de nuestra simbología y taxonomía en la guía de [Agreement y evidencia](../concepts/agreement#taxonomía).
+Puedes averiguar más acerca de nuestra simbología y taxonomía en la guía de [Taxonomía y gestión de datos](../concepts/taxonomy-and-data-management).
 :::
 
 ## El proceso de consentimiento
@@ -35,7 +34,31 @@ El proceso de consentimiento embebido se compone de los siguientes pasos:
 3. Se genera un **token de acción** cada vez que el usuario haga click un checkbox de consentimiento.
 4. Al momento de persistir los datos del usuario, se envían los token de acción para crear un **registro de consentimientos** con evidencia del proceso.
 
-## Ejemplo de integración
+## Modalidades de consentimiento
+
+Este módulo soporta dos modalidades de acuerdo a como se necesite obtener el consentimiento de los usuarios
+
+:::info[Información]
+La configuración de la modalidad de consentimiento se determina de acuerdo a la estructura de los `data_uses` dentro de los [`data_requirements`](../../api/resources/schemas/datarequirement) del `consent_template` creado. Revisa la sección de [plantilla de consentimiento](../../api/resources/schemas/consenttemplate) para más detalles.
+:::
+
+### Consentimiento Unificado
+
+Permite capturar el consentimiento de múltiples categorías de uso de datos en un sólo click. Útil para tratamiento de datos y formularios simples y de una sola página, donde el usuario puede revisar y aceptar todos los usos de datos en un solo paso.
+
+
+<img src="/img/example_multiple_consent.png" alt="Consent Embed example" width="100%"/>
+
+
+### Consentimiento Granular
+
+Permite obtener el consentimiento de una categoría de uso de datos específica. Útil para formularios con lógica más compleja, donde por ejemplo, el tratamiento de datos ocurre en el transcurso de completar el formulario (carrito abandonado, etc). Esto también permite mayor flexibilidad en la lógica de captura de datos, ya que puedes capturar el consentimiento de una categoría de uso de datos específica en un momento específico del flujo.
+
+<img src="/img/example_granular_consent.png" alt="Consent Embed example" width="100%"/>
+
+
+## Ejemplo
+
 A continuación, te mostramos un ejemplo de integración del componente de consentimiento implementado en un formulario.
 
 <iframe src="https://codesandbox.io/embed/4pg3zp?view=preview"
@@ -46,15 +69,10 @@ A continuación, te mostramos un ejemplo de integración del componente de conse
   referrerPolicy="no-referrer"
 ></iframe>
 
+<br/>
+<br/>
+
 Puedes utilizar este ejemplo como base para integrar el componente en tu aplicación. Más adelante encontrarás una guía detallada para implementarlo desde cero.
-
-## Configuración inicial
-
-Para comenzar, deberás crear una [plantilla de consentimiento](../concepts/consent.md) que defina qué datos y permisos necesitas solicitar a tus usuarios. Para ello, utiliza el [endpoint de creación de plantillas de consentimiento](../../api/resources/create-consent-template.api.mdx).
-
-:::warning[Importante]
-Es importante que la plantilla de consentimiento describa de manera correcta los usos que se harán de los datos y que tenga al menos una finalidad y un periodo de retención.
-:::
 
 ## Integración
 
@@ -105,13 +123,91 @@ El flujo que integrarás es el siguiente:
 ### Pre requisitos
 
 1. Tener el [SDK](../quickstart.mdx) instalado en tu sitio o aplicación.
-2. Tener una [plantilla de consentimiento](../../api/resources/create-consent-template.api.mdx) creada.
+2. Tener una [plantilla de consentimiento](../../api/resources/schemas/consenttemplate) creada.
+3. (Opcional) Crear uno o más [documentos de privacidad](../../api/resources/schemas/privacydocument) para asociar a la plantilla de consentimiento.
 
 ## Paso a paso
 
-### 1. Inicializa el componente en tu frontend
+### 1. Crear una plantilla de consentimiento
 
-Inicializa el componente de consentimiento en tu interfaz mediante el SDK de Soyio, utilizando el `templateId` de la plantilla de consentimiento que creaste previamente. Estos empiezan con el prefijo `constpl_`.
+Para comenzar, deberás crear una [plantilla de consentimiento](../../api/resources/schemas/consenttemplate) que defina qué datos y permisos necesitas solicitar a tus usuarios. También podrás asociar uno o más [documentos de privacidad](../../api/resources/schemas/privacydocument) a la plantilla.
+
+:::warning[Importante]
+Es importante que la plantilla de consentimiento describa de manera correcta los usos que se harán de los datos y que tenga al menos una finalidad y un periodo de retención. Revisa nuestra sección de [uso de datos](../concepts/taxonomy-and-data-management#uso-de-los-datos) para más detalles.
+:::
+
+De acuerdo a la estructura de los `data_uses` dentro de los [`data_requirements`](../../api/resources/schemas/datarequirement) del `consent_template` creado, se creará o un consentimiento unificado o granular.
+
+A continuación, te mostramos un ejemplo de creación de una plantilla de consentimiento para cada modalidad:
+
+<Tabs>
+  <TabItem value="unified" label="Consentimiento Unificado">
+  Este template creará un consentimiento unificado ya que los `data_uses` provienen de diferentes categorías raíz.
+
+    ```json title="POST /api/v1/consent_templates"
+    {
+      "name": "Template de consentimiento unificado",
+      "availability_period_in_months": 12,
+      "text": "De acuerdo a los {{ terms_and_conditions }} y {{ privacy_policy }}, autorizo el uso de mis datos personales.",
+      "data_requirements": [
+        {
+          "key": "email",
+          "data_uses": [
+            "essential",
+            "marketing",
+            "third_party_sharing"
+          ]
+        },
+        {
+          "key": "phone_number",
+          "data_uses": [
+            "essential",
+            "marketing"
+          ]
+        }
+      ]
+    }
+    ```
+
+
+  </TabItem>
+  <TabItem value="granular" label="Consentimiento Granular">
+
+  Este template creará un consentimiento granular ya que todos los `data_uses` comparten el mismo nodo raíz `essential`.
+
+    ```json title="POST /api/v1/consent_templates"
+    {
+      "name": "Template de consentimiento granular",
+      "availability_period_in_months": 12,
+      "text": "De acuerdo a los {{ terms_and_conditions }} y {{ privacy_policy }}, autorizo el uso de mis datos personales.",
+      "data_requirements": [
+        {
+          "key": "name",
+          "data_uses": [
+            "essential",
+            "essential.service",
+            "essential.service.operations"
+          ]
+        },
+        {
+          "key": "email",
+          "data_uses": [
+            "essential",
+            "essential.service",
+            "essential.communications"
+          ]
+        }
+      ]
+    }
+    ```
+
+  </TabItem>
+</Tabs>
+
+
+### 2. Inicializa el componente en tu frontend
+
+Inicializa el componente de consentimiento en tu interfaz mediante el SDK de Soyio, utilizando el `id` del `consent_template` creado previamente. Estos empiezan con el prefijo `constpl_`.
 
 <Tabs>
     <TabItem value="web" label="SDK Web" default>
@@ -144,11 +240,11 @@ Inicializa el componente de consentimiento en tu interfaz mediante el SDK de Soy
 Este módulo está diseñado para integrarse de manera nativa en tu interfaz y podrás personalizarlo con el look and feel de tu aplicación. Revisa la sección de [personalización](#personalización) para más detalles.
 :::
 
-### 2. Escucha los eventos del componente o consulta el estado de consentimiento
+### 3. Escucha los eventos del componente o consulta el estado de consentimiento
 
 El parámetro de `actionToken` es necesario para crear el registro de consentimiento luego en el siguiente paso. Para ello, tienes dos opciones:
 
-#### 2.1 Escuchar el evento `CONSENT_CHECKBOX_CHANGE`
+#### 3.1 Escuchar el evento `CONSENT_CHECKBOX_CHANGE`
 
 El componente emitirá eventos cuando el usuario interactúe con él. El evento principal es `CONSENT_CHECKBOX_CHANGE` que incluye:
 
@@ -162,7 +258,7 @@ El componente emitirá eventos cuando el usuario interactúe con él. El evento 
 
 De esta manera, puedes obtener el `actionToken` en el instante en que el usuario haga click en el checkbox.
 
-#### 2.2 Consultar el estado de consentimiento directamente
+#### 3.2 Consultar el estado de consentimiento directamente
 
 También puedes consultar por el estado del consentimiento (útil para submits de formularios) mediante la función `getStatus` de la instancia del `ConsentBox`. Este método retorna un objeto con el siguiente formato:
 
@@ -179,28 +275,24 @@ Por ejemplo:
 const status = consentBox.getStatus();
 ```
 
-### 3. Crea el registro de consentimiento
+### 4. Crea el registro de consentimiento
 
 Una vez que tengas el `actionToken`, puedes crear el registro de consentimiento mediante el [endpoint de creación de acción de consentimiento](../../api/resources/create-consent-action.api.mdx).
 
 Opcionalmente, puedes agregar el `userReference` para asociar el consentimiento con un usuario específico de tu sistema.
 
-```json
-POST /api/v1/consent_actions
-
+```json title="POST /api/v1/consent_actions"
 {
     "action_token": "<action_token>",
     "user_reference": "<identificador_usuario>" // Opcional
 }
 ```
 
-#### 3.1 Registro agrupado
+#### 4.1 Registro agrupado
 
 Opcionalmente, puedes crear un registro de consentimiento agrupado (por ejemplo, cuando se termina un formulario o para capturar varios tipos de consentimientos en un solo submit) mediante el [endpoint de commit de consentimientos](../../api/resources/create-consent-commit.api.mdx). Esto te permitirá agrupar varios action tokens en un solo registro de consentimiento.
 
-```json
-POST /api/v1/consent_commits
-
+```json title="POST /api/v1/consent_commits"
 {
     "consent_actions": [
       { "action_token": "<action_token_1>" },
