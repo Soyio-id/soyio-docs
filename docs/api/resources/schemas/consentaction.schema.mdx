@@ -1,0 +1,33 @@
+---
+id: consentaction
+title: "ConsentAction"
+description: "Representa una acción de consentimiento realizada por un usuario"
+hide_title: true
+hide_table_of_contents: true
+schema: true
+sample: {"id":"consact_1B2M2Y8AsgTpgAmY7PhCfg","entity_id":"ent_5F6Q6C2EwkXtkEpB1TlGjk","user_reference":"user_123","created_at":"2024-03-20T15:30:00Z"}
+custom_edit_url: null
+---
+
+import Schema from "@theme/Schema";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"ConsentAction"}
+>
+</Heading>
+
+
+
+Representa una acción de consentimiento realizada por un usuario
+
+<Schema
+	defaultCollapsibleOpen={true}
+  schema={{"x-tags":["Consent actions"],"type":"object","description":"Representa una acción de consentimiento realizada por un usuario","properties":{"id":{"type":"string","description":"Identificador único del consent action","example":"consact_1B2M2Y8AsgTpgAmY7PhCfg"},"entity_id":{"type":"string","description":"Identificador de la entidad asociada. Puede ser nulo.","example":"ent_5F6Q6C2EwkXtkEpB1TlGjk","nullable":true},"user_reference":{"type":"string","description":"Referencia del usuario en el sistema del cliente","example":"user_123"},"created_at":{"type":"string","format":"date-time","description":"Fecha y hora de creación del consent action","example":"2024-03-20T15:30:00Z"}},"title":"ConsentAction"}}
+  schemaType={"response"}
+>
+  
+</Schema>
+            

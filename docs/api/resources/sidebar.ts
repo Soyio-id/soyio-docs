@@ -110,6 +110,12 @@ const sidebar: SidebarsConfig = {
       items: [
         {
           type: "doc",
+          id: "api/resources/schemas/consentaction",
+          label: "El objeto ConsentAction",
+          className: "schema",
+        },
+        {
+          type: "doc",
           id: "api/resources/create-consent-action",
           label: "Crear un consent action",
           className: "api-method post",
@@ -132,6 +138,12 @@ const sidebar: SidebarsConfig = {
       type: "category",
       label: "Consent commits",
       items: [
+        {
+          type: "doc",
+          id: "api/resources/schemas/consentcommit",
+          label: "El objeto ConsentCommit",
+          className: "schema",
+        },
         {
           type: "doc",
           id: "api/resources/index-consent-commits",
@@ -344,6 +356,18 @@ const sidebar: SidebarsConfig = {
       items: [
         {
           type: "doc",
+          id: "api/resources/schemas/agreement",
+          label: "El objeto Agreement",
+          className: "schema",
+        },
+        {
+          type: "doc",
+          id: "api/resources/schemas/evidence",
+          label: "El objeto Evidence",
+          className: "schema",
+        },
+        {
+          type: "doc",
           id: "api/resources/index-agreements",
           label: "Obtener todos los acuerdos",
           className: "api-method get",
@@ -390,6 +414,12 @@ const sidebar: SidebarsConfig = {
       type: "category",
       label: "Webhooks",
       items: [
+        {
+          type: "doc",
+          id: "api/resources/schemas/webhook",
+          label: "El objeto Webhook",
+          className: "schema",
+        },
         {
           type: "doc",
           id: "api/resources/index-webhooks",

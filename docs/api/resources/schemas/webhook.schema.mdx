@@ -1,0 +1,35 @@
+---
+id: webhook
+title: "Webhook"
+description: "Los webhooks son endpoints HTTP que reciben notificaciones cuando ocurren eventos en el sistema."
+hide_title: true
+hide_table_of_contents: true
+schema: true
+sample: {"id":"wh_1B2M2Y8AsgTpgAmY7PhCfg","url":"https://company.com/your-webhook-endpoint","subscriptions":["*","identity.*","validation_attempt.*"],"enabled_modes":["production","sandbox"],"enabled":true,"created_at":"2024-03-20T15:30:00Z","updated_at":"2024-03-20T15:30:00Z"}
+custom_edit_url: null
+---
+
+import Schema from "@theme/Schema";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Webhook"}
+>
+</Heading>
+
+
+
+Los webhooks son endpoints HTTP que reciben notificaciones cuando ocurren eventos en el sistema.
+Cada webhook puede estar suscrito a uno o más tipos de eventos.
+
+
+<Schema
+	defaultCollapsibleOpen={true}
+  schema={{"x-tags":["Webhooks"],"type":"object","description":"Los webhooks son endpoints HTTP que reciben notificaciones cuando ocurren eventos en el sistema.\nCada webhook puede estar suscrito a uno o más tipos de eventos.\n","properties":{"id":{"type":"string","description":"Identificador único del webhook","example":"wh_1B2M2Y8AsgTpgAmY7PhCfg"},"url":{"type":"string","description":"URL donde se enviarán los eventos","example":"https://company.com/your-webhook-endpoint"},"subscriptions":{"type":"array","description":"Lista de eventos a los que está suscrito el webhook","items":{"type":"string"},"example":["*","identity.*","validation_attempt.*"]},"enabled_modes":{"type":"array","description":"Lista de modos en los que el webhook está habilitado","items":{"type":"string"},"example":["production","sandbox"]},"enabled":{"type":"boolean","description":"Indica si el webhook está habilitado o no","example":true},"created_at":{"type":"string","format":"date-time","description":"Fecha y hora de creación del webhook","example":"2024-03-20T15:30:00Z"},"updated_at":{"type":"string","format":"date-time","description":"Fecha y hora de la última actualización del webhook","example":"2024-03-20T15:30:00Z"}},"title":"Webhook"}}
+  schemaType={"response"}
+>
+  
+</Schema>
+            
