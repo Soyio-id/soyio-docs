@@ -218,8 +218,11 @@ Inicializa el componente de consentimiento en tu interfaz mediante el SDK de Soy
         const consentOptions = {
             templateId: "<consent_template_id>",
             onEvent: (data) => console.log(data),
-            isSandbox: false,
-            appearance: {} // Optional
+            isSandbox: false,                                  // Optional
+            appearance: {},                                    // Optional
+            context: "<context_of_the_current_consent>",       // Optional
+            actionToken: "<previously_created_action_token>",  // Optional
+            entityId: "<entity_id_of_existing_consent_action>" // Optional
         };
 
         // Montar el componente
@@ -236,8 +239,10 @@ Inicializa el componente de consentimiento en tu interfaz mediante el SDK de Soy
     </TabItem>
 </Tabs>
 
+Para más información sobre la configuración del componente, consulta la [documentación de la SDK web](https://www.npmjs.com/package/@soyio/soyio-widget#consent-request-box).
+
 :::info
-Este módulo está diseñado para integrarse de manera nativa en tu interfaz y podrás personalizarlo con el look and feel de tu aplicación. Revisa la sección de [personalización](#personalización) para más detalles.
+Este módulo está diseñado para integrarse de manera nativa en tu interfaz y podrás personalizarlo con el look and feel de tu aplicación. Revisa la sección de [personalización](#personalización-opcional) para más detalles.
 :::
 
 ### 3. Escucha los eventos del componente o consulta el estado de consentimiento
@@ -304,6 +309,20 @@ Opcionalmente, puedes crear un registro de consentimiento agrupado (por ejemplo,
 
 Una vez se haya creado el registro de consentimiento, se retornará la acción (o lista de acciones) creada(s). En cada una de ellas, habrá un `entity_id`, junto con el `user_reference` (en el caso de que se haya proporcionado), que representa el identificador único del usuario que otorgó el consentimiento.
 
+### 5. Gestión post-consentimiento
+
+Una vez obtenido el consentimiento del usuario, es importante gestionarlo adecuadamente para mantener la integridad y utilidad de los datos recopilados. A continuación, se presentan las mejores prácticas y herramientas para la gestión post-consentimiento.
+
+1. Para buscar consentimientos creados con ciertos usuario, o plantilla de consentimiento, puedes filtrar por `entity_id` o `consent_template_id` al [listar los `ConsentActions`](../../api/resources/index-consent-actions).
+2. Evita crear registros de consentimiento innecesarios o duplicados.
+3. Considera usar el [registro agrupado](consent#41-registro-agrupado) cuando tengas más de un módulo de consentimiento en tu interfaz.
+2. Agrega un `product_id` al [crear la plantilla de consentimiento](#1-crear-una-plantilla-de-consentimiento) para poder asociar el consentimiento de los datos a un producto en particular.
+3. Agrega un `context` al montar el `ConsentBox` para que el [registro de consentiento creado](#4-crea-el-registro-de-consentimiento) quede asociado a un contexto específico.
+
+:::warning[Importante]
+Recuerda que cada registro de consentimiento debe tener un propósito claro y justificado. La creación innecesaria de registros puede complicar la gestión y auditoría de los consentimientos.
+:::
+
 ## Personalización (Opcional)
 
 El componente puede ser personalizado para poder adaptarse a tu interfaz mediante variables de CSS declaradas en el objeto `appearance` del SDK. Por ejemplo:
@@ -319,8 +338,7 @@ const consentOptions = {
       },
       rules : {
           '.Checkbox': {
-            border: '1px solid var(--colorPrimary)',
-            backgroundColor: 'var(--colorBackground)',
+            accentColor: 'var(--colorPrimary)',
           }
       }
 };
