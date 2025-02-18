@@ -17,6 +17,36 @@ Algunos casos de uso son:
 - Enviar un email a un cliente cuando el pago de su suscripción falla.
 - Registrar una entrada en contabilidad cuando se realiza una transacción.
 
+## Suscripción a eventos
+
+Los eventos están relacionados con el ciclo de vida de los recursos en Soyio. Por ejemplo, para un `disclosure_request`, existen eventos que notifican cuando se completa, falla o expira. Esto te permite seguir el estado de tus recursos a lo largo del tiempo.
+
+Para recibir notificaciones de webhooks, debes suscribirte a los tipos de eventos que te interesan. Al crear un webhook, puedes elegir:
+
+- Suscribirte a todos los eventos disponibles
+- Seleccionar categorías específicas de eventos (por ejemplo, todos los eventos de `disclosure_request`)
+- Elegir eventos individuales (por ejemplo, solo `disclosure_request.granted`)
+
+Los eventos disponibles son:
+
+- `*`: Todos los eventos
+- `disclosure_request.granted`
+- `disclosure_request.timed_out`
+- `disclosure_request.fail`
+- `validation_attempt.successful`
+- `validation_attempt.failed`
+- `auth_attempt.failed`
+- `auth_attempt.successful`
+- `signature_attempt.successful`
+- `signature_attempt.failed`
+- `auth_request.successful`
+
+Una vez suscrito, recibirás notificaciones solo de los eventos seleccionados. Puedes modificar tus suscripciones en cualquier momento desde el [dashboard](https://dashboard.soyio.com/settings/webhooks).
+
+:::tip
+Te recomendamos suscribirte solo a los eventos que tu aplicación necesita procesar. Esto reduce el tráfico innecesario y simplifica el manejo de eventos en tu sistema.
+:::
+
 ## Recibiendo una notificación webhook
 
 Crear un endpoint para recibir webhooks, no es distinto a crear cualquier otra página en tu sitio. Basta con crear una nueva ruta con la URL deseada.
