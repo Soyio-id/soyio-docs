@@ -1,0 +1,71 @@
+---
+id: create-product
+title: "Crear un producto"
+description: "Crear un producto"
+sidebar_label: "Crear un producto"
+hide_title: true
+hide_table_of_contents: true
+api: eJzNVsFyGzcM/RUMzhvJVnPaU93EB08P9dRJe1A1HoiELMa7JE1yFSua/aQcOr31qh/rgLsryZLrJm2nUx2kFQmAD3gP4G4w0V3EcorXwelGpYizAp3nQMk4e6WxRBWYEvf7WGDgh4Zj+s7pNZab/NcE1lim0HCBytnENskWeV8ZlSONP0RnZS2qJdckT2ntGUt08w+c4/og5ybDUXaNPrCJKRh7hwVqjioYLxGxxKu3sP3dGuVAcwW+Q+hGcMMQWLnasNUEmkLF0Fgwmm0yC6NIuwDKWVlcuFBTcvDQMCxImcokhtgcGCuz/c2OsEB+pNpXgqde3/an3Z5PvsE2f6Qy0TsbuwQmZ+fy8xRxX0UHUlTt8F8rVw9HHh9fPcfpsftTXG/NggPbxHFXxggOIoeVUcbFXB63CKwYUgPK1Z62v24/0+gX+7+nDi5j4qMQkaGJBJ4CAUWnDOWwUWzkcMmf5JABGnD0rLafF0a5vxBDgcmkvDU0zSCQ189p4jIEF0AzUCNKGGD/E23se3La7Q2QCoyJUhMzH4lMJdJ4yl4X65S/fcLUpGUHVODcsuDHfdYvub634uyC+cRaXHo0ex9jE99xOHR6fXbe7uC+GP1nBuWaSoN1CQ5QMqxdE6TnsgaoiiO4rpgig1qyuoe0ZNBONTXblJMCSrBMycdyPNZOxVF0a+NGRu+pnExeoHJFldH/DY+5/PHv8NiB/GoOf9q5wc7ti3icTNod3L0lhUBrLNAkruPpye1BhClerMhUNJdWX4PnYJwGY6F2Ni0jmNgxD7ap5xxw1g5sRVZNMGmN5VQ4MLf3LM+zdnY8mN4EpnDY+FhgzWnp5Cr0LubRS2mJJY79MF/lgLBiyWu6wSZUWOIgn0hWz93jTkFj8ma8Ose2OLYk70+tZnvwN6KTjtxdCvsyevM9r0/m7GV8aLim0/ECNWtDNsl4JVAVrRgurq8kbe+CMs6SJmALXAFbRXP+RFqmNVQUIbrKKJMazVGGoaVaMFz0vZ3FIZQKgiWT5pDHogj+x/3bw+XAa3dlnAxSCbBwOcd+nt5IdQTmSZ4CXW6Sm/7GEqBXuds1afmTXftepO6i5DpPFIySceJv9z1eoJDZRT4fnY3OZEnIryl3bJ/vc1p5AmvHTuLHNPYVGSuRMu2bXkZT9AfX9FIUVk5xs5lT5PehaltZfmg4ZMEWuKJgaJ7bYdYWQ3lFd1kQ+KYbNq/edfNiRVXT6eNo8Ij+Oo8LpdinF21nB01w/cPNOyxw3r//1U6LT6CPMrDoI5aI8gop3lmreW2DFdm7hu7EtospipAh/VTE91nE/YNkNWzZ9QHCY6V1ici3pPWsy2bTtUjb7uy7rT/16Es7WAt3MlH+AHS17n4=
+sidebar_class_name: "post api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Crear un producto"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/products"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Crear un producto
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"required":true,"content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"string","description":"ID único del producto. Se recomienda darle un identificador con un formato que facilite su identificación.","example":"my_product_123"}}}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"201":{"description":"Producto creado","content":{"application/json":{"schema":{"type":"object","properties":{"product":{"x-tags":["Products"],"type":"object","description":"Diferentes productos o servicios que ofrece tu compañía.\n","properties":{"id":{"type":"string","description":"ID único del producto. Se recomienda darle un identificador con un formato que facilite su identificación. Este identificador se usa para asociar consentimientos a un producto específico.","example":"my_product_123"}},"title":"Product"}}}}}},"401":{"description":"Error de autenticación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"authentication_error"},"title":{"type":"string","example":"Unauthorized"},"status":{"type":"integer","example":401},"detail":{"type":"string","example":"We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"}}}}}},"422":{"description":"Error de validación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","errors"],"properties":{"type":{"type":"string","example":"validation_error"},"title":{"type":"string","example":"Validation error"},"status":{"type":"integer","example":422},"errors":{"type":"array","items":{"type":"string"},"example":["Availability period in months is not a number"]}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      
