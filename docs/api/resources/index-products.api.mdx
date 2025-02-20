@@ -1,0 +1,71 @@
+---
+id: index-products
+title: "Obtener todos los productos"
+description: "Obtener todos los productos"
+sidebar_label: "Obtener todos los productos"
+hide_title: true
+hide_table_of_contents: true
+api: eJytVsFuGzcQ/RWCpxbYSnKaXgQUqNE4hVG0NeAEPTiCMCJHFhMuSZOzhhVhPyYfkEPRW676sWK4u9qV5Cip24u0y+XMvBm+eZyNJLhNcnojr6LXlaIkZ4X0ASOQ8e5Sy6k0TuPD7nMhA0QokTCy3UY6KFFOZYBblIU0Tk7lXYVxLQupMaloAnuSU/n79lOJ0QuNImw/3BoHspAR7yoTUcvpEmzCQia1whLkdCNpHTCHJ7zFKAtZGmfKqpTTM3a9hMqSnJ7VhcQHKIPF/NIDwjj/V6DQUQQNSQQf/weEJTy0z5PJAO+zyRAwv+0Q+6gxzhfr04j/iBod47U+iYipsgTaJ/ENvh2JN1JFBEI9BxIvLq5/fiO//aocEkXjbuUQ26ErWc/YUwreJUxs+2wy4b99fC1TfBLolM819UwbfkZHbAAhWKMyw8ZvE1ttjhH5xVtUxHyLzEcyTczQEbHfCTFCLhphmdcfvnuM1Yd+92G/MEuM6AiTCLsMvEgY740yPom7CoVfRlQoqBLKlwG2f20/wuiNOwJp9HFpDwNevhDbT84o5p7dxRyJaxQRlS8NOg1CQ7QoKieMRkdmaRRoH4XyjheXPpZAPmNbgjLWEIpUDTYrs/3bjcRFIjxwkVBUCQR3s4DklYHsNvEeDs75AwfpoAlMAdX249IoP5JDopTrebtpfvbse1nXhSRD+VN7AHmtRAIN9DWHzH37WIMdUK1pUgGKKrByXwh6Afiyo4vHW3+vTSV5AvsVzl7xvqGgDD09/6Eu+kb/Ikme0uwnGriQS2Mb5T4+gv3IL42lyBTIraozGSxkhjCIYZyNTARUZac/ZuV1OotJPWTCyxyZE4rnTl8B15hj/daxoq4bg+eTs2NVuYjRRy4EVKwiHbP/i670onjTfOuwFl0+XBMCY1k99gna+Do+vb72UNGqAcpw5sj4ZV+OU6avHRv7aN6jZpO+ukfM63k1Ycq3cE96/xOF8pXVwnkSA5Qo1r6KQkXMMgE2jcSVRUgo1ArVO0ErFNqrqkRHOSkBJFZEIU3HY+1VGiW/Nn5kdHuUDB1VFQ2t86QAwczfIT/P+Co5YPqC0GEU5JlrTPedDMssHSvPw8gtZrUAWsmpHId+KmGh7kaSKlo5lR20BE4v/MMO3RiCGd+fSb5593dCCMe7Zn0W18ylhgC7XPpbKJhf8fi6vkh3FZZwTF1RojbgiNUdhLJwj+L86pLTDj4q4x1oEOgEWr5JYYHvQedBxUISyVujDFUaE2txO0Gct7zJx9ONESsEjTErsHFLnyG3PXnNyXLUI9iMhO+l6/b+47iXmRgaNL9k07b9QOX2wzKTTyZOgPCnng6F5LNpPJ+NJqMJLwWfqITcpC380xzYA7grO+EDjYMF49hnPs9Ny4+bfliYFXLlE/HaZrOAhK+jrWteboYsZo02CRZ2MCQdBNwJzeOT7KN4MkW62fgebMVbMvOeFO0zI+qp0P0U/MTwT7mCTgAaDLk9oBm/RMOIsjoUHWn5XBq7c6Uw0MDqSOzZy04nfrl4JYsswvst+i63aPvA3rtPbojosI8aCPzLtXvUZLNpBKCud/ubT5+1aFPsdnORZnVd/wPnALrG
+sidebar_class_name: "get api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Obtener todos los productos"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/products"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Obtener todos los productos
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"page","in":"query","description":"Número de página","required":false,"schema":{"type":"integer","minimum":1,"default":1},"example":1},{"name":"per_page","in":"query","description":"Número de entradas por página","required":false,"schema":{"type":"integer","minimum":1,"maximum":100,"default":20},"example":20},{"name":"order_by","in":"query","description":"Orden de los resultados (ej. \"created_at DESC\")","required":false,"schema":{"type":"string"},"example":"created_at DESC"}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Productos encontrados","content":{"application/json":{"schema":{"type":"object","properties":{"products":{"type":"array","items":{"x-tags":["Products"],"type":"object","description":"Diferentes productos o servicios que ofrece tu compañía.\n","properties":{"id":{"type":"string","description":"ID único del producto. Se recomienda darle un identificador con un formato que facilite su identificación. Este identificador se usa para asociar consentimientos a un producto específico.","example":"my_product_123"}},"title":"Product"}},"metadata":{"type":"object","properties":{"page":{"type":"integer","description":"Página actual","example":1},"per_page":{"type":"integer","description":"Entradas por página","example":20},"total":{"type":"integer","description":"Total de entradas","example":45},"order_by":{"type":"string","description":"Orden de los resultados (ej. \"created_at DESC\")","example":"created_at DESC"},"filters":{"type":"object","description":"Filtros aplicados a la consulta","example":{"status":{"=":"pending"}}}},"title":"FilterOrderAndPaginationMetadata"}}}}}},"401":{"description":"Error de autenticación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"authentication_error"},"title":{"type":"string","example":"Unauthorized"},"status":{"type":"integer","example":401},"detail":{"type":"string","example":"We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

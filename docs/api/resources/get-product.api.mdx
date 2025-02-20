@@ -1,0 +1,71 @@
+---
+id: get-product
+title: "Obtener un producto específico"
+description: "Obtener un producto específico"
+sidebar_label: "Obtener un producto específico"
+hide_title: true
+hide_table_of_contents: true
+api: eJy1Vt9vIzUQ/ldG83IgLflRKoFWCFF6FaoQomrvhE6liib2JOvrru3a3tBctH/SPSDeeO0/hmZ3kybd3sEJyEPj2p7xN/N9M5MNJlpGzK/xIjhdqxTxJkPnOVAyzp5rzHHJqT/EDD0FqjhxEKMNWqoYczQaMzQWc/SUCsxQc1TBePGBOZ5r0FyC77w4zDDwXW0Ca8xTqDnDqAquCPMNprUXjzEFY5fYZMj3VPlS9sR+Nv3+6KejN1+fxOUrvzyp3nx1UZwultjciNPonY0cxc/RZCJfh0D6OBywVc6mQFrAyJJtkuvkfWlUG/v4bRSbzRCbm7/lLhlBMpVM92Ifnizvv3gurU/ND7G9NAsObBPHXaIiOIgcVkYZF+GuZnCLwIoh1aBc5enh94f3NPrVDrAYPczlgJWX8PCnNcodkDOCK4bAylWGrSbQFEqG2oLRbJNZGEXaBVDOyubChYqSa7EtSJnSJIZY711W5uEPO4KzmPiJi8hQRwJRFFB0ylDrNsodeVziJ3nE71iLntXD+4VRboT7yqjWs/7SbHr0JTZNhsmk9mgr3ab9ZHg8mQ51cRaCC6AZqBYlbGH/G208Kvy6O9tCyjAmSnVs+UhkSpHGIXudryF/jwFTnYoOqMCZseDHx6g/ZvrairEL5h1rMenRPNoYm3jJYd/oeDJtdnA/6v0XBuXqUoN1CfZQMqxdHUAFbjVAZRzBRckUGVTB6hZSwaCdqiu2qQ0KKEGRko/5eKydiqPo1saNjN6j8nhI5SWrOkQH9r8q8v+XSGNXVBo9k1c4pk9i8pKjq4PiNtcLV9tP4PP4H/J5KmTaFwkWxmo47cozceVL4fQ3kwowGl58Y/S3L54w2hLexwVkNaSwBlqSsT2DAlbYMmndDhPyZnbLsr6Rdn7I68/zxJbDh/oBZlhxKlw/sNpJlQrMcdzfjuON0Y2QxmG1HV91KDHHrcoiWT139zuhjcmb8WqKTfb0Jnk/vHXzGM6VqKmTwC6oXZbJmx95PWjHZ/Gu5oqGXQgq1oZski5MoEpaMZxcnEsavAvKOEuagC1wKZKnOb8jLU0dSooQXWmUSbXmKD2zH9gnfQtoi2A7uwsmzaHtnsYuXAu576JXEqy8OoAtSGR+XPVzSt49b2tck4x9aE37AqRuPHLV6g6jBJD4u8fKzlC46TxPR5PRRLa8i6mitkx7+H8vhgOQu9Qnvk9jX7YSzDpON71QrrfzW+o5N1qKuXAxyclmM6fIr0PZNLJ9V3NoVZrhioKhuaToeoPaRFlrzBdURh6A2LUg/Oyybyqfw/C30bNYt9qxIpwVlbX8hxm20pJx39w02ZZBAdMdnCjFPu2ZDHqfyHZXOT+cvcKsHS6Her1t9dovxPuzcJ6KqoMgf6WCnjXZbLpqaJrd/e7ogxZ9iLvIJYKmaf4ChojEUQ==
+sidebar_class_name: "get api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Obtener un producto específico"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/products/{id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Obtener un producto específico
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"id","in":"path","description":"Id del producto","required":true,"schema":{"type":"string"},"example":"prod_1B2M2Y8AsgTpgAmY7PhCfg"}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Producto encontrado","content":{"application/json":{"schema":{"type":"object","properties":{"product":{"x-tags":["Products"],"type":"object","description":"Diferentes productos o servicios que ofrece tu compañía.\n","properties":{"id":{"type":"string","description":"ID único del producto. Se recomienda darle un identificador con un formato que facilite su identificación. Este identificador se usa para asociar consentimientos a un producto específico.","example":"my_product_123"}},"title":"Product"}}}}}},"401":{"description":"Error de autenticación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"authentication_error"},"title":{"type":"string","example":"Unauthorized"},"status":{"type":"integer","example":401},"detail":{"type":"string","example":"We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"}}}}}},"404":{"description":"Recurso no encontrado","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"invalid_request_error"},"title":{"type":"string","example":"Resource not found"},"status":{"type":"integer","example":404},"detail":{"type":"string","example":"Couldn't find Consenttemplate with id '<id>'. Please check your request and try again"}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      
