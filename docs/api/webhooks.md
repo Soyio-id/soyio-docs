@@ -41,11 +41,14 @@ Los eventos disponibles son:
 - `signature_attempt.failed`
 - `auth_request.successful`
 
-Una vez suscrito, recibirás notificaciones solo de los eventos seleccionados. Puedes modificar tus suscripciones en cualquier momento desde el [dashboard](https://dashboard.soyio.com/settings/webhooks).
+### Mejores prácticas
 
-:::tip
-Te recomendamos suscribirte solo a los eventos que tu aplicación necesita procesar. Esto reduce el tráfico innecesario y simplifica el manejo de eventos en tu sistema.
-:::
+Para optimizar el uso de webhooks en tu aplicación:
+
+- Puedes crear más de un webhook.
+- Cada webhook puede configurarse de manera independiente para escuchar uno o varios eventos.
+- Utiliza el wildcard `*` para suscribirte a todos los eventos de un recurso específico. Por ejemplo, `disclosure_request.*` te suscribe a todos los eventos de disclosure_request.
+- Suscríbete solo a los eventos que tu aplicación necesita procesar para reducir el tráfico y simplificar el manejo de eventos.
 
 ## Recibiendo una notificación webhook
 

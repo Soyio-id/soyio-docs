@@ -136,6 +136,10 @@ Para comenzar, deberás crear una [plantilla de consentimiento](../../api/resour
 Es importante que la plantilla de consentimiento describa de manera correcta los usos que se harán de los datos y que tenga al menos una finalidad y un periodo de retención. Revisa nuestra sección de [uso de datos](../concepts/taxonomy-and-data-management#uso-de-los-datos) para más detalles.
 :::
 
+:::tip
+Considera agregar un `product_id` al crear la plantilla para poder asociar el consentimiento de los datos a un producto en particular. Esto facilitará la gestión y organización de los consentimientos por producto.
+:::
+
 De acuerdo a la estructura de los `data_uses` dentro de los [`data_requirements`](../../api/resources/schemas/datarequirement) del `consent_template` creado, se creará o un consentimiento unificado o granular.
 
 A continuación, te mostramos un ejemplo de creación de una plantilla de consentimiento para cada modalidad:
@@ -208,6 +212,10 @@ A continuación, te mostramos un ejemplo de creación de una plantilla de consen
 ### 2. Inicializa el componente en tu frontend
 
 Inicializa el componente de consentimiento en tu interfaz mediante el SDK de Soyio, utilizando el `id` del `consent_template` creado previamente. Estos empiezan con el prefijo `constpl_`.
+
+:::tip
+El parámetro `context` en las opciones de configuración te permite asociar el consentimiento a un contexto específico, lo que facilita la organización y seguimiento de los consentimientos según diferentes casos de uso.
+:::
 
 <Tabs>
     <TabItem value="web" label="SDK Web" default>
@@ -282,6 +290,10 @@ const status = consentBox.getStatus();
 
 ### 4. Crea el registro de consentimiento
 
+:::tip
+Si tu interfaz tiene múltiples módulos de consentimiento, considera usar el registro agrupado para una gestión más eficiente de los consentimientos.
+:::
+
 Una vez que tengas el `actionToken`, puedes crear el registro de consentimiento mediante el [endpoint de creación de acción de consentimiento](../../api/resources/create-consent-action.api.mdx).
 
 Opcionalmente, puedes agregar el `userReference` para asociar el consentimiento con un usuario específico de tu sistema.
@@ -309,15 +321,19 @@ Opcionalmente, puedes crear un registro de consentimiento agrupado (por ejemplo,
 
 Una vez se haya creado el registro de consentimiento, se retornará la acción (o lista de acciones) creada(s). En cada una de ellas, habrá un `entity_id`, junto con el `user_reference` (en el caso de que se haya proporcionado), que representa el identificador único del usuario que otorgó el consentimiento.
 
-### 5. Gestión post-consentimiento
+### 5. Consulta y gestión de consentimientos
 
-Una vez obtenido el consentimiento del usuario, es importante gestionarlo adecuadamente para mantener la integridad y utilidad de los datos recopilados. A continuación, se presentan las mejores prácticas y herramientas para la gestión post-consentimiento.
+Una vez creados los consentimientos, puedes realizar las siguientes acciones para gestionar y dar seguimiento a los consentimientos otorgados:
 
-1. Para buscar consentimientos creados con ciertos usuario, o plantilla de consentimiento, puedes filtrar por `entity_id` o `consent_template_id` al [listar los `ConsentActions`](../../api/resources/index-consent-actions).
-2. Evita crear registros de consentimiento innecesarios o duplicados.
-3. Considera usar el [registro agrupado](consent#41-registro-agrupado) cuando tengas más de un módulo de consentimiento en tu interfaz.
-2. Agrega un `product_id` al [crear la plantilla de consentimiento](#1-crear-una-plantilla-de-consentimiento) para poder asociar el consentimiento de los datos a un producto en particular.
-3. Agrega un `context` al montar el `ConsentBox` para que el [registro de consentiento creado](#4-crea-el-registro-de-consentimiento) quede asociado a un contexto específico.
+1. **Consultar consentimientos existentes**:
+   - Buscar consentimientos específicos filtrando por `entity_id` o `consent_template_id` al [listar los `ConsentActions`](../../api/resources/index-consent-actions).
+   - Verificar el estado y vigencia de los consentimientos por usuario.
+   - Consultar el historial de consentimientos para auditoría.
+
+2. **Gestionar consentimientos activos**:
+   - Evitar crear registros de consentimiento innecesarios o duplicados
+   - Actualizar consentimientos cuando sean necesarios
+   - Renovar consentimientos próximos a expirar
 
 :::warning[Importante]
 Recuerda que cada registro de consentimiento debe tener un propósito claro y justificado. La creación innecesaria de registros puede complicar la gestión y auditoría de los consentimientos.
