@@ -78,6 +78,10 @@ tags:
       ### Guías relacionadas
       - [Webhooks](/docs/api/webhooks)
 
+  - name: Products
+    description: |
+      Producto o servicio que ofrece una compañía.
+
 paths:
   /consent_templates:
     get:
@@ -1066,9 +1070,25 @@ paths:
           schema:
             type: string
           examples:
-            status_filter:
-              summary: Filtrar por estado
-              value: '{"status":{"=":"active"}}'
+            user_reference_filter:
+              summary: Filtrar por `user_reference`
+              value: '{"user_reference":{"=":"user_123"}}'
+            entity_filter:
+              summary: Filtrar por entidad
+              value: '{"entity_id":{"=":"ent_cYTjMLgWE3MvUa3RKwgXEg"}}'
+            identity_filter:
+              summary: Filtrar por identidad
+              value: '{"identity_id":{"=":"id_ma21KLsmaslopask912Aa2"}}'
+            data_use_filter:
+              summary: |
+                Filtrar por finalidad del dato. Retorna los agreements que incluyen al menos uno de los valores proporcionados.
+                Si se proporciona una categoría general (e.g. `essential`), se incluyen los casos más específicos (e.g. `essential.service`).
+              value: '{"data_uses":{"in":["analytics", "marketing"]}}'
+            data_category:
+              summary: |
+                Filtrar por categoría del dato. Retorna los agreements que incluyen al menos uno de los valores proporcionados.
+                Si se proporciona una categoría general (e.g. `user.name`), se incluyen los casos más específicos (e.g. `user.name.first`).
+              value: '{"data_categories":{"in":["user.name", "user.contact.email"]}}'
             date_filter:
               summary: Filtrar por fecha de creación
               value: '{"created_at":{">":"2024-01-01"}}'
@@ -1347,6 +1367,19 @@ paths:
         - $ref: "#/components/parameters/PageParam"
         - $ref: "#/components/parameters/PerPageParam"
         - $ref: "#/components/parameters/OrderByParam"
+        - name: where
+          in: query
+          description: Filtros en formato JSON
+          required: false
+          schema:
+            type: string
+          examples:
+            entity_filter:
+              summary: Filtrar por entidad
+              value: '{"entity_id":{"=":"ent_cYTjMLgWE3MvUa3RKwgXEg"}}'
+            consent_template_filter:
+              summary: Filtrar por template de consentimiento
+              value: '{"consent_template_id":{"=":"ctmpl_cYTjMLgWE3MvUa3RKwgXEg"}}'
       responses:
         "200":
           description: Lista de consent actions
@@ -1568,33 +1601,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              required:
-                - url
-                - subscriptions
-              properties:
-                url:
-                  type: string
-                  description: URL donde se enviarán los eventos
-                  example: "https://company.com/your-webhook-endpoint"
-                subscriptions:
-                  type: array
-                  description: >
-                    Lista de eventos a los que se suscribirá el webhook. Usa '*' para suscribirse a todos los eventos. También puedes suscribirte a eventos específicos de un recurso usando el patrón de wildcard, por ejemplo: `identity.*` suscribirá a todos los eventos del recurso identity.
-                  items:
-                    type: string
-                  example: ["*", "identity.*", "validation_attempt.*"]
-                enabled_modes:
-                  type: array
-                  description: Lista de modos en los que el webhook estará habilitado. Si no se especifica, se usará el modo actual.
-                  items:
-                    type: string
-                  example: ["production", "sandbox"]
-                enabled:
-                  type: boolean
-                  description: Indica si el webhook está habilitado o no
-                  default: true
-                  example: true
+              $ref: "#/components/schemas/WebhookInput"
       responses:
         "201":
           description: Webhook creado exitosamente
@@ -1621,7 +1628,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: Token del webhook
+          description: Id del webhook
           required: true
           schema:
             type: string
@@ -1651,7 +1658,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: Token del webhook
+          description: Id del webhook
           required: true
           schema:
             type: string
@@ -1661,29 +1668,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                url:
-                  type: string
-                  description: URL donde se enviarán los eventos
-                  example: "https://company.com/your-webhook-endpoint"
-                subscriptions:
-                  type: array
-                  description: >
-                    Lista de eventos a los que se suscribirá el webhook. Usa '*' para suscribirse a todos los eventos. También puedes suscribirte a eventos específicos de un recurso usando el patrón de wildcard, por ejemplo: `identity.*` suscribirá a todos los eventos del recurso identity.
-                  items:
-                    type: string
-                  example: ["*", "identity.created", "validation_attempt.*"]
-                enabled_modes:
-                  type: array
-                  description: Lista de modos en los que el webhook estará habilitado
-                  items:
-                    type: string
-                  example: ["production", "sandbox"]
-                enabled:
-                  type: boolean
-                  description: Indica si el webhook está habilitado o no
-                  example: true
+              $ref: "#/components/schemas/WebhookInput"
       responses:
         "200":
           description: Webhook actualizado exitosamente
@@ -1711,7 +1696,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: Token del webhook
+          description: Id del webhook
           required: true
           schema:
             type: string
@@ -1719,6 +1704,99 @@ paths:
       responses:
         "204":
           description: Webhook eliminado exitosamente
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+      security:
+        - api_key: []
+
+  /products:
+    get:
+      tags:
+        - Products
+      summary: Obtener todos los productos
+      operationId: indexProducts
+      parameters:
+        - $ref: "#/components/parameters/PageParam"
+        - $ref: "#/components/parameters/PerPageParam"
+        - $ref: "#/components/parameters/OrderByParam"
+      responses:
+        "200":
+          description: Productos encontrados
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  products:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Product"
+                  metadata:
+                    $ref: "#/components/schemas/FilterOrderAndPaginationMetadata"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+      security:
+        - api_key: []
+
+    post:
+      tags:
+        - Products
+      summary: Crear un producto
+      operationId: createProduct
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID único del producto. Se recomienda darle un identificador con un formato que facilite su identificación.
+                  example: "my_product_123"
+      responses:
+        "201":
+          description: Producto creado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  product:
+                    $ref: "#/components/schemas/Product"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/ValidationError"
+      security:
+        - api_key: []
+
+  /products/{id}:
+    get:
+      tags:
+        - Products
+      summary: Obtener un producto específico
+      operationId: getProduct
+      parameters:
+        - name: id
+          in: path
+          description: Id del producto
+          required: true
+          schema:
+            type: string
+          example: "prod_1B2M2Y8AsgTpgAmY7PhCfg"
+      responses:
+        "200":
+          description: Producto encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  product:
+                    $ref: "#/components/schemas/Product"
         "401":
           $ref: "#/components/responses/UnauthorizedError"
         "404":
@@ -1756,6 +1834,8 @@ components:
       type: object
       required:
         - name
+        - title
+        - text
         - availability_period_in_months
         - data_requirements
       properties:
@@ -1767,11 +1847,26 @@ components:
           type: integer
           description: Período de disponibilidad en meses. Esto determina por cuánto tiempo puedes solicitar los datos del usuario desde que te dio su consentimiento.
           example: 12
+        title:
+          type: string
+          description: Titulo que aparecerá en el checkbox del módulo de consentimiento
+          example: "Consentimiento general"
         text:
           type: string
           description: |
             Texto del template de consentimiento. Permite referenciar [documentos de privacidad](/docs/api/resources/schemas/privacydocument).
           example: "De acuerdo a los {{ terms_and_conditions }} y {{ privacy_policy }} de Soyio."
+        product_id:
+          type: string
+          description: |
+            Identificador del [producto](/docs/api/resources/schemas/product) al que está asociado el `consent_template`. Al definir un `product_id`, quedará registro de que el consentimiento de los datos se ha realizado para dicho producto.
+          example: "my_product_123"
+        manage_consent_url:
+          type: string
+          description: |
+            URL que permite al usuario administrar sus preferencias de consentimiento.
+            Cuando se monta el `ConsentBox` asociado a una `entity_id` de un `ConsentAction`, la interfaz mostrará automáticamente un botón. Este botón redirige a la URL especificada en `manage_consent_url`. Puedes ver un ejemplo [aquí](/docs/integration-guide/modules/consent#ejemplo).
+          example: "https://company.com/manage-consent"
         data_requirements:
           type: array
           description: Lista de requerimientos de datos
@@ -1788,6 +1883,8 @@ components:
       required:
         - id
         - name
+        - title
+        - text
         - availability_period_in_months
         - data_requirements
         - created_at
@@ -1807,11 +1904,26 @@ components:
           minimum: 1
           maximum: 120
           example: 12
+        title:
+          type: string
+          description: Titulo que aparecerá en el checkbox del módulo de consentimiento
+          example: "Consentimiento general"
         text:
           type: string
           description: |
             Texto del consentimiento. Permite referenciar [documentos de privacidad](/docs/api/resources/schemas/privacydocument).
           example: "De acuerdo a los {{ terms_and_conditions }} y {{ privacy_policy }} de Soyio."
+        product_id:
+          type: string
+          description: |
+            Identificador del [producto](/docs/api/resources/schemas/product) al que está asociado el `consent_template`. Al definir un `product_id`, quedará registro de que el consentimiento de los datos se ha realizado para dicho producto.
+          example: "my_product_123"
+        manage_consent_url:
+          type: string
+          description: |
+            URL que permite al usuario administrar sus preferencias de consentimiento.
+            Cuando se monta el `ConsentBox` asociado a una `entity_id` de un `ConsentAction`, la interfaz mostrará automáticamente un botón. Este botón redirige a la URL especificada en `manage_consent_url`. Puedes ver un ejemplo [aquí](/docs/integration-guide/modules/consent#ejemplo).
+          example: "https://company.com/manage-consent"
         data_requirements:
           type: array
           description: Lista de requerimientos de datos con información adicional. Ver [recurso](/docs/api/resources/schemas/datarequirement) para más información.
@@ -1847,8 +1959,35 @@ components:
       properties:
         key:
           type: string
-          description: Clave del dato, parte de la taxonomía de datos
-          example: name
+          description: Clave del dato. Es un texto libre que identifica específicamente el dato involucrado en el consentimiento.
+          example: first_name
+        data_category:
+          type: string
+          description: |
+            Categoría del dato personal. Debe seguir la [taxonomía de categorías de datos](/docs/integration-guide/concepts/agreement/#taxonomía).
+
+            Las siguientes llaves (`key`) infieren la categoría del dato personal:
+
+            --------------------
+
+              - `name`: Primer nombre (**Name > First**)
+              - `last_name`: Apellido (**Name > Last**)
+              - `date_of_birth`: Fecha de nacimiento (**Demographic > Birth date**)
+              - `cl_carnet_rut`: RUT (**Government Id > National Identification Number**)
+              - `cl_carnet_doc_number`: Número de documento (**Government Id**)
+              - `cl_carnet_expiration_date`: Fecha de expiración del documento (**Government Id**)
+              - `cl_carnet_issue_date`: Fecha de emisión del documento (**Government Id**)
+              - `gender`: Género (**Demographic > Gender**)
+              - `nationality`: Nacionalidad (**Demographic**)
+              - `email`: Correo electrónico (**Contact > Email**)
+              - `phone_number`: Teléfono (**Contact > Phone number**)
+
+            --------------------
+
+            Esto significa que si se utiliza alguna de estas llaves, no es necesario especificar la categoría del dato.
+
+            Si se especifica una de estas llaves y además se especifica la categoría del dato, la categoría dada tendrá prioridad sobre la predefinida.
+          example: "user.name.first"
         data_uses:
           type: array
           description: Lista de usos permitidos para el dato, parte de la taxonomía de usos de datos
@@ -1859,28 +1998,14 @@ components:
       type: object
       x-tags:
         - Consent templates
-        - Disclosure templates
       properties:
         key:
           type: string
-          description: |
-            Nombre del dato a solicitar. Los valores permitidos son:
-
-            - `name`: Nombre
-            - `last_name`: Apellido
-            - `date_of_birth`: Fecha de nacimiento
-            - `cl_carnet_rut`: RUT (formato: 12345678-9)
-            - `cl_carnet_doc_number`: Número de documento
-            - `cl_carnet_expiration_date`: Fecha de vencimiento
-            - `cl_carnet_issue_date`: Fecha de emisión
-            - `gender`: Género
-            - `nationality`: Nacionalidad
-            - `email`: Correo electrónico
-            - `phone_number`: Número de celular
-          example: name
+          description: Clave del dato. Es un texto libre que identifica específicamente el dato involucrado en el consentimiento.
+          example: first_name
         data_category:
           type: string
-          description: Categoría del dato. Asignada automáticamente según el `key`. Ver [taxonomía](/docs/integration-guide/concepts/taxonomy-and-data-management)
+          description: Categoría del dato según Fideslang. Ver [taxonomía](/docs/integration-guide/concepts/taxonomy-and-data-management)
           example: "user.name.first"
         data_uses:
           type: array
@@ -2264,6 +2389,8 @@ components:
           description: Fecha y hora de creación del flujo de validación.
 
     ConsentCommit:
+      x-tags:
+        - Consent commits
       type: object
       description: Agrupa una serie de acciones de consentimiento realizadas por un usuario
       properties:
@@ -2291,12 +2418,14 @@ components:
           example: "2024-03-20T15:30:00Z"
 
     ConsentAction:
+      x-tags:
+        - Consent actions
       type: object
       description: Representa una acción de consentimiento realizada por un usuario
       properties:
         id:
           type: string
-          description: Identificador único del consent action
+          description: Identificador único de la acción de consentimiento
           example: "consact_1B2M2Y8AsgTpgAmY7PhCfg"
         entity_id:
           type: string
@@ -2307,10 +2436,19 @@ components:
           type: string
           description: Referencia del usuario en el sistema del cliente
           example: "user_123"
+        consent_template_id:
+          type: string
+          description: Identificador del template de consentimiento asociado.
+          example: "ctmpl_1B2M2Y8AsgTpgAmY7PhCfg"
+        context:
+          type: string
+          description: Contexto adicional asociado a la acción de consentimiento
+          example: "web_signup"
+          nullable: true
         created_at:
           type: string
           format: date-time
-          description: Fecha y hora de creación del consent action
+          description: Fecha y hora de creación de la acción de consentimiento
           example: "2024-03-20T15:30:00Z"
     Event:
       x-tags:
@@ -2409,7 +2547,7 @@ components:
         user_reference:
           type: string
           description: Referencia de usuario proporcionada por el cliente.
-          example: "fsh@ioe.dfa"
+          example: "user_123"
         created_at:
           type: string
           format: date-time
@@ -2417,7 +2555,10 @@ components:
           example: "2024-11-21T14:54:57.167Z"
 
     AgreementDetail:
+      x-tags:
+        - Agreements
       type: object
+      title: Agreement
       description: Representa la estructura detallada de un acuerdo específico
       allOf:
         - $ref: "#/components/schemas/AgreementBase"
@@ -2457,6 +2598,8 @@ components:
           $ref: "#/components/schemas/FilterOrderAndPaginationMetadata"
 
     Evidence:
+      x-tags:
+        - Agreements
       type: object
       description: Representa una evidencia que respalda un consentimiento o acuerdo.
       properties:
@@ -2649,6 +2792,8 @@ components:
       xml:
         name: "##default"
     Webhook:
+      x-tags:
+        - Webhooks
       type: object
       description: |
         Los webhooks son endpoints HTTP que reciben notificaciones cuando ocurren eventos en el sistema.
@@ -2664,10 +2809,28 @@ components:
           example: "https://company.com/your-webhook-endpoint"
         subscriptions:
           type: array
-          description: Lista de eventos a los que está suscrito el webhook
+          description: |
+            Lista de eventos a los que está suscrito el webhook. Los eventos disponibles son:
+
+            - `*`: Todos los eventos
+            - `disclosure_request.granted`
+            - `disclosure_request.timed_out`
+            - `disclosure_request.fail`
+            - `validation_attempt.successful`
+            - `validation_attempt.failed`
+            - `auth_attempt.failed`
+            - `auth_attempt.successful`
+            - `signature_attempt.successful`
+            - `signature_attempt.failed`
+            - `auth_request.successful`
+
+            **TIP**:
+            Puedes suscribirte a todos los eventos de un recurso específico usando el wildcard `*`.
+            Por ejemplo, para suscribirte a todos los eventos de los `disclosure_request`, puedes suscribirte a `disclosure_request.*`.
+
           items:
             type: string
-          example: ["*", "identity.*", "validation_attempt.*"]
+          example: ["*", "auth_attempt.*", "validation_attempt.*"]
         enabled_modes:
           type: array
           description: Lista de modos en los que el webhook está habilitado
@@ -2689,6 +2852,35 @@ components:
           description: Fecha y hora de la última actualización del webhook
           example: "2024-03-20T15:30:00Z"
 
+    WebhookInput:
+      type: object
+      required:
+        - url
+        - subscriptions
+      properties:
+        url:
+          type: string
+          description: URL donde se enviarán los eventos
+          example: "https://company.com/your-webhook-endpoint"
+        subscriptions:
+          type: array
+          description: |
+            Lista de eventos a los que se suscribirá el webhook. Puedes ver el [schema](/docs/api/resources/schemas/webhook) para más información.
+          items:
+            type: string
+          example: ["*", "auth_attempt.*", "validation_attempt.*"]
+        enabled_modes:
+          type: array
+          description: Lista de modos en los que el webhook estará habilitado. Si no se especifica, se usará el modo actual.
+          items:
+            type: string
+          example: ["production", "sandbox"]
+        enabled:
+          type: boolean
+          description: Indica si el webhook está habilitado o no
+          default: true
+          example: true
+
     WebhookList:
       type: object
       properties:
@@ -2698,6 +2890,17 @@ components:
             $ref: "#/components/schemas/Webhook"
         metadata:
           $ref: "#/components/schemas/FilterOrderAndPaginationMetadata"
+    Product:
+      x-tags:
+        - Products
+      type: object
+      description: |
+        Diferentes productos o servicios que ofrece tu compañía.
+      properties:
+        id:
+          type: string
+          description: ID único del producto. Se recomienda darle un identificador con un formato que facilite su identificación. Este identificador se usa para asociar consentimientos a un producto específico.
+          example: "my_product_123"
   securitySchemes:
     api_key:
       type: apiKey

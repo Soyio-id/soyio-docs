@@ -241,6 +241,11 @@ Para más detalles sobre los eventos revisa las instrucciones del `Readme` del r
 Cuando el usuario se autentique exitosamente se emitirá un evento `auth_request.successful`.
 Esto lo recibirás mediante el [webhook](../../api/webhooks.md) configurado en tu cuenta.
 
+Los eventos que puedes escuchar son:
+
+- `auth_request.successful`: El usuario se autenticó exitosamente.
+- `auth_request.failed`: El usuario no se autenticó, pero puede recuperarse.
+
 #### Ejemplo
 
 ```javascript title="Autenticación exitosa"

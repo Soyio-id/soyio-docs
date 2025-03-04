@@ -454,13 +454,31 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: "category",
-      label: "Disclosure templates",
+      label: "Products",
       items: [
         {
           type: "doc",
-          id: "api/resources/schemas/datarequirement",
-          label: "El objeto DataRequirement",
+          id: "api/resources/schemas/product",
+          label: "El objeto Product",
           className: "schema",
+        },
+        {
+          type: "doc",
+          id: "api/resources/index-products",
+          label: "Obtener todos los productos",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/create-product",
+          label: "Crear un producto",
+          className: "api-method post",
+        },
+        {
+          type: "doc",
+          id: "api/resources/get-product",
+          label: "Obtener un producto específico",
+          className: "api-method get",
         },
       ],
     },

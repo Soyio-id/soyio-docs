@@ -193,6 +193,11 @@ Para más detalles de la configuración revisa las instrucciones del `Readme` de
 Cuando el usuario complete el flujo se emitirá un evento `signature_attempt.successful` con el `signed_document_id` del documento firmado.
 Esto lo recibirás mediante el [webhook](../../api/webhooks.md) configurado en tu cuenta.
 
+Los eventos que puedes escuchar son:
+
+- `signature_attempt.successful`: El usuario completó el proceso de firma exitosamente.
+- `signature_attempt.failed`: El usuario no completó el proceso de firma, pero puede recuperarse.
+
 #### Ejemplo
 
 ```javascript

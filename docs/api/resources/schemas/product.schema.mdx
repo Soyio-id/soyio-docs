@@ -1,0 +1,34 @@
+---
+id: product
+title: "Product"
+description: "Diferentes productos o servicios que ofrece tu compañía."
+hide_title: true
+hide_table_of_contents: true
+schema: true
+sample: {"id":"my_product_123"}
+custom_edit_url: null
+---
+
+import Schema from "@theme/Schema";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Product"}
+>
+</Heading>
+
+
+
+Diferentes productos o servicios que ofrece tu compañía.
+
+
+<Schema
+	defaultCollapsibleOpen={true}
+  schema={{"x-tags":["Products"],"type":"object","description":"Diferentes productos o servicios que ofrece tu compañía.\n","properties":{"id":{"type":"string","description":"ID único del producto. Se recomienda darle un identificador con un formato que facilite su identificación. Este identificador se usa para asociar consentimientos a un producto específico.","example":"my_product_123"}},"title":"Product"}}
+  schemaType={"response"}
+>
+  
+</Schema>
+            

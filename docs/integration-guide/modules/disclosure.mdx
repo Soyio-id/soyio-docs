@@ -385,8 +385,13 @@ Para más detalles sobre los eventos revisa las instrucciones del `Readme` del r
 
 Al igual que en el front, a medida que el usuario avanza en el flujo, se enviarán varios eventos mediante [webhooks](../../api/webhooks.md), que representan cambios en el estado del proceso y sus objetos asociados.
 
-Los eventos relacionados al flujo principal son los relacionados al recurso de `disclosure request` y tienen el prefijo de `disclosure_request.`.
+Los eventos que puedes escuchar son:
 
+- `disclosure_request.granted`: El usuario completa exitosamente el disclosure
+- `disclosure_request.timed_out`: El usuario no completa el disclosure en el tiempo permitido
+- `disclosure_request.failed`: El disclosure falla por alguna razón de la que no se puede recuperar
+
+A medida que el usuario avanza en el flujo, estos eventos se enviarán mediante [webhooks](../../api/webhooks.md) para representar cambios en el estado del proceso y sus objetos asociados.
 
 <Tabs>
     <TabItem value="success" label="Disclosure request exitoso" default>
@@ -441,6 +446,10 @@ Además, siempre que se emita un evento `disclosure_request.granted`, también r
 <Tabs>
     <TabItem value="validation" label="Eventos de Validación" default>
 
+        Eventos de webhooks disponibles:
+        - `validation_attempt.successful`: La validación de identidad fue exitosa.
+        - `validation_attempt.failed`: La validación de identidad falló, pero puede recuperarse.
+
 
         ```javascript title="Validación exitosa"
         {
@@ -479,6 +488,11 @@ Además, siempre que se emita un evento `disclosure_request.granted`, también r
         ```
     </TabItem>
     <TabItem value="authentication" label="Eventos de Autenticación">
+
+        Eventos de webhooks disponibles:
+        - `auth_attempt.successful`: La autenticación fue exitosa.
+        - `auth_attempt.failed`: La autenticación falló, pero puede recuperarse.
+
         ```javascript title="Autenticación exitosa"
         {
             id: "evt_...",
