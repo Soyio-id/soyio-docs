@@ -51,10 +51,10 @@ const config: Config = {
   ],
   headTags: [
     {
-      tagName: "link",
+      tagName: 'link',
       attributes: {
-        rel: "preconnect",
-        href: "https://fonts.googleapis.com",
+        rel: 'preconnect',
+        href: 'https://fonts.googleapis.com',
       },
     },
   ],
@@ -85,6 +85,8 @@ const config: Config = {
       return {
         name: 'intercom',
         injectHtmlTags: () => {
+          if (process.env.NODE_ENV !== 'production') return {};
+
           return {
             headTags: [
               {
