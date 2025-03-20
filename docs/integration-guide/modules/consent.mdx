@@ -32,7 +32,13 @@ El proceso de consentimiento embebido se compone de los siguientes pasos:
 1. Se muestra el componente de consentimiento al usuario en un formulario o sección de tu interfaz
 2. El usuario revisa y acepta los términos mediante un checkbox opt-in.
 3. Se genera un **token de acción** cada vez que el usuario haga click un checkbox de consentimiento.
-4. Al momento de persistir los datos del usuario, se envían los token de acción para crear un **registro de consentimientos** con evidencia del proceso.
+4. Al momento de persistir los datos del usuario, se envían los token de acción para crear un **registro de consentimientos** ([ConsentAction](../../api/resources/schemas/consentaction)) con evidencia del proceso.
+5. Con base en estas acciones de consentimiento, el sistema automáticamente crea o actualiza los **Agreements** para el usuario. El [Agreement](../../api/resources/schemas/agreement) es la fuente de verdad que determina qué permisos tiene un usuario para el uso de sus datos.
+6. Para verificar si puedes utilizar un dato para una finalidad específica, siempre debes consultar el Agreement actualizado.
+
+:::info[Información]
+Los Agreements pueden cambiar a lo largo del tiempo debido a nuevas acciones de consentimiento, modificaciones o revocaciones. Por eso, siempre es recomendable consultar el Agreement actual a través de la API de Soyio.
+:::
 
 ## Modalidades de consentimiento
 
@@ -110,13 +116,25 @@ El flujo que integrarás es el siguiente:
     {
       from: 'backend',
       to: 'soyio_api',
-      label: 'Crear registro de consentimiento'
+      label: 'Crear registro de consentimiento (ConsentAction)'
     },
     {
       from: 'soyio_api',
       to: 'backend',
       label: 'Retorna información del registro de consentimiento'
     },
+    {
+      from: 'backend',
+      to: 'soyio_api',
+      label: 'Consulta Agreement para verificar permisos',
+      isDashed: true,
+    },
+    {
+      from: 'soyio_api',
+      to: 'backend',
+      label: 'Retorna Agreement con permisos actualizados',
+      isDashed: true,
+    }
   ]}
 />
 
@@ -247,9 +265,11 @@ El parámetro `context` en las opciones de configuración te permite asociar el 
     </TabItem>
 </Tabs>
 
-Para más información sobre la configuración del componente, consulta la [documentación de la SDK web](https://www.npmjs.com/package/@soyio/soyio-widget#consent-request-box).
-
 :::info
+Para más información sobre la configuración del componente, consulta la [documentación de la SDK web](https://www.npmjs.com/package/@soyio/soyio-widget#consent-request-box).
+:::
+
+:::tip
 Este módulo está diseñado para integrarse de manera nativa en tu interfaz y podrás personalizarlo con el look and feel de tu aplicación. Revisa la sección de [personalización](#personalización-opcional) para más detalles.
 :::
 
@@ -321,22 +341,34 @@ Opcionalmente, puedes crear un registro de consentimiento agrupado (por ejemplo,
 
 Una vez se haya creado el registro de consentimiento, se retornará la acción (o lista de acciones) creada(s). En cada una de ellas, habrá un `entity_id`, junto con el `user_reference` (en el caso de que se haya proporcionado), que representa el identificador único del usuario que otorgó el consentimiento.
 
-### 5. Consulta y gestión de consentimientos
+### 5. Consulta y gestión de consentimientos a través de Agreements
 
-Una vez creados los consentimientos, puedes realizar las siguientes acciones para gestionar y dar seguimiento a los consentimientos otorgados:
+Una vez creados los consentimientos a través de `ConsentActions`, el sistema de Soyio automáticamente crea o actualiza los **Agreements** para la entidad (usuario). Los Agreements son la fuente de verdad que determina si para un usuario específico puede hacerse uso de un dato para una finalidad específica.
 
-1. **Consultar consentimientos existentes**:
-   - Buscar consentimientos específicos filtrando por `entity_id` o `consent_template_id` al [listar los `ConsentActions`](../../api/resources/index-consent-actions).
-   - Verificar el estado y vigencia de los consentimientos por usuario.
-   - Consultar el historial de consentimientos para auditoría.
+#### 5.1 El flujo de consentimiento y Agreements
 
-2. **Gestionar consentimientos activos**:
-   - Evitar crear registros de consentimiento innecesarios o duplicados
-   - Actualizar consentimientos cuando sean necesarios
-   - Renovar consentimientos próximos a expirar
+1. **Creación de ConsentActions**: Cuando se crea un registro de consentimiento mediante el endpoint de acciones de consentimiento, se genera un [`ConsentAction`](../../api/resources/schemas/consentaction) que hace referencia al template utilizado.
+
+2. **Actualización de Agreements**: En base a las acciones de consentimiento, el sistema de Soyio crea o actualiza los permisos del usuario (Entity) en su [`Agreement`](../../api/resources/schemas/agreement), donde se refleja el estado actual de los consentimientos otorgados.
+
+3. **Consulta de permisos**: Para verificar si puedes utilizar un dato específico para una finalidad concreta, **siempre debes consultar el Agreement** y no basarte en la información del template o de las acciones de consentimiento individuales.
 
 :::warning[Importante]
-Recuerda que cada registro de consentimiento debe tener un propósito claro y justificado. La creación innecesaria de registros puede complicar la gestión y auditoría de los consentimientos.
+Los Agreements pueden cambiar a lo largo del tiempo debido a nuevas acciones de consentimiento, modificaciones o revocaciones. Por esto, la información del template no refleja si existen cambios en el consentimiento que inicialmente se otorgó.
+:::
+
+#### 5.2 Consulta de Agreements
+
+Para verificar si puedes utilizar un dato para una finalidad específica, debes consultar el [endpoint de listado de Agreements](../../api/resources/index-agreements) filtrando por el ID de la entidad o el `user_reference`:
+
+```
+GET /api/v1/agreements?entity_id=<entity_id>
+```
+
+La respuesta te proporcionará la información actual sobre qué datos puede utilizar y para qué finalidades, a través del atributo `data` del Agreement.
+
+:::tip
+Puedes guardar la última versión del Agreement (que enviamos mediante webhooks, específicamente los que tienen el nombre `agreement.*`) como un caché local para consultas rápidas o en caso de respaldo. Sin embargo, siempre recomendamos verificar el estado actual del Agreement a través de nuestra API para asegurar que estás trabajando con la información más actualizada.
 :::
 
 ## Personalización (Opcional)
