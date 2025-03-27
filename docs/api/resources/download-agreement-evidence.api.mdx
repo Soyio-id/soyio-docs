@@ -1,0 +1,71 @@
+---
+id: download-agreement-evidence
+title: "Descargar el archivo de una evidencia específica"
+description: "Permite descargar el archivo asociado a una evidencia específica de un acuerdo. Es útil en caso de auditoría o querer demostrar en formato PDF que el acuerdo tuvo un cambio."
+sidebar_label: "Descargar el archivo de una evidencia específica"
+hide_title: true
+hide_table_of_contents: true
+api: eJzVVktv20YQ/iuLuaQFWMl2DDRV06CK7RRG0MDNA0XiGMZodyROQu7Su0slCsGflFNvvfqPFbOkJEt+IEkv7UUilzsz38w3rwYizgKMTmE880Ql2RjgLANDQXuuIjsLIzghX3IkJafoZ+gVFQq9znnuFAanGY1TqGqLiuZsyGpGRaEiffl5yhqVIVVbhbomb9xAHQV1+XfkQpFVGoOT71gbjs5ffkbl1EVNnrwyVLoQvRi0aup8idGpk8Mn8j1h6BSqWM+dGNBYTtgNIANXkUeBf2xgBMZ9sIVDs3LyqENJkEGFHkuK5CUMDVgsCUbABjJgcb7CmMN2RI4PlRH7S32QgaeLmj0ZGEVfUwZB51QijBqIi0pUhujZzqDNgD5iWRVyhjN/vvt47/e91w/GYfaymo3L1z+e5AdTubcC08eUjr8AlCqucPCtsGh+vndw/9n9Nz89jvmri/yxffPgDz6cvYP2TFSGytlAQbTs7ezI3yaScZ8bW6wZ2oCmnY0Su1EDWFUF60TYsDJTOboNaAadShjBhC36BbRtm0FOaBKHDRx0en845FC5wB2muxRe4SNG1Lkw+rOackFCwC9vEw+DykzfghhrM9jf2b3u9ZH3znepLPZZo+bLv+ztnr4LtyBzk3ekN5PqtPuWQeRYyH+IGOuQkiAiF1K1lZe0j9wx0+m609s65h1QgXNOgl8SoTNxp+grK8LO8ycyItKjWcuwjTQjf1Vof2e3XcG9U/ufpLSrC6Osi+oKSlILV3ulPRk5wSIM1ElBGEjpnPR7FXNSxulaGExOKYwqj7EKo+HQOB0GwS3YDdgkIjsq969T+Zx07YNTVnJY2PNo3H+XSLZzLNicixUK8auYfE7B1V5TivXU1fYr+Nz/Qj4PhEx7L6opW6Me+t7kI/WBY67YqHsP2Ty6t0Vm4rp3SaE1KvqFwhmyhXbtGzxz8YnATuX3omOg5zYIjRwXqbNjxefvSZ7PpIuVFHMnw2FGMY2BmMMIhquWHoYNm3a47L1h2KzbcDtcThThj/x8OT1qX8AIlgkX0JqJ+7jKuSFWPJzvpta+eROr6vqts7UDya0uG1ZurAKOFT+lxbVxcBQuairxekNSJRlGGykNbF3gnNT45FhJ1jmv2Vk0KL2bZEBrnNAnme9ptgQVXMGaY20oyKDtR9S47wapHpZTquvJiSy2U5cg96S9EGfF6jXYgkRm6wvyc9ac7B6ncjdo5CWJ9rWIOtUilSkFIYgDkX5dF3kGwk2neXewM9iRo8qFWGKq2B7+4U2bjaHbN5pt2M26Nfwf16U+kyJ9jMOqSBWWdSna9JVxCuvKgAxGaUFaFYecbGwpq/o4yyB3IYqCpplgoFe+aFs5FtCpGjOYo2ecSGKcNmA4yLOB0RSLQHcE+rvnfVf9Xt2wkN3o07JkrNTLHIta3iCDVFGQMubfINjevr4Bw5UwtmerxSZFprsw1pqqeEV0e3na6G6/Hb2ELE36zY7xPnWM/kGU34hqu6w7BPIrcbpRpGm6ftS2q/vdp1sleg9XJFhxvG3/AZxWYJo=
+sidebar_class_name: "get api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Descargar el archivo de una evidencia específica"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/agreements/{id}/evidences/{evidenceId}/download"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Permite descargar el archivo asociado a una evidencia específica de un acuerdo. Es útil en caso de auditoría o querer demostrar en formato PDF que el acuerdo tuvo un cambio.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"id","in":"path","description":"ID del agreement","required":true,"schema":{"type":"string"},"example":"agr_1B2M2Y8AsgTpgAmY7PhCfg"},{"name":"evidenceId","in":"path","description":"ID de la evidencia","required":true,"schema":{"type":"string"},"example":"ev_2C3N3Z9BthUqhBnZ8QiDgj"}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Archivo en formato PDF de evidencia","content":{"application/pdf":{"schema":{"type":"string","format":"binary"}}},"headers":{"Content-Disposition":{"schema":{"type":"string","example":"attachment; filename=\"name.pdf\""}}}},"401":{"description":"Error de autenticación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"authentication_error"},"title":{"type":"string","example":"Unauthorized"},"status":{"type":"integer","example":401},"detail":{"type":"string","example":"We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"}}}}}},"404":{"description":"Recurso no encontrado","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"invalid_request_error"},"title":{"type":"string","example":"Resource not found"},"status":{"type":"integer","example":404},"detail":{"type":"string","example":"Couldn't find <resource> with id '<id>'. Please check your request and try again"}},"title":"NotFoundErrorSchema"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

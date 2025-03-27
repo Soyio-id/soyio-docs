@@ -1,0 +1,64 @@
+---
+id: get-company-config
+title: "Obtener la configuración de la empresa"
+description: "Retorna los parámetros configurables de la empresa, como los canales de contacto para que tus usuarios puedan ejercer sus derechos."
+sidebar_label: "Obtener la configuración de la empresa"
+hide_title: true
+hide_table_of_contents: true
+api: eJzNVs1u4zYQfpUBz1o7Kfbk0wZpUAQt0MWmQQ+pYYypWYuJRCrDoRHH0MP0GfYR8mLFUPK/u03RSy+2IHKG33zzfUOtjeAimsmDuQ5Ni35lpoUpKVp2rbjgzcR8IQnsEeoQoUV++7Mh4RDBBv/VLRLjvKYIJUGNQE3LFLEAG5qQIyx6HNZt8IJWgmZBeE4EkiKkmJCd5k5Uogd6JLbEEJMGMdkqxNEf3hQmtMSooG5LMzELkgHydQZiCsMU2+AjRTNZmx8uLvTvsJbrDWbr3r55CHMh70oEenESIjbkhUxhFCl50Xhs29rZfOz4MWqStYm2ogb1SVYtmYkJ80eyYgrTsoIU10PoGTq37+XDO2hXKskLQs89xpasnCNe0o54yWxn+g+ob5J3dig7QcgdLFHTMdW0RC800HxYA7tFJXE29G5mK/Se6vjPxVODrt7bFoWd1y4dlvmjY7I9rIyTmQJQTVb47Zt3NpwXCnlIEbmX0lnJwB1BkygKI2ANTdDmBj2kRAaqlUal1zVOF3Lp9IJNWyvalt0S7erT8GZkQ2O6wjTocUGzIXSW+B0V3n/5BUo9j7xwBtAndyWWx93bOkMb/h5nwAoWFPUk7BcOq/rXNMAKyIPFmLdQFOW41yEVwERNW+NrTnWmV6MjFiuRNk7G4z0Wxz2FH4ZjTdd1XWHESQ7Y+jNz13X96seLy1Mr3zAHVpCY1Ksbcf8X9zI9J8dUqi/z2gZYYaKgpJh7K6rr6bHc+1ynWtiRgUmqHqjCmZHiN7vavxd67zU4sHulUkMGNLsY54UWxPtBHy8uuy3c72b/XX2X6hJ8ENhDSbAKicGy2k0c1nEEn2vCSGArsk8gFUEZbFJJ5aIABTY9L4ONoxhWLoxcObRSoZNN7GRlJg/aHjd7In2edtPCNCRVGGa7zhOUykzM2G7meyReEsccmq23FVhEX87Dy/a8MbZuvLw0XXG8E9v2dNd0h+tO1dG3dItuSx627mdanTj8Jj4navBUjNBQ6XS0QvIItsYlwdXnW1DpBLbqWr18vPqQvMU5vWIZ+rs0Qgy1s05SSXFkCuOxUQxXgxJ6ixTGKYKKsCQ2SrDzX0OGPFjqTovVU09gKxIdTHfES2ddPvc2t3qYTDl0MBRa2ZvqJmoBQp92DS6M9qbPfDm6GF3oqzZEaTDbboD/q165xPqxYA8v44MviGOw652r/z8fJIMqhF5k3NbovJY83Am9eB823wDTwlQhir5Zr+cY6Z7rrtPXz4k4O6AwS2Sn4LMfik1TVe1ZhubKWmrVGUusU6/Ho/F24KKfbn4zRR47hxJ+yhIeHjT7Zsmv9nIf66yHoL9qqrMh63VvkK7b7u+X/jZiKHGzWxmcdl33F5ETxHM=
+sidebar_class_name: "get api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Obtener la configuración de la empresa"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/config"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Retorna los parámetros configurables de la empresa, como los canales de contacto para que tus usuarios puedan ejercer sus derechos.
+
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Configuración obtenida exitosamente","content":{"application/json":{"schema":{"type":"object","properties":{"config":{"type":"object","x-tags":["Company"],"description":"Representa a los aspectos configurables de tu empresa, tales como canales de comunicación u otros datos relevantes.\n","properties":{"rights_contact_channels":{"type":"object","properties":{"email":{"type":"string","description":"Dirección de correo electrónico que tus usuarios pueden usar para ejercer sus derechos. Se muestra al momento de dar el consentimiento\n","example":"privacy@example.com"},"manage_consent_url":{"type":"string","description":"URL del centro de privacidad de tu empresa, para que los usuarios puedan ejercer sus derechos y gestionar sus consentimientos. Se muestra al momento de dar el consentimiento y en caso de estar presente, reemplaza al correo electrónico.\n","example":"https://example.com/manage-consent"}}}},"title":"Configuration"}}}}}},"401":{"description":"Error de autenticación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"authentication_error"},"title":{"type":"string","example":"Unauthorized"},"status":{"type":"integer","example":401},"detail":{"type":"string","example":"We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      
