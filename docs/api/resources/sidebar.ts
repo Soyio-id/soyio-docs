@@ -298,6 +298,30 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: "category",
+      label: "Data subject requests",
+      items: [
+        {
+          type: "doc",
+          id: "api/resources/create-data-subject-request",
+          label: "Crear un data subject request",
+          className: "api-method post",
+        },
+        {
+          type: "doc",
+          id: "api/resources/index-data-subject-requests",
+          label: "Obtener todos los data subject requests",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/get-data-subject-request",
+          label: "Obtener un data subject request específico",
+          className: "api-method get",
+        },
+      ],
+    },
+    {
+      type: "category",
       label: "Events",
       items: [
         {
@@ -392,6 +416,12 @@ const sidebar: SidebarsConfig = {
         },
         {
           type: "doc",
+          id: "api/resources/download-agreement-evidence",
+          label: "Descargar el archivo de una evidencia específica",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
           id: "api/resources/get-agreement-versions",
           label: "Obtener todas las versiones de un acuerdo",
           className: "api-method get",
@@ -479,6 +509,54 @@ const sidebar: SidebarsConfig = {
           id: "api/resources/get-product",
           label: "Obtener un producto específico",
           className: "api-method get",
+        },
+      ],
+    },
+    {
+      type: "category",
+      label: "Entities",
+      items: [
+        {
+          type: "doc",
+          id: "api/resources/schemas/entity",
+          label: "El objeto Entity",
+          className: "schema",
+        },
+        {
+          type: "doc",
+          id: "api/resources/schemas/compliancestatus",
+          label: "El objeto ComplianceStatus",
+          className: "schema",
+        },
+        {
+          type: "doc",
+          id: "api/resources/get-entity-agreement-compliance-statuses",
+          label: "Obtener los estados de cumplimiento de la entidad",
+          className: "api-method get",
+        },
+      ],
+    },
+    {
+      type: "category",
+      label: "Company",
+      items: [
+        {
+          type: "doc",
+          id: "api/resources/schemas/configuration",
+          label: "El objeto Configuration",
+          className: "schema",
+        },
+        {
+          type: "doc",
+          id: "api/resources/get-company-config",
+          label: "Obtener la configuración de la empresa",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/update-company-config",
+          label: "Actualizar la configuración de la empresa",
+          className: "api-method patch",
         },
       ],
     },
