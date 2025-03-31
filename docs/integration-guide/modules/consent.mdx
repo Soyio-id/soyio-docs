@@ -351,15 +351,38 @@ Una vez creados los consentimientos a través de `ConsentActions`, el sistema de
 
 2. **Actualización de Agreements**: En base a las acciones de consentimiento, el sistema de Soyio crea o actualiza los permisos del usuario (Entity) en su [`Agreement`](../../api/resources/schemas/agreement), donde se refleja el estado actual de los consentimientos otorgados.
 
-3. **Consulta de permisos**: Para verificar si puedes utilizar un dato específico para una finalidad concreta, **siempre debes consultar el Agreement** y no basarte en la información del template o de las acciones de consentimiento individuales.
+3. **Consulta de permisos**: Para verificar si puedes utilizar un dato específico para una finalidad concreta, **siempre debes consultar el Agreement** y no basarte en la información del template o de las acciones de consentimiento individuales. Ofrecemos dos opciones para consultarlo a través de nuestra API detalladas en las siguientes secciones.
 
 :::warning[Importante]
 Los Agreements pueden cambiar a lo largo del tiempo debido a nuevas acciones de consentimiento, modificaciones o revocaciones. Por esto, la información del template no refleja si existen cambios en el consentimiento que inicialmente se otorgó.
 :::
 
-#### 5.2 Consulta de Agreements
+#### 5.2 Consulta del estado de cumplimiento de un template
 
-Para verificar si puedes utilizar un dato para una finalidad específica, debes consultar el [endpoint de listado de Agreements](../../api/resources/index-agreements) filtrando por el ID de la entidad o el `user_reference`:
+Para saber si un usuario ha otorgado consentimiento a un template en particular, y estos siguen siendo válidos, puedes consultar el [endpoint del estado de cumplimiento (`ComplianceStatus`)](../../api/resources/get-entity-agreement-compliance-statuses.api.mdx) para un template / entidad específica
+
+El `ComplianceStatus` es un objeto que refleja si el usuario cumple (`compliant`) con todos los requerimientos (`data_requirements`) del template que utilizaste.
+
+Puede también cumplir parcialmente (`partially_compliant`) o no cumplir (`non_compliant`).
+
+```JSON title="GET /api/v1/entities/<entity_id>/agreement/compliance_statuses"
+{
+    "compliance_statuses": [
+        {
+            "consent_template_id": "<consent_template_id>",
+            "entity_id": "<entity_id>",
+            "last_consent_action_id": "<last_consent_action_id>",
+            "status": "compliant"
+        }
+    ]
+}
+```
+
+Puedes filtrar por `consent_template_id` para obtener el estado de cumplimiento de un template en particular.
+
+#### 5.3 Consulta de Agreements
+
+Si bien ofrecemos el `ComplianceStatus`, también puedes consultar el Agreement directamente a través del [endpoint de listado de Agreements](../../api/resources/index-agreements) filtrando por el ID de la entidad o el `user_reference`:
 
 ```
 GET /api/v1/agreements?entity_id=<entity_id>
