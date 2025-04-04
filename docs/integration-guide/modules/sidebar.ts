@@ -22,6 +22,10 @@ const sidebar: SidebarsConfig = {
       type: 'doc',
       id: 'integration-guide/modules/consent',
     },
+    {
+      type: 'doc',
+      id: 'integration-guide/modules/privacy-manager',
+    },
   ],
 };
 
