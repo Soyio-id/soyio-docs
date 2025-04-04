@@ -1,0 +1,211 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import SequenceDiagram from '../../../src/components/SequenceDiagram';
+
+# Gestor de privacidad (Privacy Manager)
+
+Integra un gestor de privacidad directamente en tu aplicación para permitir a los usuarios ejercer sus derechos de protección de datos de manera sencilla y transparente.
+
+Este módulo te ayuda a cumplir con las regulaciones de protección de datos al proporcionar un canal directo para que los usuarios puedan ejercer sus derechos: acceso, rectificación, oposición, supresión y portabilidad de sus datos personales.
+
+:::info[Información]
+Por ahora, este servicio está disponible **sólo para el SDK Web**.
+:::
+
+El módulo **_Privacy Manager_** te permite:
+- **Gestionar solicitudes de derechos**: Recibe y procesa las solicitudes de los usuarios para ejercer sus derechos de protección de datos.
+- **Integración fluida**: Embebe el componente directamente en tu interfaz y personalízalo con el *look and feel* de tu aplicación.
+- **Cumplimiento normativo**: Facilita el cumplimiento de las regulaciones de protección de datos al proporcionar un canal claro para que los usuarios ejerzan sus derechos.
+- **Trazabilidad**: Mantén un registro de todas las solicitudes realizadas por los usuarios para fines de auditoría y cumplimiento.
+- **Validación de identidad**: Incluye un proceso de verificación del usuario para asegurar la legitimidad de las solicitudes.
+
+## Derechos que pueden ejercer los usuarios
+
+A través del **_Privacy Manager_**, los usuarios pueden ejercer los siguientes derechos sobre sus datos personales:
+
+1. **Acceso**: Permite al usuario saber qué datos personales tienen sobre ellos, si están siendo utilizados, quién los tiene y para qué los usa.
+
+2. **Rectificación**: Cuando la información del usuario es incorrecta o está desactualizada, pueden solicitar que se corrija o modifique. Se les solicitará documentación que respalde los cambios.
+
+3. **Oposición**: Permite al usuario solicitar que se deje de usar sus datos para ciertos fines, salvo que exista una obligación legal que lo impida.
+
+4. **Supresión**: Permite al usuario solicitar la eliminación de sus datos cuando ya no sean necesarios o haya retirado su consentimiento, salvo que exista una obligación legal para conservarlos.
+
+5. **Portabilidad**: Permite al usuario solicitar la copia de sus datos personales en un formato estructurado, legible y portable.
+
+<img src="/img/example_privacy_center.jpeg" alt="Privacy Center example" width="90%"/>
+
+## Integración
+
+### Pre requisitos
+
+1. Tener el [SDK](../quickstart.mdx) instalado en tu sitio o aplicación.
+
+## Flujo de una solicitud de derechos
+
+<SequenceDiagram
+  actors={[
+    { id: 'user', label: 'Usuario' },
+    { id: 'privacy_center', label: 'Privacy Center' },
+    { id: 'soyio_api', label: 'Soyio Api' },
+    { id: 'organization', label: 'Organización' },
+  ]}
+  actions={[
+    {
+      from: 'user',
+      to: 'privacy_center',
+      label: 'Rellena formulario'
+    },
+    {
+      from: 'privacy_center',
+      to: 'soyio_api',
+      label: 'Se crea un Data Subject Request'
+    },
+    {
+      from: 'privacy_center',
+      to: 'user',
+      label: 'Solicita validación de identidad'
+    },
+    {
+      from: 'user',
+      to: 'soyio_api',
+      label: 'Completa validación'
+    },
+    {
+      from: 'soyio_api',
+      to: 'organization',
+      label: 'Notifica solicitud con identidad validada'
+    },
+    {
+      from: 'organization',
+      to: 'organization',
+      label: 'Procesa solicitud'
+    },
+    {
+      from: 'organization',
+      to: 'soyio_api',
+      label: 'Notifica estado de la solicitud'
+    },
+    {
+      from: 'soyio_api',
+      to: 'user',
+      label: 'Notifica estado de la solicitud',
+      isDashed: true,
+    }
+  ]}
+/>
+
+## Paso a paso
+
+### 1. Inicializa el componente en tu frontend
+
+Inicializa el componente de **_Privacy Manager_** en tu interfaz mediante el SDK de Soyio.
+
+<Tabs>
+    <TabItem value="web" label="SDK Web" default>
+        ```jsx
+        import { PrivacyCenter } from "@soyio/soyio-widget";
+
+        // Configuración del componente
+        const privacyCenterOptions = {
+          companyId: "<company_id>",
+          onEvent: (event) => console.log('Event:', event),
+          onReady: () => console.log('Privacy Center is ready'),  // Optional
+          appearance: {},                                         // Optional
+          isSandbox: false,                                       // Optional
+          subjectId: "<subject_id>"                               // Optional - puede ser entityId o identityId
+        };
+
+        // Montar el componente
+        document.addEventListener("DOMContentLoaded", () => {
+          const privacyCenter = new PrivacyCenter(privacyCenterOptions);
+          privacyCenter.mount("#privacy-center-container");
+        });
+        ```
+
+        ```html
+        <!-- HTML -->
+        <div id="privacy-center-container"></div>
+        ```
+    </TabItem>
+</Tabs>
+
+### 2. Configuración de opciones
+
+El componente de **_Privacy Manager_** acepta las siguientes opciones:
+
+| Opción | Tipo | Descripción |
+| ------ | ---- | ----------- |
+| `companyId` | String | Identificador de la empresa |
+| `onEvent` | Function | Callback que se ejecuta cuando el componente emite un evento |
+| `onReady` | Function | Callback que se ejecuta cuando el componente está listo para interactuar |
+| `appearance` | Object | Configuración de la apariencia del componente |
+| `isSandbox` | Boolean | Indica si el componente se está ejecutando en modo sandbox (pruebas) |
+| `subjectId` | String | Identificador del usuario que está ejerciendo sus derechos (entityId o identityId) |
+
+### 3. Escucha los eventos del componente
+
+El componente emitirá eventos cuando el usuario interactúe con él. Puedes escuchar estos eventos a través del callback `onEvent` al inicializar el componente. El evento principal es `REQUEST_SUBMITTED` que incluye:
+
+```typescript
+{
+    eventName: 'REQUEST_SUBMITTED',
+    subjectId: string,
+    kind: string,
+    dataSubjectRequestId: string
+}
+```
+
+En donde `kind` puede ser uno de los siguientes valores:
+
+- `ACCESS`: Para ejercer el derecho de acceso.
+- `RECTIFICATION`: Para ejercer el derecho de rectificación.
+- `OPPOSITION`: Para ejercer el derecho de oposición.
+- `SUPPRESSION`: Para ejercer el derecho de supresión.
+- `PORTABILITY`: Para ejercer el derecho de portabilidad.
+
+Y `dataSubjectRequestId` es el identificador de la solicitud de derechos generado por Soyio, también conocido como [`dataSubjectRequestId`](../../api/resources/index-data-subject-requests).
+
+## Funcionamiento del subjectId y validación de identidad
+
+El **_Privacy Manager_** requiere confirmar la identidad del usuario que está ejerciendo sus derechos. Para gestionar esto, el componente utiliza el parámetro `subjectId`, que puede ser tanto un `entityId` como una `identityId`.
+
+### Tipos de subjectId
+
+- **entityId**: Identificador generado previamente, típicamente a través del [módulo de Consentimiento](./consent). Representa a un usuario que aún no ha sido validado completamente.
+  
+- **identityId**: Identificador de un usuario que ya ha pasado por un proceso de validación, ya sea mediante el [módulo de Disclosure](./disclosure) o por un proceso de validación anterior en el **_Privacy Manager_**.
+
+:::tip
+Es recomendable proporcionar un `subjectId` siempre que sea posible para mejorar la experiencia del usuario y mantener la consistencia entre los diferentes módulos de la plataforma.
+:::
+
+## Personalización (Opcional)
+
+El componente puede ser personalizado para adaptarse a tu interfaz mediante variables de CSS declaradas en el objeto `appearance` del SDK. Por ejemplo:
+
+```jsx
+const privacyCenterOptions = {
+  // ... otras opciones
+  appearance: {
+    variables: {
+      fontFamily: 'system-ui, sans-serif',
+      colorPrimary: '#f54c27',
+      colorBackground: '#ffffff',
+    },
+    rules: {
+      '.PrivacyCenter-container': {
+        backgroundColor: 'var(--colorBackground)',
+      }
+    }
+  }
+};
+```
+
+:::tip[Pro Tip]
+Para obtener más información sobre las variables y reglas de personalización, consulta la [documentación oficial del SDK web de Soyio](https://docs.soyio.co/docs/soyio-widget/customization).
+:::
+
+:::warning[Importante]
+Asegúrate de mantener los elementos de accesibilidad como el contraste adecuado y el tamaño de fuente legible al personalizar el componente.
+:::
