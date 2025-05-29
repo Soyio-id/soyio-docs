@@ -4,44 +4,105 @@ import SequenceDiagram from '../../../src/components/SequenceDiagram';
 
 # Gestor de privacidad (Privacy Manager)
 
-Integra un gestor de privacidad directamente en tu aplicación para permitir a los usuarios ejercer sus derechos de protección de datos de manera sencilla y transparente.
+Integra un gestor de privacidad directamente en tu aplicación para permitir a los usuarios gestionar sus datos personales de manera sencilla y transparente.
 
-Este módulo te ayuda a cumplir con las regulaciones de protección de datos al proporcionar un canal directo para que los usuarios puedan ejercer sus derechos: acceso, rectificación, oposición, supresión y portabilidad de sus datos personales.
+El **Privacy Manager** es un módulo integral que te ayuda a cumplir con las regulaciones de protección de datos proporcionando diferentes funcionalidades especializadas según tus necesidades.
 
 :::info[Información]
 Por ahora, este servicio está disponible **sólo para el SDK Web**.
 :::
 
-El módulo **_Privacy Manager_** te permite:
+## Funcionalidades disponibles
+
+El **Privacy Manager** incluye las siguientes funcionalidades que puedes habilitar según tus necesidades:
+
+### 🔐 Rights Enforcement (Ejercicio de Derechos)
+Permite a los usuarios ejercer sus derechos de protección de datos: acceso, rectificación, oposición, supresión y portabilidad.
+
+### ⚙️ Consent Management (Gestión de Consentimientos)
+Facilita la gestión y administración de consentimientos otorgados por los usuarios.
+
+---
+
+## Integración general
+
+### Pre requisitos
+
+1. Tener el [SDK](../quickstart.mdx) instalado en tu sitio o aplicación.
+
+### Configuración básica
+
+<Tabs>
+  <TabItem value="web" label="SDK Web" default>
+    ```jsx
+    import { PrivacyCenter } from "@soyio/soyio-widget";
+
+    // Configuración del componente
+    const privacyCenterOptions = {
+      companyId: "<company_id>",
+      onEvent: (event) => console.log('Event:', event),
+      enabledFeatures: ['DataSubjectRequests', 'ConsentManagement'],  // Optional
+      onReady: () => console.log('Privacy Center is ready'),          // Optional
+      appearance: {},                                                 // Optional
+      isSandbox: false,                                               // Optional
+      subjectId: "<subject_id>"                                       // Optional - entityId o identityId
+    };
+
+    // Montar el componente
+    document.addEventListener("DOMContentLoaded", () => {
+      const privacyCenter = new PrivacyCenter(privacyCenterOptions);
+      privacyCenter.mount("#privacy-center-container");
+    });
+    ```
+
+    ```html
+    <!-- HTML -->
+    <div id="privacy-center-container"></div>
+    ```
+  </TabItem>
+</Tabs>
+
+
+### Opciones de configuración
+
+| Opción | Tipo | Descripción |
+| ------ | ---- | ----------- |
+| `companyId` | String | Identificador de la empresa |
+| `enabledFeatures` | Array | Features a habilitar |
+| `onEvent` | Function | Callback que se ejecuta cuando el componente emite un evento |
+| `onReady` | Function | Callback que se ejecuta cuando el componente está listo |
+| `appearance` | Object | Configuración de la apariencia del componente |
+| `isSandbox` | Boolean | Indica si se ejecuta en modo sandbox (pruebas) |
+| `subjectId` | String | Identificador del usuario (entityId o identityId) |
+
+---
+
+## 🔐 Rights Enforcement (Ejercicio de Derechos)
+
+**Identificador de la funcionalidad:** `DataSubjectRequests`
+
+Esta funcionalidad permite a los usuarios ejercer sus derechos de protección de datos de manera sencilla y transparente.
+
+### Funcionalidades
+
 - **Gestionar solicitudes de derechos**: Recibe y procesa las solicitudes de los usuarios para ejercer sus derechos de protección de datos.
 - **Integración fluida**: Embebe el componente directamente en tu interfaz y personalízalo con el *look and feel* de tu aplicación.
 - **Cumplimiento normativo**: Facilita el cumplimiento de las regulaciones de protección de datos al proporcionar un canal claro para que los usuarios ejerzan sus derechos.
 - **Trazabilidad**: Mantén un registro de todas las solicitudes realizadas por los usuarios para fines de auditoría y cumplimiento.
 - **Validación de identidad**: Incluye un proceso de verificación del usuario para asegurar la legitimidad de las solicitudes.
 
-## Derechos que pueden ejercer los usuarios
-
-A través del **_Privacy Manager_**, los usuarios pueden ejercer los siguientes derechos sobre sus datos personales:
+### Derechos que pueden ejercer los usuarios
 
 1. **Acceso**: Permite al usuario saber qué datos personales tienen sobre ellos, si están siendo utilizados, quién los tiene y para qué los usa.
-
 2. **Rectificación**: Cuando la información del usuario es incorrecta o está desactualizada, pueden solicitar que se corrija o modifique. Se les solicitará documentación que respalde los cambios.
-
 3. **Oposición**: Permite al usuario solicitar que se deje de usar sus datos para ciertos fines, salvo que exista una obligación legal que lo impida.
-
 4. **Supresión**: Permite al usuario solicitar la eliminación de sus datos cuando ya no sean necesarios o haya retirado su consentimiento, salvo que exista una obligación legal para conservarlos.
-
 5. **Portabilidad**: Permite al usuario solicitar la copia de sus datos personales en un formato estructurado, legible y portable.
 
 <img src="/img/example_privacy_center.jpeg" alt="Privacy Center example" width="90%"/>
 
-## Integración
 
-### Pre requisitos
-
-1. Tener el [SDK](../quickstart.mdx) instalado en tu sitio o aplicación.
-
-## Flujo de una solicitud de derechos
+### Flujo de una solicitud de derechos
 
 <SequenceDiagram
   actors={[
@@ -95,63 +156,13 @@ A través del **_Privacy Manager_**, los usuarios pueden ejercer los siguientes 
   ]}
 />
 
-## Paso a paso
-
-### 1. Inicializa el componente en tu frontend
-
-Inicializa el componente de **_Privacy Manager_** en tu interfaz mediante el SDK de Soyio.
-
-<Tabs>
-    <TabItem value="web" label="SDK Web" default>
-        ```jsx
-        import { PrivacyCenter } from "@soyio/soyio-widget";
-
-        // Configuración del componente
-        const privacyCenterOptions = {
-          companyId: "<company_id>",
-          onEvent: (event) => console.log('Event:', event),
-          onReady: () => console.log('Privacy Center is ready'),  // Optional
-          appearance: {},                                         // Optional
-          isSandbox: false,                                       // Optional
-          subjectId: "<subject_id>"                               // Optional - puede ser entityId o identityId
-        };
-
-        // Montar el componente
-        document.addEventListener("DOMContentLoaded", () => {
-          const privacyCenter = new PrivacyCenter(privacyCenterOptions);
-          privacyCenter.mount("#privacy-center-container");
-        });
-        ```
-
-        ```html
-        <!-- HTML -->
-        <div id="privacy-center-container"></div>
-        ```
-    </TabItem>
-</Tabs>
-
-### 2. Configuración de opciones
-
-El componente de **_Privacy Manager_** acepta las siguientes opciones:
-
-| Opción | Tipo | Descripción |
-| ------ | ---- | ----------- |
-| `companyId` | String | Identificador de la empresa |
-| `onEvent` | Function | Callback que se ejecuta cuando el componente emite un evento |
-| `onReady` | Function | Callback que se ejecuta cuando el componente está listo para interactuar |
-| `appearance` | Object | Configuración de la apariencia del componente |
-| `isSandbox` | Boolean | Indica si el componente se está ejecutando en modo sandbox (pruebas) |
-| `subjectId` | String | Identificador del usuario que está ejerciendo sus derechos (entityId o identityId) |
-
-### 3. Escucha los eventos del componente
-
-El componente emitirá eventos cuando el usuario interactúe con él. Puedes escuchar estos eventos a través del callback `onEvent` al inicializar el componente. El evento principal es `REQUEST_SUBMITTED` que incluye:
+### Eventos específicos
 
 ```typescript
 {
     eventName: 'REQUEST_SUBMITTED',
     subjectId: string,
-    kind: string,
+    kind: 'ACCESS' | 'RECTIFICATION' | 'OPPOSITION' | 'SUPPRESSION' | 'PORTABILITY',
     dataSubjectRequestId: string
 }
 ```
@@ -160,29 +171,129 @@ En donde `kind` puede ser uno de los siguientes valores:
 
 - `ACCESS`: Para ejercer el derecho de acceso.
 - `RECTIFICATION`: Para ejercer el derecho de rectificación.
-- `OPPOSITION`: Para ejercer el derecho de oposición.
+- `OPPOSITION`: Para ejercer el derecho de oposición**.**
 - `SUPPRESSION`: Para ejercer el derecho de supresión.
 - `PORTABILITY`: Para ejercer el derecho de portabilidad.
 
 Y `dataSubjectRequestId` es el identificador de la solicitud de derechos generado por Soyio, también conocido como [`dataSubjectRequestId`](../../api/resources/index-data-subject-requests).
 
-## Funcionamiento del subjectId y validación de identidad
+## ⚙️ Consent Management (Gestión de Consentimientos)
 
-El **_Privacy Manager_** requiere confirmar la identidad del usuario que está ejerciendo sus derechos. Para gestionar esto, el componente utiliza el parámetro `subjectId`, que puede ser tanto un `entityId` como una `identityId`.
+**Identificador de la funcionalidad:** `ConsentManagement`
 
-### Tipos de subjectId
+Esta funcionalidad permite a los usuarios gestionar y administrar los consentimientos otorgados por los usuarios a través del [módulo de consentimiento](./consent.mdx).
 
-- **entityId**: Identificador generado previamente, típicamente a través del [módulo de Consentimiento](./consent). Representa a un usuario que aún no ha sido validado completamente.
-  
-- **identityId**: Identificador de un usuario que ya ha pasado por un proceso de validación, ya sea mediante el [módulo de Disclosure](./disclosure) o por un proceso de validación anterior en el **_Privacy Manager_**.
+En este módulo, todos los [`consent_templates`](../../api/resources/schemas/consenttemplate) de la organización serán visibles para el usuario, tanto los que ya otorgaron consentimiento como los que no.
 
-:::tip
-Es recomendable proporcionar un `subjectId` siempre que sea posible para mejorar la experiencia del usuario y mantener la consistencia entre los diferentes módulos de la plataforma.
-:::
+### Funcionalidades
 
-## Personalización (Opcional)
+El módulo de **Consent Management** proporciona una experiencia integral para que los usuarios gestionen todos sus consentimientos de manera transparente y controlada.
 
-El componente puede ser personalizado para adaptarse a tu interfaz mediante variables de CSS declaradas en el objeto `appearance` del SDK. Por ejemplo:
+#### 🎯 Vista Centralizada
+- **Todos los consentimientos en un lugar**: Presenta todos los [`consent_templates`](../../api/resources/schemas/consenttemplate) de tu organización con su estado actual (otorgado/no otorgado)
+- **Organización inteligente**: Agrupa los consentimientos por categorías para facilitar la navegación
+
+#### ✅ Otorgar Consentimientos
+- **Consentimientos pendientes**: Identifica automáticamente qué consentimientos no han sido otorgados previamente.
+- **Proceso guiado**: Proporciona información detallada antes de otorgar cada consentimiento.
+
+#### 🚫 Revocar Consentimientos
+- **Revocación inmediata**: Permite retirar consentimientos otorgados.
+- **Impacto claro**: Explica qué funcionalidades se verán afectadas al revocar cada consentimiento
+- **Proceso reversible**: Facilita volver a otorgar consentimientos cuando sea necesario
+
+### Modos de uso
+
+El módulo de **_Consent Management_** puede funcionar en dos modos diferentes según el contexto de tu aplicación:
+
+#### 🌐 Modo Público
+
+**Cuándo usarlo:** Para usuarios no autenticados o cuando deseas proporcionar acceso universal a la gestión de consentimientos.
+
+**Características:**
+- No requiere autenticación previa del usuario.
+- Permite que cualquier usuario gestione consentimientos asociados a su identidad.
+- Ideal para páginas públicas de privacidad o centros de preferencias accesibles sin login.
+
+**Configuración:**
+
+```jsx
+// Modo público
+const privacyCenterOptions = {
+  companyId: "<company_id>",
+  enabledFeatures: ['ConsentManagement'],
+  onEvent: (event) => console.log('Event:', event),
+  onReady: () => console.log('Privacy Center is ready'), // Optional
+  appearance: {},                                        // Optional
+  isSandbox: false,                                      // Optional
+};
+
+const privacyCenter = new PrivacyCenter(privacyCenterOptions);
+privacyCenter.mount("#privacy-center-container");
+```
+
+**Flujo del usuario:**
+1. El usuario accede al Privacy Center
+2. Se le solicita identificarse (email, teléfono, etc.)
+3. Una vez validada su identidad, puede ver y gestionar sus consentimientos
+
+---
+
+#### 🔒 Modo Privado
+
+**Cuándo usarlo:** Para usuarios ya autenticados en tu aplicación o cuando necesitas mayor control sobre la identificación.
+
+**Características:**
+- Requiere que el usuario esté previamente autenticado.
+- Mayor seguridad mediante tokens de sesión.
+- Ideal para dashboards de usuario o áreas privadas de la aplicación.
+
+**Configuración:**
+
+**Paso 1:** [Obtener el token de sesión](../../api/resources/get-privacy-center-session-token) desde tu backend.
+
+**Paso 2:** Configurar el Privacy Center con el token de sesión.
+
+```jsx
+// Modo privado
+const privacyCenterOptions = {
+  sessionToken: "<session_token>",
+  enabledFeatures: ['ConsentManagement'],
+  onEvent: (event) => console.log('Event:', event),
+  onReady: () => console.log('Privacy Center is ready'), // Optional
+  appearance: {},                                        // Optional
+  isSandbox: false,                                      // Optional
+};
+
+const privacyCenter = new PrivacyCenter(privacyCenterOptions);
+privacyCenter.mount("#privacy-center-container");
+```
+
+**Flujo del usuario:**
+1. El usuario ya está autenticado en tu aplicación.
+2. Accede al Privacy Center con su sesión activa.
+3. Inmediatamente puede ver y gestionar sus consentimientos.
+
+---
+
+## Configuración avanzada
+
+### Usando múltiples funcionalidades
+
+Al utilizar sólo 1 funcionalidad, entonces al inicializar el componente, se reedirige automáticamente a la funcionalidad seleccionada**.
+**En caso de habilitar más de 1 funcionalidad, entonces al inicializar el componente, el usuario podrá seleccionar la funcionalidad que desea utilizar.
+
+```jsx
+const privacyCenterOptions = {
+  companyId: "<company_id>",
+  enableFeatures: ['DataSubjectRequests', 'ConsentManagement'], // Ambas funcionalidades
+  // ... resto de opciones
+};
+```
+
+### Personalización
+
+El componente puede ser personalizado mediante variables CSS:
 
 ```jsx
 const privacyCenterOptions = {
