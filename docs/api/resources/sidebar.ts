@@ -560,6 +560,18 @@ const sidebar: SidebarsConfig = {
         },
       ],
     },
+    {
+      type: "category",
+      label: "Privacy center",
+      items: [
+        {
+          type: "doc",
+          id: "api/resources/get-privacy-center-session-token",
+          label: "Obtener un token de sesión para el centro de privacidad",
+          className: "api-method get",
+        },
+      ],
+    },
   ],
 };
 

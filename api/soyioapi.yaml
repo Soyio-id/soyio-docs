@@ -43,12 +43,14 @@ tags:
   - name: Signature attempts
     description: |
       Representan los intentos de los usuario para firmar ciertos documentos, los cuales dependen del SignatureAttemptTemplate. La firma puede realizarse por medio de llaves de acceso para cuando el usuario haya registrado una, o por medio de video facial cuando el usuario por alguna razón no puede usar la llave de acceso.
+  - name: Data subject requests
+    description: |
+      Los data subject requests representan las solicitudes de los usuarios para gestionar los agreements.
   - name: Events
     description: |
       Los eventos nos permiten comunicarte cambios relevantes en el sistema. Cuando ocurre un evento interesante, se crea un objeto evento. Por ejemplo, cuando se valida una identidad, se crea un evento `validation_attempt.succeeded`; cuando una validación falla, se crea un objeto `validation_attempt.failed`.
 
       > Una llamada a la API **puede generar 1 o más eventos**.
-
 
       Los eventos pueden ser enviados directamente a tu servidor a través de la utilización de webhooks.
 
@@ -64,6 +66,7 @@ tags:
     description: |
       Los acuerdos (agreements) representan las reglas de compartimiento de datos entre la empresa y un usuario.
       Cada acuerdo puede tener múltiples versiones y evidencias asociadas que respaldan su validez.
+      Las evidencias pueden incluir archivos descargables que proporcionan prueba del consentimiento otorgado.
   - name: Webhooks
     description: |
       Los webhooks permiten recibir notificaciones en tiempo real cuando ocurren eventos en el sistema.
@@ -80,8 +83,18 @@ tags:
 
   - name: Products
     description: |
-      Producto o servicio que ofrece una compañía.
-
+      Diferentes productos o servicios que ofrece tu compañía.
+  - name: Entities
+    description: |
+      Las entidades representan a los usuarios que interactúan con tu compañía, pero que no han realizado una validación de identidad.
+  - name: Company
+    description: |
+      La compañía es el objeto que representa a tu empresa y sus respectivas configuraciones. La mayoría de los objetos de nuestra API están relacionados a una compañía.
+  - name: Privacy center
+    description: |
+      El centro de privacidad permite a los usuarios gestionar sus consentimientos y datos personales.
+      Proporciona endpoints para obtener tokens de sesión que permiten acceder a funcionalidades específicas
+      del centro de privacidad.
 paths:
   /consent_templates:
     get:
@@ -104,7 +117,6 @@ paths:
           $ref: "#/components/responses/UnauthorizedError"
       security:
         - api_key: []
-
     post:
       tags:
         - Consent templates
@@ -126,11 +138,20 @@ paths:
         "401":
           $ref: "#/components/responses/UnauthorizedError"
         "422":
-          $ref: "#/components/responses/ValidationError"
+          description: Error de validación
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ValidationError"
+                  - type: object
+                    properties:
+                      errors:
+                        example:
+                          - Availability period in months is not a number
       security:
         - api_key: []
-
-  /consent_templates/{id}:
+  "/consent_templates/{id}":
     get:
       tags:
         - Consent templates
@@ -156,7 +177,6 @@ paths:
           $ref: "#/components/responses/NotFoundError"
       security:
         - api_key: []
-
     patch:
       tags:
         - Consent templates
@@ -187,10 +207,13 @@ paths:
         "404":
           $ref: "#/components/responses/NotFoundError"
         "422":
-          $ref: "#/components/responses/ValidationError"
+          description: Error de validación
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
       security:
         - api_key: []
-
   /privacy_documents:
     get:
       tags:
@@ -262,47 +285,31 @@ paths:
                     properties:
                       type:
                         type: string
-                        example: "invalid_request_error"
+                        example: invalid_request_error
                       title:
                         type: string
-                        example: "Missing parameter"
+                        example: Missing parameter
                       status:
                         type: integer
                         example: 400
                       detail:
                         type: string
-                        example: "The required parameter file is missing"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "422":
+                        example: The required parameter file is missing
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '422':
           description: Error de validación
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - type
-                  - title
-                  - status
-                  - errors
-                properties:
-                  type:
-                    type: string
-                    example: "validation_error"
-                  title:
-                    type: string
-                    example: "Validation error"
-                  status:
-                    type: integer
-                    example: 422
-                  errors:
-                    type: array
-                    items:
-                      type: string
-                    example:
-                      - "Privacy documents is invalid"
-
-  /privacy_documents/{id}:
+                allOf:
+                  - $ref: '#/components/schemas/ValidationError'
+                  - type: object
+                    properties:
+                      errors:
+                        example:
+                          - Privacy documents is invalid
+  '/privacy_documents/{id}':
     get:
       tags:
         - Privacy documents
@@ -315,9 +322,9 @@ paths:
           required: true
           schema:
             type: string
-          example: "privdoc_jy21JCGqb-VHhHeUd2nmKw"
+          example: privdoc_jy21JCGqb-VHhHeUd2nmKw
       responses:
-        "200":
+        '200':
           description: Documento de privacidad encontrado
           content:
             application/json:
@@ -325,14 +332,13 @@ paths:
                 type: object
                 properties:
                   privacy_document:
-                    $ref: "#/components/schemas/PrivacyDocument"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
+                    $ref: '#/components/schemas/PrivacyDocument'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
       security:
         - api_key: []
-
   /disclosure_requests:
     get:
       tags:
@@ -340,8 +346,8 @@ paths:
       summary: Obtener todos los disclosure requests
       operationId: indexDisclosureRequests
       parameters:
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PerPageParam"
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
         - name: where
           in: query
           description: Filtros en formato JSON
@@ -358,16 +364,16 @@ paths:
             combined_filter:
               summary: Filtros combinados
               value: '{"status":{"=":"pending"},"created_at":{">":"2024-01-01"}}'
-        - $ref: "#/components/parameters/OrderByParam"
+        - $ref: '#/components/parameters/OrderByParam'
       responses:
-        "200":
+        '200':
           description: Disclosure requests encontrados
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DisclosureRequestList"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
+                $ref: '#/components/schemas/DisclosureRequestList'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
       security:
         - api_key: []
     post:
@@ -389,19 +395,19 @@ paths:
                 disclosure_template_id:
                   type: string
                   description: Identificador del disclosure template.
-                  example: "dtpl_3D4O4A0CuiVriCnA9RjEhi"
+                  example: dtpl_3D4O4A0CuiVriCnA9RjEhi
                 user_reference:
                   type: string
                   description: Referencia de usuario de tu sistema para el disclosure request.
-                  example: "user_123"
+                  example: user_123
                 user_email:
                   type: string
                   description: Correo electrónico del usuario para el disclosure request.
-                  example: "walter@white.com"
+                  example: walter@white.com
                 entity_id:
                   type: string
                   description: Identificador de entidad previamente creada.
-                  example: "ent_3D4O4A0CuiVriCnA9RjEhi"
+                  example: ent_3D4O4A0CuiVriCnA9RjEhi
                 matchers:
                   type: array
                   description: Matchers del disclosure request. Campo opcional.
@@ -411,7 +417,7 @@ paths:
                       key:
                         type: string
                         description: Clave del matcher.
-                        example: "cl_carnet_rut"
+                        example: cl_carnet_rut
                         enum:
                           - cl_carnet_rut
                           - name
@@ -420,9 +426,9 @@ paths:
                       value:
                         type: string
                         description: Valor del matcher.
-                        example: "12345678-9"
+                        example: 12345678-9
       responses:
-        "201":
+        '201':
           description: Disclosure request creado exitosamente
           content:
             application/json:
@@ -430,12 +436,22 @@ paths:
                 type: object
                 properties:
                   disclosure_request:
-                    $ref: "#/components/schemas/DisclosureRequest"
-        "422":
-          $ref: "#/components/responses/ValidationError"
+                    $ref: '#/components/schemas/DisclosureRequest'
+        '422':
+          description: Error de validación
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ValidationError'
+                  - type: object
+                    properties:
+                      errors:
+                        example:
+                          - Disclosure template is required
       security:
         - api_key: []
-  /disclosure_requests/{id}:
+  '/disclosure_requests/{id}':
     get:
       tags:
         - Disclosure requests
@@ -449,9 +465,9 @@ paths:
           explode: true
           schema:
             type: string
-          example: "dreq_1B2M2Y8AsgTpgAmY7PhCfg"
+          example: dreq_1B2M2Y8AsgTpgAmY7PhCfg
       responses:
-        "200":
+        '200':
           description: Disclosure request encontrado
           content:
             application/json:
@@ -459,12 +475,11 @@ paths:
                 type: object
                 properties:
                   disclosure_request:
-                    $ref: "#/components/schemas/DisclosureRequest"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
+                    $ref: '#/components/schemas/DisclosureRequest'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
       security:
         - api_key: []
-
   /auth_requests:
     post:
       tags:
@@ -485,11 +500,11 @@ paths:
                 identity_id:
                   type: string
                   description: Identificador único de la identidad que realizará el intento de autenticación.
-                  example: "id_ma21KLsmaslopask912Aa2"
+                  example: id_ma21KLsmaslopask912Aa2
               required:
                 - identity_id
       responses:
-        "201":
+        '201':
           description: Request de autenticación creado exitosamente
           content:
             application/json:
@@ -497,11 +512,21 @@ paths:
                 type: object
                 properties:
                   auth_attempt:
-                    $ref: "#/components/schemas/AuthAttempt"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "422":
-          $ref: "#/components/responses/ValidationError"
+                    $ref: '#/components/schemas/AuthAttempt'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '422':
+          description: Error de validación
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ValidationError'
+                  - type: object
+                    properties:
+                      errors:
+                        example:
+                          - Invalid identity_id
       security:
         - api_key: []
     get:
@@ -510,8 +535,8 @@ paths:
       summary: Obtener todos los auth requests
       operationId: indexAuthRequests
       parameters:
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PerPageParam"
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
         - name: where
           in: query
           description: Filtros en formato JSON
@@ -528,19 +553,19 @@ paths:
             combined_filter:
               summary: Filtros combinados
               value: '{"status":{"=":"awaiting_authentication"},"identity_id":{"=":"id_ma21KLsmaslopask912Aa2"}}'
-        - $ref: "#/components/parameters/OrderByParam"
+        - $ref: '#/components/parameters/OrderByParam'
       responses:
-        "200":
+        '200':
           description: Auth requests encontrados
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AuthRequestList"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
+                $ref: '#/components/schemas/AuthRequestList'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
       security:
         - api_key: []
-  /auth_requests/{id}:
+  '/auth_requests/{id}':
     get:
       tags:
         - Auth requests
@@ -553,9 +578,9 @@ paths:
           required: true
           schema:
             type: string
-          example: "authreq_Kop19_kEe23i7hSw8QG4-a"
+          example: authreq_Kop19_kEe23i7hSw8QG4-a
       responses:
-        "200":
+        '200':
           description: Auth request encontrado
           content:
             application/json:
@@ -563,11 +588,92 @@ paths:
                 type: object
                 properties:
                   auth_request:
-                    $ref: "#/components/schemas/AuthRequest"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
+                    $ref: '#/components/schemas/AuthRequest'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+      security:
+        - api_key: []
+  /data_subject_requests:
+    post:
+      tags:
+        - Data subject requests
+      summary: Crear un data subject request
+      operationId: createDataSubjectRequest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataSubjectRequestCreate'
+      responses:
+        '201':
+          description: Data subject request creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataSubjectRequest'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '422':
+          description: Error de validación
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ValidationError'
+                  - type: object
+                    properties:
+                      errors:
+                        example:
+                          - 'Kind is not a valid value. Allowed values are: revoke, change'
+                          - Description can't be blank
+      security:
+        - api_key: []
+    get:
+      tags:
+        - Data subject requests
+      summary: Obtener todos los data subject requests
+      operationId: indexDataSubjectRequests
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
+        - $ref: '#/components/parameters/OrderByParam'
+      responses:
+        '200':
+          description: Data subject requests encontrados
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataSubjectRequestList'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+  '/data_subject_requests/{id}':
+    get:
+      tags:
+        - Data subject requests
+      summary: Obtener un data subject request específico
+      operationId: getDataSubjectRequest
+      parameters:
+        - name: id
+          in: path
+          description: ID del data subject request a buscar
+          required: true
+          explode: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Data subject request encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataSubjectRequest'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
       security:
         - api_key: []
   /identities:
@@ -577,8 +683,8 @@ paths:
       summary: Obtener todas las identidades
       operationId: indexIdentities
       parameters:
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PerPageParam"
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
         - name: where
           in: query
           description: Filtros en formato JSON
@@ -592,19 +698,19 @@ paths:
             data_filter:
               summary: Filtrar por datos personales
               value: '{"data":{"name":{"=":"John"}}}'
-        - $ref: "#/components/parameters/OrderByParam"
+        - $ref: '#/components/parameters/OrderByParam'
       responses:
-        "200":
+        '200':
           description: Identidades encontradas
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/IdentityList"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
+                $ref: '#/components/schemas/IdentityList'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
       security:
         - api_key: []
-  /identities/{id}:
+  '/identities/{id}':
     get:
       tags:
         - Identities
@@ -619,7 +725,7 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: Operación exitosa
           content:
             application/json:
@@ -627,9 +733,9 @@ paths:
                 type: object
                 properties:
                   identity:
-                    $ref: "#/components/schemas/Identity"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
+                    $ref: '#/components/schemas/Identity'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
       security:
         - api_key: []
   /validation_attempts:
@@ -639,8 +745,8 @@ paths:
       summary: Obtener todos los intentos de validación
       operationId: indexValidationAttempts
       parameters:
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PerPageParam"
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
         - name: where
           in: query
           description: Filtros en formato JSON
@@ -654,17 +760,17 @@ paths:
             date_range:
               summary: Filtrar por rango de fechas
               value: '{"created_at":{">":"2024-01-01","<":"2024-12-31"}}'
-        - $ref: "#/components/parameters/OrderByParam"
+        - $ref: '#/components/parameters/OrderByParam'
       responses:
-        "200":
+        '200':
           description: Intentos de validación encontrados
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ValidationAttemptList"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-  /validation_attempts/{id}:
+                $ref: '#/components/schemas/ValidationAttemptList'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+  '/validation_attempts/{id}':
     get:
       tags:
         - Validation attempts
@@ -680,7 +786,7 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: Flujo de validación encontrado
           content:
             application/json:
@@ -688,11 +794,11 @@ paths:
                 type: object
                 properties:
                   validation_attempt:
-                    $ref: "#/components/schemas/ValidationAttempt"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
+                    $ref: '#/components/schemas/ValidationAttempt'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
   /auth_attempts:
     get:
       tags:
@@ -700,8 +806,8 @@ paths:
       summary: Obtener todos los intentos de autenticación
       operationId: indexAuthAttempts
       parameters:
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PerPageParam"
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
         - name: where
           in: query
           description: Filtros en formato JSON
@@ -715,17 +821,17 @@ paths:
             type_filter:
               summary: Filtrar por tipo de autenticación
               value: '{"auth_type":{"=":"passkey_validation"}}'
-        - $ref: "#/components/parameters/OrderByParam"
+        - $ref: '#/components/parameters/OrderByParam'
       responses:
-        "200":
+        '200':
           description: Intentos de autenticación encontrados
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AuthAttemptList"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-  /auth_attempts/{id}:
+                $ref: '#/components/schemas/AuthAttemptList'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+  '/auth_attempts/{id}':
     get:
       tags:
         - Auth attempts
@@ -741,7 +847,7 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: Intento de autenticación encontrado
           content:
             application/json:
@@ -749,11 +855,11 @@ paths:
                 type: object
                 properties:
                   auth_attempt:
-                    $ref: "#/components/schemas/AuthAttempt"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
+                    $ref: '#/components/schemas/AuthAttempt'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
   /signature_attempts:
     post:
       tags:
@@ -773,11 +879,11 @@ paths:
                 identity_id:
                   type: string
                   description: Identificador único de la identidad que realiza el intento de firma.
-                  example: "id_ma21KLsmaslopask912Aa2"
+                  example: id_ma21KLsmaslopask912Aa2
                 template_id:
                   type: string
                   description: Identificador del template de firma a utilizar.
-                  example: "st_9F42D8L0JQ7p82H"
+                  example: st_9F42D8L0JQ7p82H
                 variables:
                   type: array
                   description: Array de pares clave-valor que serán utilizados en el documento a firmar.
@@ -791,24 +897,16 @@ paths:
                         type: string
                         description: Valor asociado a la clave especificada.
                   examples:
-                    [
-                      [
-                        {
-                          key: "first_variable_key",
-                          value: "first_variable_value",
-                        },
-                        {
-                          key: "second_variable_key",
-                          value: "second_variable_value",
-                        },
-                      ],
-                    ]
+                    - - key: first_variable_key
+                        value: first_variable_value
+                      - key: second_variable_key
+                        value: second_variable_value
               required:
                 - identity_id
                 - template_id
                 - variables
       responses:
-        "201":
+        '201':
           description: Intento de firma creado exitosamente
           content:
             application/json:
@@ -816,9 +914,9 @@ paths:
                 type: object
                 properties:
                   signature_attempt:
-                    $ref: "#/components/schemas/SignatureAttempt"
-        "400":
-          description: Datos de entrada inválidos, ya sea porque faltan variables, o se entregaron variables extra.
+                    $ref: '#/components/schemas/SignatureAttempt'
+        '400':
+          description: 'Datos de entrada inválidos, ya sea porque faltan variables, o se entregaron variables extra.'
           content:
             application/json:
               schema:
@@ -832,15 +930,11 @@ paths:
                       items:
                         type: string
                     examples:
-                      [
-                        [
-                          "Missing key: <missing_example_key>",
-                          "Missing key: <another_missing_example_key>",
-                          "Key <extra_key> does not exist in the signature template",
-                        ],
-                      ]
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
+                      - - 'Missing key: <missing_example_key>'
+                        - 'Missing key: <another_missing_example_key>'
+                        - Key <extra_key> does not exist in the signature template
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
       security:
         - api_key: []
     get:
@@ -849,8 +943,8 @@ paths:
       summary: Obtener todos los intentos de firma
       operationId: indexSignatureAttempts
       parameters:
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PerPageParam"
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
         - name: where
           in: query
           description: Filtros en formato JSON
@@ -864,17 +958,17 @@ paths:
             identity_filter:
               summary: Filtrar por identidad
               value: '{"identity_id":{"=":"id_ma21KLsmaslopask912Aa2"}}'
-        - $ref: "#/components/parameters/OrderByParam"
+        - $ref: '#/components/parameters/OrderByParam'
       responses:
-        "200":
+        '200':
           description: Intentos de firma encontrados
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SignatureAttemptList"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-  /signature_attempts/{id}:
+                $ref: '#/components/schemas/SignatureAttemptList'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+  '/signature_attempts/{id}':
     get:
       tags:
         - Signature attempts
@@ -890,7 +984,7 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: Intento de firma encontrado
           content:
             application/json:
@@ -898,11 +992,11 @@ paths:
                 type: object
                 properties:
                   signature_attempt:
-                    $ref: "#/components/schemas/SignatureAttempt"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
+                    $ref: '#/components/schemas/SignatureAttempt'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
   /events:
     get:
       tags:
@@ -910,8 +1004,8 @@ paths:
       summary: Obtener todos los eventos
       operationId: indexEvents
       parameters:
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PerPageParam"
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
         - name: where
           in: query
           description: Filtros en formato JSON
@@ -925,17 +1019,17 @@ paths:
             date_range:
               summary: Filtrar por rango de fechas
               value: '{"created_at":{">":"2024-01-01","<":"2024-12-31"}}'
-        - $ref: "#/components/parameters/OrderByParam"
+        - $ref: '#/components/parameters/OrderByParam'
       responses:
-        "200":
+        '200':
           description: Eventos encontrados
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/EventList"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-  /events/{id}:
+                $ref: '#/components/schemas/EventList'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+  '/events/{id}':
     get:
       tags:
         - Events
@@ -951,7 +1045,7 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: Evento encontrado
           content:
             application/json:
@@ -959,12 +1053,12 @@ paths:
                 type: object
                 properties:
                   event:
-                    $ref: "#/components/schemas/Event"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-  /events/{id}/broadcast:
+                    $ref: '#/components/schemas/Event'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+  '/events/{id}/broadcast':
     post:
       tags:
         - Events
@@ -981,14 +1075,14 @@ paths:
           required: true
           schema:
             type: string
-          example: "evt_jy21JCGqb-VHhHeUd2nmKw"
+          example: evt_jy21JCGqb-VHhHeUd2nmKw
       responses:
-        "204":
+        '204':
           description: El evento fue enviado exitosamente a la cola de webhooks
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
       security:
         - api_key: []
   /signed_documents:
@@ -996,11 +1090,11 @@ paths:
       tags:
         - Signed documents
       summary: Obtener todos los documentos firmados.
-      description: Retorna una lista de documentos firmados. Los documentos se encuentran ordenados por defecto por la fecha de creación, donde los más recientes aparecerán primero.
+      description: 'Retorna una lista de documentos firmados. Los documentos se encuentran ordenados por defecto por la fecha de creación, donde los más recientes aparecerán primero.'
       operationId: indexSignedDocuments
       parameters:
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PerPageParam"
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
         - name: where
           in: query
           description: Filtros en formato JSON
@@ -1014,17 +1108,17 @@ paths:
             date_filter:
               summary: Filtrar por fecha de firma
               value: '{"created_at":{">":"2024-01-01"}}'
-        - $ref: "#/components/parameters/OrderByParam"
+        - $ref: '#/components/parameters/OrderByParam'
       responses:
-        "200":
+        '200':
           description: Documentos firmados encontrados
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SignedDocumentList"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-  /signed_documents/{id}:
+                $ref: '#/components/schemas/SignedDocumentList'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+  '/signed_documents/{id}':
     get:
       tags:
         - Signed documents
@@ -1040,7 +1134,7 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: Document firmado encontrado
           content:
             application/json:
@@ -1048,11 +1142,11 @@ paths:
                 type: object
                 properties:
                   event:
-                    $ref: "#/components/schemas/SignedDocument"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
+                    $ref: '#/components/schemas/SignedDocument'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
   /agreements:
     get:
       tags:
@@ -1061,8 +1155,8 @@ paths:
       description: Retorna la lista de todos los acuerdos en su última versión.
       operationId: indexAgreements
       parameters:
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PerPageParam"
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
         - name: where
           in: query
           description: Filtros en formato JSON
@@ -1095,19 +1189,19 @@ paths:
             combined_filter:
               summary: Filtros combinados
               value: '{"status":{"=":"active"},"created_at":{">":"2024-01-01"}}'
-        - $ref: "#/components/parameters/OrderByParam"
+        - $ref: '#/components/parameters/OrderByParam'
       responses:
-        "200":
+        '200':
           description: Acuerdos encontrados
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AgreementList"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
+                $ref: '#/components/schemas/AgreementList'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
       security:
         - api_key: []
-  /agreements/{id}:
+  '/agreements/{id}':
     get:
       tags:
         - Agreements
@@ -1121,9 +1215,9 @@ paths:
           required: true
           schema:
             type: string
-          example: "agr_1B2M2Y8AsgTpgAmY7PhCfg"
+          example: agr_1B2M2Y8AsgTpgAmY7PhCfg
       responses:
-        "200":
+        '200':
           description: Acuerdo encontrado
           content:
             application/json:
@@ -1131,15 +1225,14 @@ paths:
                 type: object
                 properties:
                   agreement:
-                    $ref: "#/components/schemas/AgreementDetail"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
+                    $ref: '#/components/schemas/AgreementDetail'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
       security:
         - api_key: []
-
-  /agreements/{id}/evidences:
+  '/agreements/{id}/evidences':
     get:
       tags:
         - Agreements
@@ -1153,25 +1246,24 @@ paths:
           required: true
           schema:
             type: string
-          example: "agr_1B2M2Y8AsgTpgAmY7PhCfg"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PerPageParam"
-        - $ref: "#/components/parameters/OrderByParam"
+          example: agr_1B2M2Y8AsgTpgAmY7PhCfg
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
+        - $ref: '#/components/parameters/OrderByParam'
       responses:
-        "200":
+        '200':
           description: Evidencias encontradas
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/EvidenceList"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
+                $ref: '#/components/schemas/EvidenceList'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
       security:
         - api_key: []
-
-  /agreements/{id}/evidences/{evidenceId}:
+  '/agreements/{id}/evidences/{evidenceId}':
     get:
       tags:
         - Agreements
@@ -1185,16 +1277,16 @@ paths:
           required: true
           schema:
             type: string
-          example: "agr_1B2M2Y8AsgTpgAmY7PhCfg"
+          example: agr_1B2M2Y8AsgTpgAmY7PhCfg
         - name: evidenceId
           in: path
           description: ID de la evidencia
           required: true
           schema:
             type: string
-          example: "ev_2C3N3Z9BthUqhBnZ8QiDgj"
+          example: ev_2C3N3Z9BthUqhBnZ8QiDgj
       responses:
-        "200":
+        '200':
           description: Evidencia encontrada
           content:
             application/json:
@@ -1202,15 +1294,55 @@ paths:
                 type: object
                 properties:
                   evidence:
-                    $ref: "#/components/schemas/Evidence"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
+                    $ref: '#/components/schemas/Evidence'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
       security:
         - api_key: []
-
-  /agreements/{id}/versions:
+  '/agreements/{id}/evidences/{evidenceId}/download':
+    get:
+      tags:
+        - Agreements
+      summary: Descargar el archivo de una evidencia específica
+      description: Permite descargar el archivo asociado a una evidencia específica de un acuerdo. Es útil en caso de auditoría o querer demostrar en formato PDF que el acuerdo tuvo un cambio.
+      operationId: downloadAgreementEvidence
+      parameters:
+        - name: id
+          in: path
+          description: ID del agreement
+          required: true
+          schema:
+            type: string
+          example: agr_1B2M2Y8AsgTpgAmY7PhCfg
+        - name: evidenceId
+          in: path
+          description: ID de la evidencia
+          required: true
+          schema:
+            type: string
+          example: ev_2C3N3Z9BthUqhBnZ8QiDgj
+      responses:
+        '200':
+          description: Archivo en formato PDF de evidencia
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+          headers:
+            Content-Disposition:
+              schema:
+                type: string
+                example: attachment; filename="name.pdf"
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+      security:
+        - api_key: []
+  '/agreements/{id}/versions':
     get:
       tags:
         - Agreements
@@ -1224,25 +1356,24 @@ paths:
           required: true
           schema:
             type: string
-          example: "agr_1B2M2Y8AsgTpgAmY7PhCfg"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PerPageParam"
-        - $ref: "#/components/parameters/OrderByParam"
+          example: agr_1B2M2Y8AsgTpgAmY7PhCfg
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
+        - $ref: '#/components/parameters/OrderByParam'
       responses:
-        "200":
+        '200':
           description: Versiones encontradas
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AgreementList"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
+                $ref: '#/components/schemas/AgreementList'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
       security:
         - api_key: []
-
-  /agreements/{id}/versions/{versionNumber}:
+  '/agreements/{id}/versions/{versionNumber}':
     get:
       tags:
         - Agreements
@@ -1256,16 +1387,16 @@ paths:
           required: true
           schema:
             type: string
-          example: "agr_1B2M2Y8AsgTpgAmY7PhCfg"
+          example: agr_1B2M2Y8AsgTpgAmY7PhCfg
         - name: versionNumber
           in: path
           description: Número de versión
           required: true
           schema:
             type: string
-          example: "1"
+          example: '1'
       responses:
-        "200":
+        '200':
           description: Versión encontrada
           content:
             application/json:
@@ -1273,15 +1404,14 @@ paths:
                 type: object
                 properties:
                   version:
-                    $ref: "#/components/schemas/AgreementBase"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
+                    $ref: '#/components/schemas/AgreementBase'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
       security:
         - api_key: []
-
-  /agreements/{id}/versions/{versionNumber}/evidence:
+  '/agreements/{id}/versions/{versionNumber}/evidence':
     get:
       tags:
         - Agreements
@@ -1295,16 +1425,16 @@ paths:
           required: true
           schema:
             type: string
-          example: "agr_1B2M2Y8AsgTpgAmY7PhCfg"
+          example: agr_1B2M2Y8AsgTpgAmY7PhCfg
         - name: versionNumber
           in: path
           description: Número de versión
           required: true
           schema:
             type: string
-          example: "1"
+          example: '1'
       responses:
-        "200":
+        '200':
           description: Evidencia encontrada
           content:
             application/json:
@@ -1312,14 +1442,13 @@ paths:
                 type: object
                 properties:
                   evidence:
-                    $ref: "#/components/schemas/Evidence"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
+                    $ref: '#/components/schemas/Evidence'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
       security:
         - api_key: []
-
   /consent_actions:
     post:
       tags:
@@ -1338,24 +1467,24 @@ paths:
                 action_token:
                   type: string
                   description: Token JWT de la acción de consentimiento
-                  example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                  example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
                 user_reference:
                   type: string
                   description: Referencia del usuario
-                  example: "1234567890"
+                  example: '1234567890'
                 entity_id:
                   type: string
-                  description: ID de la entidad. Si no se proporciona, se creará una nueva entidad.
-                  example: "ent_1234567890"
+                  description: 'ID de la entidad. Si no se proporciona, se creará una nueva entidad.'
+                  example: ent_1234567890
       responses:
-        "201":
+        '201':
           description: Consent action creado
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ConsentAction"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
+                $ref: '#/components/schemas/ConsentAction'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
       security:
         - api_key: []
     get:
@@ -1364,9 +1493,9 @@ paths:
       summary: Listar consent actions
       operationId: indexConsentActions
       parameters:
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PerPageParam"
-        - $ref: "#/components/parameters/OrderByParam"
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
+        - $ref: '#/components/parameters/OrderByParam'
         - name: where
           in: query
           description: Filtros en formato JSON
@@ -1381,7 +1510,7 @@ paths:
               summary: Filtrar por template de consentimiento
               value: '{"consent_template_id":{"=":"ctmpl_cYTjMLgWE3MvUa3RKwgXEg"}}'
       responses:
-        "200":
+        '200':
           description: Lista de consent actions
           content:
             application/json:
@@ -1391,15 +1520,14 @@ paths:
                   consent_actions:
                     type: array
                     items:
-                      $ref: "#/components/schemas/ConsentAction"
+                      $ref: '#/components/schemas/ConsentAction'
                   metadata:
-                    $ref: "#/components/schemas/FilterOrderAndPaginationMetadata"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
+                    $ref: '#/components/schemas/FilterOrderAndPaginationMetadata'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
       security:
         - api_key: []
-
-  /consent_actions/{id}:
+  '/consent_actions/{id}':
     get:
       tags:
         - Consent actions
@@ -1412,9 +1540,9 @@ paths:
           schema:
             type: string
           description: Id del consent action
-          example: "consact_1B2M2Y8AsgTpgAmY7PhCfg"
+          example: consact_1B2M2Y8AsgTpgAmY7PhCfg
       responses:
-        "200":
+        '200':
           description: Consent action encontrado
           content:
             application/json:
@@ -1422,14 +1550,13 @@ paths:
                 type: object
                 properties:
                   consent_action:
-                    $ref: "#/components/schemas/ConsentAction"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
+                    $ref: '#/components/schemas/ConsentAction'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
       security:
         - api_key: []
-
   /consent_commits:
     get:
       tags:
@@ -1457,9 +1584,9 @@ paths:
           schema:
             type: string
           description: Campo y dirección de ordenamiento
-          example: "created_at DESC"
+          example: created_at DESC
       responses:
-        "200":
+        '200':
           description: Lista de consent commits
           content:
             application/json:
@@ -1469,14 +1596,13 @@ paths:
                   consent_commits:
                     type: array
                     items:
-                      $ref: "#/components/schemas/ConsentCommit"
+                      $ref: '#/components/schemas/ConsentCommit'
                   metadata:
-                    $ref: "#/components/schemas/FilterOrderAndPaginationMetadata"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
+                    $ref: '#/components/schemas/FilterOrderAndPaginationMetadata'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
       security:
         - api_key: []
-
     post:
       tags:
         - Consent commits
@@ -1497,7 +1623,7 @@ paths:
                 user_reference:
                   type: string
                   description: Referencia para identificar al usuario en tu sistema
-                  example: "user_123"
+                  example: user_123
                 consent_actions:
                   type: array
                   description: Array de tokens que representan las acciones de consentimiento realizadas por el usuario
@@ -1507,22 +1633,16 @@ paths:
                       action_token:
                         type: string
                         description: Token JWT de la acción de consentimiento
-                        example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb25zZW50X2lkIjoiY3RwbF8xMjM0NTY3ODkwIiwiZW50aXR5X2lkIjoiZW50XzVGNlE2QzJFd2tYdGtFcEIxVGxHamsiLCJpYXQiOjE1MTYyMzkwMjJ9.4p3gYtKmXkHWDyEA9L4ywJRBpVFWxG7pdq8LHbJhxvE"
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb25zZW50X2lkIjoiY3RwbF8xMjM0NTY3ODkwIiwiZW50aXR5X2lkIjoiZW50XzVGNlE2QzJFd2tYdGtFcEIxVGxHamsiLCJpYXQiOjE1MTYyMzkwMjJ9.4p3gYtKmXkHWDyEA9L4ywJRBpVFWxG7pdq8LHbJhxvE
                   example:
-                    [
-                      {
-                        "action_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb25zZW50X2lkIjoiY3RwbF8xMjM0NTY3ODkwIiwiZW50aXR5X2lkIjoiZW50XzVGNlE2QzJFd2tYdGtFcEIxVGxHamsiLCJpYXQiOjE1MTYyMzkwMjJ9.4p3gYtKmXkHWDyEA9L4ywJRBpVFWxG7pdq8LHbJhxvE",
-                      },
-                      {
-                        "action_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb25zZW50X2lkIjoiY3RwbF85ODc2NTQzMjEwIiwiZW50aXR5X2lkIjoiZW50XzVGNlE2QzJFd2tYdGtFcEIxVGxHamsiLCJpYXQiOjE1MTYyMzkwMjJ9.8vkoM1VO5Kp6Udz9ISFnU7YD7HcGYt9yCUuZGrYPe2s",
-                      },
-                    ]
+                    - action_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb25zZW50X2lkIjoiY3RwbF8xMjM0NTY3ODkwIiwiZW50aXR5X2lkIjoiZW50XzVGNlE2QzJFd2tYdGtFcEIxVGxHamsiLCJpYXQiOjE1MTYyMzkwMjJ9.4p3gYtKmXkHWDyEA9L4ywJRBpVFWxG7pdq8LHbJhxvE
+                    - action_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb25zZW50X2lkIjoiY3RwbF85ODc2NTQzMjEwIiwiZW50aXR5X2lkIjoiZW50XzVGNlE2QzJFd2tYdGtFcEIxVGxHamsiLCJpYXQiOjE1MTYyMzkwMjJ9.8vkoM1VO5Kp6Udz9ISFnU7YD7HcGYt9yCUuZGrYPe2s
                 entity_id:
                   type: string
                   description: Identificador opcional de la entidad asociada a este consentimiento
-                  example: "ent_5F6Q6C2EwkXtkEpB1TlGjk"
+                  example: ent_5F6Q6C2EwkXtkEpB1TlGjk
       responses:
-        "201":
+        '201':
           description: Commit de consentimiento creado exitosamente
           content:
             application/json:
@@ -1530,15 +1650,18 @@ paths:
                 type: object
                 properties:
                   consent_commit:
-                    $ref: "#/components/schemas/ConsentCommit"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "422":
-          $ref: "#/components/responses/ValidationError"
+                    $ref: '#/components/schemas/ConsentCommit'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '422':
+          description: Error de validación
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
       security:
         - api_key: []
-
-  /consent_commits/{id}:
+  '/consent_commits/{id}':
     get:
       tags:
         - Consent commits
@@ -1551,9 +1674,9 @@ paths:
           schema:
             type: string
           description: Id del commit de consentimiento
-          example: "ccom_1B2M2Y8AsgTpgAmY7PhCfg"
+          example: ccom_1B2M2Y8AsgTpgAmY7PhCfg
       responses:
-        "200":
+        '200':
           description: Commit de consentimiento encontrado
           content:
             application/json:
@@ -1561,14 +1684,13 @@ paths:
                 type: object
                 properties:
                   consent_commit:
-                    $ref: "#/components/schemas/ConsentCommit"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
+                    $ref: '#/components/schemas/ConsentCommit'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
       security:
         - api_key: []
-
   /webhooks:
     get:
       tags:
@@ -1576,21 +1698,20 @@ paths:
       summary: Obtener todos los webhooks
       operationId: indexWebhooks
       parameters:
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PerPageParam"
-        - $ref: "#/components/parameters/OrderByParam"
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
+        - $ref: '#/components/parameters/OrderByParam'
       responses:
-        "200":
+        '200':
           description: Webhooks encontrados
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/WebhookList"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
+                $ref: '#/components/schemas/WebhookList'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
       security:
         - api_key: []
-
     post:
       tags:
         - Webhooks
@@ -1601,9 +1722,45 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/WebhookInput"
+              type: object
+              required:
+                - name
+                - url
+                - subscriptions
+              properties:
+                name:
+                  type: string
+                  description: Nombre del webhook
+                  example: My Webhook
+                url:
+                  type: string
+                  description: URL donde se enviarán los eventos
+                  example: 'https://company.com/your-webhook-endpoint'
+                subscriptions:
+                  type: array
+                  description: |
+                    Lista de eventos a los que se suscribirá el webhook. Usa '*' para suscribirse a todos los eventos. También puedes suscribirte a eventos específicos de un recurso usando el patrón de wildcard, por ejemplo: `identity.*` suscribirá a todos los eventos del recurso identity.
+                  items:
+                    type: string
+                  example:
+                    - '*'
+                    - auth_attempt.*
+                    - validation_attempt.*
+                enabled_modes:
+                  type: array
+                  description: 'Lista de modos en los que el webhook estará habilitado. Si no se especifica, se usará el modo actual.'
+                  items:
+                    type: string
+                  example:
+                    - production
+                    - sandbox
+                enabled:
+                  type: boolean
+                  description: Indica si el webhook está habilitado o no
+                  default: true
+                  example: true
       responses:
-        "201":
+        '201':
           description: Webhook creado exitosamente
           content:
             application/json:
@@ -1611,15 +1768,18 @@ paths:
                 type: object
                 properties:
                   webhook:
-                    $ref: "#/components/schemas/Webhook"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "422":
-          $ref: "#/components/responses/ValidationError"
+                    $ref: '#/components/schemas/Webhook'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '422':
+          description: Error de validación
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
       security:
         - api_key: []
-
-  /webhooks/{id}:
+  '/webhooks/{id}':
     get:
       tags:
         - Webhooks
@@ -1632,9 +1792,9 @@ paths:
           required: true
           schema:
             type: string
-          example: "wh_1B2M2Y8AsgTpgAmY7PhCfg"
+          example: wh_1B2M2Y8AsgTpgAmY7PhCfg
       responses:
-        "200":
+        '200':
           description: Webhook encontrado
           content:
             application/json:
@@ -1642,14 +1802,13 @@ paths:
                 type: object
                 properties:
                   webhook:
-                    $ref: "#/components/schemas/Webhook"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
+                    $ref: '#/components/schemas/Webhook'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
       security:
         - api_key: []
-
     patch:
       tags:
         - Webhooks
@@ -1662,15 +1821,42 @@ paths:
           required: true
           schema:
             type: string
-          example: "wh_1B2M2Y8AsgTpgAmY7PhCfg"
+          example: wh_1B2M2Y8AsgTpgAmY7PhCfg
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/WebhookInput"
+              type: object
+              properties:
+                url:
+                  type: string
+                  description: URL donde se enviarán los eventos
+                  example: 'https://company.com/your-webhook-endpoint'
+                subscriptions:
+                  type: array
+                  description: |
+                    Lista de eventos a los que se suscribirá el webhook. Usa '*' para suscribirse a todos los eventos. También puedes suscribirte a eventos específicos de un recurso usando el patrón de wildcard, por ejemplo: `identity.*` suscribirá a todos los eventos del recurso identity.
+                  items:
+                    type: string
+                  example:
+                    - '*'
+                    - identity.created
+                    - validation_attempt.*
+                enabled_modes:
+                  type: array
+                  description: Lista de modos en los que el webhook estará habilitado
+                  items:
+                    type: string
+                  example:
+                    - production
+                    - sandbox
+                enabled:
+                  type: boolean
+                  description: Indica si el webhook está habilitado o no
+                  example: true
       responses:
-        "200":
+        '200':
           description: Webhook actualizado exitosamente
           content:
             application/json:
@@ -1678,16 +1864,19 @@ paths:
                 type: object
                 properties:
                   webhook:
-                    $ref: "#/components/schemas/Webhook"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-        "422":
-          $ref: "#/components/responses/ValidationError"
+                    $ref: '#/components/schemas/Webhook'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '422':
+          description: Error de validación
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
       security:
         - api_key: []
-
     delete:
       tags:
         - Webhooks
@@ -1700,17 +1889,16 @@ paths:
           required: true
           schema:
             type: string
-          example: "wh_1B2M2Y8AsgTpgAmY7PhCfg"
+          example: wh_1B2M2Y8AsgTpgAmY7PhCfg
       responses:
-        "204":
+        '204':
           description: Webhook eliminado exitosamente
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
       security:
         - api_key: []
-
   /products:
     get:
       tags:
@@ -1718,11 +1906,11 @@ paths:
       summary: Obtener todos los productos
       operationId: indexProducts
       parameters:
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PerPageParam"
-        - $ref: "#/components/parameters/OrderByParam"
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
+        - $ref: '#/components/parameters/OrderByParam'
       responses:
-        "200":
+        '200':
           description: Productos encontrados
           content:
             application/json:
@@ -1732,14 +1920,13 @@ paths:
                   products:
                     type: array
                     items:
-                      $ref: "#/components/schemas/Product"
+                      $ref: '#/components/schemas/Product'
                   metadata:
-                    $ref: "#/components/schemas/FilterOrderAndPaginationMetadata"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
+                    $ref: '#/components/schemas/FilterOrderAndPaginationMetadata'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
       security:
         - api_key: []
-
     post:
       tags:
         - Products
@@ -1755,9 +1942,9 @@ paths:
                 id:
                   type: string
                   description: ID único del producto. Se recomienda darle un identificador con un formato que facilite su identificación.
-                  example: "my_product_123"
+                  example: my_product_123
       responses:
-        "201":
+        '201':
           description: Producto creado
           content:
             application/json:
@@ -1765,15 +1952,18 @@ paths:
                 type: object
                 properties:
                   product:
-                    $ref: "#/components/schemas/Product"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "422":
-          $ref: "#/components/responses/ValidationError"
+                    $ref: '#/components/schemas/Product'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '422':
+          description: Error de validación
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
       security:
         - api_key: []
-
-  /products/{id}:
+  '/products/{id}':
     get:
       tags:
         - Products
@@ -1786,9 +1976,9 @@ paths:
           required: true
           schema:
             type: string
-          example: "prod_1B2M2Y8AsgTpgAmY7PhCfg"
+          example: prod_1B2M2Y8AsgTpgAmY7PhCfg
       responses:
-        "200":
+        '200':
           description: Producto encontrado
           content:
             application/json:
@@ -1796,15 +1986,231 @@ paths:
                 type: object
                 properties:
                   product:
-                    $ref: "#/components/schemas/Product"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
+                    $ref: '#/components/schemas/Product'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
       security:
         - api_key: []
-
+  '/entities/{id}/agreement/compliance_statuses':
+    get:
+      tags:
+        - Entities
+      summary: Obtener los estados de cumplimiento de la entidad
+      description: |
+        Retorna una lista de estados de cumplimiento de la entidad respecto a los templates de consentimiento que tienes en tu empresa. Utiliza el último estado del agreement para evaluar si es que cumple o no cumple.
+      operationId: getEntityAgreementComplianceStatuses
+      parameters:
+        - name: where
+          in: query
+          description: 'Filtros en formato JSON. Por ahora, damos únicamente soporte para el filtro de igualdad con el `consent_template_id`.'
+          required: false
+          schema:
+            type: string
+          examples:
+            consent_template_id_filter:
+              summary: Filtrar por `consent_template_id`
+              value: '{"consent_template_id":{"=":"constpl_7vH0nGSOnP9inT-1EsBP0g"}}'
+      responses:
+        '200':
+          description: Todos los estados de cumplimiento de la entidad.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  compliance_statuses:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ComplianceStatus'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: 'Recurso no encontrado. Se puede dar cuando no existe un agreement entre tu empresa y la entidad en cuestión, o cuando la entidad no existe.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundErrorSchema'
+      security:
+        - api_key: []
+  /config:
+    get:
+      tags:
+        - Company
+      summary: Obtener la configuración de la empresa
+      description: |
+        Retorna los parámetros configurables de la empresa, como los canales de contacto para que tus usuarios puedan ejercer sus derechos.
+      operationId: getCompanyConfig
+      responses:
+        '200':
+          description: Configuración obtenida exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  config:
+                    $ref: '#/components/schemas/Configuration'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+      security:
+        - api_key: []
+    patch:
+      tags:
+        - Company
+      summary: Actualizar la configuración de la empresa
+      operationId: updateCompanyConfig
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                config:
+                  $ref: '#/components/schemas/Configuration'
+      responses:
+        '204':
+          description: Configuración actualizada exitosamente
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '422':
+          description: Error de validación
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+  /privacy_center/session_token:
+    get:
+      tags:
+        - Privacy center
+      summary: Obtener un token de sesión para el centro de privacidad
+      description: |
+        Genera un token JWT que permite acceder a los endpoints del centro de privacidad para una entidad específica.
+        El token tiene una duración de 15 minutos y permite acceder a los endpoints de entidades, acciones de consentimiento,
+        commits de consentimiento y templates de consentimiento.
+      operationId: getPrivacyCenterSessionToken
+      parameters:
+        - name: entity_id
+          in: query
+          description: ID de la entidad para la cual se generará el token
+          required: true
+          schema:
+            type: string
+          example: ent_1B2M2Y8AsgTpgAmY7PhCfg
+      responses:
+        '200':
+          description: Token generado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: Token JWT para acceder al centro de privacidad
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb21wYW55X2lkIjoiY29tcF8xMjM0NTY3ODkwIiwiZW50aXR5X2lkIjoiZW50XzFCMk0yWThBc2dUcGdBbVk3UGhDZmciLCJzY29wZSI6WyIvZW50aXRpZXMvKiIsIi9jb25zZW50X2FjdGlvbnMvKiIsIi9jb25zZW50X2NvbW1pdHMvKiIsIi9jb25zZW50X3RlbXBsYXRlcy8qIl0sImlhdCI6MTUxNjIzOTAyMiwiZXhwIjoxNTE2MjQwMDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+        '400':
+          description: Error de solicitud - falta el parámetro entity_id
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    example: invalid_request_error
+                  title:
+                    type: string
+                    example: Bad Request
+                  status:
+                    type: integer
+                    example: 400
+                  detail:
+                    type: string
+                    example: The required parameter entity_id is missing
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+      security:
+        - api_key: []
 components:
+  parameters:
+    PageParam:
+      name: page
+      in: query
+      description: Número de página
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+      example: 1
+    PerPageParam:
+      name: per_page
+      in: query
+      description: Número de entradas por página
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+      example: 20
+    OrderByParam:
+      name: order_by
+      in: query
+      description: Orden de los resultados (ej. "created_at DESC")
+      required: false
+      schema:
+        type: string
+      example: created_at DESC
+  responses:
+    SuccessResponse:
+      description: Respuesta exitosa
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              data:
+                type: object
+                description: Los datos de la respuesta exitosa
+    UnauthorizedError:
+      description: Error de autenticación
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - type
+              - title
+              - status
+              - detail
+            properties:
+              type:
+                type: string
+                example: authentication_error
+              title:
+                type: string
+                example: Unauthorized
+              status:
+                type: integer
+                example: 401
+              detail:
+                type: string
+                example: 'We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id'
+    NotFoundError:
+      description: Recurso no encontrado
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotFoundErrorSchema'
   schemas:
     FilterOrderAndPaginationMetadata:
       type: object
@@ -1824,12 +2230,13 @@ components:
         order_by:
           type: string
           description: Orden de los resultados (ej. "created_at DESC")
-          example: "created_at DESC"
+          example: created_at DESC
         filters:
           type: object
           description: Filtros aplicados a la consulta
-          example: { "status": { "=": "pending" } }
-
+          example:
+            status:
+              '=': pending
     ConsentTemplateInput:
       type: object
       required:
@@ -1850,33 +2257,20 @@ components:
         title:
           type: string
           description: Titulo que aparecerá en el checkbox del módulo de consentimiento
-          example: "Consentimiento general"
+          example: Consentimiento general
         text:
           type: string
           description: |
             Texto del template de consentimiento. Permite referenciar [documentos de privacidad](/docs/api/resources/schemas/privacydocument).
-          example: "De acuerdo a los {{ terms_and_conditions }} y {{ privacy_policy }} de Soyio."
-        product_id:
-          type: string
-          description: |
-            Identificador del [producto](/docs/api/resources/schemas/product) al que está asociado el `consent_template`. Al definir un `product_id`, quedará registro de que el consentimiento de los datos se ha realizado para dicho producto.
-          example: "my_product_123"
-        manage_consent_url:
-          type: string
-          description: |
-            URL que permite al usuario administrar sus preferencias de consentimiento.
-            Cuando se monta el `ConsentBox` asociado a una `entity_id` de un `ConsentAction`, la interfaz mostrará automáticamente un botón. Este botón redirige a la URL especificada en `manage_consent_url`. Puedes ver un ejemplo [aquí](/docs/integration-guide/modules/consent#ejemplo).
-          example: "https://company.com/manage-consent"
+          example: 'De acuerdo a los {{ terms_and_conditions }} y {{ privacy_policy }} de Soyio.'
         data_requirements:
           type: array
           description: Lista de requerimientos de datos
           items:
-            $ref: "#/components/schemas/DataRequirementInput"
-
+            $ref: '#/components/schemas/DataRequirementInput'
     ConsentTemplate:
       description: |
         Una _consent template_ (template de consentimiento) es una configuración necesaria para el módulo de [_consent_](/docs/integration-guide/modules/consent).
-
       x-tags:
         - Consent templates
       type: object
@@ -1893,7 +2287,7 @@ components:
         id:
           type: string
           description: Identificador único. Debe empezar con `constpl_`
-          example: "constpl_wAspvmEr4ACDZaPUtfwjsA"
+          example: constpl_wAspvmEr4ACDZaPUtfwjsA
         name:
           type: string
           description: Nombre descriptivo de la template
@@ -1907,50 +2301,37 @@ components:
         title:
           type: string
           description: Titulo que aparecerá en el checkbox del módulo de consentimiento
-          example: "Consentimiento general"
+          example: Consentimiento general
         text:
           type: string
           description: |
             Texto del consentimiento. Permite referenciar [documentos de privacidad](/docs/api/resources/schemas/privacydocument).
-          example: "De acuerdo a los {{ terms_and_conditions }} y {{ privacy_policy }} de Soyio."
-        product_id:
-          type: string
-          description: |
-            Identificador del [producto](/docs/api/resources/schemas/product) al que está asociado el `consent_template`. Al definir un `product_id`, quedará registro de que el consentimiento de los datos se ha realizado para dicho producto.
-          example: "my_product_123"
-        manage_consent_url:
-          type: string
-          description: |
-            URL que permite al usuario administrar sus preferencias de consentimiento.
-            Cuando se monta el `ConsentBox` asociado a una `entity_id` de un `ConsentAction`, la interfaz mostrará automáticamente un botón. Este botón redirige a la URL especificada en `manage_consent_url`. Puedes ver un ejemplo [aquí](/docs/integration-guide/modules/consent#ejemplo).
-          example: "https://company.com/manage-consent"
+          example: 'De acuerdo a los {{ terms_and_conditions }} y {{ privacy_policy }} de Soyio.'
         data_requirements:
           type: array
-          description: Lista de requerimientos de datos con información adicional. Ver [recurso](/docs/api/resources/schemas/datarequirement) para más información.
+          description: 'Lista de requerimientos de datos con información adicional. Ver [recurso](/docs/api/resources/schemas/datarequirement) para más información.'
           minItems: 1
           items:
-            $ref: "#/components/schemas/DataRequirement"
+            $ref: '#/components/schemas/DataRequirement'
         created_at:
           type: string
           format: date-time
           description: Fecha y hora de creación del template de consentimiento
-          example: "2024-03-20T15:30:00Z"
+          example: '2024-03-20T15:30:00Z'
         updated_at:
           type: string
           format: date-time
           description: Fecha y hora de la última actualización del template de consentimiento
-          example: "2024-03-20T15:30:00Z"
-
+          example: '2024-03-20T15:30:00Z'
     ConsentTemplateList:
       type: object
       properties:
         consent_templates:
           type: array
           items:
-            $ref: "#/components/schemas/ConsentTemplate"
+            $ref: '#/components/schemas/ConsentTemplate'
         metadata:
-          $ref: "#/components/schemas/FilterOrderAndPaginationMetadata"
-
+          $ref: '#/components/schemas/FilterOrderAndPaginationMetadata'
     DataRequirementInput:
       type: object
       required:
@@ -1987,13 +2368,12 @@ components:
             Esto significa que si se utiliza alguna de estas llaves, no es necesario especificar la categoría del dato.
 
             Si se especifica una de estas llaves y además se especifica la categoría del dato, la categoría dada tendrá prioridad sobre la predefinida.
-          example: "user.name.first"
+          example: user.name.first
         data_uses:
           type: array
-          description: Lista de usos permitidos para el dato, parte de la taxonomía de usos de datos
+          description: 'Lista de usos permitidos para el dato, parte de la taxonomía de usos de datos'
           items:
             type: string
-
     DataRequirement:
       type: object
       x-tags:
@@ -2005,84 +2385,76 @@ components:
           example: first_name
         data_category:
           type: string
-          description: Categoría del dato según Fideslang. Ver [taxonomía](/docs/integration-guide/concepts/taxonomy-and-data-management)
-          example: "user.name.first"
+          description: 'Categoría del dato según Fideslang. Ver [taxonomía](/docs/integration-guide/concepts/taxonomy-and-data-management)'
+          example: user.name.first
         data_uses:
           type: array
-          description: Lista de finalidades de tratamiento según Fideslang. Ver [taxonomía](/docs/integration-guide/concepts/taxonomy-and-data-management)
+          description: 'Lista de finalidades de tratamiento según Fideslang. Ver [taxonomía](/docs/integration-guide/concepts/taxonomy-and-data-management)'
           items:
             type: string
-
     DisclosureRequestList:
       type: object
       properties:
         disclosure_requests:
           type: array
           items:
-            $ref: "#/components/schemas/DisclosureRequest"
+            $ref: '#/components/schemas/DisclosureRequest'
         metadata:
-          $ref: "#/components/schemas/FilterOrderAndPaginationMetadata"
-
+          $ref: '#/components/schemas/FilterOrderAndPaginationMetadata'
     IdentityList:
       type: object
       properties:
         identities:
           type: array
           items:
-            $ref: "#/components/schemas/Identity"
+            $ref: '#/components/schemas/Identity'
         metadata:
-          $ref: "#/components/schemas/FilterOrderAndPaginationMetadata"
-
+          $ref: '#/components/schemas/FilterOrderAndPaginationMetadata'
     ValidationAttemptList:
       type: object
       properties:
         validation_attempts:
           type: array
           items:
-            $ref: "#/components/schemas/ValidationAttempt"
+            $ref: '#/components/schemas/ValidationAttempt'
         metadata:
-          $ref: "#/components/schemas/FilterOrderAndPaginationMetadata"
-
+          $ref: '#/components/schemas/FilterOrderAndPaginationMetadata'
     AuthAttemptList:
       type: object
       properties:
         auth_attempts:
           type: array
           items:
-            $ref: "#/components/schemas/AuthAttempt"
+            $ref: '#/components/schemas/AuthAttempt'
         metadata:
-          $ref: "#/components/schemas/FilterOrderAndPaginationMetadata"
-
+          $ref: '#/components/schemas/FilterOrderAndPaginationMetadata'
     SignatureAttemptList:
       type: object
       properties:
         signature_attempts:
           type: array
           items:
-            $ref: "#/components/schemas/SignatureAttempt"
+            $ref: '#/components/schemas/SignatureAttempt'
         metadata:
-          $ref: "#/components/schemas/FilterOrderAndPaginationMetadata"
-
+          $ref: '#/components/schemas/FilterOrderAndPaginationMetadata'
     EventList:
       type: object
       properties:
         events:
           type: array
           items:
-            $ref: "#/components/schemas/Event"
+            $ref: '#/components/schemas/Event'
         metadata:
-          $ref: "#/components/schemas/FilterOrderAndPaginationMetadata"
-
+          $ref: '#/components/schemas/FilterOrderAndPaginationMetadata'
     SignedDocumentList:
       type: object
       properties:
         signed_documents:
           type: array
           items:
-            $ref: "#/components/schemas/SignedDocument"
+            $ref: '#/components/schemas/SignedDocument'
         metadata:
-          $ref: "#/components/schemas/FilterOrderAndPaginationMetadata"
-
+          $ref: '#/components/schemas/FilterOrderAndPaginationMetadata'
     DisclosureRequest:
       description: |
         Representa una solicitud de divulgación de datos en el sistema. Este proceso integral incluye:
@@ -2097,7 +2469,6 @@ components:
         ### Guias relacionadas
         - [Revelación de datos y consentimiento](/docs/integration-guide/modules/disclosure)
         - [Verificación de identidad](/docs/integration-guide/concepts/verification)
-
       x-tags:
         - Disclosure requests
       type: object
@@ -2105,15 +2476,15 @@ components:
         id:
           type: string
           description: Identificador único del disclosure request.
-          example: "dreq_1B2M2Y8AsgTpgAmY7PhCfg"
+          example: dreq_1B2M2Y8AsgTpgAmY7PhCfg
         disclosure_template_id:
           type: string
           description: Identificador del template de divulgación.
-          example: "dtpl_3D4O4A0CuiVriCnA9RjEhi"
+          example: dtpl_3D4O4A0CuiVriCnA9RjEhi
         identity_id:
           type: string
           description: Identificador únicode la identidad.
-          example: "id_ma21KLsmaslopask912Aa2"
+          example: id_ma21KLsmaslopask912Aa2
         status:
           type: string
           description: Estado de la solicitud de divulgación.
@@ -2125,7 +2496,7 @@ components:
             - awaiting_missing_data
             - timed_out
             - granted
-          example: "pending"
+          example: pending
         matchers:
           type: array
           description: Matchers de la solicitud de divulgación.
@@ -2135,28 +2506,28 @@ components:
               key:
                 type: string
                 description: Clave del matcher.
-                example: "cl_carnet_rut"
+                example: cl_carnet_rut
               value:
                 type: string
                 description: Valor del matcher.
-                example: "12345678-9"
+                example: 12345678-9
         sdk:
           type: string
           description: SDK utilizado para iniciar la solicitud.
-          example: "web"
+          example: web
         user_reference:
           type: string
           description: Referencia de usuario de tu sistema para el disclosure request.
-          example: "user_123"
+          example: user_123
         identity_email:
           type: string
           description: Correo electrónico proveído por el comercio a la hora de crear la solicitud de divulgación.
-          example: "walter@white.com"
+          example: walter@white.com
         created_at:
           type: string
           format: date-time
           description: Fecha y hora en que se creó el disclosure request.
-          example: "2024-03-20T15:30:00Z"
+          example: '2024-03-20T15:30:00Z'
     AuthRequest:
       x-tags:
         - Auth requests
@@ -2170,11 +2541,11 @@ components:
         id:
           type: string
           description: Identificador único del request de autenticación.
-          example: "authreq_Kop19_kEe23i7hSw8QG4-a"
+          example: authreq_Kop19_kEe23i7hSw8QG4-a
         identity_id:
           type: string
           description: Identificador de la identidad que realiza el intento.
-          example: "id_ma21KLsmaslopask912Aa2"
+          example: id_ma21KLsmaslopask912Aa2
         status:
           type: string
           enum:
@@ -2185,7 +2556,7 @@ components:
         user_reference:
           type: string
           description: Referencia de usuario de tu sistema para el request de autenticación.
-          example: "user_123"
+          example: user_123
         created_at:
           type: string
           format: date-time
@@ -2196,9 +2567,9 @@ components:
         auth_requests:
           type: array
           items:
-            $ref: "#/components/schemas/AuthRequest"
+            $ref: '#/components/schemas/AuthRequest'
         metadata:
-          $ref: "#/components/schemas/FilterOrderAndPaginationMetadata"
+          $ref: '#/components/schemas/FilterOrderAndPaginationMetadata'
     IdentityInformation:
       type: object
       description: Información detallada de un atributo específico de una identidad.
@@ -2206,11 +2577,11 @@ components:
         key:
           type: string
           description: Clave o nombre del atributo de la identidad.
-          example: "name"
+          example: name
         value:
           type: string
           description: Valor asociado a la clave del atributo.
-          example: "Jon"
+          example: Jon
       xml:
         name: tag
     Identity:
@@ -2228,24 +2599,23 @@ components:
         id:
           type: string
           description: Identificador único de la identidad.
-          example: "id_ma21KLsmaslopask912Aa2"
+          example: id_ma21KLsmaslopask912Aa2
         email:
           type: string
           description: Correo electrónico asociado a la identidad.
-          example: "jonsnow@nightswatch.com"
+          example: jonsnow@nightswatch.com
         data:
           type: array
           description: Colección de información adicional sobre la identidad en forma de pares clave-valor.
           items:
-            $ref: "#/components/schemas/IdentityInformation"
+            $ref: '#/components/schemas/IdentityInformation'
         signed_documents:
           type: array
           description: Lista de todos los `ids` de los documentos firmados por la identidad.
           items:
             type: string
             description: Identificador único del documento firmado.
-            example: "sd_1B2M2Y8AsgTpgAmY7PhCfg"
-
+            example: sd_1B2M2Y8AsgTpgAmY7PhCfg
     AuthAttempt:
       x-tags:
         - Auth attempts
@@ -2264,11 +2634,11 @@ components:
         id:
           type: string
           description: Identificador único del intento de autenticación.
-          example: "aa_Kop19_kEe23i7hSw8QG4-a"
+          example: aa_Kop19_kEe23i7hSw8QG4-a
         identity_id:
           type: string
           description: Identificador de la identidad que realiza el intento.
-          example: "id_ma21KLsmaslopask912Aa2"
+          example: id_ma21KLsmaslopask912Aa2
         status:
           type: string
           enum:
@@ -2276,11 +2646,11 @@ components:
             - authenticating_by_video
             - failed
             - successful
-          description: Estado actual del intento de autenticación (por ejemplo, "exitoso", "fallido").
+          description: 'Estado actual del intento de autenticación (por ejemplo, "exitoso", "fallido").'
         user_reference:
           type: string
           description: Referencia de usuario de tu sistema para el intento de autenticación.
-          example: "user_123"
+          example: user_123
         kind:
           type: string
           enum:
@@ -2289,7 +2659,7 @@ components:
           description: Tipo de validación utilizada en el intento de autenticación. `passkey_validation` corresponde a cuando un usuario validó a través de un dispositivo registrado.
         error_reason:
           type:
-            - "null"
+            - 'null'
             - string
           description: Razón del error en caso de que el intento haya fallado. Campo opcional.
         created_at:
@@ -2312,23 +2682,23 @@ components:
         id:
           type: string
           description: Identificador único del intento de firma.
-          example: "sa_1B2M2Y8AsgTpgAmY7PhCfg"
+          example: sa_1B2M2Y8AsgTpgAmY7PhCfg
         identity_id:
           type: string
           description: Identificador de la identidad que realiza el intento.
-          example: "id_ma21KLsmaslopask912Aa2"
+          example: id_ma21KLsmaslopask912Aa2
         status:
           type: string
           enum:
-            - awaiting_authentication
-            - authenticating_by_video
-            - authentication_failed
+            - pending
+            - authenticating
+            - creating_signed_documents
             - successful
           description: Estado actual del intento de firma.
         user_reference:
           type: string
           description: Referencia de usuario de tu sistema para el intento de firma.
-          example: "user_123"
+          example: user_123
         auth_type:
           type: string
           enum:
@@ -2354,11 +2724,11 @@ components:
         id:
           type: string
           description: Identificador único del flujo de validación.
-          example: "va_1B2M2Y8AsgTpgAmY7PhCfg"
+          example: va_1B2M2Y8AsgTpgAmY7PhCfg
         identity_email:
           type: string
           description: Correo electrónico de la identidad asociada al flujo.
-          example: "gus@polloshermanos.com"
+          example: gus@polloshermanos.com
         status:
           type: string
           enum:
@@ -2370,24 +2740,23 @@ components:
         user_reference:
           type:
             - string
-            - "null"
+            - 'null'
           description: Referencia de usuario de tu sistema para el flujo de validación.
-          example: "user_123"
+          example: user_123
         error_reason:
           type:
-            - "null"
+            - 'null'
             - string
           enum:
             - unknown_error
             - document_validation_error
             - facial_validation_error
             - expiration_error
-          description: Motivo del error, si el flujo no fue exitoso. Campo opcional.
+          description: 'Motivo del error, si el flujo no fue exitoso. Campo opcional.'
         created_at:
           type: string
           format: date-time
           description: Fecha y hora de creación del flujo de validación.
-
     ConsentCommit:
       x-tags:
         - Consent commits
@@ -2397,26 +2766,25 @@ components:
         id:
           type: string
           description: Identificador único del consent commit
-          example: "ccom_1B2M2Y8AsgTpgAmY7PhCfg"
+          example: ccom_1B2M2Y8AsgTpgAmY7PhCfg
         user_reference:
           type: string
           description: Referencia del usuario en el sistema del cliente
-          example: "user_123"
+          example: user_123
         entity_id:
           type: string
           description: Identificador de la entidad asociada
-          example: "ent_1B2M2Y8AsgTpgAmY7PhCfg"
+          example: ent_1B2M2Y8AsgTpgAmY7PhCfg
         consent_actions:
           type: array
           description: Acciones de consentimiento asociadas al commit
           items:
-            $ref: "#/components/schemas/ConsentAction"
+            $ref: '#/components/schemas/ConsentAction'
         created_at:
           type: string
           format: date-time
           description: Fecha y hora de creación del consent commit
-          example: "2024-03-20T15:30:00Z"
-
+          example: '2024-03-20T15:30:00Z'
     ConsentAction:
       x-tags:
         - Consent actions
@@ -2426,30 +2794,30 @@ components:
         id:
           type: string
           description: Identificador único de la acción de consentimiento
-          example: "consact_1B2M2Y8AsgTpgAmY7PhCfg"
+          example: consact_1B2M2Y8AsgTpgAmY7PhCfg
         entity_id:
           type: string
           description: Identificador de la entidad asociada. Puede ser nulo.
-          example: "ent_5F6Q6C2EwkXtkEpB1TlGjk"
+          example: ent_5F6Q6C2EwkXtkEpB1TlGjk
           nullable: true
         user_reference:
           type: string
           description: Referencia del usuario en el sistema del cliente
-          example: "user_123"
+          example: user_123
         consent_template_id:
           type: string
           description: Identificador del template de consentimiento asociado.
-          example: "ctmpl_1B2M2Y8AsgTpgAmY7PhCfg"
+          example: ctmpl_1B2M2Y8AsgTpgAmY7PhCfg
         context:
           type: string
           description: Contexto adicional asociado a la acción de consentimiento
-          example: "web_signup"
+          example: web_signup
           nullable: true
         created_at:
           type: string
           format: date-time
           description: Fecha y hora de creación de la acción de consentimiento
-          example: "2024-03-20T15:30:00Z"
+          example: '2024-03-20T15:30:00Z'
     Event:
       x-tags:
         - Events
@@ -2471,23 +2839,23 @@ components:
         id:
           type: string
           description: Identificador único del evento.
-          example: "evt_1B2M2Y8AsgTpgAmY7PhCfg"
+          example: evt_1B2M2Y8AsgTpgAmY7PhCfg
         name:
           type: string
           description: Nombre descriptivo del evento.
-          example: "disclosure_request.granted"
+          example: disclosure_request.granted
         payload:
           type: object
           description: Datos adicionales asociados al evento.
           example:
-            disclosure_request_id: "dreq_1B2M2Y8AsgTpgAmY7PhCfg"
-            identity_id: "id_ma21KLsmaslopask912Aa2"
-            user_reference: "user_123"
+            disclosure_request_id: dreq_1B2M2Y8AsgTpgAmY7PhCfg
+            identity_id: id_ma21KLsmaslopask912Aa2
+            user_reference: user_123
         created_at:
           type: string
           format: date-time
           description: Fecha y hora en que se registró el evento.
-          example: "2024-03-20T15:30:00Z"
+          example: '2024-03-20T15:30:00Z'
     SignedDocument:
       x-tags:
         - Signed documents
@@ -2506,16 +2874,16 @@ components:
         id:
           type: string
           description: Identificador único del documento firmado.
-          example: "sd_1B2M2Y8AsgTpgAmY7PhCfg"
+          example: sd_1B2M2Y8AsgTpgAmY7PhCfg
         identity_id:
           type: string
           description: Identificador de la identidad participante en la firma.
-          example: "id_ma21KLsmaslopask912Aa2"
+          example: id_ma21KLsmaslopask912Aa2
         created_at:
           type: string
           format: date-time
           description: Fecha y hora en que se registró el documento firmado.
-          example: "2024-03-20T15:30:00Z"
+          example: '2024-03-20T15:30:00Z'
     AgreementBase:
       type: object
       description: Representa la estructura básica de un acuerdo para listados
@@ -2523,45 +2891,47 @@ components:
         id:
           type: string
           description: Identificador único del acuerdo.
-          example: "agr_IdBeyWCa1ENLUYnPRLpCUg"
+          example: agr_IdBeyWCa1ENLUYnPRLpCUg
         version:
           type: integer
           description: Versión del acuerdo
           example: 1
-        identity:
-          type: object
-          properties:
-            id:
-              type: string
-              description: Identificador de la identidad
-              example: "id_wCntp5aXB5q7fKSthevwrw"
-            email:
-              type: string
-              description: Correo de la identidad asociada
-              example: "example@soyio.id"
+        subject_id:
+          type: string
+          description: Identificador único del usuario del acuerdo. Puede corresponder al identificador de un `Identity` o `Entity`. El `subject_type` indica el tipo del usuario en cuestión.
+          example: ent_ma21KLsmaslopask912Aa2
+        subject_type:
+          type: string
+          description: Tipo de sujeto del acuerdo. Puede ser `Identity` o `Entity`.
+          example: Entity
         data:
           type: array
           description: Datos procesados del agreement de acuerdo a la taxonomía de datos
           items:
-            $ref: "#/components/schemas/ProcessedDatum"
+            $ref: '#/components/schemas/ProcessedDatum'
         user_reference:
           type: string
           description: Referencia de usuario proporcionada por el cliente.
-          example: "user_123"
+          example: user_123
         created_at:
           type: string
           format: date-time
           description: Fecha y hora de creación del acuerdo.
-          example: "2024-11-21T14:54:57.167Z"
-
+          example: '2024-11-21T14:54:57.167Z'
     AgreementDetail:
       x-tags:
         - Agreements
       type: object
       title: Agreement
-      description: Representa la estructura detallada de un acuerdo específico
+      description: |
+        Representa el estado actual de los permisos de un usuario para utilizar datos de acuerdo a la taxonomía de datos y usos de datos.
+        Puede ser actualizado a través de distintas acciones del usuario y empresa en el tiempo.
+
+        :::info
+        Para más detalles, revisa nuestra sección de [Agreements y evidencia](/docs/integration-guide/concepts/agreement.mdx).
+        :::
       allOf:
-        - $ref: "#/components/schemas/AgreementBase"
+        - $ref: '#/components/schemas/AgreementBase'
         - type: object
           properties:
             previous_evidence_ids:
@@ -2569,34 +2939,34 @@ components:
               description: IDs de evidencias anteriores relacionadas con este acuerdo
               items:
                 type: string
-              example: ["evd_pNMroI2OEfrDNdi8xT6kOQ"]
-            identity:
-              type: object
-              properties:
-                id:
-                  type: string
-                  description: Identificador de la identidad
-                  example: "id_wCntp5aXB5q7fKSthevwrw"
-                email:
-                  type: string
-                  description: Correo de la identidad asociada
-                  example: "example@soyio.id"
+              example:
+                - evd_pNMroI2OEfrDNdi8xT6kOQ
+            subject_id:
+              type: string
+              description: Identificador único del usuario del acuerdo. Puede corresponder al identificador de un `Identity` o `Entity`. El `subject_type` indica el tipo del usuario en cuestión.
+              example: ent_ma21KLsmaslopask912Aa2
+            subject_type:
+              type: string
+              description: Tipo de sujeto del acuerdo. Puede ser `Identity` o `Entity`.
+              example: Entity
+            source_type:
+              type: string
+              description: Fuente del acuerdo. Puede ser `DisclosureRequest` o `ConsentAction`.
+              example: DisclosureRequest
             data:
               type: array
               description: Datos específicos del acuerdo y sus usos permitidos
               items:
-                $ref: "#/components/schemas/ProcessedDatum"
-
+                $ref: '#/components/schemas/ProcessedDatum'
     AgreementList:
       type: object
       properties:
         agreements:
           type: array
           items:
-            $ref: "#/components/schemas/AgreementBase"
+            $ref: '#/components/schemas/AgreementBase'
         metadata:
-          $ref: "#/components/schemas/FilterOrderAndPaginationMetadata"
-
+          $ref: '#/components/schemas/FilterOrderAndPaginationMetadata'
     Evidence:
       x-tags:
         - Agreements
@@ -2606,11 +2976,11 @@ components:
         id:
           type: string
           description: Identificador único de la evidencia.
-          example: "evd_wCntp5aXB5q7fKSthevwrw"
+          example: evd_wCntp5aXB5q7fKSthevwrw
         integrity_hash:
           type: string
           description: Hash criptográfico que garantiza la integridad de la evidencia.
-          example: "28b0f934..."
+          example: 28b0f934...
         consent_method:
           type: object
           description: Información sobre el método de consentimiento utilizado.
@@ -2618,19 +2988,19 @@ components:
             category:
               type: string
               description: Categoría del método de consentimiento.
-              example: "opt-in click"
+              example: opt-in click
             channel:
               type: string
               description: Canal a través del cual se obtuvo el consentimiento.
-              example: "website"
+              example: website
             details:
               type: string
               description: Detalles específicos sobre cómo se obtuvo el consentimiento.
-              example: "cliked in selector tab to opt-in consent"
+              example: cliked in selector tab to opt-in consent
             facilitator:
               type: string
               description: Entidad que facilitó el proceso de consentimiento.
-              example: "soyio"
+              example: soyio
         identification_method:
           type: object
           description: Información sobre el método de identificación utilizado.
@@ -2638,15 +3008,15 @@ components:
             data_subject_id:
               type: string
               description: ID del sujeto de datos identificado.
-              example: "id_ftKAfJCmbmGe1t2X1Kt3gw"
+              example: id_ftKAfJCmbmGe1t2X1Kt3gw
             type:
               type: string
               description: Tipo de método de identificación utilizado.
-              example: "soyio.validation"
+              example: soyio.validation
             type_reference:
               type: string
               description: Referencia al proceso de identificación específico.
-              example: "va_Pwj5xTQYQ4vciUZPqnVTdg"
+              example: va_Pwj5xTQYQ4vciUZPqnVTdg
         contextual_data:
           type: object
           description: Datos contextuales del momento del consentimiento.
@@ -2654,11 +3024,11 @@ components:
             ip:
               type: string
               description: Dirección IP desde donde se realizó la acción.
-              example: "192.168.65.1"
+              example: 192.168.65.1
             user_agent:
               type: string
               description: User agent del navegador utilizado.
-              example: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"
+              example: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36'
         agreement_change:
           type: object
           description: Información sobre el cambio en el acuerdo.
@@ -2666,7 +3036,7 @@ components:
             action:
               type: string
               description: Tipo de acción realizada sobre el acuerdo.
-              example: "grant"
+              example: grant
         event_logs:
           type: array
           description: Registro cronológico de eventos relacionados con la evidencia.
@@ -2676,22 +3046,21 @@ components:
               description:
                 type: string
                 description: Descripción del evento.
-                example: "Disclosure request was created"
+                example: Disclosure request was created
               timestamp:
                 type: string
                 format: date-time
                 description: Fecha y hora del evento.
-                example: "2024-11-21T14:54:29.802Z"
+                example: '2024-11-21T14:54:29.802Z'
               type:
                 type: string
                 description: Tipo de evento.
-                example: "disclosure_created"
+                example: disclosure_created
         created_at:
           type: string
           format: date-time
           description: Fecha y hora de creación de la evidencia.
-          example: "2024-11-21T14:54:57.202Z"
-
+          example: '2024-11-21T14:54:57.202Z'
     ProcessedDatum:
       type: object
       description: Representa un dato procesado de acuerdo a la taxonomía de datos.
@@ -2699,45 +3068,58 @@ components:
         key:
           type: string
           description: Identificador del dato
-          example: "name"
+          example: name
         data_category:
           type: string
-          description: Categoría del dato personal. Sigue la taxonomía de datos. Para más información, consulta [el detalle de la taxonomía](/docs/integration-guide/concepts/agreement#taxonomía)
-          example: "user.name.first"
+          description: 'Categoría del dato personal. Sigue la taxonomía de datos. Para más información, consulta [el detalle de la taxonomía](/docs/integration-guide/concepts/taxonomy-and-data-management)'
+          example: user.name.first
         data_uses:
           type: array
           description: Usos permitidos para este dato
           items:
-            $ref: "#/components/schemas/DataUse"
-
+            $ref: '#/components/schemas/DataUse'
+        scope:
+          type: object
+          description: Alcance del uso del dato procesado.
+          $ref: '#/components/schemas/ProcessedDatumScope'
+    ProcessedDatumScope:
+      type: object
+      description: 'Alcance del uso del dato procesado. Si es un objeto vacío, significa que no está asociado a un producto o filial específica de la empresa.'
+      properties:
+        product:
+          type: string
+          description: Identificador del producto o servicio para el cuál está vigente el uso del dato.
+        branch:
+          type: string
+          description: Identificador de la filial de tu empresa para la cual está vigente el uso del dato.
     DataUse:
       type: object
       description: Representa el uso específico de un dato.
       properties:
         use:
           type: string
-          description: Propósito específico del uso del dato. Sigue la taxonomía de usos de datos. Para más información, consulta [el detalle de la taxonomía](/docs/integration-guide/concepts/agreement#taxonomía)
-          example: "essential.service.authentication"
+          description: 'Propósito específico del uso del dato. Sigue la taxonomía de usos de datos. Para más información, consulta [el detalle de la taxonomía](/docs/integration-guide/concepts/agreement#taxonomía)'
+          example: essential.service.authentication
         expires_at:
           type: string
           format: date
           description: Fecha de expiración del permiso de uso
-          example: "2034-12-06"
+          example: '2034-12-06'
         document_references:
           type: array
           description: Referencias a documentos relacionados
-          example: ["669823ed4c91e6af2537f984", "66b103a5d2e10ef171a9004b"]
-
+          example:
+            - 669823ed4c91e6af2537f984
+            - 66b103a5d2e10ef171a9004b
     EvidenceList:
       type: object
       properties:
         evidences:
           type: array
           items:
-            $ref: "#/components/schemas/Evidence"
+            $ref: '#/components/schemas/Evidence'
         metadata:
-          $ref: "#/components/schemas/FilterOrderAndPaginationMetadata"
-
+          $ref: '#/components/schemas/FilterOrderAndPaginationMetadata'
     PrivacyDocument:
       type: object
       x-tags:
@@ -2748,30 +3130,28 @@ components:
         id:
           type: string
           description: Identificador único. Debe empezar con `privdoc_`
-          example: "privdoc_jy21JCGqb-VHhHeUd2nmKw"
+          example: privdoc_jy21JCGqb-VHhHeUd2nmKw
         name:
           type: string
           description: Texto que se mostrará al usuario
-          example: "términos y condiciones"
+          example: términos y condiciones
         template_key:
           type: string
           description: Identificador para referenciar el documento
-          example: "terms_and_conditions"
+          example: terms_and_conditions
         url:
           type: string
           description: URL para acceder al documento
-          example: "/download_url"
-
+          example: /download_url
     PrivacyDocumentList:
       type: object
       properties:
         privacy_documents:
           type: array
           items:
-            $ref: "#/components/schemas/PrivacyDocument"
+            $ref: '#/components/schemas/PrivacyDocument'
         metadata:
-          $ref: "#/components/schemas/FilterOrderAndPaginationMetadata"
-
+          $ref: '#/components/schemas/FilterOrderAndPaginationMetadata'
     ApiResponse:
       type: object
       description: Respuesta estándar para las operaciones de la API que incluyen código y mensaje de estado.
@@ -2783,14 +3163,14 @@ components:
           example: 200
         type:
           type: string
-          description: Tipo de mensaje de la respuesta, por ejemplo, "error" o "success".
-          example: "success"
+          description: 'Tipo de mensaje de la respuesta, por ejemplo, "error" o "success".'
+          example: success
         message:
           type: string
           description: Mensaje descriptivo acerca del resultado de la operación.
-          example: "Operación completada exitosamente"
+          example: Operación completada exitosamente
       xml:
-        name: "##default"
+        name: '##default'
     Webhook:
       x-tags:
         - Webhooks
@@ -2802,41 +3182,52 @@ components:
         id:
           type: string
           description: Identificador único del webhook
-          example: "wh_1B2M2Y8AsgTpgAmY7PhCfg"
+          example: wh_1B2M2Y8AsgTpgAmY7PhCfg
+        name:
+          type: string
+          description: Nombre del webhook
+          example: My Webhook
         url:
           type: string
           description: URL donde se enviarán los eventos
-          example: "https://company.com/your-webhook-endpoint"
+          example: 'https://company.com/your-webhook-endpoint'
         subscriptions:
           type: array
           description: |
             Lista de eventos a los que está suscrito el webhook. Los eventos disponibles son:
 
             - `*`: Todos los eventos
-            - `disclosure_request.granted`
-            - `disclosure_request.timed_out`
-            - `disclosure_request.fail`
-            - `validation_attempt.successful`
-            - `validation_attempt.failed`
+            - `agreement.created`
+            - `agreement.updated`
+            - `agreement.revoked`
             - `auth_attempt.failed`
             - `auth_attempt.successful`
+            - `auth_request.successful`
+            - `disclosure_request.granted`
+            - `disclosure_request.timed_out`
+            - `disclosure_request.failed`
+            - `validation_attempt.successful`
+            - `validation_attempt.failed`
             - `signature_attempt.successful`
             - `signature_attempt.failed`
-            - `auth_request.successful`
 
             **TIP**:
             Puedes suscribirte a todos los eventos de un recurso específico usando el wildcard `*`.
             Por ejemplo, para suscribirte a todos los eventos de los `disclosure_request`, puedes suscribirte a `disclosure_request.*`.
-
           items:
             type: string
-          example: ["*", "auth_attempt.*", "validation_attempt.*"]
+          example:
+            - '*'
+            - auth_attempt.*
+            - validation_attempt.*
         enabled_modes:
           type: array
           description: Lista de modos en los que el webhook está habilitado
           items:
             type: string
-          example: ["production", "sandbox"]
+          example:
+            - production
+            - sandbox
         enabled:
           type: boolean
           description: Indica si el webhook está habilitado o no
@@ -2845,51 +3236,21 @@ components:
           type: string
           format: date-time
           description: Fecha y hora de creación del webhook
-          example: "2024-03-20T15:30:00Z"
+          example: '2024-03-20T15:30:00Z'
         updated_at:
           type: string
           format: date-time
           description: Fecha y hora de la última actualización del webhook
-          example: "2024-03-20T15:30:00Z"
-
-    WebhookInput:
-      type: object
-      required:
-        - url
-        - subscriptions
-      properties:
-        url:
-          type: string
-          description: URL donde se enviarán los eventos
-          example: "https://company.com/your-webhook-endpoint"
-        subscriptions:
-          type: array
-          description: |
-            Lista de eventos a los que se suscribirá el webhook. Puedes ver el [schema](/docs/api/resources/schemas/webhook) para más información.
-          items:
-            type: string
-          example: ["*", "auth_attempt.*", "validation_attempt.*"]
-        enabled_modes:
-          type: array
-          description: Lista de modos en los que el webhook estará habilitado. Si no se especifica, se usará el modo actual.
-          items:
-            type: string
-          example: ["production", "sandbox"]
-        enabled:
-          type: boolean
-          description: Indica si el webhook está habilitado o no
-          default: true
-          example: true
-
+          example: '2024-03-20T15:30:00Z'
     WebhookList:
       type: object
       properties:
         webhooks:
           type: array
           items:
-            $ref: "#/components/schemas/Webhook"
+            $ref: '#/components/schemas/Webhook'
         metadata:
-          $ref: "#/components/schemas/FilterOrderAndPaginationMetadata"
+          $ref: '#/components/schemas/FilterOrderAndPaginationMetadata'
     Product:
       x-tags:
         - Products
@@ -2899,137 +3260,358 @@ components:
       properties:
         id:
           type: string
-          description: ID único del producto. Se recomienda darle un identificador con un formato que facilite su identificación. Este identificador se usa para asociar consentimientos a un producto específico.
-          example: "my_product_123"
+          description: ID único del producto. Se recomienda darle un identificador con un formato que facilite su identificación.
+          example: my_product_123
+    DataSubjectRequest:
+      type: object
+      description: |
+        Los data subject requests representan las solicitudes de los usuarios para modificar agreements.
+        Estas solicitudes pueden ser de tipo revocación (revoke) o cambio (change) y pasan por diferentes estados
+        durante su ciclo de vida.
+      properties:
+        id:
+          type: string
+          description: ID único del data subject request.
+          example: dsreq_1B2M2Y8AsgTpgAmY7PhCfg
+        humanized_identifier:
+          type: string
+          description: Identificador de la solicitud.
+          example: FME4607
+        subject_id:
+          type: string
+          description: ID del sujeto de datos que se está modificando.
+          example: ent_1B2M2Y8AsgTpgAmY7PhCfg
+        user_reference:
+          type: string
+          description: Referencia del usuario en el sistema del cliente.
+          example: user_123
+        kind:
+          type: string
+          enum:
+            - access
+            - rectification
+            - opposition
+            - suppression
+            - portability
+          description: Tipo de solicitud.
+          example: access
+        status:
+          type: string
+          enum:
+            - awaiting_verification
+            - validating
+            - processing
+            - completed
+            - rejected
+            - data_missmatch
+          description: Estado actual de la solicitud.
+          example: awaiting_verification
+        data_usage_during_request:
+          type: string
+          enum:
+            - block
+            - allow
+          description: Indica si el uso de datos durante la solicitud está permitido o no.
+          example: block
+        rejection_reason:
+          type: string
+          description: Razón de rechazo si la solicitud fue rechazada.
+          example: Documentación insuficiente
+        contact_information:
+          type: object
+          required:
+            - nin
+            - email
+            - names
+            - last_names
+          properties:
+            nin:
+              type: string
+              description: Número de identificación del usuario.
+              example: '123456789'
+            email:
+              type: string
+              format: email
+              description: Email del usuario. Este email será el que se usará para enviar la confirmación de la solicitud.
+              example: user@example.com
+            names:
+              type: string
+              description: Nombres del usuario.
+              example: Juan Carlos
+            last_names:
+              type: string
+              description: Apellidos del usuario.
+              example: Pérez Gómez
+        request_detail:
+          oneOf:
+            - $ref: '#/components/schemas/QueryRequestDetail'
+            - $ref: '#/components/schemas/MutationRequestDetail'
+          discriminator:
+            propertyName: kind
+            mapping:
+              access: ./schemas.yaml#/QueryRequestDetail
+              portability: ./schemas.yaml#/QueryRequestDetail
+              rectification: ./schemas.yaml#/MutationRequestDetail
+              opposition: ./schemas.yaml#/MutationRequestDetail
+              suppression: ./schemas.yaml#/MutationRequestDetail
+        workflow_run_id:
+          type: string
+          description: ID del workflow run asociado a la solicitud.
+          example: wfr_1B2M2Y8AsgTpgAmY7PhCfg
+        created_at:
+          type: string
+          format: date-time
+          description: Fecha y hora de creación de la solicitud.
+          example: '2024-03-20T15:30:00Z'
+        updated_at:
+          type: string
+          format: date-time
+          description: Fecha y hora de la última actualización de la solicitud.
+          example: '2024-03-20T15:30:00Z'
+    DataSubjectRequestCreate:
+      type: object
+      required:
+        - kind
+        - contact_information
+        - request_detail
+      description: |
+        Datos para crear un data subject request.
+      properties:
+        subject_id:
+          type: string
+          description: ID del sujeto de datos que se está modificando.
+          example: subj_1B2M2Y8AsgTpgAmY7PhCfg
+        user_reference:
+          type: string
+          description: Referencia del usuario en el sistema del cliente.
+          example: user_123
+        kind:
+          type: string
+          enum:
+            - access
+            - rectification
+            - opposition
+            - suppression
+            - portability
+          description: Tipo de solicitud.
+          example: access
+        data_usage_during_request:
+          type: string
+          enum:
+            - block
+            - allow
+          description: 'Solo es requerido para las solicitudes de tipo `rectification`, `opposition` y `suppression`.'
+          example: block
+        contact_information:
+          type: object
+          required:
+            - nin
+            - email
+            - names
+            - last_names
+          properties:
+            nin:
+              type: string
+              description: Número de identificación del usuario.
+              example: '123456789'
+            email:
+              type: string
+              format: email
+              description: Email del usuario.
+              example: user@example.com
+            names:
+              type: string
+              description: Nombres del usuario.
+              example: Juan Carlos
+            last_names:
+              type: string
+              description: Apellidos del usuario.
+              example: Pérez Gómez
+        request_detail:
+          oneOf:
+            - $ref: '#/components/schemas/QueryRequestDetail'
+            - $ref: '#/components/schemas/MutationRequestDetail'
+          discriminator:
+            propertyName: kind
+            mapping:
+              access: ./schemas.yaml#/QueryRequestDetail
+              portability: ./schemas.yaml#/QueryRequestDetail
+              rectification: ./schemas.yaml#/MutationRequestDetail
+              opposition: ./schemas.yaml#/MutationRequestDetail
+              suppression: ./schemas.yaml#/MutationRequestDetail
+    DataSubjectRequestList:
+      type: object
+      properties:
+        data_subject_requests:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataSubjectRequest'
+        metadata:
+          $ref: '#/components/schemas/FilterOrderAndPaginationMetadata'
+    QueryRequestDetail:
+      type: object
+      description: 'Detalle de solicitud para consultas (access, portability)'
+      required:
+        - kind
+      properties:
+        kind:
+          type: string
+          enum:
+            - all
+            - specific
+          description: Tipo de solicitud de consulta.
+          example: all
+        data_categories:
+          type: array
+          items:
+            type: string
+          description: |
+            Categorías de datos a solicitar. Requerido cuando kind es 'specific'.
+            Debe ser una categoría válida de la taxonomía o 'other'.
+          example:
+            - user.name
+            - user.contact.email
+        detail:
+          type: string
+          description: Detalle adicional de la solicitud.
+          example: Solicitud de acceso a datos personales
+    MutationRequestDetail:
+      type: object
+      description: 'Detalle de solicitud para modificaciones (rectification, opposition, suppression)'
+      required:
+        - requested_fields
+      properties:
+        requested_fields:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/RequestedField'
+          description: Campos específicos que se solicita modificar
+    RequestedField:
+      type: object
+      required:
+        - data_category
+        - detail
+      properties:
+        data_category:
+          type: string
+          description: |
+            Categoría de datos según taxonomía válida o 'all'.
+            Debe ser una categoría válida de la taxonomía.
+          example: user.name
+        detail:
+          type: string
+          description: Detalle específico del campo solicitado.
+          example: Corrección de fecha de nacimiento
+        file_data:
+          type: object
+          description: Datos del archivo adjunto (si aplica)
+          additionalProperties: true
+    ValidationError:
+      type: object
+      required:
+        - type
+        - title
+        - status
+        - errors
+      properties:
+        type:
+          type: string
+          example: validation_error
+        title:
+          type: string
+          example: Validation error
+        status:
+          type: integer
+          example: 422
+        errors:
+          type: array
+          items:
+            type: string
+    Entity:
+      x-tags:
+        - Entities
+      type: object
+      description: |
+        Los objetos de Entidad permiten asociar los consentimientos de tus usuarios a un objeto. Una entidad representa a un usuario **no verificado** en el sistema, a diferencia de una identidad.
+      properties:
+        id:
+          type: string
+          description: ID único de la entidad.
+          example: ent_1B2M2Y8AsgTpgAmY7PhCfg
+    ComplianceStatus:
+      x-tags:
+        - Entities
+      type: object
+      description: Estado del cumplimiento de una entidad respecto a un template de consentimiento específico. Considera el último estado del agreement para evaluar si es que cumple o no cumple.
+      properties:
+        status:
+          type: string
+          enum:
+            - compliant
+            - non_compliant
+            - partially_compliant
+          description: |
+            El cumplimiento en sí:
+            - `compliant`: La entidad cumple con **todos** los `data_requirements`s del template de consentimiento.
+            - `non_compliant`: La entidad no cumple con **ningún** `data_requirement`s del template de consentimiento.
+            - `partially_compliant`: La entidad cumple **solo con algunos** de los `data_requirements`s del template de consentimiento.
+          example: compliant
+        consent_template_id:
+          type: string
+          description: ID del template de consentimiento al cuál corresponde el cumplimiento
+          example: constpl_1B2M2Y8AsgTpgAmY7PhCfg
+        last_consent_action_id:
+          type: string
+          description: ID de la última acción de consentimiento asociada al template y esa entidad.
+          example: consact_1B2M2Y8AsgTpgAmY7PhCfg
+        agreement_id:
+          type: string
+          description: 'ID del agreement, para ir a buscar más información sobre el cumplimiento.'
+          example: agreement_1B2M2Y8AsgTpgAmY7PhCfg
+    NotFoundErrorSchema:
+      type: object
+      required:
+        - type
+        - title
+        - status
+        - detail
+      properties:
+        type:
+          type: string
+          example: invalid_request_error
+        title:
+          type: string
+          example: Resource not found
+        status:
+          type: integer
+          example: 404
+        detail:
+          type: string
+          example: Couldn't find <resource> with id '<id>'. Please check your request and try again
+    Configuration:
+      type: object
+      x-tags:
+        - Company
+      description: |
+        Representa a los aspectos configurables de tu empresa, tales como canales de comunicación u otros datos relevantes.
+      properties:
+        rights_contact_channels:
+          type: object
+          properties:
+            email:
+              type: string
+              description: |
+                Dirección de correo electrónico que tus usuarios pueden usar para ejercer sus derechos. Se muestra al momento de dar el consentimiento
+              example: privacy@example.com
+            manage_consent_url:
+              type: string
+              description: |
+                URL del centro de privacidad de tu empresa, para que los usuarios puedan ejercer sus derechos y gestionar sus consentimientos. Se muestra al momento de dar el consentimiento y en caso de estar presente, reemplaza al correo electrónico.
+              example: 'https://example.com/manage-consent'
   securitySchemes:
     api_key:
       type: apiKey
       description: Esquema de autenticación mediante una clave API proporcionada en el encabezado de las solicitudes.
       name: Authorization
       in: header
-
-  parameters:
-    PageParam:
-      name: page
-      in: query
-      description: Número de página
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        default: 1
-      example: 1
-
-    PerPageParam:
-      name: per_page
-      in: query
-      description: Número de entradas por página
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 20
-      example: 20
-
-    OrderByParam:
-      name: order_by
-      in: query
-      description: Orden de los resultados (ej. "created_at DESC")
-      required: false
-      schema:
-        type: string
-      example: "created_at DESC"
-
-  responses:
-    SuccessResponse:
-      description: Respuesta exitosa
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              success:
-                type: boolean
-                example: true
-              data:
-                type: object
-                description: Los datos de la respuesta exitosa
-
-    UnauthorizedError:
-      description: Error de autenticación
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-              - type
-              - title
-              - status
-              - detail
-            properties:
-              type:
-                type: string
-                example: "authentication_error"
-              title:
-                type: string
-                example: "Unauthorized"
-              status:
-                type: integer
-                example: 401
-              detail:
-                type: string
-                example: "We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"
-
-    NotFoundError:
-      description: Recurso no encontrado
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-              - type
-              - title
-              - status
-              - detail
-            properties:
-              type:
-                type: string
-                example: "invalid_request_error"
-              title:
-                type: string
-                example: "Resource not found"
-              status:
-                type: integer
-                example: 404
-              detail:
-                type: string
-                example: "Couldn't find Consenttemplate with id '<id>'. Please check your request and try again"
-
-    ValidationError:
-      description: Error de validación
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-              - type
-              - title
-              - status
-              - errors
-            properties:
-              type:
-                type: string
-                example: "validation_error"
-              title:
-                type: string
-                example: "Validation error"
-              status:
-                type: integer
-                example: 422
-              errors:
-                type: array
-                items:
-                  type: string
-                example:
-                  - "Availability period in months is not a number"
