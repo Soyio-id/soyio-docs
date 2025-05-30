@@ -62,7 +62,6 @@ Facilita la gestión y administración de consentimientos otorgados por los usua
   </TabItem>
 </Tabs>
 
-
 ### Opciones de configuración
 
 | Opción | Tipo | Descripción |
@@ -74,6 +73,78 @@ Facilita la gestión y administración de consentimientos otorgados por los usua
 | `appearance` | Object | Configuración de la apariencia del componente |
 | `isSandbox` | Boolean | Indica si se ejecuta en modo sandbox (pruebas) |
 | `subjectId` | String | Identificador del usuario (entityId o identityId) |
+
+### Modos de uso
+
+El **Privacy Manager** puede funcionar en dos modos diferentes según el contexto de tu aplicación:
+
+#### 🌐 Modo Público
+
+**Cuándo usarlo:** Para usuarios no autenticados o cuando deseas proporcionar acceso universal a la gestión de privacidad.
+
+**Características:**
+- No requiere autenticación previa del usuario.
+- Permite que cualquier usuario gestione sus datos y consentimientos asociados a su identidad.
+- Ideal para páginas públicas de privacidad o centros de preferencias accesibles sin login.
+
+**Configuración:**
+
+```jsx
+// Modo público
+const privacyCenterOptions = {
+  companyId: "<company_id>",
+  enabledFeatures: ['DataSubjectRequests', 'ConsentManagement'],
+  onEvent: (event) => console.log('Event:', event),
+  onReady: () => console.log('Privacy Center is ready'), // Optional
+  appearance: {},                                        // Optional
+  isSandbox: false,                                      // Optional
+};
+
+const privacyCenter = new PrivacyCenter(privacyCenterOptions);
+privacyCenter.mount("#privacy-center-container");
+```
+
+**Flujo del usuario:**
+1. El usuario accede al Privacy Center
+2. Se le solicita identificarse (email, teléfono, etc.)
+3. Una vez validada su identidad, puede acceder a las funcionalidades habilitadas
+
+---
+
+#### 🔒 Modo Privado
+
+**Cuándo usarlo:** Para usuarios ya autenticados en tu aplicación o cuando necesitas mayor control sobre la identificación.
+
+**Características:**
+- Requiere que el usuario esté previamente autenticado.
+- Mayor seguridad mediante tokens de sesión.
+- Ideal para dashboards de usuario o áreas privadas de la aplicación.
+
+**Configuración:**
+
+**Paso 1:** [Obtener el token de sesión](../../api/resources/get-privacy-center-session-token) desde tu backend.
+
+**Paso 2:** Configurar el Privacy Center with el token de sesión.
+
+```jsx
+// Modo privado
+const privacyCenterOptions = {
+  sessionToken: "<session_token>",
+  enabledFeatures: ['DataSubjectRequests', 'ConsentManagement'],
+  onEvent: (event) => console.log('Event:', event),
+  onReady: () => console.log('Privacy Center is ready'), // Optional
+  appearance: {},                                        // Optional
+  isSandbox: false,                                      // Optional
+};
+
+const privacyCenter = new PrivacyCenter(privacyCenterOptions);
+privacyCenter.mount("#privacy-center-container");
+```
+
+**Flujo del usuario:**
+1. El usuario ya está autenticado en tu aplicación.
+2. Accede al Privacy Center con su sesión activa.
+3. Inmediatamente puede acceder a las funcionalidades habilitadas.
 
 ---
 
@@ -100,7 +171,6 @@ Esta funcionalidad permite a los usuarios ejercer sus derechos de protección de
 5. **Portabilidad**: Permite al usuario solicitar la copia de sus datos personales en un formato estructurado, legible y portable.
 
 <img src="/img/example_privacy_center.jpeg" alt="Privacy Center example" width="90%"/>
-
 
 ### Flujo de una solicitud de derechos
 
@@ -202,77 +272,7 @@ El módulo de **Consent Management** proporciona una experiencia integral para q
 - **Impacto claro**: Explica qué funcionalidades se verán afectadas al revocar cada consentimiento
 - **Proceso reversible**: Facilita volver a otorgar consentimientos cuando sea necesario
 
-### Modos de uso
-
-El módulo de **_Consent Management_** puede funcionar en dos modos diferentes según el contexto de tu aplicación:
-
-#### 🌐 Modo Público
-
-**Cuándo usarlo:** Para usuarios no autenticados o cuando deseas proporcionar acceso universal a la gestión de consentimientos.
-
-**Características:**
-- No requiere autenticación previa del usuario.
-- Permite que cualquier usuario gestione consentimientos asociados a su identidad.
-- Ideal para páginas públicas de privacidad o centros de preferencias accesibles sin login.
-
-**Configuración:**
-
-```jsx
-// Modo público
-const privacyCenterOptions = {
-  companyId: "<company_id>",
-  enabledFeatures: ['ConsentManagement'],
-  onEvent: (event) => console.log('Event:', event),
-  onReady: () => console.log('Privacy Center is ready'), // Optional
-  appearance: {},                                        // Optional
-  isSandbox: false,                                      // Optional
-};
-
-const privacyCenter = new PrivacyCenter(privacyCenterOptions);
-privacyCenter.mount("#privacy-center-container");
-```
-
-**Flujo del usuario:**
-1. El usuario accede al Privacy Center
-2. Se le solicita identificarse (email, teléfono, etc.)
-3. Una vez validada su identidad, puede ver y gestionar sus consentimientos
-
----
-
-#### 🔒 Modo Privado
-
-**Cuándo usarlo:** Para usuarios ya autenticados en tu aplicación o cuando necesitas mayor control sobre la identificación.
-
-**Características:**
-- Requiere que el usuario esté previamente autenticado.
-- Mayor seguridad mediante tokens de sesión.
-- Ideal para dashboards de usuario o áreas privadas de la aplicación.
-
-**Configuración:**
-
-**Paso 1:** [Obtener el token de sesión](../../api/resources/get-privacy-center-session-token) desde tu backend.
-
-**Paso 2:** Configurar el Privacy Center con el token de sesión.
-
-```jsx
-// Modo privado
-const privacyCenterOptions = {
-  sessionToken: "<session_token>",
-  enabledFeatures: ['ConsentManagement'],
-  onEvent: (event) => console.log('Event:', event),
-  onReady: () => console.log('Privacy Center is ready'), // Optional
-  appearance: {},                                        // Optional
-  isSandbox: false,                                      // Optional
-};
-
-const privacyCenter = new PrivacyCenter(privacyCenterOptions);
-privacyCenter.mount("#privacy-center-container");
-```
-
-**Flujo del usuario:**
-1. El usuario ya está autenticado en tu aplicación.
-2. Accede al Privacy Center con su sesión activa.
-3. Inmediatamente puede ver y gestionar sus consentimientos.
+<img src="/img/example_consent_management.webp" alt="Privacy Center example" width="90%"/>
 
 ---
 
