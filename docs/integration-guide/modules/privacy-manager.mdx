@@ -220,7 +220,7 @@ Para obtener más información sobre las opciones de configuración, consulta la
 
 ## Gestión de solicitudes de derechos
 
-Al momento de crearse una solicitud de ejercicio de derechos, se creará un nuevo [Data subject Request o DSR](../../api/resources/index-data-subject-requests). Este recurso es el que mantendrá la trazabilidad de la solicitud y su estado a medida que se procese la solicitud.
+Al momento de crearse una solicitud de ejercicio de derechos, se creará un nuevo [Data subject Request o DSR](../../api/resources/schemas/datasubjectrequest). Este recurso es el que mantendrá la trazabilidad de la solicitud y su estado a medida que se procese la solicitud.
 
 ### Flujo de una solicitud de derechos
 
@@ -321,14 +321,14 @@ En donde `kind` puede ser uno de los siguientes valores:
 - `SUPPRESSION`: Para ejercer el derecho de supresión.
 - `PORTABILITY`: Para ejercer el derecho de portabilidad.
 
-Y `dataSubjectRequestId` es el identificador de la solicitud de derechos generado por Soyio, también conocido como [`dataSubjectRequestId`](../../api/resources/index-data-subject-requests).
+Y `dataSubjectRequestId` es el identificador de la solicitud de derechos generado por Soyio, también conocido como [`dataSubjectRequestId`](../../api/resources/schemas/datasubjectrequest).
 
 #### Backend
 
 La lista de eventos relacionados al ejercicio de derechos es la siguiente:
 
-- `data_subject_request.created`: Se crea un nuevo [data subject request](../../api/resources/schemas/data-subject-request).
-- `data_subject_request.updated`: Se actualiza el estado de un [data subject request](../../api/resources/schemas/data-subject-request).
+- `data_subject_request.created`: Se crea un nuevo [data subject request](../../api/resources/schemas/datasubjectrequest).
+- `data_subject_request.updated`: Se actualiza el estado de un [data subject request](../../api/resources/schemas/datasubjectrequest).
 - `data_subject_request.validating`: Se valida la identidad del usuario.
 - `data_subject_request.processing`: Se procesa la solicitud.
 - `data_subject_request.completed`: Se completa la solicitud.
