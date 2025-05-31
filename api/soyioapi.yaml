@@ -1,14 +1,15 @@
 openapi: 3.1.0
 info:
   title: Soyio API
-  description: |-
-    API del Servicio de Identidad de Soyio
+  description: API del Servicio de Identidad de Soyio
   contact:
     email: soporte@soyio.id
   version: 1.0.0
 servers:
-  - url: https://sandbox.soyio.id/api/v1
-  - url: https://app.soyio.id/api/v1
+  - url: 'https://sandbox.soyio.id/api/v1'
+    description: Servidor de pruebas (sandbox)
+  - url: 'https://app.soyio.id/api/v1'
+    description: Servidor de producción (production)
 tags:
   - name: Disclosure requests
     description: |
@@ -42,10 +43,14 @@ tags:
       El tipo de autenticación dependerá del registro del dispositivo de autenticación del usuario. En el caso de que un usuario no tenga su dispositivo de autenticación registrado, el tipo de validación será facial. En ese momento se le pedirá registrar el dispositivo.
   - name: Signature attempts
     description: |
-      Representan los intentos de los usuario para firmar ciertos documentos, los cuales dependen del SignatureAttemptTemplate. La firma puede realizarse por medio de llaves de acceso para cuando el usuario haya registrado una, o por medio de video facial cuando el usuario por alguna razón no puede usar la llave de acceso.
+      Representan los intentos de los usuarios para firmar ciertos documentos, los cuales dependen del SignatureAttemptTemplate. La firma puede realizarse por medio de llaves de acceso para cuando el usuario haya registrado una, o por medio de video facial cuando el usuario por alguna razón no puede usar la llave de acceso.
   - name: Data subject requests
     description: |
-      Los data subject requests representan las solicitudes de los usuarios para gestionar los agreements.
+      Representan las solicitudes de ejercicio de derechos de los usuarios.
+
+      ### Guías relacionadas
+
+      - [Gestor de privacidad](/docs/integration-guide/modules/privacy-manager)
   - name: Events
     description: |
       Los eventos nos permiten comunicarte cambios relevantes en el sistema. Cuando ocurre un evento interesante, se crea un objeto evento. Por ejemplo, cuando se valida una identidad, se crea un evento `validation_attempt.succeeded`; cuando una validación falla, se crea un objeto `validation_attempt.failed`.
@@ -80,7 +85,6 @@ tags:
 
       ### Guías relacionadas
       - [Webhooks](/docs/api/webhooks)
-
   - name: Products
     description: |
       Diferentes productos o servicios que ofrece tu compañía.
@@ -103,18 +107,18 @@ paths:
       summary: Obtener todos los templates de consentimiento
       operationId: indexConsentTemplates
       parameters:
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PerPageParam"
-        - $ref: "#/components/parameters/OrderByParam"
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
+        - $ref: '#/components/parameters/OrderByParam'
       responses:
-        "200":
+        '200':
           description: Templates de consentimiento encontrados
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ConsentTemplateList"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
+                $ref: '#/components/schemas/ConsentTemplateList'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
       security:
         - api_key: []
     post:
@@ -127,23 +131,23 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ConsentTemplateInput"
+              $ref: '#/components/schemas/ConsentTemplateInput'
       responses:
-        "201":
+        '201':
           description: Template de consentimiento creado
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ConsentTemplate"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "422":
+                $ref: '#/components/schemas/ConsentTemplate'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '422':
           description: Error de validación
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: "#/components/schemas/ValidationError"
+                  - $ref: '#/components/schemas/ValidationError'
                   - type: object
                     properties:
                       errors:
@@ -151,7 +155,7 @@ paths:
                           - Availability period in months is not a number
       security:
         - api_key: []
-  "/consent_templates/{id}":
+  '/consent_templates/{id}':
     get:
       tags:
         - Consent templates
@@ -165,16 +169,16 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: Template de consentimiento encontrado
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ConsentTemplate"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
+                $ref: '#/components/schemas/ConsentTemplate'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
       security:
         - api_key: []
     patch:
@@ -194,24 +198,24 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ConsentTemplateInput"
+              $ref: '#/components/schemas/ConsentTemplateInput'
       responses:
-        "200":
+        '200':
           description: Template de consentimiento actualizado
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ConsentTemplate"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-        "422":
+                $ref: '#/components/schemas/ConsentTemplate'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '422':
           description: Error de validación
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ValidationError"
+                $ref: '#/components/schemas/ValidationError'
       security:
         - api_key: []
   /privacy_documents:
@@ -221,18 +225,18 @@ paths:
       summary: Obtener todos los documentos de privacidad
       operationId: indexPrivacyDocuments
       parameters:
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/PerPageParam"
-        - $ref: "#/components/parameters/OrderByParam"
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
+        - $ref: '#/components/parameters/OrderByParam'
       responses:
-        "200":
+        '200':
           description: Documentos de privacidad encontrados
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PrivacyDocumentList"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
+                $ref: '#/components/schemas/PrivacyDocumentList'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
       security:
         - api_key: []
     post:
@@ -253,18 +257,18 @@ paths:
               properties:
                 name:
                   type: string
-                  description: Texto que aparecerá en el módulo embebible, al referenciarlo con el `template_key`.
-                  example: "términos y condiciones"
+                  description: 'Texto que aparecerá en el módulo embebible, al referenciarlo con el `template_key`.'
+                  example: términos y condiciones
                 template_key:
                   type: string
                   description: Llave única para referenciar el documento en templates.
-                  example: "terms_and_conditions"
+                  example: terms_and_conditions
                 file:
                   type: string
                   format: binary
                   description: Archivo del documento
       responses:
-        "201":
+        '201':
           description: Documento de privacidad creado
           content:
             application/json:
@@ -272,8 +276,8 @@ paths:
                 type: object
                 properties:
                   privacy_document:
-                    $ref: "#/components/schemas/PrivacyDocument"
-        "400":
+                    $ref: '#/components/schemas/PrivacyDocument'
+        '400':
           description: Error de solicitud - falta algún campo requerido
           content:
             application/json:
@@ -599,7 +603,14 @@ paths:
     post:
       tags:
         - Data subject requests
-      summary: Crear un data subject request
+      summary: |
+        Crea un data subject request.
+      description: |
+        :::info[Ojo]
+        Dependiendo del tipo de request `kind`, se requerirá un `request_detail` diferente:
+        - `access`, `portability`: `request_detail` es un objeto con las categorías de datos a solicitar.
+        - `rectification`, `opposition`, `suppression`: `request_detail` es un arreglo con objetos que contienen los campos a modificar/eliminar.
+        :::
       operationId: createDataSubjectRequest
       requestBody:
         required: true
@@ -2002,6 +2013,13 @@ paths:
         Retorna una lista de estados de cumplimiento de la entidad respecto a los templates de consentimiento que tienes en tu empresa. Utiliza el último estado del agreement para evaluar si es que cumple o no cumple.
       operationId: getEntityAgreementComplianceStatuses
       parameters:
+        - name: id
+          in: path
+          description: ID de la entidad
+          required: true
+          schema:
+            type: string
+          example: ent_1B2M2Y8AsgTpgAmY7PhCfg
         - name: where
           in: query
           description: 'Filtros en formato JSON. Por ahora, damos únicamente soporte para el filtro de igualdad con el `consent_template_id`.'
@@ -3093,6 +3111,8 @@ components:
           type: string
           description: Identificador de la filial de tu empresa para la cual está vigente el uso del dato.
     DataUse:
+      x-tags:
+        - Agreements
       type: object
       description: Representa el uso específico de un dato.
       properties:
@@ -3108,6 +3128,8 @@ components:
         document_references:
           type: array
           description: Referencias a documentos relacionados
+          items:
+            type: string
           example:
             - 669823ed4c91e6af2537f984
             - 66b103a5d2e10ef171a9004b
@@ -3199,7 +3221,6 @@ components:
             - `*`: Todos los eventos
             - `agreement.created`
             - `agreement.updated`
-            - `agreement.revoked`
             - `auth_attempt.failed`
             - `auth_attempt.successful`
             - `auth_request.successful`
@@ -3210,6 +3231,12 @@ components:
             - `validation_attempt.failed`
             - `signature_attempt.successful`
             - `signature_attempt.failed`
+            - `data_subject_request.created`
+            - `data_subject_request.updated`
+            - `data_subject_request.completed`
+            - `data_subject_request.rejected`
+            - `data_subject_request.data_missmatch`
+            - `data_subject_request.validating`
 
             **TIP**:
             Puedes suscribirte a todos los eventos de un recurso específico usando el wildcard `*`.
@@ -3262,16 +3289,83 @@ components:
           type: string
           description: ID único del producto. Se recomienda darle un identificador con un formato que facilite su identificación.
           example: my_product_123
+    DSRQueryRequestDetail:
+      type: object
+      description: 'Detalle de solicitud para consultas (access, portability)'
+      required:
+        - kind
+      properties:
+        kind:
+          type: string
+          enum:
+            - all
+            - specific
+          description: Tipo de solicitud de consulta.
+          example: all
+        data_categories:
+          type: array
+          items:
+            type: string
+          description: |
+            Categorías de datos a solicitar. Requerido cuando kind es 'specific'.
+            Debe ser una categoría válida de la taxonomía o 'other'.
+          example:
+            - user.name
+            - user.contact.email
+        detail:
+          type: string
+          description: Detalle adicional de la solicitud.
+          example: Solicitud de acceso a datos personales
+    DSRMutationRequestDetail:
+      type: object
+      description: 'Detalle de solicitud para modificaciones (rectification, opposition, suppression)'
+      required:
+        - requested_fields
+      properties:
+        requested_fields:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/DSRRequestedField'
+          description: Campos específicos que se solicita modificar
+    DSRRequestedField:
+      type: object
+      required:
+        - data_category
+        - detail
+      properties:
+        data_category:
+          type: string
+          description: |
+            Categoría de datos según taxonomía válida o 'all'.
+            Debe ser una categoría válida de la taxonomía.
+          example: user.name
+        detail:
+          type: string
+          description: Detalle específico del campo solicitado.
+          example: Corrección de fecha de nacimiento
+        file_data:
+          type: object
+          description: Datos del archivo adjunto (si aplica)
+          additionalProperties: true
     DataSubjectRequest:
+      x-tags:
+        - Data subject requests
       type: object
       description: |
-        Los data subject requests representan las solicitudes de los usuarios para modificar agreements.
-        Estas solicitudes pueden ser de tipo revocación (revoke) o cambio (change) y pasan por diferentes estados
-        durante su ciclo de vida.
+        Representan las solicitudes de ejercicio de derechos de los usuarios.
+
+        ### Guías relacionadas
+
+        - [Gestor de privacidad](/docs/integration-guide/modules/privacy-manager)
+      required:
+        - kind
+        - contact_information
+        - request_detail
       properties:
         id:
           type: string
-          description: ID único del data subject request.
+          description: Identificador único del data subject request. Debe empezar con `dsreq_`
           example: dsreq_1B2M2Y8AsgTpgAmY7PhCfg
         humanized_identifier:
           type: string
@@ -3279,7 +3373,7 @@ components:
           example: FME4607
         subject_id:
           type: string
-          description: ID del sujeto de datos que se está modificando.
+          description: Identificador único del sujeto de datos que se está modificando. Puede corresponder al identificador de un `Identity` o `Entity`.
           example: ent_1B2M2Y8AsgTpgAmY7PhCfg
         user_reference:
           type: string
@@ -3311,7 +3405,7 @@ components:
           enum:
             - block
             - allow
-          description: Indica si el uso de datos durante la solicitud está permitido o no.
+          description: 'Indica si el uso de datos durante la solicitud está permitido o no. Solo es requerido para las solicitudes de tipo `rectification`, `opposition` y `suppression`.'
           example: block
         rejection_reason:
           type: string
@@ -3344,16 +3438,8 @@ components:
               example: Pérez Gómez
         request_detail:
           oneOf:
-            - $ref: '#/components/schemas/QueryRequestDetail'
-            - $ref: '#/components/schemas/MutationRequestDetail'
-          discriminator:
-            propertyName: kind
-            mapping:
-              access: ./schemas.yaml#/QueryRequestDetail
-              portability: ./schemas.yaml#/QueryRequestDetail
-              rectification: ./schemas.yaml#/MutationRequestDetail
-              opposition: ./schemas.yaml#/MutationRequestDetail
-              suppression: ./schemas.yaml#/MutationRequestDetail
+            - $ref: '#/components/schemas/DSRQueryRequestDetail'
+            - $ref: '#/components/schemas/DSRMutationRequestDetail'
         workflow_run_id:
           type: string
           description: ID del workflow run asociado a la solicitud.
@@ -3370,12 +3456,12 @@ components:
           example: '2024-03-20T15:30:00Z'
     DataSubjectRequestCreate:
       type: object
+      description: |
+        Datos para crear un data subject request.
       required:
         - kind
         - contact_information
         - request_detail
-      description: |
-        Datos para crear un data subject request.
       properties:
         subject_id:
           type: string
@@ -3429,16 +3515,8 @@ components:
               example: Pérez Gómez
         request_detail:
           oneOf:
-            - $ref: '#/components/schemas/QueryRequestDetail'
-            - $ref: '#/components/schemas/MutationRequestDetail'
-          discriminator:
-            propertyName: kind
-            mapping:
-              access: ./schemas.yaml#/QueryRequestDetail
-              portability: ./schemas.yaml#/QueryRequestDetail
-              rectification: ./schemas.yaml#/MutationRequestDetail
-              opposition: ./schemas.yaml#/MutationRequestDetail
-              suppression: ./schemas.yaml#/MutationRequestDetail
+            - $ref: '#/components/schemas/DSRQueryRequestDetail'
+            - $ref: '#/components/schemas/DSRMutationRequestDetail'
     DataSubjectRequestList:
       type: object
       properties:
@@ -3448,65 +3526,6 @@ components:
             $ref: '#/components/schemas/DataSubjectRequest'
         metadata:
           $ref: '#/components/schemas/FilterOrderAndPaginationMetadata'
-    QueryRequestDetail:
-      type: object
-      description: 'Detalle de solicitud para consultas (access, portability)'
-      required:
-        - kind
-      properties:
-        kind:
-          type: string
-          enum:
-            - all
-            - specific
-          description: Tipo de solicitud de consulta.
-          example: all
-        data_categories:
-          type: array
-          items:
-            type: string
-          description: |
-            Categorías de datos a solicitar. Requerido cuando kind es 'specific'.
-            Debe ser una categoría válida de la taxonomía o 'other'.
-          example:
-            - user.name
-            - user.contact.email
-        detail:
-          type: string
-          description: Detalle adicional de la solicitud.
-          example: Solicitud de acceso a datos personales
-    MutationRequestDetail:
-      type: object
-      description: 'Detalle de solicitud para modificaciones (rectification, opposition, suppression)'
-      required:
-        - requested_fields
-      properties:
-        requested_fields:
-          type: array
-          minItems: 1
-          items:
-            $ref: '#/components/schemas/RequestedField'
-          description: Campos específicos que se solicita modificar
-    RequestedField:
-      type: object
-      required:
-        - data_category
-        - detail
-      properties:
-        data_category:
-          type: string
-          description: |
-            Categoría de datos según taxonomía válida o 'all'.
-            Debe ser una categoría válida de la taxonomía.
-          example: user.name
-        detail:
-          type: string
-          description: Detalle específico del campo solicitado.
-          example: Corrección de fecha de nacimiento
-        file_data:
-          type: object
-          description: Datos del archivo adjunto (si aplica)
-          additionalProperties: true
     ValidationError:
       type: object
       required:
