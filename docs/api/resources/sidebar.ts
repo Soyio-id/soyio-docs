@@ -302,8 +302,14 @@ const sidebar: SidebarsConfig = {
       items: [
         {
           type: "doc",
+          id: "api/resources/schemas/datasubjectrequest",
+          label: "El objeto DataSubjectRequest",
+          className: "schema",
+        },
+        {
+          type: "doc",
           id: "api/resources/create-data-subject-request",
-          label: "Crear un data subject request",
+          label: "Crea un data subject request.\n",
           className: "api-method post",
         },
         {
@@ -388,6 +394,12 @@ const sidebar: SidebarsConfig = {
           type: "doc",
           id: "api/resources/schemas/evidence",
           label: "El objeto Evidence",
+          className: "schema",
+        },
+        {
+          type: "doc",
+          id: "api/resources/schemas/datause",
+          label: "El objeto DataUse",
           className: "schema",
         },
         {

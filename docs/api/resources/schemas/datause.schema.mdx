@@ -1,0 +1,33 @@
+---
+id: datause
+title: "DataUse"
+description: "Representa el uso específico de un dato."
+hide_title: true
+hide_table_of_contents: true
+schema: true
+sample: {"use":"essential.service.authentication","expires_at":"2034-12-06","document_references":["669823ed4c91e6af2537f984","66b103a5d2e10ef171a9004b"]}
+custom_edit_url: null
+---
+
+import Schema from "@theme/Schema";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"DataUse"}
+>
+</Heading>
+
+
+
+Representa el uso específico de un dato.
+
+<Schema
+	defaultCollapsibleOpen={true}
+  schema={{"x-tags":["Agreements"],"type":"object","description":"Representa el uso específico de un dato.","properties":{"use":{"type":"string","description":"Propósito específico del uso del dato. Sigue la taxonomía de usos de datos. Para más información, consulta [el detalle de la taxonomía](/docs/integration-guide/concepts/agreement#taxonomía)","example":"essential.service.authentication"},"expires_at":{"type":"string","format":"date","description":"Fecha de expiración del permiso de uso","example":"2034-12-06"},"document_references":{"type":"array","description":"Referencias a documentos relacionados","items":{"type":"string"},"example":["669823ed4c91e6af2537f984","66b103a5d2e10ef171a9004b"]}},"title":"DataUse"}}
+  schemaType={"response"}
+>
+  
+</Schema>
+            
