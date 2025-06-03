@@ -76,9 +76,10 @@ Si tu endpoint responde con un código de estado fuera del rango 2XX, Soyio cont
 Si la entrega falla consistentemente por varias días, te notificaremos y posiblemente deshabilitaremos las entregas al endpoint.
 :::
 
-## Verificación de seguridad
+## Verificación de seguridad (opcional)
 
-Todos los webhooks de Soyio incluyen una firma digital que te permite verificar que la solicitud realmente proviene de nuestros servidores y que el contenido no ha sido modificado en tránsito.
+Todos los webhooks de Soyio incluyen una firma digital. **La verificación de esta firma es opcional, pero fuertemente recomendada** para una integración segura. Esta te permite verificar que la solicitud realmente proviene de nuestros servidores y que el contenido no ha sido modificado en tránsito.
+
 
 ### Headers de seguridad
 
@@ -92,7 +93,7 @@ Cada webhook incluye los siguientes headers adicionales:
 
 ### Obtener tu clave secreta
 
-Cada webhook tiene una clave secreta única (`secret_key`) que puedes encontrarla al consultar el webhook por nuestra API.
+Cada webhook tiene una clave secreta única (`secret_key`) que se genera al momento de crear el webhook y puedes consultarla en cualquier momento en nuestro endpoint de [webhooks](./resources/get-webhook).
 
 :::warning
 Guarda tu clave secreta de forma segura y nunca la expongas en tu código cliente o logs. Usa variables de entorno para almacenarla.
