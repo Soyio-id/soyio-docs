@@ -76,8 +76,75 @@ Si tu endpoint responde con un código de estado fuera del rango 2XX, Soyio cont
 Si la entrega falla consistentemente por varias días, te notificaremos y posiblemente deshabilitaremos las entregas al endpoint.
 :::
 
+## Verificación de seguridad (opcional)
+
+Todos los webhooks de Soyio incluyen una firma digital. **La verificación de esta firma es opcional, pero fuertemente recomendada** para una integración segura. Esta te permite verificar que la solicitud realmente proviene de nuestros servidores y que el contenido no ha sido modificado en tránsito.
+
+
+### Headers de seguridad
+
+Cada webhook incluye los siguientes headers adicionales:
+
+| Header | Descripción |
+|--------|-------------|
+| `X-Hub-Signature-256` | Firma HMAC-SHA256 del payload usando tu clave secreta |
+| `X-Hub-Timestamp` | Timestamp Unix de cuando se envió el webhook |
+| `X-Hub-Delivery` | ID único de la entrega para debugging |
+
+### Obtener tu clave secreta
+
+Cada webhook tiene una clave secreta única (`secret_key`) que se genera al momento de crear el webhook y puedes consultarla en cualquier momento en nuestro endpoint de [webhooks](./resources/get-webhook).
+
+:::warning
+Guarda tu clave secreta de forma segura y nunca la expongas en tu código cliente o logs. Usa variables de entorno para almacenarla.
+:::
+
+### Verificar la firma
+
+Para verificar que un webhook proviene de Soyio:
+
+1. Extrae la firma del header `X-Hub-Signature-256`
+2. Calcula la firma esperada usando tu clave secreta y el payload raw
+3. Compara ambas firmas de forma segura
+
+
+#### Ejemplo en Node.js
+
+```javascript
+const crypto = require('crypto');
+
+function verifyWebhookSignature(req, res, next) {
+  const payload = JSON.stringify(req.body);
+  const signature = req.headers['x-hub-signature-256'];
+
+  // Calcular firma esperada
+  const expectedSignature = `sha256=${crypto
+    .createHmac('sha256', process.env.SOYIO_WEBHOOK_SECRET)
+    .update(payload)
+    .digest('hex')}`;
+
+  // Comparación timing-safe
+  if (!crypto.timingSafeEqual(
+    Buffer.from(signature), 
+    Buffer.from(expectedSignature)
+  )) {
+    return res.status(401).json({ error: 'Invalid signature' });
+  }
+
+  next();
+}
+
+// Usar como middleware
+app.post('/webhook', verifyWebhookSignature, (req, res) => {
+  // Procesar webhook de forma segura
+  handleEvent(req.body);
+  res.status(200).json({ status: 'success' });
+});
+```
+
 ## Buenas prácticas
 - Antes de ir a producción, **prueba que tu webhook esta funcionando de manera adecuada**.
+- **Verifica siempre la firma del webhook** para asegurar que proviene de Soyio y no ha sido modificado.
 - Si tu endpoint para webhooks ejecuta lógica compleja o realiza llamadas HTTP, es posible que se produzca un timeout antes de que Soyio pueda ser notificado de la recepción. Por esta razón, es mejor **acusar recibo inmediatamente del webhook retornando un código HTTP 200 y luego realizar el resto de las tareas**.
 - Los endpoints de webhook pueden ocasionalmente **recibir los mismos eventos más de una vez**. Aconsejamos considerar estos casos para evitar la duplicación de los eventos, lo que puede provocar resultados inesperados.
 - Por razones de seguridad, se aconseja siempre verificar que la información proporcionada en el evento realmente existe y el evento ocurrió. Para ello simplemente basta con enviar un request a nuestra API a la ruta correspondiente del evento para corroborar que el recurso señalado se modificó. Este chequeo sirve para verificar que la información viene desde Soyio, evitando que potenciales atacantes envíen webhooks con información falsa.
