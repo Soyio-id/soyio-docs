@@ -19,27 +19,15 @@ Algunos casos de uso son:
 
 ## Suscripción a eventos
 
-Los eventos están relacionados con el ciclo de vida de los recursos en Soyio. Por ejemplo, para un `disclosure_request`, existen eventos que notifican cuando se completa, falla o expira. Esto te permite seguir el estado de tus recursos a lo largo del tiempo.
+Los eventos están relacionados con el ciclo de vida de los recursos en Soyio. Cada recurso tiene eventos específicos que notifican cuando ocurren cambios importantes en su estado. Por ejemplo, para un agreement, existen eventos que notifican cuando se crea o actualiza. Esto te permite seguir el estado de tus recursos a lo largo del tiempo.
 
 Para recibir notificaciones de webhooks, debes suscribirte a los tipos de eventos que te interesan. Al crear un webhook, puedes elegir:
 
-- Suscribirte a todos los eventos disponibles
-- Seleccionar categorías específicas de eventos (por ejemplo, todos los eventos de `disclosure_request`)
-- Elegir eventos individuales (por ejemplo, solo `disclosure_request.granted`)
+* Suscribirte a todos los eventos disponibles usando el wildcard `*`.
+* Seleccionar categorías específicas de eventos (por ejemplo, todos los eventos de agreement usando `agreement.*`).
+* Elegir eventos individuales (por ejemplo, solo `agreement.created`).
 
-Los eventos disponibles son:
-
-- `*`: Todos los eventos
-- `disclosure_request.granted`
-- `disclosure_request.timed_out`
-- `disclosure_request.fail`
-- `validation_attempt.successful`
-- `validation_attempt.failed`
-- `auth_attempt.failed`
-- `auth_attempt.successful`
-- `signature_attempt.successful`
-- `signature_attempt.failed`
-- `auth_request.successful`
+Puedes consultar la lista completa de eventos disponibles para cada recurso en la especificación de nuestra API. Cada evento está identificado con la etiqueta `EVENT`, ubicada debajo de los endpoints correspondientes a cada recurso.
 
 ### Mejores prácticas
 
@@ -58,23 +46,46 @@ Los datos del webhook son enviado en formato JSON en el body o cuerpo de la llam
 
 ## Respondiendo a un webhook
 
-Para acusar recibo del webhook, tu endpoint debe retornar un estado `HTTP 200`. Cualquier otra información retornada en la cabecera o cuerpo de la llamada será ignorada.
-
-:::info
-Cualquier respuesta que no sea código 200, incluyendo códigos en el rango 3xx, indicará a Soyio que no se recibió el webhook.
-:::
-
-:::warning
-Soyio no garantiza el orden de entrega de los eventos, por lo que tu endpoint debe ser capaz de manejar eventos que lleguen desordenados.
-:::
+Para acusar recibo del webhook, tu endpoint debe retornar un estado HTTP en el rango **2XX** (como `200`, `201`, `204`, etc.). Cualquier otra información retornada en la cabecera o cuerpo de la llamada será ignorada.
 
 ### Re-intentos
 
-Si tu endpoint responde con un código de estado fuera del rango 2XX, Soyio continuará intentando enviar el evento por hasta 48 horas, utilizando una estrategia de retroceso exponencial. Luego de este periodo, los webhooks no podrán volver a enviarse, pero se puede consultar la lista de eventos para reconciliar la información por eventos faltantes.
+Si tu endpoint responde con un código de estado fuera del rango 2XX, Soyio continuará intentando enviar el evento utilizando la siguiente estrategia de reintentos:
 
-:::warning
-Si la entrega falla consistentemente por varias días, te notificaremos y posiblemente deshabilitaremos las entregas al endpoint.
+**Primeros reintentos:** 3 reintentos inmediatos con intervalos de 10 segundos entre cada uno.
+
+**Reintentos posteriores:** Si los primeros 3 reintentos fallan, se programan reintentos adicionales con los siguientes intervalos:
+
+| Reintento | Intervalo de espera |
+|-----------|-------------------|
+| 4° | 2 minutos |
+| 5° | 5 minutos |
+| 6° | 10 minutos |
+| 7° | 15 minutos |
+| 8° | 30 minutos |
+| 9° | 1 hora |
+| 10° | 2 horas |
+| 11° | 4 horas |
+| 12° | 8 horas |
+
+**Total:** 15 reintentos durante aproximadamente **15.5 horas**.
+
+Después de este periodo, los webhooks no podrán volver a enviarse, pero puedes consultar la lista de eventos para reconciliar la información por eventos faltantes.
+
+:::note
+Los tiempos mostrados son aproximados. El sistema de colas agrega una pequeña variación aleatoria (jitter) a cada intervalo para distribuir la carga y evitar picos de tráfico concentrados.
 :::
+
+### Alertas
+
+Soyio envía alertas automáticas para notificarte sobre problemas en la entrega de webhooks:
+
+- **Alerta inicial de fallo:** Se envía tras 5 fallos consecutivos en la entrega a tu endpoint. Esta alerta te permite identificar y resolver problemas tempranamente.
+- **Alerta de fallo continuo:** Se envía cuando se han agotado todos los reintentos y el webhook no pudo ser entregado exitosamente. Esta alerta confirma que hemos dejado de intentar entregar ese evento específico.
+
+Estas alertas serán enviadas al correo especificado en la [configuración](./resources/schemas/configuration), bajo el nombre de `alert_notification_email`.
+
+Te recomendamos configurar monitoreo en tu endpoint para detectar problemas antes de que lleguen estas alertas automáticas.
 
 ## Verificación de seguridad (opcional)
 
