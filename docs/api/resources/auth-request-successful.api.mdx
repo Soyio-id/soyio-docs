@@ -1,0 +1,73 @@
+---
+id: auth-request-successful
+title: "Successful"
+description: "#### Nombre del evento: `auth_request.successful`."
+sidebar_label: "Successful"
+hide_title: true
+hide_table_of_contents: true
+api: eJytVk1vGzcQ/SsEfbEBfSeB4z1VSdTASJqmdoAmjQ1lRI60jHfJNYdUrBj6QT30lFuv/mPFcFe2ZNlOU1SnlZYcPr55854uZYAZyeyjHMaQC4/nESmQPG1JV6GHYJw91DKTEEN+VL89jkoh0TQWsiU1kvKm4nUykzs7OzvijSsnHoXGQuAcbXCZ+MTbx031Dl0X+NQ5scco0M6v/gKhIljtRLQrHEKjgBjQBqNAmatvVhCKHIRyZVVgAO0EXpjgCEq0ATsnVrZks/mZ0wuZXd5C+NzZYNCiwEJ4VNGTE8ObuwlQIUJhvoJ2HTEqRAWLwoEWynmPVDnLkAqBdB6xvAbi0m2beh3ZkspZhs3nQ1UVRiUmu5+JQVxKUjmWwE9hUaHMpJt8RhVkS1aeeQ8Gid8avbaGgjd2tsX54Qtx9bc1yq0xLlsSL4ChyUziPIz7zwa/DD48HdLsXTUblh/23+bPpzO5bEkLJd51CNpYsi7u6RwrZBPHVtu5ekNf4qEofp3K7OP2nTfrvIDgqOHzPhWsdUkuW5fyon2vjB8+7LUjrn2zRZCzIloQU+dL2DjaCxBG87MGjSQqj3NTC0/MoeBfgQSI4GF+9SdfgaX8SRtShaPocUUjq/7E8qi8jAZIeCxAGWd5/4lti4/PnVVYMQ0v0aKHAul0t6udoq6xAWf1XLZn0WjsqnoxdWf12vbqh700Df9BUOmOU6NAO7+urXv70dnQG/Pp8Xz8ylX9g/HZCAePzH5+/OXpby8ft4FVUbMYFuMfh6NRFGttEOcRhcekBR5pk8bObQIyelzCoP/qNZVAhauAzg76gyEMGAsFCJEenIAvYIKxszFfrL51gtaStO6EwZSoxy6G7dEYUbKqWrXfo3LZkpHQjz1O0aNVd07nZv2jZqlJgo0UwRtumQhRkKHATlWBB/Hvm5gg9AePGI7yCAH1GMJdUNKgBJlJDQHbzMIWvp9R5SAWIneMwaamEQrl8epbjWlmKPhaZU0L76RmyTSHBHDNtOXy9H9HqRO8xm7WPS19OGQ4DKieqkGvt500v+Mkd+6MU8FMjHZ1hKhQOwbz+vj9++1tI++dZ5KwEJV3CglK0xBSiC910cREiSF3Ohk8Rw2bbchlJldrWpLQz9FTMt3oC5nJPISKsm6XwOqJu+iQWxjXMboLlenO+1ucHKOfm2buKh9xAiR2m817yXo360JV/WBNp6OqWd6tv/CqPbk8ZfgqehMWx5yWNdNQmfEZLtY6DJV5hYutQ0ZNQG9nR4naAHs2u7wqYI5i+PaQkVTONzbc8I9WwQQ5ZWrf4XQojDIhaiSelzo8kxadN19XvmAYQY6g0adOcewf3fwrGa2mrPbjhwL6+oj7YngjYo3+vv3ect8HzPHGGx+wwNtWdWMcmxMpB73B43Zvvz04eNd/kj3pZ4Onnd5+/4/bBvPgQmOnLvW+MYFjlhq3b6v/3FIemCQ2Vbvh4XVqaBRpa/NPDVTyDCzBsJiJlRDwp5WQ+WSeo7pyv9Pr9ORy+Q/Ft/hx
+sidebar_class_name: "event api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Successful"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"event"}
+  path={"webhook"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+#### Nombre del evento: `auth_request.successful`.
+Se envía cuando un request de autenticación se ha completado exitosamente.
+
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"description":"Contiene el recurso AuthRequest actualizado. El payload corresponde al esquema completo del recurso.","content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"string","description":"ID único del evento","example":"evt_1B2M2Y8AsgTpgAmY7PhCfg"},"name":{"type":"string","enum":["auth_request.successful"],"description":"Nombre del evento"},"payload":{"allOf":[{"type":"object","description":"Datos del request de autenticación actualizado"},{"x-tags":["Auth requests"],"type":"object","description":"Los auth requests son una forma de autenticar a identidades previamente validadas a través de un `disclosure_request`.\n\n### Guias relacionadas\n- [Conceptos Generales](/docs/integration-guide/concepts/general-concepts)\n","properties":{"id":{"type":"string","description":"Identificador único del request de autenticación.","example":"authreq_Kop19_kEe23i7hSw8QG4-a"},"identity_id":{"type":"string","description":"Identificador de la identidad que realiza el intento.","example":"id_ma21KLsmaslopask912Aa2"},"status":{"type":"string","enum":["awaiting_authentication","successful","timed_out"],"description":"Estado actual del request de autenticación."},"user_reference":{"type":"string","description":"Referencia de usuario de tu sistema para el request de autenticación.","example":"user_123"},"created_at":{"type":"string","format":"date-time","description":"Fecha y hora en que se creó el registro del intento de autenticación."}},"title":"AuthRequest"}]},"created_at":{"type":"string","format":"date-time","description":"Fecha y hora de creación del evento"}}}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Webhook recibido correctamente"},"4XX":{"description":"Error en el procesamiento del webhook"}}}
+>
+  
+</StatusCodes>
+
+
+      

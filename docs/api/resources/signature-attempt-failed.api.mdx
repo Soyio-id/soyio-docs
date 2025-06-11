@@ -1,0 +1,73 @@
+---
+id: signature-attempt-failed
+title: "Failed"
+description: "#### Nombre del evento: `signature_attempt.failed`."
+sidebar_label: "Failed"
+hide_title: true
+hide_table_of_contents: true
+api: eJytVsFuGzcQ/RWCviTAWrLUBEl0qpM4hZG0DWIDTRoZ8pgcSYy5JMMh1SiGPqiHnnLr1T9WDFeyJa2tIkV1Wu0OZx5n3ryZK5lgQnLwUZ6YiYOUIwpICeuQSJ5V0geMkIx3x1oOJK1sDhuTV2AsallJjaSiCWwoB3Jvb29P/OLri4hCoxU4Q5f8QJzfnB8tY3TGxcN5Z+hOUKCbXf8FQmVw2ovshHGJTwqNYmxiDfygvcp1eTsFMQZrQfvO0MlKRvyckdJzr+dycLWF6YV3yaBDgVZEVDmSFydb1xGgUgZrvrJLcWRFgLn1oIXyMSIF7zQKsALpc8YahPJ1sFjw3TjtyEoqX3AzCAjBGlUy2P1EjORKkppiDfyU5gHlQPqLT6iSrGSInO9kkPir0Ws2lKJxk1aqj1+K67+dUX4t0bKS+AUYmhxInKVR73n/5/6Hp4c0OQ2Tw/rDk7fTF+OJXFTSQY13BUGXaybFfQVjamwCaZWb3S/zVxJh7a9jOfjYvvSmn5eQPBU3reKvVUcuqiv5ZX83d3cHeochIqFL4IT1tArHscv/TBmi8SQCRGgQRKEMxmKzIiFVxVhlsMhHAzqNruDfZtcp1sFCws7QvVk6FCGjRhGxXCsSiuCjqFGbcm1rYVa8ClAKyTdQlu2BdgVRTGEOIuLEUIpQOgcq4Td9zYxGP3RjUAbsHT7YGOwkOxARvl5/c8L5JbxMEIWFBs4tms7QDR13+k/ZAImIFpTxDjTQ0O2LjyfeGmVS1s0V2g1MZw+62ivqcuonjczsT7LR2K29zhape8O/h8Xlq+/xobxTGNKmk//WZBpdMmOjQPu43m/bFO1stB7Bjs4zxWeaj74fADMDRONAgxaf8w2FxC2oTSxGj2ro916/oRrI+gB0+azXP4Q+Y6EEKdMuHWBaN28gpykHZk0rL1TE8jjiNKMerUpDspKUmSk0zrYtGEeUmKtNU9+TzUUlM2EcRRxjRKfu1Krttm5MTeHJit0aRcqCDCXW7dJG/1q+ErnX/4FR8K1HTeAdSQKiS5yPZmCNLkyUlWwabv1dKxOnJhQMkFOTWWW4/3IyRexAoLsTrThvRzzfnFVrs3SVimJ7/U2ASBFm13+W5uS2325vvncpLuoRpLsuPvax5i9SQ8L9ZGpsleMVqimIuZj6WO7BXCUUKuL1t2YUF9VqtdNmLjpysahkMqkUZltY5eLsf4eqC8ZlJdaHWvnxrsEppkZD+gcH7YXjN7yYen/Je4G5MNo3hVEJuDmQk/vo/fv2saMYfVxWPESvkKA2y6xY8UfjtKSjxjT1uox4XjZ42qapHMiVTSUJ4wwjlambo5UDOU0p0KDbJXD6wn/pkJ8b3zG6C8F0Z71WTk4wzsxSc0LMeAEkHiwPPyxDeNMvhPCdPr3Oqsnyg+YPWz2UizOGr3I0aX7C+1KTaQhmdInztQpDMK9x3gpytFzR2m3FExFcajivCucP3x4zkuDjcoAt849OwQXyvtFoLgm6nWksFs36JA9zmvpovq563jCCKYLGWCrFi9+72+X0aCUxzfTZtaLdhLh3EdtYsoq7+8fO1tTZMRRuZ8Ka9G9L8a1Cbgjk3Tq43p6yf9B/tH/wZL//7LT3ePC4N+g/7Rw86f2+LTk7DY0b+0KElSww77iWLTJwfctGxsxTzTg4vhmfGkU5ulzcQRUBwRoMM5uYFgl/XLGaI3NTNZ57nYPOgVws/gGHZ7Ot
+sidebar_class_name: "event api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Failed"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"event"}
+  path={"webhook"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+#### Nombre del evento: `signature_attempt.failed`.
+Se envía cuando un intento de firma de documento ha fallado.
+
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"description":"Contiene el recurso SignatureAttempt actualizado. El payload corresponde al esquema completo del recurso.","content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"string","description":"ID único del evento","example":"evt_1B2M2Y8AsgTpgAmY7PhCfg"},"name":{"type":"string","enum":["signature_attempt.failed"],"description":"Nombre del evento"},"payload":{"allOf":[{"type":"object","description":"Datos del intento de firma actualizado"},{"x-tags":["Signature attempts"],"type":"object","description":"Representan los intentos de los usuarios para firmar ciertos documentos, los cuales dependen del SignatureAttemptTemplate.\nLa firma puede realizarse por medio de llaves de acceso para cuando el usuario haya registrado una, o por medio de video\nfacial cuando el usuario por alguna razón no puede usar la llave de acceso.\n\n### Guias relacionadas\n- [Solicitudes de firma de documentos](/docs/integration-guide/modules/signature)\n- [Firma de documentos](/docs/integration-guide/concepts/signature)\n","properties":{"id":{"type":"string","description":"Identificador único del intento de firma.","example":"sa_1B2M2Y8AsgTpgAmY7PhCfg"},"identity_id":{"type":"string","description":"Identificador de la identidad que realiza el intento.","example":"id_ma21KLsmaslopask912Aa2"},"status":{"type":"string","enum":["pending","authenticating","creating_signed_documents","successful"],"description":"Estado actual del intento de firma."},"user_reference":{"type":"string","description":"Referencia de usuario de tu sistema para el intento de firma.","example":"user_123"},"auth_type":{"type":"string","enum":["passkey_validation","facial_validation"],"description":"Tipo de autenticación utilizada en el intento de firma. `passkey_validation` corresponde a cuando un usuario validó a través de una llave de acceso."},"created_at":{"type":"string","format":"date-time","description":"Fecha y hora en que se creó el registro del intento de autenticación."}},"title":"SignatureAttempt"}]},"created_at":{"type":"string","format":"date-time","description":"Fecha y hora de creación del evento"}}}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Webhook recibido correctamente"},"4XX":{"description":"Error en el procesamiento del webhook"}}}
+>
+  
+</StatusCodes>
+
+
+      

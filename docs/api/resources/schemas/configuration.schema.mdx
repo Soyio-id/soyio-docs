@@ -5,7 +5,7 @@ description: "Representa a los aspectos configurables de tu empresa, tales como 
 hide_title: true
 hide_table_of_contents: true
 schema: true
-sample: {"rights_contact_channels":{"email":"privacy@example.com","manage_consent_url":"https://example.com/manage-consent"}}
+sample: {"alert_notification_email":"alerts@example.com","rights_contact_channels":{"email":"privacy@example.com","manage_consent_url":"https://example.com/manage-consent"}}
 custom_edit_url: null
 ---
 
@@ -26,7 +26,7 @@ Representa a los aspectos configurables de tu empresa, tales como canales de com
 
 <Schema
 	defaultCollapsibleOpen={true}
-  schema={{"type":"object","x-tags":["Company"],"description":"Representa a los aspectos configurables de tu empresa, tales como canales de comunicación u otros datos relevantes.\n","properties":{"rights_contact_channels":{"type":"object","properties":{"email":{"type":"string","description":"Dirección de correo electrónico que tus usuarios pueden usar para ejercer sus derechos. Se muestra al momento de dar el consentimiento\n","example":"privacy@example.com"},"manage_consent_url":{"type":"string","description":"URL del centro de privacidad de tu empresa, para que los usuarios puedan ejercer sus derechos y gestionar sus consentimientos. Se muestra al momento de dar el consentimiento y en caso de estar presente, reemplaza al correo electrónico.\n","example":"https://example.com/manage-consent"}}}},"title":"Configuration"}}
+  schema={{"type":"object","x-tags":["Company"],"description":"Representa a los aspectos configurables de tu empresa, tales como canales de comunicación u otros datos relevantes.\n","properties":{"alert_notification_email":{"type":"string","description":"Dirección de correo electrónico que recibirá alertas de eventos críticos en el sistema, por ejemplo, notificaciones sobre fallas de webhooks.\n","example":"alerts@example.com"},"rights_contact_channels":{"type":"object","properties":{"email":{"type":"string","description":"Dirección de correo electrónico que tus usuarios pueden usar para ejercer sus derechos. Se muestra al momento de dar el consentimiento\n","example":"privacy@example.com"},"manage_consent_url":{"type":"string","description":"URL del centro de privacidad de tu empresa, para que los usuarios puedan ejercer sus derechos y gestionar sus consentimientos. Se muestra al momento de dar el consentimiento y en caso de estar presente, reemplaza al correo electrónico.\n","example":"https://example.com/manage-consent"}}}},"title":"Configuration"}}
   schemaType={"response"}
 >
   

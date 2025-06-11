@@ -1,0 +1,73 @@
+---
+id: validation-attempt-failed
+title: "Failed"
+description: "#### Nombre del evento: `validation_attempt.failed`."
+sidebar_label: "Failed"
+hide_title: true
+hide_table_of_contents: true
+api: eJy1Vl1zUzcQ/Ssa8QIzN3biwkD9RAihk2lpGcJQaJIxa2ltC3S1Qh8mJuOf1Cfe+po/1lnd68TxTUzbmebJuZJ2j87unqMLmWAa5fBEvgVrNCRDTkBKWPsU5VklyWMoX4+0HMr51ab9Zs8LMBa1rKTGqILxvCSH8t69e/fEr1SPAwqNVuAcXaKh+HAdYNRm6U1KiA+9U3eMAt388k8QKoPTJLITxiU+KjSK5qwyl98c/2s0umQ0aDEDMQFrQVPv1MlKBvycMaZnpBdyeLEB7YBcMuhQoBUBVQ6RxNvNawlQKYM1XzmmOLTCw8ISaKEoBIyenEYBVmD8nLEGoaj2FgvMq6g9WUlFBT6jAO+tUSVJ/2NkKBcyqhnWwL/SwqMcShp/RJVkJX1g4pPByKtGr+2JKRg37VB+9Fxc/uWMojXCZSXxHBiaHEqcp9Hes8HLwfsn+3H6xk/36/ePX80OJlO5rKSDGm9Lgi7X3B53Fo6b5CaSTt05fktgYcLa3yZyeNK99c04zyFRLGHuaIK1IslldSHPd77TzNvz/UJxlSlupgroA0Z0CZywFIUPpDB29633JZZV3p1jhmAo9k7dYeToNEaNCp0AkR2IiMEwYSLg1MKW5Bqi8BR4MPhWFhJubO6dulPH0/dTNhBFQAvKkOOTp25HnLzGefnUgtWF44VQ5DiBqQ1f/+x+X5OKfWZj2oz/zjQbjf2adLYY+9pEZSnmgA9K2LcYzMSoW1i4O5Yip9Cn2J+3h3ntQZng/9D+JR9H0RTWJ2Fi88fNzundGIw5bJmL5h5pMcIajP0+jgMWCBJoUaVw+a2FISys6RVEUgY0sIIUeDfxTHN86slaijMMNTiKPUU1g4kJUo7bxtSj080X40Y+0DRgjLKSMSuFMU6ylZW8a3APYwJN7VhtIW9ZyRwxjAJOMKBTa8Jxcg3JZWu7OV63Zwxw2HYw+GfKIpqYWE09BBD/qHQFxt7gB4aEIRBjglZcV4AKjmqF6+yaq+w+OfriRuUgF5JUrtGl0ZrWrdYmoAzY21bw3Juw/qlz5ZeUzLyVZd5RiWiur+dITDIKPDeJIvXEAdSeBPkytbaQrQJCQj2CdFvpJxRqXpEaEu4kU2OnKV+gmoFYiBmFQjsHXE3qnUVeVjKZVGju+KNcnv3/uFbmUf7Y1dl3YyMJg93drrX/juMZ0Sc2YDM2mhq3Vgm4qshMPnz3rnvskIsi0HFNGl2HRgYLii9N0MJHjWlGungpuzq7WprJoVztqWTEMMcQi7vlYOVQzlLycdjvR3B6TOe9SAtDPaP74E1/vtfh5BjD3LCGaRQ+ZBxDFPfbww+Kzd2MC97/y5iks2pYvt/8U3RXLs8YvsrBpMUxP0wapsGb0SdcrFUYvPkZF50kh+1biF9GmV30yg5q1AZcwuJ1ysIcxf6rI0biKbTu1PKPTsEY2dEb1YwikjXKpKwx8uw37xS5n9OMgvlamrKoHVOCoDGUSvEL6/X1M/BwpRiNmWx7C12luPvFc+M1Y/RWC+k6yF36fi3vayq+qbPXircpeB05W59OOdgdPNzZfbwz+PHN3qPho73h4Elv9/HeH5vysnWjcRMqfdDKwjG3HZey0wtcXh6e0niqEfijK//TKMrR9oEMqujHip7IXZHw6aqpOTPPVBN5r7fb25XL5d8rbYcc
+sidebar_class_name: "event api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Failed"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"event"}
+  path={"webhook"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+#### Nombre del evento: `validation_attempt.failed`.
+Se envía cuando un intento de validación de identidad ha fallado.
+
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"description":"Contiene el recurso ValidationAttempt actualizado. El payload corresponde al esquema completo del recurso.","content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"string","description":"ID único del evento","example":"evt_1B2M2Y8AsgTpgAmY7PhCfg"},"name":{"type":"string","enum":["validation_attempt.failed"],"description":"Nombre del evento"},"payload":{"allOf":[{"type":"object","description":"Datos del intento de validación actualizado"},{"x-tags":["Validation attempts"],"type":"object","description":"Los intentos de validación representan los procesos de validación de identidades de los usuarios.\nEstos obedecen a una serie de reglas de validación representadas por un template de validación.\n\n### Guias relacionadas\n- [Revelación de datos y consentimiento](/docs/integration-guide/modules/disclosure)\n- [Verificación de identidad](/docs/integration-guide/concepts/verification)\n","properties":{"id":{"type":"string","description":"Identificador único del flujo de validación.","example":"va_1B2M2Y8AsgTpgAmY7PhCfg"},"identity_email":{"type":"string","description":"Correo electrónico de la identidad asociada al flujo.","example":"gus@polloshermanos.com"},"status":{"type":"string","enum":["pending","in_progress","successful","failed"],"description":"Estado actual del flujo de validación."},"user_reference":{"type":["string","null"],"description":"Referencia de usuario de tu sistema para el flujo de validación.","example":"user_123"},"error_reason":{"type":["null","string"],"enum":["unknown_error","document_validation_error","facial_validation_error","expiration_error"],"description":"Motivo del error, si el flujo no fue exitoso. Campo opcional."},"created_at":{"type":"string","format":"date-time","description":"Fecha y hora de creación del flujo de validación."}},"title":"ValidationAttempt"}]},"created_at":{"type":"string","format":"date-time","description":"Fecha y hora de creación del evento"}}}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Webhook recibido correctamente"},"4XX":{"description":"Error en el procesamiento del webhook"}}}
+>
+  
+</StatusCodes>
+
+
+      
