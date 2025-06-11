@@ -1910,6 +1910,73 @@ paths:
           $ref: '#/components/responses/NotFoundError'
       security:
         - api_key: []
+  '/webhooks/{webhook_id}/transactions':
+    get:
+      tags:
+        - Webhooks
+      summary: Obtener todas las transacciones de un webhook específico
+      operationId: indexWebhookTransactions
+      parameters:
+        - name: webhook_id
+          in: path
+          description: ID del webhook
+          required: true
+          schema:
+            type: string
+          example: wh_1B2M2Y8AsgTpgAmY7PhCfg
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
+        - $ref: '#/components/parameters/OrderByParam'
+      responses:
+        '200':
+          description: Transacciones del webhook encontradas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookTransactionList'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+      security:
+        - api_key: []
+  '/webhooks/{webhook_id}/transactions/{id}':
+    get:
+      tags:
+        - Webhooks
+      summary: Obtener una transacción específica de un webhook
+      operationId: getWebhookTransaction
+      parameters:
+        - name: webhook_id
+          in: path
+          description: ID del webhook
+          required: true
+          schema:
+            type: string
+          example: wh_1B2M2Y8AsgTpgAmY7PhCfg
+        - name: id
+          in: path
+          description: ID de la transacción del webhook
+          required: true
+          schema:
+            type: string
+          example: whtx_1B2M2Y8AsgTpgAmY7PhCde
+      responses:
+        '200':
+          description: Transacción del webhook encontrada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  webhook_transaction:
+                    $ref: '#/components/schemas/WebhookTransaction'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+      security:
+        - api_key: []
   /products:
     get:
       tags:
@@ -3209,34 +3276,30 @@ components:
           type: string
           description: Nombre del webhook
           example: My Webhook
+        status:
+          type: string
+          enum:
+            - ok
+            - failing
+          description: 'Estado del webhook. Si el webhook ha fallado en las últimas 24 horas, el estado será `failing`.'
+          example: ok
+        last_failure_at:
+          type: string
+          format: date-time
+          description: Fecha y hora de la última falla del webhook.
+          example: '2024-03-20T15:30:00Z'
         url:
           type: string
           description: URL donde se enviarán los eventos
           example: 'https://company.com/your-webhook-endpoint'
+        secret_key:
+          type: string
+          description: Clave secreta para verificar la integridad del webhook.
+          example: WHzBRgmn6jC1lm377I70mxiCmyRTON+QeH739YF/oXs=
         subscriptions:
           type: array
           description: |
-            Lista de eventos a los que está suscrito el webhook. Los eventos disponibles son:
-
-            - `*`: Todos los eventos
-            - `agreement.created`
-            - `agreement.updated`
-            - `auth_attempt.failed`
-            - `auth_attempt.successful`
-            - `auth_request.successful`
-            - `disclosure_request.granted`
-            - `disclosure_request.timed_out`
-            - `disclosure_request.failed`
-            - `validation_attempt.successful`
-            - `validation_attempt.failed`
-            - `signature_attempt.successful`
-            - `signature_attempt.failed`
-            - `data_subject_request.created`
-            - `data_subject_request.updated`
-            - `data_subject_request.completed`
-            - `data_subject_request.rejected`
-            - `data_subject_request.data_missmatch`
-            - `data_subject_request.validating`
+            Lista de eventos a los que está suscrito el webhook. Los eventos disponibles están detallados junto a cada recurso bajo la etiqueta `EVENT`.
 
             **TIP**:
             Puedes suscribirte a todos los eventos de un recurso específico usando el wildcard `*`.
@@ -3276,6 +3339,63 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Webhook'
+        metadata:
+          $ref: '#/components/schemas/FilterOrderAndPaginationMetadata'
+    WebhookTransaction:
+      x-tags:
+        - WebhooksTransactions
+      type: object
+      description: Representa una transacción o intento de entrega de un evento a un webhook.
+      properties:
+        id:
+          type: string
+          description: Identificador único de la transacción del webhook (token).
+          example: whtx_1B2M2Y8AsgTpgAmY7PhCde
+        event_id:
+          type: string
+          description: Identificador único del evento que generó esta transacción.
+          example: evt_1B2M2Y8AsgTpgAmY7PhCgf
+        event_name:
+          type: string
+          description: Nombre del evento que generó esta transacción.
+          example: agreement.created
+        response_code:
+          type: integer
+          description: Código de respuesta HTTP recibido del endpoint del webhook.
+          example: 200
+        response_body:
+          type: string
+          description: Cuerpo de la respuesta recibida del endpoint del webhook.
+          example: '{"status": "received"}'
+        response_headers:
+          type: object
+          description: Cabeceras de la respuesta recibida del endpoint del webhook.
+          additionalProperties:
+            type: string
+          example:
+            Content-Type: application/json
+            X-Request-ID: 12345f-abc-6789
+        successful:
+          type: boolean
+          description: Indica si la entrega del evento fue exitosa.
+          example: true
+        error_message:
+          type: string
+          nullable: true
+          description: Mensaje de error en caso de que la entrega haya fallado.
+          example: Connection timed out
+        created_at:
+          type: string
+          format: date-time
+          description: Fecha y hora de creación de la transacción del webhook.
+          example: '2024-03-21T10:00:00Z'
+    WebhookTransactionList:
+      type: object
+      properties:
+        webhook_transactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/WebhookTransaction'
         metadata:
           $ref: '#/components/schemas/FilterOrderAndPaginationMetadata'
     Product:
@@ -3615,6 +3735,11 @@ components:
       description: |
         Representa a los aspectos configurables de tu empresa, tales como canales de comunicación u otros datos relevantes.
       properties:
+        alert_notification_email:
+          type: string
+          description: |
+            Dirección de correo electrónico que recibirá alertas de eventos críticos en el sistema, por ejemplo, notificaciones sobre fallas de webhooks.
+          example: alerts@example.com
         rights_contact_channels:
           type: object
           properties:
@@ -3634,3 +3759,706 @@ components:
       description: Esquema de autenticación mediante una clave API proporcionada en el encabezado de las solicitudes.
       name: Authorization
       in: header
+webhooks:
+  agreementCreated:
+    post:
+      tags:
+        - Agreements
+      summary: Created
+      operationId: agreementCreated
+      description: |
+        #### Nombre del evento: `agreement.created`.
+        Se envía cuando se ha creado un nuevo acuerdo (agreement) en el sistema.
+      requestBody:
+        description: Contiene el recurso AgreementDetail actualizado. El payload corresponde al esquema completo del recurso.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID único del evento
+                  example: evt_1B2M2Y8AsgTpgAmY7PhCfg
+                name:
+                  type: string
+                  enum:
+                    - agreement.created
+                  description: Nombre del evento
+                payload:
+                  allOf:
+                    - type: object
+                      description: Datos del acuerdo actualizado
+                    - $ref: '#/components/schemas/AgreementDetail'
+                created_at:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de creación del evento
+      responses:
+        '200':
+          description: Webhook recibido correctamente
+        4XX:
+          description: Error en el procesamiento del webhook
+  agreementUpdated:
+    post:
+      tags:
+        - Agreements
+      summary: Updated
+      operationId: agreementUpdated
+      description: |
+        #### Nombre del evento: `agreement.updated`.
+        Se envía cuando un acuerdo (agreement) existente ha sido actualizado.
+      requestBody:
+        description: Contiene el recurso AgreementDetail actualizado. El payload corresponde al esquema completo del recurso.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID único del evento
+                  example: evt_1B2M2Y8AsgTpgAmY7PhCfg
+                name:
+                  type: string
+                  enum:
+                    - agreement.updated
+                  description: Nombre del evento
+                payload:
+                  allOf:
+                    - type: object
+                      description: Datos del acuerdo actualizado
+                    - $ref: '#/components/schemas/AgreementDetail'
+                created_at:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de creación del evento
+      responses:
+        '200':
+          description: Webhook recibido correctamente
+        4XX:
+          description: Error en el procesamiento del webhook
+  authAttemptSuccessful:
+    post:
+      tags:
+        - Auth attempts
+      summary: Successful
+      operationId: authAttemptSuccessful
+      description: |
+        #### Nombre del evento: `auth_attempt.successful`.
+        Se envía cuando un intento de autenticación se ha completado exitosamente.
+      requestBody:
+        description: Contiene el recurso AuthAttempt actualizado. El payload corresponde al esquema completo del recurso.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID único del evento
+                  example: evt_1B2M2Y8AsgTpgAmY7PhCfg
+                name:
+                  type: string
+                  enum:
+                    - auth_attempt.successful
+                  description: Nombre del evento
+                payload:
+                  allOf:
+                    - type: object
+                      description: Datos del intento de autenticación actualizado
+                    - $ref: '#/components/schemas/AuthAttempt'
+                created_at:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de creación del evento
+      responses:
+        '200':
+          description: Webhook recibido correctamente
+        4XX:
+          description: Error en el procesamiento del webhook
+  authAttemptFailed:
+    post:
+      tags:
+        - Auth attempts
+      summary: Failed
+      operationId: authAttemptFailed
+      description: |
+        #### Nombre del evento: `auth_attempt.failed`.
+        Se envía cuando un intento de autenticación ha fallado.
+      requestBody:
+        description: Contiene el recurso AuthAttempt actualizado. El payload corresponde al esquema completo del recurso.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID único del evento
+                  example: evt_1B2M2Y8AsgTpgAmY7PhCfg
+                name:
+                  type: string
+                  enum:
+                    - auth_attempt.failed
+                  description: Nombre del evento
+                payload:
+                  allOf:
+                    - type: object
+                      description: Datos del intento de autenticación actualizado
+                    - $ref: '#/components/schemas/AuthAttempt'
+                created_at:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de creación del evento
+      responses:
+        '200':
+          description: Webhook recibido correctamente
+        4XX:
+          description: Error en el procesamiento del webhook
+  authRequestSuccessful:
+    post:
+      tags:
+        - Auth requests
+      summary: Successful
+      operationId: authRequestSuccessful
+      description: |
+        #### Nombre del evento: `auth_request.successful`.
+        Se envía cuando un request de autenticación se ha completado exitosamente.
+      requestBody:
+        description: Contiene el recurso AuthRequest actualizado. El payload corresponde al esquema completo del recurso.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID único del evento
+                  example: evt_1B2M2Y8AsgTpgAmY7PhCfg
+                name:
+                  type: string
+                  enum:
+                    - auth_request.successful
+                  description: Nombre del evento
+                payload:
+                  allOf:
+                    - type: object
+                      description: Datos del request de autenticación actualizado
+                    - $ref: '#/components/schemas/AuthRequest'
+                created_at:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de creación del evento
+      responses:
+        '200':
+          description: Webhook recibido correctamente
+        4XX:
+          description: Error en el procesamiento del webhook
+  dataSubjectRequestCreated:
+    post:
+      tags:
+        - Data subject requests
+      summary: Created
+      operationId: dataSubjectRequestCreated
+      description: |
+        #### Nombre del evento: `data_subject_request.created`.
+        Se envía cuando se ha creado una nueva solicitud de ejercicio de derechos (`data subject request`).
+      requestBody:
+        description: Contiene el recurso DataSubjectRequest actualizado. El payload corresponde al esquema completo del recurso.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID único del evento
+                  example: evt_1B2M2Y8AsgTpgAmY7PhCfg
+                name:
+                  type: string
+                  enum:
+                    - data_subject_request.created
+                  description: Nombre del evento
+                payload:
+                  allOf:
+                    - type: object
+                      description: Datos de la solicitud de derechos actualizada
+                    - $ref: '#/components/schemas/DataSubjectRequest'
+                created_at:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de creación del evento
+      responses:
+        '200':
+          description: Webhook recibido correctamente
+        4XX:
+          description: Error en el procesamiento del webhook
+  dataSubjectRequestUpdated:
+    post:
+      tags:
+        - Data subject requests
+      summary: Updated
+      operationId: dataSubjectRequestUpdated
+      description: |
+        #### Nombre del evento: `data_subject_request.updated`.
+        Se envía cuando una solicitud de ejercicio de derechos (`data subject request`) existente ha sido actualizada.
+      requestBody:
+        description: Contiene el recurso DataSubjectRequest actualizado. El payload corresponde al esquema completo del recurso.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID único del evento
+                  example: evt_1B2M2Y8AsgTpgAmY7PhCfg
+                name:
+                  type: string
+                  enum:
+                    - data_subject_request.updated
+                  description: Nombre del evento
+                payload:
+                  allOf:
+                    - type: object
+                      description: Datos de la solicitud de derechos actualizada
+                    - $ref: '#/components/schemas/DataSubjectRequest'
+                created_at:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de creación del evento
+      responses:
+        '200':
+          description: Webhook recibido correctamente
+        4XX:
+          description: Error en el procesamiento del webhook
+  dataSubjectRequestValidating:
+    post:
+      tags:
+        - Data subject requests
+      summary: Validating
+      operationId: dataSubjectRequestValidating
+      description: |
+        #### Nombre del evento: `data_subject_request.validating`.
+        Se envía cuando una solicitud de ejercicio de derechos (`data subject request`) existente ha iniciado el proceso de validación.
+      requestBody:
+        description: Contiene el recurso DataSubjectRequest actualizado. El payload corresponde al esquema completo del recurso.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID único del evento
+                  example: evt_1B2M2Y8AsgTpgAmY7PhCfg
+                name:
+                  type: string
+                  enum:
+                    - data_subject_request.validating
+                  description: Nombre del evento
+                payload:
+                  allOf:
+                    - type: object
+                      description: Datos de la solicitud de derechos actualizada
+                    - $ref: '#/components/schemas/DataSubjectRequest'
+                created_at:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de creación del evento
+      responses:
+        '200':
+          description: Webhook recibido correctamente
+        4XX:
+          description: Error en el procesamiento del webhook
+  dataSubjectRequestProcessing:
+    post:
+      tags:
+        - Data subject requests
+      summary: Processing
+      operationId: dataSubjectRequestProcessing
+      description: |
+        #### Nombre del evento: `data_subject_request.processing`.
+        Se envía cuando una solicitud de ejercicio de derechos (`data subject request`) existente ha iniciado el proceso de procesamiento. Esto ocurre después de una validación exitosa.
+      requestBody:
+        description: Contiene el recurso DataSubjectRequest actualizado. El payload corresponde al esquema completo del recurso.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID único del evento
+                  example: evt_1B2M2Y8AsgTpgAmY7PhCfg
+                name:
+                  type: string
+                  enum:
+                    - data_subject_request.processing
+                  description: Nombre del evento
+                payload:
+                  allOf:
+                    - type: object
+                      description: Datos de la solicitud de derechos actualizada
+                    - $ref: '#/components/schemas/DataSubjectRequest'
+                created_at:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de creación del evento
+      responses:
+        '200':
+          description: Webhook recibido correctamente
+        4XX:
+          description: Error en el procesamiento del webhook
+  dataSubjectRequestCompleted:
+    post:
+      tags:
+        - Data subject requests
+      summary: Completed
+      operationId: dataSubjectRequestCompleted
+      description: |
+        #### Nombre del evento: `data_subject_request.completed`.
+        Se envía cuando una solicitud de ejercicio de derechos (`data subject request`) ha sido completada.
+      requestBody:
+        description: Contiene el recurso DataSubjectRequest actualizado. El payload corresponde al esquema completo del recurso.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID único del evento
+                  example: evt_1B2M2Y8AsgTpgAmY7PhCfg
+                name:
+                  type: string
+                  enum:
+                    - data_subject_request.completed
+                  description: Nombre del evento
+                payload:
+                  allOf:
+                    - type: object
+                      description: Datos de la solicitud de derechos actualizada
+                    - $ref: '#/components/schemas/DataSubjectRequest'
+                created_at:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de creación del evento
+      responses:
+        '200':
+          description: Webhook recibido correctamente
+        4XX:
+          description: Error en el procesamiento del webhook
+  dataSubjectRequestRejected:
+    post:
+      tags:
+        - Data subject requests
+      summary: Rejected
+      operationId: dataSubjectRequestRejected
+      description: |
+        #### Nombre del evento: `data_subject_request.rejected`.
+        Se envía cuando una solicitud de ejercicio de derechos (`data subject request`) ha sido rechazada.
+      requestBody:
+        description: Contiene el recurso DataSubjectRequest actualizado. El payload corresponde al esquema completo del recurso.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID único del evento
+                  example: evt_1B2M2Y8AsgTpgAmY7PhCfg
+                name:
+                  type: string
+                  enum:
+                    - data_subject_request.rejected
+                  description: Nombre del evento
+                payload:
+                  allOf:
+                    - type: object
+                      description: Datos de la solicitud de derechos actualizada
+                    - $ref: '#/components/schemas/DataSubjectRequest'
+                created_at:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de creación del evento
+      responses:
+        '200':
+          description: Webhook recibido correctamente
+        4XX:
+          description: Error en el procesamiento del webhook
+  dataSubjectRequestDataMissmatch:
+    post:
+      tags:
+        - Data subject requests
+      summary: Data missmatch
+      operationId: dataSubjectRequestDataMissmatch
+      description: |
+        #### Nombre del evento: `data_subject_request.data_missmatch`.
+        Se envía cuando una solicitud de ejercicio de derechos (`data subject request`) se completó, pero cuando se validó la identidad los datos no coinciden con los de la solicitud.
+      requestBody:
+        description: Contiene el recurso DataSubjectRequest actualizado. El payload corresponde al esquema completo del recurso.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID único del evento
+                  example: evt_1B2M2Y8AsgTpgAmY7PhCfg
+                name:
+                  type: string
+                  enum:
+                    - data_subject_request.data_missmatch
+                  description: Nombre del evento
+                payload:
+                  allOf:
+                    - type: object
+                      description: Datos de la solicitud de derechos actualizada
+                    - $ref: '#/components/schemas/DataSubjectRequest'
+                created_at:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de creación del evento
+      responses:
+        '200':
+          description: Webhook recibido correctamente
+        4XX:
+          description: Error en el procesamiento del webhook
+  disclosureRequestGranted:
+    post:
+      tags:
+        - Disclosure requests
+      summary: Granted
+      operationId: disclosureRequestGranted
+      description: |
+        #### Nombre del evento: `disclosure_request.granted`.
+        Se envía cuando un `disclosure_request` ha sido completado exitosamente y se ha otorgado acceso a los datos solicitados.
+      requestBody:
+        description: Contiene el recurso DisclosureRequest actualizado. El payload corresponde al esquema completo del recurso.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID único del evento
+                  example: evt_1B2M2Y8AsgTpgAmY7PhCfg
+                name:
+                  type: string
+                  enum:
+                    - disclosure_request.granted
+                  description: Nombre del evento
+                payload:
+                  allOf:
+                    - type: object
+                      description: Datos del disclosure request actualizado
+                    - $ref: '#/components/schemas/DisclosureRequest'
+                created_at:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de creación del evento
+      responses:
+        '200':
+          description: Webhook recibido correctamente
+        4XX:
+          description: Error en el procesamiento del webhook
+  disclosureRequestTimedOut:
+    post:
+      tags:
+        - Disclosure requests
+      summary: Timed out
+      operationId: disclosureRequestTimedOut
+      description: |
+        #### Nombre del evento: `disclosure_request.timed_out`.
+        Se envía cuando un `disclosure_request` ha expirado sin completarse.
+      requestBody:
+        description: Contiene el recurso DisclosureRequest actualizado. El payload corresponde al esquema completo del recurso.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID único del evento
+                  example: evt_1B2M2Y8AsgTpgAmY7PhCfg
+                name:
+                  type: string
+                  enum:
+                    - disclosure_request.timed_out
+                  description: Nombre del evento
+                payload:
+                  allOf:
+                    - type: object
+                      description: Datos del disclosure request actualizado
+                    - $ref: '#/components/schemas/DisclosureRequest'
+                created_at:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de creación del evento
+      responses:
+        '200':
+          description: Webhook recibido correctamente
+        4XX:
+          description: Error en el procesamiento del webhook
+  disclosureRequestFailed:
+    post:
+      tags:
+        - Disclosure requests
+      summary: Failed
+      operationId: disclosureRequestFailed
+      description: |
+        #### Nombre del evento: `disclosure_request.failed`.
+        Se envía cuando un `disclosure_request` ha fallado durante el proceso.
+      requestBody:
+        description: Contiene el recurso DisclosureRequest actualizado. El payload corresponde al esquema completo del recurso.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID único del evento
+                  example: evt_1B2M2Y8AsgTpgAmY7PhCfg
+                name:
+                  type: string
+                  enum:
+                    - disclosure_request.failed
+                  description: Nombre del evento
+                payload:
+                  allOf:
+                    - type: object
+                      description: Datos del disclosure request actualizado
+                    - $ref: '#/components/schemas/DisclosureRequest'
+                created_at:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de creación del evento
+      responses:
+        '200':
+          description: Webhook recibido correctamente
+        4XX:
+          description: Error en el procesamiento del webhook
+  signatureAttemptSuccessful:
+    post:
+      tags:
+        - Signature attempts
+      summary: Successful
+      operationId: signatureAttemptSuccessful
+      description: |
+        #### Nombre del evento: `signature_attempt.successful`.
+        Se envía cuando un intento de firma de documento se ha completado exitosamente.
+      requestBody:
+        description: Contiene el recurso SignatureAttempt actualizado. El payload corresponde al esquema completo del recurso.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID único del evento
+                  example: evt_1B2M2Y8AsgTpgAmY7PhCfg
+                name:
+                  type: string
+                  enum:
+                    - signature_attempt.successful
+                  description: Nombre del evento
+                payload:
+                  allOf:
+                    - type: object
+                      description: Datos del intento de firma actualizado
+                    - $ref: '#/components/schemas/SignatureAttempt'
+                created_at:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de creación del evento
+      responses:
+        '200':
+          description: Webhook recibido correctamente
+        4XX:
+          description: Error en el procesamiento del webhook
+  signatureAttemptFailed:
+    post:
+      tags:
+        - Signature attempts
+      summary: Failed
+      operationId: signatureAttemptFailed
+      description: |
+        #### Nombre del evento: `signature_attempt.failed`.
+        Se envía cuando un intento de firma de documento ha fallado.
+      requestBody:
+        description: Contiene el recurso SignatureAttempt actualizado. El payload corresponde al esquema completo del recurso.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID único del evento
+                  example: evt_1B2M2Y8AsgTpgAmY7PhCfg
+                name:
+                  type: string
+                  enum:
+                    - signature_attempt.failed
+                  description: Nombre del evento
+                payload:
+                  allOf:
+                    - type: object
+                      description: Datos del intento de firma actualizado
+                    - $ref: '#/components/schemas/SignatureAttempt'
+                created_at:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de creación del evento
+      responses:
+        '200':
+          description: Webhook recibido correctamente
+        4XX:
+          description: Error en el procesamiento del webhook
+  validationAttemptFailed:
+    post:
+      tags:
+        - Validation attempts
+      summary: Failed
+      operationId: validationAttemptFailed
+      description: |
+        #### Nombre del evento: `validation_attempt.failed`.
+        Se envía cuando un intento de validación de identidad ha fallado.
+      requestBody:
+        description: Contiene el recurso ValidationAttempt actualizado. El payload corresponde al esquema completo del recurso.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID único del evento
+                  example: evt_1B2M2Y8AsgTpgAmY7PhCfg
+                name:
+                  type: string
+                  enum:
+                    - validation_attempt.failed
+                  description: Nombre del evento
+                payload:
+                  allOf:
+                    - type: object
+                      description: Datos del intento de validación actualizado
+                    - $ref: '#/components/schemas/ValidationAttempt'
+                created_at:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de creación del evento
+      responses:
+        '200':
+          description: Webhook recibido correctamente
+        4XX:
+          description: Error en el procesamiento del webhook
