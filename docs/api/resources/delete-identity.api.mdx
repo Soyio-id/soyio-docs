@@ -1,0 +1,75 @@
+---
+id: delete-identity
+title: "Eliminar una identidad"
+description: "Elimina una identidad específica."
+sidebar_label: "Eliminar una identidad"
+hide_title: true
+hide_table_of_contents: true
+api: eJzFVcFu4zYQ/RViTkkg2E6Rk04NsD4EW6CLposeEmMxJicxE4pkyJERr6CP6Qf01E/IjxVDyXZipyn2VB8sidRw3sy899QB432G+gauDHm2bCnDogJDWScb2QYPNcydbaxH1XpUtrxn0CjKkfTLX3dW4+TW13Vt/V24+fUhLG792dk8MyrU2r787VUOLijK/PKnMjbH4O3SkSKvyHNIPihDKqM3y/A8OTsrh916qCBESiggrgzUYMgR0wh0AxVETNgQU5IKOvDYENRgDVRgBXdEXsFhMVefJJt7XQkqGipMUEGip9YmMlBzaqkCeo4uGNo+Zr2iBqHugDdR0mVO1t9D3y8kVorLlGX/p9mFXA6y79s3pDSo6NlyyNiQZ4K+govZ+XHgPKWQBDm2LEdoLK2FCnTwsiIhGKOzunRs+pAlrjsGHJYPpPlNpTfDXgVs2ck1M3KbS+8YrRNKxCTTKATZnXXYBOkWNtHJEra8GoAKnG8k+KW6IcWHoV+9BIdkv5ORkBHNPsZ6pntKr4MuZuf9Du6Hp/9BSofWGeUDq1coSW1Cm5ROVGaELk/UF0eYSekV6UfFK1Im6FYGVYpSyGrFHHM9nZqg8ySHjQ0Ta6AffhVk0m0StgpBMdpvjyT3C2FLQ7wKe2IXQvMKapjanRinnTW9DITSesvzNjmoYZt4q5tt7ilGO12fH/H+mtLamoFDMbW0xKxOxuBT6KvDczHGHzwzmHbU+8nwIG+dgpS6bcO1kHFg0K4Zu1lhtJ9pc5Rknp9aavCY+6ohY9EzFWPSDtekLr9cCZIYkrZhUJdX5BR5jUv6jiYM6s/iSVZbbg3lCVRb87gciVfmu/WRFaGhBDJP8bgCeWAxXEuHJOsRbEFiyKnSI21L3r36DakSOuoXddEvNYW9kKUApp/3fKpAxj+cfD6ZTWayFEPmBovKR/ijU6e3Vn2Irdt7xv/n7ePQmZ55Gh1aLxUVCnajDm5grwOooLZGfGgVMste1y0x09fk+l6Wn1pKRVkVrDFZXMp4bjowNsu9gfoOXaYPOnHy2+iHp+q/vhHvYt+y2AuF1+haeYIKCsnlq9Qv+mrLJYE2bFxqTZFfhRyZ+Buv+DT/Zf77HKrir2/F81jEM95IgncRHTJ8QCH/4gHvhnTdIM2+370/bP1rxFjlrngpou/7fwCo2u/d
+sidebar_class_name: "delete api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Eliminar una identidad"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"delete"}
+  path={"/identities/{id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Elimina una identidad específica.
+:::info[Ojo]
+**Esta acción solo está disponible en entorno de sandbox.**
+:::
+
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"id","in":"path","description":"ID de la identidad a eliminar","required":true,"explode":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"204":{"description":"Identidad eliminada exitosamente"},"401":{"description":"Error de autenticación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"authentication_error"},"title":{"type":"string","example":"Unauthorized"},"status":{"type":"integer","example":401},"detail":{"type":"string","example":"We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

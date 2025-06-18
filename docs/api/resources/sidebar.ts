@@ -156,6 +156,12 @@ const sidebar: SidebarsConfig = {
           label: "Obtener un consent action",
           className: "api-method get",
         },
+        {
+          type: "doc",
+          id: "api/resources/consent-action-created",
+          label: "Created",
+          className: "api-method event",
+        },
       ],
     },
     {
@@ -185,6 +191,12 @@ const sidebar: SidebarsConfig = {
           id: "api/resources/show-consent-commit",
           label: "Obtener un commit de consentimiento",
           className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/consent-commit-created",
+          label: "Created",
+          className: "api-method event",
         },
       ],
     },
@@ -239,6 +251,12 @@ const sidebar: SidebarsConfig = {
           id: "api/resources/get-identity",
           label: "Obtener una identidad específica",
           className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/delete-identity",
+          label: "Eliminar una identidad",
+          className: "api-method delete",
         },
       ],
     },
