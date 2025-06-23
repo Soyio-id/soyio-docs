@@ -749,6 +749,31 @@ paths:
           $ref: '#/components/responses/UnauthorizedError'
       security:
         - api_key: []
+    delete:
+      tags:
+        - Identities
+      summary: Eliminar una identidad
+      description: |
+        Elimina una identidad específica.
+        :::info[Ojo]
+        **Esta acción solo está disponible en entorno de sandbox.**
+        :::
+      operationId: deleteIdentity
+      parameters:
+        - name: id
+          in: path
+          description: ID de la identidad a eliminar
+          required: true
+          explode: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Identidad eliminada exitosamente
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+      security:
+        - api_key: []
   /validation_attempts:
     get:
       tags:
@@ -3740,6 +3765,14 @@ components:
           description: |
             Dirección de correo electrónico que recibirá alertas de eventos críticos en el sistema, por ejemplo, notificaciones sobre fallas de webhooks.
           example: alerts@example.com
+        icon_variant:
+          type: string
+          enum:
+            - duotone
+            - outline
+            - solid
+          description: Variante de íconos preferida.
+          example: duotone
         rights_contact_channels:
           type: object
           properties:
@@ -3946,6 +3979,84 @@ webhooks:
                     - type: object
                       description: Datos del request de autenticación actualizado
                     - $ref: '#/components/schemas/AuthRequest'
+                created_at:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de creación del evento
+      responses:
+        '200':
+          description: Webhook recibido correctamente
+        4XX:
+          description: Error en el procesamiento del webhook
+  consentActionCreated:
+    post:
+      tags:
+        - Consent actions
+      summary: Created
+      operationId: consentActionCreated
+      description: |
+        #### Nombre del evento: `consent_action.created`.
+        Se envía cuando se ha creado una nueva acción de consentimiento.
+      requestBody:
+        description: Contiene el recurso ConsentAction actualizado. El payload corresponde al esquema completo del recurso.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID único del evento
+                  example: evt_1B2M2Y8AsgTpgAmY7PhCfg
+                name:
+                  type: string
+                  enum:
+                    - consent_action.created
+                  description: Nombre del evento
+                payload:
+                  allOf:
+                    - type: object
+                      description: Datos de la acción de consentimiento actualizada
+                    - $ref: '#/components/schemas/ConsentAction'
+                created_at:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de creación del evento
+      responses:
+        '200':
+          description: Webhook recibido correctamente
+        4XX:
+          description: Error en el procesamiento del webhook
+  consentCommitCreated:
+    post:
+      tags:
+        - Consent commits
+      summary: Created
+      operationId: consentCommitCreated
+      description: |
+        #### Nombre del evento: `consent_commit.created`.
+        Se envía cuando se ha creado una nueva agrupación de acciones de consentimiento.
+      requestBody:
+        description: Contiene el recurso ConsentCommit actualizado. El payload corresponde al esquema completo del recurso.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID único del evento
+                  example: evt_1B2M2Y8AsgTpgAmY7PhCfg
+                name:
+                  type: string
+                  enum:
+                    - consent_commit.created
+                  description: Nombre del evento
+                payload:
+                  allOf:
+                    - type: object
+                      description: Datos de la agrupación de acciones de consentimiento actualizada
+                    - $ref: '#/components/schemas/ConsentCommit'
                 created_at:
                   type: string
                   format: date-time

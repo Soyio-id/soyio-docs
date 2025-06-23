@@ -48,19 +48,20 @@ Este módulo soporta dos modalidades de acuerdo a como se necesite obtener el co
 La configuración de la modalidad de consentimiento se determina de acuerdo a la estructura de los `data_uses` dentro de los [`data_requirements`](../../api/resources/schemas/datarequirement) del `consent_template` creado. Revisa la sección de [plantilla de consentimiento](../../api/resources/schemas/consenttemplate) para más detalles.
 :::
 
+### Consentimiento Granular
+
+Permite obtener el consentimiento de una categoría de uso de datos específica. Útil para formularios con lógica más compleja, donde por ejemplo, el tratamiento de datos ocurre en el transcurso de completar el formulario (carrito abandonado, etc). Esto también permite mayor flexibilidad en la lógica de captura de datos, ya que puedes capturar el consentimiento de una categoría de uso de datos específica en un momento específico del flujo.
+
+<img src="/img/granular-consent-example.webp" alt="Consent Embed example" width="100%"/>
+
+
 ### Consentimiento Unificado
 
 Permite capturar el consentimiento de múltiples categorías de uso de datos en un sólo click. Útil para tratamiento de datos y formularios simples y de una sola página, donde el usuario puede revisar y aceptar todos los usos de datos en un solo paso.
 
 
-<img src="/img/example_multiple_consent.png" alt="Consent Embed example" width="100%"/>
+<img src="/img/unified-consent-example.webp" alt="Consent Embed example" width="100%"/>
 
-
-### Consentimiento Granular
-
-Permite obtener el consentimiento de una categoría de uso de datos específica. Útil para formularios con lógica más compleja, donde por ejemplo, el tratamiento de datos ocurre en el transcurso de completar el formulario (carrito abandonado, etc). Esto también permite mayor flexibilidad en la lógica de captura de datos, ya que puedes capturar el consentimiento de una categoría de uso de datos específica en un momento específico del flujo.
-
-<img src="/img/example_granular_consent.png" alt="Consent Embed example" width="100%"/>
 
 
 ## Ejemplo
@@ -396,6 +397,8 @@ Puedes guardar la última versión del Agreement (que enviamos mediante webhooks
 
 ## Personalización (Opcional)
 
+### Apariencia
+
 El componente puede ser personalizado para poder adaptarse a tu interfaz mediante variables de CSS declaradas en el objeto `appearance` del SDK. Por ejemplo:
 
 ```jsx
@@ -415,6 +418,17 @@ const consentOptions = {
 };
 ```
 
+### Configuración de estilos de íconos
+
+Desde la [configuración](../../api/resources/schemas/configuration) de tu compañía en Soyio, puedes personalizar el estilo de los íconos que se muestran en el componente de consentimiento. Están disponibles tres opciones:
+
+- **`duotone`**: Íconos con dos tonos que ofrecen mayor profundidad visual.
+- **`outline`**: Íconos con contorno únicamente para un diseño más minimalista.
+- **`solid`**: Íconos completamente rellenos para un aspecto más robusto.
+
+![Estilos de íconos disponibles](/img/icon-styles-example.webp)
+
+Esta configuración se aplica a nivel de organización y afecta todos los componentes de consentimiento de tu cuenta.
 
 :::tip[Pro Tip]
 Para obtener más información sobre las variables y reglas de personalización, consulta la [documentación oficial del SDK web de Soyio](https://docs.soyio.co/docs/soyio-widget/customization).
