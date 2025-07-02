@@ -712,42 +712,6 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: "category",
-      label: "Branches",
-      items: [
-        {
-          type: "doc",
-          id: "api/resources/schemas/branch",
-          label: "El objeto Branch",
-          className: "schema",
-        },
-        {
-          type: "doc",
-          id: "api/resources/index-branches",
-          label: "Obtener todas las branches",
-          className: "api-method get",
-        },
-        {
-          type: "doc",
-          id: "api/resources/create-branch",
-          label: "Crear una branch",
-          className: "api-method post",
-        },
-        {
-          type: "doc",
-          id: "api/resources/get-branch",
-          label: "Obtener una branch específica",
-          className: "api-method get",
-        },
-        {
-          type: "doc",
-          id: "api/resources/update-branch",
-          label: "Actualizar una branch",
-          className: "api-method patch",
-        },
-      ],
-    },
-    {
-      type: "category",
       label: "Privacy center",
       items: [
         {
@@ -755,6 +719,48 @@ const sidebar: SidebarsConfig = {
           id: "api/resources/get-privacy-center-session-token",
           label: "Obtener un token de sesión para el centro de privacidad",
           className: "api-method get",
+        },
+      ],
+    },
+    {
+      type: "category",
+      label: "API Keys",
+      items: [
+        {
+          type: "doc",
+          id: "api/resources/schemas/apikey",
+          label: "El objeto ApiKey",
+          className: "schema",
+        },
+        {
+          type: "doc",
+          id: "api/resources/index-api-keys",
+          label: "Obtener todas las claves API",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/create-api-key",
+          label: "Crear una nueva API key",
+          className: "api-method post",
+        },
+        {
+          type: "doc",
+          id: "api/resources/get-api-key",
+          label: "Obtener una API key específica",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/update-api-key",
+          label: "Actualizar una API key",
+          className: "api-method patch",
+        },
+        {
+          type: "doc",
+          id: "api/resources/delete-api-key",
+          label: "Revocar una API key",
+          className: "api-method delete",
         },
       ],
     },
