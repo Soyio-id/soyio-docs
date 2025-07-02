@@ -22,6 +22,8 @@ essential.service.security,TRUE,Essential for Security,default_organization,esse
 essential.service.upgrades,TRUE,Essential for Service Upgrades,default_organization,essential.service,,,2.0.0,,Provides timely system upgrade information options.
 essential.service.notifications.email,TRUE,Essential Email Service Notifications,default_organization,essential.service.notifications,,,2.0.0,,"Sends email notifications about the product, service, application or system."
 essential.service.notifications.sms,TRUE,Essential SMS Service Notifications,default_organization,essential.service.notifications,,,2.0.0,,"Sends SMS notifications about the product, service, application or system."
+essential.service.notifications.phone_call,TRUE,Essential Phone Call Service Notifications,default_organization,essential.service.notifications,,,2.0.0,,"Sends phone call notifications about the product, service, application or system."
+essential.service.notifications.whatsapp,TRUE,Essential WhatsApp Service Notifications,default_organization,essential.service.notifications,,,2.0.0,,"Sends WhatsApp notifications about the product, service, application or system."
 essential.service.operations.support,TRUE,Essential for Operations Support,default_organization,essential.service.operations,,,2.0.0,,"Provides support for the product, service, application or system."
 essential.service.operations.improve,TRUE,Essential for Support Improvement,default_organization,essential.service.operations,,,2.0.0,,"Essential to optimize and improve support for the product, service, application or system."
 finance,TRUE,Finance,default_organization,data_use,,,2.0.0,,Enables finance and accounting activities such as audits and tax reporting.
@@ -42,6 +44,8 @@ marketing.advertising.first_party.contextual,TRUE,First Party Contextual Adverti
 marketing.advertising.first_party.targeted,TRUE,First Party Personalized Advertising,default_organization,marketing.advertising.first_party,,,2.0.0,,Targets advertisements based on data collected or derived about the user from use of the system.
 marketing.advertising.third_party.targeted,TRUE,Third Party Targeted Advertising,default_organization,marketing.advertising.third_party,,,2.0.0,,Targets advertisements based on data within the system or joined with data provided by 3rd parties.
 marketing.communications.email,TRUE,Marketing Email Communications,default_organization,marketing.communications,,,2.0.0,,Sends email marketing communications.
+marketing.communications.phone_call,TRUE,Marketing Phone Call Communications,default_organization,marketing.communications,,,2.0.0,,Sends phone call marketing communications.
+marketing.communications.whatsapp,TRUE,Marketing WhatsApp Communications,default_organization,marketing.communications,,,2.0.0,,Sends WhatsApp marketing communications.
 marketing.communications.sms,TRUE,Marketing SMS Communications,default_organization,marketing.communications,,,2.0.0,,Sends SMS marketing communications.
 operations,TRUE,Operations,default_organization,data_use,,,2.0.0,,Supports business processes necessary to the organization's operation.
 personalize,TRUE,Personalize,default_organization,data_use,,,2.0.0,,"Personalizes the product, service, application or system."
@@ -53,4 +57,5 @@ personalize.content.profiled,TRUE,Targeted Content Personalization,default_organ
 sales,TRUE,Sales,default_organization,data_use,,,2.0.0,,Supports sales activities such as communications and outreach.
 third_party_sharing,TRUE,Third Party Sharing,default_organization,data_use,,,2.0.0,,Transfers data to third parties outside of the system or service's scope.
 third_party_sharing.legal_obligation,TRUE,Sharing for Legal Obligation,default_organization,third_party_sharing,,,2.0.0,,"Shares data for legal obligations, including contracts, applicable laws or regulations."
+third_party_sharing.intra_company,TRUE,Intra-Company Sharing,default_organization,third_party_sharing,,,2.0.0,,Shares data within the same company.
 train_ai_system,TRUE,Train AI System,default_organization,data_use,,,2.0.0,,Trains an AI system or data model for machine learning.

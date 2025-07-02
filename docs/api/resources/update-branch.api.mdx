@@ -1,0 +1,71 @@
+---
+id: update-branch
+title: "Actualizar una branch"
+description: "Actualizar una branch"
+sidebar_label: "Actualizar una branch"
+hide_title: true
+hide_table_of_contents: true
+api: eJzFV9tuGzcQ/RVinhJgI9lq2qR6quwaaNALjDhpEbiGMSInEpNdkuFFsSzsJ+Wh6Fte/WPFkLuSHNnOpTc/2Lskh3M5Z86sVxBxFmB8CgcejZxTgLMKrCOPUVvzRMEYklMYqexDBZ7eJArxwKoljFf5VXtSMI4+UQXSmkgm8hY6V2uZLxq+CtbwWpBzapCf4tIRjMFOX5GMUIHz7DZqCryr1daZEL02M6hAUZBeO74RxvDke6FI1CimfWx0gY2r2aQsne8fjH4evXg8CbNnbjZpXjw6nh++nEFbQdTm4x5+uXrfkLfsRisyUb/UEqW++tOI6PU0RfQabw9ifzT46uHXg28ePX7wLfusaYb1ubSNQ7M8N9jQJ4Rgm6knkU1v93SSZPJhfYIa5ykgtPmHMQvOmlBKO9rb4z/X3RR4BcqYsNaXqFDQhY42YEMmEvxjwPbZd0nccP7iwU2cvB7uTxi6MlAQnjhbMhGNUHqhg7aGgrAiGa1QUeCqGJpZqa2g4EhevWMged3EAm9MIkd29cfVOxz8br6MkGuOKOvF1Xujpe0QCR1Ag/+ZpTfH8S8R9WZnt3KV0435SCc2PX0f7u3vMvbIe+v5DkzMyz7lv8PUjZadlr0+ogpCxJhCTjqirpmR1/lR7tot0iZvTHFeAuVwzonjh03Sd5k+N2xsvb4kxSZdNBsbbSLNyG8bPdzbb9fh3nn7bySkTbUSxkaxFSWJpU1eSE+ZVViHgTiuCQMJOSf5WsQ5CWVlYonISQmMYh6jC+PhUFkZBsEutR1otYFyNLoDygXWWv03OObyhy/BsQT52Rj+ujYTa7NPwnE0atfhbk6i97iECnSkJux6brfbaeP6qHguWASSyeu4hPEpV1ifvyZ+Pmt35HbSjwUvktkaQA3FueVvBIcxLziMcxjDsNfm4UqrlstOfkEc/+kKkq9hDD1NAho1tRdrpgzR6eFif0deTsgvtCo0cT7RFIO41xnfh7b68F507jPvtCrJopr3ygufug9cjb5SJ0y5wpN1vTaIOP0jLXecHIU3iRrcVSrRkNJoIuWayhoXJCbHTzgSZ73U1uQpbATVgozEKV2i6uZJEMHWWuqYFAWW16LRMOlkIoPN7OAI5oSKfBZY7p2nmw+4o55kZb59ZB514+j6tLh5WNwq8hzSS5ur1pHzhEHixHcqx8VQVIsME89uRaKMWIWKX7JpJxQos1BQk+UOAtcw0ncbAaqAGVhu3h/sDfZ4ydkQG8xy0lfwFqpfC22NeaSLOHQ1asO3ZQauuiY4hb4JoIKxViw1cxsi76xWUwz03Ndty8tvEvnceRUseFZPuTCnZ23VQ8dtk8kGh0UTHzwrsrbAOhXufaCP3BDFYiIluXjn2bOtTj6ePDv8ASqYdt/3jVVs5PEtCyu+hTEA/4fA5rkR8toKajSzhDM+Wy5luvEwud4hr3OHdA+cVr9lllshfkjjkgn/5rxuNFmtSv+17fp82brVoqttf5ohPGvb9i8eaIrY
+sidebar_class_name: "patch api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Actualizar una branch"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"patch"}
+  path={"/branches/{id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Actualizar una branch
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"required":true,"content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"string","description":"ID de la branch","example":"branch_1B2M2Y8AsgTpgAmY7PhCfg"},"tin":{"type":"string","description":"Número de identificación tributaria de la branch","example":"12.345.678-9"},"legal_company_name":{"type":"string","description":"Nombre legal de la branch","example":"Sucursal de la empresa"}}}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Branch actualizada exitosamente","content":{"application/json":{"schema":{"type":"object","properties":{"company_branch":{"type":"object","x-tags":["Branches"],"description":"Las branches representan divisiones o unidades de negocio específicas dentro de tu compañía.\n","properties":{"id":{"type":"string","description":"Identificador único de la sucursal.","example":"branch_1B2M2Y8AsgTpgAmY7PhCfg"},"tin":{"type":"string","description":"Número de identificación tributaria de la sucursal.","example":"12.345.678-9"},"legal_company_name":{"type":"string","description":"Nombre legal de la sucursal.","example":"Sucursal de la empresa"}},"title":"Branch"}}}}}},"401":{"description":"Error de autenticación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"authentication_error"},"title":{"type":"string","example":"Unauthorized"},"status":{"type":"integer","example":401},"detail":{"type":"string","example":"We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"}}}}}},"422":{"description":"Error de validación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","errors"],"properties":{"type":{"type":"string","example":"validation_error"},"title":{"type":"string","example":"Validation error"},"status":{"type":"integer","example":422},"errors":{"type":"array","items":{"type":"string"}}},"title":"ValidationError"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

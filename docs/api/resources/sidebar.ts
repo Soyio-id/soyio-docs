@@ -712,6 +712,42 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: "category",
+      label: "Branches",
+      items: [
+        {
+          type: "doc",
+          id: "api/resources/schemas/branch",
+          label: "El objeto Branch",
+          className: "schema",
+        },
+        {
+          type: "doc",
+          id: "api/resources/index-branches",
+          label: "Obtener todas las branches",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/create-branch",
+          label: "Crear una branch",
+          className: "api-method post",
+        },
+        {
+          type: "doc",
+          id: "api/resources/get-branch",
+          label: "Obtener una branch específica",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/update-branch",
+          label: "Actualizar una branch",
+          className: "api-method patch",
+        },
+      ],
+    },
+    {
+      type: "category",
       label: "Privacy center",
       items: [
         {

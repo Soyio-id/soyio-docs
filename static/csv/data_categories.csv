@@ -62,6 +62,7 @@ user.demographic.language,True,Language,default_organization,user.demographic,,,
 user.demographic.marital_status,True,Marital Status,default_organization,user.demographic,,,2.0.0,,Marital status of data subject.
 user.demographic.political_opinion,True,Political Opinion,default_organization,user.demographic,,,2.0.0,,Political opinion or belief of data subject.
 user.demographic.profile,True,User Profile Data,default_organization,user.demographic,,,2.0.0,,Profile or preference information about the data subject.
+user.demographic.nationality,True,Nationality,default_organization,user.demographic,,,2.0.0,,Nationality of data subject.
 user.demographic.race_ethnicity,True,Race,default_organization,user.demographic,,,2.0.0,,Race or ethnicity of data subject.
 user.demographic.religious_belief,True,Religion,default_organization,user.demographic,,,2.0.0,,Religion or religious beliefs of the data subject.
 user.demographic.sexual_orientation,True,Sexual Orientation,default_organization,user.demographic,,,2.0.0,,Sexual orientation of data subject.
@@ -85,3 +86,9 @@ user.location.precise,True,Precise Subject Location,default_organization,user.lo
 user.name.first,True,First Name,default_organization,user.name,,,2.0.0,,Subject's first name.
 user.name.last,True,Last Name,default_organization,user.name,,,2.0.0,,"Subject's last, or family, name."
 user.unique_id.pseudonymous,True,Pseudonymous User ID,default_organization,user.unique_id,,,2.0.0,,"A pseudonymous, or probabilistic identifier generated from other subject or device data belonging to the subject."
+user.labor_activity,True,Labor Activity,default_organization,user,,,2.0.0,,Information about the labor activity of the data subject.
+user.labor_activity.profession,True,Profession,default_organization,user.labor_activity,,,2.0.0,,Profession of the subject.
+user.labor_activity.job_title,True,Job Title,default_organization,user.labor_activity,,,2.0.0,,Job title of the subject.
+user.labor_activity.worker_type,True,Worker Type,default_organization,user.labor_activity,,,2.0.0,,Type of worker of the subject.
+user.labor_activity.salary,True,Salary,default_organization,user.labor_activity,,,2.0.0,,Salary of the subject.
+user.labor_activity.workplace,True,Workplace,default_organization,user.labor_activity,,,2.0.0,,Organization of employment.
