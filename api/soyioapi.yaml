@@ -2225,10 +2225,6 @@ paths:
             schema:
               type: object
               properties:
-                id:
-                  type: string
-                  description: ID único de la branch. Se recomienda darle un identificador con un formato que facilite su identificación.
-                  example: my_branch_123
                 tin:
                   type: string
                   description: Número de identificación tributaria de la branch.
@@ -2299,10 +2295,6 @@ paths:
             schema:
               type: object
               properties:
-                id:
-                  type: string
-                  description: ID de la branch
-                  example: branch_1B2M2Y8AsgTpgAmY7PhCfg
                 tin:
                   type: string
                   description: Número de identificación tributaria de la branch
