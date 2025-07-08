@@ -149,7 +149,10 @@ El flujo que integrarás es el siguiente:
 
 ### 1. Crear una plantilla de consentimiento
 
-Para comenzar, deberás crear una [plantilla de consentimiento](../../api/resources/schemas/consenttemplate) que defina qué datos y permisos necesitas solicitar a tus usuarios. También podrás asociar uno o más [documentos de privacidad](../../api/resources/schemas/privacydocument) a la plantilla.
+Para comenzar, deberás crear una [plantilla de consentimiento](../../api/resources/schemas/consenttemplate) que defina qué datos y permisos necesitas solicitar a tus usuarios. 
+
+Adicionalmente, se pueden asociar uno o más [documentos de privacidad](../../api/resources/schemas/privacydocument) a la plantilla insertando el texto `{{<template_key>:<version>}}` en el campo `text` de la plantilla. Si no se provee una versión en la referencia, se asume que es la primera versión del documento.
+En los ejemplos a continuación se asocia una plantilla de consentimiento  a la primera versión del documento de privacidad que tiene una `template_key` con valor `"terms_and_conditions"`, y a la segunda versión del documento de privacidad con `template_key` igual a `"privacy_policy"`.
 
 :::warning[Importante]
 Es importante que la plantilla de consentimiento describa de manera correcta los usos que se harán de los datos y que tenga al menos una finalidad y un periodo de retención. Revisa nuestra sección de [uso de datos](../concepts/taxonomy-and-data-management#usos-de-datos-data_uses) para más detalles.
@@ -171,7 +174,7 @@ A continuación, te mostramos un ejemplo de creación de una plantilla de consen
     {
       "name": "Template de consentimiento unificado",
       "availability_period_in_months": 12,
-      "text": "De acuerdo a los {{ terms_and_conditions }} y {{ privacy_policy }}, autorizo el uso de mis datos personales.",
+      "text": "De acuerdo a los {{ terms_and_conditions }} y {{ privacy_policy:2 }}, autorizo el uso de mis datos personales.",
       "data_requirements": [
         {
           "key": "email",
@@ -202,7 +205,7 @@ A continuación, te mostramos un ejemplo de creación de una plantilla de consen
     {
       "name": "Template de consentimiento granular",
       "availability_period_in_months": 12,
-      "text": "De acuerdo a los {{ terms_and_conditions }} y {{ privacy_policy }}, autorizo el uso de mis datos personales.",
+      "text": "De acuerdo a los {{ terms_and_conditions }} y {{ privacy_policy:2 }}, autorizo el uso de mis datos personales.",
       "data_requirements": [
         {
           "key": "name",
@@ -394,6 +397,15 @@ La respuesta te proporcionará la información actual sobre qué datos puede uti
 :::tip
 Puedes guardar la última versión del Agreement (que enviamos mediante webhooks, específicamente los que tienen el nombre `agreement.*`) como un caché local para consultas rápidas o en caso de respaldo. Sin embargo, siempre recomendamos verificar el estado actual del Agreement a través de nuestra API para asegurar que estás trabajando con la información más actualizada.
 :::
+
+## Actualización de la plantilla de consentimiento
+
+A través de nuestra API es posible [realizar cambios en la plantilla de consentimiento](../../api/resources/update-consent-template).
+
+Para mantener trazabilidad sobre qué fue consentido por los usuarios, la plantilla de consentimiento posee versionamiento: al realizar cambios a la plantilla, se crea una nueva versión que posee los cambios, mientras que la versión anterior permanece intacta.
+
+Cada vez que se levanta un flujo de consentimiento, se usa la última versión disponible para la plantilla de consentimiento especificada en la SDK.
+
 
 ## Personalización (Opcional)
 
