@@ -2,15 +2,49 @@
 
 Para facilitar el proceso de integración y permitirte hacer pruebas de las diferentes acciones que puedes realizar con Soyio, puedes utilizar un ambiente de prueba. El entorno de pruebas funciona exactamente igual que el de producción, sin embargo ninguna de las validaciones de identidad realizadas en este ambiente son válidas. Las transacciones realizadas en este entorno de prueba están aisladas del ambiente de producción.
 
+:::tip[Recomendación]
+Utiliza el ambiente de sandbox para:
+- Integrar y probar tu aplicación
+- Experimentar con diferentes configuraciones de API keys
+- Probar flujos de error y casos borde
+- Probar la [integración de webhooks](./webhooks)
+- Validar la integración antes de [pasar a production](../integration-guide/production)
+:::
+
+
 ## Base URL
 
 El ambiente de sandbox se encuentra ubicado en la siguiente Base URL:
 
 `https://sandbox.soyio.id`
 
+## API Keys de Sandbox
+
+Las API keys para el ambiente de sandbox tienen características específicas:
+
+- **Prefijo distintivo**: Todas las API keys de sandbox comienzan con `ak_sandbox_`
+- **Sin expiración por defecto**: A diferencia de production, las API keys de sandbox no expiran automáticamente
+- **Aislamiento completo**: Las API keys de sandbox solo funcionan en el ambiente de pruebas
+- **Gestión independiente**: Puedes crear, actualizar y revocar API keys de sandbox independientemente de las de production
+
+### Ejemplo de API Key de Sandbox:
+
+```shell
+Authorization: ak_sandbox_1B2M2Y8AsgTpgAmY7PhCfg
+```
 
 ## Endpoints y parámetros especiales
 
 Existen algunos endpoints que sólo están disponibles en el ambiente de sandbox, por ende, no estarán disponibles en el ambiente de producción. Estos permiten realizar acciones para facilitar pruebas de integración, como por ejemplo, eliminar una identidad.
 
 Algunos endpoints tendrán ciertos parámetros que permiten **simular comportamientos específicos**, como por ejemplo errores en la validación de identidad.
+
+## Diferencias con Production
+
+| Característica | Sandbox | Production |
+|---|---|---|
+| **Prefijo API Key** | `ak_sandbox_` | `ak_live_` |
+| **Expiración por defecto** | Sin expiración | 90 días |
+| **Validaciones de identidad** | Simuladas (no reales) | Reales |
+| **Endpoints especiales** | Disponibles | No disponibles |
+| **Datos** | Aislados | Reales |
