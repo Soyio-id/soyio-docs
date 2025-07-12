@@ -1,0 +1,66 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Autenticación
+
+Nuestra API utiliza [Token Based Authentication sobre HTTPS](https://datatracker.ietf.org/doc/html/rfc6750) para la autenticación. Para tener acceso a nuestra API, necesitas crear y utilizar API keys específicas para cada entorno.
+
+## API Keys
+
+Las API keys son tokens de autenticación que permiten el acceso a los diferentes recursos de la API de Soyio. Cada API key:
+
+- **Es específica para un entorno**: sandbox o production
+- **Puede ser creada dinámicamente** desde el dashboard o mediante la API
+- **Tiene un alcance configurable** (scopes) para limitar el acceso a endpoints específicos
+- **Incluye fechas de expiración** (90 días por defecto en production, sin expiración en sandbox)
+
+### Identificación por Prefijo
+
+Las API keys se identifican por su prefijo según el entorno:
+
+- **Sandbox**: `ak_sandbox_[identificador]`
+- **Production**: `ak_live_[identificador]`
+
+## Header de autenticación
+
+Este tiene el siguiente formato:
+
+`Authorization: <api_key>`
+
+Donde `api_key` es la API key específica del entorno que deseas utilizar.
+
+<Tabs>
+  <TabItem value="sandbox" label="Ejemplo para Sandbox">
+    ```bash
+    Authorization: ak_sandbox_1B2M2Y8AsgTpgAmY7PhCfg
+    ```
+  </TabItem>
+  <TabItem value="production" label="Ejemplo para Production">
+    ```bash
+    Authorization: ak_live_2C3N3Z9BthUpgBnZ8QiDgh
+    ```
+  </TabItem>
+</Tabs>
+
+
+## Gestión de API Keys
+
+Puedes gestionar tus API keys tanto desde el dashboard como mediante los siguientes endpoints:
+
+- **Crear nueva API key**: [`POST /api_keys`](./resources/create-api-key.api.mdx)
+- **Listar todas las API keys**: [`GET /api_keys`](./resources/index-api-keys.api.mdx)
+- **Obtener detalles de una API key**: [`GET /api_keys/{id}`](./resources/get-api-key.api.mdx)
+- **Actualizar una API key**: [`PATCH /api_keys/{id}`](./resources/update-api-key.api.mdx)
+- **Revocar una API key**: [`DELETE /api_keys/{id}`](./resources/delete-api-key.api.mdx)
+
+:::danger[Importante]
+Usa HTTPS para todos los requests. Requests hechos mediante HTTP retornarán respuestas HTTP 403. **¡Mantén tus API keys en secreto!** Una vez creada, el token secreto solo se muestra una vez durante la creación.
+:::
+
+## Buenas Prácticas
+
+- Crea API keys separadas para cada aplicación o servicio
+- Utiliza scopes específicos para limitar el acceso solo a los endpoints necesarios
+- Rota tus API keys regularmente, especialmente en production
+- Revoca inmediatamente las API keys comprometidas
+:::
