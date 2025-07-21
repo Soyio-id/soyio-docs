@@ -483,12 +483,21 @@ La respuesta incluirá el `action_token` que necesitarás para crear el registro
 
 ### 4. Crear el registro de consentimiento
 
-Una vez que el usuario haya otorgado su(s) consentimiento(s) y tengas el `action_token`, procede de la misma manera que en el enfoque con SDK: crea el registro de consentimiento mediante el [endpoint de creación de acción de consentimiento](../../api/resources/create-consent-action.api.mdx).
+Una vez que el usuario haya otorgado su(s) consentimiento(s) y tengas el `action_token`, procede de una manera similar al enfoque con SDK: crea el registro de consentimiento mediante el [endpoint de creación de acción de consentimiento](../../api/resources/create-consent-action.api.mdx), incluyendo información contextual necesaria del método de captura
 
 ```json title="POST /api/v1/consent_actions"
 {
     "action_token": "<action_token_from_step_2>",
+    "entity_id": "<id_del_usuario_si_ya_otorgo_previamente_el_consentimiento>" // Opcional
     "user_reference": "<identificador_usuario>" // Opcional
+    "consent_method": {
+        "channel": "web",
+        "capture_source": "SomeProvider"
+        "metadata": {
+           // Información adicional para contextualizar mejor el contexto del consentimiento
+           // Pueden ser IDs internos o referencias que hagan fácil la búsqueda de la evidencia en un futuro
+        }
+    }
 }
 ```
 
