@@ -1,0 +1,71 @@
+---
+id: create-branch
+title: "Crear una branch"
+description: "Crear una branch"
+sidebar_label: "Crear una branch"
+hide_title: true
+hide_table_of_contents: true
+api: eJy9VstuGzcU/RXirhJgLFmq26Szqm14YfRl1E6LQDWMK/JaYjxDTkiOYkWYT8qi6C5b/VhxyRk9LNlN2rReyDPD+z6Hh1xAwImHfAQnDo2ckofrDGxFDoO25lxBDtIRBkrrkIGjtzX5cGLVHPJFfNWOFOS3WHjKQFoTyARew6oqtIyR+m+8NfzNyymVyE9hXhHkYMdvSAbIoHKcN2jycVWbDSMfnDYTyECRl05XHBJy+Gn5sSRnhSKhFZmgb7VEqZd/GhGcHtcBnUZeLVCMYwM9yIDusawKDjsY9r46+rr3zYuXB99Ck0FBEyxupC0rNPMbgyV9Qg22HDsS0fWJVJe1rJ1fmVBZOfIITfzjqfrKGp96Hx4O+N92ngSAYDQUCrrXwXosyQSCLzb0rvPUwD77+4N9hNmu9Af07QjIC0fcKJmARig9015bQ15YURutUJHngRiaWKmtIF+RXH5gFPm7CQnbUItY2fKP5Qfs/W526tbq73E6XxFEWSeWH42WtgXDt9hsI5ZauBmcDH8cvn557CdX1eS4fP3iYnp6O2G2fHGK7q/jPyLp/mSP0pTbDdGkVYKOuUf7yHrmnHUcA2vmZdfyv2HqWmhGaa2rKAMfMNQ+Nh1QF8zIB2ISY+0Oad031mGaCuVybojrh3XTT7m+MuxsnX5Pil3aatY+2gSakNt0OjocNKtyn4z+Gwlp60IJY4PYqJLE3NaO5SCyCgvfExcFoSchpyTvRJiSUFbWLBGxKYFBTEOofN7vKyt9z9u5tj2t1lAOh09AOcNCq/8Hxzh+/09wTEV+Noa/rtzEyu2TcBwOm1W5a0t0DueQgQ5U+t3MzeZ2Wqc+S5kTFp5k7XSYQz7iCeubO+Ln62ZHbk8doRO16c4dyKCkMLV8dlfWR5XHMIUc+p0q86zJzYiLHi2gdgXk0HHDo1Fje7+iRx8r3Z8NdjTlktxMq8SNytU0Ri+etc7PockexsWq+syYVtUySeWz9MJWz4FH0I3nknmWyLEa0hqGSn9P850kZ/5tTSXuypMoSWk0geI0jy/OxR3NuY7KOqmtiQevEVQIMhLH9B5Ve4R44W2hpQ61Is+KmmQZjltliPgyITj/lFCRi5rK2+WX9YXqrONVe//Z1v790v+oZHO2W5tiJapd8vS5r52RcK+KChHnzyexIpEOTIWKX6Jru+1Rxm1PZRQv8DyeQN+t5SQDplaKPOgd9g75E1OxxCgObeF7iLtV1QrHQPehXxWoDQeKrFq0nB7BeOMeMmW65yNYLMbo6ZUrmoY/v63Jxc2TwYyP2zFPY3TdZB0UvAkideA0ydrBVVKmGRZ1YtIDiWN6J49jKakKT9peb+zIi58vryCDcXt9Lq1iH4fvWBrxHeQAfAFn78jq+G0BBZpJjRO2TTGZPXwcbNP9LtK9feCuuiUz36jwIStTI/zLbe11WSzSZmqalX1aetSjHW1nzdhdN03zF0pwVSk=
+sidebar_class_name: "post api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Crear una branch"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/branches"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Crear una branch
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"required":false,"content":{"application/json":{"schema":{"type":"object","properties":{"tin":{"type":"string","description":"Número de identificación tributaria de la branch.","example":"12.345.678-9"},"legal_company_name":{"type":"string","description":"Nombre legal de la branch.","example":"Sucursal de la empresa"}}}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"201":{"description":"Branch creada exitosamente","content":{"application/json":{"schema":{"type":"object","properties":{"company_branch":{"type":"object","x-tags":["Branches"],"description":"Las branches representan divisiones o unidades de negocio específicas dentro de tu compañía.\n","properties":{"id":{"type":"string","description":"Identificador único de la sucursal.","example":"branch_1B2M2Y8AsgTpgAmY7PhCfg"},"tin":{"type":"string","description":"Número de identificación tributaria de la sucursal.","example":"12.345.678-9"},"legal_company_name":{"type":"string","description":"Nombre legal de la sucursal.","example":"Sucursal de la empresa"}},"title":"Branch"}}}}}},"401":{"description":"Error de autenticación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"authentication_error"},"title":{"type":"string","example":"Unauthorized"},"status":{"type":"integer","example":401},"detail":{"type":"string","example":"We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"}}}}}},"422":{"description":"Error de validación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","errors"],"properties":{"type":{"type":"string","example":"validation_error"},"title":{"type":"string","example":"Validation error"},"status":{"type":"integer","example":422},"errors":{"type":"array","items":{"type":"string"}}},"title":"ValidationError"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      
