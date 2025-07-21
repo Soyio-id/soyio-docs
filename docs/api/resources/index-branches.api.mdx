@@ -1,0 +1,64 @@
+---
+id: index-branches
+title: "Obtener todas las branches"
+description: "Cada branch representa una unidad de negocio dentro de tu empresa. Puede ser una sucursal, un área de negocio, etc."
+sidebar_label: "Obtener todas las branches"
+hide_title: true
+hide_table_of_contents: true
+api: eJzFVc1uGzcQfhViTgmw0Y/rNqlOdQKjMJq2BpygCFzDmCXHWsa7JM0fwYqwD5MHyKHoLVe9WDHcXf1YqdOihx4kUSRn5puZ7xuuIOI8wOwSXno0sqIAVwUoCtJrF7U1MINXqFCU+Vh4cp4CmYgiGf5ohUooEobmVmorFJno+UfEJKjh2zgS54kUiUA+W4Ukkw9YFyIZsf7oCXc8FIKiHP1uoADryCODOFMwA20U3W9QFuApOGsCBZit4Ggy4Z994MNlQUZaEz0qZENek4l8H52rtcwxxu8DG60gyIoa5FVcOoIZ2PI9yQgFOM+Iou5CSts4NMvrcoC0tUDvcQkF6EhN+JKn+2dfL/trDGLwvVN3I5Re6KCtoSBs3wEKuz2g4EiuP91oiWG/IRnz+o/1J+wqvJ+RVjtYQ/TazOEhqjP2p9m1sl6sPxsts/N629YRFED32Lia/XQpXE9fHv189O7FSZi/cfOT5t3z8+rVzRzaAqI2Xw/7y/pzQ10aeoNA6vWfRkSvyxTRa3wUx/Ro9M3xt6Pvnr949j2HrWmO9fXQRIMN/QMUtik9iWz6aLCLfre/1OsA2pxuzFe6xkN7uPdah8j7bQHHk+khrU+9t549Y2IeD4X4L8z2dJe0J8WMzGcDpgJCxJhCLkVEXTNP91nT+Tos3bYamGLVAWU418T4YZv2Y6ZvDRtbrz+QYpMezdZGm0hz8rtGx5Npu4H7qPffSEibaiWMjWIHJYmlTV5IT5lrWIeROK8JAwlZkbwVsSKhrEwNK5KTEhhFFaMLs/FYWRlGwS61HWmVG5l7GUgmr+MSZpfcHn19S7y+aq8KaChWlofcnPKgwVjBDMbldtoF8gvyIRsnX8MMhnABjSrt/SbiGJ0eL6YH5L0gv9CqY47ziUoM4klv/BTa4qFfdO5f+rQqyU6TT7o/fOspcIJD8hdMwY43mxJsx6bTP9HyIMhpuEvU4CHjRUNKo4mUX5WT8zNxS0vG4ayX2hp+t8gIqvkBwJI+oOpnVRDB1lrqmBQFlm6nfzjpyZZ7ygOc41eEinwWrzY3NgPuBXvB9eHIB6AZjaJa5Ap1D6PoZmf/YGbTXrMos2apyYyFwAlE+mHLoQK4+Z3n6WgymvCWsyE2mJXdw/+1jGTIi2gVhpzmDoP28K22s+L/e9/7tke6j2NXozacVSbhqpfAJZQ772NlQ+S91arEQG993ba8fZfIZyUVsOBnoOTWXF61xdA51kxmGpxISY4VtsA6dZR7MCb31Pjj6Rso8vjaZ+ltZmm/YO/DkVnu+H5Ipg4Cf7PYvmiyWnUaaNvN/e7oby36FIfbXMOrtm3/AsfMcWw=
+sidebar_class_name: "get api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Obtener todas las branches"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/branches"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Cada branch representa una unidad de negocio dentro de tu empresa. Puede ser una sucursal, un área de negocio, etc.
+
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Branches encontradas","content":{"application/json":{"schema":{"type":"object","properties":{"company_branches":{"type":"array","items":{"type":"object","x-tags":["Branches"],"description":"Las branches representan divisiones o unidades de negocio específicas dentro de tu compañía.\n","properties":{"id":{"type":"string","description":"Identificador único de la sucursal.","example":"branch_1B2M2Y8AsgTpgAmY7PhCfg"},"tin":{"type":"string","description":"Número de identificación tributaria de la sucursal.","example":"12.345.678-9"},"legal_company_name":{"type":"string","description":"Nombre legal de la sucursal.","example":"Sucursal de la empresa"}},"title":"Branch"}}},"title":"BranchList"}}}},"401":{"description":"Error de autenticación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"authentication_error"},"title":{"type":"string","example":"Unauthorized"},"status":{"type":"integer","example":401},"detail":{"type":"string","example":"We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

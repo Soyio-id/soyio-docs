@@ -1,0 +1,71 @@
+---
+id: get-branch
+title: "Obtener una branch específica"
+description: "Obtener una branch específica"
+sidebar_label: "Obtener una branch específica"
+hide_title: true
+hide_table_of_contents: true
+api: eJzNVt9v2zYQ/leIe0kCqP6RZWsnFMXSLhuCbV2QtBiKLDDO5NliI5EKSXlxDf1JfRj21lf/Y8NRsh1HXrJgL8uDI5G843f3fXenBQScekgv4bVDIzPycJWALclh0NacKkhhSqHZhARKdFhQIMc2CzBYEKSgFSSgDaRQYuBjirx0umQXkMLp90KRyFGMxtHPCBJwdFNpRwrS4CpKwMuMCoR0AWFesk8fnDZTqBOgWyzKnNda8+Hrw18OP7w49tN35fS4+PD8LHszmUJ9xW59aY0nz54OBwP+tw2mCUWQkdYEhwohAX4kE/gwlmWuZQy+/9GzxaKLzY4/kgycDsepCrq5T9qiRDNvo9x1/vbZrnRvA/wZvRi3u8JR6ciTCWiE0jPttTXkhRWV0QoVec6soamV2gryJcnl54mWyOsmOMvboRIR2fLP5Wfs/W46uLXq5r3DIfvT7FpZJ5ZfjJa2ZdVXsnIe8x48gasEgjaPX/t2+aWgJgy9RiD18i8jgtPjKqDT+CCO4WHvq6Ove988f/HsW742pynmoxVVjYAfRWGLsSMRTR+87KJdbQ9Rwewh1DHcEI+0pVTHvwSOBsOuRk+cs459YMW6XIX8X5S6qbfLZm+FKAEfMFQ+Bh1Q56zIbX00vrpJ2sSNVcgaoAxnRIwfNkE/ZPresLF1+hMpNmnRbGy0CTQld9foaDCs13Af9P4bCWmrXAljg7iDksTcVk5IR1FVmPueOMsJPQmZkbwWISOhrKwKrj0OSmAQWQilT/t9ZaXveTvXtqfVHSqPulSeEyvCCmM3Lcf+f4nUZoa5ViO+hXx4EpPn5G3lJMVcT2xlnsDn0b/k8w2TafaCmGijxEvXXvlK/KFDJrQSey+1erV3j8zIdRuSQKNEcHOBU9RmqzTf2vADw47ld9Ew0HLrmUYd5nHqYalH18TPV3Wnff86DmTIicpg28bv9mVIoKCQ2XauxokaMkihv2r5/YVWNZNJbrYas5XLIYWV+jwaNba3awH2sdT92bDTtS7IzbRqGknpKhqjF/ut8QHUyX2/WJZP9GlVJZtmvN+88KmDOIhXCYtpbNS3TtuaYCz1TzTvXHLibyoqsNsARUFKowkUs3t8diquac44SuuktgYVCjKCcq41HNMnVO2Q8sLbXEsdKkWee3b75XLc9p5YfauPmIxQkYvS0GZiI+BWIhecH765A5rRKMpFzBBPY0WiGZoKFb9E07byUcbKpyIKHjwHEOi7TUtJgMlvPA97g96Al0rrQ4GxP7TwHxXbFsZ13gPdhn6ZR/0njQoWrRAvYSVESCDViptIZn3gncVijJ7eu7yuefmmIheLIIEZj+ExZ+hyAUp7flaQTjD31AGxbn2wf942swOx6xtxJ9qVdAzrZoZ5xW+QQFQWf8rUV3WyopDhNBvHUlIZ7ph0ui6rdl2bP568gySOtW25Xke5tg/sfSec+6pqIPAvV91Ok8WiKYa6Xp9vtv7Rog1xHTlHUNf132MAGuc=
+sidebar_class_name: "get api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Obtener una branch específica"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/branches/{id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Obtener una branch específica
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"id","in":"path","description":"ID de la _branch_","required":true,"schema":{"type":"string"},"example":"branch_1B2M2Y8AsgTpgAmY7PhCfg"}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Branch encontrada","content":{"application/json":{"schema":{"type":"object","properties":{"company_branch":{"type":"object","x-tags":["Branches"],"description":"Las branches representan divisiones o unidades de negocio específicas dentro de tu compañía.\n","properties":{"id":{"type":"string","description":"Identificador único de la sucursal.","example":"branch_1B2M2Y8AsgTpgAmY7PhCfg"},"tin":{"type":"string","description":"Número de identificación tributaria de la sucursal.","example":"12.345.678-9"},"legal_company_name":{"type":"string","description":"Nombre legal de la sucursal.","example":"Sucursal de la empresa"}},"title":"Branch"}}}}}},"401":{"description":"Error de autenticación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"authentication_error"},"title":{"type":"string","example":"Unauthorized"},"status":{"type":"integer","example":401},"detail":{"type":"string","example":"We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"}}}}}},"404":{"description":"Recurso no encontrado","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"invalid_request_error"},"title":{"type":"string","example":"Resource not found"},"status":{"type":"integer","example":404},"detail":{"type":"string","example":"Couldn't find <resource> with id '<id>'. Please check your request and try again"}},"title":"NotFoundErrorSchema"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      
