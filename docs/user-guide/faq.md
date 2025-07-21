@@ -28,7 +28,7 @@ Las passkeys son una alternativa moderna y segura a las contraseñas tradicional
 - No pueden ser robadas o phisheadas como las contraseñas tradicionales.
 
 :::tip
-Revisa nuestra [guía de passkeys](passkeys) para mas información
+Revisa nuestra [guía de passkeys](passkeys) para más información
 :::
 
 ### ¿Qué significa crearme una cuenta con Soyio?
