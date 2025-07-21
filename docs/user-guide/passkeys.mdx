@@ -1,0 +1,297 @@
+---
+sidebar_position: 3
+title: Passkeys - Guía completa
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Passkeys: La nueva era de autenticación segura
+
+Las **passkeys** representan la evolución natural de la autenticación digital, ofreciendo una alternativa más segura, conveniente y resistente al phishing que las contraseñas tradicionales. Esta guía te ayudará a comprender qué son, por qué son superiores y cómo usarlas en tu dispositivo.
+
+## ¿Qué son las passkeys?
+
+Las passkeys son credenciales de autenticación digitales que reemplazan las contraseñas tradicionales utilizando **criptografía de clave pública**. En lugar de recordar una contraseña, tu dispositivo genera y almacena un par de claves únicas (pública y privada) para cada servicio.
+
+<div style={{position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: '800px', width: '100%', background: '#000', borderRadius: '10px'}}>
+  <iframe
+    src="https://www.youtube.com/embed/2xdV-xut7EQ"
+    frameBorder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowFullScreen
+    style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%'}}
+  />
+</div>
+
+### Características principales:
+
+- **Únicas para cada sitio**: Cada passkey está vinculada específicamente a un dominio
+- **Imposibles de reutilizar**: No pueden ser utilizadas en sitios diferentes
+- **Resistentes al phishing**: Solo funcionan en el sitio legítimo para el que fueron creadas
+- **Sincronizadas en la nube**: Se sincronizan automáticamente entre tus dispositivos
+
+## ¿Por qué son más seguras que las contraseñas?
+
+### Ventajas de seguridad
+
+| Aspecto | Contraseñas tradicionales | Passkeys |
+|---------|---------------------------|----------|
+| **Vulnerabilidad a filtraciones** | ✗ Pueden ser robadas de servidores | ✅ Solo la clave pública está en el servidor |
+| **Resistencia al phishing** | ✗ Susceptibles a sitios falsos | ✅ Solo funcionan en el dominio correcto |
+| **Reutilización** | ✗ Los usuarios reutilizan contraseñas | ✅ Únicas para cada sitio automáticamente |
+| **Complejidad** | ✗ Difíciles de recordar si son seguras | ✅ Sin necesidad de memorizar nada |
+| **Ataques de fuerza bruta** | ✗ Vulnerables si son débiles | ✅ Inmunes por diseño criptográfico |
+
+### Ventajas de experiencia de usuario
+
+- **Sin contraseñas que recordar**: Tu dispositivo maneja todo automáticamente
+- **Inicio de sesión más rápido**: Un toque, huella dactilar o reconocimiento facial
+- **Sin restablecimientos de contraseña**: Eliminan la necesidad de "¿Olvidaste tu contraseña?"
+- **Funciona sin conexión**: La autenticación local no requiere internet
+
+## Cómo configurar passkeys por sistema operativo
+
+:::warning[Importante]
+Para usar passkeys necesitas tener configurado un método de autenticación local en tu dispositivo (Face ID, Touch ID, Windows Hello, PIN, etc.). Sin esto, las passkeys no funcionarán.
+:::
+
+<Tabs>
+<TabItem value="macos" label="macOS" default>
+
+#### Requisitos:
+- macOS Ventura (13.0) o posterior
+- Safari 16+ o Chrome 108+
+
+#### Configuración:
+1. **Habilitar passkeys en Safari**:
+   - Ve a `Safari > Preferencias > Contraseñas`
+   - Asegúrate de que "Autocompletar contraseñas" esté habilitado
+   - La opción de passkeys aparecerá automáticamente
+
+2. **Verificar iCloud Keychain**:
+   - Ve a `Configuración del Sistema > [Tu nombre] > iCloud`
+   - Asegúrate de que "Contraseñas y Llavero" esté activado
+
+#### Uso:
+- Al crear una cuenta, selecciona "Usar passkey" cuando aparezca la opción
+- Para iniciar sesión, haz clic en el campo de usuario y selecciona la passkey
+- Confirma con Touch ID, Face ID o tu contraseña de macOS
+
+</TabItem>
+<TabItem value="ios" label="iOS/iPadOS">
+
+#### Requisitos:
+- iOS 16+ / iPadOS 16+
+- Safari o aplicaciones compatibles
+
+#### Configuración:
+1. **Configurar Face ID/Touch ID**:
+   - Ve a `Configuración > Face ID y código` (o Touch ID)
+   - Asegúrate de que esté configurado y funcionando
+
+2. **Habilitar autocompletar**:
+   - Ve a `Configuración > Contraseñas > Opciones de autocompletar`
+   - Activa "Usar contraseñas y passkeys"
+
+#### Uso:
+- Las passkeys se crean automáticamente cuando el sitio las soporta
+- Para iniciar sesión, toca el campo de usuario y selecciona la passkey
+- Autentica con Face ID, Touch ID o tu código de acceso
+
+</TabItem>
+<TabItem value="android" label="Android">
+
+#### Requisitos:
+- Android 9+ con Google Play Services actualizado
+- Chrome 108+ o aplicaciones compatibles
+
+#### Configuración:
+1. **Configurar bloqueo de pantalla**:
+   - Ve a `Configuración > Seguridad > Bloqueo de pantalla`
+   - Configura PIN, patrón, contraseña o biometría
+
+2. **Habilitar Google Password Manager**:
+   - Ve a `Configuración > Google > Autocompletar con Google`
+   - Activa "Autocompletar con Google"
+
+#### Uso:
+- Al crear cuentas, acepta crear una passkey cuando se te solicite
+- Para iniciar sesión, toca "Usar passkey" y autentica con tu método preferido
+- Las passkeys se sincronizan con tu cuenta de Google
+
+</TabItem>
+<TabItem value="windows" label="Windows">
+
+#### Requisitos:
+- Windows 10 (versión 1903) o Windows 11
+- Chrome 108+, Edge 108+ o Firefox 122+
+
+#### Configuración:
+1. **Configurar Windows Hello**:
+   - Ve a `Configuración > Cuentas > Opciones de inicio de sesión`
+   - Configura PIN, huella dactilar o reconocimiento facial
+
+2. **Para Chrome**: Las passkeys se almacenan en Google Password Manager
+3. **Para Edge**: Se integran con Windows Hello directamente
+
+#### Uso:
+- Acepta crear passkeys cuando los sitios las ofrezcan
+- Para iniciar sesión, selecciona la passkey y autentica con Windows Hello
+- Las passkeys pueden sincronizarse según el navegador usado
+
+</TabItem>
+</Tabs>
+
+## Cómo usar passkeys en la práctica
+
+### Creando tu primera passkey
+
+1. **Visita un sitio compatible** (como Google, GitHub, Microsoft)
+2. **Inicia el proceso de registro** o ve a configuración de seguridad
+3. **Busca la opción "Crear passkey"** o "Agregar método de autenticación"
+4. **Sigue las instrucciones** de tu dispositivo para completar la configuración
+5. **¡Listo!** Tu passkey está creada y lista para usar
+
+### Iniciando sesión con passkeys
+
+1. **Ve al sitio web** o aplicación
+2. **Ingresa tu nombre de usuario** (si es requerido)
+3. **Selecciona "Usar passkey"** cuando aparezca la opción
+4. **Autentica** con tu método biométrico o PIN
+5. **Accede inmediatamente** sin contraseña
+
+### Sincronización entre dispositivos
+
+Las passkeys se sincronizan automáticamente:
+- **Apple**: A través de iCloud Keychain en todos tus dispositivos Apple
+- **Google**: Con tu cuenta de Google en dispositivos Android y Chrome
+- **Microsoft**: Con tu cuenta Microsoft en Windows y Edge
+
+---
+
+## Passkeys en Soyio: Inscripción y autenticación
+
+En Soyio, las passkeys forman parte integral de nuestro ecosistema de verificación de identidad y gestión de consentimientos. Su implementación sigue un flujo específico que garantiza tanto la seguridad como la facilidad de uso.
+
+### Proceso de inscripción del dispositivo
+
+Cuando utilizas Soyio por primera vez, el proceso de inscripción de tu dispositivo ocurre durante el **módulo de Disclosure** (revelación de datos y consentimiento):
+
+1. **Verificación de identidad**: Primero completarás el proceso de verificación de identidad subiendo tu documento y tomando una selfie
+2. **Registro de consentimiento**: Otorgarás tu consentimiento para el uso de tus datos según las finalidades especificadas
+3. **Creación de identidad verificada**: El sistema creará una identidad verificada vinculada a tu información real
+4. **Registro de passkey**: Durante este proceso, tendrás la opción de registrar una passkey en tu dispositivo usando Face ID, Touch ID, Windows Hello o PIN según tu sistema operativo
+
+### Uso de passkeys en los módulos de Soyio
+
+Una vez que tienes tu dispositivo inscrito con una passkey, podrás utilizarla en diferentes contextos:
+
+#### Módulo de Autenticación (AuthRequest)
+- **Propósito**: Autenticarte de forma segura para acceder a operaciones críticas o datos sensibles
+- **Proceso**: Simplemente usa tu passkey registrada para confirmar tu identidad sin necesidad de contraseñas
+- **Alternativa**: Si no tienes passkey registrada o no está disponible, puedes usar autenticación facial
+
+#### Módulo de Firma de Documentos (Signature)
+- **Propósito**: Firmar documentos digitales de manera legal y segura
+- **Proceso**: Previsualiza el documento y confirma tu firma usando tu passkey
+- **Seguridad**: La passkey garantiza que solo tú puedes firmar documentos en tu nombre
+
+#### Módulo de Consentimiento (Consent)
+- **Propósito**: Gestionar tus consentimientos para el uso de datos de manera granular
+- **Proceso**: Usa tu passkey para confirmar cambios en tus preferencias de privacidad
+
+### Ventajas de las passkeys en Soyio
+
+<details>
+<summary>Para usuarios</summary>
+- **Un solo registro**: Verificas tu identidad una vez y puedes usar todos los módulos
+- **Experiencia fluida**: Sin necesidad de recordar contraseñas para cada interacción
+- **Máxima seguridad**: Tu biometría protege todas las operaciones críticas
+- **Control total**: Mantienes el control sobre tus datos y consentimientos
+
+</details>
+
+<details>
+<summary>Para empresas</summary>
+- **Reducción de fraude**: Las passkeys son imposibles de falsificar o robar
+- **Cumplimiento normativo**: Garantiza autenticación fuerte según regulaciones de protección de datos
+- **Mejor experiencia de usuario**: Usuarios más satisfechos y menos abandono en procesos críticos
+- **Evidencia vinculante**: Cada acción queda registrada con evidencia criptográfica
+
+</details>
+
+### Casos de uso comunes
+
+1. **Onboarding de clientes**: Un nuevo usuario verifica su identidad, registra su passkey y puede acceder a todos los servicios sin fricciones adicionales
+
+2. **Firma de contratos**: Un cliente existente puede firmar documentos importantes usando su passkey en segundos, sin necesidad de imprimir o escanear documentos
+
+3. **Gestión de privacidad**: Los usuarios pueden actualizar sus preferencias de consentimiento de forma segura usando su passkey
+
+4. **Acceso a datos sensibles**: Para operaciones que requieren verificación adicional, la passkey proporciona autenticación fuerte inmediata
+
+---
+
+## Solución de problemas comunes
+
+### La opción de passkey no aparece
+
+**Posibles causas:**
+- El sitio no soporta passkeys aún
+- Tu navegador no está actualizado
+- No tienes configurado un método de autenticación local
+
+**Soluciones:**
+- Verifica que el sitio soporte passkeys
+- Actualiza tu navegador a la última versión
+- Configura Face ID, Touch ID, Windows Hello o PIN según tu dispositivo
+
+### No puedo iniciar sesión con mi passkey
+
+1. **Verifica tu autenticación local**: Asegúrate de que Face ID/Touch ID/PIN funcionen
+2. **Revisa la sincronización**: Confirma que iCloud Keychain o Google Sync estén activos
+3. **Intenta desde otro dispositivo**: Si tienes la passkey sincronizada
+4. **Usa un método de respaldo**: Muchos sitios ofrecen códigos de recuperación
+
+### Perdí el acceso a mis passkeys
+
+**Pasos de recuperación:**
+1. **Usa dispositivos sincronizados**: Si tienes otros dispositivos con la misma cuenta
+2. **Códigos de recuperación**: Usa los códigos que guardaste al crear la cuenta
+3. **Método de respaldo**: Utiliza email o SMS si los configuraste
+4. **Contacta soporte**: Como último recurso, contacta al soporte del servicio
+
+### ¿Puedo usar passkeys sin internet?
+
+**Sí**, las passkeys funcionan offline para:
+- **Autenticación local**: En aplicaciones que lo soporten
+- **Verificación**: El proceso criptográfico no requiere conexión
+
+**No** para:
+- **Crear nuevas passkeys**: Requiere comunicación con el servidor
+- **Sincronización**: Necesita internet para sincronizar entre dispositivos
+
+## Mejores prácticas
+
+### Recomendaciones
+
+1. **Configura métodos de respaldo**: Siempre ten una forma alternativa de acceder a tus cuentas
+2. **Mantén dispositivos actualizados**: Las actualizaciones mejoran la seguridad y compatibilidad
+3. **Guarda códigos de recuperación**: Almacénalos en un lugar seguro y accesible
+4. **Verifica la sincronización**: Asegúrate de que tus passkeys estén disponibles en múltiples dispositivos
+5. **Transición gradual**: Migra a passkeys gradualmente, manteniendo métodos alternativos inicialmente
+
+### Precauciones
+
+- **No dependas de un solo dispositivo**: Si pierdes tu único dispositivo con passkeys, podrías perder acceso
+- **Verifica compatibilidad**: No todos los sitios soportan passkeys aún
+- **Mantén respaldos**: Códigos de recuperación y métodos alternativos son esenciales
+
+## El futuro de la autenticación
+
+Las passkeys representan un cambio fundamental hacia un internet más seguro y fácil de usar. En Soyio, estamos liderando esta transformación al integrar passkeys en un ecosistema completo de gestión de identidad y consentimientos, creando una experiencia digital que es tanto más segura como más conveniente.
+
+:::tip[🚀 ¡Comienza hoy!]
+**¿Estás listo para dar el salto a las passkeys con Soyio?** Comienza verificando tu identidad y registrando tu dispositivo para experimentar la autenticación del futuro.
+:::
