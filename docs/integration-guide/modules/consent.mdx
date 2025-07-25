@@ -210,7 +210,7 @@ A continuación, te mostramos un ejemplo de integración del componente embebido
 <br/>
 <br/>
 
-Puedes utilizar este ejemplo como base para integrar el componente en tu aplicación. 
+Puedes utilizar este ejemplo como base para integrar el componente en tu aplicación.
 
 
 ### Enfoque 2: Integración vía API (Consentimiento universal)
@@ -227,7 +227,7 @@ Este enfoque utiliza directamente la API de Soyio para crear `action_token`s, en
 
 ### 1. Crear una plantilla de consentimiento
 
-Para comenzar, deberás crear una [plantilla de consentimiento](../../api/resources/schemas/consenttemplate) que defina qué datos y permisos necesitas solicitar a tus usuarios. 
+Para comenzar, deberás crear una [plantilla de consentimiento](../../api/resources/schemas/consenttemplate) que defina qué datos y permisos necesitas solicitar a tus usuarios.
 
 Adicionalmente, se pueden asociar uno o más [documentos de privacidad](../../api/resources/schemas/privacydocument) a la plantilla insertando el texto `{{<template_key>:<version>}}` en el campo `text` de la plantilla. Si no se provee una versión en la referencia, se asume que es la primera versión del documento.
 En los ejemplos a continuación se asocia una plantilla de consentimiento  a la primera versión del documento de privacidad que tiene una `template_key` con valor `"terms_and_conditions"`, y a la segunda versión del documento de privacidad con `template_key` igual a `"privacy_policy"`.
@@ -466,7 +466,7 @@ Cuando el usuario otorga el consentimiento en tu interfaz, debes crear directame
     "kind": "grant",
     "action_type": "opt_in_click",
     "timestamp": "2024-03-20T15:30:00Z",
-    "action_data": { 
+    "action_data": {
        // Información adicional para contextualizar mejor la acción de consentimiento
        // Pueden ser IDs internos o referencias que hagan fácil la búsqueda de la evidencia en un futuro
     }
@@ -605,7 +605,7 @@ Desde la [configuración](../../api/resources/schemas/configuration) de tu compa
 Esta configuración se aplica a nivel de organización y afecta todos los componentes de consentimiento de tu cuenta.
 
 :::tip[Pro Tip]
-Para obtener más información sobre las variables y reglas de personalización, consulta la [documentación oficial del SDK web de Soyio](https://docs.soyio.co/docs/soyio-widget/customization).
+Para obtener más información sobre las variables y reglas de personalización, consulta la [documentación oficial del SDK web de Soyio](https://github.com/Soyio-id/soy-io-widget?tab=readme-ov-file#appearance).
 :::
 
 :::warning[Importante]
