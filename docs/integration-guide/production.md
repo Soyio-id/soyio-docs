@@ -31,7 +31,7 @@ https://app.soyio.id
 
 #### Creación de API Keys para Production
 
-1. **Crea API keys específicas para production**: Utiliza el dashboard o la API para crear nuevas API keys con el prefijo `ak_live_`
+1. **Crea API keys específicas para production**: Utiliza la API para crear nuevas API keys con el prefijo `ak_live_`
 2. **Configura scopes apropiados**: Asegúrate de que las API keys tengan solo los permisos necesarios para tu aplicación
 3. **Gestiona la expiración**: Las API keys de production expiran en 90 días por defecto. Planifica la rotación regular
 4. **Almacena de forma segura**: Utiliza variables de entorno y sistemas de gestión de secretos para almacenar las API keys
@@ -65,7 +65,6 @@ Para mantener la seguridad en production:
 - **Establece un calendario de rotación** (recomendado: cada 60-90 días)
 - **Utiliza múltiples API keys** para diferentes servicios o aplicaciones
 - **Implementa un proceso de rotación sin downtime** creando la nueva key antes de revocar la anterior
-- **Monitorea el uso** de tus API keys a través del dashboard
 
 ### Ambiente sandbox
 
