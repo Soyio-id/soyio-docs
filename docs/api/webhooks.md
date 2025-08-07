@@ -9,7 +9,7 @@ Los Webhooks son útiles en dos situaciones:
 - Cuando se genera un evento que no es un resultado directo de una llamada a la API. Como por ejemplo el cobro de una suscripción.
 - Cuando existen servicios o funcionalidades que necesitan saber la respuesta a una llamada, pero éstos no la realizan directamente. Como por ejemplo un servicio de CRM que necesita actualizar el registro de un usuario cuando se genera una autenticación.
 
-Cuando un evento ocurre, Soyio crea un [objeto de evento](./resources/schemas/event.schema.mdx). Este objeto contiene toda la información relevante de lo ocurrido. Soyio luego envía el objeto de evento a través de una llamada `HTTP POST` a una URL que tú definas para ese propósito. Para mayor información sobre cómo crear un webhook, puedes dirigirte a este [link](./resources/create-webhook.api.mdx) de nuestra referencia de la api.
+Cuando un evento ocurre, Soyio crea un [objeto de evento](./resources/schemas/event.schema.mdx). Este objeto contiene toda la información relevante de lo ocurrido. Soyio luego envía el objeto de evento a través de una llamada `HTTP POST` a una URL que tú definas para ese propósito. Para más información sobre cómo crear un webhook, consulta nuestra [referencia de la API](./resources/create-webhook.api.mdx).
 
 Algunos casos de uso son:
 
