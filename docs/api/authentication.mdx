@@ -10,7 +10,7 @@ Nuestra API utiliza [Token Based Authentication sobre HTTPS](https://datatracker
 Las API keys son tokens de autenticación que permiten el acceso a los diferentes recursos de la API de Soyio. Cada API key:
 
 - **Es específica para un entorno**: sandbox o production
-- **Puede ser creada dinámicamente** desde el dashboard o mediante la API
+- **Puede ser creada dinámicamente** desde la API
 - **Tiene un alcance configurable** (scopes) para limitar el acceso a endpoints específicos
 - **Incluye fechas de expiración** (90 días por defecto en production, sin expiración en sandbox)
 
@@ -45,7 +45,7 @@ Donde `api_key` es la API key específica del entorno que deseas utilizar.
 
 ## Gestión de API Keys
 
-Puedes gestionar tus API keys tanto desde el dashboard como mediante los siguientes endpoints:
+Puedes gestionar tus API keys tanto desde los siguientes endpoints:
 
 - **Crear nueva API key**: [`POST /api_keys`](./resources/create-api-key.api.mdx)
 - **Listar todas las API keys**: [`GET /api_keys`](./resources/index-api-keys.api.mdx)
