@@ -32,6 +32,12 @@ const sidebar: SidebarsConfig = {
         },
         {
           type: "doc",
+          id: "api/resources/get-disclosure-requests-stats",
+          label: "Obtener estadísticas de solicitudes de divulgación",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
           id: "api/resources/disclosure-request-granted",
           label: "Granted",
           className: "api-method event",
@@ -176,6 +182,12 @@ const sidebar: SidebarsConfig = {
         },
         {
           type: "doc",
+          id: "api/resources/get-consent-actions-stats",
+          label: "Obtener estadísticas de conversión de las acciones de consentimiento",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
           id: "api/resources/consent-action-created",
           label: "Created",
           className: "api-method event",
@@ -208,6 +220,12 @@ const sidebar: SidebarsConfig = {
           type: "doc",
           id: "api/resources/show-consent-commit",
           label: "Obtener un commit de consentimiento",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/get-consent-commits-stats",
+          label: "Obtener estadísticas de conversión de commits de consentimiento",
           className: "api-method get",
         },
         {
@@ -724,6 +742,24 @@ const sidebar: SidebarsConfig = {
           type: "doc",
           id: "api/resources/get-entity-agreement-compliance-statuses",
           label: "Obtener los estados de cumplimiento de la entidad",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/get-entity-session-token",
+          label: "Obtener un token de sesión para una entidad",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/index-entity-data-subject-requests",
+          label: "Obtener todas las solicitudes de ejercicio de derechos de una entidad",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/get-entity-data-subject-request",
+          label: "Obtener una solicitud de ejercicio de derechos específica de una entidad",
           className: "api-method get",
         },
       ],
