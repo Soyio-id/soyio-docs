@@ -1,0 +1,73 @@
+---
+id: get-disclosure-requests-stats
+title: "Obtener estadísticas de disclosures"
+description: "Obtiene estadísticas agregadas de los disclosures, incluyendo conteos totales,"
+sidebar_label: "Obtener estadísticas de solicitudes de disclosures"
+hide_title: true
+hide_table_of_contents: true
+api: eJy1V8GO2zYQ/RWCp11AkOU02wY6NUhSIC3QLOq0OWQXxpictZmVSC2HNNZZ+GP6AT31luv+WDGU5JVsI5s07cmWTA7fvJn3hr6TAZYky/fypSFVOYoehcebiBRIXmZSIylvmmCclaV8swgGLQqkAPr+LwpGAQlYelyCBhIaRQUkyFVGmRA1plfarGO1BGXu/7aZMFZVcYNWO6GcDehIBBegQsoubABqwyhn1+ip3aINBW8WMUUQjfMtACc2ovGuRm0c7xkey4siRfDG5RdWZtI16IHTeK1lKZcYHhL+rct3FiCQzGQDHmoM6JmYO2mhRlnKK+drCDKThploIKzkPj0/pSUJi0dqOCgIjjYmTGaSKTYetSyDj5hJUiusQZZ3MmwaPo0TtkuZSbSx5vp8IMdpKFq3ZbmCWAVZtu+3mcRbqJsKH97sgDewxB72TUS/OcD96/2nGn3C3dz/uTQWRhCvoKJjGI0NuEQvM1kba2rGOR1Amw5RTYeA0M+/ChTa4FN/cVW/HWENt933ohjgfVIMAfPTDrHzGv18sfk84jdeo00acMQNECtuUhIn+CEXF1J5hIB6DkG8fDV7cSFPvyiHrhNGJd4LJbeXHIkaZwmJ9z4pCv4Y43s1Uu2eYPZ0yq3G6rSB40DTVEYl+UxSe5V3h0Dd4gMqFkjjWWzBtFAoqerIskfA6Z0+6SCmcrEFdlDn4z2UDOYw6KDYXHtmWoV5bz3Ozj0EHBxjY71Ip3ReUMqrysFhLm+BYM/E2AE4OoiTzpZI3H+yRjkSN5GXMpIA3lmxJnF0jUn14CWnQ/BF/sPZNpXrf4C9RIseKnEy7JUeLEtyTQ/sDtbsIXyW6IUQad6beXvoY23xcmT94woOJoHMJGhteBNU56NeeYSEoa7u5NKDDazGIv8+kw1azdori/w7FhgjbH+cbreZhDV6WOJ8AGnO3hYJ/b+g/3wwyvaz7PphSOo0P2MQwYRkCQfjrJ1m221ahLdhwqPjmG53o2aPeQguCXE87NGKq27MvZj9IUeu5OraBJondWbH1ZTtPx+SuOPwwj4piozbOyvyZ9k0P7uwXUJPi+kRf/PeeUYMkYVi1Ldb2YM9v29/6wnv2znRFsBUPJWbI413ZKLvCIMYVi1QhjNHxi8favq5rb9b3uy8+Yha7sR11BJ3m54WPJI7uJ+N/o5NIFZaWBfEACWKjYteKI+a30BFuTivEAiFWqG6FmGFQjsVazYqTkpAEKsQGionE+0U5eQ2xuVGp0KmWhKq6E3YpMsWNGZ+jfz9kodajWHlugtbupmFlSzlZNAs/WV1kuZMftc255YLhH7d3+Gir2QpeyAEVi/c7Q7LBBozWU8PJDBDvza67anGR1wAiZNu82m6Yo3jQtN8ZUyno2qt7aR94FWnaZ73tMy4OduO2pGzqx005hc8vIm8opuINRxqQbDDsMWJaEE8P38trjFdohvnFZunBlY4VmKFoNEfudHnMuuvRc+7FkyV7u9G7cbkqzaYsJkTUpJ7cNdo/yPsIgUTP797m+YOUj8eeL0GPUrJPZqSmGE36UTk+jpejlY3ztggJikRgzQZpSI2ov03xFTq6GE3o6ZnojY2BvfFZG35+coldjpDn3EjcYkOGOKyaaxEaiXVDozXus9co0hbO9sDlWwP6yR6SUxLwB8fZJjJzo9lKad5kRdyu/0Ho0IH9g==
+sidebar_class_name: "get api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Obtener estadísticas de disclosures"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/disclosure_requests/stats.{format}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Obtiene estadísticas agregadas de las solicitudes de divulgación, incluyendo conteos totales,
+tasas de conversión, distribución por estado y promedio de solicitudes por usuario.
+
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"format","in":"path","description":"Formato de respuesta para estadísticas","required":true,"schema":{"type":"string","enum":["json","csv"],"default":"json"},"example":"json"},{"name":"page","in":"query","description":"Número de página","required":false,"schema":{"type":"integer","minimum":1,"default":1},"example":1},{"name":"per_page","in":"query","description":"Número de entradas por página","required":false,"schema":{"type":"integer","minimum":1,"maximum":100,"default":20},"example":20},{"name":"order_by","in":"query","description":"Orden de los resultados (ej. \"created_at DESC\")","required":false,"schema":{"type":"string"},"example":"created_at DESC"}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Estadísticas de solicitudes de divulgación","content":{"application/json":{"schema":{"type":"object","properties":{"stats":{"type":"object","description":"Estadísticas de disclosures","properties":{"count":{"type":"integer","description":"Número total de disclosures","example":200},"strict_conversion_rate":{"type":"number","format":"float","description":"Tasa de conversión estricta (usuarios únicos que completaron vs usuarios únicos que intentaron)","example":0.75},"conversion_rate":{"type":"number","format":"float","description":"Tasa de conversión general (solicitudes completadas vs total de solicitudes)","example":0.8},"status_distribution":{"type":"object","description":"Distribución de disclosures por estado","additionalProperties":{"type":"number","format":"float"},"example":{"granted":0.6,"pending":0.3,"rejected":0.1}},"average_disclosures_per_user":{"type":"number","format":"float","description":"Promedio de disclosures por usuario","example":1.5}},"title":"DisclosureRequestStats"}}}},"text/csv":{"schema":{"type":"string","description":"Datos de estadísticas en formato CSV","example":"commits_count,strict_conversion_rate,conversion_rate,average_disclosure_per_user\n200,0.75,0.8,1.5\n"}}}},"401":{"description":"Error de autenticación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"authentication_error"},"title":{"type":"string","example":"Unauthorized"},"status":{"type":"integer","example":401},"detail":{"type":"string","example":"We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      
