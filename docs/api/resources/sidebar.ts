@@ -4,6 +4,30 @@ const sidebar: SidebarsConfig = {
   apisidebar: [
     {
       type: "category",
+      label: "Configuration",
+      items: [
+        {
+          type: "doc",
+          id: "api/resources/schemas/configuration",
+          label: "El objeto Configuration",
+          className: "schema",
+        },
+        {
+          type: "doc",
+          id: "api/resources/get-company-config",
+          label: "Obtener la configuración de la empresa",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/update-company-config",
+          label: "Actualizar la configuración de la empresa",
+          className: "api-method patch",
+        },
+      ],
+    },
+    {
+      type: "category",
       label: "Disclosure requests",
       items: [
         {
@@ -428,6 +452,12 @@ const sidebar: SidebarsConfig = {
         },
         {
           type: "doc",
+          id: "api/resources/schemas/datasubjectrequestupdate",
+          label: "El objeto DataSubjectRequestUpdate",
+          className: "schema",
+        },
+        {
+          type: "doc",
           id: "api/resources/create-data-subject-request",
           label: "Crea un data subject request.\n",
           className: "api-method post",
@@ -443,6 +473,12 @@ const sidebar: SidebarsConfig = {
           id: "api/resources/get-data-subject-request",
           label: "Obtener un data subject request específico",
           className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/update-data-subject-request",
+          label: "Actualizar el estado de un data subject request",
+          className: "api-method put",
         },
         {
           type: "doc",
@@ -761,30 +797,6 @@ const sidebar: SidebarsConfig = {
           id: "api/resources/get-entity-data-subject-request",
           label: "Obtener una solicitud de ejercicio de derechos específica de una entidad",
           className: "api-method get",
-        },
-      ],
-    },
-    {
-      type: "category",
-      label: "Company",
-      items: [
-        {
-          type: "doc",
-          id: "api/resources/schemas/configuration",
-          label: "El objeto Configuration",
-          className: "schema",
-        },
-        {
-          type: "doc",
-          id: "api/resources/get-company-config",
-          label: "Obtener la configuración de la empresa",
-          className: "api-method get",
-        },
-        {
-          type: "doc",
-          id: "api/resources/update-company-config",
-          label: "Actualizar la configuración de la empresa",
-          className: "api-method patch",
         },
       ],
     },
