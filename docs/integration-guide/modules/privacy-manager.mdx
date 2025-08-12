@@ -217,7 +217,6 @@ privacyCenter.mount("#privacy-center-container");
 Para obtener más información sobre las opciones de configuración, consulta la [documentación oficial del SDK web de Soyio](https://github.com/Soyio-id/soy-io-widget).
 :::
 
-
 ## Gestión de solicitudes de derechos
 
 Al momento de crearse una solicitud de ejercicio de derechos, se creará un nuevo [Data subject Request o DSR](../../api/resources/schemas/datasubjectrequest). Este recurso es el que mantendrá la trazabilidad de la solicitud y su estado a medida que se procese la solicitud.
@@ -375,6 +374,15 @@ const privacyCenterOptions = {
 };
 ```
 
+
+### Configuración de validación de identidad
+
+Desde la [configuración](../../api/resources/schemas/configuration) de tu compañía, puedes configurar el comportamiento del proceso de validación de identidad:
+
+#### Obligatoriedad de validación de identidad (`data_subject_request.mandatory_validation`)
+
+- **`false`**: (por defecto) El usuario recibe confirmación de que su solicitud fue creada exitosamente y puede elegir validar su identidad inmediatamente o en un momento posterior.
+- **`true`**: El usuario debe completar el proceso de validación de identidad antes de poder proceder con su solicitud.
 
 ### Personalización
 

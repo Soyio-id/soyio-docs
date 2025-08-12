@@ -604,6 +604,30 @@ Desde la [configuración](../../api/resources/schemas/configuration) de tu compa
 
 Esta configuración se aplica a nivel de organización y afecta todos los componentes de consentimiento de tu cuenta.
 
+### Configuración del módulo de consentimiento
+
+Desde la [configuración](../../api/resources/schemas/configuration) de tu compañía en Soyio, puedes personalizar el comportamiento del módulo de consentimiento a través de las siguientes opciones:
+
+#### Dominios permitidos (`whitelisted_domains`)
+
+Puedes especificar una lista de dominios permitidos para el contenido de tu embed. Los dominios especificados se agregarán a la lista de dominios permitidos para el contenido de tu embed.
+
+#### Visualización de etiquetas (`label_display`)
+
+Los consentimientos pueden ser opcionales o obligatorios. Puedes configurar cuándo mostrar las etiquetas:
+
+- **`optional_only`** (por defecto): Solo muestra la etiqueta "Opcional" en los consentimientos opcionales.
+- **`mandatory_only`**: Solo muestra la etiqueta "Requerido" o "Obligatorio" en los consentimientos obligatorios.
+
+#### Texto de etiqueta obligatoria (`mandatory_label_text`)
+
+Cuando `label_display` está configurado como `mandatory_only`, puedes personalizar el texto de la etiqueta:
+
+- **`required`** (por defecto): Muestra "Requerido"
+- **`mandatory`**: Muestra "Obligatorio"
+
+Estas configuraciones se aplican a nivel de organización y afectan todos los componentes de consentimiento de tu cuenta.
+
 :::tip[Pro Tip]
 Para obtener más información sobre las variables y reglas de personalización, consulta la [documentación oficial del SDK web de Soyio](https://github.com/Soyio-id/soy-io-widget?tab=readme-ov-file#appearance).
 :::
