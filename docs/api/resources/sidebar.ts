@@ -57,7 +57,7 @@ const sidebar: SidebarsConfig = {
         {
           type: "doc",
           id: "api/resources/get-disclosure-requests-stats",
-          label: "Obtener estadísticas de solicitudes de divulgación",
+          label: "Obtener estadísticas de disclosure requests",
           className: "api-method get",
         },
         {
@@ -473,6 +473,18 @@ const sidebar: SidebarsConfig = {
           id: "api/resources/get-data-subject-request",
           label: "Obtener un data subject request específico",
           className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/get-data-subject-request-by-identifier",
+          label: "Obtener un data subject request por identificador humanizado",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/send-data-subject-request-recovery-email",
+          label: "Enviar correo de recuperación del identificador de la solicitud",
+          className: "api-method post",
         },
         {
           type: "doc",
