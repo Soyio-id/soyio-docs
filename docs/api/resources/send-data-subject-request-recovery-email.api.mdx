@@ -1,0 +1,73 @@
+---
+id: send-data-subject-request-recovery-email
+title: "Enviar correo de recuperación del identificador de la solicitud"
+description: "Envía un correo electrónico con el identificador de la última solicitud del titular de datos, si existe una solicitud asociada al correo proporcionado."
+sidebar_label: "Enviar correo de recuperación del identificador de la solicitud"
+hide_title: true
+hide_table_of_contents: true
+api: eJztVr1uIzcQfpXBVHfARrIDpNnqnMSFkyIHy0EKnyCMyJHE8y655pA6K4IeJg+Q4nBdWr1YMNyVLZ2N/JdRIy01f/y+mW92i4mWgvUtfkuJQPL8PZsEke8zSxKcVmhZTHRdcsFjjZd+vf+VIHswIUYOwA2bFPefvDMBTPDADTjLPrmFM2RDBMvQEOx/a5JrCSQ0zriULVhuILmUGyo2llKQCsQBPzhJDNkfW5ME48gSUHNI3cXQhWhc8GTD6J2fOE1kgl+4ZY5k3P6TH7Kb0Ha0/6ilJ8eewbKsaO4al8gGgSbIEFVgkX2J2bBU4AMIA/u1o7j/RS/Xm1XQcQwaOrJ0ChaBcDF5cCkIgVtmalr2iUfvPFYYOo6kKF5ZrFHYW4V80iN+3QN+zSasOW4uW3INVjjw8HWwG6y35dFFtlinmLlCE3xin/Qv6rrGmRJ//F6Uqi2KWXFL+ittOsYaQ8k1xO0D3SKXXNMKFU6OybGoS3/85CspOr/EChchtpSwHiyeNYieFm6zZIouHJgLQArXI6NYIT9Q2zUaPQvHN8PjyIQWd+WjlUoXvPQ1fXl2pl+nCSePLdLFYFjIEv4LaE5RaFmElvwSDk/FXy2AtH2fzU/fyQKLECGtnECBrAJtmp7o/gRWJDBn9iDs02i4/K7CltMqaLt0QUpxlFZY41iTzYZks8Owjg9BZwdmhOOao473FnNssMZVSp3U47GQt/PwMJKwcWHk7Jg6N16fP2NzwnHthiHuYuY5CbwanF/jrvo8LnXd34wZbDb9pL7qH9TqNe6mWr7J0aXNRMnq+aDOze54c8QHde573jxvQ7nP3JLmoKyd4MwgCC1bR37Ql4u3V3DHmxMpIeCiYismy4N8yVPfsoywQk+tZr/IaRWi+7l0F1boNHfviLsKNW/azIRFXPCzFO7Y/0e1QwkG3/10o3bCclA7tbdkT9XxT68EE4Yle44EWflVYQf2tgvOJxiXiziW8clVYDOoqUJpjyX3/Ctonc8p/GWwdhXqcF4/Kd7lYcAexegFmdAoi1AwdalM40TbT4l9hquSrcJUGtC4oIVe2QNelqG4DuJBJh1nFgUz8ZtDc2tmna0+8vnobHSmRzqnLRWOh0tfltVxWFmWdfSzroIDVi+vy2OZPLnF9kna/l/G/3gZDwOY+CGNu4acV/KKlG0Hkb3FF0W2LM8TmZ1WuFJ1rm9xu52T8I+x2e30+D5z3GB9O61wTdHRXPvzdrqrDk2vulzUDL/pOf3iRutS8yb3AvHZ6lLF7T0ujOEu/aHt9GiBvP1hcoMVzoc3iTZY9Yn0QS9EH7DG8oqi3kVoy9kWG/LLXBYg9jH18zvIH7Hg
+sidebar_class_name: "post api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Enviar correo de recuperación del identificador de la solicitud"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/data_subject_requests/recovery_email"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Envía un correo electrónico con el identificador de la última solicitud del titular de datos, si existe una solicitud asociada al correo proporcionado.
+Si la configuración de la compañía tiene deshabilitados los correos funcionales, no se enviará el correo, pero la respuesta será exitosa igualmente.
+
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"required":true,"content":{"application/json":{"schema":{"type":"object","required":["email"],"properties":{"email":{"type":"string","format":"email","description":"Email del usuario asociado a la solicitud","example":"user@example.com"}}}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Solicitud procesada","content":{"application/json":{"schema":{"type":"object","properties":{"message":{"type":"string","example":"If a data subject request exists for this email, a recovery email has been sent."}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      
