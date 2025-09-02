@@ -60,8 +60,8 @@ Nunca uses Title Case.
 
 ### Puntuación ligera
 
-	•	No uses puntos finales en títulos, subtítulos ni listas cortas.
-	•	Un solo espacio después de punto.
+- No uses puntos finales en títulos, subtítulos ni listas cortas.
+- Un solo espacio después de punto.
 
 ### Verbos fuertes
 
