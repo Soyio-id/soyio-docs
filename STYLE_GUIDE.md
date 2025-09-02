@@ -158,7 +158,6 @@ Las "admonitions" son bloques de texto resaltados para llamar la atención sobre
 - `danger`: Para indicar riesgos o acciones destructivas.
 
 **Ejemplo**
-```markdown
 :::tip Consejo Rápido
 Puedes usar `console.log()` para depurar tus componentes de React directamente en el navegador.
 :::
@@ -166,7 +165,6 @@ Puedes usar `console.log()` para depurar tus componentes de React directamente e
 :::danger Cuidado
 Eliminar tu cuenta es una acción irreversible y perderás todos tus datos.
 :::
-```
 
 ### Bloques de Código
 
