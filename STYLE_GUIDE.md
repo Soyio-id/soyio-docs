@@ -130,15 +130,15 @@ Para registrar el consentimiento de un usuario a tus Términos y Condiciones, pu
 
 
 ## Reglas rápidas de estilo
-	1.	Ideas grandes, pocas palabras.
-	2.	Escribe como hablas.
-	3.	Sé amable, usa contracciones (estás, somos).
-	4.	Empieza con lo más importante.
-	5.	Breve = mejor.
-	6.	Usa sentence case.
-	7.	Evita puntos innecesarios.
-	8.	Un espacio después del punto.
-	9.	Edita lo débil: empieza con verbos, elimina lo redundante.
+1. Ideas grandes, pocas palabras.
+2. Escribe como hablas.
+3. Sé amable, usa contracciones (estás, somos).
+4. Empieza con lo más importante.
+5. Breve = mejor.
+6. Usa sentence case.
+7. Evita puntos innecesarios.
+8. Un espacio después del punto.
+9. Edita lo débil: empieza con verbos, elimina lo redundante.
 
 ---
 
