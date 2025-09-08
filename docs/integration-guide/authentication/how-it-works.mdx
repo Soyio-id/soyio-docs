@@ -1,0 +1,174 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import SequenceDiagram from '../../../src/components/SequenceDiagram';
+
+# Cómo funciona la autenticación
+
+Soyio utiliza [autenticación fuerte](https://en.wikipedia.org/wiki/Strong_customer_authentication) (SCA, por sus siglas en inglés) a través de passkeys y autenticación biométrica, para asegurar que **solo los usuarios autorizados realicen operaciones críticas**. Estos métodos de autenticación reducen significativamente el riesgo de fraude y acceso no autorizado, y cumplen con estrictas normativas de seguridad.
+
+## Passkeys
+
+Las passkeys son una alternativa moderna y segura a las contraseñas tradicionales. Son credenciales digitales que:
+- Se almacenan en el dispositivo del usuario.
+- No necesitan memorizar contraseñas complejas.
+- Son únicas para cada sitio web o aplicación.
+- Están protegidas por la biometría del dispositivo (huella digital o reconocimiento facial).
+- No pueden ser robadas o phisheadas como las contraseñas tradicionales.
+
+## Autenticación biométrica facial
+
+La autenticación facial es un método de autenticación que utiliza la cámara del dispositivo para capturar una imagen del rostro del usuario. Luego, se extrae un vector 3D único del rostro para cada persona y se compara con un vector 3D guardado anteriormente en el sistema. Este método es seguro porque:
+- El vector 3D es una representación matemática detallada del rostro y no puede ser falsificado.
+- No es posible volver a generar la foto del rostro a partir del vector 3D.
+- El vector 3D viaja encriptado y se almacena encriptado en el sistema de Soyio.
+- No se almacena la foto original del rostro de la persona en ningún sistema.
+- La tasa de aceptación falsa de nuestro método es la más baja del mercado (1/125,000,000).
+
+## Descripción del flujo
+
+El proceso de autenticación sigue estos pasos:
+
+1. Si el usuario tiene una llave de acceso (passkey) registrada, se le mostrará la opción de usarla para autenticarse.
+2. Alternativamente, el usuario podrá siempre optar por usar una autenticación facial.
+3. El sistema valida la autenticación y genera evidencia del proceso
+
+### Diagrama de secuencia
+
+<SequenceDiagram
+  actors={[
+    { id: 'frontend', label: 'Frontend' },
+    { id: 'backend', label: 'Backend' },
+    { id: 'soyio_api', label: 'Soyio API' },
+    { id: 'soyio_widget', label: 'Soyio Widget' },
+  ]}
+  actions={[
+    {
+      from: 'backend',
+      to: 'soyio_api',
+      label: 'Crear intento de autenticación'
+    },
+    {
+      from: 'soyio_api',
+      to: 'backend',
+      label: 'Retorna `auth_request_id`'
+    },
+    {
+      from: 'frontend',
+      to: 'soyio_widget',
+      label: 'Iniciar widget con `auth_request_id`'
+    },
+    {
+      from: 'soyio_widget',
+      to: 'frontend',
+      label: 'Evento `WIDGET_OPENED`',
+      isDashed: true,
+    },
+    {
+      from: 'soyio_widget',
+      to: 'soyio_widget',
+      label: 'Usuario completa autenticación (passkey o biométrica)'
+    },
+    {
+      from: 'soyio_widget',
+      to: 'frontend',
+      label: 'Evento `AUTH_REQUEST_SUCCESSFUL`',
+      isDashed: true,
+    },
+    {
+      from: 'soyio_api',
+      to: 'backend',
+      label: 'Webhook: `auth_request.successful`',
+      isDashed: true,
+      webhook: 'auth_request.successful'
+    },
+    {
+      from: 'backend',
+      to: 'soyio_api',
+      label: 'Obtener resultado de autenticación'
+    },
+    {
+      from: 'soyio_api',
+      to: 'backend',
+      label: 'Retorna resultado de autenticación'
+    }
+  ]}
+/>
+
+## Componentes del Sistema
+
+### 1. Frontend (Tu Aplicación)
+- **Inicializa** el widget de autenticación
+- **Maneja eventos** del proceso de autenticación
+
+### 2. Backend (Tu Servidor)
+- **Crea solicitudes** de autenticación
+- **Recibe webhooks** con resultados
+- **Valida y procesa** los resultados de autenticación
+
+### 3. Soyio API
+- **Procesa solicitudes** de autenticación
+- **Genera tokens** de autenticación
+- **Envía webhooks** con resultados
+
+### 4. Soyio Widget
+- **Interfaz de usuario** para autenticación
+- **Maneja passkeys** y autenticación biométrica
+- **Comunica resultados** al frontend
+
+## Estados del proceso
+
+Durante el proceso de autenticación ocurren cambios de estado que pueden ser los siguientes:
+
+### 1. Iniciado
+- Se crea la solicitud de autenticación
+- Se genera un `auth_request_id` único
+- El widget se inicializa con el ID
+
+### 2. En progreso
+- El usuario interactúa con el widget
+- Se realizan las verificaciones de seguridad
+- Se procesan los datos biométricos
+
+### 3. Exitoso
+- La autenticación se completa correctamente
+- Se genera evidencia del proceso
+- Se envían webhooks de confirmación
+
+### 4. Fallido
+- La autenticación no se puede completar
+- Se registran los motivos del fallo
+- Se envían webhooks de error
+
+## Seguridad y validación
+
+### Tokens de seguridad
+- **auth_request_id**: Identificador único de la solicitud de autenticación
+- **identity_id**: Identificador del usuario autenticado
+- **Recomendación**: Nunca almacenes o transmitas estos IDs de forma insegura.
+
+### Validación de resultados
+- **Verificación**: Recibe los resultados a través de webhooks y verifica la firma digital de Soyio.
+- **Expiración de tokens**: Los intentos de autenticación expiran después de 5 minutos
+- **Gestión de reintentos**: Se controlan los intentos de autenticación por usuario/hora
+
+## Consideraciones de seguridad
+
+### ⚠️ Manejo seguro de datos
+- **Nunca almacenes** el `auth_request_id` en logs o bases de datos sin cifrar
+- **Transmite siempre** los datos de autenticación por HTTPS
+- **Valida siempre** el resultado de la autenticación en tu backend
+
+### ⏱️ Límites de tiempo
+- **Timeout**: Los intentos de autenticación expiran después de 5 minutos
+- **Rate limiting**: Existe un límite de intentos por usuario/hora
+- **Sesiones**: Las sesiones de autenticación tienen duración limitada
+
+### 🔒 Mejores prácticas
+- **No reutilices** tokens de autenticación
+- **Implementa logging** de eventos de seguridad
+- **Monitorea** intentos de autenticación fallidos
+- **Actualiza regularmente** las credenciales de API
+
+## Próximos Pasos
+
+- [Quickstart](./quickstart) - Implementa autenticación paso a paso

@@ -1,0 +1,221 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import SequenceDiagram from '../../../src/components/SequenceDiagram';
+
+# Firma de documentos (Signature)
+
+Integra el proceso de firma en tu aplicación generando documentos listos para ser firmados automáticamente a partir de una plantilla.
+
+Al iniciar el proceso de firma, al usuario se le presentará el documento listo para firmar, el que podrá previsualizar o descargar. Cuando el usuario esté seguro de firmar y haga click en el botón "Firmar con Soyio", deberá confirmar esta acción usando su llave de acceso almacenada en su dispositivo (passkey) o usando autenticación facial.
+
+Revisa [la documentación conceptual sobre firma electrónica](../main/agreement.mdx) para profundizar en las características de este producto y sus aplicaciones.
+
+:::info[Información]
+Por ahora, este servicio está disponible solo para el SDK Web.
+:::
+
+El flujo que integrarás es el siguiente:
+
+<SequenceDiagram
+  actors={[
+    { id: 'frontend', label: 'Frontend' },
+    { id: 'backend', label: 'Backend' },
+    { id: 'soyio_api', label: 'Soyio API' },
+    { id: 'soyio_widget', label: 'Soyio Widget' },
+  ]}
+  actions={[
+    {
+      from: 'backend',
+      to: 'soyio_api',
+      label: 'Crear intento de firma'
+    },
+    {
+      from: 'soyio_api',
+      to: 'backend',
+      label: 'Retorna ID de intento de firma'
+    },
+    {
+      from: 'frontend',
+      to: 'soyio_widget',
+      label: 'Iniciar widget con `signature_attempt_id`'
+    },
+    {
+      from: 'soyio_widget',
+      to: 'frontend',
+      label: 'Evento `WIDGET_OPENED`',
+      isDashed: true,
+    },
+    {
+      from: 'soyio_widget',
+      to: 'soyio_widget',
+      label: 'Usuario firma el documento y completa el flujo'
+    },
+    {
+      from: 'soyio_widget',
+      to: 'frontend',
+      label: 'Evento `IDENTITY_SIGNATURE`',
+      isDashed: true,
+    },
+    {
+      from: 'soyio_api',
+      to: 'backend',
+      label: 'Webhook: `signature_attempt.successful`',
+      isDashed: true,
+      webhook: 'signature_attempt.successful'
+    },
+    {
+      from: 'backend',
+      to: 'soyio_api',
+      label: 'Obtener documento firmado'
+    },
+    {
+      from: 'soyio_api',
+      to: 'backend',
+      label: 'Retorna documento firmado'
+    }
+  ]}
+/>
+
+## Pre requisitos
+
+1. El usuario debe tener una [identidad creada en el sistema](./disclosure.mdx).
+2. Tener el [SDK](../quickstart.mdx) instalado en tu sitio o aplicación.
+3. Tener un [Webhook](../../api/webhooks.md) configurado en tu cuenta.
+
+## Paso a paso
+
+### 1. Crea una plantilla de documento
+
+Crea un documento en formato `.docx` definiendo las variables que serán reemplazadas posteriormente. Este documento se utilizará como base en los procesos de firma. Cuando esté listo envíanos la plantilla vía Slack y te haremos llegar el id de la plantilla (`template_id`) que utilizarás en el próximo paso, por ejemplo: `st_m02aAsla_021UiN12s`.
+
+#### Variables
+
+Define las variables en la plantilla utilizando *handlevars* siguiendo el siguiente formato:
+
+`{{variable:type}}` o `{{variable}}`
+
+Donde `variable` es el **nombre de la variable** y `type` es opcional y corresponde al **tipo de variable**. Los tipos soportados son:
+
+- `string`: Representa un texto en el documento. Opción por defecto en caso de no especificar `type`.
+- `number`: Representa un número o cifra en el documento. Al reemplazarse, se desplegará formateado como un número, por ejemplo 10000 se convertirá en `10.000`.
+- `signature`: Representa una firma en el documento. Debe ubicarse en el lugar dónde irá la firma en el documento final.
+
+:::warning[Importante]
+Se requiere al menos una variable de tipo `signature` en el documento para poder crear la plantilla.
+:::
+
+### 2. Crea un intento de firma
+
+Cuando requieras que un usuario firme un documento, realiza un `POST` *request* desde tu back-end al [*endpoint* de intentos de firma de Soyio](../../api/resources/create-signature-attempt.api.mdx) para crear un intento de firma. Al crearse el intento, obtendrás un `signature_attempt_id`, el cual utilizarás en el próximo paso.
+
+#### Endpoint
+`POST /api/v1/signature_attempts`
+
+#### Ejemplo del Payload
+
+Especifica en el *payload* del *request* el `identity_id` de tu usuario, el `template_id` de la plantilla y los valores de las variables necesarias para completar el documento. Por ejemplo:
+
+```json
+{
+  "identity_id": "id_...",
+  "template_id": "st_...",
+  "variables": [
+    {
+      "key": "name",
+      "value": "John"
+    },
+    {
+      "key": "lastName",
+      "value": "Doe"
+    }
+  ]
+}
+```
+
+:::warning[Importante]
+Si no incluyes alguna variable, o envías un valor inválido de acuerdo al tipo especificado, arrojaremos un error.
+:::
+
+### 3. Inicia el proceso de firma
+
+Inicia el intento de firma con tu usuario desde el front-end de tu aplicación. Utiliza el SDK de Soyio y el `signature_attempt_id` obtenido en el paso anterior al crear el intento de firma.
+
+```html
+<button id="start-signature-attempt">Start signature attempt</button>
+
+<script>
+  import { SoyioWidget } from "@soyio/soyio-widget";
+
+  // Configuración
+  const widgetConfig = {
+    request: "signature",
+    configProps: {
+      signatureAttemptId: "<signature_attempt_id>",
+    },
+    onEvent: (data) => console.log(data),
+  };
+
+  // Creación del widget
+  function initWidget() {
+    new SoyioWidget(widgetConfig);
+  }
+
+  // Añade un escuchador de eventos al botón para inicializar el widget al hacer clic
+  document
+    .getElementById("start-signature-attempt")
+    .addEventListener("click", initWidget);
+</script>
+```
+
+:::tip[Tip]
+Para más detalles de la configuración revisa las instrucciones del `Readme` del [SDK Web](https://www.npmjs.com/package/@soyio/soyio-widget).
+:::
+
+### 4. Escucha los eventos en el front-end de tu aplicación
+
+Cuando el usuario complete el flujo se emitirá un evento. También puedes escuchar otros eventos para mejorar la experiencia de usuario.
+En la siguiente tabla se detallan los eventos que puedes escuchar:
+
+| Evento | Descripción |
+| --- | --- |
+| `IDENTITY_SIGNATURE` | El usuario completó el proceso de firma exitosamente. |
+| `REJECTED_SIGNATURE` | El usuario hizo click en el botón para cancelar el proceso de firma. |
+| `WIDGET_CLOSED` | El usuario cierra el popup de Soyio. |
+| `WIDGET_OPENED` | El usuario abre el popup de Soyio. |
+| `UNEXPECTED_ERROR` | Ocurrió un error inesperado en el proceso de firma. |
+
+:::tip[Tip]
+Para más detalles de la configuración revisa las instrucciones del `Readme` del [SDK Web](https://www.npmjs.com/package/@soyio/soyio-widget).
+:::
+
+### 5. Escucha los eventos en el back-end de tu aplicación
+
+Cuando el usuario complete el flujo se emitirá un evento `signature_attempt.successful` con el `signed_document_id` del documento firmado.
+Esto lo recibirás mediante el [webhook](../../api/webhooks.md) configurado en tu cuenta.
+
+Los eventos que puedes escuchar son:
+
+- `signature_attempt.successful`: El usuario completó el proceso de firma exitosamente.
+- `signature_attempt.failed`: El usuario no completó el proceso de firma, pero puede recuperarse.
+
+#### Ejemplo
+
+```javascript
+{
+  id: "evt_...",
+  name: "signature_attempt.successful",
+  payload: {
+    user_reference: "<user-reference>",
+    signature_attempt_id: "sa_...",
+    identity_id: "id_...",
+    signed_document_ids: ["sd_1...", ..., "sd_n..."],
+  },
+  created_at: "<created_at>"
+}
+```
+
+### 6. Obtén el documento firmado
+
+Utiliza el `signed_document_id` para obtener el documento firmado por tu usuario desde el [endpoint de documentos firmados](../../api/resources/get-signed-document.api.mdx):
+
+`GET /api/v1/signed_documents/:signed_document_id`

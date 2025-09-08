@@ -1,0 +1,372 @@
+---
+title: Prepara una plantilla de consentimiento
+description: Guía completa para crear y configurar templates de consentimiento
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Prepara una plantilla de consentimiento
+
+Las plantillas de consentimiento te permiten estandarizar las solicitudes de consentimiento en todos tus flujos digitales. Con una configuración clara y transparente, puedes cumplir con las regulaciones de protección de datos mientras ofreces una experiencia consistente a tus usuarios.
+
+Una **plantilla de consentimiento** (consent template) define el contenido y las propiedades de la solicitud de consentimiento que se presenta a tus usuarios. Cada plantilla especifica qué datos necesitas y para qué los usarás, utilizando nuestra taxonomía estandarizada.
+
+### Por qué usar plantillas de consentimiento
+
+- **Estandarización**: Consistencia en todos tus flujos digitales
+- **Cumplimiento normativo**: Alineado con regulaciones de protección de datos
+- **Transparencia**: Información clara y específica para tus usuarios
+- **Trazabilidad**: Registro centralizado y auditable de todos los permisos
+- **Versionado**: Historial completo de cambios en cada plantilla
+
+## Nuestro Modelo de Taxonomía
+
+Nuestra plataforma utiliza una taxonomía estandarizada que define:
+
+- **Categorías de datos personales**: Qué tipos de datos puedes recolectar
+- **Usos específicos**: Para qué finalidades puedes usar esos datos
+- **Clasificación granular**: Subcategorías para mayor especificidad
+
+Esta taxonomía te permite cumplir con el principio de **granularidad y especificidad** que exigen las regulaciones de protección de datos, mientras construyes una fuente de verdad transversal para toda tu compañía.
+
+## Guía Paso a Paso
+
+### 1. Título de la plantilla
+
+Define un título corto y descriptivo que será lo primero que vea el usuario.
+
+**Ejemplo:**
+```
+Quiero recibir ofertas y promociones
+```
+
+**Mejores prácticas:**
+- Usa lenguaje claro y directo
+- Evita términos técnicos o legales complejos
+- Mantén el título conciso (máximo 50 caracteres)
+
+### 2. Cláusula legal
+
+Redacta el texto legal del consentimiento. Te recomendamos mantenerlo breve, que sea claro y que comience con acciones afirmativas.
+
+**Ejemplo:**
+```
+Acepto el tratamiento de mis datos personales para fines de marketing y promociones.
+```
+
+**Mejores prácticas:**
+- Comienza con verbos afirmativos: "Acepto", "Autorizo", "Estoy de acuerdo"
+- Usa lenguaje simple y comprensible
+- Evita ambigüedades o dobles negaciones
+
+**Tooltips para Aclaraciones**
+
+Puedes añadir aclaraciones o definiciones usando tooltips. Encierra la palabra o frase en dobles corchetes `[[ ]]` y el texto del tooltip en paréntesis `( )`.
+
+**Ejemplo:**
+```
+Acepto el tratamiento de mis datos para [[fines de marketing]](Esto incluye el envío de correos promocionales y publicidad personalizada).
+```
+
+#### Referenciar documentos de privacidad
+
+Puedes enlazar tus políticas de privacidad, términos y condiciones u otros documentos relevantes usando dobles llaves `{{ }}`.
+
+**Ejemplo:**
+```
+He leído y acepto la {{politica-de-privacidad}} de la empresa.
+```
+
+:::info[Importante]
+Los documentos de privacidad deben estar previamente configurados en la plataforma para poder referenciarlos. Revisa la sección [Configuración de la empresa](../main/company-configuration.mdx) para más información.
+:::
+
+### 3. Categorías de datos
+
+Define explícitamente las categorías de datos para las cuales solicitas consentimiento. Selecciona las llaves correspondientes de nuestra taxonomía.
+
+**Recomendaciones:**
+- Sé lo más granular posible
+- Utiliza subcategorías siempre que sea posible
+- Esto aumenta la transparencia y te alinea con el principio de minimización de datos
+
+#### Categorías predefinidas
+
+Algunas llaves infieren automáticamente la categoría del dato:
+
+| Llave | Categoría Inferida |
+|-------|-------------------|
+| `name` | Name > First |
+| `last_name` | Name > Last |
+| `date_of_birth` | Demographic > Birth date |
+| `cl_carnet_rut` | Government Id > National Identification Number |
+| `email` | Contact > Email |
+| `phone_number` | Contact > Phone number |
+
+**Ejemplo:**
+```json
+{
+  "key": "email",
+  "data_category": "contact.email"
+}
+```
+
+### 4. Usos de los datos
+
+Define los usos específicos que le darás a los datos. Selecciona los usos directamente desde nuestra taxonomía.
+
+**Recomendaciones importantes:**
+- Escoge usos que representen fielmente tus procesos internos
+- La plataforma mostrará descripciones estándar alineadas con la normativa
+- **No combines usos de diferentes categorías principales** en un mismo template
+
+**Ejemplo de usos válidos:**
+```json
+{
+  "data_uses": ["marketing.communications", "marketing.advertising"]
+}
+```
+
+**Ejemplo de usos que NO debes combinar:**
+```json
+// ❌ No hagas esto
+{
+  "data_uses": ["essential", "marketing", "third_party_sharing"]
+}
+```
+
+### 5. Vigencia del consentimiento
+
+Establece un período de duración para el consentimiento usando el formato ISO 8601.
+
+**Formato:** `P[n]Y[n]M[n]DT[n]H[n]M[n]S`
+
+**Ejemplos:**
+- `P1Y` = 1 año
+- `P6M` = 6 meses
+- `P2Y3M` = 2 años y 3 meses
+- `P1Y6M3D` = 1 año, 6 meses y 3 días
+
+**Consideraciones:**
+- Una vez expirado, el consentimiento aparecerá como "no otorgado"
+- Deberás solicitarlo nuevamente si necesitas seguir tratando los datos
+- Considera el ciclo de vida de tu relación con el usuario
+
+### 6. Alcance del consentimiento
+
+Por defecto, un template se asocia a toda tu compañía. Sin embargo, puedes acotar el alcance:
+
+#### Por producto
+Asocia el template a un producto específico (ej. aplicación móvil, programa de lealtad).
+
+#### Por filial (branch)
+Asocia el template a una filial o marca específica de tu grupo empresarial.
+
+:::warning[Importante]
+Los productos y filiales deben estar previamente configurados en el perfil de tu compañía en la plataforma. Revisa la sección [Configuración de la empresa](../main/company-configuration.mdx) para más información.
+:::
+
+## Configuración con la API
+
+### Crear una plantilla
+
+```javascript
+// Crear template de consentimiento
+const createConsentTemplate = async () => {
+  const response = await fetch('https://api.soyio.com/v1/consent_templates', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${process.env.SOYIO_API_KEY}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      name: "Marketing Básico",
+      title: "Quiero recibir ofertas y promociones",
+      text: "Acepto el tratamiento de mis datos para [[fines de marketing]](Envío de correos promocionales y publicidad personalizada) según la {{politica-de-privacidad}}.",
+      duration: "P2Y", // 2 años
+      data_requirements: [
+        {
+          key: "email",
+          data_category: "contact.email",
+          data_uses: ["marketing"]
+        },
+        {
+          key: "name",
+          data_category: "user.name.first",
+          data_uses: ["marketing"]
+        }
+      ]
+    })
+  });
+
+  const data = await response.json();
+  return data;
+};
+```
+
+### Actualizar una plantilla
+
+```javascript
+// Actualizar template (crea nueva versión)
+const updateConsentTemplate = async (templateId) => {
+  const response = await fetch(`https://api.soyio.com/v1/consent_templates/${templateId}`, {
+    method: 'PATCH',
+    headers: {
+      'Authorization': `Bearer ${process.env.SOYIO_API_KEY}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      name: "Marketing Básico v2",
+      title: "Quiero recibir ofertas y promociones",
+      text: "Acepto el tratamiento de mis datos para fines de marketing publicitario y comunicaciones según la {{politica-de-privacidad}}.",
+      duration: "P2Y",
+      data_requirements: [
+        {
+          key: "email",
+          data_category: "contact.email",
+          data_uses: ["marketing.advertising", "marketing.communications"]
+        }
+      ]
+    })
+  });
+
+  const data = await response.json();
+  return data;
+};
+```
+
+### Obtener una plantilla
+
+```javascript
+// Obtener template específico
+const getConsentTemplate = async (templateId) => {
+  const response = await fetch(`https://api.soyio.com/v1/consent_templates/${templateId}`, {
+    headers: {
+      'Authorization': `Bearer ${process.env.SOYIO_API_KEY}`
+    }
+  });
+
+  const data = await response.json();
+  return data;
+};
+```
+
+## Experiencia del usuario
+
+Cuando un usuario interactúa con una solicitud de consentimiento generada desde un template de Soyio, verá un widget interactivo con:
+
+### Estructura del widget
+
+1. **Título y Cláusula Legal**: La información principal que configuraste
+2. **Sección "Más Información"**: Área desplegable con detalles
+3. **Datos**: Las categorías de datos configuradas en el template como etiquetas (tags)
+4. **Usos**: Listado de usos configurados en el template con descripciones estándar de la plataforma
+
+### Ejemplo visual
+
+
+## Gestión de consentimientos y evidencia
+
+### Evidencia automática
+
+Cada vez que un usuario otorga consentimiento:
+
+1. **Modificación del Agreement**: Se actualiza el registro de consentimiento del usuario
+2. **Generación de Evidencia**: Se crea una evidencia inmutable con:
+   - Versión exacta del template aceptado
+   - Datos y usos informados al usuario
+   - Timestamp y metadatos relevantes
+   - Prueba criptográfica del proceso
+
+### Versionado de plantillas
+
+- Cada modificación al template crea una nueva versión del template
+- La evidencia siempre se asocia a la versión exacta que el usuario aceptó
+- Trazabilidad completa del ciclo de vida del consentimiento
+- Historial auditable de todos los cambios
+
+## Mejores prácticas
+
+### ✅ Hacer
+- **Sé específico**: Define claramente qué datos y usos necesitas
+- **Usa lenguaje claro**: Evita jerga legal o técnica
+- **Granularidad**: No combines usos de diferentes categorías principales
+- **Consistencia**: Mantén un estilo uniforme en todos tus templates
+- **Documentación**: Referencia tus políticas de privacidad
+- **Progresivo**: No solicites todos los permisos a la vez, solicítalos progresivamente a medida que el usuario va avanzando en el flujo.
+
+### ❌ Evitar
+- **Consentimientos genéricos**: "Acepto el tratamiento de mis datos"
+- **Combinar categorías**: Marketing con usos esenciales
+- **Lenguaje ambiguo**: "Podemos usar tus datos"
+- **Templates muy largos**: Mantén la información concisa
+- **Omitir información**: Siempre informa sobre todos los usos
+
+## Ejemplos de plantillas
+
+### Plantilla de marketing
+
+```json
+{
+  "name": "Marketing Básico",
+  "title": "Quiero recibir ofertas y promociones",
+  "text": "Acepto el tratamiento de mis datos para fines de marketing como enviar correos promocionales y publicidad personalizada según la {{politica-de-privacidad}}.",
+  "duration": "P2Y",
+  "data_requirements": [
+    {
+      "key": "email",
+      "data_uses": ["marketing.communications", "marketing.advertising", "marketing.advertising.profiling"]
+    }
+  ]
+}
+```
+
+### Plantilla de analytics
+
+```json
+{
+  "name": "Análisis y Mejora",
+  "title": "Quiero ayudar a mejorar el servicio",
+  "text": "Autorizo el uso de mis datos y el uso de cookies para [[análisis y mejora]](Análisis de comportamiento y optimización del servicio) de la plataforma según la {{politica-de-privacidad}}.",
+  "duration": "P1Y",
+  "data_requirements": [
+    {
+      "data_category": "user.device.cookie_id",
+      "data_uses": ["analytics.reporting.ad_performance", "analytics.reporting.system.performance"]
+    }
+  ]
+}
+```
+
+### Plantilla de terceros
+
+```json
+{
+  "name": "Compartir con Terceros",
+  "title": "Compartir información con socios comerciales",
+  "text": "Acepto que mis datos sean compartidos con [[socios comerciales]](Empresas aliadas para ofrecerte productos y servicios) según la {{politica-de-privacidad}}.",
+  "duration": "P1Y6M",
+  "data_requirements": [
+    {
+      "data_category": "user.contact.phone_number",
+      "data_uses": ["third_party_sharing"]
+    },
+    {
+      "data_category": "user.contact.email",
+      "data_uses": ["third_party_sharing"]
+    },
+    {
+      "data_category": "user.name",
+      "data_uses": ["third_party_sharing"]
+    }
+  ]
+}
+```
+
+## Próximos pasos
+
+- [Quickstart](./quickstart) - Implementa consentimiento paso a paso
+- [Consent Commit](./consent-commit) - Agrupa múltiples consentimientos
+- [Común problemas](./common-problems) - Solución de problemas comunes
+- [Taxonomía](../main/taxonomy) - Entiende las categorías de datos disponibles

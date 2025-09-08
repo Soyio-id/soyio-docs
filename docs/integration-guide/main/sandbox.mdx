@@ -1,0 +1,56 @@
+---
+title: Modo Prueba (Sandbox) y Paso a Producción
+description: Guía completa para usar el entorno de sandbox y migrar a producción
+---
+
+# Modo prueba (Sandbox)
+
+El entorno de sandbox de Soyio te permite desarrollar, probar y validar tu integración de manera segura antes de migrar a producción.
+
+## ¿Qué es el Sandbox?
+
+El sandbox es un entorno que puedes usar durante el desarrollo de tu integración. Te permite probar tus flujos sin registrar la información en tu espacio productivo. Sus características principales son:
+
+- **Entorno de pruebas**: Los datos se guardan en un entorno de pruebas separado
+- **API completa**: Todas las funcionalidades de la API de producción
+- **Configuración compartida**: Tu compañía y plantillas se pueden usar en producción
+- **Aislamiento de datos**: Los datos de prueba no afectan tu entorno productivo
+
+## Cómo funciona el sandbox
+
+En el modo sandbox puedes:
+
+### Crear plantillas para diferentes módulos
+Puedes crear y configurar plantillas de consentimiento, autenticación y otros módulos en el sandbox. Estas plantillas te permiten probar diferentes configuraciones y flujos.
+
+### Probar flujos con datos de prueba
+Al instanciar flujos con las plantillas creadas, los datos se guardan en un entorno de pruebas separado. Esto te permite:
+- Probar la funcionalidad completa de tus módulos
+- Verificar que los flujos funcionen correctamente
+- Validar la integración antes de pasar a producción
+
+### Configuración compartida entre entornos
+**Importante**: Tu compañía y las plantillas que crees en sandbox se pueden usar directamente en el entorno productivo. Esta información es compartida entre ambos entornos, lo que significa que:
+- No necesitas recrear tu configuración en producción
+- Las plantillas funcionan igual en ambos entornos
+- Solo los datos de prueba permanecen aislados
+
+## Ventajas del sandbox
+
+### Desarrollo seguro
+Puedes probar todos tus flujos sin riesgo de afectar datos reales o configuraciones productivas. Esto te permite experimentar libremente con diferentes configuraciones.
+
+### Configuración reutilizable
+Las plantillas y configuraciones que crees en sandbox están listas para usar en producción. No necesitas duplicar trabajo ni recrear configuraciones.
+
+### Validación completa
+Puedes probar la funcionalidad completa de todos los módulos con datos reales de prueba, asegurándote de que todo funcione correctamente antes del lanzamiento.
+
+### Iteración rápida
+Puedes hacer cambios en tu configuración y probarlos inmediatamente sin afectar tu entorno productivo.
+
+## Próximos pasos
+
+- [Configuración de Compañía](./company-configuration) - Configura tu cuenta de producción
+- [Seguridad y Privacidad](./security-privacy) - Implementa medidas de seguridad
+- [Cuenta Soyio](./soyio-account) - Gestiona tu cuenta y facturación
