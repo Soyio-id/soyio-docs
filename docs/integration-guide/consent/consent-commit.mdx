@@ -1,0 +1,438 @@
+---
+title: Registro agrupado de consentimientos
+description: Agrupa y procesa múltiples acciones de consentimiento de forma eficiente
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import SequenceDiagram from '../../../src/components/SequenceDiagram';
+
+# Registro agrupado de consentimientos
+
+Un **registro agrupado de consentimientos** (Consent Commit) es una forma eficiente de agrupar y procesar múltiples acciones de consentimiento que un usuario ha realizado en una sola sesión o flujo. En lugar de procesar cada acción de consentimiento por separado, puedes agruparlas y enviarlas todas juntas.
+
+## ¿Qué es un Consent Commit?
+
+Un Consent Commit agrupa una serie de `action_token`s que representan las acciones de consentimiento que un usuario ha realizado. Cada `action_token` corresponde a un checkbox de consentimiento específico que el usuario marcó a través del módulo de consentimiento.
+
+### Ventajas del Consent Commit
+
+- **Eficiencia**: Procesa múltiples consentimientos en una sola llamada a la API
+- **Atomicidad**: Todas las acciones se procesan juntas o ninguna
+- **Trazabilidad**: Mantiene un registro unificado de todas las acciones de consentimiento
+- **Rendimiento**: Reduce el número de llamadas a la API
+
+## Cuándo usar Consent Commit
+
+Usa Consent Commit cuando:
+
+- **Múltiples consentimientos**: El usuario otorga varios consentimientos en un solo flujo
+- **Formularios complejos**: Formularios con múltiples secciones de consentimiento
+- **Procesamiento por lotes**: Necesitas procesar varios consentimientos de forma eficiente
+- **Transacciones**: Quieres asegurar que todos los consentimientos se procesen juntos
+
+## Flujo del Consent Commit
+
+<SequenceDiagram
+  actors={[
+    { id: 'frontend', label: 'Frontend' },
+    { id: 'backend', label: 'Backend' },
+    { id: 'soyio_api', label: 'Soyio API' },
+  ]}
+  actions={[
+    {
+      from: 'frontend',
+      to: 'backend',
+      label: 'Recopilar múltiples action_tokens'
+    },
+    {
+      from: 'backend',
+      to: 'soyio_api',
+      label: 'Crear Consent Commit con todos los tokens'
+    },
+    {
+      from: 'soyio_api',
+      to: 'backend',
+      label: 'Retorna Consent Commit creado'
+    },
+    {
+      from: 'soyio_api',
+      to: 'backend',
+      label: 'Actualiza Agreements automáticamente',
+      isDashed: true,
+    }
+  ]}
+/>
+
+## Implementación
+
+### Paso 1: Recopilar Action Tokens
+
+En tu frontend, recopila todos los `action_token`s que el usuario ha generado:
+
+```javascript
+// Frontend - Recopilar action tokens
+const actionTokens = [];
+
+// Escuchar eventos de consentimiento
+const onConsentEvent = (event) => {
+  if (event.type === 'CONSENT_CHECKBOX_CHANGE') {
+    actionTokens.push(event.actionToken);
+    console.log('Token agregado:', event.actionToken);
+  }
+};
+
+// Al enviar el formulario
+const submitForm = async () => {
+  if (actionTokens.length === 0) {
+    alert('Debes aceptar al menos un consentimiento');
+    return;
+  }
+
+  const formData = {
+    email: document.getElementById('email').value,
+    name: document.getElementById('name').value,
+    actionTokens: actionTokens
+  };
+
+  try {
+    const response = await fetch('/api/subscribe', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    });
+
+    if (response.ok) {
+      alert('¡Te has suscrito exitosamente!');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+```
+
+### Paso 2: Crear Consent Commit en el Backend
+
+```javascript
+// Backend - Crear Consent Commit
+const createConsentCommit = async (userReference, actionTokens, entityId = null) => {
+  try {
+    const response = await fetch('https://api.soyio.com/v1/consent_commits', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.SOYIO_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        user_reference: userReference,
+        entity_id: entityId,
+        consent_actions: actionTokens.map(token => ({
+          action_token: token
+        }))
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error ${response.status}: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data.consent_commit;
+    
+  } catch (error) {
+    console.error('Error creando consent commit:', error);
+    throw error;
+  }
+};
+
+// Endpoint para procesar suscripción
+app.post('/api/subscribe', async (req, res) => {
+  const { email, name, actionTokens } = req.body;
+  
+  try {
+    // Crear consent commit
+    const consentCommit = await createConsentCommit(email, actionTokens);
+    
+    // Guardar datos del usuario
+    await saveUserData({
+      email,
+      name,
+      consentCommitId: consentCommit.id,
+      createdAt: new Date()
+    });
+    
+    res.json({ 
+      success: true, 
+      message: 'Usuario suscrito exitosamente',
+      consentCommitId: consentCommit.id
+    });
+    
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Error interno del servidor' 
+    });
+  }
+});
+```
+
+## Estructura del Request
+
+### Parámetros Requeridos
+
+- **`user_reference`**: Identificador único del usuario en tu sistema
+- **`consent_actions`**: Array de objetos con `action_token`
+
+### Parámetros Opcionales
+
+- **`entity_id`**: Identificador de la entidad asociada
+- **`consent_method`**: Método de captura del consentimiento (solo si usas API para generar tokens)
+
+### Ejemplo de Request
+
+```json
+{
+  "user_reference": "user_123",
+  "entity_id": "ent_5F6Q6C2EwkXtkEpB1TlGjk",
+  "consent_actions": [
+    {
+      "action_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+    },
+    {
+      "action_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+    }
+  ]
+}
+```
+
+## Estructura de la Respuesta
+
+### Consent Commit Creado
+
+```json
+{
+  "consent_commit": {
+    "id": "ccom_1B2M2Y8AsgTpgAmY7PhCfg",
+    "user_reference": "user_123",
+    "entity_id": "ent_1B2M2Y8AsgTpgAmY7PhCfg",
+    "consent_actions": [
+      {
+        "id": "consact_1B2M2Y8AsgTpgAmY7PhCfg",
+        "entity_id": "ent_5F6Q6C2EwkXtkEpB1TlGjk",
+        "user_reference": "user_123",
+        "consent_template_id": "ctmpl_1B2M2Y8AsgTpgAmY7PhCfg",
+        "context": "web_signup",
+        "created_at": "2024-03-20T15:30:00Z",
+        "action_type": "opt_in_click",
+        "action_data": {
+          "checkbox_id": "cb_123"
+        }
+      }
+    ],
+    "created_at": "2024-03-20T15:30:00Z"
+  }
+}
+```
+
+## Consultar Consent Commits
+
+### Obtener un Consent Commit específico
+
+```javascript
+const getConsentCommit = async (commitId) => {
+  try {
+    const response = await fetch(`https://api.soyio.com/v1/consent_commits/${commitId}`, {
+      headers: {
+        'Authorization': `Bearer ${process.env.SOYIO_API_KEY}`
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error ${response.status}: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data.consent_commit;
+    
+  } catch (error) {
+    console.error('Error obteniendo consent commit:', error);
+    throw error;
+  }
+};
+```
+
+### Listar Consent Commits
+
+```javascript
+const listConsentCommits = async (page = 1, perPage = 20) => {
+  try {
+    const response = await fetch(`https://api.soyio.com/v1/consent_commits?page=${page}&per_page=${perPage}`, {
+      headers: {
+        'Authorization': `Bearer ${process.env.SOYIO_API_KEY}`
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error ${response.status}: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data;
+    
+  } catch (error) {
+    console.error('Error listando consent commits:', error);
+    throw error;
+  }
+};
+```
+
+## Casos de Uso Comunes
+
+### 1. Formulario de Registro Completo
+
+```javascript
+// Formulario con múltiples consentimientos
+const registrationForm = {
+  personalData: {
+    email: 'usuario@ejemplo.com',
+    name: 'Juan Pérez'
+  },
+  consents: [
+    'marketing_emails',
+    'analytics_tracking',
+    'third_party_sharing'
+  ]
+};
+
+// Procesar todos los consentimientos juntos
+const processRegistration = async (formData) => {
+  const actionTokens = await collectConsentTokens(formData.consents);
+  
+  const consentCommit = await createConsentCommit(
+    formData.personalData.email,
+    actionTokens
+  );
+  
+  // Guardar usuario y consent commit
+  await saveUser(formData.personalData, consentCommit.id);
+};
+```
+
+### 2. Configuración de Preferencias
+
+```javascript
+// Usuario actualiza múltiples preferencias
+const updatePreferences = async (userId, preferences) => {
+  const actionTokens = await collectConsentTokens(preferences);
+  
+  const consentCommit = await createConsentCommit(
+    userId,
+    actionTokens
+  );
+  
+  // Actualizar preferencias del usuario
+  await updateUserPreferences(userId, preferences, consentCommit.id);
+};
+```
+
+### 3. Procesamiento por Lotes
+
+```javascript
+// Procesar múltiples usuarios en lote
+const processBatchConsents = async (users) => {
+  const results = [];
+  
+  for (const user of users) {
+    try {
+      const consentCommit = await createConsentCommit(
+        user.email,
+        user.actionTokens
+      );
+      
+      results.push({
+        user: user.email,
+        success: true,
+        commitId: consentCommit.id
+      });
+    } catch (error) {
+      results.push({
+        user: user.email,
+        success: false,
+        error: error.message
+      });
+    }
+  }
+  
+  return results;
+};
+```
+
+## Mejores Prácticas
+
+### ✅ Hacer
+
+- **Agrupa lógicamente**: Agrupa consentimientos relacionados en el mismo commit
+- **Maneja errores**: Implementa manejo robusto de errores
+- **Valida tokens**: Verifica que los action tokens sean válidos antes de enviar
+- **Usa referencias consistentes**: Mantén referencias de usuario consistentes
+
+### ❌ Evitar
+
+- **Mezclar contextos**: No agrupes consentimientos de contextos diferentes
+- **Ignorar errores**: No ignores errores de validación
+- **Tokens expirados**: No uses action tokens que hayan expirado
+- **Referencias inconsistentes**: No uses diferentes formatos de user_reference
+
+## Solución de Problemas
+
+### Error 422: Validation Error
+
+```javascript
+// Verificar que todos los action tokens sean válidos
+const validateActionTokens = (tokens) => {
+  return tokens.every(token => {
+    try {
+      // Verificar formato JWT básico
+      const parts = token.split('.');
+      return parts.length === 3;
+    } catch {
+      return false;
+    }
+  });
+};
+```
+
+### Error 401: Authentication Error
+
+```javascript
+// Verificar credenciales de API
+const checkApiCredentials = async () => {
+  try {
+    const response = await fetch('https://api.soyio.com/v1/consent_commits', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${process.env.SOYIO_API_KEY}`
+      }
+    });
+    
+    return response.status !== 401;
+  } catch {
+    return false;
+  }
+};
+```
+
+## Próximos Pasos
+
+- [Consent Actions](./consent-api) - Crear acciones de consentimiento individuales
+- [Agreements](../main/agreement) - Entender cómo se actualizan los agreements
+- [Verificación de Consentimiento](./consent-status) - Verificar el estado de los consentimientos
+
+## Recursos Adicionales
+
+- [API Reference: Consent Commits](../../api/resources/create-consent-commit.api.mdx)
+- [Esquema: ConsentCommit](../../api/resources/schemas/consentcommit)
+- [Esquema: ConsentAction](../../api/resources/schemas/consentaction)

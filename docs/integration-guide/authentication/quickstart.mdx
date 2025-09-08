@@ -1,0 +1,281 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Inicio rápido: autenticación
+
+Esta guía te llevará paso a paso para implementar autenticación en tu aplicación usando Soyio.
+
+## Prerequisitos
+Antes de comenzar, asegúrate de tener:
+
+- Tu cuenta empresa en Soyio y tus credenciales de API.
+- El SDK instalado en tu sitio o aplicación.
+- Un [Webhook](../../api/webhooks.md) configurado en tu cuenta para recibir los eventos de autenticación.
+
+:::warning[Importante]
+Si aún no tienes tu cuenta empresa en Soyio, contacta a nuestro equipo a [hola@soyio.id](mailto:hola@soyio.id) para consultar por los planes disponibles y obtener una cuenta de prueba.
+:::
+
+## Consideraciones de seguridad
+
+- **Manejo del `auth_request_id`**: Nunca almacenes o transmitas este ID de forma insegura
+- **Timeout**: Los intentos de autenticación expiran después de 5 minutos
+- **Rate limiting**: Existe un límite de intentos por usuario/hora
+- **Validación**: Siempre valida el resultado de la autenticación en tu backend
+
+## Paso a paso
+
+### 1. Crea la identidad verificada del usuario
+
+Utiliza el módulo de [verificación de identidad](../disclosure/disclosure.mdx) para crear la identidad verificada del usuario en el sistema. Necesitarás que el usuario complete el flujo de verificación de identidad al menos una vez para crear su identidad verificada.
+
+Cuando hayas creado la identidad verificada del usuario, podrás crear múltiples solicitudes de autenticación para ese usuario para todas tus operaciones críticas.
+
+:::tip[Pro Tip]
+Te recomendamos leer el paso a paso del módulo de [verificación de identidad](../disclosure/disclosure.mdx) para integrarlo en tu flujo de onboarding o registro en tu aplicación.
+:::
+
+### 2. Crea la solicitud de autenticación
+
+Crea un `auth_request` desde tu backend utilizando el [endpoint de autenticación](../../api/resources/create-auth-request.api.mdx) de Soyio.
+
+#### Endpoint
+```
+POST /api/v1/auth_requests
+```
+
+#### Ejemplo del Payload
+
+Especifica en el *payload* del *request* el `identity_id` del usuario previamente creado en el sistema.
+
+```json
+{
+  "identity_id": "id_..."
+}
+```
+
+#### Ejemplo de Implementación
+
+```javascript
+// Backend - Node.js/Express
+const createAuthRequest = async (identityId) => {
+  const response = await fetch('https://api.soyio.com/v1/auth_requests', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${process.env.SOYIO_API_KEY}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      identity_id: identityId
+    })
+  });
+
+  const data = await response.json();
+  return data.auth_request_id;
+};
+```
+
+### 3. Inicia el proceso de autenticación
+
+Inicia el proceso de autenticación desde el front-end de tu aplicación utilizando el SDK de Soyio.
+
+:::warning[Importante]
+Para **evitar que el navegador bloquee el popup**, asegúrate de que el widget se inicialice solo a través de una interacción directa del usuario, como un clic, debido a las políticas de seguridad del navegador contra ventanas emergentes. Revisa mas detalles en la documentación de nuestros SDKs.
+:::
+
+#### Ejemplos
+
+A continuación te dejamos ejemplos de cómo inicializar el flujo de autenticación en nuestros SDKs:
+
+<Tabs>
+    <TabItem value="web" label="SDK Web" default>
+
+        ```html
+        <!-- HTML -->
+        <button id="start-auth-request">Start auth request</button>
+
+        <script>
+            import { SoyioWidget } from "@soyio/soyio-widget";
+
+            // Configuración
+            const widgetConfig = {
+                request: "authentication",
+                configProps: {
+                    authRequestId: "<auth_request_id>",
+                    customColor: "<custom_color>"
+                },
+                onEvent: (data) => console.log(data)
+            };
+
+            // Creación del widget
+            function initWidget() {
+                new SoyioWidget(widgetConfig);
+            }
+
+            // Añade un escuchador de eventos al botón para inicializar el widget al hacer clic
+            document
+                .getElementById("start-auth-request")
+                .addEventListener("click", initWidget);
+        </script>
+        ```
+    </TabItem>
+    <TabItem value="mobile" label="SDK Mobile">
+
+        ```javascript
+        // Mobile - React Native
+        import { useSoyioAuth } from "@soyio/soyio-rn-sdk";
+
+        export default function App() {
+
+            // Configuración
+            const options = {
+                uriScheme: "<company custom uri scheme>"
+            };
+
+            const authRequestParams = {
+                authRequestId: "<auth_request_id>"
+            };
+
+            const onEventChange = (event) => {
+                console.log("Event:", event);
+            };
+
+            const { authentication } = useSoyioAuth({ options, onEventChange });
+
+            // Inicia el proceso de autenticación
+            const initAuthRequest = () => {
+                authentication(authRequestParams);
+            };
+
+            // Botón para iniciar el proceso
+            return (
+                <View>
+                <Button title="Authentication request" onPress={initAuthRequest} />
+                </View>
+            );
+        }
+        ```
+    </TabItem>
+</Tabs>
+
+:::info[Detalles]
+Para más detalles sobre la configuración revisa las instrucciones del `Readme` del respectivo SDK:
+- [SDK Web](https://www.npmjs.com/package/@soyio/soyio-widget).
+- [SDK Mobile](https://www.npmjs.com/package/@soyio/soyio-rn-sdk).
+:::
+
+### 4. Escuchar Eventos en el Frontend
+
+A medida que el usuario complete el flujo, se emitirán eventos que informan sobre el estado del proceso y
+dependiendo del caso, tu sistema deberá manejarlos.
+Cuando el usuario complete el proceso exitosamente se emitirá un evento de `AUTH_SUCCESSFUL`.
+
+A continuación te detallamos los eventos que puedes escuchar:
+
+<Tabs>
+    <TabItem value="web" label="SDK Web" default>
+        | Evento | Descripción |
+        | --- | --- |
+        | `AUTH_REQUEST_SUCCESSFUL` | El usuario se autenticó exitosamente. |
+        | `WIDGET_CLOSED` | El usuario cierra el popup de Soyio. |
+        | `WIDGET_OPENED` | El usuario abre el popup de Soyio. |
+        | `UNEXPECTED_ERROR` | Ocurrió un error inesperado en el proceso de autenticación. |
+    </TabItem>
+    <TabItem value="mobile" label="SDK Mobile">
+        | Evento | Descripción |
+        | --- | --- |
+        | `success` | El usuario se autenticó exitosamente. |
+        | `failure` | El usuario no se autenticó exitosamente. |
+        | `open` | El usuario abre el *webview*. |
+        | `cancel` | El usuario cierra el *webview*. |
+        | `error` | El usuario sale debido a un error. |
+    </TabItem>
+</Tabs>
+
+#### Ejemplo de Manejo de Eventos
+
+```javascript
+// Frontend - Web
+const onEvent = (event) => {
+  switch (event.type) {
+    case 'AUTH_REQUEST_SUCCESSFUL':
+      console.log('Autenticación exitosa');
+      // Redirigir al usuario o actualizar la UI
+      break;
+    case 'WIDGET_CLOSED':
+      console.log('Widget cerrado por el usuario');
+      break;
+    case 'UNEXPECTED_ERROR':
+      console.error('Error inesperado:', event.error);
+      break;
+  }
+};
+```
+
+:::info[Detalles]
+Para más detalles sobre los eventos revisa las instrucciones del `Readme` del respectivo SDK:
+- [SDK Web](https://www.npmjs.com/package/@soyio/soyio-widget).
+- [SDK Mobile](https://www.npmjs.com/package/@soyio/soyio-rn-sdk).
+:::
+
+### 5. Escuchar Eventos en el Backend
+
+Cuando el usuario se autentique exitosamente se emitirá un evento `auth_request.successful`.
+Esto lo recibirás mediante el [webhook](../../api/webhooks.md) configurado en tu cuenta.
+
+#### Eventos de Webhook
+
+- `auth_request.successful`: El usuario se autenticó exitosamente
+- `auth_request.failed`: El usuario no se autenticó, pero puede recuperarse
+
+#### Estructura del Webhook
+
+```javascript title="Autenticación exitosa"
+{
+    id: "evt_...",
+    name: "auth_request.successful",
+    payload: {
+        user_reference: "<user-reference>",
+        auth_request_id: "authreq_...",
+        identity_id: "id_..."
+    },
+    created_at: "<created_at>"
+}
+```
+
+### 6. Obtener Resultado de Autenticación
+
+Después de recibir el webhook, puedes obtener los detalles completos del resultado de autenticación.
+
+```javascript
+// Backend - Node.js/Express
+const getAuthResult = async (authRequestId) => {
+  const response = await fetch(`https://api.soyio.com/v1/auth_requests/${authRequestId}`, {
+    headers: {
+      'Authorization': `Bearer ${process.env.SOYIO_API_KEY}`
+    }
+  });
+
+  const data = await response.json();
+  return data;
+};
+```
+
+### 7. Probar tu Integración
+
+Para probar tu integración en ambiente de sandbox, puedes utilizar el parámetro `force_error` en el payload de la solicitud de autenticación.
+
+#### Simular Errores
+
+```json
+{
+  "identity_id": "id_...",
+  "force_error": "authentication_error"
+}
+```
+
+#### Tipos de Errores de Prueba
+
+- `authentication_error`: Simula un error de autenticación
+- `network_error`: Simula un error de red
+- `timeout_error`: Simula un timeout

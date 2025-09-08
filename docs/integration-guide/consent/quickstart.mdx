@@ -1,0 +1,184 @@
+---
+title: Inicio Rápido
+description: Guía rápida para implementar consentimiento con Soyio
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import SequenceDiagram from '../../../src/components/SequenceDiagram';
+
+# Inicio Rápido Consentimiento
+
+Esta guía te llevará paso a paso para solicitar consentimiento en tu aplicación usando una plantilla básica.
+
+## Pre-requisitos
+
+Antes de comenzar, asegúrate de tener:
+
+- **Cuenta Empresa en Soyio** con credenciales de API
+- **SDK** instalado en tu proyecto
+
+:::warning[Importante]
+Si aún no tienes tu cuenta Empresa en Soyio, contacta a nuestro equipo a [hola@soyio.id](mailto:hola@soyio.id) para consultar por los planes disponibles y obtener una cuenta de prueba.
+:::
+
+## Paso a paso
+
+### 1. Crea una plantilla de consentimiento básica
+
+Crea una plantilla de consentimiento que defina para qué datos y para qué usos solicitarás consentimiento.
+
+Con esta guía, crearás una plantilla de consentimiento básica para solicitar el consentimiento para el envío de comunicaciones de marketing. Para adaptar esta plantilla a tus necesidades, profundiza en la creación de plantillas para conocer todas las opciones de configuración.
+
+```json title="POST /api/v1/consent_templates"
+{
+    // Nombre interno de la plantilla
+    "name": "Template de consentimiento para Comunicaciones Comerciales",
+    // Periodo durante el cual se pueden usar los datos para la finalidad de marketing
+    "duration": "P12M",
+    // Titulo que aparecerá en el checkbox
+    "title": "Comunicaciones Comerciales",
+    // Cláusula de consentimiento que aparecerá en el checkbox
+    "text": "Autorizo el uso de mis datos personales para el envío de comunicaciones comerciales relacionadas con productos y servicios de la empresa.",
+
+    "data_requirements": [
+        {
+        "data_category": "name",
+        "data_uses": [  // Usos para los cuales se solicita el consentimiento
+            "marketing",
+            "marketing.communications.email",
+            "marketing.advertising"
+        ]
+        },
+        {
+        "data_category": "email",
+        "data_uses": [
+            "marketing",
+            "marketing.communications.email",
+            "marketing.advertising"
+        ]
+        }
+    ]
+}
+```
+
+### 2. Integra el componente de consentimiento
+
+Inicializa el componente de consentimiento en tu interfaz mediante el SDK de Soyio, utilizando el `id` del `consent_template` creado previamente. Estos empiezan con el prefijo `constpl_`.
+
+<Tabs>
+    <TabItem value="web" label="SDK Web" default>
+        ```jsx
+        import { ConsentBox } from "@soyio/soyio-widget";
+
+        // Configuración del componente
+        const consentOptions = {
+            templateId: "<consent_template_id>",
+            onEvent: (data) => console.log(data)
+        };
+
+        // Montar el componente
+        document.addEventListener("DOMContentLoaded", () => {
+            const consentBox = new ConsentBox(consentOptions);
+            consentBox.mount("#consent-box-container");
+        });
+        ```
+
+        ```html
+        <!-- HTML -->
+        <div id="consent-box-container"></div>
+        ```
+    </TabItem>
+</Tabs>
+
+:::info
+Para más información sobre la configuración del componente, consulta la [documentación de la SDK web](https://www.npmjs.com/package/@soyio/soyio-widget#consent-request-box).
+:::
+
+:::tip
+Este módulo está diseñado para integrarse de manera nativa en tu interfaz y podrás personalizarlo con el look and feel de tu aplicación. Revisa la sección de [personalización](#personalización-opcional) para más detalles.
+:::
+
+### 3. Obtén el token de acción
+
+Cuando el usuario haga click en el checkbox de consentimiento, se creará un token de acción. Este token está asociado a la evidencia del consentimiento y es necesario para crear el registro de consentimiento.
+
+Escucha el evento `CONSENT_CHECKBOX_CHANGE` del componente que contiene el token de acción. Este evento se dispara cuando el usuario hace click en el checkbox de consentimiento.
+
+**Ejemplo:**
+
+```typescript
+const consentBox = new ConsentBox(consentOptions);
+consentBox.on('CONSENT_CHECKBOX_CHANGE', (data) => {
+    console.log(data);
+});
+```
+
+El objeto retornado es:
+
+```typescript
+{
+    eventName: 'CONSENT_CHECKBOX_CHANGE',
+    isSelected: boolean,
+    actionToken: string
+}
+```
+
+:::info
+Explora otras opciones para obtener el token de acción en la [documentación del SDK web](https://www.npmjs.com/package/@soyio/soyio-widget#consent-request-box).
+:::
+
+### 4. Crea el registro de consentimiento
+
+Cuando tengas el action token, crea el registro de consentimiento mediante el [endpoint de creación de acción de consentimiento](../../api/resources/create-consent-action.api.mdx).
+
+Opcionalmente, agrega un id asociado al usuario usando el parámetro `user_reference`. De esta manera podrás asociar el consentimiento con un usuario específico de tu sistema.
+
+```json title="POST /api/v1/consent_actions"
+{
+    "action_token": "<action_token>",
+    "user_reference": "<identificador_usuario>" // Opcional
+}
+```
+
+Una vez se haya creado el registro de consentimiento, se retornará la acción creada. En ella, habrá un `entity_id`, que representa el identificador único del usuario que otorgó el consentimiento en Soyio.
+
+:::info
+Explora otras opciones para registrar el consentimiento en la [documentación del SDK web](https://www.npmjs.com/package/@soyio/soyio-widget#consent-request-box).
+:::
+
+### 5. Consulta el consentimiento
+
+Verifica que el consentimiento sigue siendo válido antes de usar los datos.
+
+Para ello, consulta el [endpoint del estado de cumplimiento (`ComplianceStatus`)](../../api/resources/get-entity-agreement-compliance-statuses.api.mdx) indicando el id de la entidad específica y filtrando por el id del template que utilizaste.
+
+Las respuestas de este endpoint pueden ser:
+
+- `compliant`: el usuario cumple con todos los requerimientos del template.
+- `partially_compliant`: el usuario cumple parcialmente con algunos de los requerimientos del template.
+- `non_compliant`: el usuario no cumple con ninguno de los requerimientos del template.
+
+
+```JSON title="GET /api/v1/entities/<entity_id>/agreement/compliance_statuses?consent_template_id=<consent_template_id>"
+{
+    "compliance_statuses": [
+        {
+            "consent_template_id": "<consent_template_id>",
+            "entity_id": "<entity_id>",
+            "last_consent_action_id": "<last_consent_action_id>",
+            "status": "compliant"
+        }
+    ]
+}
+```
+
+:::info
+Explora otras opciones para consultar el consentimiento en la [documentación del SDK web](https://www.npmjs.com/package/@soyio/soyio-widget#consent-request-box).
+:::
+
+## Próximos pasos
+
+- [Conceptos](./concept) - Profundiza en los fundamentos del consentimiento
+- [Implementación](./consent) - Guía completa de implementación
+- [Cómo Funciona](./how-it-works) - Explicación técnica del flujo

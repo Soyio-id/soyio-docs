@@ -1,0 +1,415 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import SequenceDiagram from '../../../src/components/SequenceDiagram';
+import Admonition from '@theme/Admonition';
+
+# Introducción
+
+:::info[Información]
+Por ahora, este servicio está disponible **sólo para el SDK Web**.
+:::
+
+Integra un gestor de privacidad directamente en tu aplicación para permitir a los usuarios gestionar sus datos personales de manera sencilla y transparente, con un formulario que se adapta a los requisitos de las normativas de protección de datos.
+
+- **Cumplimiento normativo**: Facilita el cumplimiento de las regulaciones de protección de datos al proporcionar un canal claro para que los usuarios ejerzan sus derechos y gestionan sus consentimientos.
+- **Automatización**: Facilita la conexión programática con tu sistemas para que puedas agilizar la resolución de las solicitudes de manera interna.
+- **Modo público y autenticado**: Permite que el usuario pueda ejercer tanto en tu sitio público así como en ambientes autenticados como aplicaciones web o móviles.
+- **Personalización**: Personaliza el componente con el *look and feel* de tu marca.
+
+<img src="/img/ejemplo-privacy-manager.png" alt="Privacy Manager example"/>
+<br/>
+<br/>
+
+El **Privacy Manager** incluye las siguientes funcionalidades que puedes habilitar según tus necesidades:
+
+## Ejercicio de derechos
+
+Permite a tus usuarios ejercer sus derechos de protección de datos: acceso, rectificación, oposición, supresión y portabilidad.
+
+### Características
+
+- **Formulario de solicitud**: Permite a tus usuarios ejercer sus derechos de protección de datos de manera sencilla y transparente, con un formulario que se adapta a los requisitos de las normativas de protección de datos.
+- **Trazabilidad**: Mantén un registro de todas las solicitudes realizadas por los usuarios para fines de auditoría y cumplimiento.
+- **Seguimiento y notificaciones**: Gestiona y automatiza el proceso de resolución de las solicitudes de manera interna y mantén a tu usuario informado sobre el estado de sus solicitudes y consentimientos.
+- **Validación de identidad**: Incluye un proceso de verificación del usuario para asegurar la legitimidad de las solicitudes.
+
+### ¿Qué derechos puede ejercer el usuario?
+
+1. **Acceso**: Permite al usuario saber qué datos personales tienen sobre ellos, si están siendo utilizados, quién los tiene y para qué los usa.
+2. **Rectificación**: Cuando la información del usuario es incorrecta o está desactualizada, pueden solicitar que se corrija o modifique. Se les solicitará documentación que respalde los cambios.
+3. **Oposición**: Permite al usuario solicitar que se deje de usar sus datos para ciertos fines, salvo que exista una obligación legal que lo impida.
+4. **Supresión**: Permite al usuario solicitar la eliminación de sus datos cuando ya no sean necesarios o haya retirado su consentimiento, salvo que exista una obligación legal para conservarlos.
+5. **Portabilidad**: Permite al usuario solicitar la copia de sus datos personales en un formato estructurado, legible y portable.
+
+:::warning[Aviso]
+Dependiendo de la jurisprudencia de tu país, puede que no todos los derechos sean aplicables. Estamos trabajando para poder soportar distintos tipos de derechos en función del contexto de tu país.
+:::
+
+## Gestión de consentimientos
+
+Facilita la gestión y administración fácil de consentimientos otorgados por tus usuarios a través del [módulo de consentimiento](../consent/consent.mdx) en un solo lugar.
+
+:::info[Información]
+Para que este módulo funcione correctamente, es necesario que tengas habilitado el [módulo de consentimiento](../consent/consent.mdx).
+
+**Todos los [`consent_templates`](../../api/resources/schemas/consenttemplate) de la organización serán visibles para el usuario**, tanto los que ya otorgaron consentimiento como los que no.
+:::
+
+### Características
+
+- **Vista centralizada**: Presenta todos los Consentimientos ([`consent_templates`](../../api/resources/schemas/consenttemplate)) de tu organización con su estado actual (otorgado/no otorgado).
+- **Organización inteligente**: Los consentimientos se organizan por categorías de acuerdo a su aplicación o scope de manera automática para facilitar la navegación.
+- **Consentimientos pendientes**: Identifica automáticamente qué consentimientos no han sido otorgados previamente.
+- **Revocación inmediata**: Permite retirar consentimientos otorgados.
+- **Proceso reversible**: Facilita volver a otorgar consentimientos cuando sea necesario.
+- **Automatización**: Facilita la conexión programática con tu sistemas para que puedas reflejar los cambios en tu sistema de manera automática.
+
+---
+
+## Integración
+
+Según el contexto de tu integración, puedes configurar el Privacy Manager en dos modos diferentes:
+
+### Modo Público
+
+##### Cuándo usarlo
+
+Cuando deseas proporcionar acceso universal a la gestión de privacidad, tanto para usuarios como para visitantes. Por ejemplo, páginas públicas de privacidad o centros de preferencias accesibles sin login en tu sitio web.
+
+#### Características
+
+- No requiere autenticación previa del usuario.
+- Permite que cualquier usuario ejerza sus derechos y gestione sus consentimientos asociados.
+
+#### Configuración
+
+<Tabs>
+  <TabItem value="web" label="SDK Web" default>
+```jsx title="page.js"
+// Modo público
+const privacyCenterOptions = {
+  companyId: "<company_id>",
+  enabledFeatures: ['DataSubjectRequests', 'ConsentManagement'],
+  onEvent: (event) => console.log('Event:', event),
+  onReady: () => console.log('Privacy Center is ready'), // Optional
+  appearance: {},                                        // Optional
+  isSandbox: false,                                      // Optional
+};
+
+const privacyCenter = new PrivacyCenter(privacyCenterOptions);
+privacyCenter.mount("#privacy-center-container");
+```
+
+```html title="page.html"
+<div id="privacy-center-container"></div>
+```
+  </TabItem>
+</Tabs>
+
+
+### Modo Autenticado
+
+##### Cuándo usarlo
+
+Para usuarios ya autenticados en tu aplicación o cuando necesitas mayor control sobre la identificación. Por ejemplo, dashboards de usuario o áreas privadas de la aplicación.
+
+#### Características
+
+- Mayor seguridad mediante tokens de sesión.
+- Permite al usuario saltarse la validación de identidad.
+
+#### Flujo de inicialización
+
+<SequenceDiagram
+  actors={[
+    { id: 'user', label: 'Usuario' },
+    { id: 'frontend', label: 'Frontend' },
+    { id: 'privacy_center', label: 'Privacy Center' },
+    { id: 'backend', label: 'Backend' },
+    { id: 'soyio_api', label: 'Soyio API' },
+
+  ]}
+  actions={[
+    {
+      from: 'user',
+      to: 'frontend',
+      label: 'Ingresa a la sección de privacidad de su cuenta'
+    },
+    {
+      from: 'frontend',
+      to: 'backend',
+      label: 'Solicita el token de sesión'
+    },
+    {
+      from: 'backend',
+      to: 'soyio_api',
+      label: 'Solicita el token de sesión'
+    },
+    {
+      from: 'soyio_api',
+      to: 'backend',
+      label: 'Devuelve el token de sesión'
+    },
+    {
+      from: 'backend',
+      to: 'frontend',
+      label: 'Devuelve el token de sesión'
+    },
+    {
+      from: 'frontend',
+      to: 'privacy_center',
+      label: 'Se inicializa el Privacy Center con el token de sesión'
+    },
+    {
+      from: 'privacy_center',
+      to: 'user',
+      label: 'Despliega el Privacy Center'
+    }
+  ]}
+/>
+
+De modo general, el flujo de inicialización es el siguiente:
+
+1. El usuario ingresa a la sección de privacidad de su cuenta, por lo que el frontend solicita el token de sesión al backend.
+2. El backend solicita el token de sesión a la API de Soyio y se devuelve el token de sesión al front.
+3. El frontend inicializa el privacy center con el token de sesión.
+4. El privacy center se despliega.
+
+#### Configuración
+
+<Tabs>
+  <TabItem value="web" label="SDK Web" default>
+```jsx title="page.js"
+// Modo autenticado
+const privacyCenterOptions = {
+  sessionToken: "<session_token>",
+  enabledFeatures: ['DataSubjectRequests', 'ConsentManagement'],
+  onEvent: (event) => console.log('Event:', event),
+  onReady: () => console.log('Privacy Center is ready'), // Optional
+  appearance: {},                                        // Optional
+  isSandbox: false,                                      // Optional
+};
+
+const privacyCenter = new PrivacyCenter(privacyCenterOptions);
+privacyCenter.mount("#privacy-center-container");
+```
+
+```html title="page.html"
+<div id="privacy-center-container"></div>
+```
+  </TabItem>
+</Tabs>
+
+
+### Opciones de configuración
+
+| Opción | Tipo | Descripción |
+| ------ | ---- | ----------- |
+| `companyId` | String | Identificador de la empresa |
+| `enabledFeatures` | Array | Features a habilitar |
+| `onEvent` | Function | Callback que se ejecuta cuando el componente emite un evento |
+| `onReady` | Function | Callback que se ejecuta cuando el componente está listo |
+| `appearance` | Object | Configuración de la apariencia del componente |
+| `isSandbox` | Boolean | Indica si se ejecuta en modo sandbox (pruebas) |
+| `subjectId` | String | Identificador del usuario (entityId o identityId) |
+
+:::tip[Pro Tip]
+Para obtener más información sobre las opciones de configuración, consulta la [documentación oficial del SDK web de Soyio](https://github.com/Soyio-id/soy-io-widget).
+:::
+
+## Gestión de solicitudes de derechos
+
+Al momento de crearse una solicitud de ejercicio de derechos, se creará un nuevo [Data subject Request o DSR](../../api/resources/schemas/datasubjectrequest). Este recurso es el que mantendrá la trazabilidad de la solicitud y su estado a medida que se procese la solicitud.
+
+### Flujo de una solicitud de derechos
+
+<SequenceDiagram
+  actors={[
+    { id: 'user', label: 'Usuario' },
+    { id: 'privacy_center', label: 'Privacy Center' },
+    { id: 'soyio_api', label: 'Soyio Api' },
+    { id: 'organization', label: 'Organización' },
+  ]}
+  actions={[
+    {
+      from: 'user',
+      to: 'privacy_center',
+      label: 'Rellena formulario'
+    },
+    {
+      from: 'privacy_center',
+      to: 'soyio_api',
+      label: 'Se crea un Data Subject Request'
+    },
+    {
+      from: 'privacy_center',
+      to: 'user',
+      label: 'Solicita validación de identidad'
+    },
+    {
+      from: 'user',
+      to: 'soyio_api',
+      label: 'Completa validación'
+    },
+    {
+      from: 'soyio_api',
+      to: 'organization',
+      label: 'Notifica solicitud con identidad validada'
+    },
+    {
+      from: 'organization',
+      to: 'organization',
+      label: 'Procesa solicitud'
+    },
+    {
+      from: 'organization',
+      to: 'soyio_api',
+      label: 'Notifica estado de la solicitud'
+    },
+    {
+      from: 'soyio_api',
+      to: 'user',
+      label: 'Notifica estado de la solicitud',
+      isDashed: true,
+    }
+  ]}
+/>
+
+El flujo de una solicitud de derechos es el siguiente:
+
+1. El usuario rellena el formulario de solicitud de derechos.
+2. Se crea un nuevo data subject request.
+3. Se envía una notificación al usuario por correo electrónico. Este correo también tiene un link para que el usuario pueda validar su identidad.
+4. El usuario valida su identidad.
+5. Se le envía una notificación a la organización con información de la solicitud para su procesamiento. Se le envía un correo electrónico al usuario de que su solicitud ha sido recibida y se empezará a procesar.
+6. La organización procesa la solicitud y notifica a Soyio. Soyio notifica al usuario mediante correo electrónico de que su solicitud ha sido procesada.
+
+#### Notificaciones
+
+Utilizamos plantillas de correo electrónico para notificar a los usuarios sobre el estado de sus solicitudes de derechos. Estas pueden ser personalizadas para cada organización.
+
+También, podemos enviar notificaciones por correo electrónico a la organización
+para notificar de la creación y para enviar recordatorios para cuando se acerque la fecha límite de respuesta.
+
+:::info[Información]
+Comunícate con nuestro equipo para obtener más información sobre las opciones de configuración de notificaciones.
+:::
+
+<Admonition type="note" icon="✨" title="BETA">
+  Estamos desarrollando una nueva funcionalidad para **crear workflows personalizados para el procesamiento de solicitudes de derechos**. Comunícate con nuestro equipo para obtener más información y formar parte de la beta.
+</Admonition>
+
+### Eventos
+
+#### Frontend
+
+```typescript
+{
+    eventName: 'REQUEST_SUBMITTED',
+    subjectId: string,
+    kind: 'ACCESS' | 'RECTIFICATION' | 'OPPOSITION' | 'SUPPRESSION' | 'PORTABILITY',
+    dataSubjectRequestId: string
+}
+```
+
+En donde `kind` puede ser uno de los siguientes valores:
+
+- `ACCESS`: Para ejercer el derecho de acceso.
+- `RECTIFICATION`: Para ejercer el derecho de rectificación.
+- `OPPOSITION`: Para ejercer el derecho de oposición**.**
+- `SUPPRESSION`: Para ejercer el derecho de supresión.
+- `PORTABILITY`: Para ejercer el derecho de portabilidad.
+
+Y `dataSubjectRequestId` es el identificador de la solicitud de derechos generado por Soyio, también conocido como [`dataSubjectRequestId`](../../api/resources/schemas/datasubjectrequest).
+
+#### Backend
+
+La lista de eventos relacionados al ejercicio de derechos es la siguiente:
+
+- `data_subject_request.created`: Se crea un nuevo [data subject request](../../api/resources/schemas/datasubjectrequest).
+- `data_subject_request.updated`: Se actualiza el estado de un [data subject request](../../api/resources/schemas/datasubjectrequest).
+- `data_subject_request.validating`: Se valida la identidad del usuario.
+- `data_subject_request.processing`: Se procesa la solicitud.
+- `data_subject_request.completed`: Se completa la solicitud.
+- `data_subject_request.rejected`: Se rechaza la solicitud.
+- `data_subject_request.data_missmatch`: Se detecta un error de coincidencia de datos.
+
+:::tip[Tip]
+Revisa nuestra sección de [webhooks](../../api/webhooks) para obtener más información sobre cómo configurar los eventos en tu backend.
+:::
+
+## Acciones de consentimiento
+
+Una vez que el usuario haga click para otorgar o revocar un consentimiento, se modificará su [agreement](../main/agreement.mdx), ya que cambiarán los `data_uses` asociados en base a los `data_requirements` del consentimiento asociado.
+
+El proceso de actualización del agreement es automático y se realiza en tiempo real. Los cambios en los consentimientos se reflejan inmediatamente en los `data_uses` asociados, lo que permite mantener una gestión precisa y actualizada de los permisos del usuario.
+
+:::info[Información]
+Para obtener más información de cómo los consentimientos afectan a los `data_uses`, revisa nuestra guía del [módulo de consentimiento](../consent/consent.mdx).
+:::
+
+
+### Eventos
+
+#### Backend
+
+La lista de eventos relacionados a la gestión de consentimientos es la siguiente:
+
+- `agreement.updated`: Se actualiza un [agreement](../../api/resources/schemas/agreement).
+
+
+---
+
+## Configuración avanzada
+
+### Selección de funcionalidad
+
+Por defecto, el Privacy Manager se inicializa con ambas funcionalidades habilitadas. Si deseas, puedes habilitar sólo una de las funcionalidades modificando el parámetro `enabledFeatures` en la configuración del componente.
+
+```jsx
+const privacyCenterOptions = {
+  companyId: "<company_id>",
+  enabledFeatures: ['DataSubjectRequests'], // Sólo se habilita el módulo de ejercicio de derechos
+  // ... resto de opciones
+};
+```
+
+
+### Configuración de validación de identidad
+
+Desde la [configuración](../../api/resources/schemas/configuration) de tu compañía, puedes configurar el comportamiento del proceso de validación de identidad:
+
+#### Obligatoriedad de validación de identidad (`data_subject_request.mandatory_validation`)
+
+- **`false`**: (por defecto) El usuario recibe confirmación de que su solicitud fue creada exitosamente y puede elegir validar su identidad inmediatamente o en un momento posterior.
+- **`true`**: El usuario debe completar el proceso de validación de identidad antes de poder proceder con su solicitud.
+
+### Personalización
+
+El componente puede ser personalizado mediante variables CSS:
+
+```jsx
+const privacyCenterOptions = {
+  // ... otras opciones
+  appearance: {
+    variables: {
+      fontFamily: 'system-ui, sans-serif',
+      colorPrimary: '#f54c27',
+      colorBackground: '#ffffff',
+    },
+    rules: {
+      '.PrivacyCenter-container': {
+        backgroundColor: 'var(--colorBackground)',
+      }
+    }
+  }
+};
+```
+
+:::tip[Pro Tip]
+Para obtener más información sobre las variables y reglas de personalización, consulta la [documentación oficial del SDK web de Soyio](https://github.com/Soyio-id/soy-io-widget?tab=readme-ov-file#appearance).
+:::
+
+:::warning[Importante]
+Asegúrate de mantener los elementos de accesibilidad como el contraste adecuado y el tamaño de fuente legible al personalizar el componente.
+:::

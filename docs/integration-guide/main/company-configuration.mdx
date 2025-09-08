@@ -1,0 +1,397 @@
+---
+title: Configuración de Compañía
+description: Guía para configurar tu cuenta y preferencias de empresa en Soyio
+---
+
+# Configuración de tu Compañía
+
+Esta guía te ayuda a configurar tu cuenta de empresa en Soyio, incluyendo configuraciones de privacidad, políticas de datos y preferencias de integración.
+
+## Configuración Inicial
+
+### 1. Crear Cuenta de Empresa
+
+```bash
+# Crear nueva cuenta
+curl -X POST https://api.soyio.com/v1/accounts \
+  -H "Content-Type: application/json" \
+  -d '{
+    "companyName": "Mi Empresa S.L.",
+    "legalName": "Mi Empresa Sociedad Limitada",
+    "taxId": "B12345678",
+    "contactEmail": "admin@miempresa.com",
+    "country": "ES",
+    "industry": "technology",
+    "dataProtectionOfficer": {
+      "name": "Juan Pérez",
+      "email": "dpo@miempresa.com"
+    }
+  }'
+```
+
+### 2. Configurar Información Legal
+
+```json
+{
+  "legalInfo": {
+    "companyName": "Mi Empresa S.L.",
+    "legalName": "Mi Empresa Sociedad Limitada",
+    "taxId": "B12345678",
+    "registrationNumber": "M-123456",
+    "address": {
+      "street": "Calle Principal 123",
+      "city": "Madrid",
+      "postalCode": "28001",
+      "country": "ES"
+    },
+    "contactInfo": {
+      "email": "contacto@miempresa.com",
+      "phone": "+34 91 123 45 67",
+      "website": "https://miempresa.com"
+    }
+  }
+}
+```
+
+## Configuración de Privacidad
+
+### 1. Política de Privacidad
+
+```json
+{
+  "privacyPolicy": {
+    "version": "1.0",
+    "effectiveDate": "2024-01-15",
+    "language": "es",
+    "url": "https://miempresa.com/privacy-policy",
+    "sections": [
+      {
+        "id": "data_collection",
+        "title": "Recopilación de Datos",
+        "content": "Recopilamos los siguientes tipos de datos personales..."
+      },
+      {
+        "id": "data_usage",
+        "title": "Uso de Datos",
+        "content": "Utilizamos sus datos para los siguientes propósitos..."
+      }
+    ]
+  }
+}
+```
+
+### 2. Configuración de Cookies
+
+```json
+{
+  "cookieSettings": {
+    "essential": {
+      "required": true,
+      "description": "Cookies necesarias para el funcionamiento del sitio"
+    },
+    "analytics": {
+      "required": false,
+      "description": "Cookies para análisis y estadísticas",
+      "retentionPeriod": "P2Y"
+    },
+    "marketing": {
+      "required": false,
+      "description": "Cookies para marketing y publicidad",
+      "retentionPeriod": "P1Y"
+    }
+  }
+}
+```
+
+### 3. Configuración de Retención
+
+```json
+{
+  "retentionPolicies": {
+    "contactInfo": {
+      "period": "P3Y",
+      "description": "Información de contacto por 3 años"
+    },
+    "behavioralData": {
+      "period": "P1Y",
+      "description": "Datos de comportamiento por 1 año"
+    },
+    "transactionData": {
+      "period": "P7Y",
+      "description": "Datos de transacciones por 7 años (requisito legal)"
+    }
+  }
+}
+```
+
+## Configuración de Integración
+
+### 1. Configuración de API
+
+```json
+{
+  "apiConfiguration": {
+    "rateLimits": {
+      "requestsPerMinute": 1000,
+      "requestsPerHour": 10000,
+      "requestsPerDay": 100000
+    },
+    "webhookSettings": {
+      "maxRetries": 3,
+      "retryDelay": 5000,
+      "timeout": 30000
+    },
+    "securitySettings": {
+      "requireHttps": true,
+      "allowedOrigins": ["https://miempresa.com"],
+      "ipWhitelist": ["192.168.1.0/24"]
+    }
+  }
+}
+```
+
+### 2. Configuración de Webhooks
+
+```bash
+# Configurar webhook principal
+curl -X POST https://api.soyio.com/v1/webhooks \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Webhook Principal",
+    "url": "https://miempresa.com/api/webhooks/soyio",
+    "events": [
+      "consent.created",
+      "consent.updated",
+      "consent.withdrawn",
+      "data.subject.request.created"
+    ],
+    "secret": "webhook_secret_key",
+    "active": true
+  }'
+```
+
+### 3. Configuración de SDK
+
+```javascript
+// Configuración del SDK
+const soyioClient = new SoyioClient({
+  apiKey: 'your_api_key',
+  environment: 'production',
+  baseUrl: 'https://api.soyio.com',
+  timeout: 30000,
+  retries: 3,
+  webhookSecret: 'webhook_secret_key'
+});
+```
+
+## Configuración de Usuarios y Permisos
+
+### 1. Roles de Usuario
+
+```json
+{
+  "userRoles": [
+    {
+      "id": "admin",
+      "name": "Administrador",
+      "permissions": [
+        "account:read",
+        "account:write",
+        "users:manage",
+        "config:manage",
+        "data:read",
+        "data:write"
+      ]
+    },
+    {
+      "id": "developer",
+      "name": "Desarrollador",
+      "permissions": [
+        "api:read",
+        "api:write",
+        "webhooks:manage",
+        "data:read"
+      ]
+    },
+    {
+      "id": "analyst",
+      "name": "Analista",
+      "permissions": [
+        "data:read",
+        "reports:read",
+        "consent:read"
+      ]
+    }
+  ]
+}
+```
+
+### 2. Gestión de Usuarios
+
+```bash
+# Invitar usuario
+curl -X POST https://api.soyio.com/v1/users/invite \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "nuevo@miempresa.com",
+    "role": "developer",
+    "permissions": ["api:read", "api:write"]
+  }'
+```
+
+## Configuración de Cumplimiento
+
+### 1. Configuración GDPR
+
+```json
+{
+  "gdprSettings": {
+    "dataProtectionOfficer": {
+      "name": "Juan Pérez",
+      "email": "dpo@miempresa.com",
+      "phone": "+34 91 123 45 67"
+    },
+    "legalBasis": {
+      "consent": true,
+      "contract": true,
+      "legalObligation": true,
+      "vitalInterests": false,
+      "publicTask": false,
+      "legitimateInterests": true
+    },
+    "dataSubjectRights": {
+      "access": true,
+      "rectification": true,
+      "erasure": true,
+      "portability": true,
+      "objection": true
+    }
+  }
+}
+```
+
+### 2. Configuración CCPA
+
+```json
+{
+  "ccpaSettings": {
+    "businessPurpose": [
+      "Providing goods or services",
+      "Marketing and advertising",
+      "Analytics and research"
+    ],
+    "thirdPartySharing": {
+      "categories": [
+        "Identifiers",
+        "Commercial information",
+        "Internet activity"
+      ],
+      "purposes": [
+        "Marketing",
+        "Analytics"
+      ]
+    }
+  }
+}
+```
+
+## Monitoreo y Alertas
+
+### 1. Configuración de Alertas
+
+```json
+{
+  "alertSettings": {
+    "consentWithdrawals": {
+      "enabled": true,
+      "threshold": 10,
+      "email": "alerts@miempresa.com"
+    },
+    "dataBreaches": {
+      "enabled": true,
+      "immediate": true,
+      "email": "security@miempresa.com"
+    },
+    "apiErrors": {
+      "enabled": true,
+      "threshold": 50,
+      "email": "devops@miempresa.com"
+    }
+  }
+}
+```
+
+### 2. Configuración de Reportes
+
+```json
+{
+  "reportingSettings": {
+    "consentReports": {
+      "frequency": "weekly",
+      "format": "pdf",
+      "recipients": ["dpo@miempresa.com"]
+    },
+    "auditReports": {
+      "frequency": "monthly",
+      "format": "csv",
+      "recipients": ["compliance@miempresa.com"]
+    }
+  }
+}
+```
+
+## API de Configuración
+
+### Obtener Configuración Actual
+
+```bash
+GET /api/v1/account/configuration
+```
+
+### Actualizar Configuración
+
+```bash
+PUT /api/v1/account/configuration
+Content-Type: application/json
+
+{
+  "privacyPolicy": {
+    "version": "1.1",
+    "effectiveDate": "2024-02-01"
+  }
+}
+```
+
+### Obtener Configuración de Privacidad
+
+```bash
+GET /api/v1/account/privacy-settings
+```
+
+## Mejores Prácticas
+
+### Configuración Inicial
+- Completa toda la información legal requerida
+- Configura políticas de privacidad claras
+- Establece períodos de retención apropiados
+- Define roles y permisos específicos
+
+### Mantenimiento
+- Revisa y actualiza configuraciones regularmente
+- Monitorea el cumplimiento de políticas
+- Mantén documentación actualizada
+- Capacita al equipo en nuevas configuraciones
+
+### Seguridad
+- Usa HTTPS para todas las comunicaciones
+- Implementa autenticación de dos factores
+- Monitorea accesos y cambios
+- Mantén copias de seguridad de configuraciones
+
+## Próximos Pasos
+
+- [Seguridad y Privacidad](./security-privacy) - Implementa medidas de seguridad
+- [Cuenta Soyio](./soyio-account) - Gestiona facturación y suscripción
+- [Modo Prueba](./sandbox) - Configura tu entorno de desarrollo
