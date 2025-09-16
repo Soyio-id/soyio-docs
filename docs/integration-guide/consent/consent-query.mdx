@@ -8,3 +8,121 @@ import TabItem from '@theme/TabItem';
 import SequenceDiagram from '../../../src/components/SequenceDiagram';
 
 # Consulta los consentimientos
+
+Siempre consulta los consentimientos para verificar si puedes usar un dato para una finalidad concreta. Recuerda que estos pueden cambiar a lo largo del tiempo debido a nuevas acciones de consentimiento, revocaciones o modificaciones causados por el ejercicio del derecho de oposición o eliminación de datos.
+
+## Consulta a través de Compliance Status
+
+Este endpoint te permite obtener el estado de cumplimiento de un usuario específico para cada template de consentimiento que tienes en tu empresa. Para ello, usa el endpoint del [Compliance Status](../../api/resources/get-entity-agreement-compliance-statuses.api.mdx).
+
+El Compliance Status procesa el último estado del Agreement para evaluar si el usuario cumple o no cumple con los requerimientos del template de consentimiento.
+
+### Estados de cumplimiento
+
+Los estados de cumplimiento pueden ser:
+- `compliant`: El usuario cumple con todos los requerimientos del template de consentimiento.
+- `non_compliant`: El usuario no cumple con ningún requerimiento del template de consentimiento.
+- `partially_compliant`: El usuario cumple con algunos de los requerimientos del template de consentimiento.
+
+:::info[Profundiza]
+Revisa la [estructura del Compliance Status](/docs/api/resources/schemas/compliancestatus) en nuestra referencia de API.
+:::
+
+### Ejemplo de implementación
+
+```javascript title="Obtener el estado de cumplimiento para cada template de consentimiento"
+const getComplianceStatus = async (entityId) => {
+  const response = await fetch(`https://api.soyio.com/v1/entities/${entityId}/agreement/compliance_statuses`, {
+    headers: {
+      'Authorization': process.env.SOYIO_API_KEY,
+      'Content-Type': 'application/json'
+    }
+  });
+};
+```
+
+:::tip[Consejo]
+Puedes filtrar por `consent_template_id` para obtener el estado de cumplimiento de un template en particular.
+:::
+
+### Casos de uso
+
+Este endpoint es útil para consultar los consentmientos de un usuario de forma general y simplificada. Ya que cada template de consentimiento agrupa varias categorías de datos y de usos configurados proviamente para tu empresa.
+
+Por ejemplo, si tienes templates de marketing configurados para cada producto, que agrupan las categorías de datos y usos específicos que generalmente utiliza tu empresa para sus campañas de marketing, puede ser más sencillo consultar el estado de cumplimiento de cada template en lugar de consultar el Agreement directamente.
+
+**Otros casos de uso:**
+- Verificar si un usuario ha otorgado consentimiento a un template en particular para saber si debo pedírselo nuevamente.
+- Verificar qué templates de marketing ha otorgado un usuario para saber qué campañas puedo enviarle.
+- Verificar si el consentimiento de un usuario a un template en particular continua vigente y procesar los datos en base a eso.
+
+## Consulta el Agreement directamente
+
+### Estructura del Agreement
+
+El Agreement es la fuente de verdad que determina qué permisos tiene un usuario para el uso de sus datos. Es un objeto versionado que refleja el estado actual de los consentimientos otorgados.
+
+Para consultar los consentimientos de un usuario de forma detallada y específica, debes obtener la versión más reciente del Agreement para un usuario específico y analizar `data_permissions` para verificar los permisos para cada categoría de datos y uso específico.
+
+:::info[Profundiza]
+Revisa la [estructura del Agreement](/docs/integration-guide/concepts/agreement) para más información o explora el [schema del Agreement](/docs/api/resources/schemas/agreement) en nuestra referencia de API.
+:::
+
+### Ejemplo de implementación
+
+#### Paso 1: Obtén la versión más reciente
+
+Obtén la versión más reciente del Agreement de un usuario específico usando el endpoint de listado con filtros y ordenando por `created_at` de forma descendente.
+
+```javascript title="Obtener la versión más reciente del Agreement por entity_id"
+const getLatestAgreement = async (entityId) => {
+  const response = await fetch(`https://api.soyio.com/v1/agreements?entity_id=${entityId}&order_by=created_at DESC`, {
+    headers: {
+      'Authorization': process.env.SOYIO_API_KEY,
+      'Content-Type': 'application/json'
+    }
+  });
+
+  if (!response.ok) {
+    throw new Error(`Error: ${response.status}`);
+  }
+
+  const data = await response.json();
+  return data.agreements[0];
+};
+```
+
+:::tip[Consejo]
+También puedes filtrar por `user_reference` para obtener el Agreement de un usuario específico. Recuerda que el `user_reference` es el identificador de usuario interno de tu sistema que proporcionas opcionalmente como referencia cuando capturas el consentimiento.
+:::
+
+#### Paso 2: Verifica los permisos
+Una vez que obtienes el Agreement, verifica si el usuario tiene permisos para usar un dato específico:
+
+```javascript title="Verificar permiso de uso de datos"
+const checkDataPermission = (agreement, dataCategory, dataUse) => {
+  return agreement.data_permissions.some(permission =>
+    permission.data_category === dataCategory &&
+    permission.data_use === dataUse &&
+    new Date(permission.expires_at) > new Date()
+  );
+};
+
+// Ejemplo de uso
+const agreement = await getAgreement('agr_IdBeyWCa1ENLUYnPRLpCUg');
+const canUseEmailForMarketing = checkDataPermission(
+  agreement,
+  'user.contact.email',
+  'marketing.promotional'
+);
+```
+
+### Casos de uso
+
+Este endpoint es útil para consultar los consentimientos de un usuario de forma detallada y específica. Ya que puedes verificar los permisos para cada categoría de datos y uso específico.
+
+Por ejemplo, tu empresa puede pedir el consentimiento de marketing de forma amplia usando un template de consentimiento que especifica todos los canales de comunicación, pero luego permitir al usuario desuscribirse de los canales específicos por los cuales no quiere recibir comunicaciones comerciales. En ese caso, si consultas el estado de cumplimiento de marketing para un usuario que configuró sus preferencias aparecerá como `partially_compliant`, pero eso no quiere decir que no puedas enviar comunicaciones comerciales. Simplemente debes verificar los canales por los cuales si puedes enviarle comunicaciones comerciales consultando directamente el Agreement.
+
+**Otros casos de uso:**
+- Verificar si tengo permisos para enviar comunicaciones comerciales a través de SMS a un usuario específico.
+- Verificar para qué productos y filiales tengo permisos para realizar análisis de comportamiento en base a los datos de navegación del usuario.
