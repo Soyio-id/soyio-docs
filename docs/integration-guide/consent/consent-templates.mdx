@@ -3,31 +3,10 @@ import TabItem from '@theme/TabItem';
 
 # Crea plantillas de consentimiento
 
-## ¿Qué son las plantillas de consentimiento?
 Las plantillas de consentimiento (`consent templates`) te permiten estandarizar las solicitudes de consentimiento en todos tus flujos digitales.
 En la plantilla defines el contenido y las propiedades de la solicitud de consentimiento que se presenta a tus usuarios. Puedes crear tantas plantillas como necesites, cada una con sus propias características y usarlas en diferentes flujos de tu aplicación.
 
-## Experiencia de usuario
-
-Cuando un usuario interactúa con una solicitud de consentimiento generada desde un template de Soyio, verá un widget interactivo diseñado para facilitar la comprensión y la aceptación de la solicitud de consentimiento. Este widget incluye:
-
-1. **Título y Cláusula Legal**: La información principal que configuraste en la plantilla.
-2. **Checkbox**: Para aceptar la solicitud de consentimiento.
-3. **Sección "Más Información"**: Área desplegable con detalles de los datos y usos configurados en la plantilla.
-4. **Link al centro de privacidad de la empresa**: Donde el usuario puede encontrar más información sobre cómo puede revocar su consentimiento o ejercer sus derechos. En los casos donde la empresa no tenga un centro de privacidad, podrá configurar un correo electrónico para que el usuario pueda contactar a la empresa.
-
-<img src="/img/granular-consent-example.webp" alt="Consent Embed example" width="100%"/>
-
-## Crea tus plantillas en la plataforma
-
-Puedes crear tus plantillas de consentimiento en la plataforma de Soyio.
-
-1. Ve a la sección "Consentimiento" en la plataforma.
-2. Haz clic en el botón "Crear plantilla".
-3. Rellena los campos de la plantilla y previsualiza el resultado.
-4. Haz clic en "Guardar" cuando estés satisfecho con el resultado.
-
-También puedes crear tus plantillas de consentimiento usando la API de Soyio. Para ello, puedes usar el endpoint [`POST /api/v1/consent_templates`](../../api/resources/create-consent-template.api.mdx).
+Crea tus plantillas de consentimiento usando la API de Soyio usando el endpoint [`POST /api/v1/consent_templates`](../../api/resources/create-consent-template.api.mdx).
 
 ## Versionado de plantillas y evidencia
 
@@ -35,11 +14,11 @@ Soyio genera trazabilidad con fines de auditoría y cumplimiento regulatorio. Po
 
 Cada vez que se levanta un flujo de consentimiento, se usa la última versión disponible para la plantilla de consentimiento especificada en la SDK.
 
-:::important[Importante]
+Consulta el historial de versiones de una plantilla usando el endpoint [`GET /api/v1/consent_templates/{id}/versions`](../../api/resources/index-consent-template-versions.api.mdx).
+
+:::info[Información]
 Es importante considerar esto, ya que la evidencia de los consentimientos se asocia a la versión exacta de la plantilla que el usuario aceptó. Si el cambio de la plantilla afecta a los datos o usos que se solicitan, a su vigencia o al alcance del consentimiento (por ejemplo, si se asocia a otro producto o filial), el consentimiento asociado a esa plantilla aparecerá como `no compliant`.
 :::
-
-Puedes consultar el historial de versiones de una plantilla usando el endpoint [`GET /api/v1/consent_templates/{id}/versions`](../../api/resources/index-consent-template-versions.api.mdx).
 
 ## Configuración de la plantilla
 
@@ -75,7 +54,7 @@ Redacta el texto legal del consentimiento. Te recomendamos mantenerlo breve, que
 
 #### Usa tooltips para añadir aclaraciones
 
-Puedes añadir aclaraciones o definiciones usando tooltips, para evitar textos muy largos. Encierra la palabra o frase en dobles corchetes `[[ ]]` y el texto del tooltip en paréntesis `( )`.
+Añade aclaraciones o definiciones usando tooltips para evitar textos muy largos. Encierra la palabra o frase en dobles corchetes `[[ ]]` y el texto del tooltip en paréntesis `( )`.
 
 ```json
 {
@@ -141,12 +120,12 @@ Establece un período de duración para el consentimiento usando el formato ISO 
 
 ### Define el alcance del consentimiento
 
-Por defecto, un template de solicitud de consentimiento se asocia a toda tu compañía. Sin embargo, puedes acotar el alcance a un producto o filial específica.
+Por defecto, un template de solicitud de consentimiento se asocia a toda tu compañía. Acota el alcance a un producto o filial específica usando la opción `product_id` o `branch_id`.
 
 - **Por producto:** Asocia el template a un producto específico (ej. aplicación móvil, programa de lealtad).
 - **Por filial (branch):** Asocia el template a una filial o marca específica de tu grupo empresarial.
 
-:::info[Importante]
+:::info[Información]
 Los productos y filiales deben estar previamente configurados en el perfil de tu compañía en la plataforma. Revisa la sección [Configuración de la empresa](../main/company-configuration.mdx) para más información.
 :::
 
