@@ -52,11 +52,6 @@ const sidebar: SidebarsConfig = {
       id: 'integration-guide/consent/customization',
       label: 'Personaliza el estilo del widget',
     },
-    {
-      type: 'doc',
-      id: 'integration-guide/consent/common-problems',
-      label: 'Solución de problemas comunes',
-    },
   ],
 };
 
