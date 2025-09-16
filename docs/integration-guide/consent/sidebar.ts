@@ -30,12 +30,12 @@ const sidebar: SidebarsConfig = {
     {
       type: 'doc',
       id: 'integration-guide/consent/consent-capture',
-      label: 'Captura de consentimiento',
+      label: 'Captura de consentimientos',
     },
     {
       type: 'doc',
       id: 'integration-guide/consent/consent-query',
-      label: 'Consulta los consentimientos',
+      label: 'Consulta de consentimientos',
     },
     {
       type: 'doc',
@@ -45,12 +45,12 @@ const sidebar: SidebarsConfig = {
     {
       type: 'doc',
       id: 'integration-guide/consent/consent-api',
-      label: 'Integración vía API',
+      label: 'Integración sin SDK',
     },
     {
       type: 'doc',
       id: 'integration-guide/consent/customization',
-      label: 'Personaliza el estilo del widget',
+      label: 'Apariencia y Comportamiento',
     },
   ],
 };
