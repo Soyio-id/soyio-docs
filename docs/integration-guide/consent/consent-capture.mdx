@@ -14,7 +14,7 @@ Solicitar y obtener el consentimiento es el primer paso del ciclo de vida del co
 
 1. Se muestra el componente de consentimiento al usuario en un formulario o sección de tu interfaz
 2. El usuario revisa y acepta los términos mediante un checkbox opt-in.
-3. Se genera un **token de acción** (`action token`) cada vez que el usuario haga click un checkbox de consentimiento
+3. Se genera un **token de acción** (`action token`) cada vez que el usuario haga click en un checkbox de consentimiento
 4. Al momento de persistir los datos del usuario, envías uno o varios token de acción para crear un **registro de consentimientos** con evidencia del proceso.
 5. En base a estas acciones de consentimiento, el sistema automáticamente crea o actualiza los **Agreements** para el usuario. El [Agreement](../main/agreement.mdx) es la fuente de verdad que determina las finalidades de tratamiento autorizadas en tu empresa en tiempo real.
 
@@ -86,7 +86,7 @@ Despliega el componente de captura de consentimiento usando el SDK de Soyio y un
 
 Captura el evento `CONSENT_CHECKBOX_CHANGE` que emite el componente del SDK de Soyio cuando el usuario hace click en el checkbox de consentimiento. Este evento contiene el token de acción.
 
-Usa este método para casos donde necesitas registrar el consentimiento en el momento de interacción del usuario. Por ejemplo, cuando estas solicitando el consentimiento para una finalidad adicional para datos que ya tienes en tu sistema.
+Usa este método para casos donde necesitas registrar el consentimiento en el momento de interacción del usuario. Por ejemplo, cuando estás solicitando el consentimiento para una finalidad adicional para datos que ya tienes en tu sistema.
 
 <Tabs>
     <TabItem value="web" label="SDK Web" default>
@@ -162,7 +162,7 @@ Proporciona el `action_token` que obtuviste en el paso anterior. Tanto el `entit
 }
 ```
 
-#### Opcion 2: Crea un commit de varios consentimientos (`ConsentCommit`)
+#### Opción 2: Crea un commit de varios consentimientos (`ConsentCommit`)
 
 Crea un commit de varios consentimientos (`ConsentCommit`) mediante el [endpoint de creación de commit de consentimientos](../../api/resources/create-consent-commit.api.mdx).
 

@@ -47,7 +47,7 @@ Puedes filtrar por `consent_template_id` para obtener el estado de cumplimiento 
 
 ### Casos de uso
 
-Este endpoint es útil para consultar los consentmientos de un usuario de forma general y simplificada. Ya que cada template de consentimiento agrupa varias categorías de datos y de usos configurados proviamente para tu empresa.
+Este endpoint es útil para consultar los consentimientos de un usuario de forma general y simplificada. Ya que cada template de consentimiento agrupa varias categorías de datos y de usos configurados previamente para tu empresa.
 
 Por ejemplo, si tienes templates de marketing configurados para cada producto, que agrupan las categorías de datos y usos específicos que generalmente utiliza tu empresa para sus campañas de marketing, puede ser más sencillo consultar el estado de cumplimiento de cada template en lugar de consultar el Agreement directamente.
 
@@ -109,7 +109,7 @@ const checkDataPermission = (agreement, dataCategory, dataUse) => {
 };
 
 // Ejemplo de uso
-const agreement = await getAgreement('agr_IdBeyWCa1ENLUYnPRLpCUg');
+const agreement = await getLatestAgreement('agr_IdBeyWCa1ENLUYnPRLpCUg');
 const canUseEmailForMarketing = checkDataPermission(
   agreement,
   'user.contact.email',
