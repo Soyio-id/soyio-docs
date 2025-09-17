@@ -1,6 +1,7 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import SequenceDiagram from '../../../src/components/SequenceDiagram';
+import Admonition from '@theme/Admonition';
 
 # Captura de consentimiento
 
@@ -129,9 +130,9 @@ Usa la función `getStatus` del componente del SDK de Soyio para obtener el esta
 
 #### Opción 3: Usa la API de Soyio directamente
 
-:::important
-Esta modalidad es parte de nuestros planes Premium. Consulta por los planes disponibles completando [el siguiente formulario](https://soyio.typeform.com/formularioweb).
-:::
+<Admonition type="success" icon="⭐" title="Funcionalidad Premium">
+Este servicio es parte de nuestros planes Premium. Consulta por los planes completando [el siguiente formulario](https://soyio.typeform.com/formularioweb).
+</Admonition>
 
 Si no puedes utilizar el SDK de Soyio, utiliza el módulo de consentimiento a través de la API de Soyio. Esta forma es ideal cuando quieres implementar tu propia interfaz de consentimiento o integrar Soyio a sistemas que tienen sus propias interfaces. Revisa la [guía de integración sin SDK](./consent-api.mdx) para más información.
 
