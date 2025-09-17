@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Sidebar Navigation', () => {
   test('Verify sidebar navigation in Integration Guides', async ({ page }) => {
     await page.goto('http://localhost:3000/docs/integration-guide/intro');
-    await page.getByRole('link', { name: 'Conceptos Generales' }).click();
+    await page.getByRole('link', { name: 'Conceptos generales' }).click();
     await expect(page).toHaveURL(/\/docs\/integration-guide\/main\/general-concepts/);
   });
 
