@@ -4,7 +4,7 @@ test.describe('Sidebar Navigation', () => {
   test('Verify sidebar navigation in Integration Guides', async ({ page }) => {
     await page.goto('http://localhost:3000/docs/integration-guide/intro');
     await page.getByRole('link', { name: 'Conceptos generales' }).click();
-    await expect(page).toHaveURL(/\/docs\/integration-guide\/concepts\/general-concepts/);
+    await expect(page).toHaveURL(/\/docs\/integration-guide\/main\/general-concepts/);
   });
 
   test('Verify sidebar navigation in API Reference', async ({ page }) => {

@@ -9,7 +9,7 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: 'doc',
-      id: 'integration-guide/consent/concept',
+      id: 'integration-guide/consent/key-concepts',
       label: 'Conceptos clave',
     },
     {
@@ -25,17 +25,17 @@ const sidebar: SidebarsConfig = {
     {
       type: 'doc',
       id: 'integration-guide/consent/consent-templates',
-      label: 'Prepara una plantilla de solicitud',
+      label: 'Crea plantillas de consentimiento',
     },
     {
       type: 'doc',
-      id: 'integration-guide/consent/consent-status',
-      label: 'Consulta los consentimientos',
+      id: 'integration-guide/consent/consent-capture',
+      label: 'Captura de consentimientos',
     },
     {
       type: 'doc',
-      id: 'integration-guide/consent/consent-commit',
-      label: 'Registrar varios consentimientos',
+      id: 'integration-guide/consent/consent-query',
+      label: 'Consulta de consentimientos',
     },
     {
       type: 'doc',
@@ -44,18 +44,13 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: 'doc',
-      id: 'integration-guide/consent/customization',
-      label: 'Personaliza el estilo del widget',
-    },
-    {
-      type: 'doc',
       id: 'integration-guide/consent/consent-api',
-      label: 'Captura consentimientos vía API',
+      label: 'Integración sin SDK',
     },
     {
       type: 'doc',
-      id: 'integration-guide/consent/common-problems',
-      label: 'Solución de problemas comunes',
+      id: 'integration-guide/consent/customization',
+      label: 'Apariencia y Comportamiento',
     },
   ],
 };

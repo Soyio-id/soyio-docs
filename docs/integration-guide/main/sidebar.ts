@@ -10,7 +10,7 @@ const sidebar: SidebarsConfig = {
     {
       type: 'doc',
       id: 'integration-guide/main/general-concepts',
-      label: 'Conceptos Generales',
+      label: 'Conceptos generales',
     },
     {
       type: 'doc',

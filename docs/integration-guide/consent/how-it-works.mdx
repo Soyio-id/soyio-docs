@@ -1,392 +1,125 @@
 ---
-title: Cómo funciona el consentimiento
-description: Entiende las modalidades de consentimiento y el modelo de datos
+title: Cómo funciona
+description: Explicación técnica de cómo funciona el módulo de consentimiento
 ---
-
-import SequenceDiagram from '../../../src/components/SequenceDiagram';
 
 # Cómo funciona el consentimiento
 
-El módulo de consentimiento de Soyio te permite obtener y gestionar el consentimiento de tus usuarios de manera transparente y conforme a las regulaciones de protección de datos. Te explicamos cómo funciona internamente y cuáles son las opciones disponibles.
+## Funcionamiento general
+
+El módulo de consentimiento de Soyio te permite gestionar el consentimiento de tus usuarios de manera integral y auditable. El sistema funciona a través de varios componentes interconectados:
+
+### SDK para solicitar consentimientos
+Utilizas el **SDK de Soyio** (disponible para web y móvil) para solicitar consentimientos a partir de **plantillas versionadas**. Estas plantillas definen exactamente qué datos necesitas, para qué propósitos y bajo qué cláusulas legales.
+
+### Webhooks para notificaciones
+El sistema envía **webhooks** para informarte de todos los cambios en los consentimientos de tus usuarios. Esto te permite mantener tu sistema actualizado en tiempo real y reaccionar inmediatamente a las decisiones de tus usuarios.
+
+### API para consultar estado
+Antes de realizar cualquier tratamiento de datos, puedes consultar el **estado actual de los consentimientos** a través de nuestra API. Esto te asegura que siempre tengas la información más actualizada sobre qué puedes hacer con los datos de cada usuario.
+
+### SDK para portal de revocación
+El **componente de revocación** del SDK te permite habilitar un portal donde tus usuarios pueden gestionar y revocar sus consentimientos de manera autónoma, cumpliendo con los requisitos de transparencia y control.
 
 ## Modelo de datos de consentimiento
 
-El sistema de consentimiento de Soyio se basa en un modelo de datos robusto que garantiza la trazabilidad y el cumplimiento normativo.
-
-### Componentes principales
+Soyio almacena el estado actualizado de todos los consentimientos en un **Agreement** por usuario. Este agreement es la fuente de verdad que determina qué permisos tiene cada usuario para el uso de sus datos.
 
 <img src="/img/image.png" alt="modelo de datos de consentimiento" width="100%"/>
-<br/>
-<br/>
 
-#### 1. Consent Template (Plantilla de Consentimiento)
-La **plantilla de consentimiento** define la estructura y contenido de la solicitud de consentimiento:
+### Componentes principales del modelo
 
-```json
-{
-  "id": "constpl_wAspvmEr4ACDZaPUtfwjsA",
-  "name": "Marketing Básico",
-  "title": "Quiero recibir ofertas y promociones",
-  "text": "Acepto el tratamiento de mis datos para fines de marketing...",
-  "duration": "P2Y",
-  "data_requirements": [
-    {
-      "key": "email",
-      "data_category": "contact.email",
-      "data_uses": ["marketing.communications"]
-    }
-  ]
-}
-```
+- **Consent Templates**: Plantillas versionadas que definen qué datos se usan y para qué propósitos. Estas plantillas se utilizan para solicitar el consentimiento de los usuarios.
+- **Consent Actions**: Registros individuales de cada acción de consentimiento del usuario
+- **Agreements**: Estado consolidado de todos los consentimientos de un usuario
+- **Evidence**: Evidencia de la acción realizada por el usuario o la empresa asociada a cada modificación del agreement.
+- **Identity**: Identificador único del usuario verificado en el sistema Soyio
+- **Entity**: Identificador único del usuario en el sistema Soyio (no verificado previamente)
+- **Company**: Identificador único de la empresa en el sistema Soyio
 
-#### 2. Action Token (Token de Acción)
-Cada interacción del usuario genera un **token de acción** que representa una decisión específica:
+### Componentes secundarios del modelo
 
-```json
-{
-  "action_token": "act_abc123...",
-  "template_id": "constpl_wAspvmEr4ACDZaPUtfwjsA",
-  "user_identity_id": "user_xyz789...",
-  "timestamp": "2024-03-20T15:30:00Z"
-}
-```
+- **Consent Commits**: Registro que agrupa una serie de acciones de consentimiento (Consent Actions) realizadas por un usuario.
+- **Compliance Status**: Estructura que permite consultar el estado de cumplimiento de un usuario, analizando el agreement y comprobando si cumple o no con los requerimientos de un template de consentimiento específico.
 
-#### 3. Consent Action (Acción de Consentimiento)
-El **registro de consentimiento** que se crea cuando el usuario otorga su consentimiento:
+## Características de los consentimientos
 
-```json
-{
-  "id": "consent_abc123...",
-  "action_token": "act_abc123...",
-  "template_id": "constpl_wAspvmEr4ACDZaPUtfwjsA",
-  "user_identity_id": "user_xyz789...",
-  "status": "granted",
-  "granted_at": "2024-03-20T15:30:00Z",
-  "evidence": "evid_xyz789..."
-}
-```
+Los consentimientos en Soyio tienen características específicas que debes conocer:
 
-#### 4. Agreement (Acuerdo)
-El **acuerdo** es la fuente de verdad que determina qué permisos tiene un usuario:
+- **Vigencia**: Cada consentimiento tiene una duración específica que puedes configurar en la plantilla. Una vez expirado, necesitarás solicitar un nuevo consentimiento o detener el tratamiento de los datos.
+- **Usos específicos**: Los consentimientos se otorgan para propósitos específicos (marketing, análisis, uso esencial, etc.).
+- **Datos específicos**: Cada consentimiento autoriza el uso de categorías específicas de datos (información de contacto, datos de navegación, etc.).
+- **Alcance por producto o filial**: Cada consentimiento tiene un alcance específico que puede abarcar a toda la empresa, un producto o una filial.
+- **Cláusulas legales**: Cada plantilla incluye las cláusulas legales correspondientes que el usuario debe aceptar.
 
-```json
-{
-  "id": "agr_abc123...",
-  "user_identity_id": "user_xyz789...",
-  "permissions": [
-    {
-      "data_category": "contact.email",
-      "data_uses": ["marketing.communications"],
-      "status": "granted",
-      "granted_at": "2024-03-20T15:30:00Z",
-      "expires_at": "2026-03-20T15:30:00Z"
-    }
-  ],
-  "last_updated": "2024-03-20T15:30:00Z"
-}
-```
+:::tip[Importante]
+Para conocer más detalles sobre cómo solicitar consentimientos y configurar tus plantillas, revisa la sección de [plantillas de consentimiento](./consent-templates).
+:::
 
-#### 5. Evidence (Evidencia)
-La **evidencia** es una prueba criptográfica inmutable del consentimiento otorgado:
+## Canales de captura
 
-```json
-{
-  "id": "evid_xyz789...",
-  "consent_action_id": "consent_abc123...",
-  "template_version": 1,
-  "cryptographic_proof": "sha256:abc123...",
-  "timestamp": "2024-03-20T15:30:00Z",
-  "metadata": {
-    "ip_address": "192.168.1.1",
-    "user_agent": "Mozilla/5.0...",
-    "template_snapshot": {...}
-  }
-}
-```
+Puedes solicitar consentimientos a través de diferentes canales:
 
-## Flujo de datos
+- **SDK Web**: Para aplicaciones web, integra el componente de consentimiento directamente en tu frontend.
+- **SDK Mobile**: Para aplicaciones móviles (React Native), utiliza el SDK específico para móviles.
+- **API directa**: Para casos donde no es posible usar el SDK (aplicaciones de escritorio, integraciones legacy, etc.), puedes capturar consentimientos directamente usando nuestra API REST.
 
-### 1. Creación de la plantilla
-```mermaid
-graph LR
-    A[Desarrollador] --> B[Crear Consent Template]
-    B --> C[Configurar data_requirements]
-    C --> D[Definir modalidad]
-    D --> E[Template listo]
-```
+## Datos que almacena Soyio
 
-### 2. Captura del consentimiento
-```mermaid
-graph LR
-    A[Usuario] --> B[Ve widget de consentimiento]
-    B --> C[Interactúa con checkboxes]
-    C --> D[Genera action_token]
-    D --> E[Envía al backend]
-    E --> F[Crea ConsentAction]
-    F --> G[Actualiza Agreement]
-    G --> H[Genera Evidence]
-```
+Para gestionar los consentimientos de manera efectiva, Soyio almacena información específica:
 
-### 3. Verificación de permisos
-```mermaid
-graph LR
-    A[Aplicación] --> B[Consulta Agreement]
-    B --> C[Verifica permisos]
-    C --> D[Procesa datos según permisos]
-```
+### Identificador de la entidad
+**Es crucial** que tu empresa guarde el `entity_id` que genera Soyio para cada usuario. Este identificador te permite:
 
-## Integración con SDK Web
+- Asociar todos los consentimientos del usuario a un mismo agreement
+- Consultar el estado completo de consentimientos de cada usuario
+- Mantener la trazabilidad a lo largo del tiempo
+- Gestionar correctamente las revocaciones y actualizaciones
 
-### Flujo básico
+### Información del consentimiento
+- **Timestamp**: Cuándo se otorgó el consentimiento
+- **Método**: Cómo se capturó (op-in click, voice, signing, etc.)
+- **Canal**: Donde se capturó (web, móvil, chatbot, etc.)
+- **Plantilla**: Qué versión de plantilla se utilizó
+- **Propósitos**: Para qué usos se autorizó
+- **Datos**: Qué categorías de datos se autorizaron
+- **User Reference**: Identificador del usuario en tu sistema
+- **Entity ID**: Identificador de la entidad en Soyio
 
-<SequenceDiagram
-  actors={[
-    { id: 'frontend', label: 'Tu Frontend' },
-    { id: 'backend', label: 'Tu Backend' },
-    { id: 'consent_widget', label: 'Consent Widget' },
-    { id: 'soyio_api', label: 'Soyio API' },
-  ]}
-  actions={[
-    {
-      from: 'frontend',
-      to: 'consent_widget',
-      label: 'Inicializar con template_id'
-    },
-    {
-      from: 'consent_widget',
-      to: 'frontend',
-      label: 'Usuario interactúa con checkboxes'
-    },
-    {
-      from: 'consent_widget',
-      to: 'frontend',
-      label: 'Genera action_token',
-      isDashed: true
-    },
-    {
-      from: 'frontend',
-      to: 'backend',
-      label: 'Envía action_token'
-    },
-    {
-      from: 'backend',
-      to: 'soyio_api',
-      label: 'Crea ConsentAction'
-    },
-    {
-      from: 'soyio_api',
-      to: 'backend',
-      label: 'Retorna ConsentAction creado'
-    },
-    {
-      from: 'backend',
-      to: 'soyio_api',
-      label: 'Consulta Agreement actualizado',
-      isDashed: true
-    },
-    {
-      from: 'soyio_api',
-      to: 'backend',
-      label: 'Retorna permisos actualizados',
-      isDashed: true
-    }
-  ]}
-/>
+### Minimización de datos
+Soyio minimiza la cantidad de datos que almacena para cada consentimiento, por lo que almacena categorías de datos y usos de datos, pero no los datos específicos. El registro del consentimiento se vincula a los usuarios a través del identificador de entidad.
 
-### Flujo con Consent Commit
+:::info[Importante]
+Para acceder a algunas funcionalidades de reportería como las requeridas por la CMF para el Registro de Deuda Consolidada, es necesario vincular el rut del usuario a la entidad.
+:::
 
-<SequenceDiagram
-  actors={[
-    { id: 'frontend', label: 'Tu Frontend' },
-    { id: 'backend', label: 'Tu Backend' },
-    { id: 'soyio_api', label: 'Soyio API' },
-  ]}
-  actions={[
-    {
-      from: 'frontend',
-      to: 'frontend',
-      label: 'Usuario interactúa con múltiples checkboxes'
-    },
-    {
-      from: 'frontend',
-      to: 'frontend',
-      label: 'Recopila múltiples action_tokens'
-    },
-    {
-      from: 'frontend',
-      to: 'backend',
-      label: 'Envía array de action_tokens'
-    },
-    {
-      from: 'backend',
-      to: 'soyio_api',
-      label: 'Crea Consent Commit con action_tokens'
-    },
-    {
-      from: 'soyio_api',
-      to: 'backend',
-      label: 'Retorna ConsentCommit y ConsentActions'
-    },
-    {
-      from: 'backend',
-      to: 'frontend',
-      label: 'Confirma registro de consentimientos'
-    }
-  ]}
-/>
+## Flujo de trabajo recomendado
 
-## Integración vía API
+1. **Configura** tus plantillas de consentimiento con los usos de datos necesarios
+2. **Integra** el SDK en tus aplicaciones web o móviles
+3. **Captura** el consentimiento cuando sea necesario
+4. **Consulta** el estado antes de procesar datos
+5. **Mantén** actualizado el `entity_id` de cada usuario en tu sistema
+6. **Reacciona** a los webhooks para cambios en tiempo real
+7. **Proporciona** un portal de gestión de consentimientos para tus usuarios
 
-### Flujo directo
+## Consideraciones importantes
 
-<SequenceDiagram
-  actors={[
-    { id: 'frontend', label: 'Tu Frontend' },
-    { id: 'backend', label: 'Tu Backend' },
-    { id: 'soyio_api', label: 'Soyio API' },
-  ]}
-  actions={[
-    {
-      from: 'frontend',
-      to: 'backend',
-      label: 'Usuario otorga consentimiento'
-    },
-    {
-      from: 'backend',
-      to: 'soyio_api',
-      label: 'Crea ConsentAction directamente'
-    },
-    {
-      from: 'soyio_api',
-      to: 'backend',
-      label: 'Retorna ConsentAction creado'
-    },
-    {
-      from: 'backend',
-      to: 'soyio_api',
-      label: 'Consulta Agreement actualizado',
-      isDashed: true
-    },
-    {
-      from: 'soyio_api',
-      to: 'backend',
-      label: 'Retorna permisos actualizados',
-      isDashed: true
-    }
-  ]}
-/>
+### Seguridad
+- Todos los datos se transmiten por canales cifrados
+- Los webhooks incluyen firma digital de Soyio
+- Los tokens tienen expiración automática de 5 minutos
 
-## Estados del consentimiento
+### Cumplimiento normativo
+- Soyio cumple con la Ley 21.719 y la GDPR, así como otras normativas aplicables.
+- Trazabilidad completa de consentimientos
+- Evidencia inmutable de las modificaciones de consentimientos
 
-### Estados principales
+### Escalabilidad
+- Soporta múltiples canales simultáneamente
+- Maneja grandes volúmenes de consentimientos
+- Integración flexible con diferentes sistemas
 
-| Estado | Descripción | Cuándo ocurre |
-|--------|-------------|---------------|
-| `granted` | Consentimiento otorgado | Usuario acepta explícitamente |
-| `denied` | Consentimiento denegado | Usuario rechaza explícitamente |
-| `expired` | Consentimiento expirado | Ha pasado el período de vigencia |
-| `revoked` | Consentimiento revocado | Usuario revoca su consentimiento |
-
-### Transiciones de estado
-
-```mermaid
-stateDiagram-v2
-    [*] --> granted: Usuario acepta
-    [*] --> denied: Usuario rechaza
-    granted --> expired: Pasa tiempo de vigencia
-    granted --> revoked: Usuario revoca
-    denied --> granted: Usuario acepta posteriormente
-    expired --> granted: Usuario acepta nuevamente
-    revoked --> granted: Usuario acepta nuevamente
-```
-
-## Verificación de permisos
-
-### Consulta del Agreement
-
-```javascript
-// Verificar si el usuario puede usar email para marketing
-const checkPermission = async (userId, dataCategory, dataUse) => {
-  const response = await fetch(`https://api.soyio.com/v1/agreements/${userId}`, {
-    headers: {
-      'Authorization': `Bearer ${process.env.SOYIO_API_KEY}`
-    }
-  });
-  
-  const agreement = await response.json();
-  
-  return agreement.permissions.some(permission => 
-    permission.data_category === dataCategory &&
-    permission.data_uses.includes(dataUse) &&
-    permission.status === 'granted' &&
-    new Date(permission.expires_at) > new Date()
-  );
-};
-```
-
-### Consulta del Compliance Status
-
-```javascript
-// Verificar estado de cumplimiento
-const checkCompliance = async (userId) => {
-  const response = await fetch(`https://api.soyio.com/v1/compliance_status/${userId}`, {
-    headers: {
-      'Authorization': `Bearer ${process.env.SOYIO_API_KEY}`
-    }
-  });
-  
-  const compliance = await response.json();
-  return compliance;
-};
-```
-
-## Trazabilidad y auditoría
-
-### Evidencia inmutable
-
-Cada consentimiento genera evidencia criptográfica que incluye:
-
-- **Hash del template** utilizado
-- **Timestamp** exacto del consentimiento
-- **Metadatos** del usuario (IP, User-Agent)
-- **Snapshot** del template en ese momento
-- **Prueba criptográfica** del proceso completo
-
-### Versionado de templates
-
-- Cada modificación del template crea una nueva versión
-- La evidencia siempre referencia la versión exacta utilizada
-- Historial completo de cambios auditable
-- Trazabilidad completa del ciclo de vida
-
-## Mejores prácticas
-
-### ✅ Recomendaciones
-
-- **Consulta siempre el Agreement** antes de procesar datos
-- **Maneja todos los estados** del consentimiento
-- **Implementa revocación** fácil para el usuario
-- **Usa evidencia** para auditorías y cumplimiento
-- **Mantén templates actualizados** según cambios normativos
-
-### ❌ Evitar
-
-- **Asumir permisos** sin verificar el Agreement
-- **Ignorar estados** de consentimiento expirado/revocado
-- **Procesar datos** sin consentimiento válido
-- **Modificar templates** sin considerar versionado
-- **Omitir evidencia** en procesos críticos
-
-## Próximos pasos
-
-- [Quickstart](./quickstart) - Implementa consentimiento paso a paso
-- [Plantillas de consentimiento](./consent-templates) - Configura tus templates
-- [Consent Commit](./consent-commit) - Agrupa múltiples consentimientos
-- [Taxonomía](../main/taxonomy) - Entiende las categorías de datos
-
-## Recursos adicionales
-
-- [API Reference: Consent Actions](../../api/resources/create-consent-action.api.mdx)
-- [API Reference: Agreements](../../api/resources/schemas/agreement)
-- [API Reference: Evidence](../../api/resources/schemas/evidence)
-- [Esquema: ConsentAction](../../api/resources/schemas/consentaction)
+:::tip[Trust Center]
+Revisa nuestro [Trust Center](https://trust.soyio.com) para obtener más información sobre cómo Soyio cumple con las normativas de protección de datos y otros requisitos de cumplimiento.
+:::
