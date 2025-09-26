@@ -14,7 +14,7 @@ Para completar la captura de consentimiento, comenzarás creando una plantilla d
 Antes de comenzar, asegúrate de tener:
 
 - **Cuenta Empresa en Soyio** con credenciales de API
-- **SDK** instalado en tu proyecto
+- **SDK** instalado en tu proyecto. Sigue las instrucciones de instalación en la [documentación del SDK web de Soyio](https://github.com/Soyio-id/soy-io-widget).
 
 :::warning[Importante]
 Si aún no tienes tu cuenta Empresa en Soyio, contacta a nuestro equipo para obtener una cuenta de prueba completando [el siguiente formulario](https://soyio.typeform.com/formularioweb).
@@ -46,15 +46,10 @@ Para adaptar esta plantilla a tus necesidades, profundiza en la [creación de pl
     // Cláusula de consentimiento que aparecerá en el checkbox
     "text": "Autorizo el uso de mis datos personales para el envío de comunicaciones comerciales relacionadas con productos y servicios de la empresa.",
 
-    // Titulo que aparecerá en el checkbox
-    "title": "Comunicaciones Comerciales",
-    // Cláusula de consentimiento que aparecerá en el checkbox
-    "text": "Autorizo el uso de mis datos personales para el envío de comunicaciones comerciales relacionadas con productos y servicios de la empresa.",
-
     "data_requirements": [
         {
         "data_category": "name",
-        "data_uses": [  // Usos para los cuales se solicita el consentimiento
+        "data_uses": [
             "marketing",
             "marketing.communications.email",
             "marketing.advertising"

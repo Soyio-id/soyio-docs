@@ -9,18 +9,13 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: 'doc',
-      id: 'integration-guide/consent/key-concepts',
-      label: 'Conceptos clave',
+      id: 'integration-guide/consent/quickstart',
+      label: 'Inicio rápido',
     },
     {
       type: 'doc',
       id: 'integration-guide/consent/how-it-works',
       label: 'Cómo funciona',
-    },
-    {
-      type: 'doc',
-      id: 'integration-guide/consent/quickstart',
-      label: 'Inicio rápido',
     },
     {
       type: 'doc',
