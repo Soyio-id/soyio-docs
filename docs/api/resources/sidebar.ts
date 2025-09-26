@@ -153,7 +153,7 @@ const sidebar: SidebarsConfig = {
         {
           type: "doc",
           id: "api/resources/update-consent-template",
-          label: "El modelo de template de consentimiento es versionado, por lo que cada cambio realizado no modifica la versión actual, sino que genera una nueva versión, dejando trazable el historial de cambios.",
+          label: "Actualizar un template de consentimiento",
           className: "api-method patch",
         },
         {
@@ -476,6 +476,12 @@ const sidebar: SidebarsConfig = {
         },
         {
           type: "doc",
+          id: "api/resources/update-data-subject-request",
+          label: "Actualizar el estado de un data subject request",
+          className: "api-method put",
+        },
+        {
+          type: "doc",
           id: "api/resources/get-data-subject-request-by-identifier",
           label: "Obtener un data subject request por identificador humanizado",
           className: "api-method get",
@@ -485,12 +491,6 @@ const sidebar: SidebarsConfig = {
           id: "api/resources/send-data-subject-request-recovery-email",
           label: "Enviar correo de recuperación del identificador de la solicitud",
           className: "api-method post",
-        },
-        {
-          type: "doc",
-          id: "api/resources/update-data-subject-request",
-          label: "Actualizar el estado de un data subject request",
-          className: "api-method put",
         },
         {
           type: "doc",
@@ -518,14 +518,8 @@ const sidebar: SidebarsConfig = {
         },
         {
           type: "doc",
-          id: "api/resources/data-subject-request-completed",
-          label: "Completed",
-          className: "api-method event",
-        },
-        {
-          type: "doc",
-          id: "api/resources/data-subject-request-rejected",
-          label: "Rejected",
+          id: "api/resources/data-subject-request-resolved",
+          label: "Resolved",
           className: "api-method event",
         },
         {
@@ -672,6 +666,12 @@ const sidebar: SidebarsConfig = {
           label: "Updated",
           className: "api-method event",
         },
+        {
+          type: "doc",
+          id: "api/resources/agreement-data-permissions-expired",
+          label: "Data Permissions Expired",
+          className: "api-method event",
+        },
       ],
     },
     {
@@ -814,6 +814,24 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: "category",
+      label: "Company",
+      items: [
+        {
+          type: "doc",
+          id: "api/resources/get-company-info",
+          label: "Obtener información de la empresa",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/update-company-info",
+          label: "Actualizar información de la empresa",
+          className: "api-method patch",
+        },
+      ],
+    },
+    {
+      type: "category",
       label: "Branches",
       items: [
         {
@@ -899,6 +917,24 @@ const sidebar: SidebarsConfig = {
           id: "api/resources/delete-api-key",
           label: "Revocar una API key",
           className: "api-method delete",
+        },
+        {
+          type: "doc",
+          id: "api/resources/api-key-created",
+          label: "Created",
+          className: "api-method event",
+        },
+        {
+          type: "doc",
+          id: "api/resources/api-key-updated",
+          label: "Updated",
+          className: "api-method event",
+        },
+        {
+          type: "doc",
+          id: "api/resources/api-key-destroyed",
+          label: "Destroyed",
+          className: "api-method event",
         },
       ],
     },

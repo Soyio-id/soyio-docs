@@ -1,0 +1,71 @@
+---
+id: update-company-info
+title: "Actualizar información de la empresa"
+description: "Actualiza la información básica de la empresa."
+sidebar_label: "Actualizar información de la empresa"
+hide_title: true
+hide_table_of_contents: true
+api: eJy9V81uGzcQfhViTgmwkSzVaVKdqhgG6rYJjNhpEBiGMCLHEuNdckNyZSvCPkyfobdc/WLFkFqt1koUJynqg7xazv9883G0goAzD6MLOLJFiWYJlxko8tLpMmhrYARjGSrM9UcUOQptrqwrUOq7f4yY3v3ttUShiI+oKB157EEGtiSHrH6iYARVqTDQ2v6JubKQgaMPFfnwwqoljFbxq3akYBRcRRlIawKZwEdYlrmW0Vr/veeIVuDlnArkp7AsCUZgp+9JBsigdOw7aPJ8arCgLSkfnDYzuJ/gK1tMHXWzgAzoFosyZ72XWryqaIHieH1YZ+B1oEnl8q+bf/P6T6EoF14HbcUNTTu25yGUftTvF9qwi6aI0hZQxz+ulS+t8Sml4cEB/+u6ONnuSicPgU33FAq61cF6LMgEgh8o8h7nX4REtzFafb1u5/aajNCKTNBXWqKyTtx9MlraXettPaUtJoMXw5fDd8/HfnZezsbFu2en86OrGXft+wHRu4+ILSzkNMN8IhPAJ9/kI6o+zJM46417Zz12GLR5gIe7TwW5WKy2iKlLwelpFdDpzzSqdT0Y/nT49Odnz5/88oOA3+ekxX8X+pxkiBLbxJEG4vBgsDsDx85Zx56wYlQ3uf4IzltWukhnTVAZ+ICh8jH1gDpn1uwiPNnaLVWbOVZhngLlcCbE8UOb9z7VN4aVrdMfScXepGhaHW0CzchtKx0eDOpNuHutvyUhbZUrYWwQW1GSWNrKCekowglz3xOnOaEnIeckr0WYk1BWVkwwMSmBQTQNVlb6nrdLbXtabbjtcDjc08oF5lr9P32M5fff08cU5Df38K+NmtioPaiPw2G9CbeVROdwCRnoQIXf9VxvT1Tr+jh5Tr3wJCunwxJGF1xhPbkmfr6sLzMoKMwtX+YlBjlnPscwhxH0G9bT6V735BbEgV2sIJLFZsA9GjW1txsI9LHU/cVghz3OyC20Sv0vXUVT9OLRWvkx1Nl9u1iW32jTqkomHnyUvrDUY+A0mxKcMZYSADaFaEtd6j9ouePk2H+oqMBdChIFKY0mkKgMivHpibimJcdRWie1NfFqNoJyMSdU5BJdeuFtrqUOlSLPnJnuFRivJz/2jxvOvpMiQ4j9huXEk/eMyMCX6H8Uu4jGxO9vz1nOk2/WDZZXqDop2a+mJM5IzMiQQ1Fxfy2Lk1Gl1SaIfkxEk+93UhFLETSZVEpVuXbnGTwVvEMF++Bi1Rkwd7xuV9HjZsia1XF39du+CPcub+zsysbSr8fujFHK/d8pP2OCb8yIU6njnX2imrIqElF1TYEoIwVSEYkcPNc80K8ttWbAI5gsD3oHvQN+VVofCjRbqW32etfd6u/vwZ1QVy0Lf88PgzUKA92GfpmjNhzaeqlIjHIBHUa5zGBufeD3q9UUPb1xeV3z6w8VuUhPGSx4k5lyjS8u66zpL1NQHFw4SiE/OU/cv8C8SrNw7xJhckkaYympDHtlt0nxdHx+9BtkMF3/nCmsYiWHN3z74A2MIP4qYvVIKvHdCnI0swpnLJuMMib5xu1O7HWc2PUDp9UcmeVWiPexnjLhT87rsyqrVeKDut7Ip6Mvaqxr20hzAy/ruv4X64YBOw==
+sidebar_class_name: "patch api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Actualizar información de la empresa"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"patch"}
+  path={"/company_info"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Actualiza la información básica de la empresa.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"required":true,"content":{"application/json":{"schema":{"type":"object","properties":{"name":{"type":"string","description":"Nombre de la empresa","example":"Mi Nueva Empresa"},"site_url":{"type":"string","description":"URL del sitio web","example":"https://minuevaempresa.com"}}}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Información de la empresa actualizada exitosamente","content":{"application/json":{"schema":{"type":"object","description":"Información básica de la empresa.","properties":{"id":{"type":"string","description":"Token identificador único de la empresa.","example":"com_1B2M2Y8AsgTpgAmY7PhCfg"},"name":{"type":"string","description":"Nombre de la empresa.","example":"Mi Empresa"},"legal_company_name":{"type":"string","description":"Nombre legal de la empresa.","example":"Mi Empresa S.A.S."},"tin":{"type":"string","description":"Número de identificación tributaria de la empresa.","example":"12345678-9"},"site_url":{"type":"string","description":"URL del sitio web de la empresa.","example":"https://miempresa.com"}},"title":"CompanyInfo"}}}},"401":{"description":"Error de autenticación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"authentication_error"},"title":{"type":"string","example":"Unauthorized"},"status":{"type":"integer","example":401},"detail":{"type":"string","example":"We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"}}}}}},"422":{"description":"Error de validación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","errors"],"properties":{"type":{"type":"string","example":"validation_error"},"title":{"type":"string","example":"Validation error"},"status":{"type":"integer","example":422},"errors":{"type":"array","items":{"type":"string"}}},"title":"ValidationError"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

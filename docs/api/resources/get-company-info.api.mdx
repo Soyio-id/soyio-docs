@@ -1,0 +1,63 @@
+---
+id: get-company-info
+title: "Obtener información de la empresa"
+description: "Retorna la información básica de la empresa actual."
+sidebar_label: "Obtener información de la empresa"
+hide_title: true
+hide_table_of_contents: true
+api: eJytVttuGzcQ/RVinhJgq4vrNImeqgZGobZpjchGEBiCQJEjidEuSZOzjlVhP6bf0Le8+seC4e7qYqW20/ZF2l1y5szlzCE3QHIRYXAFb1zhpV3DJAONUQXjyTgLA3iH5IKVIpfC2LkLhVTm7m8rZnd/RaOk0MhLWPiAUQqpqJR5BzJwHoNkHyMNA1ggNQgjO3eQQcDonY0YYbCBk16P/w6BR/toByiQgXKW0BJbSe9zoxJU92Nk0w1EtcRC8hOtPcIA3OwjKoL7yY0ezYhT8YGTIVMHa/Se30jB2MWR3wu3QiuMRktmbpTULoi7z9Yod+wdb2Xhc3amXDHt/3Ty9uTDq2FcXPjFsPjw8nz5Zr6AKgMrC3wc+XdXzAI+hPLWiLOmjlUGOS5kPlV1b6bfhJFMn4Ykxp1hZ9xhQDL2CQh3nwsMqVi7ItZdomBmJclgvtKoHXT/5PvTFz+8fPXda8aMhnBahvxx4Mt3vwmNuYiGjBOfcPYQyJLIx0G3W5h2WbkCqpQkpR37nK8qXjnt9Y+pfhaCC4wkS2Z1m+t/4XnA69IE1Dzbaa0NKoNIksqYUidpch75Q4bXvo5LtctclrSsA+Vwpsjxwy7vh0wvLRu7YP5EnXpTR7OzMZZwgWHf6LTXr7bhPuj9PQrlylwL60jsRYli7cogVMBEJ5nHjjjPUUYUaolqJWiJQjtVFmgpJSUkibbB2qnYiW5tXMfo1MjUy4iqDIbWMLji9pjpCvl5Uk0yKJCWrlE+lhBJSxhAtx00U6tgxHCDISYHiZ9bTkVp9czdblG70pvuTf+IsGMMN0bX7PGhxJmM4llj/Byq7L5f6f03+nS6VPXoPatfeNdz4CTbAoyZhjV3tmXYdkl68yuuj0DO4nWJhTxmvShQG2kJRWmlGJ6PxArXHId3QRlnpZYCrcBcLFFqDPWERhFdbpShUmPkMa2lDIYN2VJPIQNWH6gNmX2MS+tpxBiZyMS6/T/FLpIz8cv7C94XMbYHGe/XUh+k5B5NSYxRLNBikKLk/jrejlZ7ZyyJbkrEYOwepCLWggzaupS6DLvTtP9CFMaW5J5crIrf5y5Vp5G3MROJW3RUIW4b62iikjJJyUe6zVyjSKaNwEmVBA6LNN4QuSyEP+4GLgOektpzv9Pr9PiTd5EKmbrVhP/HjLhAh/eU+zeHgzg3O4H91xedhiqEt9T1uTSWg2sOm3rsr+Bg7CcZLF0k/r7ZzGTEy5BXFX++LjEkBcnghk+4GVf5alJlbRNYJ9J0wVAp9KwsNzIva6reOx4OVOjnswvIkmwfsnuV2N08sPd2ya73fN/nRR0C/7LAfNVks6lnp6q2++ulf7RoUmx3cx0nVVV9AcdTuzA=
+sidebar_class_name: "get api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Obtener información de la empresa"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/company_info"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Retorna la información básica de la empresa actual.
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Información de la empresa","content":{"application/json":{"schema":{"type":"object","description":"Información básica de la empresa.","properties":{"id":{"type":"string","description":"Token identificador único de la empresa.","example":"com_1B2M2Y8AsgTpgAmY7PhCfg"},"name":{"type":"string","description":"Nombre de la empresa.","example":"Mi Empresa"},"legal_company_name":{"type":"string","description":"Nombre legal de la empresa.","example":"Mi Empresa S.A.S."},"tin":{"type":"string","description":"Número de identificación tributaria de la empresa.","example":"12345678-9"},"site_url":{"type":"string","description":"URL del sitio web de la empresa.","example":"https://miempresa.com"}},"title":"CompanyInfo"}}}},"401":{"description":"Error de autenticación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"authentication_error"},"title":{"type":"string","example":"Unauthorized"},"status":{"type":"integer","example":401},"detail":{"type":"string","example":"We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      
