@@ -21,7 +21,7 @@ Cuando un usuario interactúa con una solicitud de consentimiento generada desde
 
 <img src="/img/granular-consent-example.webp" alt="Consent Embed example" width="100%"/>
 
-## Configura la apariencia
+## Apariencia
 
 Personaliza el componente de captura de consentimiento para adaptarlo a tu interfaz mediante variables de CSS declaradas en el objeto `appearance` del SDK.
 
@@ -53,7 +53,7 @@ Asegúrate de mantener los elementos de accesibilidad como el contraste adecuado
 </Tabs>
 
 
-## Configura los estilos de íconos
+## Estilos de íconos
 
 Personaliza el estilo de los íconos que se muestran en el componente de consentimiento desde la [configuración](../../api/resources/schemas/configuration) de tu compañía en Soyio. Hay tres opciones disponibles:
 
@@ -67,7 +67,7 @@ Personaliza el estilo de los íconos que se muestran en el componente de consent
 Esta configuración se aplica a nivel de compañía y afecta todos los componentes de consentimiento de tu cuenta.
 :::
 
-## Configura el comportamiento
+## Comportamiento
 
 Personaliza el comportamiento del módulo de consentimiento desde la [configuración](../../api/resources/schemas/configuration) de tu compañía en Soyio a través de las siguientes opciones.
 
@@ -95,15 +95,11 @@ Cuando `label_display` está configurado como `mandatory_only`, puedes usar la o
 La configuración de etiquetas de obligatoriedad se aplica a nivel de compañía y afecta todos los componentes de consentimiento de tu cuenta.
 :::
 
-### Configura el comportamiento cuando el usuario ya ha consentido
+### Comportamiento de consentimientos opcionales
 
-Usa las opciones `optionalReconsentBehavior` y `mandatoryReconsentBehavior` para configurar el comportamiento dependiendo si el consentimiento es opcional o obligatorio.
+Usa la opción `optionalReconsentBehavior` para configurar el comportamiento del componente cuando el consentimiento es opcional y el usuario ya ha otorgado consentimiento previamente usando la misma plantilla de consentimiento.
 
-Esto ocurre cuando inicializas el componente de captura de consentimiento con un id de entidad (`entityId`) que ya otorgó consentimiento usando la plantilla de consentimiento que estás usando.
-
-#### Comportamiento de consentimientos opcionales
-
-Configura `optionalReconsentBehavior` con una de las siguientes opciones para indicar el comportamiento cuando el consentimiento es opcional:
+Las siguientes opciones son posibles:
 
 - **`notice`** (recomendado): Muestra un mensaje informando al usuario que ya otorgó ese consentimiento
 - **`askAgain`**: Muestra la solicitud de consentimiento como si no hubiera sido otorgado previamente
@@ -121,16 +117,18 @@ const consentOptions = {
 Recomendamos usar `notice` para que el usuario sepa qué consentimientos ya otorgó.
 :::
 
-#### Comportamiento de consentimientos obligatorios
+:::info[Información]
+La configuración de comportamiento cuando ya se ha otorgado consentimiento se aplica a nivel de componente por lo que lo debes configurar para cada componente de captura de consentimiento que desees personalizar.
+:::
 
-Configura `mandatoryReconsentBehavior` con una de las siguientes opciones para indicar el comportamiento cuando el consentimiento es obligatorio:
+### Comportamiento de consentimientos obligatorios
+
+Usa la opción `mandatoryReconsentBehavior` para configurar el comportamiento del componente cuando el consentimiento es obligatorio y el usuario ya ha otorgado consentimiento previamente usando la misma plantilla de consentimiento.
+
+Las siguientes opciones son posibles:
 
 - **`notice`** (recomendado): Muestra un mensaje informando al usuario que ya otorgó ese consentimiento
 - **`askAgain`**: Muestra la solicitud de consentimiento como si no hubiera sido otorgado previamente
-
-:::tip[Pro Tip]
-No se puede ocultar un consentimiento obligatorio. Siempre se recomienda usar `notice` para que el usuario sepa qué consentimientos ya otorgó.
-:::
 
 ```javascript title="Configuración para consentimientos obligatorios"
 const consentOptions = {
@@ -140,13 +138,17 @@ const consentOptions = {
 };
 ```
 
+:::tip[Pro Tip]
+No se puede ocultar un consentimiento obligatorio. Siempre se recomienda usar `notice` para que el usuario sepa qué consentimientos ya otorgó.
+:::
+
 :::info[Información]
 La configuración de comportamiento cuando ya se ha otorgado consentimiento se aplica a nivel de componente por lo que lo debes configurar para cada componente de captura de consentimiento que desees personalizar.
 :::
 
 ### Incluye un link al portal de gestión de consentimientos
 
-Incluye un link al portal de gestión de consentimientos en cada solicitud de consentimiento configurando una url pública para el Privacy Center. Puedes hacerlo usando la opción `privacy_center.public_url` en la [configuración](../../api/resources/schemas/configuration) de tu compañía en Soyio.
+Incluye un link al portal de gestión de consentimientos en cada solicitud de consentimiento configurando una url pública para el Privacy Center. Puedes hacerlo usando la opción `privacy_center.public_url` en la [configuración de tu compañía](../main/company-configuration) en Soyio.
 
 :::info[Información]
 La configuración de link al portal de gestión de consentimientos se aplica a nivel de compañía y afecta todos los componentes de consentimiento de tu cuenta.

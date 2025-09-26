@@ -81,7 +81,7 @@ Puedes obtener el token de acción de tres maneras:
 2. Usa el SDK y usa la función `getStatus` del componente
 3. Usa la API de Soyio directamente para crear el token de acción
 
-#### Opción 1: Usa el SDK y escucha el evento del componente
+### Opción 1: Usa el SDK y escucha el evento del componente
 
 Despliega el componente de captura de consentimiento usando el SDK de Soyio y una plantilla de consentimiento.
 
@@ -107,7 +107,7 @@ Usa este método para casos donde necesitas registrar el consentimiento en el mo
     </TabItem>
 </Tabs>
 
-#### Opción 2: Usa el SDK y usa la función `getStatus` del componente
+### Opción 2: Usa el SDK y usa la función `getStatus` del componente
 
 Usa la función `getStatus` del componente del SDK de Soyio para obtener el estado del checkbox. Este método es útil para casos donde necesitas registrar el consentimiento en el momento de persistir los datos del usuario. Por ejemplo, cuando el usuario hace submit de un formulario de registro.
 
@@ -128,10 +128,10 @@ Usa la función `getStatus` del componente del SDK de Soyio para obtener el esta
     </TabItem>
 </Tabs>
 
-#### Opción 3: Usa la API de Soyio directamente
+### Opción 3: Usa la API de Soyio directamente
 
-<Admonition type="success" icon="⭐" title="Funcionalidad Premium">
-Este servicio es parte de nuestros planes Premium. Consulta por los planes completando [el siguiente formulario](https://soyio.typeform.com/formularioweb).
+<Admonition type="success" icon="⭐" title="Disponible como add-on">
+Esta funcionalidad está disponible como add-on en ciertos planes. Consulta por los planes completando [el siguiente formulario](https://soyio.typeform.com/formularioweb).
 </Admonition>
 
 Si no puedes utilizar el SDK de Soyio, utiliza el módulo de consentimiento a través de la API de Soyio. Esta forma es ideal cuando quieres implementar tu propia interfaz de consentimiento o integrar Soyio a sistemas que tienen sus propias interfaces. Revisa la [guía de integración sin SDK](./consent-api.mdx) para más información.
@@ -145,7 +145,7 @@ Puedes hacer el registro de la acción de consentimiento de dos maneras:
 1. Crea una acción de consentimiento (`ConsentAction`)
 2. Crea un commit de varios consentimientos (`ConsentCommit`)
 
-#### Opción 1: Crea una acción de consentimiento (`ConsentAction`)
+### Opción 1: Crea una acción de consentimiento (`ConsentAction`)
 
 Crea una acción de consentimiento (`ConsentAction`) mediante el [endpoint de creación de acción de consentimiento](../../api/resources/create-consent-action.api.mdx).
 
@@ -163,7 +163,7 @@ Proporciona el `action_token` que obtuviste en el paso anterior. Tanto el `entit
 }
 ```
 
-#### Opción 2: Crea un commit de varios consentimientos (`ConsentCommit`)
+### Opción 2: Crea un commit de varios consentimientos (`ConsentCommit`)
 
 Crea un commit de varios consentimientos (`ConsentCommit`) mediante el [endpoint de creación de commit de consentimientos](../../api/resources/create-consent-commit.api.mdx).
 
@@ -187,7 +187,7 @@ Proporciona los `action_tokens` que obtuviste en el paso anterior. Tanto el `ent
     ]
 }
 ```
-#### Flujo del Consent Commit
+### Flujo del Consent Commit
 
 <SequenceDiagram
   actors={[
