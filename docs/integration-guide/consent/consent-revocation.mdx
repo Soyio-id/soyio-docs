@@ -1,6 +1,6 @@
 ---
 title: Revocación de consentimientos
-description: Revoca el consentimiento de tus usuarios
+description: Permite a tus usuarios gestionar y revocar sus consentimientos de manera autónoma
 ---
 
 import Tabs from '@theme/Tabs';
@@ -8,3 +8,28 @@ import TabItem from '@theme/TabItem';
 import SequenceDiagram from '../../../src/components/SequenceDiagram';
 
 # Revocación de consentimientos
+
+:::info[Información]
+Por ahora, este servicio está disponible **sólo para el SDK Web**.
+:::
+
+Los usuarios tienen el derecho fundamental de revocar su consentimiento en cualquier momento. Soyio te proporciona las herramientas necesarias para cumplir con este requisito legal de manera transparente y auditable. Una vez revocado un consentimiento, debes suspender inmediatamente el tratamiento de los datos para las finalidades que se revocaron.
+
+## Portal de gestión de consentimientos
+
+El **SDK de Soyio** te permite crear un portal donde tus usuarios pueden:
+
+- Ver todos sus consentimientos de forma centralizada
+- Revocar consentimientos específicos de forma sencilla
+- Otorgar consentimientos específicos
+
+Otras características del portal de gestión de consentimientos son:
+
+- **Organización inteligente**: Los consentimientos se organizan por categorías de acuerdo al alcance configurado en la plantilla de consentimiento de manera automática para facilitar la navegación.
+- **Automatización**: Facilita la conexión programática con tus sistemas para que puedas reflejar los cambios en tus procesos internos de manera automática.
+
+## Integración del portal de gestión de consentimientos
+
+Usa el componente `PrivacyCenter` del SDK de Soyio para integrar el portal de gestión de consentimientos en tu aplicación.
+
+Revisa la [guía de integración del Privacy Center](/docs/integration-guide/privacy-center/introduction) para más información.

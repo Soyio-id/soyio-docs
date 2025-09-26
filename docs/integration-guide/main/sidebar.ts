@@ -4,13 +4,8 @@ const sidebar: SidebarsConfig = {
   introductionSidebar: [
     {
       type: 'doc',
-      id: 'integration-guide/main/overview',
-      label: 'Ecosistema Soyio',
-    },
-    {
-      type: 'doc',
       id: 'integration-guide/main/general-concepts',
-      label: 'Conceptos Generales',
+      label: 'Conceptos generales',
     },
     {
       type: 'doc',

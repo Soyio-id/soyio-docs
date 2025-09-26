@@ -1,50 +1,55 @@
----
-title: Inicio Rápido
-description: Guía rápida para implementar consentimiento con Soyio
----
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import SequenceDiagram from '../../../src/components/SequenceDiagram';
 
-# Inicio Rápido Consentimiento
+# Inicio rápido
 
-Esta guía te llevará paso a paso para solicitar consentimiento en tu aplicación usando una plantilla básica.
+## Comienza capturando consentimiento
+
+Esta guía te llevará paso a paso para abordar el primer paso del ciclo de vida del consentimiento: solicitar consentimiento.
+Para completar la captura de consentimiento, comenzarás creando una plantilla de consentimiento básica y luego integrarás el componente de consentimiento en tu aplicación web.
 
 ## Pre-requisitos
 
 Antes de comenzar, asegúrate de tener:
 
 - **Cuenta Empresa en Soyio** con credenciales de API
-- **SDK** instalado en tu proyecto
+- **SDK** instalado en tu proyecto. Sigue las instrucciones de instalación en la [documentación del SDK web de Soyio](https://github.com/Soyio-id/soy-io-widget).
 
 :::warning[Importante]
-Si aún no tienes tu cuenta Empresa en Soyio, contacta a nuestro equipo a [hola@soyio.id](mailto:hola@soyio.id) para consultar por los planes disponibles y obtener una cuenta de prueba.
+Si aún no tienes tu cuenta Empresa en Soyio, contacta a nuestro equipo para obtener una cuenta de prueba completando [el siguiente formulario](https://soyio.typeform.com/formularioweb).
 :::
 
 ## Paso a paso
 
 ### 1. Crea una plantilla de consentimiento básica
 
-Crea una plantilla de consentimiento que defina para qué datos y para qué usos solicitarás consentimiento.
+Crea una plantilla de consentimiento (`consent template`) que defina para qué datos y para qué usos solicitarás consentimiento. En este ejemplo, crearemos una plantilla de consentimiento para el envío de comunicaciones de marketing con una vigencia de 12 meses.
 
-Con esta guía, crearás una plantilla de consentimiento básica para solicitar el consentimiento para el envío de comunicaciones de marketing. Para adaptar esta plantilla a tus necesidades, profundiza en la creación de plantillas para conocer todas las opciones de configuración.
+Ejecuta un `POST` a la API de Soyio para crear la plantilla y guarda el `id` del `consent template` creado.
+
+:::tip
+Para adaptar esta plantilla a tus necesidades, profundiza en la [creación de plantillas](./consent-templates.mdx) y explora todas las opciones de configuración.
+:::
 
 ```json title="POST /api/v1/consent_templates"
 {
     // Nombre interno de la plantilla
     "name": "Template de consentimiento para Comunicaciones Comerciales",
+
     // Periodo durante el cual se pueden usar los datos para la finalidad de marketing
     "duration": "P12M",
+
     // Titulo que aparecerá en el checkbox
     "title": "Comunicaciones Comerciales",
+
     // Cláusula de consentimiento que aparecerá en el checkbox
     "text": "Autorizo el uso de mis datos personales para el envío de comunicaciones comerciales relacionadas con productos y servicios de la empresa.",
 
     "data_requirements": [
         {
         "data_category": "name",
-        "data_uses": [  // Usos para los cuales se solicita el consentimiento
+        "data_uses": [
             "marketing",
             "marketing.communications.email",
             "marketing.advertising"
@@ -64,7 +69,11 @@ Con esta guía, crearás una plantilla de consentimiento básica para solicitar 
 
 ### 2. Integra el componente de consentimiento
 
-Inicializa el componente de consentimiento en tu interfaz mediante el SDK de Soyio, utilizando el `id` del `consent_template` creado previamente. Estos empiezan con el prefijo `constpl_`.
+Inicializa el componente de consentimiento en tu interfaz usando el SDK de Soyio. Para ello, necesitas el `id` del `consent_template` creado previamente. Estos empiezan con el prefijo `constpl_`. Si no lo tienes, puedes consultar la lista de plantillas de consentimiento en la [API de Soyio](../../api/resources/index-consent-templates.api.mdx).
+
+:::tip
+Este módulo está diseñado para integrarse de manera nativa en tu interfaz y podrás personalizarlo con el look and feel de tu aplicación. Revisa la sección de [personalización](./customization.mdx) para más detalles.
+:::
 
 <Tabs>
     <TabItem value="web" label="SDK Web" default>
@@ -91,67 +100,61 @@ Inicializa el componente de consentimiento en tu interfaz mediante el SDK de Soy
     </TabItem>
 </Tabs>
 
-:::info
-Para más información sobre la configuración del componente, consulta la [documentación de la SDK web](https://www.npmjs.com/package/@soyio/soyio-widget#consent-request-box).
-:::
-
-:::tip
-Este módulo está diseñado para integrarse de manera nativa en tu interfaz y podrás personalizarlo con el look and feel de tu aplicación. Revisa la sección de [personalización](#personalización-opcional) para más detalles.
-:::
+Al completar este paso, el usuario podrá ver un checkbox de consentimiento con el texto y la información de la plantilla de consentimiento. Además se emitirá un evento `CONSENT_CHECKBOX_CHANGE` cuando el usuario haga click en el checkbox de consentimiento.
 
 ### 3. Obtén el token de acción
 
 Cuando el usuario haga click en el checkbox de consentimiento, se creará un token de acción. Este token está asociado a la evidencia del consentimiento y es necesario para crear el registro de consentimiento.
 
-Escucha el evento `CONSENT_CHECKBOX_CHANGE` del componente que contiene el token de acción. Este evento se dispara cuando el usuario hace click en el checkbox de consentimiento.
+Escucha el evento `CONSENT_CHECKBOX_CHANGE` que emite el componente, este evento contiene el token de acción.
 
-**Ejemplo:**
+<Tabs>
+    <TabItem value="web" label="SDK Web" default>
+        ```typescript title="Escucha el evento"
+        const consentBox = new ConsentBox(consentOptions);
+        consentBox.on('CONSENT_CHECKBOX_CHANGE', (data) => {
+            console.log(data);
+        });
+        ```
 
-```typescript
-const consentBox = new ConsentBox(consentOptions);
-consentBox.on('CONSENT_CHECKBOX_CHANGE', (data) => {
-    console.log(data);
-});
-```
+        ```typescript title="Respuesta"
+        {
+            eventName: 'CONSENT_CHECKBOX_CHANGE',
+            isSelected: boolean,
+            actionToken: string
+        }
+        ```
+    </TabItem>
+</Tabs>
 
-El objeto retornado es:
-
-```typescript
-{
-    eventName: 'CONSENT_CHECKBOX_CHANGE',
-    isSelected: boolean,
-    actionToken: string
-}
-```
-
-:::info
-Explora otras opciones para obtener el token de acción en la [documentación del SDK web](https://www.npmjs.com/package/@soyio/soyio-widget#consent-request-box).
+:::tip
+Explora otras formas de obtener el token de acción en la [guía de captura de consentimiento](./consent-capture.mdx).
 :::
 
 ### 4. Crea el registro de consentimiento
 
-Cuando tengas el action token, crea el registro de consentimiento mediante el [endpoint de creación de acción de consentimiento](../../api/resources/create-consent-action.api.mdx).
+Obtener el action token no es suficiente para registrar el consentimiento. Es necesario crear un registro de consentimiento. Puedes hacerlo inmediatamente después de obtener el action token o cuando el usuario complete un formulario o haga click en un botón. Lo importante es que lo hagas antes de comenzar a usar los datos que el usuario ha entregado.
+
+Crea el registro de consentimiento mediante el [endpoint de creación de acción de consentimiento](../../api/resources/create-consent-action.api.mdx) indicando el `action_token` obtenido en el paso anterior.
 
 Opcionalmente, agrega un id asociado al usuario usando el parámetro `user_reference`. De esta manera podrás asociar el consentimiento con un usuario específico de tu sistema.
 
-```json title="POST /api/v1/consent_actions"
+```typescript title="POST /api/v1/consent_actions"
 {
     "action_token": "<action_token>",
     "user_reference": "<identificador_usuario>" // Opcional
 }
 ```
 
-Una vez se haya creado el registro de consentimiento, se retornará la acción creada. En ella, habrá un `entity_id`, que representa el identificador único del usuario que otorgó el consentimiento en Soyio.
+Una vez se haya creado el registro de consentimiento, se retornará la acción creada. En ella, habrá un `entity_id`, que representa el identificador único del usuario que otorgó el consentimiento en Soyio. Te recomendamos guardar el `entity_id` en tu sistema y asociarlo al usuario para futuras referencias.
 
-:::info
-Explora otras opciones para registrar el consentimiento en la [documentación del SDK web](https://www.npmjs.com/package/@soyio/soyio-widget#consent-request-box).
+:::tip
+Explora otras formas de registrar el consentimiento en la [guía de captura de consentimiento](./consent-capture.mdx).
 :::
 
 ### 5. Consulta el consentimiento
 
-Verifica que el consentimiento sigue siendo válido antes de usar los datos.
-
-Para ello, consulta el [endpoint del estado de cumplimiento (`ComplianceStatus`)](../../api/resources/get-entity-agreement-compliance-statuses.api.mdx) indicando el id de la entidad específica y filtrando por el id del template que utilizaste.
+Consulta el [endpoint del estado de cumplimiento (`ComplianceStatus`)](../../api/resources/get-entity-agreement-compliance-statuses.api.mdx) indicando el `entity_id` y filtrando por el `consent_template_id` que utilizaste.
 
 Las respuestas de este endpoint pueden ser:
 
@@ -159,6 +162,7 @@ Las respuestas de este endpoint pueden ser:
 - `partially_compliant`: el usuario cumple parcialmente con algunos de los requerimientos del template.
 - `non_compliant`: el usuario no cumple con ninguno de los requerimientos del template.
 
+Te recomendamos consultar el estado de cumplimiento cada vez que necesites usar los datos que el usuario ha entregado.
 
 ```JSON title="GET /api/v1/entities/<entity_id>/agreement/compliance_statuses?consent_template_id=<consent_template_id>"
 {
@@ -173,12 +177,14 @@ Las respuestas de este endpoint pueden ser:
 }
 ```
 
-:::info
-Explora otras opciones para consultar el consentimiento en la [documentación del SDK web](https://www.npmjs.com/package/@soyio/soyio-widget#consent-request-box).
+:::tip
+Explora otras formas de consultar el estado de cumplimiento en la [guía de consulta de consentimiento](./consent-query.mdx).
 :::
 
 ## Próximos pasos
 
-- [Conceptos](./concept) - Profundiza en los fundamentos del consentimiento
-- [Implementación](./consent) - Guía completa de implementación
-- [Cómo Funciona](./how-it-works) - Explicación técnica del flujo
+- [Plantillas de consentimiento](./consent-templates.mdx) - Crea plantillas de consentimiento para tus aplicaciones
+- [Captura de consentimiento](./consent-capture.mdx) - Explora todas las formas de capturar el consentimiento de un usuario
+- [Consulta los consentimientos](./consent-query.mdx) - Consulta los consentimientos que has registrado
+- [Personalización](./customization.mdx) - Personaliza el componente de consentimiento
+- [Revocación](./consent-revocation.mdx) - Habilita un portal para que tus usuarios revoquen su consentimiento
