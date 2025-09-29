@@ -87,6 +87,10 @@ La respuesta incluirá el `action_token` que necesitarás para crear el registro
 }
 ```
 
+:::info[Información]
+Si quieres registrar una revocación de consentimiento sin SDK, usa el endpoint de creación de acción de consentimiento, pero con el `kind` seteado a `revoke`.
+:::
+
 ### 4. Crea el registro de consentimiento
 
 Una vez que el usuario haya otorgado su(s) consentimiento(s) y tengas el `action_token`, crea el registro de consentimiento mediante el [endpoint de creación de acción de consentimiento](../../api/resources/create-consent-action), incluyendo la información contextual del método de captura. Opcionalmente, puedes agregar el `user_reference` para asociar el consentimiento con un usuario específico de tu sistema.
