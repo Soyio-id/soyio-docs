@@ -1,6 +1,6 @@
 import type { SidebarsConfig } from '@docusaurus/plugin-content-docs';
 import consentSidebar from './consent/sidebar';
-import privacyCenterSidebar from './privacy-center/sidebar';
+import rightsManagementSidebar from './rights-management/sidebar';
 import introductionSidebar from './main/sidebar';
 import disclosureSidebar from './disclosure/sidebar';
 import signatureSidebar from './signature/sidebar';
@@ -27,8 +27,8 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: 'category',
-      label: 'Centro de privacidad',
-      items: privacyCenterSidebar,
+      label: 'Gestión de derechos',
+      items: rightsManagementSidebar,
       collapsed: true,
     },
     {
