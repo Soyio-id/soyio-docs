@@ -45,7 +45,7 @@ const sidebar: SidebarsConfig = {
     {
       type: 'doc',
       id: 'integration-guide/consent/customization',
-      label: 'Apariencia y Comportamiento',
+      label: 'Apariencia y comportamiento',
     },
   ],
 };

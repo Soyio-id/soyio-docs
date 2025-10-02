@@ -19,11 +19,11 @@ Cuando un usuario interactúa con una solicitud de consentimiento generada desde
 6. **Links a documentos legales**: Links a los documentos legales que se han referenciado en la cláusula legal.
 7. **Link al centro de privacidad de la empresa**: Donde el usuario puede encontrar más información sobre cómo puede revocar su consentimiento o ejercer sus derechos.
 
-<img src="/img/granular-consent-example.webp" alt="Consent Embed example" width="100%"/>
-
 ## Apariencia
 
 Personaliza el componente de captura de consentimiento para adaptarlo a tu interfaz mediante variables de CSS declaradas en el objeto `appearance` del SDK.
+
+<img src="/img/consentimiento-estilos.png" alt="Consent Embed example" width="100%"/>
 
 Asegúrate de mantener los elementos de accesibilidad como el contraste adecuado y el tamaño de fuente legible al personalizar el componente.
 
@@ -52,7 +52,6 @@ Asegúrate de mantener los elementos de accesibilidad como el contraste adecuado
     </TabItem>
 </Tabs>
 
-
 ## Estilos de íconos
 
 Personaliza el estilo de los íconos que se muestran en el componente de consentimiento desde la [configuración](../../api/resources/schemas/configuration) de tu compañía en Soyio. Hay tres opciones disponibles:
@@ -64,7 +63,7 @@ Personaliza el estilo de los íconos que se muestran en el componente de consent
 ![Estilos de íconos disponibles](/img/icon-styles-example.webp)
 
 :::info[Información]
-Esta configuración se aplica a nivel de compañía y afecta todos los componentes de consentimiento de tu cuenta.
+Esta configuración se aplica a nivel de compañía y afecta todos los componentes de consentimiento de tu cuenta, incluyendo el portal de revocación de consentimientos del Privacy Center.
 :::
 
 ## Comportamiento
@@ -92,7 +91,7 @@ Cuando `label_display` está configurado como `mandatory_only`, puedes usar la o
 - **`mandatory`**: Muestra "Obligatorio"
 
 :::info[Información]
-La configuración de etiquetas de obligatoriedad se aplica a nivel de compañía y afecta todos los componentes de consentimiento de tu cuenta.
+La configuración de etiquetas de obligatoriedad se aplica a nivel de compañía y afecta todos los componentes de consentimiento de tu cuenta, incluyendo el portal de revocación de consentimientos del Privacy Center.
 :::
 
 ### Comportamiento de consentimientos opcionales
