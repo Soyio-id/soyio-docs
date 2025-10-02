@@ -1,0 +1,48 @@
+import type { SidebarsConfig } from '@docusaurus/plugin-content-docs';
+
+const sidebar: SidebarsConfig = {
+  rightsManagementSidebar: [
+    {
+      type: 'doc',
+      id: 'integration-guide/rights-management/introduction',
+      label: 'Introducción',
+    },
+    {
+      type: 'doc',
+      id: 'integration-guide/rights-management/quickstart',
+      label: 'Inicio rápido',
+    },
+    {
+      type: 'doc',
+      id: 'integration-guide/rights-management/how-it-works',
+      label: 'Cómo funciona',
+    },
+    {
+      type: 'doc',
+      id: 'integration-guide/rights-management/requests-intake',
+      label: 'Recepción de solicitudes',
+    },
+    {
+      type: 'doc',
+      id: 'integration-guide/rights-management/requests-management',
+      label: 'Responde a las solicitudes',
+    },
+    {
+      type: 'doc',
+      id: 'integration-guide/rights-management/requests-validation',
+      label: 'Validación de la identidad',
+    },
+    {
+      type: 'doc',
+      id: 'integration-guide/rights-management/notifications',
+      label: 'Configura las notificaciones',
+    },
+    {
+      type: 'doc',
+      id: 'integration-guide/rights-management/customization',
+      label: 'Apariencia',
+    },
+  ],
+};
+
+export default sidebar.rightsManagementSidebar;

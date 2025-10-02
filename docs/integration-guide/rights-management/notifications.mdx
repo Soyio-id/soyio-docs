@@ -1,0 +1,54 @@
+import Admonition from '@theme/Admonition';
+
+# Configura las notificaciones
+
+El sistema envía notificaciones automáticas para mantener informados a todos los involucrados. Puedes configurar el comportamiento de estas notificaciones en el dashboard de administración o vía API.
+
+## Tipos de notificaciones al usuario
+
+### Notificaciones informativas
+
+#### Correo de recepción de solicitud
+
+Cuando se crea una solicitud de derechos, se enviará una **notificación informativa** al usuario por correo electrónico indicando que su solicitud ha sido creada y el código de la solicitud para que pueda consultar su estado.
+
+En el correo se le indicará que su solicitud se comenzará a procesar una vez que valide su identidad y se le proporcionará un link para que pueda hacerlo en caso de que no lo haya hecho.
+
+#### Correo de validación de identidad exitosa
+
+Cuando el usuario valida su identidad, se enviará una **notificación informativa** al usuario por correo electrónico indicando que su identidad ha sido validada y el código de la solicitud para que pueda consultar el estado de su solicitud.
+
+### Notificaciones funcionales
+
+#### Correo de recuperación de código de solicitud
+
+El usuario puede solicitar recuperar el código de su solicitud de derechos en el portal de consulta de estado de solicitudes. Si lo hace, se enviará una **notificación funcional** al usuario por correo electrónico con el código de la última solicitud enviada.
+
+## Deshabilitar el envío de notificaciones
+
+Desactiva el envío de correos electrónicos informativos o funcionales si deseas manejar el envío de estos correos electrónicos por tu cuenta.
+
+### Configuración en el dashboard
+
+Accede a la configuración de tu compañía en el dashboard de administración y deshabilita el envío de notificaciones en la sección de **Solicitudes de derechos** según tus necesidades.
+
+### Configuración vía API
+
+Usando el endpoint `PATCH /api/v1/config` puedes desactivar el envío de correos electrónicos informativos o funcionales. Define la opción `data_subject_request.disable_informative_emails` o `data_subject_request.disable_functional_emails` en el body de la petición.
+
+```json title="body"
+{
+  "data_subject_request": {
+    "disable_informative_emails": true,
+    "disable_functional_emails": true
+  }
+}
+```
+
+## Notificaciones al equipo interno
+
+Se pueden configurar envíos de notificaciones o recordatorios al equipo interno que esté encargado de responder a las solicitudes de derechos. Se pueden enviar cada vez que se cree una solicitud de derechos, cuando se asigne una solicitud a un usuario específico, cuando se cambie el estado de una solicitud de derechos o cuando esté por vencer un plazo legal.
+
+<Admonition type="success" icon="⭐" title="Disponible como add-on">
+Esta funcionalidad está disponible como add-on en ciertos planes. Consulta por los planes completando [el siguiente formulario](https://soyio.typeform.com/formularioweb).
+</Admonition>
