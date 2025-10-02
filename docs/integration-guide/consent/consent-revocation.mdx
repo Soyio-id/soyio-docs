@@ -72,7 +72,7 @@ Usa el componente Privacy Center del SDK de Soyio y configuralo en modo autentic
 
 El flujo de inicialización para el modo autenticado es el siguiente:
 
-1. El usuario autenticadoingresa a la sección de revocación de consentimientos y el frontend solicita el token de sesión al backend.
+1. El usuario autenticado ingresa a la sección de revocación de consentimientos y el frontend solicita el token de sesión al backend.
 2. El backend solicita el token de sesión a la API de Soyio y lo devuelve al frontend.
 3. El frontend inicializa el Privacy Center con el token de sesión.
 4. El Privacy Center se despliega mostrando los consentimientos del usuario.
@@ -174,7 +174,7 @@ Revisa la [guía de consulta de consentimiento](./consent-query.mdx) para obtene
 
 ### Eventos en el backend
 
-Soyio envía webhooks para notificsar cuando el usuario otorga o revoca un consentimiento en el portal de gestión de consentimientos. En este caso en particular se envían los eventos:
+Soyio envía webhooks para notificar cuando el usuario otorga o revoca un consentimiento en el portal de gestión de consentimientos. En este caso en particular se envían los eventos:
 -  `agreement.updated`: Se ha actualizado un [agreement](../../api/resources/schemas/agreement.schema.mdx).
 -  `consent_action.created`: Se ha creado una nueva acción de consentimiento que puede ser `revoked` o `granted`.
 
