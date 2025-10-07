@@ -1,85 +1,252 @@
 import TaxonomyVisualizer from '@site/src/components/TaxonomyVisualizer'
 
-# Taxonomía y manejo de datos
+# Taxonomías de Datos de Soyio
 
-La taxonomía de Soyio se basa en el modelo propuesto por [Fideslang](https://ethyca.github.io/fideslang/).
+## Introducción
 
-Tiene como objetivo **facilitar la categorización precisa y la comprensión del manejo de datos** mediante el uso de categorías y usos de datos estructurados jerárquicamente. Esto te permite tanto a ti como a tus usuarios **entender claramente las políticas de manejo de datos**.
+¿Necesitas organizar y etiquetar los datos de tus usuarios? Las taxonomías de Soyio te ayudan a hacerlo de forma clara y consistente.
 
-## Categorías de datos (`data_categories`)
+Con estas taxonomías, puedes etiquetar cualquier dato que proceses usando un vocabulario común. Esto te permite saber exactamente qué datos tienes, de quién son y para qué los usas. Perfecto para cumplir con regulaciones y responder a solicitudes de tus usuarios.
 
-Las categorías de datos son etiquetas que describen el tipo de datos que procesas. Por ejemplo, los datos de contacto del usuario pueden clasificarse de manera general como `user.contact` o con mayor precisión como `user.contact.email`.
+:::tip ¿Por qué usar taxonomías?
+Las taxonomías te ahorran tiempo y evitan errores. En lugar de inventar tus propias etiquetas, usas un sistema estandarizado que permite una clasificación coherente y fácil de entender.
+:::
 
-## Usos de datos (`data_uses`)
+Inspirado en [Fides](https://ethyca.github.io/fideslang/), nuestro sistema se basa en tres pilares fundamentales:
 
-Los usos de datos son etiquetas que describen cómo o para qué propósitos se utiliza un componente de datos dentro del sistema. Al igual que las categorías de datos, los usos también son jerárquicos, lo que permite describir el uso de los datos de manera general (por ejemplo, `essential`) o con mayor precisión usando subcategorías (por ejemplo, `essential.service.authentication`).
+- **Categorías de Datos (El "Qué")**: Qué tipo de datos procesas
+- **Sujetos de Datos (El "Quién")**: De quién son esos datos
+- **Usos de Datos (El "Porqué")**: Para qué los usas
 
-### Simbología
-Soyio utiliza una simbología que apunta a representar de manera visual los usos de datos. La lista de categorías principales del uso de datos es la siguiente:
+Cuando combinas estos tres elementos, obtienes una descripción completa de cualquier actividad de procesamiento de datos. Esto es clave para el cumplimiento normativo y la [gestión de consentimiento](../consent/introduction).
 
-#### Analitica
+## 1. Taxonomía de Categorías de Datos (El "Qué")
+
+Identifica y clasifica los tipos de datos que procesas en tu aplicación. Esta taxonomía te ayuda a organizar desde información básica del usuario hasta datos técnicos del sistema, usando una estructura jerárquica que va de lo general a lo específico.
+
+:::info ¿Cómo funciona la jerarquía?
+Puedes ser tan general como `user.contact` o tan específico como `user.contact.email`. Esto te da flexibilidad para adaptar el nivel de detalle según tus necesidades de cumplimiento y documentación.
+:::
+
+Las dos categorías principales son:
+
+- **`system`**: Datos técnicos y operativos de tu sistema
+- **`user`**: Información personal y de comportamiento de tus usuarios
+
+Aquí tienes los ejemplos más comunes que encontrarás en la mayoría de aplicaciones:
+
+### `system` - Datos del Sistema
+Datos únicos y bajo el control del sistema.
+
+- `system.authentication` - **Datos de Autenticación**: Datos para gestionar el acceso al sistema (ej. tokens de sesión).
+- `system.operations` - **Datos de Operaciones**: Datos utilizados para el funcionamiento del sistema (ej. logs de rendimiento).
+
+### `user` - Datos del Usuario
+Datos relacionados con el usuario del sistema, ya sean proporcionados directamente o derivados de su uso.
+
+- `user.account` - **Información de la Cuenta**: Datos de creación o registro de la cuenta.
+  - `user.account.username` - Nombre de Usuario de la Cuenta
+  - `user.account.settings` - Configuración de la Cuenta
+
+- `user.contact` - **Datos de Contacto**: Información para contactar a un usuario.
+  - `user.contact.email` - Correo Electrónico de Contacto del Usuario
+  - `user.contact.phone_number` - Número de Teléfono de Contacto del Usuario
+  - `user.contact.address` - Dirección de Contacto del Usuario
+    - `user.contact.address.street` - Calle
+    - `user.contact.address.city` - Ciudad
+    - `user.contact.address.postal_code` - Código Postal
+    - `user.contact.address.country` - País
+
+- `user.behavior` - **Comportamiento Observado**: Datos sobre el comportamiento del sujeto.
+  - `user.behavior.browsing_history` - Historial de Navegación
+  - `user.behavior.purchase_history` - Historial de Compras
+
+- `user.device` - **Datos del Dispositivo**: Datos relacionados con el dispositivo del usuario.
+  - `user.device.ip_address` - Dirección IP
+  - `user.device.cookie_id` - ID de Cookie
+
+- `user.financial` - **Datos Financieros**: Datos de pago e historial financiero.
+  - `user.financial.bank_account` - Información de la Cuenta Bancaria
+  - `user.financial.credit_card` - Información de la Tarjeta de Crédito
+
+- `user.government_id` - **Identificación Gubernamental**: Datos de identificación emitidos por el estado.
+  - `user.government_id.national_identification_number` - Número de Identificación Nacional
+  - `user.government_id.passport_number` - Número de Pasaporte
+
+- `user.health_and_medical` - **Datos de Salud y Médicos**: Información médica personal.
+
+- `user.demographic` - **Datos Demográficos**:
+  - `user.demographic.age_range` - Rango de Edad
+  - `user.demographic.gender` - Género
+  - `user.demographic.race_ethnicity` - Raza o Etnia
+
+## 2. Taxonomía de Sujetos de Datos (El "Quién")
+
+Identifica a quién pertenecen los datos que procesas en tu aplicación. Esta taxonomía te ayuda a categorizar a las personas cuyos datos manejas, desde clientes y empleados hasta visitantes anónimos.
+
+:::tip ¿Por qué es importante?
+Saber exactamente de quién son los datos es crucial para el cumplimiento normativo. Los usuarios tienen diferentes derechos según su relación contigo (cliente vs empleado vs visitante).
+:::
+
+A diferencia de las otras taxonomías, esta es más simple y directa. Los sujetos disponibles son:
+
+- `customer` - **Cliente**: Un individuo u organización que compra bienes o servicios.
+- `employee` - Empleado: Un individuo empleado por la organización.
+- `job_applicant` - **Solicitante de Empleo**: Un individuo que aplica a un puesto de trabajo.
+- `prospect` - **Cliente Potencial**: Un individuo u organización a quien se le están vendiendo bienes o servicios.
+- `visitor` - **Visitante**: Un individuo que visita una ubicación física.
+- `passenger` - Pasajero: Un individuo que viaja en un medio de transporte proporcionado.
+- `patient` - Paciente: Un individuo identificado para fines de atención médica.
+- `shareholder` - Accionista: Un individuo u organización que posee acciones de la organización.
+- `supplier_vendor` - Proveedor/Vendedor: Un individuo u organización que proporciona servicios o bienes.
+- `anonymous_user` - Usuario Anónimo: Un individuo que no es identificable para los sistemas.
+
+## 3. Taxonomía de Usos de Datos (El "Porqué")
+
+Define para qué usas los datos que recopilas en tu aplicación. Esta es la parte más importante para el cumplimiento normativo, ya que determina si necesitas consentimiento del usuario y qué tipo de procesamiento estás realizando.
+
+:::warning Importante para cumplimiento
+Algunos usos requieren consentimiento explícito (como marketing), mientras que otros son esenciales para tu servicio (como autenticación). Revisa las regulaciones aplicables en tu jurisdicción para asegurar el cumplimiento correcto.
+:::
+
+:::info[Simbología]
+Soyio utiliza una simbología visual para representar los usos de datos y facilitar su comprensión. Esta simbología es estándar y [puede personalizarse](../consent/customization#estilos-de-%C3%ADconos).
+:::
+
+La estructura jerárquica te permite ser tan general como `marketing` o tan específico como `marketing.advertising.first_party.targeted`. A continuación, las categorías principales:
+
+### `analytics` - Analítica
+
 <img src="/img/data_uses/analytics.svg" alt="Uso de datos: Analítica" width="60" />
 
-Proporciona análisis para actividades como informes de rendimiento del sistema y publicidad, generación de información y detección de fraude.
+Proporciona análisis para actividades como informes de rendimiento del sistema y publicidad, insights y detección de fraudes.
 
+- `analytics.reporting` - **Analítica para Informes**: Proporciona análisis para informes generales, como el rendimiento del sistema y la publicidad.
+  - `analytics.reporting.ad_performance` - **Analítica para Rendimiento Publicitario**: Informes sobre el rendimiento de la publicidad.
+  - `analytics.reporting.content_performance` - **Analítica para Rendimiento de Contenido**: Informes sobre el rendimiento del contenido.
+  - `analytics.reporting.campaign_insights` - **Analítica para Insights de Campañas**: Informes de insights de campañas relacionados con la publicidad y promoción.
+  - `analytics.reporting.system` - **Analítica para Actividad del Sistema**: Informes sobre la actividad del sistema.
+    - `analytics.reporting.system.performance` - **Analítica para Rendimiento del Sistema**: Informes sobre el rendimiento del sistema.
 
-#### Empleo
+### `collect` - Recopilar
+<img src="/img/data_uses/collect.svg" alt="Uso de datos: Recolección" width="60" />
+
+Recopila o almacena datos para usarlos con otro propósito que aún no ha sido definido expresamente.
+
+### `employment` - Empleo
 <img src="/img/data_uses/employment.svg" alt="Uso de datos: Empleo" width="60" />
 
-Procesa datos con fines de reclutamiento, empleo y actividades relacionadas con recursos humanos (RRHH).
+Procesa datos con fines de reclutamiento o empleo y actividades de recursos humanos (RRHH).
 
-#### Esencial
+- `employment.recruitment` - **Reclutamiento de Empleo**: Procesa datos de posibles empleados con el fin de reclutamiento.
+
+### `essential` - Esencial
 <img src="/img/data_uses/essential.svg" alt="Uso de datos: Esencial" width="60" />
 
 Opera el servicio o producto, incluyendo obligaciones legales, soporte y operaciones básicas del sistema.
 
-#### Finanzas
+- `essential.fraud_detection` - **Detección de Fraude Esencial**: Detecta posible fraude o mal uso del producto, servicio, aplicación o sistema.
+- `essential.legal_obligation` - **Obligación Legal Esencial**: Proporciona el servicio para cumplir con una obligación legal o de cumplimiento, como la gestión del consentimiento.
+- `essential.service` - **Esencial para el Servicio**: Proporciona el producto, servicio, aplicación o sistema esencial, sin el cual no sería posible.
+  - `essential.service.authentication` - **Autenticación Esencial del Servicio**: Autentica a los usuarios en el sistema.
+  - `essential.service.notifications` - **Notificaciones Esenciales del Servicio**: Envía notificaciones sobre el producto, servicio o sistema.
+    - `essential.service.notifications.email` - **Notificaciones Esenciales por Correo Electrónico**.
+    - `essential.service.notifications.sms` - **Notificaciones Esenciales por SMS**.
+    - `essential.service.notifications.phoneCall` - **Notificaciones por Teléfono**: Comunica notificaciones por teléfono.
+    - `essential.service.notifications.whatsapp` - **Notificaciones por WhatsApp**: Envía notificaciones por WhatsApp.
+  - `essential.service.operations` - **Esencial para Operaciones**: Esencial para asegurar el funcionamiento del sistema.
+    - `essential.service.operations.support` - **Esencial para Soporte de Operaciones**: Proporciona soporte para el producto o servicio.
+    - `essential.service.operations.improve` - **Esencial para la Mejora del Soporte**: Optimiza y mejora el soporte del producto.
+  - `essential.service.payment_processing` - **Esencial para Procesamiento de Pagos**: Procesa pagos para el producto o servicio.
+  - `essential.service.security` - **Esencial para Seguridad**: Proporciona seguridad para el producto o servicio.
+  - `essential.service.upgrades` - **Esencial para Actualizaciones del Servicio**: Proporciona información sobre opciones de actualización del sistema.
+
+### `finance` - Finanzas
 <img src="/img/data_uses/finance.svg" alt="Uso de datos: Finanzas" width="60" />
 
-Facilita actividades financieras y contables como auditorías y reportes fiscales.
+Permite actividades financieras y contables como auditorías e informes fiscales.
 
-#### Funcional
+### `functional` - Funcional
 <img src="/img/data_uses/functional.svg" alt="Uso de datos: Funcional" width="60" />
 
-Se utiliza para fines específicos, necesarios y legítimos.
+Utilizado para propósitos específicos, necesarios y legítimos.
 
-#### Marketing
+- `functional.storage` - **Almacenamiento de Datos Local**: Almacena o accede a información desde el dispositivo según sea necesario.
+- `functional.service` - **Servicio**: Funciones relacionadas con los servicios o productos proporcionados.
+  - `functional.service.improve` - **Mejorar el Servicio**: Mejora el producto, servicio, aplicación o sistema específico.
+
+### `marketing` - Marketing
 <img src="/img/data_uses/marketing.svg" alt="Uso de datos: Marketing" width="60" />
 
-Permite actividades de marketing, promoción, publicidad y ventas del producto, servicio, aplicación o sistema.
+Permite actividades de marketing, promoción, publicidad y ventas.
 
-#### Operaciones
+- `marketing.advertising` - **Publicidad, Marketing o Promoción**: Anuncia o promueve el producto, servicio o aplicación.
+  - `marketing.advertising.first_party` - **Publicidad de Primera Parte**: Sirve anuncios basados en datos de primera parte.
+    - `marketing.advertising.first_party.contextual` - **Publicidad Contextual de Primera Parte**: Sirve anuncios basados en el contenido que el usuario está viendo actualmente.
+    - `marketing.advertising.first_party.targeted` - **Publicidad Personalizada de Primera Parte**: Dirige anuncios basados en datos recopilados sobre el usuario.
+  - `marketing.advertising.frequency_capping` - **Límite de Frecuencia**: Restringe el número de veces que un anuncio se muestra a un individuo.
+  - `marketing.advertising.negative_targeting` - **Segmentación Negativa**: Asegura que una audiencia o grupo no sea objetivo de la publicidad.
+  - `marketing.advertising.profiling` - **Perfilado para Publicidad**: Crea perfiles de audiencia para publicidad dirigida.
+  - `marketing.advertising.serving` - **Esencial para Servir Anuncios**: Esencial para la entrega de publicidad y contenido.
+  - `marketing.advertising.third_party` - **Publicidad de Terceros**: Sirve anuncios basados en datos del sistema o unidos a datos de terceros.
+    - `marketing.advertising.third_party.targeted` - **Publicidad Dirigida de Terceros**: Dirige anuncios basados en datos del sistema o unidos a datos de terceros.
+- `marketing.communications` - **Comunicaciones de Marketing**: Utiliza canales combinados para enviar mensajes y marketing a un cliente o prospecto.
+  - `marketing.communications.email` - **Comunicaciones de Marketing por Correo Electrónico**.
+  - `marketing.communications.sms` - **Comunicaciones de Marketing por SMS**.
+  - `marketing.communications.phoneCall` - **Llamadas Telefónicas de Marketing**: Realiza llamadas telefónicas.
+  - `marketing.communications.whatsapp` - **Comunicaciones de Marketing por WhatsApp**: Envía mensajes por WhatsApp.
+
+### `operations` - Operaciones
 <img src="/img/data_uses/operations.svg" alt="Uso de datos: Operaciones" width="60" />
 
-Soporta procesos empresariales necesarios para el funcionamiento de la organización.
+Apoya los procesos de negocio necesarios para el funcionamiento de la organización.
 
-#### Personalización
+### `personalize` - Personalizar
 <img src="/img/data_uses/personalize.svg" alt="Uso de datos: Personalización" width="60" />
 
 Personaliza el producto, servicio, aplicación o sistema.
 
-#### Ventas
+- `personalize.content` - **Personalización de Contenido**: Personaliza el contenido del producto.
+  - `personalize.content.limited` - **Personalización de Contenido Limitada**: Usa datos limitados para servir contenido.
+  - `personalize.content.profiling` - **Perfilado para Personalización**: Crea perfiles con el propósito de servir contenido.
+  - `personalize.content.profiled` - **Personalización de Contenido Dirigida**: Usa perfiles con el propósito de servir contenido.
+  - `personalize.system` - **Personalización del Sistema**: Personaliza el sistema.
+
+### `sales` - Ventas
 <img src="/img/data_uses/sales.svg" alt="Uso de datos: Ventas" width="60" />
 
-Soporta actividades de ventas como comunicaciones y alcance.
+Apoya actividades de ventas como comunicaciones y divulgación.
 
-#### Recolección
-<img src="/img/data_uses/collect.svg" alt="Uso de datos: Recolección" width="60" />
-
-Recolecta datos de fuentes externas para su uso en el sistema.
-#### Compartir con terceros
+### `third_party_sharing` - Compartir con Terceros
 <img src="/img/data_uses/third_party_sharing.svg" alt="Uso de datos: Compartir con terceros" width="60" />
 
 Transfiere datos a terceros fuera del alcance del sistema o servicio.
 
-#### Entrenar sistema IA
+- `third_party_sharing.legal_obligation` - **Compartir por Obligación Legal**: Comparte datos para obligaciones legales, incluyendo contratos, leyes o regulaciones aplicables.
+- `thirdPartySharing.intraCompany` - **Compartir Dentro de la Empresa**: Comparte datos con terceros, pero siempre dentro de la misma empresa (sucursales, filiales).
+
+### `train_ai_system` - Entrenar un Sistema de IA
 <img src="/img/data_uses/train_ai_system.svg" alt="Uso de datos: Entrenar sistema IA" width="60" />
 
-Entrena un sistema de IA o modelo de datos para aprendizaje automático.
+Entrena un sistema de IA o un modelo de aprendizaje automático.
 
-## Visualizador de taxonomía
+## Cómo se Conectan las Taxonomías: Un Ejemplo Práctico
 
-A continuación, te mostramos una visualización de los valores permitidos para `data_uses` y `data_categories`.
+El verdadero poder del sistema de taxonomía de Soyio radica en la combinación de los tres pilares para describir una actividad de procesamiento de datos completa.
+
+**Escenario:** Una empresa de servicios financieros realiza una llamada a un cliente para notificarle sobre una actividad sospechosa en su cuenta.
+
+Esta actividad se describiría de la siguiente manera:
+
+- **Sujeto de Datos (Quién):** `customer` (Cliente)
+- **Categoría de Datos (Qué):** `user.contact.phone_number` (Número de Teléfono de Contacto del Usuario)
+- **Uso de Datos (Porqué):** `essential.service.notifications.phoneCall` (Notificaciones por Teléfono)
+
+Este etiquetado simple pero potente permite a la organización saber instantáneamente que está utilizando los números de teléfono de sus clientes para un fin esencial de seguridad. Esta claridad es fundamental para generar registros de actividades de procesamiento, responder a solicitudes de acceso o eliminación de datos y demostrar el cumplimiento normativo.
+
+## Explorador Interactivo de Taxonomías
+
+Explora todas las categorías y usos de datos disponibles de forma visual e interactiva. Este explorador te permite navegar por la estructura jerárquica completa y ver cómo se relacionan los diferentes elementos.
 
 :::note
 Haz hover sobre los nodos del visualizador para ver los valores permitidos.
