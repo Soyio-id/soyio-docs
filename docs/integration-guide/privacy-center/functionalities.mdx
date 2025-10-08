@@ -1,0 +1,95 @@
+# Funcionalidades y modos
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+## Funcionalidades
+
+El Privacy Center te permite habilitar las siguientes funcionalidades de forma conjunta o de forma individual según tus necesidades.
+
+<img src="/img/ejemplo-privacy-center-dsr.png" alt="Gestión de ejercicio de derechos"/>
+
+### Gestión de consentimientos
+
+Habilita un portal para que tus usuarios gestionen sus consentimientos de manera sencilla y transparente.
+Este es un requerimiento legal para cumplir con la normativa de protección de datos personales, ya que los usuarios tienen el derecho de revocar su consentimiento en cualquier momento.
+
+Profundiza en la [guía de gestión de consentimientos](../consent/consent-revocation.mdx).
+
+### Recepción de solicitudes de ejercicio de derechos
+
+Habilita un formulario para que tus usuarios ingresen solicitudes de ejercicio de derechos de acuerdo a la normativa de protección de datos personales.
+
+Profundiza en la [guía de gestión de ejercicio de derechos](../rights-management/requests-intake.mdx).
+
+### Estado de las solicitudes de ejercicio de derechos
+
+Habilita un portal para que tus usuarios revisen el estado de sus solicitudes de ejercicio de derechos. Esto no es un requerimiento legal, pero es una buena práctica para que tus usuarios puedan conocer el estado de sus solicitudes y diminuir las consultas a tu equipo de soporte.
+
+## Modos de integración
+
+### Modo público
+
+Usa este modo para que cualquier usuario que visita tu sitio web pueda acceder al portal.
+
+Este modo es recomendado para:
+- Gestionar consentimientos asociados a la gestión de cookies o cuando no impactan de forma directa en procesos de negocio complejos. En este caso el componente utiliza el local storage para almacenar información suficiente para saber qué consentimientos otorgó el usuario durante la sesión y permitirle revocarlos en cualquier momento.
+- Recibir solicitudes de ejercicio de derechos usando la verificación de identidad de Soyio incorporada en el componente.
+
+Para integrar el Privacy Center en modo público, especifica tu `companyId` en el componente.
+
+<Tabs>
+  <TabItem value="web" label="SDK Web" default>
+```jsx title="page.js"
+// Modo público
+import { PrivacyCenter } from "@soyio/soyio-widget";
+
+const privacyCenterOptions = {
+  companyId: "<company_id>"
+  enabledFeatures: ['ConsentManagement'], // Opcional, si no especificas features habilitas todas las funcionalidades
+  onEvent: (event) => console.log('Event:', event)
+};
+
+const privacyCenter = new PrivacyCenter(privacyCenterOptions);
+privacyCenter.mount("#privacy-center-container");
+```
+
+```html title="page.html"
+<div id="privacy-center-container"></div>
+```
+  </TabItem>
+</Tabs>
+
+### Modo autenticado
+
+Usa este modo para que solo usuarios identificados y correctamente autenticados puedan acceder al portal.
+
+Este modo es recomendado para:
+- Gestionar consentimientos asociados a procesos de negocio complejos o cuando se requiere autenticación del usuario para permitirles revocar sus consentimientos.
+- Recibir solicitudes de ejercicio de derechos usando otro mecanismo propio de autenticación o de verificación de identidad.
+
+Para integrar el Privacy Center en modo autenticado, especifica el `sessionToken` en el componente.
+
+Obtén el `sessionToken` usando el [endpoint `POST /api/v1/privacy_center/session_token` de la API de Soyio](../../api/resources/get-privacy-center-session-token.api.mdx).
+
+<Tabs>
+  <TabItem value="web" label="SDK Web" default>
+```jsx title="page.js"
+// Modo autenticado
+import { PrivacyCenter } from "@soyio/soyio-widget";
+
+const privacyCenterOptions = {
+  sessionToken: "<session_token>"
+  enabledFeatures: ['ConsentManagement'], // Opcional, si no especificas features habilitas todas las funcionalidades
+  onEvent: (event) => console.log('Event:', event)
+};
+
+const privacyCenter = new PrivacyCenter(privacyCenterOptions);
+privacyCenter.mount("#privacy-center-container");
+```
+
+```html title="page.html"
+<div id="privacy-center-container"></div>
+```
+  </TabItem>
+</Tabs>
