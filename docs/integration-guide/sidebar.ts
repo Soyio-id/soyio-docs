@@ -1,11 +1,11 @@
 import type { SidebarsConfig } from '@docusaurus/plugin-content-docs';
 import consentSidebar from './consent/sidebar';
 import rightsManagementSidebar from './rights-management/sidebar';
+import privacyCenterSidebar from './privacy-center/sidebar';
 import introductionSidebar from './main/sidebar';
 import disclosureSidebar from './disclosure/sidebar';
 import signatureSidebar from './signature/sidebar';
 import authenticationSidebar from './authentication/sidebar';
-import ratSidebar from './rat/sidebar';
 
 const sidebar: SidebarsConfig = {
   integrationSidebar: [
@@ -33,8 +33,8 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: 'category',
-      label: 'RAT AI',
-      items: ratSidebar,
+      label: 'Privacy Center',
+      items: privacyCenterSidebar,
       collapsed: true,
     },
     {

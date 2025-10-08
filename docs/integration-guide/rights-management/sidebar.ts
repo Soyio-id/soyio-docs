@@ -37,11 +37,6 @@ const sidebar: SidebarsConfig = {
       id: 'integration-guide/rights-management/notifications',
       label: 'Configura las notificaciones',
     },
-    {
-      type: 'doc',
-      id: 'integration-guide/rights-management/customization',
-      label: 'Apariencia',
-    },
   ],
 };
 
