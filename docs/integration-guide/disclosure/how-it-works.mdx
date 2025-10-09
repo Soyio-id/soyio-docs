@@ -23,15 +23,11 @@ El proceso de disclosure se compone de los siguientes pasos:
 4. Se crea una **identidad verificada** en el sistema
 5. Se genera un **Agreement** con evidencia del proceso
 
-:::info
-Este módulo **incluye la verificación de identidad** de tu usuario. Puedes leer más detalles de cómo Soyio realiza la verificación en la [documentación sobre verificación de identidad](./verification.md).
-:::
-
 #### Descripción detallada
 
 Este flujo comienza con la entrega de [consentimiento](../consent/introduction). El usuario verá los datos que estás solicitando y deberá confirmar su consentimiento para continuar.
 
-Luego, [se verificará la identidad](./verification.md) del usuario. Al completar este paso, se creará una identidad con los datos verificados, que podrás consultar utilizando la API de Soyio.
+Luego, se verificará la identidad del usuario. Al completar este paso, se creará una identidad con los datos verificados, que podrás consultar utilizando la API de Soyio.
 
 Al finalizar el proceso de entrega de datos y consentimiento, se creará un [acuerdo (*Agreement*)](../main/general-concepts#agreement) y la evidencia asociada, que podrás utilizar para demostrar que el usuario otorgó su consentimiento libre, específico, inequívoco e informado.
 
@@ -129,14 +125,14 @@ El flujo que integrarás es el siguiente:
 
 ### Pre requisitos
 
-1. Tener el [SDK](../quickstart.mdx) instalado en tu sitio o aplicación.
+1. Tener el [SDK](../intro) instalado en tu sitio o aplicación.
 2. Tener un [Webhook](../../api/webhooks.md) configurado en tu cuenta.
 
 ## Paso a paso
 
 ### 1. Crea una plantilla de disclosure
 
-Para comenzar, deberás definir qué datos necesitas solicitar a tus usuarios de forma obligatoria para que puedan continuar con el proceso en tu empresa. Para ello, identifica la [finalidad](../consent/concepts) que tendrá cada uno de estos datos y por cuánto tiempo los almacenarás.
+Para comenzar, deberás definir qué datos necesitas solicitar a tus usuarios de forma obligatoria para que puedan continuar con el proceso en tu empresa. Para ello, identifica la [finalidad](../main/taxonomy) que tendrá cada uno de estos datos y por cuánto tiempo los almacenarás.
 
 Luego, envía la información vía Slack y te haremos llegar el id de la plantilla (`disclosure_template_id`) que utilizarás en el próximo paso.
 
@@ -437,7 +433,7 @@ A medida que el usuario avanza en el flujo, estos eventos se enviarán mediante 
 
 El evento que determina que un disclosure **se ha terminado con éxito** es el de `disclosure_request.granted`. En el encontraras el `identity_id` de la identidad creada, con el cual podrás consultar la información de la identidad en el [endpoint de identidades](../../api/resources/get-identity.api.mdx).
 
-Adicionalmente, puedes escuchar eventos del proceso de [verificación de identidad](./verification.md), que se lleva a cabo durante el disclosure, para obtener detalles adicionales sobre la validación y autenticación.
+Adicionalmente, puedes escuchar eventos del proceso de verificación de identidad, que se lleva a cabo durante el disclosure, para obtener detalles adicionales sobre la validación y autenticación.
 
 Estos eventos pueden incluir información sobre errores en el proceso de verificación, como fallos en la autenticación o problemas al validar datos de identidad.
 
@@ -627,7 +623,7 @@ Si el usuario desea crear una cuenta con Soyio, independientemente de esta confi
 :::
 
 :::tip[Recomendación]
-Se recomienda mantener esta configuración en `false` (valor por defecto) para permitir el registro de llaves de acceso. Las llaves de acceso facilitan significativamente la autenticación del usuario en otros módulos de Soyio, como el [módulo de autenticación](authentication.mdx) y la [firma de documentos](signature.mdx), proporcionando una experiencia más fluida y segura.
+Se recomienda mantener esta configuración en `false` (valor por defecto) para permitir el registro de llaves de acceso. Las llaves de acceso facilitan significativamente la autenticación del usuario en otros módulos de Soyio, como el [módulo de autenticación](../authentication/introduction) y la [firma de documentos](../signature/introduction), proporcionando una experiencia más fluida y segura.
 :::
 
 ## Prueba tu integración

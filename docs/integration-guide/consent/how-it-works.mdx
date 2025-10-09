@@ -21,7 +21,7 @@ El sistema envía **webhooks** para informarte de todos los cambios en los conse
 
 ## Modelo de datos de consentimiento
 
-Soyio almacena el estado actualizado de todos los consentimientos en un [Agreement](../main/agreement) por usuario. Este agreement es la fuente de verdad que determina qué permisos tiene cada usuario para el uso de sus datos.
+Soyio almacena el estado actualizado de todos los consentimientos en un [Agreement](../main/general-concepts#agreement) por usuario. Este agreement es la fuente de verdad que determina qué permisos tiene cada usuario para el uso de sus datos.
 
 <img src="/img/diagrama-modelo-consentimiento.png" alt="modelo de datos de consentimiento" width="100%"/>
 
@@ -29,7 +29,7 @@ Soyio almacena el estado actualizado de todos los consentimientos en un [Agreeme
 
 - [**Consent Templates**](./consent-templates): Plantillas versionadas que definen qué datos se usan y para qué propósitos. Estas plantillas se utilizan para solicitar el consentimiento de los usuarios.
 - [**Consent Actions**](./consent-capture): Registros individuales de cada acción de consentimiento del usuario.
-- [**Agreements**](../main/agreement): Estado consolidado y versionado de todos los consentimientos de un usuario.
+- [**Agreements**](../main/general-concepts#agreement): Estado consolidado y versionado de todos los consentimientos de un usuario.
 - [**Evidence**](../main/evidence-traceability): Evidencia de la acción realizada por el usuario o la empresa asociada a cada modificación del agreement.
 - **Identity**: Identificador único del usuario verificado en el sistema Soyio.
 - **Entity**: Identificador único del usuario en el sistema Soyio (no verificado previamente).

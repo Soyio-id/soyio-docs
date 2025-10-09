@@ -17,7 +17,7 @@ Solicitar y obtener el consentimiento es el primer paso del ciclo de vida del co
 2. El usuario revisa y acepta los términos mediante un checkbox opt-in.
 3. Se genera un **token de acción** (`action token`) cada vez que el usuario haga click en un checkbox de consentimiento
 4. Al momento de persistir los datos del usuario, envías uno o varios token de acción para crear un **registro de consentimientos** con evidencia del proceso.
-5. En base a estas acciones de consentimiento, el sistema automáticamente crea o actualiza los **Agreements** para el usuario. El [Agreement](../main/agreement.mdx) es la fuente de verdad que determina las finalidades de tratamiento autorizadas en tu empresa en tiempo real.
+5. En base a estas acciones de consentimiento, el sistema automáticamente crea o actualiza los **Agreements** para el usuario. El [Agreement](../main/general-concepts#agreement) es la fuente de verdad que determina las finalidades de tratamiento autorizadas en tu empresa en tiempo real.
 
 <SequenceDiagram
   actors={[

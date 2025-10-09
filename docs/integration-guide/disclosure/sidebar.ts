@@ -14,7 +14,7 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: 'doc',
-      id: 'integration-guide/disclosure/disclosure',
+      id: 'integration-guide/disclosure/how-it-works',
       label: 'Cómo funciona',
     },
   ],
