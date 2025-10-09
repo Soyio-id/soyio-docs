@@ -2,10 +2,6 @@
 
 La **verificación de identidad** es un proceso que confirma que una persona es quien dice ser, garantizando así la autenticidad de las interacciones digitales. En la plataforma de Soyio, este proceso es esencial para ofrecer a las empresas y a sus usuarios un entorno seguro y confiable. La verificación de identidad puede realizarse a través de **validación** o **autenticación de identidad**.
 
-:::tip[Pro Tip]
-Integra el módulo [Revelación de datos y consentimiento (Disclosure)](../disclosure/disclosure.mdx) para verificar la identidad de tus usuarios. Este módulo **incluye la verificación de identidad** y la documentación del [consentimiento](../consent/consent.mdx), lo que garantiza que todos los datos personales se manejen de acuerdo con las normativas vigentes.
-:::
-
 ## Validación de identidad
 
 La validación de identidad se utiliza para asegurar que una persona es realmente quien dice ser, verificando la autenticidad de su identidad a través de un **validador de identidad**.
