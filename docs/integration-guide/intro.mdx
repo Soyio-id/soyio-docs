@@ -9,67 +9,32 @@ description: Una introducción completa a la plataforma Soyio y sus capacidades
 <br/>
 <br/>
 
-Bienvenido a la documentación de integración de Soyio, la plataforma líder en gestión de privacidad y cumplimiento en protección de datos. Esta guía te ayudará a integrar nuestras soluciones de manera efectiva en tu empresa.
+Bienvenido a la documentación de integración de Soyio, una plataforma SaaS que ayuda a las empresas a cumplir con las principales regulaciones de protección de datos personales, como la Ley 21.719 (Chile) y el GDPR (Europa).
 
-Soyio es una plataforma SaaS que facilita el cumplimiento de regulaciones de privacidad de datos como la Ley chilena de protección de datos personales (Ley 21.719) y GDPR.
+Estas guías te acompañarán paso a paso en la integración de nuestros servicios, desde la configuración inicial hasta la implementación en tus canales digitales.
 
-Nuestra plataforma te proporciona las siguientes herramientas:
+## ¿Qué puedes hacer con Soyio?
 
-## Soluciones de gestión para la protección de datos
+Soyio centraliza la gestión del consentimiento, los derechos de los usuarios y la verificación de identidad, asegurando trazabilidad y cumplimiento en cada interacción digital.
 
-### [Consentimiento](./consent/introduction)
+Nuestros módulos principales se agrupan en dos categorías y cada uno de ellos se puede integrar de forma independiente o en conjunto, según las necesidades de tu empresa.
 
-El servicio de consentimiento te permite:
-- **Capturar consentimientos** de manera granular en tus procesos digitales.
-- **Habilitar un portal de revocación de consentimientos** para que tus usuarios puedan visualizar y gestionar sus consentimientos.
-- **Generar evidencia** del consentimiento otorgado, revocado o caducado.
-- **Generar reportes** de auditoría y cumplimiento para demostrar tu cumplimiento ante el regulador.
+### 1. Soluciones de protección de datos personales
 
-### Gestión de solicitudes de ejercicio de derechos
+Diseñadas para garantizar el cumplimiento normativo y la trazabilidad de las decisiones de los usuarios.
 
-El servicio de gestión de solicitudes de ejercicio de derechos te permite:
-- **Habilitar un formulario de ejercicio de derechos** para que tus usuarios puedan envíar sus solicitudes de ejercicio de derechos.
-- **Gestionar las solicitudes de ejercicio de derechos** de tus usuarios de manera eficiente.
-- **Generar evidencia** del proceso de resolución de las solicitudes de ejercicio de derechos.
-- **Generar reportes** de auditoría y cumplimiento para demostrar tu cumplimiento ante el regulador.
+- [**Gestión de consentimientos**](./consent/introduction): solicita, registra y actualiza el consentimiento de tus usuarios en distintos canales.
+- [**Gestión de solicitudes de derechos**](./rights-management/introduction): habilita y administra solicitudes de acceso, rectificación o eliminación de datos.
 
-### [RAT AI](./rat/introduction)
+### 2. Soluciones de identidad digital
 
-El servicio de RAT AI es un agente conversacional basado en IA que te permite:
-- **Automatizar el levantamiento de información** de las actividades de tratamiento de datos persona les dentro de tu organización.
-- **Supervisar el avance** transversalmente a todos las áreas de tu organización.
-- **Generar y mantener actualizado el registro de actividades de tratamiento de datos personales** de tu organización.
-- **Aclarar dudas y proporcionar información** sobre conceptos de protección de datos personales.
+Aseguran que toda acción esté vinculada a una identidad verificada.
 
-## Soluciones de identificación
+- [**Verificación de identidad**](./disclosure/introduction): valida la autenticidad y vigencia del documento y la presencia real del usuario.
+- [**Autenticación**](./authentication/introduction): confirma identidades previamente verificadas mediante biometría o passkeys.
+- [**Firma electrónica**](./signature/introduction): solicita y gestiona la firma de documentos con respaldo de evidencia digital.
 
-### Verificación de identidad
-
-El servicio de verificación te permite:
-- **Verificar la identidad de tus usuarios** de manera segura en entornos digitales.
-- **Comprobar que tu usuario esta vivo y presente** en el momento de la verificación.
-- **Comprobar que el documento de identidad sea válido y vigente**.
-- **Comprobar que el documento de identidad le corresponde al usuario**.
-- **Extraer información del documento de identidad** como nombre, apellido, fecha de nacimiento, género, etc.
-- **Registrar la identidad verificada** de tu usuario en el sistema para fines de autenticación futura.
-- **Crear una passkey** de forma opcional, para tu usuario pueda usarla para autenticación futura.
-
-### [Autenticación](./authentication/introduction)
-
-El servicio de autenticación te permite:
-- **Autenticar a tus usuarios** de manera segura en entornos digitales.
-- **Match biometrico** con la identidad previamente verificada para confirmar la identidad del usuario.
-- **Autenticación con passkeys** para confirmar la identidad del usuario o crear una passkey si no tiene una registrada.
-
-### [Firma de documentos](./signature/introduction)
-
-El servicio de firma de documentos te permite:
-- **Solicitar la firma de documentos electrónicamente** de manera segura directamente en tus canales digitales.
-- **Generar plantillas de documentos** y completarlos con la información de tu usuario dinámicamente.
-- **Envío de documentos firmados** por correo electrónico a los usuarios firmantes.
-- **Consulta de documentos firmados** y evidencia de la firma a través de la API.
-
-## Arquitectura de la Plataforma
+## Arquitectura de la plataforma
 
 Soyio está construido con una arquitectura moderna y escalable que incluye:
 
@@ -78,22 +43,23 @@ Soyio está construido con una arquitectura moderna y escalable que incluye:
 - **SDKs**: Librerías para facilitar la integración en sistemas web y móviles
 - **Dashboard de Administración**: Interfaz web para gestionar configuraciones y monitorear actividad
 
-## Flujo de Integración Típico
+## Flujo de integración típico
 
-1. **Obtener Credenciales**: Contacta a nuestro equipo de ventas para cotizar la solución y obtener las credenciales de API completando el [formulario de contacto](https://soyio.id/contact).
-2. **Configuración Inicial**: Configura tu cuenta empresa y personaliza el sistema en base a tus necesidades.
-3. **Implementación de Módulos**: Integra los módulos específicos que necesites.
-4. **Pruebas en Sandbox**: Utiliza el entorno de pruebas para validar tu integración.
-5. **Despliegue en Producción**: Migra a producción una vez que todo esté validado.
+1. **Obtener credenciales**: Contacta a nuestro equipo de ventas para cotizar la solución y obtener las credenciales de API completando el [formulario de contacto](https://soyio.typeform.com/formularioweb).
+2. **Configuración inicial**: Configura tu cuenta empresa y personaliza el sistema en base a tus necesidades.
+3. **Implementación de módulos**: Integra los módulos específicos que necesites.
+4. **Pruebas en sandbox**: Utiliza el entorno de pruebas para validar tu integración.
+5. **Despliegue en producción**: Migra a producción una vez que todo esté validado.
 
-## Próximos Pasos
+## Próximos pasos
 
-Explora las siguientes secciones para comenzar tu integración:
+Explora las guías específicas para comenzar tu integración:
 
-- [Conceptos generales](./main/general-concepts) - Entiende los conceptos fundamentales
-- [Evidencia y trazabilidad](./main/evidence-traceability) - Comprueba las medidas de seguridad y privacidad que implementamos.
-- [Modo prueba](./main/sandbox) - Aprende a usar el entorno de pruebas
-- [Configuración de compañía](./main/company-configuration) - Configura tu cuenta y preferencias
+- [Consentimientos](./consent/introduction)
+- [Gestión de derechos](./rights-management/introduction)
+- [Verificación de identidad](./disclosure/introduction)
+- [Firma electrónica](./signature/introduction)
+- [Pruebas en sandbox](./main/sandbox)
 
 ## ¿Necesitas ayuda?
 
