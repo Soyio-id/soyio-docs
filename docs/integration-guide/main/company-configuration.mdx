@@ -1,0 +1,79 @@
+---
+title: Configuración de compañía
+description: Guía para configurar tu cuenta y preferencias de empresa en Soyio
+---
+
+# Configuración de tu compañía
+
+Configura la información general y los parámetros de seguridad de tu organización dentro de Soyio.
+Puedes realizar los cambios desde el dashboard administrativo o mediante la API de configuración.
+
+## Información general
+
+En esta sección puedes registrar los datos principales de tu organización:
+
+- Nombre de la compañía
+- Página web principal
+- Correo de notificaciones de alerta
+
+Algunos campos, como la razón social y el RUT/TIN, son definidos por el equipo de Soyio al crear tu cuenta y no pueden ser modificados posteriormente, ya que forman parte de la información oficial de tu compañía dentro de la plataforma.
+
+:::info[Importante]
+Si necesitas actualizar información no editable, contacta al equipo de soporte de Soyio.
+:::
+
+## Acceso y seguridad
+
+Define las políticas de acceso al entorno administrativo alineadas con las políticas internas de tu organización. Las opciones disponibles son:
+
+- Acceso con contraseñas seguras.
+- Autenticación multifactor (MFA) mediante passkeys.
+- Inicio de sesión único (SSO) con Google o Microsoft.
+
+## Dominios permitidos
+
+Agrega dominios permitidos (whitelisted domains) que podrán desplegar los componentes de Soyio. Esta es una configuración que aplica a nivel de compañía y afecta todos los componentes de Soyio de tu cuenta.
+
+:::info[Tip]
+También puedes agregar dominios permitidos en la configuración de cada componente de Soyio, estos complementan la configuración de nivel de compañía.
+:::
+
+## Apariencia
+
+- **Logo**: Configura un logo que se mostrará en los componentes de Soyio.
+- **Color principal**: Configura un color principal que aplicará a todos los componentes.
+- **Estilo de íconos**: Configura un estilo de íconos. Esto aplica para los componentes de captura de consentimiento y gestión de consentimientos.
+
+:::info[Tip]
+Puedes sobreescribir el color principal usando el parámetro `appearance` de cada componente.
+:::
+
+## Configuración de servicios
+
+A través de la configuración de la compañía, puedes configurar el comportamiento de cada servicio de acuerdo con tus flujos y requerimientos de cumplimiento.
+
+### Validación de identidad
+
+- **Validación gubernamental**: Indica si se debe hacer un cruce con la base de datos del gobierno al validar una identidad.
+- **Datos transaccionales efímeros**: Indica si los datos de la transacción deben ser eliminados después de la validación.
+- **Paso para registro de passkey**: Indica si se debe mostrar un paso para registrar una passkey al validar una identidad. Esto no aplica en las validaciones de identidad del Privacy Center.
+
+### Consentimiento
+
+- **Dominios permitidos**: Lista de dominios permitidos que podrán desplegar el componente de captura de consentimiento. Estos dominios se agregarán a la lista de dominios permitidos de la compañía.
+- **Label de obligatoriedad**: Indica si se debe mostrar el label de obligatoriedad en los consentimientos.
+- **Texto del label de obligatoriedad**: Texto que se mostrará en el label de obligatoriedad.
+
+### Centro de privacidad
+- **Correo de contacto**: Correo de contacto para el Privacy Center. Este correo será visible en el Privacy Center para que los usuarios puedan contactar con el equipo de soporte de tu compañía.
+- **URL pública**: URL pública del Privacy Center.
+- **URL privada**: URL privada del Privacy Center.
+
+### Solicitudes de derechos
+- **Validación de identidad obligatoria**: Indica si se debe validar la identidad antes de poder realizar una solicitud de derechos.
+- **Deshabilitar correos electrónicos funcionales**: Indica si se deben deshabilitar los correos electrónicos funcionales.
+- **Deshabilitar correos electrónicos informativos**: Indica si se deben deshabilitar los correos electrónicos informativos.
+
+## Configuración vía API
+
+También puedes administrar esta información mediante la API de Configuración. Consulta la documentación técnica en [API Configuration Schema](/api/resources/schemas/configuration.schema.mdx) para conocer los parámetros disponibles y los formatos de solicitud.

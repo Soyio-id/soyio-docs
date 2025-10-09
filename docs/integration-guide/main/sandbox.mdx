@@ -1,0 +1,71 @@
+---
+title: Modo Prueba (Sandbox) y Paso a Producción
+description: Guía completa para usar el entorno de sandbox y migrar a producción
+---
+
+# Pruebas en sandbox
+
+El modo Sandbox de Soyio te permite probar tus integraciones de forma segura antes de activarlas en producción.
+Este entorno simula el comportamiento real de la plataforma, pero sin generar registros auditables ni producir efectos legales sobre identidades, consentimientos o solicitudes de derechos.
+
+## Objetivo del modo sandbox
+
+El entorno sandbox está diseñado para que tu equipo técnico y funcional pueda:
+
+- Probar la integración de la API y componentes de Soyio.
+- Validar el comportamiento de los flujos de consentimiento, gestión de derechos, validación de identidad, autenticación y firma.
+- Ajustar configuraciones, plantillas y procesos antes del despliegue productivo.
+- Ver cómo se generan evidencias y registros sin afectar datos reales.
+
+:::warning
+Ninguno de los registros creados en sandbox tiene validez legal ni se replica en producción.
+:::
+
+## URL base del entorno Sandbox
+
+Utiliza la siguiente URL base para realizar las pruebas en sandbox:
+
+```bash
+https://sandbox.soyio.id
+```
+
+:::info
+Cada llamada a la API debe autenticarse con una API Key de sandbox, que siempre comienza con el prefijo `ak_sandbox_`.
+:::
+
+## Modelos compartidos entre entornos
+
+Algunos objetos de configuración se comparten entre los entornos de sandbox y producción.
+Esto permite mantener una estructura coherente mientras separas los registros de prueba y los registros reales.
+
+Los modelos compartidos incluyen:
+
+- **Configuración de compañía**: datos generales y configuración de seguridad
+- **Estructura organizacional**: sucursales, filiales, productos o unidades que agrupan tus flujos
+- **Configuración de apariencia y comportamiento**: logo, colores, estilos de íconos, obligatoriedad, etc.
+- **Plantillas (templates)**: definiciones de consentimientos, formularios o documentos usados en los flujos
+- **Webhooks**: configuraciones de notificaciones y destinos para recibir eventos de Soyio
+
+Estos objetos existen en un espacio común, accesible desde ambos entornos.
+Sin embargo, los registros generados por las interacciones de los usuarios (por ejemplo, consentimientos otorgados, validaciones de identidad o solicitudes de derechos) se crean únicamente en el entorno activo (sandbox o producción).
+
+Esto garantiza que:
+
+- Puedas diseñar y probar tus plantillas y procesos en un entorno seguro.
+- Los registros reales y de prueba se mantengan completamente separados.
+- No se mezclen evidencias o consentimientos simulados con los registros auditables.
+
+## Validar flujos completos
+
+Antes de pasar a producción, ejecuta pruebas integrales en sandbox para revisar:
+
+- El flujo completo de tus integraciones.
+- La recepción de callbacks o webhooks en tu infraestructura.
+- La correcta generación de evidencias según tus flujos esperados (no auditables en sandbox).
+- Logs y respuestas de la API ante distintos escenarios de error o validación.
+
+## Transición a producción
+
+Cuando tus pruebas estén completas y tu integración validada, podrás solicitar la activación del entorno productivo.
+
+Consulta la guía [Paso a Producción](/docs/integration-guide/main/production) para conocer el checklist y las recomendaciones finales antes del despliegue.

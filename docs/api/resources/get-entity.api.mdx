@@ -1,0 +1,71 @@
+---
+id: get-entity
+title: "Obtener una entidad específica"
+description: "Retorna los detalles de una entidad específica."
+sidebar_label: "Obtener una entidad específica"
+hide_title: true
+hide_table_of_contents: true
+api: eJzNVk1vGzcQ/SsDXpIYW8lyXbQQgqBu6hbuZ2AnCALXMEbkSGK8S67JoWpV2J/UU2+5+o8Vw119WY6TtD3UB5m7yxm+mfdmhgvFOIlqeK6OHVu2FNVFoQxFHWzN1js1VKfEPjiE0kcwxFiWJAtIDoEcW4MGKNakb/8cW409VShfU0AxPzFqqCbE2ftcFarGgBUxBTl0oRxWpIbKGlUoK4fVyFN1F8HJt3JeuT4OYZSixqAKFeg62UBGDTkkKlTUU6pQDReK57X4jhysm6imUHSDVV3KO3J8Ofjm4OeDN18dxcnLenJUvfnyxfT5eKKaC/EZa+8iRXFzsL8v/7YRHS/jdto7DmhQFUqW5Fh2Y12XVucU9N9GMVnsIvOjt6RZkhIkYTn7w4WAk1wNF+rms/vYuWu9jewnH0E+cWYLlkBrCpVlcoDRa4shs6klSMe2suS6/ZwipJgwWB8BIbnOWQ9ebdAdqA4kptju6Sxgb895mFGwIgTj9/aAHFAJ0UamCgtAMHZMgZy2uNSQNZ3b3m9uJxnW7FJ5jzxu3zmr/bZKRIgfR3mhUqRwGaiFRh8+8pQ2oihX8ZMDTuto/YjJWdPuuX1Xsq084CQQVeQYrhMBk5tgR4rx70Wf8Q0OPleFcqkscSRvRfBNUyi2nDd1Rdbkv0Id7g/uEW4IPkieMIlWrUZtb/9y/0a96wo8b78tERUqMnKKOXuMthT1btPb+trN9jpyTDxtgQqcSxL8ah30Q6avnBj7YP8gIyYdmrWNdUwTCptGh/uDZgX3Qe+vCbRPpQHnGTZQEsx9CqADZV1jGXvwoiSMBHpK+gp4SmC8TqKBHBQgw5S5jsN+33gde9HPre9Zs0Hl4S6Vp6RTiB6cX7ch//8l0roZltZcyikU+ZOYPKXoU9CUcz32yX0Cn4cfyedzIdM9YhhbZ+Bp6I58Br9bnoI18OipNc8e3SEzc92FBOgMcJgDTtA6tVmav3j+TmDn8jtrGei4jUJjbvjnQpi9vCJZX8ggqoinvhuheXjyVA1Vn7pp0F9Y0wg7FGbLiZpCqYZqKaeIzoz8zUpRfaxtfzbY6WdnFGbWtJ2hDolGGOFxZ/xENcVdv1jXn+jTm6Rzq4HH7YPsepLH7TIDOS+tnFZ5WDGGtf2R5juHHMfrRBXudjSoyFh03M6YoxcncEVzwVH7oK13aLAbTlNCQ6GdHRGiL622nAxFacHdBeWoayS5lJZ3ldYw3yxy572MFKM0KfZX5P4j7JCdwQ+vX8q+SDFvMLSaxZsh+Q+GBGcEE3IUEJLw62U7OVN76xjWytoKBebAllybSpNCh9IQDL6AyrrE/qOT1cjz2OfsdMVxJkISinYyJLTJ7MxS0jYP+JPldUEesmnX81DnnkdVLnUVJS1MX6+baaGkSlrPg95+b19e1T5yhZmtDv6vMrUpvO9+exfkYt1w/8lVuZMI0w336zL3jaIttkVX7+dqyYoq1NAaab5TH1m+LBYjjPQqlE0jr68Thdw8CjXDYNtrwvlCGRtlbdRwjGWkByJ4fNoNgSfw0K37XtRLtTuR+gzLJE+qULmQ5SbXXDTFUggCq/1wpDXVvGGyM7W2WuH3xy9Vka8F2xV2lSusW4j3e+Hc1WYLQX6lyd1rsli09ds0q/3tp/dadCGuIpcImqb5Gwqrr7A=
+sidebar_class_name: "get api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Obtener una entidad específica"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/entities/{id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Retorna los detalles de una entidad específica.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"id","in":"path","description":"ID de la entidad a buscar","required":true,"schema":{"type":"string"},"example":"ent_1B2M2Y8AsgTpgAmY7PhCfg"}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Entidad encontrada","content":{"application/json":{"schema":{"type":"object","properties":{"entity":{"x-tags":["Entities"],"type":"object","description":"Los objetos de Entidad permiten asociar los consentimientos de tus usuarios a un objeto. Una entidad representa a un usuario **no verificado** en el sistema, a diferencia de una identidad.\n","properties":{"id":{"type":"string","description":"ID único de la entidad.","example":"ent_1B2M2Y8AsgTpgAmY7PhCfg"},"user_reference":{"type":"string","description":"Referencia del usuario en tu sistema, obtenida del último agreement que tenga asociado la entidad.","example":"user_123","nullable":true}},"title":"Entity"}}}}}},"401":{"description":"Error de autenticación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"authentication_error"},"title":{"type":"string","example":"Unauthorized"},"status":{"type":"integer","example":401},"detail":{"type":"string","example":"We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"}}}}}},"404":{"description":"Recurso no encontrado","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"invalid_request_error"},"title":{"type":"string","example":"Resource not found"},"status":{"type":"integer","example":404},"detail":{"type":"string","example":"Couldn't find <resource> with id '<id>'. Please check your request and try again"}},"title":"NotFoundErrorSchema"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

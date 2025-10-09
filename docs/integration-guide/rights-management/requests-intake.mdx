@@ -1,0 +1,171 @@
+---
+title: Recepción de solicitudes
+description: Integra el módulo de ejercicio de derechos en tu sitio web usando el componente Privacy Center del SDK de Soyio
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import SequenceDiagram from '../../../src/components/SequenceDiagram';
+
+# Recepción de solicitudes
+
+:::info[Información]
+Por ahora, este servicio está disponible **sólo para el SDK Web**.
+:::
+
+Usa el componente **Privacy Center** del [SDK de Soyio](https://github.com/Soyio-id/soy-io-widget) para integrar fácilmente el portal de recepción de solicitudes de derechos en tu sitio web, proporcionando a tus usuarios una interfaz intuitiva para enviar sus solicitudes.
+
+<img src="/img/ejemplo-privacy-center-dsr.png" alt="Gestión de derechos example"/>
+
+## Integración en modo público
+
+Usa este modo para proporcionar acceso universal a la gestión de derechos, tanto para usuarios registrados como para visitantes.
+
+**Características:**
+- No requiere autenticación previa del usuario
+- Permite que cualquier usuario ejerza sus derechos
+- Incluye un paso de validación de identidad
+
+Para integrar el Privacy Center en modo público, sigue la guía de [inicio rápido](./quickstart.mdx).
+
+## Integración en modo autenticado
+
+Usa este modo para proporcionar acceso a la gestión de derechos a usuarios autenticados en tu aplicación.
+
+**Características:**
+- Requiere que autentiques al usuario previamente en tu sistema
+- Utiliza tokens de sesión como medida de seguridad
+- No es necesario validar la identidad del usuario nuevamente
+
+Para integrar el Privacy Center en modo autenticado, necesitas obtener un token de sesión usando la API de Soyio. Para obtener el token de sesión, debes proporcionar el `entity_id` de la entidad para la cual se generará el token.
+
+:::warning[Importante]
+En caso de que no exista un `entity_id` para el usuario en tu sistema, no podrás obtener el token de sesión. En este caso, te recomendamos usar la integración en modo público.
+:::
+
+### Flujo de inicialización
+
+<SequenceDiagram
+  actors={[
+    { id: 'user', label: 'Usuario' },
+    { id: 'frontend', label: 'Frontend' },
+    { id: 'privacy_center', label: 'Privacy Center' },
+    { id: 'backend', label: 'Backend' },
+    { id: 'soyio_api', label: 'Soyio API' },
+
+  ]}
+  actions={[
+    {
+      from: 'user',
+      to: 'frontend',
+      label: 'Ingresa a la sección de privacidad de su cuenta'
+    },
+    {
+      from: 'frontend',
+      to: 'backend',
+      label: 'Solicita el token de sesión'
+    },
+    {
+      from: 'backend',
+      to: 'soyio_api',
+      label: 'Solicita el token de sesión'
+    },
+    {
+      from: 'soyio_api',
+      to: 'backend',
+      label: 'Devuelve el token de sesión'
+    },
+    {
+      from: 'backend',
+      to: 'frontend',
+      label: 'Devuelve el token de sesión'
+    },
+    {
+      from: 'frontend',
+      to: 'privacy_center',
+      label: 'Se inicializa el Privacy Center con el token de sesión'
+    },
+    {
+      from: 'privacy_center',
+      to: 'user',
+      label: 'Despliega el Privacy Center'
+    }
+  ]}
+/>
+
+### Obtén el token de sesión
+
+Una vez que el usuario se ha autenticado en tu sistema, usa el endpoint `POST /api/v1/privacy_center/session_token` para obtener el token de sesión.
+
+<Tabs>
+  <TabItem value="web" label="SDK Web" default>
+```javascript title="Backend - Obtener token de sesión"
+const getSessionToken = async (entityId) => {
+  const response = await fetch('https://api.soyio.com/v1/privacy_center/session_token', {
+    method: 'POST',
+    headers: {
+      'Authorization': `${process.env.SOYIO_API_KEY}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      entity_id: entityId
+    })
+  });
+  
+  if (!response.ok) {
+    throw new Error(`Error: ${response.status}`);
+  }
+  
+  const data = await response.json();
+  return data.session_token;
+};
+```
+  </TabItem>
+</Tabs>
+
+### Integra el componente en tu frontend
+
+Una vez que tengas el token de sesión, configura el Privacy Center usando el token de sesión.
+
+<Tabs>
+  <TabItem value="web" label="SDK Web" default>
+```javascript title="js/privacy-center.js"
+import { PrivacyCenter } from "@soyio/soyio-widget";
+
+const privacyCenterOptions = {
+    sessionToken: "<session_token>", // Reemplaza con el token de sesión
+    enabledFeatures: ['DataSubjectRequests', 'RequestTracking'],
+    onEvent: (event) => {
+        console.log('Evento del Privacy Center:', event);
+        // Maneja los eventos según tus necesidades
+    },
+    onReady: () => {
+        console.log('Privacy Center está listo');
+    },
+    appearance: {
+        theme: 'soyio',
+        variables: {
+            colorPrimary: '#f54c27',
+            colorBackground: '#ffffff'
+        }
+    },
+    isSandbox: false
+};
+
+// Inicializa el Privacy Center
+const privacyCenter = new PrivacyCenter(privacyCenterOptions);
+privacyCenter.mount("#privacy-center-container");
+```
+  </TabItem>
+</Tabs>
+
+## Creación de la solicitud
+
+Cuando un usuario envía una solicitud de ejercicio de derechos, se creará un nuevo [Data subject Request o DSR](../../api/resources/schemas/datasubjectrequest). Este recurso es el que mantendrá la trazabilidad de la solicitud y su estado a medida que se procese la solicitud.
+
+## Siguientes pasos
+
+- [**Gestión de solicitudes**](./requests-management.mdx): Revisa cómo gestionar las solicitudes de derechos.
+- [**Validación de la identidad**](./requests-validation.mdx): Revisa cómo validar la identidad del usuario.
+- [**Notificaciones y recordatorios**](./notifications.mdx): Revisa cómo configurar las notificaciones y recordatorios.
+- [**Personalización**](../consent/customization): Revisa cómo personalizar el Privacy Center.

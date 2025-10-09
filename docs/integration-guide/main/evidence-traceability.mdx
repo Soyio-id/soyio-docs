@@ -1,0 +1,47 @@
+---
+title: Evidencia y Trazabilidad
+description: Sistema de auditoría y trazabilidad de Soyio para cumplimiento regulatorio
+---
+
+# Evidencia y trazabilidad
+
+La Evidencia documenta cómo ocurrió un evento relevante dentro de la plataforma, proporcionando trazabilidad y soporte verificable para auditorías. Cada evidencia contiene información técnica, legal y contextual que permite demostrar cumplimiento.
+
+Existen distintos tipos de evidencia según el módulo o proceso al que se asocie. Para más información sobre la estructura de los objetos de evidencia, consulta la [API Reference](/docs/api/resources/schemas/evidence.schema.mdx).
+
+## Evidencia de consentimiento
+
+Registra el mecanismo mediante el cual se otorgó o revocó un consentimiento. Estas evidencias se generan automáticamente cada vez que se crea o modifica el consentimiento y quedan reflejadas en el [Agreement del usuario](/docs/integration-guide/main/general-concepts#agreement).
+
+En este caso, la evidencia suele provenir de la interacción directa del usuario, por ejemplo:
+
+- Aceptar un consentimiento en un flujo web o móvil.
+- Revocar una autorización desde su perfil de privacidad.
+- Registro de un consentimiento en un chatbot de whatsapp.
+- Revocación de un consentimiento a través de un canal de atención telefónico.
+
+## Evidencia de ejercicio de derechos
+
+Cada solicitud de ejercicio de derechos (acceso, rectificación, supresión, oposición, etc.) también genera evidencias que:
+
+- Registran la recepción de la solicitud.
+- Documentan el proceso de validación e identidad del solicitante.
+- Guardan el resultado final (resuelta, rechazada, en curso).
+
+## Evidencia técnica o de autenticación
+
+Existen evidencias más acotadas, pero igualmente trazables, asociadas a:
+
+- Validación de identidad.
+- Autenticación.
+- Firma digital.
+
+## Reportes de auditoría y cumplimiento
+
+Toda la información registrada en los objetos de evidencia puede utilizarse para generar reportes de auditoría y cumplimiento regulatorio. Estos reportes se generan en formatos solicitados por las instituciones reguladoras y también se encuentran disponibles en formatos json o pdf.
+
+Los tipos de reportes son:
+
+- **Reportes de auditoría de consentimiento**: generados por usuario o propósito y pueden ser filtrados por periodo.
+- **Reportes regulatorios de gestión de derechos**: generados para demostrar cumplimiento de plazos legales y trazabilidad de respuesta.
+- **Reporte de validación de identidad**: generado para demostrar los chequeos realizados para validar la identidad del solicitante.

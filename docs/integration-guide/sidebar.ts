@@ -1,6 +1,11 @@
 import type { SidebarsConfig } from '@docusaurus/plugin-content-docs';
-import conceptsSidebar from './concepts/sidebar';
-import modulesSidebar from './modules/sidebar';
+import consentSidebar from './consent/sidebar';
+import rightsManagementSidebar from './rights-management/sidebar';
+import privacyCenterSidebar from './privacy-center/sidebar';
+import introductionSidebar from './main/sidebar';
+import disclosureSidebar from './disclosure/sidebar';
+import signatureSidebar from './signature/sidebar';
+import authenticationSidebar from './authentication/sidebar';
 
 const sidebar: SidebarsConfig = {
   integrationSidebar: [
@@ -9,24 +14,46 @@ const sidebar: SidebarsConfig = {
       id: 'integration-guide/intro',
     },
     {
-      type: 'doc',
-      id: 'integration-guide/quickstart',
+      type: 'category',
+      label: 'General',
+      items: introductionSidebar,
+      collapsed: true,
     },
     {
-        type: 'category',
-        label: 'Conceptos',
-        items: conceptsSidebar,
-        collapsed: false,
+      type: 'category',
+      label: 'Consentimiento',
+      items: consentSidebar,
+      collapsed: true,
     },
     {
-        type: 'category',
-        label: 'Módulos',
-        items: modulesSidebar,
-        collapsed: false,
+      type: 'category',
+      label: 'Gestión de derechos',
+      items: rightsManagementSidebar,
+      collapsed: true,
     },
     {
-      type: 'doc',
-      id: 'integration-guide/production',
+      type: 'category',
+      label: 'Privacy Center',
+      items: privacyCenterSidebar,
+      collapsed: true,
+    },
+    {
+      type: 'category',
+      label: 'Verificación de identidad',
+      items: disclosureSidebar,
+      collapsed: true,
+    },
+    {
+      type: 'category',
+      label: 'Autenticación',
+      items: authenticationSidebar,
+      collapsed: true,
+    },
+    {
+      type: 'category',
+      label: 'Firma electrónica',
+      items: signatureSidebar,
+      collapsed: true,
     },
   ],
 };

@@ -1,0 +1,252 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import SequenceDiagram from '../../../src/components/SequenceDiagram';
+import Admonition from '@theme/Admonition';
+
+# Captura de consentimiento
+
+:::info[Información]
+Por ahora, este servicio está disponible **sólo para el SDK Web**.
+:::
+
+Solicitar y obtener el consentimiento es el primer paso del ciclo de vida del consentimiento. En esta guía, te explicaremos cómo capturar el consentimiento de tus usuarios usando el SDK de Soyio.
+
+## Flujo de captura de consentimiento
+
+1. Se muestra el componente de consentimiento al usuario en un formulario o sección de tu interfaz
+2. El usuario revisa y acepta los términos mediante un checkbox opt-in.
+3. Se genera un **token de acción** (`action token`) cada vez que el usuario haga click en un checkbox de consentimiento
+4. Al momento de persistir los datos del usuario, envías uno o varios token de acción para crear un **registro de consentimientos** con evidencia del proceso.
+5. En base a estas acciones de consentimiento, el sistema automáticamente crea o actualiza los **Agreements** para el usuario. El [Agreement](../main/general-concepts#agreement) es la fuente de verdad que determina las finalidades de tratamiento autorizadas en tu empresa en tiempo real.
+
+<SequenceDiagram
+  actors={[
+    { id: 'frontend', label: 'Tu Frontend' },
+    { id: 'backend', label: 'Tu Backend' },
+    { id: 'consent_widget', label: 'Consent Widget' },
+    { id: 'soyio_api', label: 'Soyio API' },
+  ]}
+  actions={[
+    {
+      from: 'frontend',
+      to: 'consent_widget',
+      label: 'Inicializar con template_id'
+    },
+    {
+      from: 'consent_widget',
+      to: 'frontend',
+      label: 'Usuario interactúa con checkboxes'
+    },
+    {
+      from: 'consent_widget',
+      to: 'frontend',
+      label: 'Genera action_token',
+      isDashed: true
+    },
+    {
+      from: 'frontend',
+      to: 'backend',
+      label: 'Envía action_token'
+    },
+    {
+      from: 'backend',
+      to: 'soyio_api',
+      label: 'Crea ConsentAction'
+    },
+    {
+      from: 'soyio_api',
+      to: 'backend',
+      label: 'Retorna ConsentAction creado'
+    },
+    {
+      from: 'soyio_api',
+      to: 'soyio_api',
+      label: 'Actualiza Agreement automáticamente',
+      isDashed: true
+    }
+  ]}
+/>
+
+:::tip
+Los Agreements pueden cambiar a lo largo del tiempo debido a nuevas acciones de consentimiento, modificaciones o revocaciones. Por eso, siempre es recomendable consultar el Agreement actual o el ComplianceStatus correspondiente antes de utilizar un dato para una finalidad específica. Revisa la [guía de consulta de consentimiento](./consent-query.mdx) para más información.
+:::
+
+## Obtén el token de la acción del usuario
+
+El token de acción (`action token`) es el identificador único de la interacción de un usuario. El token es necesario para registrar la acción de consentimiento y su evidencia. Para obtener un token, debes tener una plantilla de consentimiento. Revisa la [guía de creación de plantilla de consentimiento](./consent-templates.mdx) para más información.
+
+Puedes obtener el token de acción de tres maneras:
+
+1. Usa el SDK y escucha el evento del componente
+2. Usa el SDK y usa la función `getStatus` del componente
+3. Usa la API de Soyio directamente para crear el token de acción
+
+### Opción 1: Usa el SDK y escucha el evento del componente
+
+Despliega el componente de captura de consentimiento usando el SDK de Soyio y una plantilla de consentimiento.
+
+Captura el evento `CONSENT_CHECKBOX_CHANGE` que emite el componente del SDK de Soyio cuando el usuario hace click en el checkbox de consentimiento. Este evento contiene el token de acción.
+
+Usa este método para casos donde necesitas registrar el consentimiento en el momento de interacción del usuario. Por ejemplo, cuando estás solicitando el consentimiento para una finalidad adicional para datos que ya tienes en tu sistema.
+
+<Tabs>
+    <TabItem value="web" label="SDK Web" default>
+        ```typescript
+        const consentBox = new ConsentBox(consentOptions);
+        consentBox.on('CONSENT_CHECKBOX_CHANGE', (data) => {
+            console.log(data);
+        });
+        ```
+        ```typescript title="Respuesta"
+        {
+            eventName: 'CONSENT_CHECKBOX_CHANGE',
+            isSelected: boolean,
+            actionToken: string
+        }
+        ```
+    </TabItem>
+</Tabs>
+
+### Opción 2: Usa el SDK y usa la función `getStatus` del componente
+
+Usa la función `getStatus` del componente del SDK de Soyio para obtener el estado del checkbox. Este método es útil para casos donde necesitas registrar el consentimiento en el momento de persistir los datos del usuario. Por ejemplo, cuando el usuario hace submit de un formulario de registro.
+
+<Tabs>
+    <TabItem value="web" label="SDK Web" default>
+        ```typescript title="Consulta el estado del checkbox"
+        const consentBox = new ConsentBox(consentOptions);
+        const status = consentBox.getStatus();
+        console.log(status);
+        ```
+
+        ```typescript title="Respuesta"
+        {
+            isSelected: boolean,
+            actionToken: string | undefined
+        }
+        ```
+    </TabItem>
+</Tabs>
+
+### Opción 3: Usa la API de Soyio directamente
+
+<Admonition type="success" icon="⭐" title="Disponible como add-on">
+Esta funcionalidad está disponible como add-on en ciertos planes. Consulta por los planes completando [el siguiente formulario](https://soyio.typeform.com/formularioweb).
+</Admonition>
+
+Si no puedes utilizar el SDK de Soyio, utiliza el módulo de consentimiento a través de la API de Soyio. Esta forma es ideal cuando quieres implementar tu propia interfaz de consentimiento o integrar Soyio a sistemas que tienen sus propias interfaces. Revisa la [guía de integración sin SDK](./consent-api.mdx) para más información.
+
+## Registra el consentimiento
+
+El registro de la acción de consentimiento es el paso final para capturar el consentimiento de tus usuarios, ya que con esto persistes la evidencia de la acción en Soyio. Este paso lo realizarás desde tu backend usando la API de Soyio.
+
+Puedes hacer el registro de la acción de consentimiento de dos maneras:
+
+1. Crea una acción de consentimiento (`ConsentAction`)
+2. Crea un commit de varios consentimientos (`ConsentCommit`)
+
+### Opción 1: Crea una acción de consentimiento (`ConsentAction`)
+
+Crea una acción de consentimiento (`ConsentAction`) mediante el [endpoint de creación de acción de consentimiento](../../api/resources/create-consent-action.api.mdx).
+
+Proporciona el `action_token` que obtuviste en el paso anterior. Tanto el `entity_id` como el `user_reference` son opcionales.
+
+- Incluye el `entity_id` si ya tienes un identificador de entidad de Soyio asociado a un usuario en tu sistema, esto permite que este nuevo consentimiento se asocie a la entidad existente. Si es el primer consentimiento otorgado por un usuario, no proporciones un `entity_id`, se creará una nueva entidad en Soyio y se retornará el `entity_id`. El `entity_id` te permitirá consultar el estado de todos los consentimientos de un usuario.
+
+- El `user_reference` es útil para conciliar los datos de tu usuario con los consentimientos en Soyio, sin embargo, no reemplaza al `entity_id`.
+
+```json title="POST /api/v1/consent_actions"
+{
+    "action_token": "<action_token>",
+    "entity_id": "<id_del_usuario_en_soyio>", // Opcional
+    "user_reference": "<identificador_usuario>" // Opcional
+}
+```
+
+### Opción 2: Crea un commit de varios consentimientos (`ConsentCommit`)
+
+Crea un commit de varios consentimientos (`ConsentCommit`) mediante el [endpoint de creación de commit de consentimientos](../../api/resources/create-consent-commit.api.mdx).
+
+Proporciona los `action_tokens` que obtuviste en el paso anterior. Tanto el `entity_id` como el `user_reference` son opcionales.
+
+- Incluye el `entity_id` si ya tienes un identificador de entidad de Soyio asociado a un usuario en tu sistema, esto permite que estos nuevos consentimientos se asocien a la entidad existente. Si es el primer consentimiento otorgado por un usuario, no proporciones un `entity_id`, se creará una nueva entidad en Soyio y se retornará el `entity_id`. El `entity_id` te permitirá consultar el estado de todos los consentimientos de un usuario.
+
+- El `user_reference` es útil para conciliar los datos de tu usuario con los consentimientos en Soyio, sin embargo, no reemplaza al `entity_id`.
+
+```json title="POST /api/v1/consent_commits"
+{
+    "user_reference": "<identificador_usuario>", // Opcional
+    "entity_id": "<id_del_usuario_en_soyio>", // Opcional
+    "consent_actions": [
+        {
+            "action_token": "<action_token_1>"
+        },
+        {
+            "action_token": "<action_token_2>"
+        }
+    ]
+}
+```
+### Flujo del Consent Commit
+
+<SequenceDiagram
+  actors={[
+    { id: 'frontend', label: 'Frontend' },
+    { id: 'backend', label: 'Backend' },
+    { id: 'consent_widget', label: 'Consent Widget' },
+    { id: 'soyio_api', label: 'Soyio API' },
+  ]}
+  actions={[
+    {
+      from: 'frontend',
+      to: 'consent_widget',
+      label: 'Inicializa varios checkboxes'
+    },
+    {
+      from: 'consent_widget',
+      to: 'frontend',
+      label: 'Usuario interactúa con checkboxes'
+    },
+    {
+      from: 'consent_widget',
+      to: 'frontend',
+      label: 'Genera varios action_tokens',
+      isDashed: true
+    },
+    {
+      from: 'frontend',
+      to: 'backend',
+      label: 'Recopila múltiples action_tokens'
+    },
+    {
+      from: 'backend',
+      to: 'soyio_api',
+      label: 'Crea Consent Commit con todos los tokens'
+    },
+    {
+      from: 'soyio_api',
+      to: 'soyio_api',
+      label: 'Crea varios Consent Actions',
+      isDashed: true,
+    },
+    {
+      from: 'soyio_api',
+      to: 'backend',
+      label: 'Retorna Consent Commit creado'
+    },
+    {
+      from: 'soyio_api',
+      to: 'soyio_api',
+      label: 'Actualiza Agreements automáticamente',
+      isDashed: true,
+    }
+  ]}
+/>
+
+
+## Próximos pasos
+
+- [Consulta los consentimientos](./consent-query.mdx) - Consulta el consentimiento de tus usuarios
+- [Plantillas de consentimiento](./consent-templates.mdx) - Crea plantillas de consentimiento para tus aplicaciones
+- [Personalización](./customization.mdx) - Personaliza el componente de consentimiento
+- [Gestión de consentimientos](./consent-management) - Habilita un portal para que tus usuarios gestionen y revoquen su consentimiento

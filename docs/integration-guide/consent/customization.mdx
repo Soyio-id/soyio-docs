@@ -1,0 +1,154 @@
+---
+title: Personaliza el estilo del widget
+description: Personaliza el estilo del widget
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import SequenceDiagram from '../../../src/components/SequenceDiagram';
+
+# Apariencia y comportamiento
+
+Cuando un usuario interactúa con una solicitud de consentimiento generada desde un template de Soyio, verá un widget interactivo diseñado para facilitar la comprensión y la aceptación de la solicitud de consentimiento. Este widget incluye:
+
+1. **Título**: El título de la solicitud de consentimiento.
+2. **Ícono**: Un ícono estándar de Soyio que representa el uso de datos que se está solicitando.
+3. **Cláusula Legal**: La cláusula legal de la solicitud de consentimiento.
+4. **Checkbox**: Para aceptar la solicitud de consentimiento.
+5. **Sección "Más Información"**: Área desplegable con detalles de los datos y usos configurados en la plantilla.
+6. **Links a documentos legales**: Links a los documentos legales que se han referenciado en la cláusula legal.
+7. **Link al centro de privacidad de la empresa**: Donde el usuario puede encontrar más información sobre cómo puede revocar su consentimiento o ejercer sus derechos.
+
+## Apariencia
+
+Personaliza el componente de captura de consentimiento para adaptarlo a tu interfaz mediante variables de CSS declaradas en el objeto `appearance` del SDK.
+
+<img src="/img/consentimiento-estilos.png" alt="Consent Embed example" width="100%"/>
+
+Asegúrate de mantener los elementos de accesibilidad como el contraste adecuado y el tamaño de fuente legible al personalizar el componente.
+
+<Tabs>
+    <TabItem value="web" label="SDK Web" default>
+    ```jsx
+    const consentOptions = {
+        templateId: "<consent_template_id>",
+        appearance: {
+          variables: {
+              fontFamily: 'system-ui, sans-serif',
+              colorPrimary: '#f54c27',
+              colorBackground: '#ffffff',
+          },
+          rules : {
+              '.Checkbox': {
+                accentColor: 'var(--colorPrimary)',
+              }
+          }
+    };
+    ```
+
+    :::tip[Pro Tip]
+    Para obtener más información sobre las variables y reglas de personalización, consulta la [documentación oficial del SDK web de Soyio](https://github.com/Soyio-id/soy-io-widget?tab=readme-ov-file#appearance).
+    :::
+    </TabItem>
+</Tabs>
+
+## Estilos de íconos
+
+Personaliza el estilo de los íconos que se muestran en el componente de consentimiento desde la [configuración](../../api/resources/schemas/configuration) de tu compañía en Soyio. Hay tres opciones disponibles:
+
+- **`duotone`**: Íconos con dos tonos que ofrecen mayor profundidad visual.
+- **`outline`**: Íconos con contorno únicamente para un diseño más minimalista.
+- **`solid`**: Íconos completamente rellenos para un aspecto más robusto.
+
+![Estilos de íconos disponibles](/img/icon-styles-example.webp)
+
+:::info[Información]
+Esta configuración se aplica a nivel de compañía y afecta todos los componentes de consentimiento de tu cuenta, incluyendo el portal de revocación de consentimientos del Privacy Center.
+:::
+
+## Comportamiento
+
+Personaliza el comportamiento del módulo de consentimiento desde la [configuración](../../api/resources/schemas/configuration) de tu compañía en Soyio a través de las siguientes opciones.
+
+### Especifica dominios permitidos
+
+Especifica una lista de dominios permitidos para desplegar el componente de captura de consentimiento usando la opción `whitelisted_domains`. Esta es una medida de seguridad para evitar que el componente se pueda mostrar en sitios web que no sean de tu propiedad.
+
+:::info[Información]
+La configuración de dominios permitidos se aplica a nivel de compañía y afecta todos los componentes de consentimiento de tu cuenta.
+:::
+
+### Configura las etiquetas de obligatoriedad de consentimientos
+
+Los consentimientos pueden ser opcionales o obligatorios. Configura cuándo mostrar las etiquetas usando la opción `label_display` con una de las siguientes alternativas:
+
+- **`optional_only`** (por defecto): Solo muestra la etiqueta "Opcional" en los consentimientos opcionales.
+- **`mandatory_only`**: Solo muestra la etiqueta "Requerido" o "Obligatorio" en los consentimientos obligatorios.
+
+Cuando `label_display` está configurado como `mandatory_only`, puedes usar la opción `mandatory_label_text` para personalizar el texto de la etiqueta:
+
+- **`required`** (por defecto): Muestra "Requerido"
+- **`mandatory`**: Muestra "Obligatorio"
+
+:::info[Información]
+La configuración de etiquetas de obligatoriedad se aplica a nivel de compañía y afecta todos los componentes de consentimiento de tu cuenta, incluyendo el portal de revocación de consentimientos del Privacy Center.
+:::
+
+### Comportamiento de consentimientos opcionales
+
+Usa la opción `optionalReconsentBehavior` para configurar el comportamiento del componente cuando el consentimiento es opcional y el usuario ya ha otorgado consentimiento previamente usando la misma plantilla de consentimiento.
+
+Las siguientes opciones son posibles:
+
+- **`notice`** (recomendado): Muestra un mensaje informando al usuario que ya otorgó ese consentimiento
+- **`askAgain`**: Muestra la solicitud de consentimiento como si no hubiera sido otorgado previamente
+- **`hide`**: Oculta la solicitud de consentimiento (no se vuelve a solicitar al usuario)
+
+```javascript title="Configuración para consentimientos opcionales"
+const consentOptions = {
+  templateId: "<consent_template_id>",
+  entityId: "ent_usuario_123",
+  optionalReconsentBehavior: "notice" // Recomendado
+};
+```
+
+:::tip[Pro Tip]
+Recomendamos usar `notice` para que el usuario sepa qué consentimientos ya otorgó.
+:::
+
+:::info[Información]
+La configuración de comportamiento cuando ya se ha otorgado consentimiento se aplica a nivel de componente por lo que lo debes configurar para cada componente de captura de consentimiento que desees personalizar.
+:::
+
+### Comportamiento de consentimientos obligatorios
+
+Usa la opción `mandatoryReconsentBehavior` para configurar el comportamiento del componente cuando el consentimiento es obligatorio y el usuario ya ha otorgado consentimiento previamente usando la misma plantilla de consentimiento.
+
+Las siguientes opciones son posibles:
+
+- **`notice`** (recomendado): Muestra un mensaje informando al usuario que ya otorgó ese consentimiento
+- **`askAgain`**: Muestra la solicitud de consentimiento como si no hubiera sido otorgado previamente
+
+```javascript title="Configuración para consentimientos obligatorios"
+const consentOptions = {
+  templateId: "<consent_template_id>",
+  entityId: "ent_usuario_123",
+  mandatoryReconsentBehavior: "notice" // Recomendado
+};
+```
+
+:::tip[Pro Tip]
+No se puede ocultar un consentimiento obligatorio. Siempre se recomienda usar `notice` para que el usuario sepa qué consentimientos ya otorgó.
+:::
+
+:::info[Información]
+La configuración de comportamiento cuando ya se ha otorgado consentimiento se aplica a nivel de componente por lo que lo debes configurar para cada componente de captura de consentimiento que desees personalizar.
+:::
+
+### Incluye un link al portal de gestión de consentimientos
+
+Incluye un link al portal de gestión de consentimientos en cada solicitud de consentimiento configurando una url pública para el Privacy Center. Puedes hacerlo usando la opción `privacy_center.public_url` en la [configuración de tu compañía](../main/company-configuration) en Soyio.
+
+:::info[Información]
+La configuración de link al portal de gestión de consentimientos se aplica a nivel de compañía y afecta todos los componentes de consentimiento de tu cuenta.
+:::

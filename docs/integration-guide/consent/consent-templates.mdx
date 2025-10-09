@@ -1,0 +1,209 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Crea plantillas de consentimiento
+
+Las plantillas de consentimiento (`consent templates`) te permiten estandarizar las solicitudes de consentimiento en todos tus flujos digitales.
+En la plantilla defines el contenido y las propiedades de la solicitud de consentimiento que se presenta a tus usuarios. Puedes crear tantas plantillas como necesites, cada una con sus propias características y usarlas en diferentes flujos de tu aplicación.
+
+Crea tus plantillas de consentimiento usando el dashboard de administración o usando la API de Soyio con el endpoint [`POST /api/v1/consent_templates`](../../api/resources/create-consent-template.api.mdx).
+
+<img src="/img/ejemplo-consentimiento-taxonomia.png" alt="Ejemplo de plantilla de consentimiento" width="100%"/>
+
+## Configuración de la plantilla
+
+### Define el título
+
+Define un título corto y descriptivo que será lo primero que vea el usuario.
+
+```json
+{
+  "title": "Quiero recibir ofertas y promociones"
+}
+```
+
+**Mejores prácticas:**
+- Usa lenguaje claro y directo
+- Evita términos técnicos o legales complejos
+- Mantén el título conciso (máximo 50 caracteres)
+
+### Define la cláusula legal
+
+Redacta el texto legal del consentimiento. Te recomendamos mantenerlo breve, que sea claro y que comience con acciones afirmativas.
+
+```json
+{
+  "text": "Acepto el tratamiento de mis datos personales para fines de marketing y promociones."
+}
+```
+
+**Mejores prácticas:**
+- Comienza con verbos afirmativos: "Acepto", "Autorizo", "Estoy de acuerdo"
+- Usa lenguaje simple y comprensible
+- Evita ambigüedades o dobles negaciones
+
+#### Usa tooltips para añadir aclaraciones
+
+Añade aclaraciones o definiciones usando tooltips para evitar textos muy largos. Encierra la palabra o frase en dobles corchetes `[[ ]]` y el texto del tooltip en paréntesis `( )`.
+
+```json
+{
+  "text": "Acepto el tratamiento de mis datos para [[fines de marketing]](Esto incluye el envío de correos promocionales y publicidad personalizada)."
+}
+```
+
+#### Referencia documentos de privacidad
+
+Enlaza tus políticas de privacidad, términos y condiciones u otros documentos relevantes usando dobles llaves `{{ }}`. Si necesitas referenciar una versión específica del documento, puedes hacerlo agregando el número de la versión después de la llave.
+
+```json
+{
+  "text": "He leído y acepto la {{politica-de-privacidad}} de la empresa."
+}
+```
+
+:::info[Importante]
+Los documentos de privacidad deben estar previamente configurados en la plataforma para poder referenciarlos. Revisa la sección [Configuración de la empresa](../main/company-configuration.mdx) para más información.
+:::
+
+### Define categorías de datos y usos
+
+Define explícitamente las categorías de datos para las cuales solicitas consentimiento seleccionando las opciones desde nuestra taxonomía. Para cada categoría de datos, puedes especificar uno o más usos de los datos. Puedes ver la lista completa de categorías de datos y usos en la sección de [taxonomía](../main/taxonomy.mdx).
+
+**Recomendaciones:**
+- Sé lo más granular posible, es decir, usa subcategorías siempre que sea posible.
+- Analiza tus procesos internos para solicitar solo los datos necesarios. Esto te ayudará a cumplir con el principio de minimización de datos.
+- Escoge usos que representen tus procesos internos y que sean coherentes con la cláusula legal de la plantilla.
+- No combines usos de diferentes categorías principales en un mismo template. Esto es importante para cumplir con el principio de granularidad y especificidad.
+
+```json title="Ejemplo"
+{
+  "data_category": "user.contact.email",
+  "data_uses": ["marketing.communications", "marketing.advertising"]
+}
+```
+
+```json title="Ejemplo de usos que NO debes combinar"
+// ❌ No hagas esto
+{
+  "data_category": "user.contact.email",
+  "data_uses": ["essential", "marketing", "third_party_sharing"]
+}
+```
+
+### Define la vigencia del consentimiento
+
+Establece un período de duración para el consentimiento usando el formato ISO 8601.
+
+**Formato:** `P[n]Y[n]M[n]DT[n]H[n]M[n]S`
+
+**Ejemplos:**
+- `P1Y` = 1 año
+- `P6M` = 6 meses
+- `P2Y3M` = 2 años y 3 meses
+- `P1Y6M3D` = 1 año, 6 meses y 3 días
+
+**Consideraciones:**
+- Una vez expirado, cuando consultes el consentimiento, aparecerá como "no otorgado". Por lo tanto, no podrás continuar tratando los datos para esa finalidad.
+- Deberás solicitarlo nuevamente si necesitas seguir tratando los datos.
+- Considera el ciclo de vida de tu relación con el usuario.
+
+### Define el alcance del consentimiento
+
+Por defecto, un template de solicitud de consentimiento se asocia a toda tu compañía. Acota el alcance a un producto o filial específica usando la opción `product_id` o `branch_id`.
+
+- **Por producto:** Asocia el template a un producto específico (ej. aplicación móvil, programa de lealtad).
+- **Por filial (branch):** Asocia el template a una filial o marca específica de tu grupo empresarial.
+
+:::info[Información]
+Los productos y filiales deben estar previamente configurados en el perfil de tu compañía en la plataforma. Revisa la sección [Configuración de la empresa](../main/company-configuration.mdx) para más información.
+:::
+
+## Ejemplos de plantillas
+
+### Plantilla de marketing
+
+```json
+{
+  "name": "Marketing Básico", // Nombre descriptivo de la plantilla para tu referencia
+  "title": "Quiero recibir ofertas y promociones",
+  "text": "Acepto el tratamiento de mis datos para fines de marketing como enviar correos promocionales y publicidad personalizada según la {{politica-de-privacidad}}.",
+  "duration": "P2Y",
+  "data_requirements": [
+    {
+      "key": "user.contact.email",
+      "data_uses": ["marketing.communications", "marketing.advertising", "marketing.advertising.profiling"]
+    },
+    {
+      "key": "user.contact.phone_number",
+      "data_uses": ["marketing.communications", "marketing.advertising", "marketing.advertising.profiling"]
+    },
+    {
+      "key": "user.name",
+      "data_uses": ["marketing.communications", "marketing.advertising", "marketing.advertising.profiling"]
+    }
+  ]
+}
+```
+
+### Plantilla de analytics
+
+```json
+{
+  "name": "Análisis y Mejora", // Nombre descriptivo de la plantilla para tu referencia
+  "title": "Quiero ayudar a mejorar el servicio",
+  "text": "Autorizo el uso de mis datos y el uso de cookies para realizar [[análisis y mejoras]](Análisis de comportamiento y optimización del servicio) de la plataforma según la {{politica-de-privacidad}}.",
+  "duration": "P1Y",
+  "data_requirements": [
+    {
+      "data_category": "user.device.cookie_id",
+      "data_uses": ["analytics.reporting.ad_performance", "analytics.reporting.system.performance"]
+    }
+  ]
+}
+```
+
+### Plantilla para compartir datos con terceros
+
+```json
+{
+  "name": "Compartir con Terceros", // Nombre descriptivo de la plantilla para tu referencia
+  "title": "Compartir información con socios comerciales",
+  "text": "Acepto que mis datos sean compartidos con [[socios comerciales y empresas aliadas]](<Empresa 1>, <Empresa 2> y <Empresa 3>) para que me ofrezcan productos y servicios de interés a precios preferenciales.",
+  "duration": "P1Y6M",
+  "data_requirements": [
+    {
+      "data_category": "user.contact.phone_number",
+      "data_uses": ["third_party_sharing"]
+    },
+    {
+      "data_category": "user.contact.email",
+      "data_uses": ["third_party_sharing"]
+    },
+    {
+      "data_category": "user.name",
+      "data_uses": ["third_party_sharing"]
+    }
+  ]
+}
+```
+
+## Versionado de plantillas y evidencia
+
+Soyio genera trazabilidad con fines de auditoría y cumplimiento regulatorio. Por lo tanto, cada vez que modificas una plantilla de consentimiento, se crea una nueva versión de la plantilla que mantiene el mismo ID, pero con un número de versión diferente.
+
+Cada vez que se levanta un flujo de consentimiento, se usa la última versión disponible para la plantilla de consentimiento especificada en la SDK.
+
+Consulta el historial de versiones de una plantilla usando el endpoint [`GET /api/v1/consent_templates/{id}/versions`](../../api/resources/index-consent-template-versions.api.mdx).
+
+:::info[Información]
+Es importante considerar esto, ya que la evidencia de los consentimientos se asocia a la versión exacta de la plantilla que el usuario aceptó. Si el cambio de la plantilla afecta a los datos o usos que se solicitan, a su vigencia o al alcance del consentimiento (por ejemplo, si se asocia a otro producto o filial), el consentimiento asociado a esa plantilla aparecerá como `no compliant`.
+:::
+
+## Próximos pasos
+
+- [Inicio rápido](./quickstart) - Implementa consentimiento paso a paso
+- [Captura de consentimiento](./consent-capture) - Captura el consentimiento de un usuario
+- [Consulta de consentimiento](./consent-query) - Consulta los consentimientos de un usuario
+- [Gestión de consentimientos](./consent-management) - Gestiona y revoca el consentimiento de un usuario
+- [Taxonomía](../main/taxonomy) - Entiende las categorías de datos disponibles

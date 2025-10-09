@@ -1,0 +1,35 @@
+# Módulo de autenticación
+
+## Introducción
+
+Este módulo te permite implementar autenticación segura en tu aplicación mediante biometría o passkeys. Ideal para:
+
+- **Proteger operaciones críticas** y datos sensibles
+- **Reducir fraudes** y accesos no autorizados
+- **Centralizar el mecanismo** de autenticación para toda tu plataforma
+
+## Características principales
+
+### Múltiples métodos de autenticación
+- **Passkeys**: Llaves de acceso seguras almacenadas en el dispositivo del usuario
+- **Autenticación biométrica**: Comprobación de la identidad del usuario mediante biometría facial 3D
+
+### Seguridad avanzada
+- **Cifrado punto a punto** de todas las comunicaciones
+- **Tokens seguros** con expiración automática de 5 minutos
+- **Limitación de intentos** para prevenir ataques de fuerza bruta
+- **Webhooks firmados digitalmente**: para notificaciones de eventos de autenticación
+
+### Compatibilidad multiplataforma
+- **Web**: SDK para navegadores modernos
+- **Mobile**: SDK para aplicaciones React Native
+- **API REST**: para integración de las comunicaciones con tu backend
+
+## Prerequisitos
+
+Para implementar el módulo de autenticación, también debes implementar el módulo de [verificación de identidad](../disclosure/how-it-works.mdx), el cual te permitirá crear la identidad verificada del usuario en el sistema la primera vez que el usuario inicie sesión en tu sitio o aplicación.
+
+## Próximos pasos
+
+- [Cómo funciona](./how-it-works) - Entiende el flujo técnico de autenticación
+- [Quickstart](./quickstart) - Implementa autenticación en minutos

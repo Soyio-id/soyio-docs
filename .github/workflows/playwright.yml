@@ -1,7 +1,5 @@
 name: Playwright Tests
 on:
-  push:
-    branches: [ main, master ]
   pull_request:
 jobs:
   test:
@@ -11,25 +9,25 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Use Node.js
-      uses: actions/setup-node@v4
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v4
       with:
-        node-version: lts/*
+        version: 10
 
     - name: Cache dependencies
       uses: actions/cache@v4
       with:
         path: |
-          ~/.npm
+          ~/.pnpm-store
           node_modules
-        key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
+        key: ${{ runner.OS }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
         restore-keys: |
-          ${{ runner.OS }}-node-
+          ${{ runner.OS }}-pnpm-
 
     - name: Get installed Playwright version
       id: playwright-version
       run: |
-        PLAYWRIGHT_VERSION=$(node -e "const pkg = require('./package-lock.json'); console.log(pkg.dependencies?.['@playwright/test']?.version || pkg.packages?.['node_modules/@playwright/test']?.version || '')")
+        PLAYWRIGHT_VERSION=$(node -e "const pkg = require('./package.json'); console.log(pkg.devDependencies?.['@playwright/test'] || '')")
         echo "PLAYWRIGHT_VERSION=$PLAYWRIGHT_VERSION" >> $GITHUB_OUTPUT
 
     - name: Cache playwright binaries
@@ -41,14 +39,17 @@ jobs:
         key: ${{ runner.os }}-playwright-${{ steps.playwright-version.outputs.PLAYWRIGHT_VERSION }}
 
     - name: Install dependencies
-      run: npm ci
+      run: pnpm install --frozen-lockfile
 
     - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
+      run: pnpm exec playwright install --with-deps
       if: steps.playwright-cache.outputs.cache-hit != 'true'
 
     - name: Run Playwright tests
-      run: npm run test:e2e
+      env:
+        DOCUSAURUS_DISABLE_FASTER: '1'
+        NODE_OPTIONS: --max_old_space_size=4096
+      run: pnpm run test:e2e
 
     - uses: actions/upload-artifact@v4
       if: always()

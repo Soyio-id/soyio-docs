@@ -1,0 +1,53 @@
+# Apariencia y comportamiento
+
+Al igual que los otros componentes de Soyio, el Privacy Center se puede personalizar mediante el uso del parámetro `appearance`. Este parámetro permite configurar el aspecto visual del componente.
+
+## Variables de personalización
+
+Puedes personalizar la apariencia del Privacy Center usando variables CSS:
+
+```javascript title="Personalización avanzada"
+const privacyCenterOptions = {
+  // ... configuración básica
+  appearance: {
+    theme: 'soyio',
+    variables: {
+      // Colores principales
+      colorPrimary: '#f54c27',
+      colorSecondary: '#f54c27',
+      colorBackground: '#ffffff',
+      colorText: '#1A1F36',
+
+      // Tipografía
+      fontFamily: 'system-ui, sans-serif',
+      fontSize: '14px',
+
+      // Bordes y espaciado
+      borderRadius: '8px',
+      borderWidth: '1px',
+      spacing: '16px',
+
+      // Sombras
+      shadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
+    },
+    rules: {
+      '.DataSubjectRequestForm': {
+        backgroundColor: 'var(--colorBackground)',
+        border: '1px solid #e0e0e0',
+        borderRadius: 'var(--borderRadius)'
+      },
+      '.ConsentManagement': {
+        padding: 'var(--spacing)'
+      }
+    }
+  }
+};
+```
+
+:::tip[Pro Tip]
+Para obtener más información sobre las variables y reglas de personalización, consulta la [documentación oficial del SDK web de Soyio](https://github.com/Soyio-id/soy-io-widget?tab=readme-ov-file#appearance).
+:::
+
+:::warning[Importante]
+Asegúrate de mantener los elementos de accesibilidad como el contraste adecuado y el tamaño de fuente legible al personalizar el componente.
+:::

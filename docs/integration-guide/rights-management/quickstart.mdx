@@ -1,0 +1,78 @@
+import Admonition from '@theme/Admonition';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import SequenceDiagram from '../../../src/components/SequenceDiagram';
+
+# Inicio rápido
+
+## Comienza a recibir y gestionar solicitudes de derechos
+
+Esta guía te llevará paso a paso para implementar el formulario de solicitud de derechos en tu sitio web usando Soyio y gestionar las solicitudes de derechos en el dashboard corporativo.
+
+## Pre-requisitos
+
+Antes de comenzar, asegúrate de tener:
+
+- Tu cuenta Empresa en Soyio y tus credenciales de API.
+- Una cuenta de usuario asociada a tu empresa.
+- El [SDK Web](https://github.com/Soyio-id/soy-io-widget) instalado en tu sitio o aplicación.
+
+:::warning[Importante]
+Si aún no tienes tu cuenta Empresa en Soyio, contacta a nuestro equipo para obtener una cuenta de prueba completando [el siguiente formulario](https://soyio.typeform.com/formularioweb).
+:::
+
+## Paso a paso
+
+### 1. Integra el componente en tu frontend
+
+Usa el componente Privacy Center del SDK de Soyio y configúralo usando el `company_id` de tu empresa. 
+
+Especifica la opción `DataSubjectRequests` en el array `enabledFeatures` para habilitar específicamente el formulario de solicitud de derechos.
+
+<Tabs>
+  <TabItem value="web" label="SDK Web" default>
+```jsx title="page.js"
+// Modo público
+import { PrivacyCenter } from "@soyio/soyio-widget";
+
+const privacyCenterOptions = {
+  companyId: "<company_id>",
+  enabledFeatures: ['DataSubjectRequests'],
+  onEvent: (event) => console.log('Event:', event),
+  onReady: () => console.log('Privacy Center is ready'), // Optional
+  appearance: {},                                        // Optional
+  isSandbox: false,                                      // Optional
+};
+
+const privacyCenter = new PrivacyCenter(privacyCenterOptions);
+privacyCenter.mount("#privacy-center-container");
+```
+
+```html title="page.html"
+<div id="privacy-center-container"></div>
+```
+  </TabItem>
+</Tabs>
+
+### 2. Habilita opcionalmente el seguimiento de solicitudes
+
+Opcionalmente puedes habilitar el seguimiento de solicitudes agregando la opción `RequestTracking` en el array `enabledFeatures`.
+
+<Tabs>
+  <TabItem value="web" label="SDK Web" default>
+```jsx title="page.js"
+const privacyCenterOptions = {
+  companyId: "<company_id>",
+  enabledFeatures: ['DataSubjectRequests', 'RequestTracking'],
+};
+```
+  </TabItem>
+</Tabs>
+
+Completando los pasos anteriores, el formulario de solicitud de derechos ya estará habilitado y los usuarios podrán enviar sus solicitudes de derechos.
+
+### 3. Gestiona solicitudes de derechos
+
+Accede a la gestión de solicitudes de derechos desde el dashboard administrativo, en el que podrás ver el estado de las solicitudes de derechos y realizar diferentes acciones para procesar las solicitudes.
+
+<img src="/img/dashboard_dsr_framed.png" alt="Seguimiento de solicitudes de derechos en el dashboard corporativo"/>

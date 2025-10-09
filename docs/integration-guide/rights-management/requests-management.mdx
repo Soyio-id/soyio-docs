@@ -1,0 +1,31 @@
+import Admonition from '@theme/Admonition';
+
+# Responde a las solicitudes
+
+## Dashboard de administración
+Puedes visualizar y responder a las solicitudes de derechos en el dashboard de administración. Esto genera trazabilidad de la respuesta en la solicitud y te permite acceder a un historial de las acciones realizadas para fines de auditoría.
+
+<img src="/img/dashboard_dsr_framed.png" alt="Dashboard de gestión de solicitudes"/>
+
+## Gestión vía API
+
+A través de la API de Soyio y los webhooks tienes más flexibilidad para configurar procesos de gestión de solicitudes de manera automatizada.
+
+### Eventos
+
+Soyio emite eventos a través de webhooks cuando se crea una solicitud de derechos o cuando cambia su estado.
+Úsalos para reaccionar a los eventos de creación, actualización y completación de solicitudes de manera automatizada.
+
+Los eventos son los siguientes:
+
+- `data_subject_request.created`: Se crea un nuevo data subject request.
+- `data_subject_request.updated`: Se actualiza el estado de un data subject request.
+- `data_subject_request.validating`: Se valida la identidad del usuario.
+- `data_subject_request.processing`: Se procesa la solicitud.
+- `data_subject_request.completed`: Se completa la solicitud.
+- `data_subject_request.rejected`: Se rechaza la solicitud.
+- `data_subject_request.data_missmatch`: Se detecta un error de coincidencia de datos.
+
+:::info
+Revisa nuestra [sección de webhooks](/docs/api/webhooks) para obtener más información sobre cómo suscribirte y configurar los eventos en tu backend.
+:::

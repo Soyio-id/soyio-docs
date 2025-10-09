@@ -1,0 +1,114 @@
+---
+title: Integración vía API (Consentimiento universal)
+description: Integración vía API (Consentimiento universal)
+---
+
+import Admonition from '@theme/Admonition';
+
+# Integración sin SDK
+
+<Admonition type="success" icon="⭐" title="Disponible como add-on">
+Esta funcionalidad está disponible como add-on en ciertos planes. Consulta por los planes completando [el siguiente formulario](https://soyio.typeform.com/formularioweb).
+</Admonition>
+
+Sigue esta guía para registrar consentimientos sin usar la SDK de Soyio. Esta opción te permitará usar el motor de consentimiento, evidencia y trazabilidad de Soyio pero programando tus propias interfaces.
+
+Es la opción ideal si:
+- Ya cuentas con tu propia interfaz o lógica de consentimiento.
+- Quieres lograr una experiencia full white label programando tus propias interfaces.
+- Necesitas integrar Soyio en sistemas que no soportan componentes embebidos.
+
+**Ventajas principales**
+- Flexibilidad total en la implementación.
+- Control absoluto sobre la experiencia de usuario.
+- Integración ligera, sin dependencias adicionales.
+
+## Pre-requisitos
+
+Antes de comenzar, asegúrate de tener:
+
+- **Cuenta Empresa en Soyio** con credenciales de API.
+- **Plan Premium** contratado.
+- **Una [plantilla de consentimiento](./consent-templates)** creada.
+
+:::warning[Importante]
+Si aún no tienes tu cuenta Empresa en Soyio, contacta a nuestro equipo para obtener una cuenta de prueba completando [el siguiente formulario](https://soyio.typeform.com/formularioweb).
+:::
+
+## Paso a paso
+
+Para este enfoque, no necesitas el SDK instalado en tu frontend. Puedes crear tokens de acción directamente desde tu backend usando la API de Soyio.
+
+### 1. Crea o selecciona una plantilla de consentimiento
+
+Utiliza una [plantilla de consentimiento](./consent-templates) ya creada o [crea una nueva plantilla de consentimiento](../../api/resources/create-consent-template). Revisa la [guía de plantillas de consentimiento](./consent-templates) para más información.
+
+### 2. Implementa tu propia lógica de consentimiento
+
+Con este enfoque, tienes total libertad para implementar tu propia interfaz y lógica de consentimiento. Sin embargo, **te recomendamos encarecidamente obtener la información de la plantilla de consentimiento** que creaste para mostrar o comunicar al usuario las cláusulas, las categorías de datos y los usos de datos correspondientes. Esto es importante para el cumplimiento de la normativa y para la transparencia de la información.
+
+#### Obtén información de la plantilla
+
+Antes de mostrar tu interfaz de consentimiento, consulta la [plantilla de consentimiento](../../api/resources/get-consent-template) para obtener:
+
+- **Cláusula del consentimiento** (`text`): El texto explicativo que debe mostrarse al usuario
+- **Categorías de datos** (`data_categories`): Los tipos de datos que se recolectarán según la [taxonomía](../main/taxonomy) de Soyio
+- **Usos de datos** (`data_uses`): Las categorías específicas de uso de datos según la [taxonomía](../main/taxonomy) de Soyio
+- **Documentos de privacidad asociados**: Enlaces a términos y condiciones, políticas de privacidad, etc.
+
+#### Ventajas de usar la plantilla para generar tu UI
+
+- **Gestión centralizada**: Cambios en la plantilla de consentimiento se reflejan automáticamente sin modificar código
+- **Consistencia**: Mantienes la taxonomía estándar de Soyio para categorías de datos y usos de datos
+- **Cumplimiento**: Aseguras que la información mostrada coincide exactamente con lo registrado en la evidencia generada
+
+### 3. Crea el token de acción
+
+Cuando el usuario otorga el consentimiento en tu interfaz, debes crear inmediatamente un token de acción usando el [endpoint de creación de tokens de acción](../../api/resources/create-action-token).
+
+```json title="POST /api/v1/consent_templates/{id}/action_tokens"
+{
+    "context": "onboarding-producto-a",
+    "kind": "grant",
+    "action_type": "opt_in_click",
+    "timestamp": "2024-03-20T15:30:00Z",
+    "action_data": {
+       // Información adicional para contextualizar mejor la acción de consentimiento
+       // Pueden ser IDs internos o referencias que hagan fácil la búsqueda de la evidencia en un futuro
+    }
+}
+```
+
+La respuesta incluirá el `action_token` que necesitarás para crear el registro de consentimiento:
+
+```json title="Respuesta"
+{
+    "action_token": "<generated_action_token>"
+}
+```
+
+:::info[Información]
+Si quieres registrar una revocación de consentimiento sin SDK, usa el endpoint de creación de acción de consentimiento, pero con el `kind` seteado a `revoke`.
+:::
+
+### 4. Crea el registro de consentimiento
+
+Una vez que el usuario haya otorgado su(s) consentimiento(s) y tengas el `action_token`, crea el registro de consentimiento mediante el [endpoint de creación de acción de consentimiento](../../api/resources/create-consent-action), incluyendo la información contextual del método de captura. Opcionalmente, puedes agregar el `user_reference` para asociar el consentimiento con un usuario específico de tu sistema.
+
+```json title="POST /api/v1/consent_actions"
+{
+    "action_token": "<action_token_from_step_2>",
+    "entity_id": "<id_del_usuario_si_ya_otorgo_previamente_el_consentimiento>" // Opcional
+    "user_reference": "<identificador_usuario>" // Opcional
+    "consent_method": {
+        "channel": "web",
+        "capture_source": "SomeProvider"
+        "metadata": {
+           // Información adicional para contextualizar mejor el contexto del consentimiento
+           // Pueden ser IDs internos o referencias que hagan fácil la búsqueda de la evidencia en un futuro
+        }
+    }
+}
+```
+
+Puedes también crear un [consent commits](../../api/resources/schemas/consentcommit). si es que quieres registrar varios consentimientos en una misma transacción. Revisa la [guía de registro agrupado de consentimientos](./consent-capture#opci%C3%B3n-2-crea-un-commit-de-varios-consentimientos-consentcommit) para más información.

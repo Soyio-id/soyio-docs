@@ -1,0 +1,102 @@
+---
+title: Cómo funciona
+description: Explicación técnica de cómo funciona el módulo de consentimiento
+---
+
+# Cómo funciona el consentimiento
+
+## Funcionamiento general
+
+El módulo de consentimiento de Soyio te permite gestionar el consentimiento de tus usuarios de manera integral y auditable. El sistema funciona a través de varios componentes interconectados:
+
+### [SDK de Soyio](https://github.com/Soyio-id/soy-io-widget)
+- El **componente de consentimiento** del SDK de Soyio te permite solicitar consentimientos a partir de [plantillas versionadas](./consent-templates). Estas plantillas definen exactamente qué datos necesitas, para qué propósitos y bajo qué cláusulas legales.
+- El **componente privacy center** del SDK te permite habilitar un [portal donde tus usuarios pueden gestionar y revocar sus consentimientos de manera autónoma](./consent-management), cumpliendo con los requisitos de transparencia y control.
+
+### [Webhooks para notificaciones](../../api/webhooks)
+El sistema envía **webhooks** para informarte de todos los cambios en los consentimientos de tus usuarios. Esto te permite mantener tu sistema actualizado en tiempo real y reaccionar inmediatamente a las decisiones de tus usuarios.
+
+### [API de Soyio](../../api/intro)
+[Persiste las acciones de consentimiento](./consent-capture) y [consulta el estado de los consentimientos](./consent-query) a través de nuestra API. Procura consultar el estado de los consentimientos antes de realizar cualquier tratamiento de datos. Esto te asegura que siempre tengas la información más actualizada sobre qué puedes hacer con los datos de cada usuario.
+
+## Modelo de datos de consentimiento
+
+Soyio almacena el estado actualizado de todos los consentimientos en un [Agreement](../main/general-concepts#agreement) por usuario. Este agreement es la fuente de verdad que determina qué permisos tiene cada usuario para el uso de sus datos.
+
+<img src="/img/diagrama-modelo-consentimiento.png" alt="modelo de datos de consentimiento" width="100%"/>
+
+### Componentes principales del modelo
+
+- [**Consent Templates**](./consent-templates): Plantillas versionadas que definen qué datos se usan y para qué propósitos. Estas plantillas se utilizan para solicitar el consentimiento de los usuarios.
+- [**Consent Actions**](./consent-capture): Registros individuales de cada acción de consentimiento del usuario.
+- [**Agreements**](../main/general-concepts#agreement): Estado consolidado y versionado de todos los consentimientos de un usuario.
+- [**Evidence**](../main/evidence-traceability): Evidencia de la acción realizada por el usuario o la empresa asociada a cada modificación del agreement.
+- **Identity**: Identificador único del usuario verificado en el sistema Soyio.
+- **Entity**: Identificador único del usuario en el sistema Soyio (no verificado previamente).
+- [**Company**](../main/company-configuration): Identificador único de la empresa en el sistema Soyio.
+
+### Componentes secundarios del modelo
+
+- [**Consent Commits**](./consent-capture): Registro que agrupa una serie de acciones de consentimiento (Consent Actions) realizadas por un usuario.
+- [**Compliance Status**](./consent-query): Estructura que permite consultar el estado de cumplimiento de un usuario, analizando el agreement y comprobando si cumple o no con los requerimientos de un template de consentimiento específico.
+
+## Características de los consentimientos
+
+Los consentimientos en Soyio tienen características específicas que debes conocer:
+
+- **Vigencia**: Cada consentimiento tiene una duración específica que puedes configurar en la plantilla. Una vez expirado, necesitarás solicitar un nuevo consentimiento o detener el tratamiento de los datos.
+- **Usos específicos**: Los consentimientos se otorgan para propósitos específicos (marketing, análisis, uso esencial, etc.). Revisa la [taxonomía](../main/taxonomy) para conocer los usos de datos disponibles.
+- **Datos específicos**: Cada consentimiento autoriza el uso de categorías específicas de datos (información de contacto, datos de navegación, etc.). Revisa la [taxonomía](../main/taxonomy) para conocer las categorías de datos disponibles.
+- **Alcance por producto o filial**: Cada consentimiento tiene un alcance específico que puede abarcar a toda la empresa, un producto o una filial.
+- **Cláusulas legales**: Cada plantilla incluye las cláusulas legales correspondientes que el usuario debe aceptar.
+
+:::tip[Importante]
+Para conocer más detalles sobre cómo solicitar consentimientos y configurar tus plantillas, revisa la sección de [plantillas de consentimiento](./consent-templates).
+:::
+
+## Canales de captura
+
+Puedes solicitar consentimientos a través de diferentes canales:
+
+- **SDK Web**: Para aplicaciones web, integra el componente de consentimiento directamente en tu frontend.
+- **SDK Mobile**: Para aplicaciones móviles (React Native), utiliza el SDK específico para móviles.
+- **API directa**: Para casos donde no es posible usar el SDK (aplicaciones de escritorio, integraciones legacy, etc.), puedes capturar consentimientos directamente usando nuestra API REST.
+
+## Datos que almacena Soyio
+
+Para gestionar los consentimientos de manera efectiva, Soyio almacena información específica:
+
+### Identificador de la entidad
+**Es crucial** que tu empresa guarde el `entity_id` que genera Soyio para cada usuario. Este identificador te permite:
+
+- Asociar todos los consentimientos del usuario a un mismo agreement
+- Consultar el estado completo de consentimientos de cada usuario
+- Mantener la trazabilidad a lo largo del tiempo
+- Gestionar correctamente las revocaciones y actualizaciones
+
+### Información del consentimiento
+- **Timestamp**: Cuándo se otorgó el consentimiento
+- **Método**: Cómo se capturó (op-in click, voice, signing, etc.)
+- **Canal**: Donde se capturó (web, móvil, chatbot, etc.)
+- **Plantilla**: Qué versión de plantilla se utilizó
+- **Propósitos**: Para qué usos se autorizó
+- **Datos**: Qué categorías de datos se autorizaron
+- **User Reference**: Identificador del usuario en tu sistema
+- **Entity ID**: Identificador de la entidad en Soyio
+
+### Minimización de datos
+Soyio minimiza la cantidad de datos que almacena para cada consentimiento, por lo que almacena categorías de datos y usos de datos, pero no los datos específicos. El registro del consentimiento se vincula a los usuarios a través del identificador de entidad.
+
+:::info[Importante]
+Para acceder a algunas funcionalidades de reportería como las requeridas por la CMF para el Registro de Deuda Consolidada, es necesario vincular el rut del usuario a la entidad.
+:::
+
+## Flujo de trabajo recomendado
+
+1. **Configura** tus plantillas de consentimiento con los usos de datos necesarios
+2. **Integra** el SDK en tus aplicaciones web o móviles
+3. **Captura** el consentimiento cuando sea necesario
+4. **Consulta** el estado antes de procesar datos
+5. **Mantén** actualizado el `entity_id` de cada usuario en tu sistema
+6. **Reacciona** a los webhooks para cambios en tiempo real
+7. **Proporciona** un portal de gestión de consentimientos para tus usuarios
