@@ -24,18 +24,18 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: 'doc',
+      id: 'integration-guide/main/security-privacy',
+      label: 'Seguridad y privacidad',
+    },
+    {
+      type: 'doc',
       id: 'integration-guide/main/sandbox',
-      label: 'Modo prueba (sandbox)',
+      label: 'Pruebas en sandbox',
     },
     {
       type: 'doc',
       id: 'integration-guide/main/production',
       label: 'Paso a producción',
-    },
-    {
-      type: 'doc',
-      id: 'integration-guide/main/security-privacy',
-      label: 'Seguridad y privacidad',
     },
     {
       type: 'doc',

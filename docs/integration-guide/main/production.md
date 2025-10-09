@@ -1,19 +1,28 @@
 # Paso a producción
 
-Cuando estés listo para comenzar a utilizar Soyio en un ambiente productivo, sigue estos pasos importantes.
+Cuando estés listo para comenzar a utilizar Soyio en un entorno productivo, sigue estos pasos para asegurar una transición segura y controlada.
 
 :::warning[Importante]
-En el ambiente de producción, todas las solicitudes y transacciones **serán reales**.
+En el ambiente de producción, todas las solicitudes y transacciones son reales y generan evidencias auditables.
 :::
 
-## Preparación
+## Checklist de Preparación
 
-Asegúrate de:
+Antes de desplegar tu entorno de producción, asegúrate de cumplir con el siguiente checklist:
 
-- Haber probado exhaustivamente tu integración en el ambiente sandbox
-- Tener todos los flujos validados y funcionando correctamente
-- Contar con los procedimientos de contingencia necesarios
-- Haber configurado correctamente la gestión de API keys para production
+- [ ] Haber probado exhaustivamente tu integración en el ambiente sandbox.
+- [ ] Confirmar que todos los flujos funcionen correctamente.
+- [ ] Contar con procedimientos de contingencia y monitoreo en caso de fallos.
+- [ ] Definir la estructura organizacional de tu empresa (productos o filiales que agrupan tus flujos).
+- [ ] Verificar que las plantillas de consentimiento estén correctamente asociadas a los productos o filiales.
+- [ ] Revisar las opciones de personalización de la apariencia y de comportamiento (logo, colores, etc.).
+- [ ] Configurar correctamente los dominios autorizados para embeber componentes de Soyio (whitelists).
+- [ ] Revisar la rotación, permisos y fecha de expiración de tus API Keys.
+- [ ] Definir los usuarios administrativos y los métodos de acceso seguros (SSO con Google/Microsoft, MFA con passkeys o contraseñas seguras).
+
+:::tip
+Consulta la guía [Probar en Sandbox](./sandbox) para conocer los pasos recomendados antes de esta etapa.
+:::
 
 ## URL base de producción
 
@@ -77,7 +86,7 @@ Incluso después de migrar a producción, mantendrás acceso al ambiente sandbox
 
 Para habilitar tu cuenta en el ambiente de producción:
 
-1. Asegúrate de haber completado todas las pruebas necesarias
+1. Verifica que cumplas con el checklist de preparación.
 2. Contacta al equipo de [soporte de Soyio](mailto:soporte@soyio.id)
 3. Solicita la activación de tu cuenta para el ambiente productivo
 

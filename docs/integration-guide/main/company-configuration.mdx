@@ -1,397 +1,79 @@
 ---
-title: Configuración de Compañía
+title: Configuración de compañía
 description: Guía para configurar tu cuenta y preferencias de empresa en Soyio
 ---
 
-# Configuración de tu Compañía
+# Configuración de tu compañía
 
-Esta guía te ayuda a configurar tu cuenta de empresa en Soyio, incluyendo configuraciones de privacidad, políticas de datos y preferencias de integración.
+Configura la información general y los parámetros de seguridad de tu organización dentro de Soyio.
+Puedes realizar los cambios desde el dashboard administrativo o mediante la API de configuración.
 
-## Configuración Inicial
+## Información general
 
-### 1. Crear Cuenta de Empresa
+En esta sección puedes registrar los datos principales de tu organización:
 
-```bash
-# Crear nueva cuenta
-curl -X POST https://api.soyio.com/v1/accounts \
-  -H "Content-Type: application/json" \
-  -d '{
-    "companyName": "Mi Empresa S.L.",
-    "legalName": "Mi Empresa Sociedad Limitada",
-    "taxId": "B12345678",
-    "contactEmail": "admin@miempresa.com",
-    "country": "ES",
-    "industry": "technology",
-    "dataProtectionOfficer": {
-      "name": "Juan Pérez",
-      "email": "dpo@miempresa.com"
-    }
-  }'
-```
+- Nombre de la compañía
+- Página web principal
+- Correo de notificaciones de alerta
 
-### 2. Configurar Información Legal
+Algunos campos, como la razón social y el RUT/TIN, son definidos por el equipo de Soyio al crear tu cuenta y no pueden ser modificados posteriormente, ya que forman parte de la información oficial de tu compañía dentro de la plataforma.
 
-```json
-{
-  "legalInfo": {
-    "companyName": "Mi Empresa S.L.",
-    "legalName": "Mi Empresa Sociedad Limitada",
-    "taxId": "B12345678",
-    "registrationNumber": "M-123456",
-    "address": {
-      "street": "Calle Principal 123",
-      "city": "Madrid",
-      "postalCode": "28001",
-      "country": "ES"
-    },
-    "contactInfo": {
-      "email": "contacto@miempresa.com",
-      "phone": "+34 91 123 45 67",
-      "website": "https://miempresa.com"
-    }
-  }
-}
-```
+:::info[Importante]
+Si necesitas actualizar información no editable, contacta al equipo de soporte de Soyio.
+:::
 
-## Configuración de Privacidad
+## Acceso y seguridad
 
-### 1. Política de Privacidad
+Define las políticas de acceso al entorno administrativo alineadas con las políticas internas de tu organización. Las opciones disponibles son:
 
-```json
-{
-  "privacyPolicy": {
-    "version": "1.0",
-    "effectiveDate": "2024-01-15",
-    "language": "es",
-    "url": "https://miempresa.com/privacy-policy",
-    "sections": [
-      {
-        "id": "data_collection",
-        "title": "Recopilación de Datos",
-        "content": "Recopilamos los siguientes tipos de datos personales..."
-      },
-      {
-        "id": "data_usage",
-        "title": "Uso de Datos",
-        "content": "Utilizamos sus datos para los siguientes propósitos..."
-      }
-    ]
-  }
-}
-```
+- Acceso con contraseñas seguras.
+- Autenticación multifactor (MFA) mediante passkeys.
+- Inicio de sesión único (SSO) con Google o Microsoft.
 
-### 2. Configuración de Cookies
+## Dominios permitidos
 
-```json
-{
-  "cookieSettings": {
-    "essential": {
-      "required": true,
-      "description": "Cookies necesarias para el funcionamiento del sitio"
-    },
-    "analytics": {
-      "required": false,
-      "description": "Cookies para análisis y estadísticas",
-      "retentionPeriod": "P2Y"
-    },
-    "marketing": {
-      "required": false,
-      "description": "Cookies para marketing y publicidad",
-      "retentionPeriod": "P1Y"
-    }
-  }
-}
-```
+Agrega dominios permitidos (whitelisted domains) que podrán desplegar los componentes de Soyio. Esta es una configuración que aplica a nivel de compañía y afecta todos los componentes de Soyio de tu cuenta.
 
-### 3. Configuración de Retención
+:::info[Tip]
+También puedes agregar dominios permitidos en la configuración de cada componente de Soyio, estos complementan la configuración de nivel de compañía.
+:::
 
-```json
-{
-  "retentionPolicies": {
-    "contactInfo": {
-      "period": "P3Y",
-      "description": "Información de contacto por 3 años"
-    },
-    "behavioralData": {
-      "period": "P1Y",
-      "description": "Datos de comportamiento por 1 año"
-    },
-    "transactionData": {
-      "period": "P7Y",
-      "description": "Datos de transacciones por 7 años (requisito legal)"
-    }
-  }
-}
-```
+## Apariencia
 
-## Configuración de Integración
+- **Logo**: Configura un logo que se mostrará en los componentes de Soyio.
+- **Color principal**: Configura un color principal que aplicará a todos los componentes.
+- **Estilo de íconos**: Configura un estilo de íconos. Esto aplica para los componentes de captura de consentimiento y gestión de consentimientos.
 
-### 1. Configuración de API
+:::info[Tip]
+Puedes sobreescribir el color principal usando el parámetro `appearance` de cada componente.
+:::
 
-```json
-{
-  "apiConfiguration": {
-    "rateLimits": {
-      "requestsPerMinute": 1000,
-      "requestsPerHour": 10000,
-      "requestsPerDay": 100000
-    },
-    "webhookSettings": {
-      "maxRetries": 3,
-      "retryDelay": 5000,
-      "timeout": 30000
-    },
-    "securitySettings": {
-      "requireHttps": true,
-      "allowedOrigins": ["https://miempresa.com"],
-      "ipWhitelist": ["192.168.1.0/24"]
-    }
-  }
-}
-```
+## Configuración de servicios
 
-### 2. Configuración de Webhooks
+A través de la configuración de la compañía, puedes configurar el comportamiento de cada servicio de acuerdo con tus flujos y requerimientos de cumplimiento.
 
-```bash
-# Configurar webhook principal
-curl -X POST https://api.soyio.com/v1/webhooks \
-  -H "Authorization: Bearer YOUR_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "Webhook Principal",
-    "url": "https://miempresa.com/api/webhooks/soyio",
-    "events": [
-      "consent.created",
-      "consent.updated",
-      "consent.withdrawn",
-      "data.subject.request.created"
-    ],
-    "secret": "webhook_secret_key",
-    "active": true
-  }'
-```
+### Validación de identidad
 
-### 3. Configuración de SDK
+- **Validación gubernamental**: Indica si se debe hacer un cruce con la base de datos del gobierno al validar una identidad.
+- **Datos transaccionales efímeros**: Indica si los datos de la transacción deben ser eliminados después de la validación.
+- **Paso para registro de passkey**: Indica si se debe mostrar un paso para registrar una passkey al validar una identidad. Esto no aplica en las validaciones de identidad del Privacy Center.
 
-```javascript
-// Configuración del SDK
-const soyioClient = new SoyioClient({
-  apiKey: 'your_api_key',
-  environment: 'production',
-  baseUrl: 'https://api.soyio.com',
-  timeout: 30000,
-  retries: 3,
-  webhookSecret: 'webhook_secret_key'
-});
-```
+### Consentimiento
 
-## Configuración de Usuarios y Permisos
+- **Dominios permitidos**: Lista de dominios permitidos que podrán desplegar el componente de captura de consentimiento. Estos dominios se agregarán a la lista de dominios permitidos de la compañía.
+- **Label de obligatoriedad**: Indica si se debe mostrar el label de obligatoriedad en los consentimientos.
+- **Texto del label de obligatoriedad**: Texto que se mostrará en el label de obligatoriedad.
 
-### 1. Roles de Usuario
+### Centro de privacidad
+- **Correo de contacto**: Correo de contacto para el Privacy Center. Este correo será visible en el Privacy Center para que los usuarios puedan contactar con el equipo de soporte de tu compañía.
+- **URL pública**: URL pública del Privacy Center.
+- **URL privada**: URL privada del Privacy Center.
 
-```json
-{
-  "userRoles": [
-    {
-      "id": "admin",
-      "name": "Administrador",
-      "permissions": [
-        "account:read",
-        "account:write",
-        "users:manage",
-        "config:manage",
-        "data:read",
-        "data:write"
-      ]
-    },
-    {
-      "id": "developer",
-      "name": "Desarrollador",
-      "permissions": [
-        "api:read",
-        "api:write",
-        "webhooks:manage",
-        "data:read"
-      ]
-    },
-    {
-      "id": "analyst",
-      "name": "Analista",
-      "permissions": [
-        "data:read",
-        "reports:read",
-        "consent:read"
-      ]
-    }
-  ]
-}
-```
+### Solicitudes de derechos
+- **Validación de identidad obligatoria**: Indica si se debe validar la identidad antes de poder realizar una solicitud de derechos.
+- **Deshabilitar correos electrónicos funcionales**: Indica si se deben deshabilitar los correos electrónicos funcionales.
+- **Deshabilitar correos electrónicos informativos**: Indica si se deben deshabilitar los correos electrónicos informativos.
 
-### 2. Gestión de Usuarios
+## Configuración vía API
 
-```bash
-# Invitar usuario
-curl -X POST https://api.soyio.com/v1/users/invite \
-  -H "Authorization: Bearer YOUR_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "email": "nuevo@miempresa.com",
-    "role": "developer",
-    "permissions": ["api:read", "api:write"]
-  }'
-```
-
-## Configuración de Cumplimiento
-
-### 1. Configuración GDPR
-
-```json
-{
-  "gdprSettings": {
-    "dataProtectionOfficer": {
-      "name": "Juan Pérez",
-      "email": "dpo@miempresa.com",
-      "phone": "+34 91 123 45 67"
-    },
-    "legalBasis": {
-      "consent": true,
-      "contract": true,
-      "legalObligation": true,
-      "vitalInterests": false,
-      "publicTask": false,
-      "legitimateInterests": true
-    },
-    "dataSubjectRights": {
-      "access": true,
-      "rectification": true,
-      "erasure": true,
-      "portability": true,
-      "objection": true
-    }
-  }
-}
-```
-
-### 2. Configuración CCPA
-
-```json
-{
-  "ccpaSettings": {
-    "businessPurpose": [
-      "Providing goods or services",
-      "Marketing and advertising",
-      "Analytics and research"
-    ],
-    "thirdPartySharing": {
-      "categories": [
-        "Identifiers",
-        "Commercial information",
-        "Internet activity"
-      ],
-      "purposes": [
-        "Marketing",
-        "Analytics"
-      ]
-    }
-  }
-}
-```
-
-## Monitoreo y Alertas
-
-### 1. Configuración de Alertas
-
-```json
-{
-  "alertSettings": {
-    "consentWithdrawals": {
-      "enabled": true,
-      "threshold": 10,
-      "email": "alerts@miempresa.com"
-    },
-    "dataBreaches": {
-      "enabled": true,
-      "immediate": true,
-      "email": "security@miempresa.com"
-    },
-    "apiErrors": {
-      "enabled": true,
-      "threshold": 50,
-      "email": "devops@miempresa.com"
-    }
-  }
-}
-```
-
-### 2. Configuración de Reportes
-
-```json
-{
-  "reportingSettings": {
-    "consentReports": {
-      "frequency": "weekly",
-      "format": "pdf",
-      "recipients": ["dpo@miempresa.com"]
-    },
-    "auditReports": {
-      "frequency": "monthly",
-      "format": "csv",
-      "recipients": ["compliance@miempresa.com"]
-    }
-  }
-}
-```
-
-## API de Configuración
-
-### Obtener Configuración Actual
-
-```bash
-GET /api/v1/account/configuration
-```
-
-### Actualizar Configuración
-
-```bash
-PUT /api/v1/account/configuration
-Content-Type: application/json
-
-{
-  "privacyPolicy": {
-    "version": "1.1",
-    "effectiveDate": "2024-02-01"
-  }
-}
-```
-
-### Obtener Configuración de Privacidad
-
-```bash
-GET /api/v1/account/privacy-settings
-```
-
-## Mejores Prácticas
-
-### Configuración Inicial
-- Completa toda la información legal requerida
-- Configura políticas de privacidad claras
-- Establece períodos de retención apropiados
-- Define roles y permisos específicos
-
-### Mantenimiento
-- Revisa y actualiza configuraciones regularmente
-- Monitorea el cumplimiento de políticas
-- Mantén documentación actualizada
-- Capacita al equipo en nuevas configuraciones
-
-### Seguridad
-- Usa HTTPS para todas las comunicaciones
-- Implementa autenticación de dos factores
-- Monitorea accesos y cambios
-- Mantén copias de seguridad de configuraciones
-
-## Próximos Pasos
-
-- [Seguridad y Privacidad](./security-privacy) - Implementa medidas de seguridad
-- [Cuenta Soyio](./soyio-account) - Gestiona facturación y suscripción
-- [Modo Prueba](./sandbox) - Configura tu entorno de desarrollo
+También puedes administrar esta información mediante la API de Configuración. Consulta la documentación técnica en [API Configuration Schema](/api/resources/schemas/configuration.schema.mdx) para conocer los parámetros disponibles y los formatos de solicitud.
