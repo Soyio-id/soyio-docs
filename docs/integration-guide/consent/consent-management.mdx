@@ -7,13 +7,13 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import SequenceDiagram from '../../../src/components/SequenceDiagram';
 
-# Revocación de consentimientos
+# Gestión de consentimientos
 
 :::info[Información]
 Por ahora, este servicio está disponible [**sólo para el SDK Web**](https://github.com/Soyio-id/soy-io-widget).
 :::
 
-Los usuarios tienen el derecho fundamental de revocar su consentimiento en cualquier momento. Soyio te proporciona las herramientas necesarias para cumplir con este requisito legal de manera transparente y auditable.
+Los usuarios tienen el derecho fundamental de gestionar su consentimiento y revocarlo en cualquier momento. Soyio te proporciona las herramientas necesarias para cumplir con este requisito legal de manera transparente y auditable.
 
 Usa el componente Privacy Center del [SDK de Soyio](https://github.com/Soyio-id/soy-io-widget) para disponer de un portal de gestión de consentimientos donde tus usuarios pueden:
 
@@ -25,13 +25,13 @@ Usa el componente Privacy Center del [SDK de Soyio](https://github.com/Soyio-id/
 
 El Privacy Center puede integrarse en dos modos diferentes según tus necesidades:
 
-[**Modo público**](./consent-revocation#integraci%C3%B3n-en-modo-p%C3%BAblico): Utiliza este modo para proporcionar acceso universal a la gestión de consentimientos a cualquier usuario que visita tu sitio web.
+[**Modo público**](#integraci%C3%B3n-en-modo-p%C3%BAblico): Utiliza este modo para proporcionar acceso universal a la gestión de consentimientos a cualquier usuario que visita tu sitio web.
 
 - No requiere autenticación previa del usuario.
 - Permite que cualquier usuario que visita tu sitio web gestione sus consentimientos.
 - Utiliza el local storage para identificar al usuario.
 
-[**Modo autenticado**](./consent-revocation#integraci%C3%B3n-en-modo-autenticado): Utiliza este modo para proporcionar acceso a la gestión de consentimientos a usuarios autenticados en tu aplicación.
+[**Modo autenticado**](#integraci%C3%B3n-en-modo-autenticado): Utiliza este modo para proporcionar acceso a la gestión de consentimientos a usuarios autenticados en tu aplicación.
 
 - Requiere que previamente autentiques al usuario.
 - Permite que solo los usuarios autenticados gestionen sus consentimientos.
