@@ -9,13 +9,13 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: 'doc',
-      id: 'integration-guide/disclosure/disclosure',
-      label: 'Cómo funciona',
+      id: 'integration-guide/disclosure/quickstart',
+      label: 'Inicio rápido',
     },
     {
       type: 'doc',
-      id: 'integration-guide/disclosure/quickstart',
-      label: 'Inicio rápido',
+      id: 'integration-guide/disclosure/disclosure',
+      label: 'Cómo funciona',
     },
   ],
 };

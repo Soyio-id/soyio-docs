@@ -4,11 +4,6 @@ const sidebar: SidebarsConfig = {
   signatureSidebar: [
     {
       type: 'doc',
-      id: 'integration-guide/signature/introduction',
-      label: 'Introducción',
-    },
-    {
-      type: 'doc',
       id: 'integration-guide/signature/how-it-works',
       label: 'Cómo funciona',
     },
