@@ -34,8 +34,8 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: 'doc',
-      id: 'integration-guide/consent/consent-revocation',
-      label: 'Revocación de consentimientos',
+      id: 'integration-guide/consent/consent-management',
+      label: 'Gestión de consentimientos',
     },
     {
       type: 'doc',
