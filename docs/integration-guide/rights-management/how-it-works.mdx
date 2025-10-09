@@ -1,0 +1,101 @@
+---
+title: Cómo funciona
+description: Explicación técnica de cómo funciona el módulo de gestión de derechos
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import SequenceDiagram from '../../../src/components/SequenceDiagram';
+
+# Cómo funciona la gestión de derechos
+
+El módulo de gestión de derechos de Soyio te permite cumplir con las normativas de protección de datos al proporcionar una plataforma integral para que los usuarios ejerzan sus derechos de manera transparente. Además, permite a tus empleados gestionar las solicitudes de manera centralizada y generar evidencia auditable de las solicitudes y respuestas de la empresa.
+
+## Tipos de derechos soportados
+
+- **Derecho de Acceso:** Permite a los usuarios conocer qué información personal tiene la empresa sobre ellos, cómo los obtuvo, para qué los utiliza y por cuánto tiempo.
+- **Derecho de Rectificación:** Permite a los usuarios corregir información inexacta o incompleta que les afecta y que no pueden corregir por sí mismos.
+- **Derecho de Supresión:** Permite a los usuarios solicitar la eliminación de sus datos cuando no sean necesarios para el cumplimiento de un contrato o el cumplimiento de una obligación legal.
+- **Derecho de Oposición:** Permite a los usuarios oponerse al tratamiento de sus datos para fines específicos.
+- **Derecho de Portabilidad:** Permite a los usuarios obtener una copia de sus datos para usar en otro lado.
+- **Derecho de Bloqueo:** Permite a los usuarios bloquear temporalmente el tratamiento de sus datos mientras ejercen sus derechos. No puede solicitarse de forma independiente, solo junto a los derechos de rectificación, supresión u oposición.
+
+## Arquitectura del sistema
+
+El módulo de gestión de derechos funciona a través de varios componentes interconectados que trabajan juntos para proporcionar una experiencia completa de gestión de derechos:
+
+### Portal de solicitudes
+El portal de ejercicio de derechos se embebe en tu sitio web. Permite a los usuarios ejercer sus derechos de manera intuitiva y hacer seguimiento de sus solicitudes. Incluye:
+
+- **Formulario de solicitudes de derechos**: Para que los usuarios ejerzan sus derechos.
+- **Portal de consulta del estado de las solicitudes**: Para que los usuarios puedan consultar el estado de sus solicitudes.
+
+<img src="/img/ejemplo-privacy-center-dsr.png" alt="Gestión de derechos example"/>
+
+:::tip[Información]
+También puedes usar el Privacy Center para habilitar un portal de gestión de consentimientos de tus usuarios. Cotiza el [módulo de gestión de consentimientos](../consent/introduction.mdx) de Soyio contactando a nuestro equipo de ventas a través del [siguiente formulario](https://soyio.typeform.com/formularioweb).
+:::
+
+### Dashboard de gestión empresarial
+
+Permite gestionar todas las solicitudes de derechos de forma centralizada y hacer seguimiento de su resolución.
+
+<img src="/img/dashboard_dsr_framed.png" alt="Dashboard de gestión de solicitudes"/>
+
+### API y webhooks
+
+La API permite integrar el módulo con tus sistemas internos y el sistema envía webhooks para notificar cambios en las solicitudes.
+
+## Flujo de gestión de ejercicio de derechos
+
+<SequenceDiagram
+  actors={[
+    { id: 'user', label: 'Usuario' },
+    { id: 'privacy_center', label: 'Privacy Center' },
+    { id: 'soyio_api', label: 'Soyio Api' },
+    { id: 'organization', label: 'Organización' },
+  ]}
+  actions={[
+    {
+      from: 'user',
+      to: 'privacy_center',
+      label: 'Rellena formulario'
+    },
+    {
+      from: 'privacy_center',
+      to: 'soyio_api',
+      label: 'Se crea un Data Subject Request'
+    },
+    {
+      from: 'privacy_center',
+      to: 'user',
+      label: 'Solicita validación de identidad'
+    },
+    {
+      from: 'user',
+      to: 'soyio_api',
+      label: 'Completa validación'
+    },
+    {
+      from: 'soyio_api',
+      to: 'organization',
+      label: 'Notifica solicitud con identidad validada'
+    },
+    {
+      from: 'organization',
+      to: 'organization',
+      label: 'Procesa solicitud'
+    },
+    {
+      from: 'organization',
+      to: 'soyio_api',
+      label: 'Notifica estado de la solicitud'
+    },
+    {
+      from: 'soyio_api',
+      to: 'user',
+      label: 'Notifica estado de la solicitud',
+      isDashed: true,
+    }
+  ]}
+/>

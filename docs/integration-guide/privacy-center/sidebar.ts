@@ -9,13 +9,13 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: 'doc',
-      id: 'integration-guide/privacy-center/how-it-works',
-      label: 'Cómo funciona',
+      id: 'integration-guide/privacy-center/functionalities',
+      label: 'Funcionalidades y modos',
     },
     {
       type: 'doc',
-      id: 'integration-guide/privacy-center/quickstart',
-      label: 'Inicio rápido',
+      id: 'integration-guide/privacy-center/customization',
+      label: 'Perzonaliza la apariencia',
     },
   ],
 };

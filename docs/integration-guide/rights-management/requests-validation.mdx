@@ -1,0 +1,39 @@
+# Validación de la identidad
+
+Para garantizar que quien ejerce sus derechos es realmente el titular de los datos, Soyio incorpora un servicio de verificación de identidad integrado en el mismo componente.
+
+No se requiere una integración adicional, ya que el servicio está incluido dentro del Privacy Center. Solo necesitas configurar su comportamiento según tus necesidades.
+
+Ten en cuenta que la apariencia y el flujo de la validación siguen la configuración definida para el componente Disclosure, que provee la funcionalidad de verificación de identidad.
+
+Puedes revisar más detalles en la sección de [verificación de identidad](/docs/integration-guide/disclosure/verification).
+
+## Comportamiento por defecto
+
+Por defecto, la validación de identidad está habilitada en el Privacy Center y **es opcional para el usuario**. Esto quiere decir que la solicitud de ejercicio de derechos se enviará siempre y el usuario puede elegir validar su identidad inmediatamente o en un momento posterior.
+
+En el sistema se creará su solicitud con estado **esperando verificación** y se le notificará al usuario que el procesamiento de su solicitud empezará una vez que complete su validación de identidad.
+
+:::tip[Importante]
+Este comportamiento por defecto es el recomendado, ya que no impide que el usuario pueda ejercer su derecho al permitir el envío de la solicitud, sin embargo condiciona que el usuario complete la validación de identidad para poder procesar su solicitud, que también es un requerimiento legal.
+:::
+
+## Configurar la validación como obligatoria
+
+Puedes configurar la validación de identidad como **obligatoria para el usuario** y de esta manera el usuario no podrá enviar su solicitud hasta que valide su identidad correctamente.
+
+### Configuración en el dashboard
+
+Accede a la configuración de tu compañía en el dashboard corporativo y especifica el comportamiento del proceso de validación de identidad en la sección de **Solicitudes de derechos** según tus necesidades.
+
+### Configuración vía API
+
+Usando el endpoint `PATCH /api/v1/config` puedes hacer que la validación de identidad sea obligatoria en el proceso de solicitud de derechos. Define la opción `data_subject_request.mandatory_validation` en el body de la petición.
+
+```json title="body"
+{
+  "data_subject_request": {
+    "mandatory_validation": true
+  }
+}
+```
