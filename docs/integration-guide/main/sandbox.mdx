@@ -3,54 +3,69 @@ title: Modo Prueba (Sandbox) y Paso a Producción
 description: Guía completa para usar el entorno de sandbox y migrar a producción
 ---
 
-# Modo prueba (Sandbox)
+# Pruebas en sandbox
 
-El entorno de sandbox de Soyio te permite desarrollar, probar y validar tu integración de manera segura antes de migrar a producción.
+El modo Sandbox de Soyio te permite probar tus integraciones de forma segura antes de activarlas en producción.
+Este entorno simula el comportamiento real de la plataforma, pero sin generar registros auditables ni producir efectos legales sobre identidades, consentimientos o solicitudes de derechos.
 
-## ¿Qué es el Sandbox?
+## Objetivo del modo sandbox
 
-El sandbox es un entorno que puedes usar durante el desarrollo de tu integración. Te permite probar tus flujos sin registrar la información en tu espacio productivo. Sus características principales son:
+El entorno sandbox está diseñado para que tu equipo técnico y funcional pueda:
 
-- **Entorno de pruebas**: Los datos se guardan en un entorno de pruebas separado
-- **API completa**: Todas las funcionalidades de la API de producción
-- **Configuración compartida**: Tu compañía y plantillas se pueden usar en producción
-- **Aislamiento de datos**: Los datos de prueba no afectan tu entorno productivo
+- Probar la integración de la API y componentes de Soyio.
+- Validar el comportamiento de los flujos de consentimiento, gestión de derechos, validación de identidad, autenticación y firma.
+- Ajustar configuraciones, plantillas y procesos antes del despliegue productivo.
+- Ver cómo se generan evidencias y registros sin afectar datos reales.
 
-## Cómo funciona el sandbox
+:::warning
+Ninguno de los registros creados en sandbox tiene validez legal ni se replica en producción.
+:::
 
-En el modo sandbox puedes:
+## URL base del entorno Sandbox
 
-### Crear plantillas para diferentes módulos
-Puedes crear y configurar plantillas de consentimiento, autenticación y otros módulos en el sandbox. Estas plantillas te permiten probar diferentes configuraciones y flujos.
+Utiliza la siguiente URL base para realizar las pruebas en sandbox:
 
-### Probar flujos con datos de prueba
-Al instanciar flujos con las plantillas creadas, los datos se guardan en un entorno de pruebas separado. Esto te permite:
-- Probar la funcionalidad completa de tus módulos
-- Verificar que los flujos funcionen correctamente
-- Validar la integración antes de pasar a producción
+```bash
+https://sandbox.soyio.id
+```
 
-### Configuración compartida entre entornos
-**Importante**: Tu compañía y las plantillas que crees en sandbox se pueden usar directamente en el entorno productivo. Esta información es compartida entre ambos entornos, lo que significa que:
-- No necesitas recrear tu configuración en producción
-- Las plantillas funcionan igual en ambos entornos
-- Solo los datos de prueba permanecen aislados
+:::info
+Cada llamada a la API debe autenticarse con una API Key de sandbox, que siempre comienza con el prefijo `ak_sandbox_`.
+:::
 
-## Ventajas del sandbox
+## Modelos compartidos entre entornos
 
-### Desarrollo seguro
-Puedes probar todos tus flujos sin riesgo de afectar datos reales o configuraciones productivas. Esto te permite experimentar libremente con diferentes configuraciones.
+Algunos objetos de configuración se comparten entre los entornos de sandbox y producción.
+Esto permite mantener una estructura coherente mientras separas los registros de prueba y los registros reales.
 
-### Configuración reutilizable
-Las plantillas y configuraciones que crees en sandbox están listas para usar en producción. No necesitas duplicar trabajo ni recrear configuraciones.
+Los modelos compartidos incluyen:
 
-### Validación completa
-Puedes probar la funcionalidad completa de todos los módulos con datos reales de prueba, asegurándote de que todo funcione correctamente antes del lanzamiento.
+- **Configuración de compañía**: datos generales y configuración de seguridad
+- **Estructura organizacional**: sucursales, filiales, productos o unidades que agrupan tus flujos
+- **Configuración de apariencia y comportamiento**: logo, colores, estilos de íconos, obligatoriedad, etc.
+- **Plantillas (templates)**: definiciones de consentimientos, formularios o documentos usados en los flujos
+- **Webhooks**: configuraciones de notificaciones y destinos para recibir eventos de Soyio
 
-### Iteración rápida
-Puedes hacer cambios en tu configuración y probarlos inmediatamente sin afectar tu entorno productivo.
+Estos objetos existen en un espacio común, accesible desde ambos entornos.
+Sin embargo, los registros generados por las interacciones de los usuarios (por ejemplo, consentimientos otorgados, validaciones de identidad o solicitudes de derechos) se crean únicamente en el entorno activo (sandbox o producción).
 
-## Próximos pasos
+Esto garantiza que:
 
-- [Configuración de Compañía](./company-configuration) - Configura tu cuenta de producción
-- [Seguridad y Privacidad](./security-privacy) - Implementa medidas de seguridad
-- [Cuenta Soyio](./soyio-account) - Gestiona tu cuenta y facturación
+- Puedas diseñar y probar tus plantillas y procesos en un entorno seguro.
+- Los registros reales y de prueba se mantengan completamente separados.
+- No se mezclen evidencias o consentimientos simulados con los registros auditables.
+
+## Validar flujos completos
+
+Antes de pasar a producción, ejecuta pruebas integrales en sandbox para revisar:
+
+- El flujo completo de tus integraciones.
+- La recepción de callbacks o webhooks en tu infraestructura.
+- La correcta generación de evidencias según tus flujos esperados (no auditables en sandbox).
+- Logs y respuestas de la API ante distintos escenarios de error o validación.
+
+## Transición a producción
+
+Cuando tus pruebas estén completas y tu integración validada, podrás solicitar la activación del entorno productivo.
+
+Consulta la guía [Paso a Producción](/docs/integration-guide/main/production) para conocer el checklist y las recomendaciones finales antes del despliegue.

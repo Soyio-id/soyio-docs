@@ -1,16 +1,25 @@
 # Conceptos generales
 
+Esta sección introduce los conceptos clave necesarios para comprender el funcionamiento de Soyio y su contexto normativo.
+No reemplaza el [glosario](./glossary), sino que profundiza en las ideas fundamentales que sustentan la plataforma.
+
 ## Contexto regulatorio relevante
 
-La protección de datos personales y la privacidad es una prioridad global, con países adoptando leyes y normativas cada vez más estrictas. Regulaciones como GDPR y CCPA han establecido nuevos estándares que exigen a las empresas:
-- Responsabilidad y sanciones
-- Obligaciones de transparencia y consentimientos
-- Derechos ampliados a los individuos
+La protección de datos personales y la privacidad se han convertido en prioridades globales.
+Normativas como el Reglamento General de Protección de Datos (GDPR), la Ley de Privacidad del Consumidor de California (CCPA) y la nueva Ley de Protección de Datos Personales en Chile establecen estándares que obligan a las organizaciones a:
+
+- Demostrar responsabilidad y rendición de cuentas.
+- Mantener transparencia en el tratamiento de datos.
+- Obtener consentimientos válidos y verificables.
+- Respetar los derechos ampliados de las personas sobre su información.
+
+Soyio fue diseñada para ayudar a las empresas a cumplir con estos principios y automatizar la gestión responsable de los datos personales.
 
 ## Consentimiento
-El consentimiento es la forma en que una persona manifiesta de manera explícita su voluntad de autorizar el uso de sus datos personales. Es la base que garantiza que el tratamiento de datos se realice con respeto a la autonomía y el control del titular.
+El consentimiento es la manifestación de voluntad por la cual una persona autoriza el tratamiento de sus datos personales para uno o más fines específicos. Es la base de licitud más común y el punto de partida para establecer una relación de confianza entre una organización y sus usuarios.
 
-Para que sea válido el consentimiento, debe cumplir con los principios LEII:
+### Principios LEII
+Para que sea válido el consentimiento, debe cumplir con los principios **LEII**:
 
 - **Libre**: El consentimiento debe ser otorgado sin ninguna presión o influencia externa. El usuario debe sentirse en control total sobre su decisión, sin sentir que se le obliga o manipula para consentir.
 
@@ -21,54 +30,79 @@ Para que sea válido el consentimiento, debe cumplir con los principios LEII:
 - **Informado**: El usuario debe contar con el contexto suficiente para tomar una decisión informada. Esto implica que se le brinde información clara sobre qué datos se recopilan, para qué se utilizarán, por cuánto tiempo y con qué derechos cuenta.
 
 :::tip[Importante]
-El consentimiento no se reduce a una mera "aceptación de términos" general. Un consentimiento es válido solo si están todos los elementos  presentes, de acuerdo a los principios LEII. Esto garantiza que el consentimiento sea una autorización legítima, protegiendo tanto al usuario como a la empresa en su uso de los datos personales.
+Un consentimiento no es válido si falta alguno de estos elementos.
+En Soyio, cada consentimiento queda respaldado por una evidencia verificable que demuestra cómo, cuándo y bajo qué condiciones fue otorgado.
 :::
 
 ### Ciclo de vida del consentimiento
 
-El consentimiento, como manifestación de voluntad del usuario, tiene un ciclo de vida que permite a las empresas gestionar los datos personales de manera continua y en cumplimiento con las normativas de protección de datos.
+El consentimiento no es estático: tiene un ciclo de vida que debe gestionarse activamente para cumplir con la ley y garantizar la confianza del usuario.
 
-#### 1. Solicitud de consentimiento
-La primera etapa implica solicitar el consentimiento del usuario. El usuario debe recibir toda la información necesaria para dar su consentimiento de acuerdo a los principios LEII antes de aceptar.
+- **Solicitud**: la empresa presenta al usuario los fines de tratamiento de forma clara.
+- **Otorgamiento**: el usuario acepta y se registra una evidencia verificable.
+- **Almacenamiento**: el consentimiento se conserva de manera segura y auditable.
+- **Consulta**: cada uso de datos debe validar si existe un consentimiento vigente.
+- **Revocación o actualización**: el usuario puede modificar o retirar su consentimiento en cualquier momento.
+- **Vencimiento**: si el consentimiento expira, debe renovarse antes de seguir tratando los datos.
+- **Auditoría**: todas las acciones deben ser trazables y demostrables ante una autoridad reguladora.
 
-#### 2. Otorgamiento de consentimiento
-Una vez que el usuario ha comprendido los términos, otorga su consentimiento explícitamente. En esta etapa, el consentimiento queda registrado de forma que pueda verificarse su legitimidad en el futuro.
+Soyio automatiza estas etapas a través de sus módulos de consentimiento, evidencias y reportes de cumplimiento.
 
-#### 3. Almacenamiento del consentimiento
-Después de otorgarse, el consentimiento debe ser almacenado de forma segura junto a la evidencia que demuestra que se otorgó siguiendo los principios LEII.
+## Finalidades de tratamiento de datos
 
-#### 4. Consulta del consentimiento
-Para verificar si el consentimiento sigue siendo válido, se debe consultar su estado cada vez que se quiera utilizar un dato para una finalidad específica.
+Las finalidades del tratamiento son los propósitos específicos y legítimos por los cuales una organización recopila y usa datos personales.
+Cada finalidad debe ser clara, proporcional y comunicada al usuario antes de obtener su consentimiento.
 
-#### 5. Revocación de consentimiento
-El consentimiento no es definitivo; los usuarios tienen el derecho de actualizar o revocar su consentimiento en cualquier momento. La revocación o actualización se debe registrar de la misma forma que el otorgamiento. En caso de revocación, tu empresa debe asegurar que no se utilice el dato para la finalidad que se revocó.
+Ejemplos comunes incluyen:
 
-#### 6. Vencimiento del consentimiento
-El consentimiento tiene una vigencia determinada. En caso de que el consentimiento haya expirado, se debe solicitar nuevamente al usuario. Si el usuario no acepta el consentimiento nuevamente, se debe suspender el tratamiento de los datos.
+- **Operación del servicio**: registro, soporte y mantenimiento de clientes.
+- **Marketing**: envío de comunicaciones o promociones con autorización previa.
+- **Recursos humanos**: gestión de personal y procesos de selección.
+- **Mejora de producto**: análisis y optimización de servicios.
+- **Cumplimiento legal**: conservación de registros exigidos por normativa.
+- **Ciberseguridad**: detección de fraudes y accesos no autorizados.
 
-#### 7. Auditoría y reportes
-Diferentes instituciones reguladoras pueden requerir reportes de auditoría y cumplimiento. Tu empresa debe asegurar que los reportes sean auditables y que se cumpla con las normativas aplicables.
+En Soyio, las finalidades se definen de acuerdo con una [taxonomía estándar](./taxonomy), asegurando consistencia y trazabilidad en toda la plataforma.
 
-## [Finalidades de tratamiento de datos](./taxonomy)
+## Agreement
 
-Las finalidades de tratamiento de datos se refieren a los motivos específicos y legítimos por los cuales una organización recopila, procesa y almacena datos personales. Estas finalidades deben ser explícitas y justificadas, asegurando que el tratamiento se realice de manera transparente y conforme a la ley. Establecer finalidades claras es esencial para mantener la confianza de los usuarios y garantizar la protección de sus datos personales.
+En Soyio, un Agreement representa el estado vigente (y las versiones históricas) de los permisos otorgados para el uso de los datos personales de un usuario. Inicialmente se asocia directamente con los consentimientos, pero su alcance se extiende a otros fundamentos legales del tratamiento, como obligaciones legales o contratos firmados.
 
-#### Ejemplos de finalidades de tratamiento de datos
-1. **Operación del servicio:** Registro, mantenimiento y soporte de clientes. Esto incluye todas las actividades necesarias para gestionar la relación con el cliente a lo largo de su ciclo de vida.
-2. **Marketing:** Envío de comunicaciones promocionales, boletines informativos y ofertas personalizadas. Estas actividades están orientadas a fomentar la lealtad del cliente, atraer nuevos clientes y aumentar las ventas.
-3. **Recursos humanos:** Administración del personal, incluyendo procesos de selección, contratación y evaluaciones de desempeño.
-4. **Mejora del servicio:** Optimización de productos y servicios. Esta finalidad busca mejorar la calidad y la eficiencia de los servicios ofrecidos.
-5. **Cumplimiento legal:** Mantenimiento de registros conforme a las normativas aplicables y respuesta a solicitudes legales.
-6. **Ciberseguridad:** Protección contra accesos no autorizados o actividades fraudulentas.
+Cada modificación o evento que afecte los permisos registrados en un agreement crea una nueva versión, lo que permite mantener un historial completo y auditable. Las modificaciones y eventos que afectan a un agreement generan [evidencias](/docs/integration-guide/main/evidence-traceability) que respaldan su origen y ayudan a auditar el cumplimiento de los procesos de tratamiento de datos.
 
-Estas finalidades son ejemplos comunes y se pueden adaptar dependiendo del caso particular de tu empresa.
+El agreement consolida los consentimientos vigentes de un usuario, mostrando:
 
-## Derechos de los usuarios
+- Qué datos personales fueron autorizados para qué fines.
+- Cuándo se otorgó, modificó o revocó el consentimiento.
+- Cuál es la versión más reciente válida del acuerdo.
 
 
 ## Identidad digital
-La identidad digital de una persona, organización o dispositivo es su representación en el mundo digital. Esta identidad es esencial para vincular actividades, transacciones y consentimientos con entidades específicas, asegurando que los derechos y obligaciones en el ámbito digital se mantengan claros y protegidos. Una gestión adecuada de la identidad digital es crucial para proteger la integridad y la privacidad del individuo en el espacio digital.
+La identidad digital representa a una persona, empresa o dispositivo dentro del entorno digital.
+Es la base que permite vincular acciones, consentimientos y solicitudes de derechos con un sujeto verificable.
 
-:::tip[Aprende más]
-Revisa la documentación sobre [verificación de identidad](../disclosure/verification.md) para profundizar en cómo aseguramos la autenticidad de los usuarios en el entorno digital.
-:::
+Gestionar correctamente la identidad digital es fundamental para:
+
+- Evitar suplantaciones o fraudes.
+- Garantizar que solo los titulares ejerzan sus derechos.
+- Asociar cada consentimiento y evidencia a una identidad autenticada.
+
+Aprende más en la sección de [Verificación de identidad](./verification).
+
+## Derechos de los titulares
+
+Las personas tienen derecho a controlar cómo se usan sus datos personales.
+Entre los más relevantes se encuentran:
+
+- **Acceso**: conocer qué datos posee una organización.
+- **Rectificación**: corregir información incorrecta o incompleta.
+- **Supresión o cancelación**: solicitar la supresión de datos cuando ya no son necesarios.
+- **Oposición**: impedir o limitar determinados tratamientos.
+- **Portabilidad**: recibir sus datos en un formato estructurado.
+
+Soyio facilita el ejercicio de estos derechos mediante su módulo de solicitudes de derechos, que centraliza la recepción, validación, gestión y trazabilidad de cada caso.
+
+## Evidencia y cumplimiento
+
+Toda acción dentro de Soyio genera evidencias auditables que respaldan el cumplimiento normativo.
+Estas evidencias documentan cómo se otorgó un consentimiento, cómo se gestionó una solicitud de derecho o cómo se verificó una identidad, permitiendo demostrar el cumplimiento ante auditorías o requerimientos regulatorios.

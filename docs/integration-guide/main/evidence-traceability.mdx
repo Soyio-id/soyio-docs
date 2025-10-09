@@ -3,143 +3,45 @@ title: Evidencia y Trazabilidad
 description: Sistema de auditoría y trazabilidad de Soyio para cumplimiento regulatorio
 ---
 
-# Evidencia y Trazabilidad
+# Evidencia y trazabilidad
 
-El sistema de evidencia y trazabilidad de Soyio te proporciona un registro completo y auditable de todas las actividades relacionadas con datos personales, cumpliendo con los requisitos de las principales regulaciones de privacidad.
+La Evidencia documenta cómo ocurrió un evento relevante dentro de la plataforma, proporcionando trazabilidad y soporte verificable para auditorías. Cada evidencia contiene información técnica, legal y contextual que permite demostrar cumplimiento.
 
-## ¿Qué es la Evidencia?
+Existen distintos tipos de evidencia según el módulo o proceso al que se asocie. Para más información sobre la estructura de los objetos de evidencia, consulta la [API Reference](/docs/api/resources/schemas/evidence-schema).
 
-La evidencia en Soyio se refiere a los registros digitales que documentan:
+## Evidencia de consentimiento
 
-- **Consentimientos otorgados o retirados**
-- **Cambios en políticas de privacidad**
-- **Accesos a datos personales**
-- **Transferencias de datos**
-- **Eliminaciones de datos**
-- **Modificaciones en configuraciones**
+Registra el mecanismo mediante el cual se otorgó o revocó un consentimiento. Estas evidencias se generan automáticamente cada vez que se crea o modifica el consentimiento y quedan reflejadas en el [Agreement del usuario](/docs/integration-guide/main/general-concepts#agreement).
 
-## Tipos de Evidencia
+En este caso, la evidencia suele provenir de la interacción directa del usuario, por ejemplo:
 
-### Evidencia de Consentimiento
-Registros que documentan cuándo, cómo y para qué propósito un usuario otorgó o retiró su consentimiento.
+- Aceptar un consentimiento en un flujo web o móvil.
+- Revocar una autorización desde su perfil de privacidad.
+- Registro de un consentimiento en un chatbot de whatsapp.
+- Revocación de un consentimiento a través de un canal de atención telefónico.
 
-```json
-{
-  "consentId": "consent_123456",
-  "userId": "user_789",
-  "action": "granted",
-  "timestamp": "2024-01-15T10:30:00Z",
-  "purpose": "marketing",
-  "method": "explicit_opt_in",
-  "ipAddress": "192.168.1.100",
-  "userAgent": "Mozilla/5.0...",
-  "evidenceHash": "sha256:abc123..."
-}
-```
+## Evidencia de ejercicio de derechos
 
-### Evidencia de Acceso
-Registros de cuándo y por quién se accedió a datos personales específicos.
+Cada solicitud de ejercicio de derechos (acceso, rectificación, supresión, oposición, etc.) también genera evidencias que:
 
-### Evidencia de Procesamiento
-Documentación de operaciones realizadas sobre datos personales.
+- Registran la recepción de la solicitud.
+- Documentan el proceso de validación e identidad del solicitante.
+- Guardan el resultado final (resuelta, rechazada, en curso).
 
-### Evidencia de Eliminación
-Registros que confirman la eliminación segura de datos personales.
+## Evidencia técnica o de autenticación
 
-## Características de Seguridad
+Existen evidencias más acotadas, pero igualmente trazables, asociadas a:
 
-### Integridad
-- **Hashing criptográfico**: Cada evidencia incluye un hash SHA-256
-- **Firma digital**: Las evidencias están firmadas digitalmente
-- **Inmutabilidad**: Los registros no pueden ser modificados una vez creados
+- Validación de identidad.
+- Autenticación.
+- Firma digital.
 
-### Autenticidad
-- **Timestamps precisos**: Marcas de tiempo UTC con precisión de microsegundos
-- **Identificación de origen**: IP, User-Agent y otros metadatos
-- **Cadenas de confianza**: Verificación criptográfica de la procedencia
+## Reportes de auditoría y cumplimiento
 
-### Disponibilidad
-- **Almacenamiento redundante**: Múltiples copias en diferentes ubicaciones
-- **Retención a largo plazo**: Cumplimiento con períodos de retención regulatorios
-- **Acceso programático**: API para consultar evidencias
+Toda la información registrada en los objetos de evidencia puede utilizarse para generar reportes de auditoría y cumplimiento regulatorio. Estos reportes se generan en formatos solicitados por las instituciones reguladoras y también se encuentran disponibles en formatos json o pdf.
 
-## API de Evidencia
+Los tipos de reportes son:
 
-### Obtener Evidencias de Consentimiento
-
-```bash
-GET /api/v1/consent-evidences?userId=user_123&purpose=marketing
-```
-
-### Obtener Evidencias de Acceso
-
-```bash
-GET /api/v1/access-evidences?dataSubjectId=ds_456&dateFrom=2024-01-01
-```
-
-### Descargar Evidencia Específica
-
-```bash
-GET /api/v1/evidences/{evidenceId}/download
-```
-
-## Reportes de Cumplimiento
-
-### Reporte de Consentimientos
-- Resumen de consentimientos por período
-- Tendencias de otorgamiento/retiro
-- Análisis por propósito de datos
-
-### Reporte de Accesos
-- Registro de accesos a datos personales
-- Identificación de accesos no autorizados
-- Patrones de uso de datos
-
-### Reporte de Auditoría
-- Actividad completa del sistema
-- Cambios en configuraciones
-- Eventos de seguridad
-
-## Integración con Sistemas Externos
-
-### Exportación de Datos
-- **Formato JSON**: Para integración con sistemas de análisis
-- **Formato CSV**: Para reportes en hojas de cálculo
-- **Formato PDF**: Para documentación oficial
-
-### Webhooks de Evidencia
-Notificaciones en tiempo real cuando se crean nuevas evidencias:
-
-```json
-{
-  "event": "consent.evidence.created",
-  "data": {
-    "evidenceId": "ev_123456",
-    "consentId": "consent_789",
-    "timestamp": "2024-01-15T10:30:00Z"
-  }
-}
-```
-
-## Mejores Prácticas
-
-### Configuración
-- Configura períodos de retención apropiados
-- Establece alertas para eventos críticos
-- Implementa rotación de claves de firma
-
-### Monitoreo
-- Revisa regularmente los reportes de auditoría
-- Monitorea intentos de acceso no autorizados
-- Verifica la integridad de las evidencias
-
-### Cumplimiento
-- Mantén evidencias por el período requerido por ley
-- Proporciona acceso a datos cuando sea solicitado
-- Documenta procesos de eliminación segura
-
-## Próximos Pasos
-
-- [Modo Prueba](./sandbox) - Prueba el sistema de evidencia en sandbox
-- [Seguridad y Privacidad](./security-privacy) - Aprende sobre medidas de seguridad
-- [Configuración de Compañía](./company-configuration) - Configura retención de evidencias
+- **Reportes de auditoría de consentimiento**: generados por usuario o propósito y pueden ser filtrados por periodo.
+- **Reportes regulatorios de gestión de derechos**: generados para demostrar cumplimiento de plazos legales y trazabilidad de respuesta.
+- **Reporte de validación de identidad**: generado para demostrar los chequeos realizados para validar la identidad del solicitante.
