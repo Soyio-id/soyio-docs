@@ -21,7 +21,7 @@ importers:
         specifier: ^3.9.1
         version: 3.9.1(@docusaurus/faster@3.9.1(@docusaurus/types@3.9.1(@swc/core@1.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)))(@docusaurus/plugin-content-docs@3.9.1(@docusaurus/faster@3.9.1(@docusaurus/types@3.9.1(@swc/core@1.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)))(@mdx-js/react@3.1.1(@types/react@19.2.2)(react@18.3.1))(@rspack/core@1.5.8)(@swc/core@1.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.5.4))(@mdx-js/react@3.1.1(@types/react@19.2.2)(react@18.3.1))(@mermaid-js/layout-elk@0.1.9(mermaid@11.12.0))(@rspack/core@1.5.8)(@swc/core@1.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.5.4)
       '@mdx-js/react':
-        specifier: ^3.0.0
+        specifier: ^3.1.1
         version: 3.1.1(@types/react@19.2.2)(react@18.3.1)
       '@mermaid-js/layout-elk':
         specifier: ^0.1.9
@@ -29,8 +29,11 @@ importers:
       '@types/d3':
         specifier: ^7.4.3
         version: 7.4.3
+      allof-merge:
+        specifier: ^0.6.7
+        version: 0.6.7
       clsx:
-        specifier: ^2.0.0
+        specifier: ^2.1.1
         version: 2.1.1
       d3:
         specifier: ^7.9.0
@@ -39,23 +42,32 @@ importers:
         specifier: ^1.2.0
         version: 1.2.0(@docusaurus/core@3.9.1(@docusaurus/faster@3.9.1(@docusaurus/types@3.9.1(@swc/core@1.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)))(@mdx-js/react@3.1.1(@types/react@19.2.2)(react@18.3.1))(@rspack/core@1.5.8)(@swc/core@1.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.5.4))
       docusaurus-plugin-openapi-docs:
-        specifier: ^4.1.0
+        specifier: ^4.5.1
         version: 4.5.1(@docusaurus/plugin-content-docs@3.9.1(@docusaurus/faster@3.9.1(@docusaurus/types@3.9.1(@swc/core@1.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)))(@mdx-js/react@3.1.1(@types/react@19.2.2)(react@18.3.1))(@rspack/core@1.5.8)(@swc/core@1.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.5.4))(@docusaurus/utils-validation@3.9.1(@swc/core@1.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@docusaurus/utils@3.9.1(@swc/core@1.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       docusaurus-theme-openapi-docs:
-        specifier: ^4.1.0
+        specifier: ^4.5.1
         version: 4.5.1(6aed9b7da29b93cd8448263f41857fde)
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
       prism-react-renderer:
-        specifier: ^2.3.0
+        specifier: ^2.4.1
         version: 2.4.1(react@18.3.1)
       react:
-        specifier: ^18.0.0
+        specifier: ^18.3.1
         version: 18.3.1
       react-dom:
-        specifier: ^18.0.0
+        specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
+      react-markdown:
+        specifier: ^9.1.0
+        version: 9.1.0(@types/react@19.2.2)(react@18.3.1)
       reactflow:
         specifier: ^11.11.4
         version: 11.11.4(@types/react@19.2.2)(immer@9.0.21)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      rehype-raw:
+        specifier: ^7.0.0
+        version: 7.0.0
     devDependencies:
       '@docusaurus/eslint-plugin':
         specifier: ^3.9.1
@@ -70,37 +82,37 @@ importers:
         specifier: ^3.9.1
         version: 3.9.1(@swc/core@1.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@eslint/compat':
-        specifier: ^1.2.0
+        specifier: ^1.4.0
         version: 1.4.0(eslint@9.37.0(jiti@1.21.7))
       '@eslint/eslintrc':
-        specifier: ^3.1.0
+        specifier: ^3.3.1
         version: 3.3.1
       '@eslint/js':
-        specifier: ^9.12.0
+        specifier: ^9.37.0
         version: 9.37.0
       '@playwright/test':
-        specifier: ^1.48.1
+        specifier: ^1.56.0
         version: 1.56.0
       eslint:
-        specifier: ^9.12.0
+        specifier: ^9.37.0
         version: 9.37.0(jiti@1.21.7)
       eslint-plugin-react:
-        specifier: ^7.37.1
+        specifier: ^7.37.5
         version: 7.37.5(eslint@9.37.0(jiti@1.21.7))
       eslint-plugin-react-hooks:
-        specifier: ^5.0.0
+        specifier: ^5.2.0
         version: 5.2.0(eslint@9.37.0(jiti@1.21.7))
       globals:
-        specifier: ^15.11.0
+        specifier: ^15.15.0
         version: 15.15.0
       prettier:
         specifier: 3.3.3
         version: 3.3.3
       typescript:
-        specifier: ~5.5.2
+        specifier: ~5.5.4
         version: 5.5.4
       typescript-eslint:
-        specifier: ^8.8.1
+        specifier: ^8.46.0
         version: 8.46.0(eslint@9.37.0(jiti@1.21.7))(typescript@5.5.4)
 
 packages:
@@ -4137,6 +4149,9 @@ packages:
     resolution: {integrity: sha512-ztqyC3kLto0e9WbNp0aeP+M3kTt+nbaIveGmUxAtZa+8iFgKLUOD4YKM5j+f3QD89bra7UeumolZHKuOXnTmeQ==}
     engines: {node: '>=8'}
 
+  html-url-attributes@3.0.1:
+    resolution: {integrity: sha512-ol6UPyBWqsrO6EJySPz2O7ZSr856WDrEzM5zMqp+FJJLGMW35cLYmmZnl0vztAZxRUoNZJFTCohfjuIJ8I4QBQ==}
+
   html-void-elements@2.0.1:
     resolution: {integrity: sha512-0quDb7s97CfemeJAnW9wC0hw78MtW7NU3hqtCD75g2vFlDLt36llsYD7uB7SUzojLMP24N5IatXf7ylGXiGG9A==}
 
@@ -6180,6 +6195,12 @@ packages:
     peerDependencies:
       '@types/react': '>=16'
       react: '>=16'
+
+  react-markdown@9.1.0:
+    resolution: {integrity: sha512-xaijuJB0kzGiUdG7nc2MOMDUDBWPyGAjZtUrow9XxUeua8IqeP+VlIfAZ3bphpcLTnSZXz6z9jcVC/TCwbfgdw==}
+    peerDependencies:
+      '@types/react': '>=18'
+      react: '>=18'
 
   react-modal@3.16.3:
     resolution: {integrity: sha512-yCYRJB5YkeQDQlTt17WGAgFJ7jr2QYcWa1SHqZ3PluDmnKJ/7+tVU+E6uKyZ0nODaeEj+xCpK4LcSnKXLMC0Nw==}
@@ -12906,6 +12927,8 @@ snapshots:
 
   html-tags@3.3.1: {}
 
+  html-url-attributes@3.0.1: {}
+
   html-void-elements@2.0.1: {}
 
   html-void-elements@3.0.0: {}
@@ -15432,6 +15455,24 @@ snapshots:
       unified: 10.1.2
       unist-util-visit: 4.1.2
       vfile: 5.3.7
+    transitivePeerDependencies:
+      - supports-color
+
+  react-markdown@9.1.0(@types/react@19.2.2)(react@18.3.1):
+    dependencies:
+      '@types/hast': 3.0.4
+      '@types/mdast': 4.0.4
+      '@types/react': 19.2.2
+      devlop: 1.1.0
+      hast-util-to-jsx-runtime: 2.3.6
+      html-url-attributes: 3.0.1
+      mdast-util-to-hast: 13.2.0
+      react: 18.3.1
+      remark-parse: 11.0.0
+      remark-rehype: 11.1.2
+      unified: 11.0.5
+      unist-util-visit: 5.0.0
+      vfile: 6.0.3
     transitivePeerDependencies:
       - supports-color
 
