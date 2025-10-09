@@ -128,6 +128,18 @@ const sidebar: SidebarsConfig = {
         },
         {
           type: "doc",
+          id: "api/resources/schemas/consenttemplateindex",
+          label: "El objeto ConsentTemplateIndex",
+          className: "schema",
+        },
+        {
+          type: "doc",
+          id: "api/resources/schemas/eventlog",
+          label: "El objeto EventLog",
+          className: "schema",
+        },
+        {
+          type: "doc",
           id: "api/resources/schemas/datarequirement",
           label: "El objeto DataRequirement",
           className: "schema",
@@ -782,9 +794,27 @@ const sidebar: SidebarsConfig = {
         },
         {
           type: "doc",
+          id: "api/resources/schemas/entityindex",
+          label: "El objeto EntityIndex",
+          className: "schema",
+        },
+        {
+          type: "doc",
           id: "api/resources/schemas/compliancestatus",
           label: "El objeto ComplianceStatus",
           className: "schema",
+        },
+        {
+          type: "doc",
+          id: "api/resources/index-entities",
+          label: "Obtener todas las entidades",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/get-entity",
+          label: "Obtener una entidad específica",
+          className: "api-method get",
         },
         {
           type: "doc",

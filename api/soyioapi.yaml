@@ -53,7 +53,7 @@ tags:
 
       ### Guías relacionadas
 
-      - [Gestor de privacidad](/docs/integration-guide/modules/privacy-manager)
+      - [Gestor de privacidad](/docs/integration-guide/rights-management/introduction)
   - name: Events
     description: |
       Los eventos nos permiten comunicarte cambios relevantes en el sistema. Cuando ocurre un evento interesante, se crea un objeto evento. Por ejemplo, cuando se valida una identidad, se crea un evento `validation_attempt.succeeded`; cuando una validación falla, se crea un objeto `validation_attempt.failed`.
@@ -126,7 +126,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ConsentTemplateList'
+                $ref: '#/components/schemas/ConsentTemplateIndexList'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
       security:
@@ -2391,11 +2391,17 @@ paths:
           application/json:
             schema:
               type: object
+              required:
+                - name
               properties:
-                id:
+                name:
                   type: string
-                  description: ID único del producto. Se recomienda darle un identificador con un formato que facilite su identificación.
-                  example: my_product_123
+                  description: Nombre del producto
+                  example: Mi Producto
+                branch_id:
+                  type: string
+                  description: Identificador único de la branch
+                  example: branch_1B2M2Y8AsgTpgAmY7PhCfg
       responses:
         '201':
           description: Producto creado
@@ -2507,6 +2513,72 @@ paths:
                 properties:
                   product:
                     $ref: '#/components/schemas/Product'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+      security:
+        - api_key: []
+  /entities:
+    get:
+      tags:
+        - Entities
+      summary: Obtener todas las entidades
+      description: Retorna la lista de todas las entidades de tu empresa.
+      operationId: indexEntities
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
+        - name: where
+          in: query
+          description: Filtros en formato JSON
+          required: false
+          schema:
+            type: string
+          examples:
+            user_reference_filter:
+              summary: Filtrar por user_reference exacto
+              value: '{"user_reference":{"=":"user_123"}}'
+            user_reference_in_filter:
+              summary: Filtrar por múltiples user_reference
+              value: '{"user_reference":{"in":["user_123", "user_456"]}}'
+        - $ref: '#/components/parameters/OrderByParam'
+      responses:
+        '200':
+          description: Entidades encontradas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityList'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+      security:
+        - api_key: []
+  '/entities/{id}':
+    get:
+      tags:
+        - Entities
+      summary: Obtener una entidad específica
+      description: Retorna los detalles de una entidad específica.
+      operationId: getEntity
+      parameters:
+        - name: id
+          in: path
+          description: ID de la entidad a buscar
+          required: true
+          schema:
+            type: string
+          example: ent_1B2M2Y8AsgTpgAmY7PhCfg
+      responses:
+        '200':
+          description: Entidad encontrada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  entity:
+                    $ref: '#/components/schemas/Entity'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '404':
@@ -3471,10 +3543,31 @@ components:
           type: string
           description: Identificador único de la branch. No puede estar presente si se especifica `product_id`.
           example: branch_1B2M2Y8AsgTpgAmY7PhCfg
+        optional:
+          type: boolean
+          description: Indica si el template de consentimiento es opcional.
+          example: false
     ConsentTemplate:
       description: |
-        Una _consent template_ (template de consentimiento) es una configuración necesaria para el módulo de [_consent_](/docs/integration-guide/modules/consent).
+        Una _consent template_ (template de consentimiento) es una configuración necesaria para el módulo de [_consent_](/docs/integration-guide/consent/introduction).
         Este modelo es versionado, por lo que cada cambio realizado genera una nueva versión, dejando trazable el historial de cambios.
+      x-tags:
+        - Consent templates
+      allOf:
+        - $ref: '#/components/schemas/ConsentTemplateIndex'
+        - type: object
+          required:
+            - event_logs
+          properties:
+            event_logs:
+              type: array
+              description: Registro de eventos relacionados con el template de consentimiento (creación y actualización)
+              items:
+                $ref: '#/components/schemas/EventLog'
+    ConsentTemplateIndex:
+      description: |
+        Versión simplificada del template de consentimiento para listados.
+        No incluye `event_logs` para optimizar el tamaño de la respuesta.
       x-tags:
         - Consent templates
       type: object
@@ -3488,7 +3581,6 @@ components:
         - data_requirements
         - data_subject
         - created_at
-        - updated_at
       properties:
         id:
           type: string
@@ -3551,16 +3643,24 @@ components:
           type: string
           description: Identificador único de la branch. No puede estar presente si se especifica `product_id`.
           example: branch_1B2M2Y8AsgTpgAmY7PhCfg
+        optional:
+          type: boolean
+          description: Indica si el template de consentimiento es opcional.
+          example: false
         created_at:
           type: string
           format: date-time
           description: Fecha y hora de creación del template de consentimiento
           example: '2024-03-20T15:30:00Z'
-        updated_at:
-          type: string
-          format: date-time
-          description: Fecha y hora de la última actualización del template de consentimiento
-          example: '2024-03-20T15:30:00Z'
+    ConsentTemplateIndexList:
+      type: object
+      properties:
+        consent_templates:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConsentTemplateIndex'
+        metadata:
+          $ref: '#/components/schemas/FilterOrderAndPaginationMetadata'
     ConsentTemplateList:
       type: object
       properties:
@@ -3570,6 +3670,31 @@ components:
             $ref: '#/components/schemas/ConsentTemplate'
         metadata:
           $ref: '#/components/schemas/FilterOrderAndPaginationMetadata'
+    EventLog:
+      type: object
+      x-tags:
+        - Consent templates
+      description: Registro de un evento en el sistema
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: Fecha y hora del evento
+          example: '2024-03-20T15:30:00Z'
+        type:
+          type: string
+          description: Tipo de evento
+          example: created
+        description:
+          type: string
+          description: Descripción del evento
+          example: Consent template created
+        payload:
+          type: object
+          description: Datos adicionales del evento
+          example:
+            version: 1
+            created_by: cusr_123
     DataRequirementInput:
       type: object
       required:
@@ -3583,7 +3708,7 @@ components:
         data_category:
           type: string
           description: |
-            Categoría del dato personal. Debe seguir la [taxonomía de categorías de datos](/docs/integration-guide/concepts/agreement/#taxonomía).
+            Categoría del dato personal. Debe seguir la [taxonomía de categorías de datos](/docs/integration-guide/main/taxonomy).
 
             Las siguientes llaves (`key`) infieren la categoría del dato personal:
 
@@ -3623,11 +3748,11 @@ components:
           example: first_name
         data_category:
           type: string
-          description: 'Categoría del dato según Fideslang. Ver [taxonomía](/docs/integration-guide/concepts/taxonomy-and-data-management)'
+          description: 'Categoría del dato según Fideslang. Ver [taxonomía](/docs/integration-guide/main/taxonomy)'
           example: user.name.first
         data_uses:
           type: array
-          description: 'Lista de finalidades de tratamiento según Fideslang. Ver [taxonomía](/docs/integration-guide/concepts/taxonomy-and-data-management)'
+          description: 'Lista de finalidades de tratamiento según Fideslang. Ver [taxonomía](/docs/integration-guide/main/taxonomy)'
           items:
             type: string
     DisclosureRequestList:
@@ -3705,8 +3830,7 @@ components:
         verificados.
 
         ### Guias relacionadas
-        - [Revelación de datos y consentimiento](/docs/integration-guide/modules/disclosure)
-        - [Verificación de identidad](/docs/integration-guide/concepts/verification)
+        - [Verificación de identidad](/docs/integration-guide/disclosure/introduction)
       x-tags:
         - Disclosure requests
       type: object
@@ -3774,7 +3898,7 @@ components:
         Los auth requests son una forma de autenticar a identidades previamente validadas a través de un `disclosure_request`.
 
         ### Guias relacionadas
-        - [Conceptos Generales](/docs/integration-guide/concepts/general-concepts)
+        - [Autenticación de usuarios](/docs/integration-guide/authentication/introduction)
       properties:
         id:
           type: string
@@ -3832,7 +3956,7 @@ components:
         validada sobre esa persona.
 
         ### Guias relacionadas
-        - [Conceptos Generales](/docs/integration-guide/concepts/general-concepts)
+        - [Conceptos Generales](/docs/integration-guide/main/general-concepts)
       properties:
         id:
           type: string
@@ -3866,8 +3990,7 @@ components:
         registrar el dispositivo.
 
         **Guias relacionadas**:
-        - [Autenticación de usuarios](/docs/integration-guide/modules/authentication)
-        - [Verificación de identidad](/docs/integration-guide/concepts/verification)
+        - [Autenticación de usuarios](/docs/integration-guide/authentication/introduction)
       properties:
         id:
           type: string
@@ -3914,8 +4037,7 @@ components:
         facial cuando el usuario por alguna razón no puede usar la llave de acceso.
 
         ### Guias relacionadas
-        - [Solicitudes de firma de documentos](/docs/integration-guide/modules/signature)
-        - [Firma de documentos](/docs/integration-guide/concepts/signature)
+        - [Firma de documentos](/docs/integration-guide/signature/introduction)
       properties:
         id:
           type: string
@@ -3956,8 +4078,7 @@ components:
         Estos obedecen a una serie de reglas de validación representadas por un template de validación.
 
         ### Guias relacionadas
-        - [Revelación de datos y consentimiento](/docs/integration-guide/modules/disclosure)
-        - [Verificación de identidad](/docs/integration-guide/concepts/verification)
+        - [Verificación de identidad](/docs/integration-guide/disclosure/introduction)
       properties:
         id:
           type: string
@@ -4117,7 +4238,7 @@ components:
         y asegura que la firma sea válida y segura.
 
         ### Guias relacionadas
-        - [Solicitudes de firma de documentos](/docs/integration-guide/modules/signature)
+        - [Firma de documentos](/docs/integration-guide/signature/introduction)
       properties:
         id:
           type: string
@@ -4142,7 +4263,7 @@ components:
         Puede ser actualizado a través de distintas acciones del usuario y empresa en el tiempo.
 
         :::info
-        Para más detalles, revisa nuestra sección de [Agreements y evidencia](/docs/integration-guide/concepts/agreement.mdx).
+        Para más detalles, revisa nuestra sección de [conceptos generales](/docs/integration-guide/main/general-concepts#agreement).
         :::
       properties:
         id:
@@ -4350,7 +4471,7 @@ components:
       properties:
         data_category:
           type: string
-          description: 'Categoría del dato personal. Sigue la taxonomía de datos. Para más información, consulta [el detalle de la taxonomía](/docs/integration-guide/concepts/taxonomy-and-data-management)'
+          description: 'Categoría del dato personal. Sigue la taxonomía de datos. Para más información, consulta [el detalle de la taxonomía](/docs/integration-guide/main/taxonomy)'
           example: user.name.first
         data_label:
           type: string
@@ -4358,7 +4479,7 @@ components:
           example: name
         data_use:
           type: string
-          description: 'Propósito específico del uso del dato. Sigue la taxonomía de usos de datos. Para más información, consulta [el detalle de la taxonomía](/docs/integration-guide/concepts/agreement#taxonomía)'
+          description: 'Propósito específico del uso del dato. Sigue la taxonomía de usos de datos. Para más información, consulta [el detalle de la taxonomía](/docs/integration-guide/main/taxonomy)'
           example: essential.service.authentication
         scope_type:
           type: string
@@ -4387,7 +4508,7 @@ components:
       properties:
         use:
           type: string
-          description: 'Propósito específico del uso del dato. Sigue la taxonomía de usos de datos. Para más información, consulta [el detalle de la taxonomía](/docs/integration-guide/concepts/agreement#taxonomía)'
+          description: 'Propósito específico del uso del dato. Sigue la taxonomía de usos de datos. Para más información, consulta [el detalle de la taxonomía](/docs/integration-guide/main/taxonomy)'
           example: essential.service.authentication
         expires_at:
           type: string
@@ -4472,6 +4593,11 @@ components:
           type: integer
           description: Versión de la sucursal.
           example: 1
+        created_at:
+          type: string
+          format: date-time
+          description: Fecha y hora de creación de la sucursal
+          example: '2024-03-20T15:30:00Z'
     BranchList:
       type: object
       properties:
@@ -4648,11 +4774,15 @@ components:
         id:
           type: string
           description: ID único del producto.
-          example: my_product_123
+          example: product_1B2M2Y8AsgTpgAmY7PhCfg
         name:
           type: string
           description: Nombre del producto
           example: Mi Producto
+        branch_id:
+          type: string
+          description: Identificador único de la branch
+          example: branch_1B2M2Y8AsgTpgAmY7PhCfg
         version:
           type: integer
           description: Versión del producto
@@ -4739,7 +4869,7 @@ components:
 
         ### Guías relacionadas
 
-        - [Gestor de privacidad](/docs/integration-guide/modules/privacy-manager)
+        - [Gestor de ejercicio de derechos](/docs/integration-guide/rights-management/introduction)
       required:
         - kind
         - contact_information
@@ -4988,6 +5118,31 @@ components:
           type: string
           description: ID único de la entidad.
           example: ent_1B2M2Y8AsgTpgAmY7PhCfg
+        user_reference:
+          type: string
+          description: 'Referencia del usuario en tu sistema, obtenida del último agreement que tenga asociado la entidad.'
+          example: user_123
+          nullable: true
+    EntityIndex:
+      x-tags:
+        - Entities
+      type: object
+      description: |
+        Lista de entidades.
+      properties:
+        id:
+          type: string
+          description: ID único de la entidad.
+          example: ent_1B2M2Y8AsgTpgAmY7PhCfg
+    EntityList:
+      type: object
+      properties:
+        entities:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityIndex'
+        metadata:
+          $ref: '#/components/schemas/FilterOrderAndPaginationMetadata'
     ComplianceStatus:
       x-tags:
         - Entities
@@ -5105,7 +5260,7 @@ components:
                 - optional_only
                 - mandatory_only
               default: optional_only
-              description: 'Los consentimientos pueden ser opcionales o obligatorios. Si el consentimiento es obligatorio y el `label_display` es `mandatory_only`, entonces sólo se mostrará el label de `Requerido` en los consentimietos. Por el contrario, si el consentimiento es opcional y el `label_display` es `optional_only`, entonces sólo se mostrará el label de `Opcional` en los consentimietos. Puedes ver un ejemplo [acá](/docs/integration-guide/modules/consent#ejemplo).'
+              description: 'Los consentimientos pueden ser opcionales o obligatorios. Si el consentimiento es obligatorio y el `label_display` es `mandatory_only`, entonces sólo se mostrará el label de `Requerido` en los consentimietos. Por el contrario, si el consentimiento es opcional y el `label_display` es `optional_only`, entonces sólo se mostrará el label de `Opcional` en los consentimietos. Puedes ver un ejemplo [acá](/docs/integration-guide/consent/customization).'
             mandatory_label_text:
               type: string
               enum:
@@ -5124,11 +5279,11 @@ components:
               example: privacy@example.com
             public_url:
               type: string
-              description: 'URL pública del Privacy Center. Puedes encontrar más información sobre los modos de integración [acá](/docs/integration-guide/modules/privacy-manager#integración).'
+              description: 'URL pública del Privacy Center. Puedes encontrar más información sobre los modos de integración [acá](/docs/integration-guide/privacy-center/functionalities).'
               example: 'https://public-privacy.example.com'
             private_url:
               type: string
-              description: 'URL privada del Privacy Center. Puedes encontrar más información sobre los modos de integración [acá](/docs/integration-guide/modules/privacy-manager#integración).'
+              description: 'URL privada del Privacy Center. Puedes encontrar más información sobre los modos de integración [acá](/docs/integration-guide/privacy-center/functionalities).'
               example: 'https://private-privacy.example.com'
         data_subject_request:
           type: object
@@ -5599,6 +5754,123 @@ webhooks:
                               description: Permisos que se han extendido en esta nueva versión del acuerdo
                               items:
                                 $ref: '#/components/schemas/DataPermission'
+                created_at:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de creación del evento
+      responses:
+        '200':
+          description: Webhook recibido correctamente
+        4XX:
+          description: Error en el procesamiento del webhook
+  apiKeyCreated:
+    post:
+      tags:
+        - API Keys
+      summary: Created
+      operationId: apiKeyCreated
+      description: |
+        #### Nombre del evento: `api_key.created`.
+        Se envía cuando se ha creado una nueva API key.
+      requestBody:
+        description: Contiene el recurso ApiKey actualizado. El payload corresponde al esquema completo del recurso.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID único del evento
+                  example: evt_1B2M2Y8AsgTpgAmY7PhCfg
+                name:
+                  type: string
+                  enum:
+                    - api_key.created
+                  description: Nombre del evento
+                payload:
+                  allOf:
+                    - type: object
+                      description: Datos de la API key creada
+                    - $ref: '#/components/schemas/ApiKey'
+                created_at:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de creación del evento
+      responses:
+        '200':
+          description: Webhook recibido correctamente
+        4XX:
+          description: Error en el procesamiento del webhook
+  apiKeyUpdated:
+    post:
+      tags:
+        - API Keys
+      summary: Updated
+      operationId: apiKeyUpdated
+      description: |
+        #### Nombre del evento: `api_key.updated`.
+        Se envía cuando una API key existente ha sido actualizada.
+      requestBody:
+        description: Contiene el recurso ApiKey actualizado. El payload corresponde al esquema completo del recurso.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID único del evento
+                  example: evt_1B2M2Y8AsgTpgAmY7PhCfg
+                name:
+                  type: string
+                  enum:
+                    - api_key.updated
+                  description: Nombre del evento
+                payload:
+                  allOf:
+                    - type: object
+                      description: Datos de la API key actualizada
+                    - $ref: '#/components/schemas/ApiKey'
+                created_at:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de creación del evento
+      responses:
+        '200':
+          description: Webhook recibido correctamente
+        4XX:
+          description: Error en el procesamiento del webhook
+  apiKeyDestroyed:
+    post:
+      tags:
+        - API Keys
+      summary: Destroyed
+      operationId: apiKeyDestroyed
+      description: |
+        #### Nombre del evento: `api_key.destroyed`.
+        Se envía cuando una API key ha sido eliminada del sistema.
+      requestBody:
+        description: Contiene información de la API key eliminada. El payload corresponde al esquema completo del recurso.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID único del evento
+                  example: evt_1B2M2Y8AsgTpgAmY7PhCfg
+                name:
+                  type: string
+                  enum:
+                    - api_key.destroyed
+                  description: Nombre del evento
+                payload:
+                  allOf:
+                    - type: object
+                      description: Datos de la API key eliminada
+                    - $ref: '#/components/schemas/ApiKey'
                 created_at:
                   type: string
                   format: date-time
@@ -6305,7 +6577,7 @@ webhooks:
                       description: Token del acuerdo que contiene los permisos expirados
                       example: agr_1B2M2Y8AsgTpgAmY7PhCfg
                     subject_type:
-                      type: enum
+                      type: string
                       description: Tipo de sujeto (identidad o entidad) asociado al acuerdo
                       example: ent_1B2M2Y8AsgTpgAmY7PhCfg
                       enum:
