@@ -6,19 +6,9 @@ import TabItem from '@theme/TabItem';
 Las plantillas de consentimiento (`consent templates`) te permiten estandarizar las solicitudes de consentimiento en todos tus flujos digitales.
 En la plantilla defines el contenido y las propiedades de la solicitud de consentimiento que se presenta a tus usuarios. Puedes crear tantas plantillas como necesites, cada una con sus propias características y usarlas en diferentes flujos de tu aplicación.
 
-Crea tus plantillas de consentimiento usando la API de Soyio usando el endpoint [`POST /api/v1/consent_templates`](../../api/resources/create-consent-template.api.mdx).
+Crea tus plantillas de consentimiento usando el dashboard de administración o usando la API de Soyio con el endpoint [`POST /api/v1/consent_templates`](../../api/resources/create-consent-template.api.mdx).
 
-## Versionado de plantillas y evidencia
-
-Soyio genera trazabilidad con fines de auditoría y cumplimiento regulatorio. Por lo tanto, cada vez que modificas una plantilla de consentimiento, se crea una nueva versión de la plantilla que mantiene el mismo ID, pero con un número de versión diferente.
-
-Cada vez que se levanta un flujo de consentimiento, se usa la última versión disponible para la plantilla de consentimiento especificada en la SDK.
-
-Consulta el historial de versiones de una plantilla usando el endpoint [`GET /api/v1/consent_templates/{id}/versions`](../../api/resources/index-consent-template-versions.api.mdx).
-
-:::info[Información]
-Es importante considerar esto, ya que la evidencia de los consentimientos se asocia a la versión exacta de la plantilla que el usuario aceptó. Si el cambio de la plantilla afecta a los datos o usos que se solicitan, a su vigencia o al alcance del consentimiento (por ejemplo, si se asocia a otro producto o filial), el consentimiento asociado a esa plantilla aparecerá como `no compliant`.
-:::
+<img src="/img/ejemplo-consentimiento-taxonomia.png" alt="Ejemplo de plantilla de consentimiento" width="100%"/>
 
 ## Configuración de la plantilla
 
@@ -198,10 +188,22 @@ Los productos y filiales deben estar previamente configurados en el perfil de tu
 }
 ```
 
+## Versionado de plantillas y evidencia
+
+Soyio genera trazabilidad con fines de auditoría y cumplimiento regulatorio. Por lo tanto, cada vez que modificas una plantilla de consentimiento, se crea una nueva versión de la plantilla que mantiene el mismo ID, pero con un número de versión diferente.
+
+Cada vez que se levanta un flujo de consentimiento, se usa la última versión disponible para la plantilla de consentimiento especificada en la SDK.
+
+Consulta el historial de versiones de una plantilla usando el endpoint [`GET /api/v1/consent_templates/{id}/versions`](../../api/resources/index-consent-template-versions.api.mdx).
+
+:::info[Información]
+Es importante considerar esto, ya que la evidencia de los consentimientos se asocia a la versión exacta de la plantilla que el usuario aceptó. Si el cambio de la plantilla afecta a los datos o usos que se solicitan, a su vigencia o al alcance del consentimiento (por ejemplo, si se asocia a otro producto o filial), el consentimiento asociado a esa plantilla aparecerá como `no compliant`.
+:::
+
 ## Próximos pasos
 
 - [Inicio rápido](./quickstart) - Implementa consentimiento paso a paso
 - [Captura de consentimiento](./consent-capture) - Captura el consentimiento de un usuario
 - [Consulta de consentimiento](./consent-query) - Consulta los consentimientos de un usuario
-- [Revocación de consentimiento](./consent-revocation) - Revoca el consentimiento de un usuario
+- [Gestión de consentimientos](./consent-management) - Gestiona y revoca el consentimiento de un usuario
 - [Taxonomía](../main/taxonomy) - Entiende las categorías de datos disponibles

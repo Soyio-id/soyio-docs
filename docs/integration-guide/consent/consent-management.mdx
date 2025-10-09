@@ -1,0 +1,183 @@
+---
+title: Revocación de consentimientos
+description: Permite a tus usuarios gestionar y revocar sus consentimientos de manera autónoma
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import SequenceDiagram from '../../../src/components/SequenceDiagram';
+
+# Gestión de consentimientos
+
+:::info[Información]
+Por ahora, este servicio está disponible [**sólo para el SDK Web**](https://github.com/Soyio-id/soy-io-widget).
+:::
+
+Los usuarios tienen el derecho fundamental de gestionar su consentimiento y revocarlo en cualquier momento. Soyio te proporciona las herramientas necesarias para cumplir con este requisito legal de manera transparente y auditable.
+
+Usa el componente Privacy Center del [SDK de Soyio](https://github.com/Soyio-id/soy-io-widget) para disponer de un portal de gestión de consentimientos donde tus usuarios pueden:
+
+- Ver todos sus consentimientos de forma centralizada con su estado actual (otorgado/no otorgado).
+- Ver los consentimientos organizados de acuerdo al alcance configurado en tus plantillas de consentimiento para facilitar la navegación.
+- Revocar y otorgar consentimientos específicos de forma sencilla.
+
+## Modos de integración
+
+El Privacy Center puede integrarse en dos modos diferentes según tus necesidades:
+
+[**Modo público**](#integraci%C3%B3n-en-modo-p%C3%BAblico): Utiliza este modo para proporcionar acceso universal a la gestión de consentimientos a cualquier usuario que visita tu sitio web.
+
+- No requiere autenticación previa del usuario.
+- Permite que cualquier usuario que visita tu sitio web gestione sus consentimientos.
+- Utiliza el local storage para identificar al usuario.
+
+[**Modo autenticado**](#integraci%C3%B3n-en-modo-autenticado): Utiliza este modo para proporcionar acceso a la gestión de consentimientos a usuarios autenticados en tu aplicación.
+
+- Requiere que previamente autentiques al usuario.
+- Permite que solo los usuarios autenticados gestionen sus consentimientos.
+- Utiliza tokens de sesión como medida de seguridad.
+
+## Integración en modo público
+
+Usa el componente Privacy Center del [SDK Web](https://github.com/Soyio-id/soy-io-widget) y configúralo en modo público usando el `company_id` de tu empresa. Especifica la opción `ConsentManagement` en el array `enabledFeatures` para habilitar específicamente el portal de gestión de consentimientos.
+
+El componente automáticamente identifica al usuario y despliega los consentimientos con el estado actual de los consentimientos otorgados o revocados por el usuario.
+
+<Tabs>
+  <TabItem value="web" label="SDK Web" default>
+```jsx title="page.js"
+import { PrivacyCenter } from "@soyio/soyio-widget";
+
+const privacyCenterOptions = {
+  companyId: "<company_id>",
+  enabledFeatures: ['ConsentManagement'],
+  onEvent: (event) => console.log('Event:', event),
+  onReady: () => console.log('Privacy Center is ready'), // Optional
+  appearance: {},                                        // Optional
+  isSandbox: false,                                      // Optional
+};
+```
+
+```html title="page.html"
+<div id="privacy-center-container"></div>
+```
+  </TabItem>
+</Tabs>
+
+## Integración en modo autenticado
+
+Usa el componente Privacy Center del SDK de Soyio y configuralo en modo autenticado para permitir que solo usuarios autenticados en tu aplicación puedan gestionar sus consentimientos.
+
+### Flujo de inicialización
+
+El flujo de inicialización para el modo autenticado es el siguiente:
+
+1. El usuario autenticado ingresa a la sección de revocación de consentimientos y el frontend solicita el token de sesión al backend.
+2. El backend solicita el token de sesión a la API de Soyio y lo devuelve al frontend.
+3. El frontend inicializa el Privacy Center con el token de sesión.
+4. El Privacy Center se despliega mostrando los consentimientos del usuario.
+
+<SequenceDiagram
+  actors={[
+    { id: 'user', label: 'Usuario' },
+    { id: 'frontend', label: 'Frontend' },
+    { id: 'privacy_center', label: 'Privacy Center' },
+    { id: 'backend', label: 'Backend' },
+    { id: 'soyio_api', label: 'Soyio API' },
+
+  ]}
+  actions={[
+    {
+      from: 'user',
+      to: 'frontend',
+      label: 'Ingresa a la sección de privacidad de su cuenta'
+    },
+    {
+      from: 'frontend',
+      to: 'backend',
+      label: 'Solicita el token de sesión'
+    },
+    {
+      from: 'backend',
+      to: 'soyio_api',
+      label: 'Solicita el token de sesión'
+    },
+    {
+      from: 'soyio_api',
+      to: 'backend',
+      label: 'Devuelve el token de sesión'
+    },
+    {
+      from: 'backend',
+      to: 'frontend',
+      label: 'Devuelve el token de sesión'
+    },
+    {
+      from: 'frontend',
+      to: 'privacy_center',
+      label: 'Se inicializa el Privacy Center con el token de sesión'
+    },
+    {
+      from: 'privacy_center',
+      to: 'user',
+      label: 'Despliega el Privacy Center'
+    }
+  ]}
+/>
+
+### Obtén el token de sesión
+
+Usa el endpoint `api/v1/privacy_center/session_token` para obtener el token de sesión. Este endpoint requiere el `entity_id` o el `identity_id` de la entidad para la cual se generará el token.
+
+```json title="POST /api/v1/privacy_center/session_token"
+{
+    "entity_id": "<entity_id>"
+}
+```
+
+### Configura el Privacy Center
+
+Configura el componente Privacy Center del SDK de Soyio usando el `session_token` obtenido y especifica la opción `ConsentManagement` en el array `enabledFeatures` para habilitar específicamente el portal de gestión de consentimientos.
+
+<Tabs>
+  <TabItem value="web" label="SDK Web" default>
+```jsx title="page.js"
+import { PrivacyCenter } from "@soyio/soyio-widget";
+
+const privacyCenterOptions = {
+  sessionToken: "<session_token>",
+  enabledFeatures: ['ConsentManagement'], // Habilita el portal de gestión de consentimientos
+  onEvent: (event) => console.log('Event:', event)
+};
+
+const privacyCenter = new PrivacyCenter(privacyCenterOptions);
+privacyCenter.mount("#privacy-center-container");
+```
+
+```html title="page.html"
+<div id="privacy-center-container"></div>
+```
+  </TabItem>
+</Tabs>
+
+## Efecto de la modificación de consentimientos
+
+### Mensajes en la interfaz del usuario
+
+Cuando el usuario otorga o revoca un consentimiento en el portal de gestión de consentimientos, se muestra un mensaje informativo sobre el tiempo que podría tomar en reflejarse el cambio en los sistemas de tu empresa. Por defecto se indica que puede tardar hasta 7 días.
+
+### Actualización de los consentimientos
+
+Una vez que el usuario otorgue o revoque un consentimiento en el portal de gestión de consentimientos, se modificará automáticamente en la base de datos de Soyio, tanto en el [agreement](../main/agreement.mdx) como en la evidencia asociada. Recomendamos consultar el estado de consentimiento antes de realizar cualquier tratamiento de datos.
+
+Revisa la [guía de consulta de consentimiento](./consent-query.mdx) para obtener más información sobre cómo consultar el estado de los consentimientos.
+
+### Eventos en el backend
+
+Soyio envía webhooks para notificar cuando el usuario otorga o revoca un consentimiento en el portal de gestión de consentimientos. En este caso en particular se envían los eventos:
+-  `agreement.updated`: Se ha actualizado un [agreement](../../api/resources/schemas/agreement.schema.mdx).
+-  `consent_action.created`: Se ha creado una nueva acción de consentimiento que puede ser `revoke` o `grant`.
+
+Escucha estos eventos en tu backend para mantener tu sistema actualizado en tiempo real y reaccionar inmediatamente a las decisiones de tus usuarios.
+
+Revisa la [guía de webhooks](../../api/webhooks) para obtener más información sobre cómo configurar y suscribirte a los webhooks.
