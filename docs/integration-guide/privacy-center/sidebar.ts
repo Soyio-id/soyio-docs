@@ -15,7 +15,7 @@ const sidebar: SidebarsConfig = {
     {
       type: 'doc',
       id: 'integration-guide/privacy-center/customization',
-      label: 'Perzonaliza la apariencia',
+      label: 'Apariencia y comportamiento',
     },
   ],
 };
