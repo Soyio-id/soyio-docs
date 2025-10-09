@@ -4,7 +4,7 @@ const sidebar: SidebarsConfig = {
   disclosureSidebar: [
     {
       type: 'doc',
-      id: 'integration-guide/disclosure/verification',
+      id: 'integration-guide/disclosure/introduction',
       label: 'Introducción',
     },
     {
