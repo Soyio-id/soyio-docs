@@ -160,7 +160,7 @@ privacyCenter.mount("#privacy-center-container");
   </TabItem>
 </Tabs>
 
-## Efecto de la revocación de consentimientos
+## Efecto de la modificación de consentimientos
 
 ### Mensajes en la interfaz del usuario
 
@@ -176,7 +176,7 @@ Revisa la [guía de consulta de consentimiento](./consent-query.mdx) para obtene
 
 Soyio envía webhooks para notificar cuando el usuario otorga o revoca un consentimiento en el portal de gestión de consentimientos. En este caso en particular se envían los eventos:
 -  `agreement.updated`: Se ha actualizado un [agreement](../../api/resources/schemas/agreement.schema.mdx).
--  `consent_action.created`: Se ha creado una nueva acción de consentimiento que puede ser `revoked` o `granted`.
+-  `consent_action.created`: Se ha creado una nueva acción de consentimiento que puede ser `revoke` o `grant`.
 
 Escucha estos eventos en tu backend para mantener tu sistema actualizado en tiempo real y reaccionar inmediatamente a las decisiones de tus usuarios.
 
