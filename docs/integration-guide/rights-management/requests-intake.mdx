@@ -1,5 +1,5 @@
 ---
-title: Recepción de solicitudes
+title: Recibe solicitudes de derecho
 description: Integra el módulo de ejercicio de derechos en tu sitio web usando el componente Privacy Center del SDK de Soyio
 ---
 
@@ -7,7 +7,7 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import SequenceDiagram from '../../../src/components/SequenceDiagram';
 
-# Recepción de solicitudes
+# Recibe solicitudes de derecho
 
 :::info[Información]
 Por ahora, este servicio está disponible **sólo para el SDK Web**.
@@ -111,11 +111,11 @@ const getSessionToken = async (entityId) => {
       entity_id: entityId
     })
   });
-  
+
   if (!response.ok) {
     throw new Error(`Error: ${response.status}`);
   }
-  
+
   const data = await response.json();
   return data.session_token;
 };
@@ -165,7 +165,7 @@ Cuando un usuario envía una solicitud de ejercicio de derechos, se creará un n
 
 ## Siguientes pasos
 
-- [**Gestión de solicitudes**](./requests-management.mdx): Revisa cómo gestionar las solicitudes de derechos.
+- [**Responde a las solicitudes de derecho**](./requests-management.mdx): Revisa cómo gestionar las solicitudes de derechos.
 - [**Validación de la identidad**](./requests-validation.mdx): Revisa cómo validar la identidad del usuario.
 - [**Notificaciones y recordatorios**](./notifications.mdx): Revisa cómo configurar las notificaciones y recordatorios.
 - [**Personalización**](../consent/customization): Revisa cómo personalizar el Privacy Center.

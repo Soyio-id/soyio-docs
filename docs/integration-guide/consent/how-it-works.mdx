@@ -7,16 +7,25 @@ description: Explicación técnica de cómo funciona el módulo de consentimient
 
 ## Funcionamiento general
 
-El módulo de consentimiento de Soyio te permite gestionar el consentimiento de tus usuarios de manera integral y auditable. El sistema funciona a través de varios componentes interconectados:
+El módulo de consentimiento de Soyio te permite gestionar el consentimiento de tus usuarios de manera integral y auditable. El sistema funciona a través de tres componentes principales:
 
-### [SDK de Soyio](https://github.com/Soyio-id/soy-io-widget)
+### SDK
+
 - El **componente de consentimiento** del SDK de Soyio te permite solicitar consentimientos a partir de [plantillas versionadas](./consent-templates). Estas plantillas definen exactamente qué datos necesitas, para qué propósitos y bajo qué cláusulas legales.
 - El **componente privacy center** del SDK te permite habilitar un [portal donde tus usuarios pueden gestionar y revocar sus consentimientos de manera autónoma](./consent-management), cumpliendo con los requisitos de transparencia y control.
 
-### [Webhooks para notificaciones](../../api/webhooks)
+:::tip[Información]
+Puedes encontrar la documentación completa del SDK de Soyio en nuestro [GitHub](https://github.com/Soyio-id/soy-io-widget).
+:::
+
+### Webhooks
+
 El sistema envía **webhooks** para informarte de todos los cambios en los consentimientos de tus usuarios. Esto te permite mantener tu sistema actualizado en tiempo real y reaccionar inmediatamente a las decisiones de tus usuarios.
 
-### [API de Soyio](../../api/intro)
+Revisa la [documentación completa](../../api/webhooks) de los webhooks si quieres conocer más sobre cómo configurar y suscribirte a los webhooks.
+
+### API
+
 [Persiste las acciones de consentimiento](./consent-capture) y [consulta el estado de los consentimientos](./consent-query) a través de nuestra API. Procura consultar el estado de los consentimientos antes de realizar cualquier tratamiento de datos. Esto te asegura que siempre tengas la información más actualizada sobre qué puedes hacer con los datos de cada usuario.
 
 ## Modelo de datos de consentimiento
