@@ -17,6 +17,16 @@ const sidebar: SidebarsConfig = {
       id: 'integration-guide/disclosure/how-it-works',
       label: 'Cómo funciona',
     },
+    {
+      type: 'doc',
+      id: 'integration-guide/disclosure/validate-identity',
+      label: 'Valida una identidad obteniendo datos',
+    },
+    {
+      type: 'doc',
+      id: 'integration-guide/disclosure/configuration',
+      label: 'Configuración',
+    },
   ],
 };
 

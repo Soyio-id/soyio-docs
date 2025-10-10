@@ -8,6 +8,10 @@ const sidebar: SidebarsConfig = {
       id: 'api/intro',
     },
     {
+      type: 'html',
+      value: '<div style="margin: 1.125rem 0;"></div>',
+    },
+    {
       type: 'doc',
       id: 'api/authentication',
     },
@@ -26,6 +30,10 @@ const sidebar: SidebarsConfig = {
     {
       type: 'doc',
       id: 'api/errors',
+    },
+    {
+      type: 'html',
+      value: '<div style="margin: 1.125rem 0;"></div>',
     },
     {
       type: 'category',

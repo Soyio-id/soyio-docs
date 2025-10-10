@@ -20,12 +20,12 @@ const sidebar: SidebarsConfig = {
     {
       type: 'doc',
       id: 'integration-guide/rights-management/requests-intake',
-      label: 'Recepción de solicitudes',
+      label: 'Recibe solicitudes de derecho',
     },
     {
       type: 'doc',
       id: 'integration-guide/rights-management/requests-management',
-      label: 'Responde a las solicitudes',
+      label: 'Responde a las solicitudes de derecho',
     },
     {
       type: 'doc',
