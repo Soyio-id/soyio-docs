@@ -23,6 +23,7 @@
   --ifm-font-family-base: 'Satoshi', sans-serif;
   --ifm-font-family-heading: 'Manrope', sans-serif;
   --ifm-font-family-monospace: 'JetBrains Mono', monospace;
+  --ifm-background-color: #ffffff;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
