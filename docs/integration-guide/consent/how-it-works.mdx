@@ -30,7 +30,7 @@ Revisa la [documentación completa](../../api/webhooks) de los webhooks si quier
 
 ## Modelo de datos de consentimiento
 
-Soyio almacena el estado actualizado de todos los consentimientos en un [Agreement](../main/general-concepts#agreement) por usuario. Este agreement es la fuente de verdad que determina qué permisos tiene cada usuario para el uso de sus datos.
+Soyio almacena el estado actualizado de todos los consentimientos en un [Agreement](../../integration-guide/general-concepts#agreement) por usuario. Este agreement es la fuente de verdad que determina qué permisos tiene cada usuario para el uso de sus datos.
 
 <img src="/img/diagrama-modelo-consentimiento.png" alt="modelo de datos de consentimiento" width="100%"/>
 
@@ -38,11 +38,11 @@ Soyio almacena el estado actualizado de todos los consentimientos en un [Agreeme
 
 - [**Consent Templates**](./consent-templates): Plantillas versionadas que definen qué datos se usan y para qué propósitos. Estas plantillas se utilizan para solicitar el consentimiento de los usuarios.
 - [**Consent Actions**](./consent-capture): Registros individuales de cada acción de consentimiento del usuario.
-- [**Agreements**](../main/general-concepts#agreement): Estado consolidado y versionado de todos los consentimientos de un usuario.
-- [**Evidence**](../main/evidence-traceability): Evidencia de la acción realizada por el usuario o la empresa asociada a cada modificación del agreement.
+- [**Agreements**](../../integration-guide/general-concepts#agreement): Estado consolidado y versionado de todos los consentimientos de un usuario.
+- [**Evidence**](../../integration-guide/evidence-traceability): Evidencia de la acción realizada por el usuario o la empresa asociada a cada modificación del agreement.
 - **Identity**: Identificador único del usuario verificado en el sistema Soyio.
 - **Entity**: Identificador único del usuario en el sistema Soyio (no verificado previamente).
-- [**Company**](../main/company-configuration): Identificador único de la empresa en el sistema Soyio.
+- [**Company**](../../integration-guide/company-configuration): Identificador único de la empresa en el sistema Soyio.
 
 ### Componentes secundarios del modelo
 
@@ -54,8 +54,8 @@ Soyio almacena el estado actualizado de todos los consentimientos en un [Agreeme
 Los consentimientos en Soyio tienen características específicas que debes conocer:
 
 - **Vigencia**: Cada consentimiento tiene una duración específica que puedes configurar en la plantilla. Una vez expirado, necesitarás solicitar un nuevo consentimiento o detener el tratamiento de los datos.
-- **Usos específicos**: Los consentimientos se otorgan para propósitos específicos (marketing, análisis, uso esencial, etc.). Revisa la [taxonomía](../main/taxonomy) para conocer los usos de datos disponibles.
-- **Datos específicos**: Cada consentimiento autoriza el uso de categorías específicas de datos (información de contacto, datos de navegación, etc.). Revisa la [taxonomía](../main/taxonomy) para conocer las categorías de datos disponibles.
+- **Usos específicos**: Los consentimientos se otorgan para propósitos específicos (marketing, análisis, uso esencial, etc.). Revisa la [taxonomía](../../integration-guide/taxonomy) para conocer los usos de datos disponibles.
+- **Datos específicos**: Cada consentimiento autoriza el uso de categorías específicas de datos (información de contacto, datos de navegación, etc.). Revisa la [taxonomía](../../integration-guide/taxonomy) para conocer las categorías de datos disponibles.
 - **Alcance por producto o filial**: Cada consentimiento tiene un alcance específico que puede abarcar a toda la empresa, un producto o una filial.
 - **Cláusulas legales**: Cada plantilla incluye las cláusulas legales correspondientes que el usuario debe aceptar.
 
