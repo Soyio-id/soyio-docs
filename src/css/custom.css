@@ -6,7 +6,9 @@
 
 /* You can override the default Infima variables here. */
 
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+
+@import url('https://fonts.cdnfonts.com/css/satoshi');
 
 :root {
   --ifm-color-primary: #40287f;
@@ -18,8 +20,10 @@
   --ifm-color-primary-lightest: #9177d4;
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
-  --ifm-font-family-base: 'Roboto Flex', sans-serif;
+  --ifm-font-family-base: 'Satoshi', sans-serif;
+  --ifm-font-family-heading: 'Manrope', sans-serif;
   --ifm-font-family-monospace: 'JetBrains Mono', monospace;
+  --ifm-background-color: #ffffff;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -35,3 +39,12 @@
 }
 
 @import url('./sidebar-method-badges.css');
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--ifm-font-family-heading);
+}

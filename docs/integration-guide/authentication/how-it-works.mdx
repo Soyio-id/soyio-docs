@@ -1,6 +1,5 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import SequenceDiagram from '../../../src/components/SequenceDiagram';
 
 # Cómo funciona la autenticación
 
@@ -32,67 +31,9 @@ El proceso de autenticación sigue estos pasos:
 2. Alternativamente, el usuario podrá siempre optar por usar una autenticación facial.
 3. El sistema valida la autenticación y genera evidencia del proceso
 
-### Diagrama de secuencia
-
-<SequenceDiagram
-  actors={[
-    { id: 'frontend', label: 'Frontend' },
-    { id: 'backend', label: 'Backend' },
-    { id: 'soyio_api', label: 'Soyio API' },
-    { id: 'soyio_widget', label: 'Soyio Widget' },
-  ]}
-  actions={[
-    {
-      from: 'backend',
-      to: 'soyio_api',
-      label: 'Crear intento de autenticación'
-    },
-    {
-      from: 'soyio_api',
-      to: 'backend',
-      label: 'Retorna `auth_request_id`'
-    },
-    {
-      from: 'frontend',
-      to: 'soyio_widget',
-      label: 'Iniciar widget con `auth_request_id`'
-    },
-    {
-      from: 'soyio_widget',
-      to: 'frontend',
-      label: 'Evento `WIDGET_OPENED`',
-      isDashed: true,
-    },
-    {
-      from: 'soyio_widget',
-      to: 'soyio_widget',
-      label: 'Usuario completa autenticación (passkey o biométrica)'
-    },
-    {
-      from: 'soyio_widget',
-      to: 'frontend',
-      label: 'Evento `AUTH_REQUEST_SUCCESSFUL`',
-      isDashed: true,
-    },
-    {
-      from: 'soyio_api',
-      to: 'backend',
-      label: 'Webhook: `auth_request.successful`',
-      isDashed: true,
-      webhook: 'auth_request.successful'
-    },
-    {
-      from: 'backend',
-      to: 'soyio_api',
-      label: 'Obtener resultado de autenticación'
-    },
-    {
-      from: 'soyio_api',
-      to: 'backend',
-      label: 'Retorna resultado de autenticación'
-    }
-  ]}
-/>
+:::info[Diagrama de secuencia]
+Para ver el diagrama de secuencia completo del flujo de autenticación, consulta la sección [Flujo de autenticación](./authenticate-users#flujo-de-autenticación) en la guía de implementación.
+:::
 
 ## Componentes del Sistema
 
@@ -171,4 +112,4 @@ Durante el proceso de autenticación ocurren cambios de estado que pueden ser lo
 
 ## Próximos Pasos
 
-- [Quickstart](./quickstart) - Implementa autenticación paso a paso
+- [Implementación paso a paso](./authenticate-users) - Implementa autenticación paso a paso

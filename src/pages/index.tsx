@@ -6,6 +6,7 @@ import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
 import styles from './index.module.css';
 import DynamicBackground from '../components/DynamicBackground';
+import ModulesSection from '../components/ModulesSection';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 
 function HomepageHeader() {
@@ -56,6 +57,7 @@ export default function Home() {
         {() => <DynamicBackground />}
       </BrowserOnly>
       <HomepageHeader />
+      <ModulesSection />
     </Layout>
   );
 }
