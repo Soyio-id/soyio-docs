@@ -14,7 +14,7 @@ interface ModuleItem {
   title: string;
   description: string;
   link: string;
-  icon: any;
+  icon: string;
 }
 
 const modules: ModuleItem[] = [
@@ -84,8 +84,8 @@ export default function ModulesSection(): JSX.Element {
           </p>
         </div>
         <div className="row">
-          {modules.map((module, idx) => (
-            <ModuleCard key={idx} {...module} />
+          {modules.map((module) => (
+            <ModuleCard key={module.title} {...module} />
           ))}
         </div>
       </div>
