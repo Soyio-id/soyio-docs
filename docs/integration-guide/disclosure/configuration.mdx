@@ -1,0 +1,20 @@
+# Configuración
+
+Personaliza el comportamiento del módulo del disclosure según las necesidades de tu empresa.
+
+Desde la [configuración](../../api/resources/schemas/configuration) de tu compañía en Soyio, puedes personalizar el comportamiento del módulo de disclosure a través de las siguientes opciones:
+
+### Omitir registro de llave de acceso (`disclosure.skip_passkey_registration`)
+
+Puedes configurar si se debe saltar el registro de llave de acceso (passkey) para usuarios que no deseen crear una cuenta con Soyio durante el proceso de disclosure:
+
+- **`false`** (por defecto): Se solicita el registro de llave de acceso a todos los usuarios durante el flujo de disclosure.
+- **`true`**: Se omite el registro de llave de acceso para usuarios que no deseen crear una cuenta con Soyio.
+
+:::info[Importante]
+Si el usuario desea crear una cuenta con Soyio, independientemente de esta configuración, se le pedirá que registre su llave de acceso como parte del proceso de creación de cuenta.
+:::
+
+:::tip[Recomendación]
+Se recomienda mantener esta configuración en `false` (valor por defecto) para permitir el registro de llaves de acceso. Las llaves de acceso facilitan significativamente la autenticación del usuario en otros módulos de Soyio, como el [módulo de autenticación](../authentication/introduction) y la [firma de documentos](../signature/introduction), proporcionando una experiencia más fluida y segura.
+:::
