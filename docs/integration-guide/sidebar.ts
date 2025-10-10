@@ -104,7 +104,7 @@ const sidebar: SidebarsConfig = {
       label: 'Firma electrónica',
       items: signatureSidebar,
       collapsed: true,
-      link: {type: 'doc', id: 'integration-guide/signature/sign-documents'},
+      link: {type: 'doc', id: 'integration-guide/signature/introduction'},
     },
   ],
 };
