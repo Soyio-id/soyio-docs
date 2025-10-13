@@ -9,13 +9,13 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: 'doc',
-      id: 'integration-guide/authentication/quickstart',
-      label: 'Inicio rápido',
+      id: 'integration-guide/authentication/how-it-works',
+      label: 'Cómo funciona',
     },
     {
       type: 'doc',
-      id: 'integration-guide/authentication/how-it-works',
-      label: 'Cómo funciona',
+      id: 'integration-guide/authentication/authenticate-users',
+      label: 'Autentica usuarios',
     },
   ],
 };

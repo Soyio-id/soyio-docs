@@ -88,7 +88,7 @@ Crea un documento en formato `.docx` definiendo las variables que serán reempla
 
 #### Variables
 
-Define las variables en la plantilla utilizando *handlevars* siguiendo el siguiente formato:
+Define las variables en la plantilla utilizando *handlebars* siguiendo el siguiente formato:
 
 `{{variable:type}}` o `{{variable}}`
 
@@ -96,7 +96,7 @@ Donde `variable` es el **nombre de la variable** y `type` es opcional y correspo
 
 - `string`: Representa un texto en el documento. Opción por defecto en caso de no especificar `type`.
 - `number`: Representa un número o cifra en el documento. Al reemplazarse, se desplegará formateado como un número, por ejemplo 10000 se convertirá en `10.000`.
-- `signature`: Representa una firma en el documento. Debe ubicarse en el lugar dónde irá la firma en el documento final.
+- `signature`: Representa una firma en el documento. Debe ubicarse en el lugar donde irá la firma en el documento final.
 
 :::warning[Importante]
 Se requiere al menos una variable de tipo `signature` en el documento para poder crear la plantilla.

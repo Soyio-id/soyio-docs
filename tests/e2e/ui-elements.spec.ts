@@ -6,6 +6,8 @@ test.describe('UI Elements', () => {
   });
 
   test('Verify dynamic background', async ({ page }) => {
+    // Wait for the canvas to be rendered (it's wrapped in BrowserOnly)
+    await page.waitForSelector('canvas', { timeout: 10000 });
     await expect(page.locator('canvas')).toBeVisible();
   });
 

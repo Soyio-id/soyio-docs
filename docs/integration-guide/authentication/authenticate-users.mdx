@@ -1,7 +1,8 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import SequenceDiagram from '../../../src/components/SequenceDiagram';
 
-# Inicio rápido: autenticación
+# Autentica usuarios
 
 Esta guía te llevará paso a paso para implementar autenticación en tu aplicación usando Soyio.
 
@@ -22,6 +23,76 @@ Si aún no tienes tu cuenta empresa en Soyio, contacta a nuestro equipo a [hola@
 - **Timeout**: Los intentos de autenticación expiran después de 5 minutos
 - **Rate limiting**: Existe un límite de intentos por usuario/hora
 - **Validación**: Siempre valida el resultado de la autenticación en tu backend
+
+## Flujo de autenticación
+
+El proceso de autenticación sigue estos pasos:
+
+1. Si el usuario tiene una llave de acceso (passkey) registrada, se le mostrará la opción de usarla para autenticarse.
+2. Alternativamente, el usuario podrá siempre optar por usar una autenticación facial.
+3. El sistema valida la autenticación y genera evidencia del proceso
+
+### Diagrama de secuencia
+
+<SequenceDiagram
+  actors={[
+    { id: 'frontend', label: 'Frontend' },
+    { id: 'backend', label: 'Backend' },
+    { id: 'soyio_api', label: 'Soyio API' },
+    { id: 'soyio_widget', label: 'Soyio Widget' },
+  ]}
+  actions={[
+    {
+      from: 'backend',
+      to: 'soyio_api',
+      label: 'Crear intento de autenticación'
+    },
+    {
+      from: 'soyio_api',
+      to: 'backend',
+      label: 'Retorna `auth_request_id`'
+    },
+    {
+      from: 'frontend',
+      to: 'soyio_widget',
+      label: 'Iniciar widget con `auth_request_id`'
+    },
+    {
+      from: 'soyio_widget',
+      to: 'frontend',
+      label: 'Evento `WIDGET_OPENED`',
+      isDashed: true,
+    },
+    {
+      from: 'soyio_widget',
+      to: 'soyio_widget',
+      label: 'Usuario completa autenticación (passkey o biométrica)'
+    },
+    {
+      from: 'soyio_widget',
+      to: 'frontend',
+      label: 'Evento `AUTH_REQUEST_SUCCESSFUL`',
+      isDashed: true,
+    },
+    {
+      from: 'soyio_api',
+      to: 'backend',
+      label: 'Webhook: `auth_request.successful`',
+      isDashed: true,
+      webhook: 'auth_request.successful'
+    },
+    {
+      from: 'backend',
+      to: 'soyio_api',
+      label: 'Obtener resultado de autenticación'
+    },
+    {
+      from: 'soyio_api',
+      to: 'backend',
+      label: 'Retorna resultado de autenticación'
+    }
+  ]}
+/>
 
 ## Paso a paso
 
@@ -80,7 +151,7 @@ const createAuthRequest = async (identityId) => {
 Inicia el proceso de autenticación desde el front-end de tu aplicación utilizando el SDK de Soyio.
 
 :::warning[Importante]
-Para **evitar que el navegador bloquee el popup**, asegúrate de que el widget se inicialice solo a través de una interacción directa del usuario, como un clic, debido a las políticas de seguridad del navegador contra ventanas emergentes. Revisa mas detalles en la documentación de nuestros SDKs.
+Para **evitar que el navegador bloquee el popup**, asegúrate de que el widget se inicialice solo a través de una interacción directa del usuario, como un clic, debido a las políticas de seguridad del navegador contra ventanas emergentes. Revisa más detalles en la documentación de nuestros SDKs.
 :::
 
 #### Ejemplos
@@ -168,7 +239,7 @@ Para más detalles sobre la configuración revisa las instrucciones del `Readme`
 
 A medida que el usuario complete el flujo, se emitirán eventos que informan sobre el estado del proceso y
 dependiendo del caso, tu sistema deberá manejarlos.
-Cuando el usuario complete el proceso exitosamente se emitirá un evento de `AUTH_SUCCESSFUL`.
+Cuando el usuario complete el proceso exitosamente se emitirá un evento de `AUTH_REQUEST_SUCCESSFUL`.
 
 A continuación te detallamos los eventos que puedes escuchar:
 

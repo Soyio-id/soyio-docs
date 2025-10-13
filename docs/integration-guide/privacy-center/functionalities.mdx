@@ -1,11 +1,15 @@
-# Funcionalidades y modos
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
+# Funcionalidades y modos
+
+El centro de privacidad te permite habilitar distintas funcionalidades de forma conjunta o de forma individual según tus necesidades. También opera en dos modos diferentes: público y autenticado; que te permiten definir el acceso a las funcionalidades según tus necesidades.
+
+Estas son configuraciones que debes <strong>declarar al momento de inicializar el centro de privacidad en tu sitio o aplicación web</strong>.
+
 ## Funcionalidades
 
-El Privacy Center te permite habilitar las siguientes funcionalidades de forma conjunta o de forma individual según tus necesidades.
+El centro de privacidad te permite habilitar las siguientes funcionalidades de forma conjunta o de forma individual según tus necesidades.
 
 <img src="/img/privacy_center_all.png" alt="Centro de Privacidad y sus funcionalidades"/>
 
@@ -32,7 +36,7 @@ Habilita un portal para que tus usuarios revisen el estado de sus solicitudes de
 
 Habilita esta funcionalidad especificando la feature `RequestTracking` en el parámetro `enabledFeatures` del componente.
 
-## Modos de integración
+## Modos de operación
 
 ### Modo público
 
@@ -42,7 +46,7 @@ Este modo es recomendado para:
 - Gestionar consentimientos asociados a la gestión de cookies o cuando no impactan de forma directa en procesos de negocio complejos. En este caso el componente utiliza el local storage para almacenar información suficiente para saber qué consentimientos otorgó el usuario durante la sesión y permitirle revocarlos en cualquier momento.
 - Recibir solicitudes de ejercicio de derechos usando la verificación de identidad de Soyio incorporada en el componente.
 
-Para integrar el Privacy Center en modo público, especifica tu `companyId` en el componente.
+Para integrar el centro de privacidad en modo público, especifica tu `companyId` en el componente.
 
 <Tabs>
   <TabItem value="web" label="SDK Web" default>
@@ -74,7 +78,7 @@ Este modo es recomendado para:
 - Gestionar consentimientos asociados a procesos de negocio complejos o cuando se requiere autenticación del usuario para permitirles revocar sus consentimientos.
 - Recibir solicitudes de ejercicio de derechos usando otro mecanismo propio de autenticación o de verificación de identidad.
 
-Para integrar el Privacy Center en modo autenticado, especifica el `sessionToken` en el componente.
+Para integrar el centro de privacidad en modo autenticado, especifica el `sessionToken` en el componente.
 
 Obtén el `sessionToken` usando el [endpoint `POST /api/v1/privacy_center/session_token` de la API de Soyio](../../api/resources/get-privacy-center-session-token.api.mdx).
 

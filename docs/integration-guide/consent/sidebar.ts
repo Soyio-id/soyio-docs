@@ -25,17 +25,17 @@ const sidebar: SidebarsConfig = {
     {
       type: 'doc',
       id: 'integration-guide/consent/consent-capture',
-      label: 'Captura de consentimientos',
+      label: 'Captura consentimientos',
     },
     {
       type: 'doc',
       id: 'integration-guide/consent/consent-query',
-      label: 'Consulta de consentimientos',
+      label: 'Consulta el estado de cumplimiento',
     },
     {
       type: 'doc',
       id: 'integration-guide/consent/consent-management',
-      label: 'Gestión de consentimientos',
+      label: 'Gestiona consentimientos',
     },
     {
       type: 'doc',

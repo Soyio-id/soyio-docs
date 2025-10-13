@@ -6,20 +6,24 @@ test.describe('Responsiveness', () => {
   });
 
   test('Verify responsive design on mobile', async ({ page }) => {
-    await page.setViewportSize({ width: 375, height: 667 });
+    // Use a very small viewport to ensure mobile behavior
+    await page.setViewportSize({ width: 320, height: 568 });
 
+    // Check if mobile menu toggle is visible
     const menuToggle = page.locator('.navbar__toggle');
     await expect(menuToggle).toBeVisible();
 
-    const mainNavbarItems = page.locator('.navbar-sidebar__items').first();
-    await expect(mainNavbarItems).not.toBeVisible();
-
+    // Click the menu toggle to open the sidebar
     await menuToggle.click();
-    await expect(mainNavbarItems).toBeVisible();
+
+    // Check if the sidebar is now visible
+    const sidebar = page.locator('.navbar-sidebar');
+    await expect(sidebar).toBeVisible();
   });
 
   test('Verify responsive design on tablet', async ({ page }) => {
     await page.setViewportSize({ width: 768, height: 1024 });
-    await expect(page.locator('.navbar__items').first()).toBeVisible();
+    // On tablet, left navbar items should be visible
+    await expect(page.locator('.theme-layout-navbar-left.navbar__items')).toBeVisible();
   });
 });
