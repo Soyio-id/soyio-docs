@@ -45,40 +45,109 @@ Datos únicos y bajo el control del sistema.
 Datos relacionados con el usuario del sistema, ya sean proporcionados directamente o derivados de su uso.
 
 - `user.account` - **Información de la Cuenta**: Datos de creación o registro de la cuenta.
-  - `user.account.username` - Nombre de Usuario de la Cuenta
-  - `user.account.settings` - Configuración de la Cuenta
+  - `user.account.username` - **Nombre de Usuario de la Cuenta**: Nombre de usuario asociado a la cuenta.
+  - `user.account.settings` - **Configuración de la Cuenta**: Preferencias y configuraciones de la cuenta.
+
+- `user.name` - **Nombre Real del Usuario**: Nombre real del usuario.
+  - `user.name.first` - **Nombre**: Nombre de pila del sujeto.
+  - `user.name.last` - **Apellido**: Apellido o nombre de familia del sujeto.
+
+- `user.unique_id` - **Identificador Único del Usuario**: Identificador único para un usuario asignado a través del uso del sistema.
+  - `user.unique_id.pseudonymous` - **Identificador Seudónimo**: Un identificador seudónimo o probabilístico generado a partir de otros datos del sujeto o dispositivo pertenecientes al sujeto.
 
 - `user.contact` - **Datos de Contacto**: Información para contactar a un usuario.
-  - `user.contact.email` - Correo Electrónico de Contacto del Usuario
-  - `user.contact.phone_number` - Número de Teléfono de Contacto del Usuario
-  - `user.contact.address` - Dirección de Contacto del Usuario
-    - `user.contact.address.street` - Calle
-    - `user.contact.address.city` - Ciudad
-    - `user.contact.address.postal_code` - Código Postal
-    - `user.contact.address.country` - País
+  - `user.contact.email` - **Correo Electrónico de Contacto del Usuario**: Dirección de correo electrónico de contacto del usuario.
+  - `user.contact.phone_number` - **Número de Teléfono de Contacto del Usuario**: Número de teléfono del usuario.
+  - `user.contact.url` - **URL de Contacto del Sujeto**: Sitios web del sujeto o enlaces a perfiles sociales y personales.
+  - `user.contact.fax_number` - **Número de Fax del Sujeto de Datos**: Número de fax del sujeto de datos.
+  - `user.contact.organization` - **Organización del Sujeto de Datos**: Organización del sujeto de datos.
+  - `user.contact.address` - **Dirección de Contacto del Usuario**: Datos de dirección de contacto recopilados sobre un usuario.
+    - `user.contact.address.street` - **Calle**: Datos de dirección a nivel de calle del usuario.
+    - `user.contact.address.city` - **Ciudad**: Datos de dirección a nivel de ciudad del usuario.
+    - `user.contact.address.postal_code` - **Código Postal**: Código postal del usuario.
+    - `user.contact.address.state` - **Estado**: Datos de dirección a nivel de estado del usuario.
+    - `user.contact.address.country` - **País**: Datos de dirección a nivel de país del usuario.
+
+- `user.authorization` - **Autorización del Usuario**: Alcance de permisos y acceso a un sistema.
+  - `user.authorization.credentials` - **Credenciales de Autenticación**: Credenciales de autenticación para un sistema.
+  - `user.authorization.biometric` - **Credenciales Biométricas**: Credenciales para autenticación del sistema.
+  - `user.authorization.password` - **Contraseña**: Contraseña para autenticación del sistema.
 
 - `user.behavior` - **Comportamiento Observado**: Datos sobre el comportamiento del sujeto.
-  - `user.behavior.browsing_history` - Historial de Navegación
-  - `user.behavior.purchase_history` - Historial de Compras
+  - `user.behavior.browsing_history` - **Historial de Navegación**: Historial de navegación de contenido de un usuario.
+  - `user.behavior.media_consumption` - **Historial de Consumo de Medios**: Historial de consumo de contenido del sujeto.
+  - `user.behavior.purchase_history` - **Historial de Compras**: Historial de compras del sujeto.
+  - `user.behavior.search_history` - **Historial de Búsqueda**: Historial de búsqueda del sujeto.
+
+- `user.content` - **Contenido del Usuario**: Contenido relacionado con, o creado por el sujeto.
+  - `user.content.private` - **Contenido Privado**: Contenido privado relacionado con, o creado por el sujeto, no disponible públicamente.
+  - `user.content.public` - **Contenido Público**: Contenido compartido públicamente relacionado con, o creado por el sujeto.
+  - `user.content.self_image` - **Imagen Personal**: Fotografía o imagen en la que el sujeto es reconocido total o parcialmente.
+
+- `user.social` - **Datos Sociales**: Datos de actividad e interacción social.
+
+- `user.demographic` - **Datos Demográficos**: Datos demográficos sobre un usuario.
+  - `user.demographic.age_range` - **Rango de Edad**: Edad no específica o rango de edad del sujeto de datos.
+  - `user.demographic.date_of_birth` - **Fecha de Nacimiento**: Fecha de nacimiento del sujeto de datos.
+  - `user.demographic.gender` - **Género**: Género del sujeto de datos.
+  - `user.demographic.language` - **Idioma**: Idioma hablado o escrito del sujeto.
+  - `user.demographic.marital_status` - **Estado Civil**: Estado civil del sujeto de datos.
+  - `user.demographic.political_opinion` - **Opinión Política**: Opinión política o creencia del sujeto de datos.
+  - `user.demographic.profile` - **Perfil**: Información de perfil o preferencias sobre el sujeto de datos.
+  - `user.demographic.race_ethnicity` - **Raza o Etnia**: Raza o etnia del sujeto de datos.
+  - `user.demographic.religious_belief` - **Creencia Religiosa**: Religión o creencias religiosas del sujeto de datos.
+  - `user.demographic.sexual_orientation` - **Orientación Sexual**: Orientación sexual del sujeto de datos.
+
+- `user.job_title` - **Título Profesional**: Datos profesionales.
+
+- `user.workplace` - **Lugar de Trabajo**: Organización de empleo.
+
+- `user.location` - **Ubicación del Usuario**: Registros de la ubicación de un usuario.
+  - `user.location.imprecise` - **Ubicación Imprecisa**: Ubicación imprecisa derivada de sensores (más de 500M).
+  - `user.location.precise` - **Ubicación Precisa**: Ubicación precisa derivada de sensores (menos de 500M).
 
 - `user.device` - **Datos del Dispositivo**: Datos relacionados con el dispositivo del usuario.
-  - `user.device.ip_address` - Dirección IP
-  - `user.device.cookie_id` - ID de Cookie
+  - `user.device.cookie` - **Cookie**: Datos relacionados con un sujeto, almacenados dentro de una cookie.
+  - `user.device.cookie_id` - **ID de Cookie**: Número de identificación único de la cookie.
+  - `user.device.device_id` - **ID del Dispositivo**: Número de identificación único del dispositivo.
+  - `user.device.ip_address` - **Dirección IP**: Identificador único relacionado con la conexión del dispositivo.
 
 - `user.financial` - **Datos Financieros**: Datos de pago e historial financiero.
-  - `user.financial.bank_account` - Información de la Cuenta Bancaria
-  - `user.financial.credit_card` - Información de la Tarjeta de Crédito
+  - `user.financial.bank_account` - **Información de la Cuenta Bancaria**: Información de cuenta bancaria perteneciente al sujeto.
+  - `user.financial.credit_card` - **Información de la Tarjeta de Crédito**: Información de tarjeta de crédito perteneciente al sujeto.
 
-- `user.government_id` - **Identificación Gubernamental**: Datos de identificación emitidos por el estado.
-  - `user.government_id.national_identification_number` - Número de Identificación Nacional
-  - `user.government_id.passport_number` - Número de Pasaporte
+- `user.payment` - **Datos de Pago del Usuario**: Datos de pago relacionados con el usuario.
+
+- `user.biometric` - **Datos Biométricos del Usuario**: Características codificadas proporcionadas por un usuario.
+  - `user.biometric.fingerprint` - **Huella Dactilar**: Datos codificados de huella dactilar sobre un sujeto.
+  - `user.biometric.retinal` - **Datos Retinales**: Datos retinales sobre un sujeto.
+  - `user.biometric.voice` - **Datos de Voz**: Datos codificados de voz sobre un sujeto.
+  - `user.biometric.health` - **Datos Biométricos de Salud**: Característica codificada recopilada sobre un usuario.
 
 - `user.health_and_medical` - **Datos de Salud y Médicos**: Información médica personal.
+  - `user.health_and_medical.genetic` - **Datos Genéticos**: Datos sobre la composición genética proporcionados por el sujeto.
+  - `user.health_and_medical.insurance_beneficiary_id` - **ID de Beneficiario de Seguro Médico**: Número de beneficiario de seguro médico del sujeto.
+  - `user.health_and_medical.record_id` - **ID de Registro Médico**: Identificadores de registro médico pertenecientes a un sujeto.
 
-- `user.demographic` - **Datos Demográficos**:
-  - `user.demographic.age_range` - Rango de Edad
-  - `user.demographic.gender` - Género
-  - `user.demographic.race_ethnicity` - Raza o Etnia
+- `user.government_id` - **Identificación Gubernamental**: Datos de identificación emitidos por el estado.
+  - `user.government_id.birth_certificate` - **Certificado de Nacimiento**: Certificado de nacimiento emitido por el estado.
+  - `user.government_id.drivers_license_number` - **Número de Licencia de Conducir**: Número de identificación de conducir emitido por el estado.
+  - `user.government_id.immigration` - **Datos de Inmigración**: Datos de inmigración o residencia emitidos por el estado.
+  - `user.government_id.national_identification_number` - **Número de Identificación Nacional**: Número de identificación personal emitido por el estado.
+  - `user.government_id.passport_number` - **Número de Pasaporte**: Datos de pasaporte emitidos por el estado.
+  - `user.government_id.vehicle_registration` - **Registro de Vehículo**: Datos de matrícula o registro de vehículo emitidos por el estado.
+
+- `user.criminal_history` - **Historial Criminal**: Registros criminales o información sobre el sujeto de datos.
+
+- `user.childrens` - **Datos de Menores**: Datos relacionados con menores de edad.
+
+- `user.telemetry` - **Telemetría del Usuario**: Datos de medición identificables del usuario desde sensores del sistema y monitoreo.
+
+- `user.user_sensor` - **Sensor del Usuario**: Datos de medición sobre el entorno del usuario a través del uso del sistema.
+
+- `user.sensor` - **Sensor**: Datos de medición de sensores y sistemas de monitoreo.
+
+- `user.privacy_preferences` - **Preferencias de Privacidad**: Preferencias de privacidad o configuraciones establecidas por el sujeto.
 
 ## 2. Taxonomía de sujetos de datos (El "Quién")
 
