@@ -15,13 +15,13 @@ The project also includes a custom Docusaurus plugin that extends the CLI with a
 **Installation:**
 
 ```bash
-npm install
+pnpm install
 ```
 
 **Local Development:**
 
 ```bash
-npm start
+pnpm start
 ```
 
 This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
@@ -29,7 +29,7 @@ This command starts a local development server and opens up a browser window. Mo
 **Build:**
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 This command generates static content into the `build` directory and can be served using any static contents hosting service.
@@ -39,7 +39,7 @@ This command generates static content into the `build` directory and can be serv
 To regenerate the API docs after changes to the OpenAPI spec, run:
 
 ```bash
-npm run docusaurus regenerate-api-docs
+pnpm run docusaurus regenerate-api-docs
 ```
 
 # Development Conventions
