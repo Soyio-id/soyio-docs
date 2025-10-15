@@ -4,6 +4,8 @@ Personaliza el comportamiento del módulo del disclosure según las necesidades 
 
 Desde la [configuración](../../api/resources/schemas/configuration) de tu compañía en Soyio, puedes personalizar el comportamiento del módulo de disclosure a través de las siguientes opciones:
 
+## Configuración de disclosure (`disclosure`)
+
 ### Omitir registro de llave de acceso (`disclosure.skip_passkey_registration`)
 
 Puedes configurar si se debe saltar el registro de llave de acceso (passkey) para usuarios que no deseen crear una cuenta con Soyio durante el proceso de disclosure:
@@ -12,9 +14,37 @@ Puedes configurar si se debe saltar el registro de llave de acceso (passkey) par
 - **`true`**: Se omite el registro de llave de acceso para usuarios que no deseen crear una cuenta con Soyio.
 
 :::info[Importante]
-Si el usuario desea crear una cuenta con Soyio, independientemente de esta configuración, se le pedirá que registre su llave de acceso como parte del proceso de creación de cuenta.
+Si el usuario desea crear una cuenta con Soyio, independientemente de esta configuración, **se le pedirá que registre su llave de acceso como parte del proceso de creación de cuenta**.
 :::
 
 :::tip[Recomendación]
 Se recomienda mantener esta configuración en `false` (valor por defecto) para permitir el registro de llaves de acceso. Las llaves de acceso facilitan significativamente la autenticación del usuario en otros módulos de Soyio, como el [módulo de autenticación](../authentication/introduction) y la [firma de documentos](../signature/introduction), proporcionando una experiencia más fluida y segura.
+:::
+
+## Configuración de validación (`disclosure.validation`)
+
+Configuración exclusiva para las validaciones de identidad durante el proceso de disclosure.
+
+### Verificación gubernamental (`disclosure.validation.government_check`)
+
+Configura si se debe realizar un cruce con la base de datos del gobierno al validar una identidad:
+
+- **`false`** (por defecto): No se realiza verificación con la base de datos gubernamental.
+- **`true`**: Se realiza un cruce con la base de datos del gobierno para validar la identidad del usuario.
+
+:::info[Importante]
+La verificación gubernamental puede requerir tiempo adicional y depende de la disponibilidad de los servicios gubernamentales. Considera el impacto en la experiencia del usuario al habilitar esta opción.
+
+Para más detalles sobre cómo funciona la verificación gubernamental, consulta la [sección correspondiente en Cómo funciona](../disclosure/how-it-works#verificación-gubernamental).
+:::
+
+### Datos de transacción efímeros (`disclosure.validation.ephemeral_transaction_data`)
+
+Configura si los datos de la transacción deben ser eliminados después de la validación:
+
+- **`true`** (por defecto): Los datos de la transacción se eliminan automáticamente después de la validación.
+- **`false`**: Los datos de la transacción se mantienen después de la validación.
+
+:::tip[Recomendación]
+Se recomienda mantener esta configuración en `true` (valor por defecto) para cumplir con los principios de minimización de datos y protección de la privacidad del usuario.
 :::
