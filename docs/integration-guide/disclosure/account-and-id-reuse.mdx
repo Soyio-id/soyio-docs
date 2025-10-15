@@ -60,8 +60,10 @@ Cuando se cumplen las condiciones, se muestra la pantalla **"Welcome back"** con
       A[Nuevo disclosure_request] --> B{Correo coincide con identidad previamente verificada}
       B -- No --> G[Iniciar flujo completo de validación]
       B -- Sí --> C{Cuenta Soyio activa}
-      C -- No --> G
       C -- Sí --> E[Muestra pantalla Welcome back]
+      C -- No --> D{Historial con la empresa}
+      D -- Sí --> E
+      D -- No --> G
       E --> F{Usuario elige reutilizar datos}
       F -- Sí --> H[Desencadena autenticación fuerte<br/>passkey o biometría]
       H --> I[Eventos auth_attempt.successful<br/>y disclosure_request.granted]
