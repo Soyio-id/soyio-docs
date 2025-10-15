@@ -1,6 +1,6 @@
 # Verificación de identidad
 
-La **verificación de identidad** es un proceso que confirma que una persona es quien dice ser, garantizando así la autenticidad de las interacciones digitales. En la plataforma de Soyio, este proceso es esencial para ofrecer a las empresas y a sus usuarios un entorno seguro y confiable. La verificación de identidad puede realizarse a través de **validación** o **autenticación de identidad**.
+La **verificación de identidad** es un proceso que confirma que una persona es quien dice ser, garantizando así la autenticidad de las interacciones digitales. En la plataforma de Soyio, este proceso es esencial para ofrecer a las empresas y a sus usuarios un entorno seguro y confiable. La verificación de identidad se realiza a través de **validación** o **autenticación de identidad**.
 
 ## ¿Por qué lo llamamos "Disclosure"?
 
@@ -25,24 +25,23 @@ Este proceso incluye diversas etapas de comprobación:
   - **Chequeo de validez del documento**: Confirmación de que el documento es válido y vigente.
   - **Comparación biométrica rostro-documento**: Verificamos la coincidencia entre el rostro de la persona y la foto en el documento.
 
-## Autenticación de identidad
+## Reutilización de identidad
 
-La autenticación de identidad se utiliza para confirmar la identidad de un usuario que ya ha sido previamente validado. Esto asegura que solo la persona autorizada acceda a los servicios, cumpliendo con un estándar de autenticación fuerte.
+Una vez completada la validación, Soyio permite reutilizar identidades verificadas de dos formas diferentes:
 
-La autenticación puede realizarse mediante métodos biométricos (como reconocimiento facial) o mediante una llave de acceso segura (passkey) que valida que la persona que se presenta es efectivamente la que fue validada previamente.
+### Con cuenta Soyio
+El usuario puede crear una **Cuenta Soyio** opcional que le permite reutilizar su identidad verificada con **cualquier comercio** de la red Soyio.
 
-## Determinación del método de verificación
+### Sin cuenta Soyio
+Los usuarios sin Cuenta Soyio pueden reutilizar su identidad verificada, pero solo con el **mismo comercio** donde previamente validaron su identidad.
 
-El método de verificación se determina automáticamente según dos factores clave:
+:::tip[Cómo funciona la reutilización]
+El sistema determina automáticamente si puede reutilizar una identidad verificada basándose en:
+- **Estado del usuario**: Si tiene cuenta Soyio activa
+- **Historial con la empresa**: Si previamente validó con ese comercio
+- **Coincidencia de datos**: Si el email coincide con una identidad existente
 
-### 1. Estado del usuario en Soyio
-- **Usuario nuevo**: Requiere validación completa de identidad
-- **Usuario existente**: Puede usar métodos de autenticación rápida
+Cuando se cumplen las condiciones, el usuario ve la opción "Usar mis datos validados" y puede saltar la validación completa.
 
-### 2. Historial con la empresa
-- **Primera interacción**: Requiere validación completa
-- **Usuario verificado previamente**: Puede usar autenticación simplificada
-
-:::tip[Pro Tip]
-La autenticación simplificada es **más rápida y conveniente** para el usuario, **manteniendo el mismo nivel de seguridad**.
+Para conocer más sobre la cuenta Soyio y la reutilización en detalle, [nuestra guía al respecto](./account-and-id-reuse.mdx).
 :::
