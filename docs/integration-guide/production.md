@@ -20,7 +20,7 @@ Antes de desplegar tu entorno de producción, asegúrate de cumplir con el sigui
 - [ ] Revisar la rotación, permisos y fecha de expiración de tus API Keys.
 - [ ] Definir los usuarios administrativos y los métodos de acceso seguros (SSO con Google/Microsoft, MFA con passkeys o contraseñas seguras).
 
-:::tip
+:::tip[Tip]
 Consulta la guía [Probar en Sandbox](./sandbox) para conocer los pasos recomendados antes de esta etapa.
 :::
 
