@@ -11,6 +11,10 @@ import { ActionNode } from './nodes/ActionNode';
 import { SwimLaneNode } from './nodes/SwimLaneNode';
 import { ExecutionNode } from './nodes/ExecutionNode';
 import { useSequenceDiagram } from './hooks/useSequenceDiagram';
+import styles from './styles.module.css';
+
+const MIN_ZOOM_LEVEL_NORMAL = 0.6;
+const MIN_ZOOM_LEVEL_FULLSCREEN = 1;
 
 
 const nodeTypes = {
@@ -68,61 +72,19 @@ export default function SequenceDiagram({ actors, actions }: Props) {
       setTimeout(() => {
         reactFlowInstance.current?.fitView({
           padding: 8,
-          minZoom: isFullscreen ? 1 : 0.55,
+          minZoom: isFullscreen ? MIN_ZOOM_LEVEL_FULLSCREEN : MIN_ZOOM_LEVEL_NORMAL,
           duration: 300, // Smooth transition
         });
       }, 100);
     }
   }, [isFullscreen]);
 
-  const containerStyle: React.CSSProperties = {
-    width: '100%',
-    height: isFullscreen ? '100vh' : '600px',
-    background: 'var(--ifm-pre-background)',
-    borderRadius: isFullscreen ? '0' : '1rem',
-    marginBottom: isFullscreen ? '0' : '2rem',
-    position: isFullscreen ? 'fixed' : 'relative',
-    top: isFullscreen ? '0' : 'auto',
-    left: isFullscreen ? '0' : 'auto',
-    zIndex: isFullscreen ? 2000 : 'auto',
-  };
-
-  const fullscreenButtonStyle: React.CSSProperties = {
-    position: 'absolute',
-    top: '10px',
-    right: '10px',
-    zIndex: 1,
-    background: 'var(--ifm-background-surface-color)',
-    border: '1px solid var(--ifm-color-emphasis-300)',
-    borderRadius: '.5rem',
-    padding: '.5rem .75rem',
-    cursor: 'pointer',
-    fontSize: '14px',
-    fontWeight: '500',
-    color: 'var(--ifm-font-color-base)',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '6px',
-    transition: 'all 0.2s ease',
-  };
-
-  const handleFullscreenButtonHover = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.currentTarget.style.background = 'var(--ifm-color-emphasis-100)';
-  };
-
-  const handleFullscreenButtonLeave = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.currentTarget.style.background = 'var(--ifm-background-surface-color)';
-    e.currentTarget.style.opacity = '0.9';
-    e.currentTarget.style.transform = 'scale(1)';
-  };
 
   return (
-    <div style={containerStyle}>
+    <div className={isFullscreen ? styles.containerFullscreen : styles.container}>
       <button
-        style={fullscreenButtonStyle}
+        className={styles.fullscreenButton}
         onClick={handleToggleFullscreen}
-        onMouseEnter={handleFullscreenButtonHover}
-        onMouseLeave={handleFullscreenButtonLeave}
         aria-label={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
         title={isFullscreen ? 'Exit fullscreen (ESC)' : 'Enter fullscreen'}
       >
@@ -147,11 +109,15 @@ export default function SequenceDiagram({ actors, actions }: Props) {
         fitViewOptions={{
           padding: 8,
         }}
-        minZoom={0.55}
+        minZoom={MIN_ZOOM_LEVEL_NORMAL}
         maxZoom={2}
         proOptions={{ hideAttribution: true }}
         onInit={(instance) => {
           reactFlowInstance.current = instance;
+        }}
+        style={{
+          width: '100%',
+          height: '100%',
         }}
       >
         <Background />
