@@ -4,7 +4,7 @@ import Mermaid from '@theme/Mermaid';
 
 Cuando una persona completa la validación de identidad con Soyio, elige crear una **Cuenta Soyio**. Esta cuenta le permite guardar su identidad verificada dentro de la Soyio Verified Network —la red compartida de identidades confiables— y reutilizarla con otros comercios.
 
-La reutilización de identidad funciona de dos formas: **con Cuenta Soyio** (reutilización en toda la red) o **sin Cuenta Soyio** (reutilización solo con el mismo comercio). La creación de la cuenta es opcional; si el usuario decide no hacerlo, podrá reutilizar su identidad solo con el comercio donde previamente validó.
+La reutilización de identidad funciona de dos formas: **con Cuenta Soyio** (reutilización en toda la red) o **sin Cuenta Soyio** (reutilización solo con el mismo comercio). La creación de la cuenta es opcional para el usuario; si el usuario decide no hacerlo, podrá reutilizar su identidad solo con el comercio donde previamente validó.
 
 ## ¿Qué es la Cuenta Soyio?
 
@@ -20,7 +20,7 @@ Las empresas solo tienen acceso a los usuarios de la red que han dado su consent
 
 ## Creación de cuenta
 
-Durante el proceso de verificación de identidad, el usuario puede elegir crear una Cuenta Soyio al finalizar la validación exitosa. Esta opción aparece como un paso opcional en el flujo de disclosure.
+Durante el proceso de verificación de identidad, el usuario puede elegir crear una Cuenta Soyio al finalizar la validación exitosa. Esta opción aparece como un paso opcional para el usuario en el flujo de disclosure.
 
 ### Proceso de creación
 
@@ -30,7 +30,7 @@ Durante el proceso de verificación de identidad, el usuario puede elegir crear 
 4. **Cuenta activa**: Una vez creada, la cuenta queda disponible en la Soyio Verified Network.
 
 :::info[Importante]
-La creación de la Cuenta Soyio es completamente opcional. Si el usuario decide no crear una cuenta, el proceso de disclosure se completa normalmente, pero deberá validar nuevamente en futuras interacciones.
+La creación de la Cuenta Soyio es completamente opcional para el usuario. Si el usuario decide no crear una cuenta, el proceso de disclosure se completa normalmente, pero deberá validar nuevamente en futuras interacciones.
 :::
 
 ## Reutilización de identidad
@@ -38,7 +38,7 @@ La creación de la Cuenta Soyio es completamente opcional. Si el usuario decide 
 Soyio permite reutilizar identidades verificadas de dos formas diferentes, dependiendo de si el usuario tiene una Cuenta Soyio o no:
 
 #### Reutilización con cuenta Soyio
-Una vez completada la validación, el usuario puede crear una Cuenta Soyio opcional que le permite reutilizar su identidad verificada con **cualquier comercio** de la red Soyio.
+Una vez completada la validación, el usuario puede crear una Cuenta Soyio (opcional para el usuario) que le permite reutilizar su identidad verificada con **cualquier comercio** de la red Soyio.
 
 #### Reutilización sin cuenta Soyio
 Los usuarios sin Cuenta Soyio pueden reutilizar su identidad verificada, pero solo con el **mismo comercio** donde previamente validaron su identidad.
@@ -49,7 +49,7 @@ Cuando creas un nuevo `disclosure_request`, el widget verifica automáticamente 
 
 - **Email coincidente**: El correo del request coincide con una identidad existente
 - **Cuenta Soyio activa**: La identidad pertenece a un usuario con cuenta activa
-- **Historial con la empresa**: El usuario previamente validó con ese comercio
+- **Historial con la empresa**: El usuario previamente validó su identidad con ese comercio
 
 Cuando se cumplen las condiciones, se muestra la pantalla **"Welcome back"** con la opción "Usar mis datos validados". El flujo evita toda la etapa de validación de documentos y el usuario solo debe autenticarse para confirmar que sigue siendo el titular de esa identidad.
 
