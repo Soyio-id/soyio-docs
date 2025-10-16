@@ -27,7 +27,7 @@ Este proceso incluye diversas etapas de comprobación:
 
 ## Reutilización de identidad
 
-Una vez completada la validación, Soyio permite reutilizar identidades verificadas de dos formas diferentes:
+Una vez completada la validación, Soyio permite a los usuarios reutilizar su identidad verificada de dos formas diferentes:
 
 ### Con cuenta Soyio
 El usuario puede crear una **Cuenta Soyio** opcional que le permite reutilizar su identidad verificada con **cualquier comercio** de la red Soyio.
@@ -36,7 +36,7 @@ El usuario puede crear una **Cuenta Soyio** opcional que le permite reutilizar s
 Los usuarios sin Cuenta Soyio pueden reutilizar su identidad verificada, pero solo con el **mismo comercio** donde previamente validaron su identidad.
 
 :::tip[Cómo funciona la reutilización]
-El sistema determina automáticamente si puede reutilizar una identidad verificada basándose en:
+El sistema determina automáticamente si el usuario puede reutilizar su identidad verificada basándose en:
 - **Estado del usuario**: Si tiene cuenta Soyio activa
 - **Historial con la empresa**: Si previamente validó con ese comercio
 - **Coincidencia de datos**: Si el email coincide con una identidad existente
