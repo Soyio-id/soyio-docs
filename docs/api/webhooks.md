@@ -72,7 +72,7 @@ Si tu endpoint responde con un código de estado fuera del rango 2XX, Soyio cont
 
 Después de este periodo, los webhooks no podrán volver a enviarse, pero puedes consultar la lista de eventos para reconciliar la información por eventos faltantes.
 
-:::note
+:::note[Nota]
 Los tiempos mostrados son aproximados. El sistema de colas agrega una pequeña variación aleatoria (jitter) a cada intervalo para distribuir la carga y evitar picos de tráfico concentrados.
 :::
 
@@ -106,7 +106,7 @@ Cada webhook incluye los siguientes headers adicionales:
 
 Cada webhook tiene una clave secreta única (`secret_key`) que se genera al momento de crear el webhook y puedes consultarla en cualquier momento en nuestro endpoint de [webhooks](./resources/get-webhook).
 
-:::warning
+:::warning[Importante]
 Guarda tu clave secreta de forma segura y nunca la expongas en tu código cliente o logs. Usa variables de entorno para almacenarla.
 :::
 
@@ -136,7 +136,7 @@ function verifyWebhookSignature(req, res, next) {
 
   // Comparación timing-safe
   if (!crypto.timingSafeEqual(
-    Buffer.from(signature), 
+    Buffer.from(signature),
     Buffer.from(expectedSignature)
   )) {
     return res.status(401).json({ error: 'Invalid signature' });
