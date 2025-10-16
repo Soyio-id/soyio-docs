@@ -79,7 +79,7 @@ El atajo siempre obliga a una autenticación fuerte:
 1. **Passkey**: Es la primera opción cuando el usuario registró una llave de acceso.
 2. **Biometría facial**: Se presenta como respaldo si la passkey no está disponible.
 
-Mientras la autenticación se realiza, el `disclosure_request` permanece en estado `authenticating`. Cuando finaliza con éxito, recibirás los mismos eventos que en una validación completa: `auth_attempt.successful` y `disclosure_request.granted`.
+Mientras la autenticación se realiza, el `disclosure_request` permanece en estado `authenticating`. Cuando finaliza con éxito, recibirás el evento `disclosure_request.granted` (igual que en una validación completa) y `auth_attempt.successful` (diferente al que se enviaría en una validación completa).
 
 :::tip[Pro Tip]
 La autenticación simplificada es **más rápida y conveniente** para el usuario, **manteniendo el mismo nivel de seguridad**, mejorando la experiencia de manera significativa a través del uso de passkeys. Revisa nuestra [guía de passkeys para más información](../../user-guide/passkeys)
