@@ -1,0 +1,96 @@
+import Mermaid from '@theme/Mermaid';
+
+# Cuenta Soyio y reutilización de identidad
+
+Cuando una persona completa la validación de identidad con Soyio, elige crear una **Cuenta Soyio**. Esta cuenta le permite guardar su identidad verificada dentro de la Soyio Verified Network —la red compartida de identidades confiables— y reutilizarla con otros comercios.
+
+La reutilización de identidad funciona de dos formas: **con Cuenta Soyio** (reutilización en toda la red) o **sin Cuenta Soyio** (reutilización solo con el mismo comercio). La creación de la cuenta es opcional para el usuario; si el usuario decide no hacerlo, podrá reutilizar su identidad solo con el comercio donde previamente validó.
+
+## ¿Qué es la Cuenta Soyio?
+
+La Cuenta Soyio es un perfil personal donde el usuario:
+
+- Conserva los datos y evidencia de su verificación previa.
+- Registra un método de autenticación fuerte (passkey, con respaldo de autenticación facial).
+- Controla qué comercios pueden acceder a su información verificada.
+
+Desde el punto de vista del comercio, cualquier usuario que haya validado su identidad y creado una Cuenta Soyio se considera **ya validado** dentro de la red. Solo es necesario autenticar que sigue siendo la misma persona.
+
+Las empresas solo tienen acceso a los usuarios de la red que han dado su consentimiento específico para compartir su información con esa empresa en particular. Cada usuario controla qué comercios pueden acceder a sus datos verificados.
+
+## Creación de cuenta
+
+Durante el proceso de verificación de identidad, el usuario puede elegir crear una Cuenta Soyio al finalizar la validación exitosa. Esta opción aparece como un paso opcional para el usuario en el flujo de disclosure.
+
+### Proceso de creación
+
+1. **Validación completada**: El usuario ha pasado exitosamente por todo el proceso de verificación de identidad.
+2. **Oferta de cuenta**: El sistema presenta la opción de crear una Cuenta Soyio para futuras interacciones.
+3. **Registro de autenticación**: Si el usuario acepta, debe registrar un método de autenticación fuerte (passkey o biometría facial).
+4. **Cuenta activa**: Una vez creada, la cuenta queda disponible en la Soyio Verified Network.
+
+:::info[Importante]
+La creación de la Cuenta Soyio es completamente opcional para el usuario. Si el usuario decide no crear una cuenta, el proceso de disclosure se completa normalmente, pero deberá validar nuevamente en futuras interacciones.
+:::
+
+## Reutilización de identidad
+
+Soyio permite reutilizar identidades verificadas de dos formas diferentes, dependiendo de si el usuario tiene una Cuenta Soyio o no:
+
+#### Reutilización con cuenta Soyio
+Una vez completada la validación, el usuario puede crear una Cuenta Soyio (opcional para el usuario) que le permite reutilizar su identidad verificada con **cualquier comercio** de la red Soyio.
+
+#### Reutilización sin cuenta Soyio
+Los usuarios sin Cuenta Soyio pueden reutilizar su identidad verificada, pero solo con el **mismo comercio** donde previamente validaron su identidad.
+
+### Flujo de reutilización de identidad
+
+Cuando creas un nuevo `disclosure_request`, el widget verifica automáticamente si puede reutilizar una identidad existente. El sistema evalúa:
+
+- **Email coincidente**: El correo del request coincide con una identidad existente
+- **Cuenta Soyio activa**: La identidad pertenece a un usuario con cuenta activa
+- **Historial con la empresa**: El usuario previamente validó su identidad con ese comercio
+
+Cuando se cumplen las condiciones, se muestra la pantalla **"Welcome back"** con la opción "Usar mis datos validados". El flujo evita toda la etapa de validación de documentos y el usuario solo debe autenticarse para confirmar que sigue siendo el titular de esa identidad.
+
+<details>
+  <summary>Flujo de reutilización de identidad</summary>
+  <Mermaid value={`
+  graph TD
+      A[Nuevo disclosure_request] --> B{Correo coincide con identidad previamente verificada}
+      B -- No --> G[Iniciar flujo completo de validación]
+      B -- Sí --> C{Cuenta Soyio activa}
+      C -- Sí --> E[Muestra pantalla Welcome back]
+      C -- No --> D{Historial con la empresa}
+      D -- Sí --> E
+      D -- No --> G
+      E --> F{Usuario elige reutilizar datos}
+      F -- Sí --> H[Desencadena autenticación fuerte<br/>passkey o biometría]
+      H --> I[Eventos auth_attempt.successful<br/>y disclosure_request.granted]
+      F -- No --> G
+  `} style={{maxHeight: '500px'}} />
+</details>
+
+
+### Métodos de autenticación
+
+El atajo siempre obliga a una autenticación fuerte:
+
+1. **Passkey**: Es la primera opción cuando el usuario registró una llave de acceso.
+2. **Biometría facial**: Se presenta como respaldo si la passkey no está disponible.
+
+Mientras la autenticación se realiza, el `disclosure_request` permanece en estado `authenticating`. Cuando finaliza con éxito, recibirás el evento `disclosure_request.granted` (igual que en una validación completa) y `auth_attempt.successful` (diferente al que se enviaría en una validación completa).
+
+:::tip[Pro Tip]
+La autenticación simplificada es **más rápida y conveniente** para el usuario, **manteniendo el mismo nivel de seguridad**, mejorando la experiencia de manera significativa a través del uso de passkeys. Revisa nuestra [guía de passkeys para más información](../../user-guide/passkeys)
+:::
+
+### Opción de validación completa
+
+La pantalla "Welcome back" siempre ofrece al usuario una alternativa para repetir la validación desde cero. Esto es útil cuando el usuario quiere actualizar sus datos o simplemente no desea reutilizar la información anterior.
+
+Si el usuario elige "Validar nuevamente", el widget vuelve automáticamente al flujo estándar de verificación de identidad sin que tengas que hacer cambios en tu integración.
+
+### Fallback para usuarios nuevos
+
+Cuando Soyio no encuentra coincidencias o detecta que la información está desactualizada, el widget inicia el proceso completo de validación tal como se describe en la guía de [verificación de identidad](./validate-identity.mdx). No necesitas distinguir entre usuarios nuevos y recurrentes: el widget gestiona el fallback de forma transparente.

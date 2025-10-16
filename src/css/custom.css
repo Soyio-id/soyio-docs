@@ -227,3 +227,8 @@ table tbody tr td {
 [data-theme='dark'] .table-of-contents__link.table-of-contents__link--active {
   color: var(--ifm-color-primary-light) !important;
 }
+
+.docusaurus-mermaid-container {
+  display: flex;
+  justify-content: center;
+}

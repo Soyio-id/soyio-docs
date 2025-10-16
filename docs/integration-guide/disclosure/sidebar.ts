@@ -24,6 +24,11 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: 'doc',
+      id: 'integration-guide/disclosure/account-and-id-reuse',
+      label: 'Cuenta Soyio y reutilización de identidad',
+    },
+    {
+      type: 'doc',
       id: 'integration-guide/disclosure/configuration',
       label: 'Configuración',
     },
