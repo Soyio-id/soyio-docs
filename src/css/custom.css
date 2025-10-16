@@ -18,27 +18,54 @@
   --ifm-color-primary-light: #5837af;
   --ifm-color-primary-lighter: #7150c8;
   --ifm-color-primary-lightest: #9177d4;
-  --ifm-code-font-size: 95%;
+  --ifm-code-font-size: .875rem;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
   --ifm-font-family-base: 'Satoshi', sans-serif;
   --ifm-font-family-heading: 'Manrope', sans-serif;
   --ifm-font-family-monospace: 'JetBrains Mono', monospace;
   --ifm-background-color: #ffffff;
+  --ifm-code-border-radius: 1rem;
+  --ifm-footer-background-color: var(--ifm-color-emphasis-100);
+  --ifm-menu-color-background-active: #efecf9;
+  --ifm-menu-color-active: var(--ifm-color-primary-light);
+  --ifm-pre-background: var(--ifm-color-emphasis-100);
+  --ifm-container-width-xl: 68rem;
+  --ifm-h1-font-size: 2rem;
+  --ifm-h2-font-size: 1.5rem;
+  --ifm-h3-font-size: 1.25rem;
+  --ifm-h4-font-size: 1rem;
+  --ifm-h5-font-size: 0.875rem;
+  --ifm-h6-font-size: 0.75rem;
+  --ifm-table-stripe-background: transparent;
+  --ifm-table-border-color: transparent;
+  --ifm-table-cell-padding: 0.5rem 0.5rem;
+  --ifm-tabs-padding-vertical: .5rem;
+  --ifm-link-color: var(--ifm-color-primary);
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
-[data-theme='dark'] {
+html[data-theme='dark'] {
   --ifm-color-primary: #9177d4;
   --ifm-color-primary-dark: #7150c8;
   --ifm-color-primary-darker: #5837af;
   --ifm-color-primary-darkest: #442b88;
   --ifm-color-primary-light: #b09ee0;
-  --ifm-color-primary-ligther: #d0c5ed;
+  --ifm-color-primary-lighter: #d0c5ed;
   --ifm-color-primary-lightest: #efecf9;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  --ifm-link-color: var(--ifm-color-primary-light);
+  --ifm-navbar-link-hover-color: var(--ifm-color-primary-light);
+  --ifm-breadcrumb-color-active: var(--ifm-color-primary-light);
+  --ifm-navbar-background-color: #0B0C0E;
+  --ifm-footer-background-color: var(--ifm-navbar-background-color);
+  --ifm-menu-color-background-active: #23223E;
+  --ifm-menu-color-active: var(--ifm-color-primary-light);
+  --ifm-pre-background: var(--ifm-color-emphasis-100);
+  --ifm-table-stripe-background: transparent;
 }
 
 @import url('./sidebar-method-badges.css');
+@import url('./custom-admonitions.css');
 
 h1,
 h2,
@@ -47,4 +74,156 @@ h4,
 h5,
 h6 {
   font-family: var(--ifm-font-family-heading);
+
+}
+
+.DocSearch-Button {
+  border-radius: 1rem !important;
+}
+
+[data-theme='dark'] ::selection {
+  background: var(--ifm-color-primary-light);
+  color: #231214;
+}
+
+::selection {
+  background: #d3c6ed;
+  color: #311f61;
+}
+
+.pagination-nav__link {
+  border-radius: 1rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  background-color: var(--ifm-color-emphasis-100);
+}
+
+/* Sidebar Menu */
+
+
+[class*="sidebar_"] nav {
+  padding: .5rem;
+}
+
+.menu__link {
+  border-radius: .5rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.menu__caret::before,
+.menu__link--sublist-caret:after {
+  background-size: 1.5rem 1.5rem;
+}
+
+.tabs-container.openapi-tabs__code-container,
+.openapi-explorer__response-container,
+.openapi-explorer__request-form {
+  border-radius: 1rem !important;
+  box-shadow: none !important;
+}
+
+/* Headings */
+
+.markdown h1:first-child {
+  font-size: 2rem;
+}
+
+.markdown h2 {
+  --ifm-h2-font-size: 1.5rem;
+}
+
+.markdown h3 {
+  --ifm-h3-font-size: 1.25rem;
+}
+
+.markdown h4 {
+  --ifm-h4-font-size: 1rem;
+}
+
+.markdown h5 {
+  --ifm-h5-font-size: 0.875rem;
+}
+
+.markdown h6 {
+  --ifm-h6-font-size: 0.75rem;
+}
+
+/* ReactFlow */
+
+.react-flow__controls {
+  background: var(--ifm-background-surface-color) !important;
+  border: 1px solid var(--ifm-color-emphasis-300) !important;
+  border-radius: 0.5rem !important;
+  overflow: hidden !important;
+}
+
+.react-flow__controls-button {
+  background: var(--ifm-background-surface-color) !important;
+  border-bottom: 1px solid var(--ifm-color-emphasis-300) !important;
+  color: var(--ifm-font-color-base) !important;
+  fill: var(--ifm-font-color-base) !important;
+}
+
+.react-flow__controls-button:hover {
+  background: var(--ifm-color-emphasis-100) !important;
+  color: var(--ifm-font-color-base) !important;
+  fill: var(--ifm-font-color-base) !important;
+}
+
+.react-flow__controls-button:last-child {
+  border-bottom: none !important;
+}
+
+/* Tables */
+
+table {
+  border: none;
+  overflow: hidden;
+  font-size: 0.875rem;
+}
+
+table thead tr th {
+  border: none;
+  text-align: left;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+
+table thead tr {
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+
+table tbody tr:hover {
+  background-color: var(--ifm-color-emphasis-100);
+}
+
+table tbody tr td {
+  border: none;
+  border-bottom: 1px solid var(--ifm-color-emphasis-100);
+}
+
+[data-theme='dark'] table tbody tr td {
+  border-bottom: 1px solid var(--ifm-background-surface-color);
+}
+
+[data-theme='dark'] table tbody tr:hover {
+  background-color: var(--ifm-background-surface-color);
+}
+
+/* Tabs */
+
+.tabs {
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+
+/* Table of Contents */
+
+.table-of-contents code {
+  font-size: 0.6rem;
+}
+
+.table-of-contents__link.table-of-contents__link--active {
+  font-weight: var(--ifm-font-weight-bold);
+}
+
+[data-theme='dark'] .table-of-contents__link.table-of-contents__link--active {
+  color: var(--ifm-color-primary-light) !important;
 }
