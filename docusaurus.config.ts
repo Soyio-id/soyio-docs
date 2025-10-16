@@ -109,7 +109,7 @@ const config: Config = {
   themeConfig: {
     docs: {
       sidebar: {
-        hideable: true,
+        // hideable: true,
       },
     },
     colorMode: {
@@ -146,7 +146,6 @@ const config: Config = {
       ],
     },
     footer: {
-      style: 'dark',
       links: [
         {
           title: 'Docs',
@@ -210,7 +209,7 @@ const config: Config = {
       { language: 'powershell' },
     ],
     prism: {
-      theme: prismThemes.nightOwlLight,
+      theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
       additionalLanguages: [
         'ruby',
