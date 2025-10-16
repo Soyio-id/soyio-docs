@@ -30,7 +30,7 @@ Cuando integras Soyio, es importante entender las diferencias de trazabilidad en
 | Aspecto | Con SDK de Soyio | Con API directa |
 |---------|------------------|-----------------|
 | **Trazabilidad** | ✅ End-to-end garantizada | ⚠️ Responsabilidad del comercio |
-| **Interacción con usuario** | Widget en iframe sandbox | Tu propia interfaz |
+| **Interacción con usuario** | Widget en iframe aislado | Tu propia interfaz |
 | **Tokenización** | ✅ Automática | ✅ Via API (action token) |
 | **Contexto de la acción** | ✅ Capturado automáticamente | ⚠️ Debes proporcionarlo |
 | **Evidencia** | ✅ Completa y verificable | ⚠️ Depende de tu implementación |
@@ -39,7 +39,7 @@ Cuando integras Soyio, es importante entender las diferencias de trazabilidad en
 ### Detalles de cada enfoque
 
 #### Con SDK de Soyio
-- **Trazabilidad end-to-end garantizada**: El SDK interactúa directamente con el usuario final a través de un widget en un entorno sandbox (iframe)
+- **Trazabilidad end-to-end garantizada**: El SDK interactúa directamente con el usuario final a través de un widget en un entorno aislado y seguro (iframe)
 - **Tokenización automática**: El SDK tokeniza automáticamente la acción del usuario y la entrega al frame padre para que tu backend la persista
 - **Evidencia completa**: Soyio garantiza la trazabilidad completa desde la interacción del usuario hasta el registro final
 
