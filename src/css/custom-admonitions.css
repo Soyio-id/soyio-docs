@@ -5,7 +5,6 @@
   /* Slightly reduced padding */
   --ifm-alert-border-radius: 1rem;
   --ifm-alert-border-width: 1px;
-  /* Set border width to 0 to remove the left line */
   --ifm-alert-color-title-margin-bottom: 0.5rem;
 
   /* Light Mode Colors */
