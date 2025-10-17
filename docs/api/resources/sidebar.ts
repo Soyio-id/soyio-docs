@@ -190,6 +190,48 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: "category",
+      label: "Disclosure templates",
+      items: [
+        {
+          type: "doc",
+          id: "api/resources/schemas/disclosuretemplate",
+          label: "El objeto DisclosureTemplate",
+          className: "schema",
+        },
+        {
+          type: "doc",
+          id: "api/resources/index-disclosure-templates",
+          label: "Obtener todos los templates de divulgación",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/create-disclosure-template",
+          label: "Crear un template de divulgación",
+          className: "api-method post",
+        },
+        {
+          type: "doc",
+          id: "api/resources/get-disclosure-template",
+          label: "Obtener un template de divulgación",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/update-disclosure-template",
+          label: "Actualizar un template de divulgación",
+          className: "api-method patch",
+        },
+        {
+          type: "doc",
+          id: "api/resources/delete-disclosure-template",
+          label: "Eliminar un template de divulgación",
+          className: "api-method delete",
+        },
+      ],
+    },
+    {
+      type: "category",
       label: "Consent actions",
       items: [
         {
@@ -698,6 +740,12 @@ const sidebar: SidebarsConfig = {
         },
         {
           type: "doc",
+          id: "api/resources/schemas/webhooktransaction",
+          label: "El objeto WebhookTransaction",
+          className: "schema",
+        },
+        {
+          type: "doc",
           id: "api/resources/index-webhooks",
           label: "Obtener todos los webhooks",
           className: "api-method get",
@@ -965,18 +1013,6 @@ const sidebar: SidebarsConfig = {
           id: "api/resources/api-key-destroyed",
           label: "Destroyed",
           className: "api-method event",
-        },
-      ],
-    },
-    {
-      type: "category",
-      label: "WebhooksTransactions",
-      items: [
-        {
-          type: "doc",
-          id: "api/resources/schemas/webhooktransaction",
-          label: "El objeto WebhookTransaction",
-          className: "schema",
         },
       ],
     },

@@ -2,10 +2,15 @@
 
 ## Overview
 
-Reads the documentation changes and proofreads them against the documentation style guide
+Review documentation changes and ensure they comply with the documentation style guide
 
 ## Steps
 
-1. Check the git diff for changes on /docs (or particular document(s) if the user specifies)
-2. Proofread it/them against STYLE_GUIDE.md
-3. Correct the content
+1. Identify documentation changes using git diff (limit to /docs or specified files)
+2. Read the changes as if you were a developer trying to integrate the product.
+  - Verify that each step or explanation is understandable and actionable.
+  - Flag any ambiguity, missing prerequisites, or unclear instructions.
+3. Check for spelling, grammar, and typographical errors
+4. Ensure the writing is logical and has a clear, consistent flow
+5. Compare the content against STYLE_GUIDE.md
+6. Apply necessary corrections and improvements directly to the text

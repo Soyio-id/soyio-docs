@@ -1,0 +1,146 @@
+# Crea plantillas
+
+Una **plantilla de disclosure** define qué datos pides al usuario al momento de verificar su identidad, junto con qué documentos legales acompañan el flujo. Usa estas plantillas para estandarizar tus procesos antes de verificar la identidad de un usuario.
+
+## Qué es una plantilla de disclosure
+
+Una plantilla de disclosure es un modelo reutilizable que define:
+
+- **Qué datos solicitar** al usuario durante la verificación de identidad
+- **Para qué tipo de usuario** aplica (cliente, empleado, prospecto)
+- **Qué documentos legales** respaldan la solicitud (opcional)
+- **Por cuánto tiempo** puedes usar los datos verificados
+
+Las plantillas te ayudan a estandarizar tus procesos y mantener consistencia en tus reportes y evidencias.
+
+## Configuración básica
+
+### 1. Define nombre y vigencia
+
+Usa el campo `name` para reconocer la plantilla desde el Dashboard. Define la vigencia en `duration` usando una [duración ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Durations). Esto determina por cuánto tiempo puedes acceder a los datos del usuario después de que verifique su identidad.
+
+```json
+{
+  "name": "Validación estándar",
+  "duration": "P3M"
+}
+```
+
+### 2. Selecciona el sujeto de datos
+
+El campo `data_subject` delimita para quién aplica el flujo (por ejemplo, `customer`, `employee` o `prospect`). Alinea esta selección con los perfiles que estás verificando para que tus reportes y evidencias sean consistentes.
+
+## 3. Define los datos que necesitas
+
+Los `data_requirements` definen los datos personales que el usuario debe entregar al momento de verificar su identidad. Estos datos se extraen automáticamente del documento de identidad (cédula, pasaporte, etc.).
+
+Cada elemento acepta:
+- `key`: identificador del dato en el flujo
+- `data_category`: categoría según la [taxonomía de datos](../taxonomy)
+- `data_uses`: lista de usos permitidos para ese dato
+
+### Elige la llave correcta
+
+Usa llaves descriptivas como `name`, `last_name`, `date_of_birth` o `cl_carnet_rut`. Estas claves se reconocen automáticamente por la API y también se usan para los `matchers` en [`POST /disclosure_requests`](../../api/resources/create-disclosure-request). Si necesitas una clave propia, defínela con claridad y especifica la categoría manualmente.
+
+:::info[Match de datos]
+Las llaves que definas aquí deben coincidir con los `matchers` que uses al crear un disclosure request. Aprende más sobre el [match de datos](./how-it-works#match-de-datos) para entender cómo funciona esta validación.
+:::
+
+### Define categorías de datos y usos
+
+Especifica la categoría del dato personal siguiendo nuestra [taxonomía de categorías de datos](../taxonomy).
+
+Las siguientes llaves (key) infieren la categoría del dato personal:
+
+- `name`: Primer nombre (Name > First)
+- `last_name`: Apellido (Name > Last)
+- `date_of_birth`: Fecha de nacimiento (Demographic > Birth date)
+- `cl_carnet_rut`: RUT (Government Id > National Identification Number)
+- `cl_carnet_doc_number`: Número de documento (Government Id)
+- `cl_carnet_expiration_date`: Fecha de expiración del documento (Government Id)
+- `cl_carnet_issue_date`: Fecha de emisión del documento (Government Id)
+- `gender`: Género (Demographic > Gender)
+- `nationality`: Nacionalidad (Demographic)
+- `email`: Correo electrónico (Contact > Email)
+- `phone_number`: Teléfono (Contact > Phone number)
+
+Esto significa que si usas alguna de estas llaves, no necesitas especificar la categoría del dato.
+
+Si especificas una de estas llaves y además defines la categoría del dato, la categoría que definas tendrá prioridad sobre la predefinida.
+
+Aplica las mismas buenas prácticas que seguimos en las [plantillas de consentimiento](../consent/consent-templates#define-categor%C3%ADas-de-datos-y-usos):
+- Usa subcategorías de la taxonomía cuando existan
+- Solicita solo los datos necesarios para cumplir tu finalidad
+- Alinea las finalidades (`data_uses`) con la cláusula legal que verá el usuario
+
+:::tip[¿Te ayudamos?]
+Si tu empresa no tiene una definición específica en sus políticas, contáctanos para ayudarte a determinarlas adecuadamente. Profundiza en estos conceptos revisando nuestra [documentación sobre la taxonomía](../taxonomy).
+:::
+
+```json title="Ejemplo de requerimiento"
+{
+  "key": "cl_carnet_rut",
+  "data_category": "user.government_id.national_identification_number",
+  "data_uses": ["identity.validation", "identity.matching"]
+}
+```
+
+### Ejemplo completo de plantilla
+
+Aquí tienes un ejemplo completo de cómo se vería el request para crear una plantilla de disclosure:
+
+```json title="POST /api/v1/disclosure_templates"
+{
+  "name": "Verificación de identidad para clientes",
+  "duration": "P6M",
+  "data_subject": "customer",
+  "privacy_document_ids": ["doc_privacy_123", "doc_terms_456"],
+  "data_requirements": [
+    {
+      "key": "name",
+      "data_category": "user.name.first",
+      "data_uses": ["identity.validation", "identity.matching"]
+    },
+    {
+      "key": "last_name",
+      "data_category": "user.name.last",
+      "data_uses": ["identity.validation", "identity.matching"]
+    },
+    {
+      "key": "cl_carnet_rut",
+      "data_category": "user.government_id.national_identification_number",
+      "data_uses": ["identity.validation", "identity.matching"]
+    },
+    {
+      "key": "date_of_birth",
+      "data_category": "user.demographic.birth_date",
+      "data_uses": ["identity.validation"]
+    }
+  ]
+}
+```
+
+## Configuración avanzada
+
+### Conecta tus documentos de privacidad
+
+Asocia políticas y avisos usando `privacy_document_ids`. Los documentos deben estar configurados previamente en tu [perfil de compañía](../company-configuration). Incluye todas las versiones relevantes para que la evidencia del disclosure quede vinculada al marco legal correcto.
+
+## Crea y usa tu plantilla
+
+### Crear la plantilla
+
+Usa el endpoint [`POST /disclosure_templates`](../../api/resources/create-disclosure-template) para crear tu plantilla con la configuración que definiste.
+
+### Usar la plantilla
+
+Cuando la plantilla esté lista, referencia su `id` para iniciar un proceso de verificación de identidad con [`POST /disclosure_requests`](../../api/resources/create-disclosure-request). Si defines `matchers`, asegúrate de que coincidan con las llaves configuradas en los `data_requirements` para evitar errores de validación.
+
+### Gestiona la plantilla
+
+Recuerda actualizar la plantilla con [`PATCH /disclosure_templates/{id}`](../../api/resources/update-disclosure-template) cuando cambien los datos solicitados o las finalidades.
+
+:::info[Importante]
+Solo puedes eliminar una plantilla si no tiene disclosures asociados. Revisa nuestra [referencia de API](../../api/resources/delete-disclosure-template) para más información.
+:::
