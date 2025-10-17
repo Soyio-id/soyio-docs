@@ -1,5 +1,6 @@
 import Heading from '@theme/Heading';
 import Link from '@docusaurus/Link';
+import { useEffect, useRef, useState } from 'react';
 
 import styles from './styles.module.css';
 
@@ -9,6 +10,7 @@ import disclosureIcon from './icons/id-verification.png';
 import privacyCenterIcon from './icons/privacy-center.png';
 import rightsManagementIcon from './icons/dsr.png';
 import signatureIcon from './icons/signature.png';
+import BlobSvg from './images/blob.svg';
 
 interface ModuleItem {
   title: string;
@@ -64,15 +66,45 @@ const modules: ModuleItem[] = [
 ];
 
 export default function HomepageModuleSection() {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const handleMouseMove = (event: MouseEvent) => {
+      if (sectionRef.current) {
+        const rect = sectionRef.current.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width;
+        const y = (event.clientY - rect.top) / rect.height;
+
+        const normalizedX = (x - 0.5) * 2;
+        const normalizedY = (y - 0.5) * 2;
+
+        setMousePosition({
+          x: normalizedX * 50,
+          y: normalizedY * 50
+        });
+      }
+    };
+
+    const sectionElement = sectionRef.current;
+    if (sectionElement) {
+      sectionElement.addEventListener('mousemove', handleMouseMove);
+
+      return () => {
+        sectionElement.removeEventListener('mousemove', handleMouseMove);
+      };
+    }
+  }, []);
+
   return (
-    <section className={styles.modules}>
+    <section ref={sectionRef} className={styles.modules}>
       <div className="container">
         <div className={styles.sectionHeader}>
           <Heading as="h2" className={styles.modulesTitle}>
             Nuestros módulos
           </Heading>
           <p className={styles.modulesSubtitle}>
-            Integra los módulos que necesites según las necesidades de tu empresa
+            Integra los módulos y funcionalidades que necesites según las necesidades de tu empresa
           </p>
         </div>
         <div className={styles.modulesGrid}>
@@ -104,6 +136,14 @@ export default function HomepageModuleSection() {
               </div>
             </Link>
           ))}
+          <div
+            className={styles.blobContainer}
+            style={{
+              transform: `translate(${mousePosition.x}px, ${mousePosition.y}px)`
+            }}
+          >
+            <BlobSvg className={styles.blob} />
+          </div>
         </div>
       </div>
     </section>
