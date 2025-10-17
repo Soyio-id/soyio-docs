@@ -1,0 +1,73 @@
+---
+id: delete-disclosure-template
+title: "Eliminar un template de divulgación"
+description: "Elimina un template de divulgación siempre que no existan disclosure requests que lo utilicen."
+sidebar_label: "Eliminar un template de divulgación"
+hide_title: true
+hide_table_of_contents: true
+api: eJzdV9tuGzcQ/ZUBX2wDC8k23BchCBokKuC2SIPYaR4cwRgvxxZjLrkmh6oVYT8m39BPyI8Vw11pdXGcOOhDUT1Ie5khZ+bMnEMtFONNVKML9crE0vqYAgFTVVtkimpSKE2xDKZm450aqbE1lXEIya2sQBNoM0v2Bkvz5W8H0VBVB4K7ROA80L2JjA50v0Ggu0SRYzaxHhIba0pygw/uzADZfm2K/OUzYPSlQe0B11aJMEcoA6H2sQCL4GsKXQiB2AeH4ctniZRC8EHCnKE1ujUZfHCqUNlFUjvVaqQ0WWLqC3HeRaEKVWPAipiC1GqhHFakRspoVSgjdamRp6pQkpgJpNWIQ6Lt4p2+Ar2e3FbhVKFiOaUK1WiheF7LDpGDcTeqaSayeKy9ixTl/fHhifxsbnD+NUiohU171RTq5PBo13W8rBEmJsemXMVUeidPxAXr2poyF2z4MYrfYjdkf/WRSt4oxkX7rlBs2MpvZOQUlRSI0VjpszoIGGza9Nq1tstQKLrHqrbyCBNP20AlnMuMsWTXbvGo6zsnzj6YT6TFpYum9zGO6YbCutPJ4VGzCvfR1d8TlD5ZDc4zrEVJMPcpSMdqeYI2DuCNJYwE5ZTKW+ApgfZlqshxTgqQYcpcx9FwqH0ZB9HPjR8YrZr8ESgf6IK3VKYQfZ49J+gFAf4/C6RxeSwvO1J4EpJvKfoUSsq1vvbJPQHPk+/E86WA6fYYro3T8Cx0Wz6HvwxPwWjYe2b0870tMDPWXUqATgOHOeANGqeaPjf12vMvEnYev7MWgQ7a4+NdaF97oAi1j+bK0nKqAzxCKoOnAI/W/nGdCe5HWiADF3+kBVpefvIc/7lyg5Xbd2F/fNyswu0tMQScC6EzVfEhDl7Drd963O28W7PNKvTbreK4UC/RSee2wrOhbj2guc0wZglk0g/pqJo0TTPpOCHK+BueZxyxNpe3JNcTkZCKeOp7qcvCxlM1UsN+1cuV/A8XRjeCMIXZUvlSsGqklqwU0ekrf78ipiHWZjg7UtvKd0ZhZnQrMHVIdIUR9jvng1y8zXWxrp+4ptepbLVuv70RqwMlSS8LkserBWNVlh782vxG851NxvEuUYW7wggVaYOOCZJDePHmFG5pLnHUPpTGO9QIJMILU0JNOUqLEaK3pjScNEUZze4g8aLTo9xRyzNF6yhNLfvy/DJSjDIj7G/J/UuxQ14Mfn1/LnaRYjbQBGKvUW+k5L+ZEpwR3JCjgJAEXy/m5HTtjWMY5kQMxeFGKjAHNuTaUuq0PMRpgqOfoDIusf/uYjVyf+1zdbpZPZNGEoh2KiSwyYkst1JpvGx5qpeZa4Ls2jEolplBqcqKoaKUhennXpMLJVPSrnw0OBwcyqPaR64wo9WFP16y9iNn6O1IFz2H/9+O4F0PM93zsLZZH4uWDRYdOV2oh8hJFWpktKjN1EcWq8XiCiO9C7Zp5PFdopCJr1AzDAavMuUuZDG51mp0jTZuH9LXK73/tlO9A/j20f3BPJYD6mQ6Z2iT3KlCZe6Rvw/NpCmWvSvBtS9elCXVvOayI9sbZP5q/Pv4fKyKfCbe5IXbzAvdxZqwb0a0PVFtFPK9pmubLotFyzpNs7JvX33Vo8tylbwk0TTNPzvqJUo=
+sidebar_class_name: "delete api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Eliminar un template de divulgación"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"delete"}
+  path={"/disclosure_templates/{id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Elimina un template de divulgación siempre que no existan disclosure requests que lo utilicen.
+Si el template está asociado a disclosures ya creados, la operación retornará un error de validación.
+
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"id","in":"path","required":true,"description":"ID del template de divulgación","schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"204":{"description":"Template de divulgación eliminado"},"401":{"description":"Error de autenticación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"authentication_error"},"title":{"type":"string","example":"Unauthorized"},"status":{"type":"integer","example":401},"detail":{"type":"string","example":"We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"}}}}}},"404":{"description":"Recurso no encontrado","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"invalid_request_error"},"title":{"type":"string","example":"Resource not found"},"status":{"type":"integer","example":404},"detail":{"type":"string","example":"Couldn't find <resource> with id '<id>'. Please check your request and try again"}},"title":"NotFoundErrorSchema"}}}},"422":{"description":"No es posible eliminar el template de divulgación.","content":{"application/json":{"schema":{"allOf":[{"type":"object","required":["type","title","status","errors"],"properties":{"type":{"type":"string","example":"validation_error"},"title":{"type":"string","example":"Validation error"},"status":{"type":"integer","example":422},"errors":{"type":"array","items":{"type":"string"}}},"title":"ValidationError"},{"type":"object","properties":{"errors":{"example":["Cannot delete a disclosure template with associated disclosure requests"]}}}]}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

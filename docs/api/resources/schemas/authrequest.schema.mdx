@@ -24,12 +24,12 @@ import Heading from "@theme/Heading";
 Los auth requests son una forma de autenticar a identidades previamente validadas a través de un `disclosure_request`.
 
 ### Guias relacionadas
-- [Autenticación de usuarios](/docs/integration-guide/authentication/introduction)
+- [Conceptos Generales](/docs/integration-guide/general-concepts)
 
 
 <Schema
 	defaultCollapsibleOpen={true}
-  schema={{"x-tags":["Auth requests"],"type":"object","description":"Los auth requests son una forma de autenticar a identidades previamente validadas a través de un `disclosure_request`.\n\n### Guias relacionadas\n- [Autenticación de usuarios](/docs/integration-guide/authentication/introduction)\n","properties":{"id":{"type":"string","description":"Identificador único del request de autenticación.","example":"authreq_Kop19_kEe23i7hSw8QG4-a"},"identity_id":{"type":"string","description":"Identificador de la identidad que realiza el intento.","example":"id_ma21KLsmaslopask912Aa2"},"status":{"type":"string","enum":["awaiting_authentication","successful","timed_out"],"description":"Estado actual del request de autenticación."},"user_reference":{"type":"string","description":"Referencia de usuario de tu sistema para el request de autenticación.","example":"user_123"},"created_at":{"type":"string","format":"date-time","description":"Fecha y hora en que se creó el registro del intento de autenticación."}},"title":"AuthRequest"}}
+  schema={{"x-tags":["Auth requests"],"type":"object","description":"Los auth requests son una forma de autenticar a identidades previamente validadas a través de un `disclosure_request`.\n\n### Guias relacionadas\n- [Conceptos Generales](/docs/integration-guide/general-concepts)\n","properties":{"id":{"type":"string","description":"Identificador único del request de autenticación.","example":"authreq_Kop19_kEe23i7hSw8QG4-a"},"identity_id":{"type":"string","description":"Identificador de la identidad que realiza el intento.","example":"id_ma21KLsmaslopask912Aa2"},"status":{"type":"string","enum":["awaiting_authentication","successful","timed_out"],"description":"Estado actual del request de autenticación."},"user_reference":{"type":"string","description":"Referencia de usuario de tu sistema para el request de autenticación.","example":"user_123"},"created_at":{"type":"string","format":"date-time","description":"Fecha y hora en que se creó el registro del intento de autenticación."}},"title":"AuthRequest"}}
   schemaType={"response"}
 >
   
