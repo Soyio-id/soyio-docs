@@ -1,0 +1,186 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Manejo de errores en Disclosure
+
+Esta guía te ayuda a entender y manejar los diferentes tipos de errores que pueden ocurrir durante el proceso de disclosure y validación de identidad.
+
+## Eventos de error en webhooks
+
+Durante el proceso de disclosure, **de existir un error**, se enviarán varios eventos mediante [webhooks](../../api/webhooks.md) que representan errores en el estado del proceso y sus objetos asociados.
+
+:::info[Configuración de webhooks]
+Para recibir estos eventos de error, necesitas configurar un webhook en tu cuenta. Revisa nuestra [guía completa de webhooks](../../api/webhooks.md) para aprender a configurar y verificar los webhooks correctamente.
+:::
+
+### Errores de disclosure
+
+Los eventos de error principales que puedes escuchar son:
+
+- `disclosure_request.timed_out`: El usuario no completa el disclosure en el tiempo permitido
+- `disclosure_request.failed`: El disclosure falla por alguna razón de la que no se puede recuperar
+
+<Tabs>
+    <TabItem value="timeout" label="Disclosure request caducado" default>
+        ```javascript
+        {
+            id: "evt_...",
+            name: "disclosure_request.timed_out",
+            payload: {
+                user_reference: "<user-reference>",
+                disclosure_request_id: "dreq_...",
+            },
+            created_at: "<created_at>"
+        }
+        ```
+    </TabItem>
+    <TabItem value="error" label="Disclosure request fallido (error en el match)">
+        ```javascript
+        {
+            id: "evt_...",
+            name: "disclosure_request.failed",
+            payload: {
+                user_reference: "<user-reference>",
+                disclosure_request_id: "dreq_...",
+            },
+        }
+        ```
+    </TabItem>
+</Tabs>
+
+### Errores de validación y autenticación
+
+Durante el proceso de verificación de identidad, se pueden producir errores que se comunican mediante webhooks. Estos eventos incluyen información detallada sobre fallos en la verificación, como problemas de autenticación o validación de datos de identidad.
+
+<Tabs>
+    <TabItem value="validation" label="Errores de Validación" default>
+        - `validation_attempt.failed`: La validación de identidad falló, pero puede recuperarse
+
+        ```javascript title="Validación fallida"
+        {
+            id: "evt_...",
+            name: "validation_attempt.failed",
+            payload: {
+                user_reference: "<user-reference>",
+                validation_attempt_id: "va_...",
+                error_reason: "passive_liveness_verification_not_passed",
+                errors_array: [
+                {
+                    code: "auth-XXX",
+                    type: "facial",
+                    message: "passive_liveness_verification_not_passed",
+                    detail: "La verificación de vivacidad pasiva no fue exitosa."
+                },
+                ...
+                ]
+            },
+            created_at: "<created_at>"
+        }
+        ```
+    </TabItem>
+    <TabItem value="authentication" label="Errores de Autenticación">
+        - `auth_attempt.failed`: La autenticación falló, pero puede recuperarse
+
+        ```javascript title="Autenticación fallida"
+        {
+            id: "evt_...",
+            name: "auth_attempt.failed",
+            payload: {
+                user_reference: "<user-reference>",
+                auth_attempt_id: "aa_...",
+                error_reason: "passive_liveness_verification_not_passed",
+                errors_array: [
+                {
+                    code: "auth-XXX",
+                    type: "facial",
+                    message: "passive_liveness_verification_not_passed",
+                    detail: "La verificación de vivacidad pasiva no fue exitosa."
+                },
+                ...
+                ]
+            },
+            created_at: "<created_at>"
+        }
+        ```
+    </TabItem>
+</Tabs>
+
+## Códigos de error de validación
+
+Para las validaciones fallidas, los errores que puedes recibir se encuentran en dos campos:
+
+- **`error_reason`**: Contiene el primer error detectado durante el proceso
+- **`errors_array`**: Contiene todos los errores detallados detectados durante el proceso, con información específica sobre cada uno
+
+Cada objeto en el `errors_array` incluye:
+- `code`: Código único del error
+- `type`: Tipo de validación que falló (ej. "facial", "document")
+- `message`: Código del error
+- `detail`: Descripción detallada del problema
+
+Los códigos de error disponibles son:
+
+### Errores de validación de identidad
+- `unknown`: Error desconocido
+
+### Errores de documento
+- `document_validation_error`: Error en la validación del documento
+- `document_has_expired`: El documento expiró
+- `document_not_recognized`: El documento no fue reconocido
+- `document_unregistered`: El documento no está registrado
+- `damaged_document`: El documento está dañado
+- `document_is_a_photo_of_photo`: Error en la imagen
+- `document_is_a_photocopy`: El documento es una copia
+- `incomplete_document`: El documento es incompleto
+- `invalid_issue_date`: La fecha de emisión es inválida
+- `missing_date_of_birth`: Falta la fecha de nacimiento
+- `missing_document_number`: Falta el número del documento
+- `missing_expiration_date`: Falta la fecha de expiración
+- `missing_gender`: Falta el género
+- `missing_mrz`: Falta el [MRZ](https://en.wikipedia.org/wiki/Machine-readable_passport)
+- `missing_names`: Falta los nombres
+- `missing_text`: Falta el texto
+- `missing_issue_date`: Falta la fecha de emisión
+- `missing_nationality`: Falta la nacionalidad
+
+### Errores de imagen
+- `blurry_image`: La imagen es borrosa
+- `front_document_not_found`: No se encontró la imagen frontal del documento
+- `invalid_or_corrupted_image_file`: La imagen es inválida o está corrupta
+- `photo_of_photo`: La imagen es de una foto de una foto
+- `reverse_document_not_found`: No se encontró la imagen inversa
+- `image_validation_not_passed`: No pasó la validación de la imagen
+
+### Errores de validación facial
+- `facial_validation_error`: Error en la validación facial
+- `fraudster_face_match_in_client_collection`: La coincidencia de rostro es de un fraude
+- `liveness_verification_not_passed`: La verificación de vivacidad no fue exitosa
+- `no_face_detected`: No se detectó rostro
+- `passive_liveness_verification_not_passed`: La verificación de vivacidad pasiva no fue exitosa
+- `similarity_threshold_not_passed`: No pasó el umbral de similitud
+- `face_not_clear`: El rostro no es claro
+- `face_not_detected`: No se detectó rostro
+
+### Errores de validación con base de datos gubernamental
+- `data_not_match_with_government_database`: Los datos no coinciden con la base de datos del gobierno
+- `government_database_unavailable`: La base de datos del gobierno no está disponible
+- `identity_belongs_to_dead_person`: La identidad del usuario pertenece a una persona fallecida
+
+### Errores de edad
+- `age_above_threshold`: El usuario es mayor a la edad máxima permitida
+- `underage`: El usuario es menor de edad
+
+### Errores técnicos
+- `ocr_no_text_detected`: No se detectó texto
+- `expiration_error`: La validación expiró
+- `enrollment`: El usuario falló al inscribirse
+- `camera_permission_error`: No se tiene permiso para usar la cámara
+- `invalid_format`: El formato es inválido
+- `possible_fraud`: Es posible que sea fraude
+- `validations_failed`: Error en las validaciones
+
+## Próximos pasos
+
+- Revisa la [guía de webhooks](../../api/webhooks.md) para configurar correctamente el manejo de eventos
+- Consulta la [configuración del módulo de Disclosure](./configuration) para opciones de personalización
+- Explora la [guía de validación de identidad](./validate-identity) para el flujo completo de integración
