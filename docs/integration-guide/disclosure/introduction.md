@@ -16,6 +16,8 @@ El término "disclosure" refleja la naturaleza voluntaria y transparente del pro
 
 La validación de identidad se utiliza para asegurar que una persona es realmente quien dice ser, verificando la autenticidad de su identidad a través de un **validador de identidad**.
 
+Para configurar qué datos solicitar a tus usuarios, necesitas crear una [plantilla de disclosure](./templates) que defina los datos requeridos y sus finalidades.
+
 Este proceso incluye diversas etapas de comprobación:
 
 - **Prueba de vida (Liveness Test)**: Detecta que el individuo está presente en el momento de la verificación, evitando el uso de imágenes o grabaciones.
