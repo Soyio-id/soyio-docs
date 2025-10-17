@@ -12,5 +12,5 @@ Review documentation changes and ensure they comply with the documentation style
   - Flag any ambiguity, missing prerequisites, or unclear instructions.
 3. Check for spelling, grammar, and typographical errors
 4. Ensure the writing is logical and has a clear, consistent flow
-4. Compare the content against STYLE_GUIDE.md
-5. Apply necessary corrections and improvements directly to the text
+5. Compare the content against STYLE_GUIDE.md
+6. Apply necessary corrections and improvements directly to the text
