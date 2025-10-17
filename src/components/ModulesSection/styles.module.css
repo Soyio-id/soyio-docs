@@ -13,82 +13,200 @@
   font-size: 1.2rem;
   color: var(--ifm-color-gray-600);
   margin-bottom: 3rem;
-  max-width: 600px;
   margin-left: auto;
   margin-right: auto;
 }
 
+.modulesGrid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-rows: repeat(4, 180px);
+  gap: 1.25rem;
+}
+
 .moduleCard {
-  margin-bottom: 2rem;
-}
-
-.moduleLink {
-  display: block;
-  padding: 2rem;
+  background: var(--ifm-background-surface-color);
+  color: var(--ifm-font-color-base);
+  border-radius: 18px;
+  overflow: hidden;
+  text-decoration: none;
+  transition: all 200ms ease;
+  position: relative;
   border: 1px solid var(--ifm-color-emphasis-200);
-  border-radius: 8px;
-  text-decoration: none;
-  color: inherit;
-  transition: all 0.3s ease;
-  height: 100%;
-  background: var(--ifm-card-background-color);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --ifm-link-hover-decoration: none;
 }
 
-.moduleLink:hover {
-  text-decoration: none;
-  color: inherit;
-  border-color: var(--ifm-color-primary);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transform: translateY(-2px);
+.moduleCard:hover {
+  background: var(--ifm-color-emphasis-100);
+}
+
+.moduleHero {
+  padding: 1rem;
+  min-height: 100%;
+  flex-grow: 1;
+  display: flex;
+  align-items: flex-end;
+}
+
+.moduleBody {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  transform: translateY(calc(1.5rem + 32px));
+  transition: transform 200ms ease-out;
+}
+
+.moduleCard:hover .moduleBody {
+  transform: translateY(0);
 }
 
 .moduleIcon {
-  height: 64px;
-  width: 64px;
+  height: 48px;
+  width: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 100px;
-  background-color: var(--ifm-color-gray-100);
-  margin: 0 auto;
-  margin-bottom: 1rem;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.16);
 }
 
-html[data-theme=dark] .moduleIcon {
-  background-color: var(--ifm-color-gray-900);
+html[data-theme='dark'] .moduleIcon {
+  background: rgba(226, 232, 240, 0.12);
 }
-
 
 .moduleTitle {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  margin: 0;
   color: var(--ifm-heading-color);
-  text-align: center;
 }
 
 .moduleDescription {
-  color: var(--ifm-color-gray-600);
-  margin-bottom: 1.5rem;
+  color: var(--ifm-font-color-secondary);
+  margin: 0;
   line-height: 1.6;
-  text-align: center;
+  font-size: 0.98rem;
 }
 
-.moduleLinkText {
-  display: block;
-  color: var(--ifm-color-primary);
+.moduleCta {
+  margin-top: 0.75rem;
   font-weight: 600;
-  text-align: center;
-  font-size: 0.9rem;
+  color: var(--ifm-link-color);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
 }
 
-.moduleLink:hover .moduleLinkText {
-  color: var(--ifm-color-primary-dark);
+.arrowIcon {
+  transition: transform 0.2s ease-in 0.1s;
 }
 
-@media screen and (max-width: 996px) {
+.moduleCard:hover .arrowIcon {
+  transform: translateX(4px);
+}
+
+.cardConsent {
+  grid-column: 1 / span 3;
+  grid-row: 1 / span 2;
+}
+
+.cardRights {
+  grid-column: 4 / span 3;
+  grid-row: 1 / span 2;
+}
+
+.cardPrivacyCenter {
+  grid-column: 1 / span 2;
+  grid-row: 3 / span 2;
+}
+
+.cardIdentity {
+  grid-column: 3 / span 2;
+  grid-row: 3 / span 2;
+}
+
+.cardSignature {
+  grid-column: 5 / span 2;
+  grid-row: 3;
+}
+
+.cardAuth {
+  grid-column: 5 / span 2;
+  grid-row: 4;
+}
+
+
+.cardSignature .moduleTitle,
+.cardAuth .moduleTitle {
+  font-size: 1rem;
+}
+
+.cardAuth .moduleDescription,
+.cardSignature .moduleDescription {
+  font-size: 0.875rem;
+}
+
+.cardAuth .moduleBody,
+.cardSignature .moduleBody {
+  gap: 0.5rem;
+}
+
+
+
+@media (max-width: 1023px) {
+  .modulesGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: repeat(6, 180px);
+  }
+
+  .cardConsent {
+    grid-column: 1 / span 4;
+    grid-row: 1 / span 2;
+  }
+
+  .cardRights {
+    grid-column: 1 / span 2;
+    grid-row: 3 / span 2;
+  }
+
+  .cardPrivacyCenter {
+    grid-column: 3 / span 2;
+    grid-row: 3 / span 2;
+  }
+
+  .cardIdentity {
+    grid-column: 1 / span 2;
+    grid-row: 5 / span 2;
+  }
+
+  .cardSignature {
+    grid-column: 3 / span 2;
+    grid-row: 5;
+  }
+
+  .cardAuth {
+    grid-column: 3 / span 2;
+    grid-row: 6;
+  }
+}
+
+@media (max-width: 767px) {
+  .modulesGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(12, 300px);
+  }
+
+  .moduleCard {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
   .modules {
-    padding: 2rem 0;
+    padding: 2.5rem 0;
   }
 
   .modulesTitle {
@@ -100,15 +218,17 @@ html[data-theme=dark] .moduleIcon {
     margin-bottom: 2rem;
   }
 
-  .moduleLink {
-    padding: 1.5rem;
+  .modulesGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .moduleCard {
+    transition: none;
   }
 
-  .moduleIcon {
-    font-size: 2.5rem;
-  }
-
-  .moduleTitle {
-    font-size: 1.3rem;
+  .moduleCta {
+    transition: none;
   }
 }
