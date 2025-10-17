@@ -39,5 +39,5 @@ export default [
       '@typescript-eslint/no-require-imports': 0,
     },
   },
-  { ignores: ['.docusaurus/**'] },
+  { ignores: ['.docusaurus/**', 'build/**'] },
 ];
