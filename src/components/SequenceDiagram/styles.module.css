@@ -8,6 +8,7 @@
   top: auto;
   left: auto;
   z-index: auto;
+  border: 1px solid var(--ifm-color-emphasis-200);
 }
 
 .containerFullscreen {

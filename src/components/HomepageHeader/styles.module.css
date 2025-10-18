@@ -173,13 +173,24 @@
   width: auto;
 }
 
+.container {
+  padding: 1rem;
+}
+
+@media screen and (max-width: 1280px) {
+  .container {
+    padding: 2rem;
+  }
+}
+
+
 @media screen and (max-width: 996px) {
   .container {
     padding: 1rem;
   }
 
   .content {
-    flex-direction: column;
+    flex-direction: column-reverse;
     text-align: center;
     gap: 2rem;
   }
@@ -201,15 +212,6 @@
     flex-wrap: wrap;
   }
 
-  .graphicContainer {
-    height: 300px;
-  }
-
-  .blob {
-    width: 250px;
-    height: 250px;
-  }
-
   .partnerLogos {
     flex-wrap: wrap;
     gap: 1.5rem;
@@ -217,6 +219,19 @@
 
   .logoItem {
     font-size: 0.75rem;
+  }
+
+  .blobContainer {
+    position: absolute;
+    top: -40%;
+    right: -35%;
+    transition: transform 0.3s ease-out;
+  }
+
+  .blob {
+    width: 75rem;
+    height: 45rem;
+    transform: rotate(-90deg);
   }
 }
 
@@ -238,5 +253,26 @@
   .secondaryButton {
     width: 100%;
     text-align: center;
+  }
+
+  .container {
+    padding: 0 1rem;
+  }
+
+  .content {
+    flex-direction: column-reverse;
+  }
+
+  .blobContainer {
+    position: absolute;
+    top: -40%;
+    right: -55%;
+    transition: transform 0.3s ease-out;
+  }
+
+  .blob {
+    width: 75rem;
+    height: 45rem;
+    transform: rotate(-90deg);
   }
 }
