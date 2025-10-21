@@ -16,10 +16,16 @@
 
 .modulesSubtitle {
   font-size: 1.125rem;
-  color: var(--ifm-color-gray-600);
   margin-bottom: 2rem;
   margin-left: auto;
   margin-right: auto;
+  color: var(--ifm-font-color-secondary);
+  opacity: 0.8;
+}
+
+[data-theme='dark'] .modulesSubtitle {
+  color: var(--ifm-font-color-secondary);
+  opacity: 0.6;
 }
 
 .modulesGrid {
@@ -39,12 +45,17 @@
   text-decoration: none;
   transition: all 200ms ease;
   position: relative;
-  border: 1px solid var(--ifm-color-emphasis-200);
+  border: 1px solid var(--ifm-color-emphasis-300);
   --ifm-link-hover-decoration: none;
   z-index: 2;
 }
 
 .moduleCard:hover {
+  background: var(--ifm-color-emphasis-100);
+}
+
+[data-theme='dark'] .moduleCard {
+  border: 1px solid var(--ifm-color-emphasis-200);
   background: var(--ifm-surface-color);
 }
 
@@ -54,6 +65,17 @@
   flex-grow: 1;
   display: flex;
   align-items: flex-end;
+  width: 100%;
+  overflow: hidden;
+}
+
+.moduleImage {
+  position: absolute;
+  top: -15%;
+  left: 0;
+  width: 150%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .moduleBody {
@@ -80,7 +102,8 @@
   align-items: center;
   justify-content: center;
   border-radius: 999px;
-  background: rgba(15, 23, 42, 0.16);
+  background: var(--ifm-color-emphasis-100);
+  transition: filter 0.2s ease-in-out;
 }
 
 html[data-theme='dark'] .moduleIcon {
@@ -122,9 +145,25 @@ html[data-theme='dark'] .moduleIcon {
   grid-row: 1 / span 2;
 }
 
+.cardConsent .moduleImage {
+  min-width: 125%;
+  height: 125%;
+  top: -20%;
+  left: -2%;
+  object-fit: cover;
+}
+
 .cardRights {
   grid-column: 4 / span 3;
   grid-row: 1 / span 2;
+}
+
+.cardRights .moduleImage {
+  min-width: 125%;
+  height: 125%;
+  top: -20%;
+  left: -12%;
+  object-fit: cover;
 }
 
 .cardPrivacyCenter {
@@ -132,9 +171,25 @@ html[data-theme='dark'] .moduleIcon {
   grid-row: 3 / span 2;
 }
 
+.cardPrivacyCenter .moduleImage {
+  min-width: 125%;
+  height: 125%;
+  top: -30%;
+  left: -8%;
+  object-fit: cover;
+}
+
 .cardIdentity {
   grid-column: 3 / span 2;
   grid-row: 3 / span 2;
+}
+
+.cardIdentity .moduleImage {
+  min-width: 130%;
+  height: 130%;
+  top: -30%;
+  left: -15%;
+  object-fit: cover;
 }
 
 .cardSignature {
@@ -142,9 +197,25 @@ html[data-theme='dark'] .moduleIcon {
   grid-row: 3;
 }
 
+.cardSignature .moduleImage {
+  min-width: 250%;
+  height: 250%;
+  top: -90%;
+  left: -70%;
+  object-fit: cover;
+}
+
 .cardAuth {
   grid-column: 5 / span 2;
   grid-row: 4;
+}
+
+.cardAuth .moduleImage {
+  min-width: 250%;
+  height: 250%;
+  top: -80%;
+  left: -60%;
+  object-fit: cover;
 }
 
 
@@ -176,14 +247,36 @@ html[data-theme='dark'] .moduleIcon {
     grid-row: 1 / span 2;
   }
 
+  .cardConsent .moduleImage {
+    min-width: 150%;
+    height: 150%;
+    top: -25%;
+    left: -20%;
+  }
+
   .cardRights {
     grid-column: 1 / span 2;
     grid-row: 3 / span 2;
   }
 
+  .cardRights .moduleImage {
+    min-width: 130%;
+    height: 130%;
+    top: -25%;
+    left: 0%;
+    object-position: 45% 50%;
+  }
+
   .cardPrivacyCenter {
     grid-column: 3 / span 2;
     grid-row: 3 / span 2;
+  }
+
+  .cardPrivacyCenter .moduleImage {
+    min-width: 135%;
+    height: 135%;
+    top: -30%;
+    left: -15%;
   }
 
   .cardIdentity {
@@ -211,6 +304,34 @@ html[data-theme='dark'] .moduleIcon {
   .moduleCard {
     grid-column: auto;
     grid-row: auto;
+  }
+
+  .cardConsent .moduleImage {
+    min-width: 150%;
+    height: 150%;
+    top: -30%;
+    left: -10%;
+  }
+
+  .cardPrivacyCenter .moduleImage {
+    min-width: 150%;
+    height: 150%;
+    top: -35%;
+    left: -25%;
+  }
+
+  .cardAuth .moduleImage {
+    min-width: 200%;
+    height: 200%;
+    top: -50%;
+    left: -50%;
+  }
+
+  .cardSignature .moduleImage {
+    min-width: 200%;
+    height: 200%;
+    top: -60%;
+    left: -60%;
   }
 
   .modules {

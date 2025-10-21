@@ -2,6 +2,8 @@ import Heading from '@theme/Heading';
 import Link from '@docusaurus/Link';
 import { useEffect, useRef, useState } from 'react';
 
+import ThemedImage from '@theme/ThemedImage';
+
 import styles from './styles.module.css';
 
 import authIcon from './icons/auth.png';
@@ -12,21 +14,38 @@ import rightsManagementIcon from './icons/dsr.png';
 import signatureIcon from './icons/signature.png';
 import BlobSvg from './images/blob.svg';
 
+import AuthImageLight from './images/auth-light.png';
+import AuthImageDark from './images/auth-dark.png';
+import SignatureImageLight from './images/signature-light.png';
+import SignatureImageDark from './images/signature-dark.png';
+import ConsentImageLight from './images/consent-light.png';
+import ConsentImageDark from './images/consent-dark.png';
+import RightsManagementImageLight from './images/rights-light.png';
+import RightsManagementImageDark from './images/rights-dark.png';
+import DisclosureImageLight from './images/identity-light.png';
+import DisclosureImageDark from './images/identity-dark.png';
+import PrivacyCenterImageLight from './images/privacy-light.png';
+import PrivacyCenterImageDark from './images/privacy-dark.png';
+
 interface ModuleItem {
   title: string;
   description: string;
   link: string;
   icon: string;
   className: string;
+  imageLight: string;
+  imageDark: string;
 }
 
 const modules: ModuleItem[] = [
   {
     title: 'Consentimiento',
-    description: 'Gestiona el constimiento de tus usuarios, genera evidencias y cumple regulaciones',
+    description: 'Captura y gestiona el consentimiento de tus usuarios, genera evidencias y cumple regulaciones',
     link: '/docs/integration-guide/consent/introduction',
     icon: consentIcon,
     className: styles.cardConsent,
+    imageLight: ConsentImageLight,
+    imageDark: ConsentImageDark,
   },
   {
     title: 'Gestión de derechos',
@@ -34,6 +53,8 @@ const modules: ModuleItem[] = [
     link: '/docs/integration-guide/rights-management/introduction',
     icon: rightsManagementIcon,
     className: styles.cardRights,
+    imageLight: RightsManagementImageLight,
+    imageDark: RightsManagementImageDark,
   },
   {
     title: 'Verificación de identidad',
@@ -41,6 +62,8 @@ const modules: ModuleItem[] = [
     link: '/docs/integration-guide/disclosure/introduction',
     icon: disclosureIcon,
     className: styles.cardIdentity,
+    imageLight: DisclosureImageLight,
+    imageDark: DisclosureImageDark,
   },
   {
     title: 'Centro de privacidad',
@@ -48,6 +71,8 @@ const modules: ModuleItem[] = [
     link: '/docs/integration-guide/privacy-center/introduction',
     icon: privacyCenterIcon,
     className: styles.cardPrivacyCenter,
+    imageLight: PrivacyCenterImageLight,
+    imageDark: PrivacyCenterImageDark,
   },
   {
     title: 'Autenticación',
@@ -55,6 +80,8 @@ const modules: ModuleItem[] = [
     link: '/docs/integration-guide/authentication/introduction',
     icon: authIcon,
     className: styles.cardAuth,
+    imageLight: AuthImageLight,
+    imageDark: AuthImageDark,
   },
   {
     title: 'Firma electrónica',
@@ -62,6 +89,8 @@ const modules: ModuleItem[] = [
     link: '/docs/integration-guide/signature/introduction',
     icon: signatureIcon,
     className: styles.cardSignature,
+    imageLight: SignatureImageLight,
+    imageDark: SignatureImageDark,
   },
 ];
 
@@ -117,11 +146,18 @@ export default function HomepageModuleSection() {
               aria-label={`Explorar módulo ${module.title}`}
             >
               <div className={styles.moduleHero}>
-
+                <ThemedImage
+                  sources={{
+                    light: module.imageLight,
+                    dark: module.imageDark,
+                  }}
+                  alt={module.title}
+                  className={styles.moduleImage}
+                />
               </div>
               <div className={styles.moduleBody}>
                 <div className={styles.moduleIcon}>
-                  <img src={module.icon} alt={module.title} height={32} width={32} />
+                  <img src={module.icon} alt={module.title} height={28} width={28} />
                 </div>
                 <Heading as="h3" className={styles.moduleTitle}>
                   {module.title}
