@@ -173,7 +173,7 @@ const config: Config = {
               href: 'https://www.linkedin.com/company/soyio/',
             },
             {
-              label: 'Github',
+              label: 'GitHub',
               href: 'https://github.com/Soyio-id',
             },
           ],
