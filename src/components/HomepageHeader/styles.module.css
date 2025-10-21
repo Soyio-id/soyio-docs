@@ -62,14 +62,14 @@
 }
 
 .gradientText {
-  background: linear-gradient(91deg, #7A69C3 0.27%, #96FFFF 51%, #4256FF 99.82%);
+  background: linear-gradient(91deg, #5B4A9B 0.27%, #1E40AF 51%, #1D4ED8 99.82%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-[data-theme='light'] .gradientText {
-  background: linear-gradient(91deg, #5B4A9B 0.27%, #1E40AF 51%, #1D4ED8 99.82%);
+[data-theme='dark'] .gradientText {
+  background: linear-gradient(91deg, #7A69C3 0.27%, #96FFFF 51%, #4256FF 99.82%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -79,9 +79,14 @@
   font-size: 1.25rem;
   line-height: 1.6;
   margin-bottom: 2.5rem;
-  color: var(--ifm-color-emphasis-700);
   font-weight: 400;
   max-width: 600px;
+  color: var(--ifm-font-color-secondary);
+  opacity: 0.8;
+}
+
+[data-theme='dark'] .subtitle {
+  opacity: 0.6;
 }
 
 .buttons {
