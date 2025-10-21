@@ -1,10 +1,10 @@
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import Heading from '@theme/Heading';
-import { useEffect, useRef, useState } from 'react';
 import styles from './styles.module.css';
 import BlobSvg from './images/blob.svg';
 import BigKeyImage from './images/bigkey.png';
+import { useMouseParallax } from '../../hooks/useMouseParallax';
 
 import ConsorcioSvg from './images/consorcio.svg';
 import NeatSvg from './images/neat.svg';
@@ -15,35 +15,7 @@ import SmartfitSvg from './images/smartfit.svg';
 import SbpaySvg from './images/sbpay.svg';
 
 export default function HomepageHeader() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const headerRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const handleMouseMove = (event: MouseEvent) => {
-      if (headerRef.current) {
-        const rect = headerRef.current.getBoundingClientRect();
-        const x = (event.clientX - rect.left) / rect.width;
-        const y = (event.clientY - rect.top) / rect.height;
-
-        const normalizedX = (x - 0.5) * 2;
-        const normalizedY = (y - 0.5) * 2;
-
-        setMousePosition({
-          x: normalizedX * 50,
-          y: normalizedY * 50
-        });
-      }
-    };
-
-    const headerElement = headerRef.current;
-    if (headerElement) {
-      headerElement.addEventListener('mousemove', handleMouseMove);
-
-      return () => {
-        headerElement.removeEventListener('mousemove', handleMouseMove);
-      };
-    }
-  }, []);
+  const { elementRef: headerRef, mousePosition } = useMouseParallax();
 
   const partners = [
     {

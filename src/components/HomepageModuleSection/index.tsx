@@ -1,8 +1,7 @@
 import Heading from '@theme/Heading';
 import Link from '@docusaurus/Link';
-import { useEffect, useRef, useState } from 'react';
-
 import ThemedImage from '@theme/ThemedImage';
+import { useMouseParallax } from '../../hooks/useMouseParallax';
 
 import styles from './styles.module.css';
 
@@ -95,35 +94,7 @@ const modules: ModuleItem[] = [
 ];
 
 export default function HomepageModuleSection() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const handleMouseMove = (event: MouseEvent) => {
-      if (sectionRef.current) {
-        const rect = sectionRef.current.getBoundingClientRect();
-        const x = (event.clientX - rect.left) / rect.width;
-        const y = (event.clientY - rect.top) / rect.height;
-
-        const normalizedX = (x - 0.5) * 2;
-        const normalizedY = (y - 0.5) * 2;
-
-        setMousePosition({
-          x: normalizedX * 50,
-          y: normalizedY * 50
-        });
-      }
-    };
-
-    const sectionElement = sectionRef.current;
-    if (sectionElement) {
-      sectionElement.addEventListener('mousemove', handleMouseMove);
-
-      return () => {
-        sectionElement.removeEventListener('mousemove', handleMouseMove);
-      };
-    }
-  }, []);
+  const { elementRef: sectionRef, mousePosition } = useMouseParallax();
 
   return (
     <section ref={sectionRef} className={styles.modules}>
