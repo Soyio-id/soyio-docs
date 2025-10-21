@@ -19,8 +19,9 @@ declare module '*.gif' {
 }
 
 declare module '*.svg' {
-  const value: string;
-  export default value;
+  import type { ComponentType, SVGProps } from 'react';
+  const content: ComponentType<SVGProps<SVGSVGElement>>;
+  export default content;
 }
 
 declare module '*.webp' {
