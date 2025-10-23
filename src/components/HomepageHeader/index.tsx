@@ -13,6 +13,7 @@ import HycoSvg from './images/hyco.svg';
 import PlatanusSvg from './images/platanus.svg';
 import SmartfitSvg from './images/smartfit.svg';
 import SbpaySvg from './images/sbpay.svg';
+import SalcobrandSvg from './images/salcobrand.svg';
 
 export default function HomepageHeader() {
   const { elementRef: headerRef, mousePosition } = useMouseParallax();
@@ -21,6 +22,10 @@ export default function HomepageHeader() {
     {
       name: 'consorcio',
       logo: ConsorcioSvg,
+    },
+    {
+      name: 'salcobrand',
+      logo: SalcobrandSvg,
     },
     {
       name: 'neat',
@@ -38,6 +43,7 @@ export default function HomepageHeader() {
       name: 'platanus',
       logo: PlatanusSvg,
     },
+
     {
       name: 'smartfit',
       logo: SmartfitSvg,
