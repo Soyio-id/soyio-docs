@@ -24,6 +24,10 @@ tags:
     description: |
       Los templates de consentimiento te permiten estandarizar la forma en que solicitas datos a tus usuarios.
       Contienen la lista de datos requeridos, sus usos, así como referencias a documentos de privacidad.
+  - name: Disclosure templates
+    description: |
+      Los templates de divulgación definen los datos, documentos y validadores necesarios para ejecutar un proceso de
+      verificación de identidad y compartir información con tu compañía durante un disclosure request.
   - name: Consent actions
     description: |
       Los consent actions permiten crear acciones de consentimiento.
@@ -53,7 +57,8 @@ tags:
 
       ### Guías relacionadas
 
-      - [Gestor de privacidad](/docs/integration-guide/rights-management/introduction)
+      - [Gestión de derechos](/docs/integration-guide/rights-management/introduction)
+      - [Centro de privacidad](/docs/integration-guide/privacy-center/introduction)
   - name: Events
     description: |
       Los eventos nos permiten comunicarte cambios relevantes en el sistema. Cuando ocurre un evento interesante, se crea un objeto evento. Por ejemplo, cuando se valida una identidad, se crea un evento `validation_attempt.succeeded`; cuando una validación falla, se crea un objeto `validation_attempt.failed`.
@@ -105,10 +110,19 @@ tags:
       El centro de privacidad permite a los usuarios gestionar sus consentimientos y datos personales.
       Proporciona endpoints para obtener tokens de sesión que permiten acceder a funcionalidades específicas
       del centro de privacidad.
+
+      ### Guías relacionadas
+
+      - [Centro de privacidad](/docs/integration-guide/privacy-center/introduction)
+      - [Gestión de derechos](/docs/integration-guide/rights-management/introduction)
   - name: API Keys
     description: |
       Las API keys permiten autenticar y autorizar el acceso a la API de Soyio.
       Cada API key puede tener un alcance específico que limita las operaciones que puede realizar.
+
+      ### Guías relacionadas
+
+      - [Autenticación](/docs/api/authentication)
 paths:
   /consent_templates:
     get:
@@ -525,6 +539,160 @@ paths:
           $ref: '#/components/responses/NotFoundError'
       security:
         - api_key: []
+  /disclosure_templates:
+    get:
+      tags:
+        - Disclosure templates
+      summary: Obtener todos los templates de divulgación
+      operationId: indexDisclosureTemplates
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
+        - $ref: '#/components/parameters/OrderByParam'
+      responses:
+        '200':
+          description: Templates de divulgación encontrados
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DisclosureTemplateList'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+      security:
+        - api_key: []
+    post:
+      tags:
+        - Disclosure templates
+      summary: Crear un template de divulgación
+      operationId: createDisclosureTemplate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DisclosureTemplateInput'
+      responses:
+        '201':
+          description: Template de divulgación creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DisclosureTemplate'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '422':
+          description: Error de validación
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ValidationError'
+                  - type: object
+                    properties:
+                      errors:
+                        example:
+                          - Validator type can't be blank
+      security:
+        - api_key: []
+  '/disclosure_templates/{id}':
+    get:
+      tags:
+        - Disclosure templates
+      summary: Obtener un template de divulgación
+      operationId: getDisclosureTemplate
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del template de divulgación
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Template de divulgación encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DisclosureTemplate'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+      security:
+        - api_key: []
+    patch:
+      tags:
+        - Disclosure templates
+      summary: Actualizar un template de divulgación
+      operationId: updateDisclosureTemplate
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del template de divulgación
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DisclosureTemplateInput'
+      responses:
+        '200':
+          description: Template de divulgación actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DisclosureTemplate'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '422':
+          description: Error de validación
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+      security:
+        - api_key: []
+    delete:
+      tags:
+        - Disclosure templates
+      summary: Eliminar un template de divulgación
+      description: |
+        Elimina un template de divulgación siempre que no existan disclosure requests que lo utilicen.
+        Si el template está asociado a disclosures ya creados, la operación retornará un error de validación.
+      operationId: deleteDisclosureTemplate
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del template de divulgación
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Template de divulgación eliminado
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '422':
+          description: No es posible eliminar el template de divulgación.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ValidationError'
+                  - type: object
+                    properties:
+                      errors:
+                        example:
+                          - Cannot delete a disclosure template with associated disclosure requests
+      security:
+        - api_key: []
   /disclosure_requests:
     get:
       tags:
@@ -613,6 +781,11 @@ paths:
                         type: string
                         description: Valor del matcher.
                         example: 12345678-9
+                force_validation:
+                  type: boolean
+                  description: 'Cuando se establece en `true`, obliga a ejecutar una nueva validación aunque exista un disclosure request previo activo para la misma referencia y template.'
+                  example: true
+                  default: false
       responses:
         '201':
           description: Disclosure request creado exitosamente
@@ -3547,6 +3720,11 @@ components:
           type: boolean
           description: Indica si el template de consentimiento es opcional.
           example: false
+        enabled:
+          type: boolean
+          description: Indica si la plantilla de consentimiento se muestra en el centro de privacidad.
+          example: true
+          default: true
     ConsentTemplate:
       description: |
         Una _consent template_ (template de consentimiento) es una configuración necesaria para el módulo de [_consent_](/docs/integration-guide/consent/introduction).
@@ -3647,11 +3825,21 @@ components:
           type: boolean
           description: Indica si el template de consentimiento es opcional.
           example: false
+        enabled:
+          type: boolean
+          description: Indica si la plantilla de consentimiento se muestra en el centro de privacidad.
+          example: true
+          default: true
         created_at:
           type: string
           format: date-time
           description: Fecha y hora de creación del template de consentimiento
           example: '2024-03-20T15:30:00Z'
+        updated_at:
+          type: string
+          format: date-time
+          description: Fecha y hora de la última actualización del template de consentimiento
+          example: '2024-03-21T10:15:00Z'
     ConsentTemplateIndexList:
       type: object
       properties:
@@ -3668,6 +3856,138 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ConsentTemplate'
+        metadata:
+          $ref: '#/components/schemas/FilterOrderAndPaginationMetadata'
+    DisclosureTemplateInput:
+      type: object
+      required:
+        - name
+        - duration
+        - data_subject
+        - data_requirements
+      properties:
+        name:
+          type: string
+          description: Nombre descriptivo del template de disclosure.
+          example: Validación estándar
+        duration:
+          type: string
+          description: |
+            Período de disponibilidad en [formato ISO 8601](https://docs.digi.com/resources/documentation/digidocs/90001488-13/reference/r_iso_8601_duration_format.htm).
+            Determina durante cuánto tiempo puede ejecutarse el proceso de divulgación una vez iniciado.
+          example: P3M
+        data_subject:
+          type: string
+          description: Tipo de sujeto de datos para el cual se aplica este template.
+          enum:
+            - anonymous_user
+            - citizen_voter
+            - commuter
+            - consultant
+            - customer
+            - employee
+            - job_applicant
+            - next_of_kin
+            - passenger
+            - patient
+            - prospect
+            - shareholder
+            - supplier_vendor
+            - trainee
+            - visitor
+          example: customer
+        data_requirements:
+          type: array
+          description: Lista de requerimientos de datos que se solicitarán durante el proceso.
+          items:
+            $ref: '#/components/schemas/DataRequirementInput'
+        privacy_document_ids:
+          type: array
+          description: Identificadores de documentos de privacidad asociados a este template.
+          items:
+            type: string
+          example:
+            - privdoc_jy21JCGqb-VHhHeUd2nmKw
+    DisclosureTemplate:
+      description: |
+        Un template de disclosure define la configuración necesaria para solicitar datos e iniciar procesos de verificación de
+        identidad en un disclosure request. Contiene los datos requeridos, el validador a utilizar y los documentos de
+        privacidad asociados. Los templates con disclosure requests existentes no pueden ser eliminados para mantener la
+        trazabilidad de los procesos ejecutados.
+      x-tags:
+        - Disclosure templates
+      type: object
+      required:
+        - id
+        - name
+        - duration
+        - data_subject
+        - data_requirements
+        - privacy_document_ids
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: string
+          description: Identificador único. Debe empezar con `dtpl_`.
+          example: dtpl_3D4O4A0CuiVriCnA9RjEhi
+        name:
+          type: string
+          description: Nombre descriptivo del template de divulgación.
+          example: Validación estándar
+        duration:
+          type: string
+          description: Duración del consentimiento en formato ISO 8601.
+          example: P3M
+        data_subject:
+          type: string
+          description: Tipo de sujeto de datos al que aplica el template.
+          enum:
+            - anonymous_user
+            - citizen_voter
+            - commuter
+            - consultant
+            - customer
+            - employee
+            - job_applicant
+            - next_of_kin
+            - passenger
+            - patient
+            - prospect
+            - shareholder
+            - supplier_vendor
+            - trainee
+            - visitor
+          example: customer
+        data_requirements:
+          type: array
+          description: Datos requeridos para completar el proceso de divulgación.
+          items:
+            $ref: '#/components/schemas/DataRequirement'
+        privacy_document_ids:
+          type: array
+          description: Identificadores de documentos de privacidad asociados.
+          items:
+            type: string
+          example:
+            - privdoc_jy21JCGqb-VHhHeUd2nmKw
+        created_at:
+          type: string
+          format: date-time
+          description: Fecha de creación del template.
+          example: '2024-02-01T15:30:00Z'
+        updated_at:
+          type: string
+          format: date-time
+          description: Fecha de la última actualización del template.
+          example: '2024-02-10T18:45:00Z'
+    DisclosureTemplateList:
+      type: object
+      properties:
+        disclosure_templates:
+          type: array
+          items:
+            $ref: '#/components/schemas/DisclosureTemplate'
         metadata:
           $ref: '#/components/schemas/FilterOrderAndPaginationMetadata'
     EventLog:
@@ -3708,7 +4028,7 @@ components:
         data_category:
           type: string
           description: |
-            Categoría del dato personal. Debe seguir la [taxonomía de categorías de datos](/docs/integration-guide/main/taxonomy).
+            Categoría del dato personal. Debe seguir la [taxonomía de categorías de datos](/docs/integration-guide/taxonomy).
 
             Las siguientes llaves (`key`) infieren la categoría del dato personal:
 
@@ -3748,11 +4068,11 @@ components:
           example: first_name
         data_category:
           type: string
-          description: 'Categoría del dato según Fideslang. Ver [taxonomía](/docs/integration-guide/main/taxonomy)'
+          description: 'Categoría del dato según nuestra taxonomía. Revisa [taxonomía](/docs/integration-guide/taxonomy) para más información.'
           example: user.name.first
         data_uses:
           type: array
-          description: 'Lista de finalidades de tratamiento según Fideslang. Ver [taxonomía](/docs/integration-guide/main/taxonomy)'
+          description: 'Lista de finalidades de tratamiento según nuestra taxonomía. Revisa [taxonomía](/docs/integration-guide/taxonomy) para más información.'
           items:
             type: string
     DisclosureRequestList:
@@ -3820,7 +4140,7 @@ components:
           $ref: '#/components/schemas/FilterOrderAndPaginationMetadata'
     DisclosureRequest:
       description: |
-        Representa una solicitud de divulgación de datos en el sistema. Este proceso integral incluye:
+        Representa el disclosure request de datos en el sistema. Este proceso integral incluye:
         - Verificación de identidad del usuario
         - Registro del consentimiento
         - Revelación de datos hacia la empresa solicitante
@@ -3841,7 +4161,7 @@ components:
           example: dreq_1B2M2Y8AsgTpgAmY7PhCfg
         disclosure_template_id:
           type: string
-          description: Identificador del template de divulgación.
+          description: Identificador del template de disclosure.
           example: dtpl_3D4O4A0CuiVriCnA9RjEhi
         identity_id:
           type: string
@@ -3849,19 +4169,22 @@ components:
           example: id_ma21KLsmaslopask912Aa2
         status:
           type: string
-          description: Estado de la solicitud de divulgación.
+          description: Estado del disclosure request.
           enum:
             - pending
+            - initialized
             - authenticating
             - validating
+            - verifying_identity
             - awaiting_permissions
             - awaiting_missing_data
             - timed_out
             - granted
+            - failed
           example: pending
         matchers:
           type: array
-          description: Matchers de la solicitud de divulgación.
+          description: Matchers del disclosure request.
           items:
             type: object
             properties:
@@ -3883,8 +4206,13 @@ components:
           example: user_123
         identity_email:
           type: string
-          description: Correo electrónico proveído por el comercio a la hora de crear la solicitud de divulgación.
+          description: Correo electrónico proveído por el comercio a la hora de crear el disclosure request.
           example: walter@white.com
+        force_validation:
+          type: boolean
+          description: 'Indica si se creará el disclosure request incluso si ya existía uno previo. Cuando es `true`, el usuario debe realizar una nueva validación incluso si ya existía uno previo para el mismo template y referencia.'
+          example: true
+          default: false
         created_at:
           type: string
           format: date-time
@@ -3898,7 +4226,7 @@ components:
         Los auth requests son una forma de autenticar a identidades previamente validadas a través de un `disclosure_request`.
 
         ### Guias relacionadas
-        - [Autenticación de usuarios](/docs/integration-guide/authentication/introduction)
+        - [Conceptos Generales](/docs/integration-guide/general-concepts)
       properties:
         id:
           type: string
@@ -3939,11 +4267,11 @@ components:
         key:
           type: string
           description: Clave o nombre del atributo de la identidad.
-          example: name
+          example: cl_carnet_rut
         value:
           type: string
           description: Valor asociado a la clave del atributo.
-          example: Jon
+          example: 11.988.320-5
       xml:
         name: tag
     Identity:
@@ -3956,7 +4284,7 @@ components:
         validada sobre esa persona.
 
         ### Guias relacionadas
-        - [Conceptos Generales](/docs/integration-guide/main/general-concepts)
+        - [Conceptos Generales](/docs/integration-guide/general-concepts)
       properties:
         id:
           type: string
@@ -3965,12 +4293,33 @@ components:
         email:
           type: string
           description: Correo electrónico asociado a la identidad.
-          example: jonsnow@nightswatch.com
+          example: hari.seldon@trantor.empire
         data:
           type: array
           description: Colección de información adicional sobre la identidad en forma de pares clave-valor.
           items:
             $ref: '#/components/schemas/IdentityInformation'
+          example:
+            - key: name
+              value: Hari
+            - key: last_name
+              value: Seldon
+            - key: date_of_birth
+              value: 11988-03-20
+            - key: cl_carnet_rut
+              value: 11.988.320-5
+            - key: cl_carnet_doc_number
+              value: '11988320'
+            - key: cl_carnet_expiration_date
+              value: 12050-12-31
+            - key: cl_carnet_issue_date
+              value: 12020-01-15
+            - key: gender
+              value: male
+            - key: nationality
+              value: Trantorian
+            - key: phone_number
+              value: '+569119883205'
         signed_documents:
           type: array
           description: Lista de todos los `ids` de los documentos firmados por la identidad.
@@ -3978,6 +4327,9 @@ components:
             type: string
             description: Identificador único del documento firmado.
             example: sd_1B2M2Y8AsgTpgAmY7PhCfg
+          example:
+            - sd_1B2M2Y8AsgTpgAmY7PhCfg
+            - sd_2C3N3Z9BtgQqhDnB0SkFhg
     AuthAttempt:
       x-tags:
         - Auth attempts
@@ -3991,6 +4343,7 @@ components:
 
         **Guias relacionadas**:
         - [Autenticación de usuarios](/docs/integration-guide/authentication/introduction)
+        - [Verificación de identidad](/docs/integration-guide/disclosure/introduction)
       properties:
         id:
           type: string
@@ -4134,6 +4487,14 @@ components:
           type: string
           description: Identificador de la entidad asociada
           example: ent_1B2M2Y8AsgTpgAmY7PhCfg
+        data_uses:
+          type: array
+          description: Lista de usos de datos cubiertos por las acciones de consentimiento asociadas
+          items:
+            type: string
+          example:
+            - essential
+            - marketing
         consent_actions:
           type: array
           description: Acciones de consentimiento asociadas al commit
@@ -4167,21 +4528,38 @@ components:
           type: string
           description: Identificador del template de consentimiento asociado.
           example: ctmpl_1B2M2Y8AsgTpgAmY7PhCfg
+        consent_template_name:
+          type: string
+          description: Nombre de la plantilla de consentimiento asociado cuando no se expande la relación.
+          example: Essential Services Template
         context:
           type: string
           description: Contexto adicional asociado a la acción de consentimiento
           example: web_signup
           nullable: true
+        kind:
+          type: string
+          description: Tipo de acción realizada.
+          enum:
+            - grant
+            - revoke
+          example: grant
+        data_use:
+          type: string
+          description: Uso principal de datos asociado a la acción de consentimiento.
+          example: essential
         created_at:
           type: string
           format: date-time
           description: Fecha y hora de creación de la acción de consentimiento
           example: '2024-03-20T15:30:00Z'
         action_type:
-          type: enum
-          description: Tipo específico de acción (solo "opt_in_click" por ahora)
+          type: string
+          description: Tipo específico de acción
           enum:
             - opt_in_click
+            - voice_confirmation
+          example: opt_in_click
         action_data:
           type: object
           description: Datos adicionales de la acción (máximo 4KB de tamaño serializado en JSON)
@@ -4262,8 +4640,8 @@ components:
         Representa el estado actual de los permisos de un usuario para utilizar datos de acuerdo a la taxonomía de datos y usos de datos.
         Puede ser actualizado a través de distintas acciones del usuario y empresa en el tiempo.
 
-        :::info
-        Para más detalles, revisa nuestra sección de [conceptos generales](/docs/integration-guide/main/general-concepts#agreement).
+        :::info[Más información]
+        Para más detalles, revisa nuestra sección de [Conceptos generales](/docs/integration-guide/general-concepts).
         :::
       properties:
         id:
@@ -4471,7 +4849,7 @@ components:
       properties:
         data_category:
           type: string
-          description: 'Categoría del dato personal. Sigue la taxonomía de datos. Para más información, consulta [el detalle de la taxonomía](/docs/integration-guide/main/taxonomy)'
+          description: 'Categoría del dato personal. Sigue la taxonomía de datos. Revisa [taxonomía](/docs/integration-guide/taxonomy) para más información.'
           example: user.name.first
         data_label:
           type: string
@@ -4479,7 +4857,7 @@ components:
           example: name
         data_use:
           type: string
-          description: 'Propósito específico del uso del dato. Sigue la taxonomía de usos de datos. Para más información, consulta [el detalle de la taxonomía](/docs/integration-guide/main/taxonomy)'
+          description: 'Propósito específico del uso del dato. Sigue la taxonomía de usos de datos. Revisa [taxonomía](/docs/integration-guide/taxonomy) para más información.'
           example: essential.service.authentication
         scope_type:
           type: string
@@ -4508,7 +4886,7 @@ components:
       properties:
         use:
           type: string
-          description: 'Propósito específico del uso del dato. Sigue la taxonomía de usos de datos. Para más información, consulta [el detalle de la taxonomía](/docs/integration-guide/main/taxonomy)'
+          description: 'Propósito específico del uso del dato. Sigue la taxonomía de usos de datos. Revisa [taxonomía](/docs/integration-guide/taxonomy) para más información.'
           example: essential.service.authentication
         expires_at:
           type: string
@@ -4707,7 +5085,7 @@ components:
           $ref: '#/components/schemas/FilterOrderAndPaginationMetadata'
     WebhookTransaction:
       x-tags:
-        - WebhooksTransactions
+        - Webhooks
       type: object
       description: Representa una transacción o intento de entrega de un evento a un webhook.
       properties:
@@ -4869,7 +5247,8 @@ components:
 
         ### Guías relacionadas
 
-        - [Gestor de ejercicio de derechos](/docs/integration-guide/rights-management/introduction)
+        - [Gestión de derechos](/docs/integration-guide/rights-management/introduction)
+        - [Centro de privacidad](/docs/integration-guide/privacy-center/introduction)
       required:
         - kind
         - contact_information
@@ -5260,7 +5639,7 @@ components:
                 - optional_only
                 - mandatory_only
               default: optional_only
-              description: 'Los consentimientos pueden ser opcionales o obligatorios. Si el consentimiento es obligatorio y el `label_display` es `mandatory_only`, entonces sólo se mostrará el label de `Requerido` en los consentimietos. Por el contrario, si el consentimiento es opcional y el `label_display` es `optional_only`, entonces sólo se mostrará el label de `Opcional` en los consentimietos. Puedes ver un ejemplo [acá](/docs/integration-guide/consent/customization).'
+              description: 'Los consentimientos pueden ser opcionales o obligatorios. Si el consentimiento es obligatorio y el `label_display` es `mandatory_only`, entonces sólo se mostrará el label de `Requerido` en los consentimietos. Por el contrario, si el consentimiento es opcional y el `label_display` es `optional_only`, entonces sólo se mostrará el label de `Opcional` en los consentimietos. Puedes ver un ejemplo [acá](/docs/integration-guide/consent/customization#configura-las-etiquetas-de-obligatoriedad-de-consentimientos).'
             mandatory_label_text:
               type: string
               enum:
@@ -5271,24 +5650,24 @@ components:
         privacy_center:
           type: object
           description: |
-            Configuración exclusiva para el módulo de Privacy Center.
+            Configuración exclusiva para el módulo de Centro de Privacidad.
           properties:
             contact_email:
               type: string
-              description: Email de contacto para el Privacy Center.
+              description: Email de contacto para el Centro de Privacidad.
               example: privacy@example.com
             public_url:
               type: string
-              description: 'URL pública del Privacy Center. Puedes encontrar más información sobre los modos de integración [acá](/docs/integration-guide/privacy-center/functionalities).'
+              description: 'URL pública del Centro de Privacidad. Puedes encontrar más información sobre los modos de integración [acá](/docs/integration-guide/privacy-center/functionalities).'
               example: 'https://public-privacy.example.com'
             private_url:
               type: string
-              description: 'URL privada del Privacy Center. Puedes encontrar más información sobre los modos de integración [acá](/docs/integration-guide/privacy-center/functionalities).'
+              description: 'URL privada del Centro de Privacidad. Revisa [funcionalidades y modos](/docs/integration-guide/privacy-center/functionalities) del Centro de Privacidad para más información.'
               example: 'https://private-privacy.example.com'
         data_subject_request:
           type: object
           description: |
-            Configuración exclusiva para el Data Subject Request, módulo que se encuentra en el Privacy Center.
+            Configuración exclusiva para el Data Subject Request, módulo que se encuentra en el Centro de Privacidad.
           properties:
             mandatory_validation:
               type: boolean
@@ -6319,7 +6698,7 @@ webhooks:
         #### Nombre del evento: `disclosure_request.granted`.
         Se envía cuando un `disclosure_request` ha sido completado exitosamente y se ha otorgado acceso a los datos solicitados.
       requestBody:
-        description: Contiene el recurso DisclosureRequest actualizado. El payload corresponde al esquema completo del recurso.
+        description: Contiene información del evento de disclosure request completado exitosamente.
         content:
           application/json:
             schema:
@@ -6335,10 +6714,25 @@ webhooks:
                     - disclosure_request.granted
                   description: Nombre del evento
                 payload:
-                  allOf:
-                    - type: object
-                      description: Datos del disclosure request actualizado
-                    - $ref: '#/components/schemas/DisclosureRequest'
+                  type: object
+                  description: Datos del evento de disclosure request
+                  properties:
+                    user_reference:
+                      type: string
+                      description: Referencia de usuario de tu sistema para el disclosure request
+                      example: user_123
+                    disclosure_request_id:
+                      type: string
+                      description: Identificador único del disclosure request
+                      example: dreq_1B2M2Y8AsgTpgAmY7PhCfg
+                    identity_id:
+                      type: string
+                      description: Identificador único de la identidad creada
+                      example: id_ma21KLsmaslopask912Aa2
+                    validation_attempt_id:
+                      type: string
+                      description: Identificador del intento de validación (si existe)
+                      example: va_1B2M2Y8AsgTpgAmY7PhCfg
                 created_at:
                   type: string
                   format: date-time
@@ -6358,7 +6752,7 @@ webhooks:
         #### Nombre del evento: `disclosure_request.timed_out`.
         Se envía cuando un `disclosure_request` ha expirado sin completarse.
       requestBody:
-        description: Contiene el recurso DisclosureRequest actualizado. El payload corresponde al esquema completo del recurso.
+        description: Contiene información del evento de disclosure request que ha expirado.
         content:
           application/json:
             schema:
@@ -6374,10 +6768,17 @@ webhooks:
                     - disclosure_request.timed_out
                   description: Nombre del evento
                 payload:
-                  allOf:
-                    - type: object
-                      description: Datos del disclosure request actualizado
-                    - $ref: '#/components/schemas/DisclosureRequest'
+                  type: object
+                  description: Datos del evento de disclosure request
+                  properties:
+                    user_reference:
+                      type: string
+                      description: Referencia de usuario de tu sistema para el disclosure request
+                      example: user_123
+                    disclosure_request_id:
+                      type: string
+                      description: Identificador único del disclosure request
+                      example: dreq_1B2M2Y8AsgTpgAmY7PhCfg
                 created_at:
                   type: string
                   format: date-time
@@ -6397,7 +6798,7 @@ webhooks:
         #### Nombre del evento: `disclosure_request.failed`.
         Se envía cuando un `disclosure_request` ha fallado durante el proceso.
       requestBody:
-        description: Contiene el recurso DisclosureRequest actualizado. El payload corresponde al esquema completo del recurso.
+        description: Contiene información del evento de disclosure request que ha fallado.
         content:
           application/json:
             schema:
@@ -6413,10 +6814,17 @@ webhooks:
                     - disclosure_request.failed
                   description: Nombre del evento
                 payload:
-                  allOf:
-                    - type: object
-                      description: Datos del disclosure request actualizado
-                    - $ref: '#/components/schemas/DisclosureRequest'
+                  type: object
+                  description: Datos del evento de disclosure request
+                  properties:
+                    user_reference:
+                      type: string
+                      description: Referencia de usuario de tu sistema para el disclosure request
+                      example: user_123
+                    disclosure_request_id:
+                      type: string
+                      description: Identificador único del disclosure request
+                      example: dreq_1B2M2Y8AsgTpgAmY7PhCfg
                 created_at:
                   type: string
                   format: date-time

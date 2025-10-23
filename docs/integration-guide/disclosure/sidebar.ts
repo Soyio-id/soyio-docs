@@ -19,6 +19,11 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: 'doc',
+      id: 'integration-guide/disclosure/disclosure_templates',
+      label: 'Crea plantillas',
+    },
+    {
+      type: 'doc',
       id: 'integration-guide/disclosure/validate-identity',
       label: 'Valida una identidad obteniendo datos',
     },
