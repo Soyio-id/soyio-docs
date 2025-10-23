@@ -75,7 +75,7 @@ const modules: ModuleItem[] = [
   },
   {
     title: 'Autenticación',
-    description: 'Acceso simplificado con passkeys o biometría',
+    description: 'Acceso seguro con passkeys o biometría',
     link: '/docs/integration-guide/authentication/introduction',
     icon: authIcon,
     className: styles.cardAuth,
