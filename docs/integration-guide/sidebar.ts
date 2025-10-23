@@ -106,6 +106,10 @@ const sidebar: SidebarsConfig = {
       collapsed: true,
       link: {type: 'doc', id: 'integration-guide/signature/introduction'},
     },
+    {
+      type: 'html',
+      value: '<div style="margin: 3rem 0;"></div>',
+    },
   ],
 };
 

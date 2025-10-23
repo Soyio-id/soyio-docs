@@ -81,6 +81,7 @@ const config: Config = {
     ],
     './lib/soyioDocs/index.ts',
     'docusaurus-plugin-fathom',
+    'docusaurus-plugin-image-zoom',
     async function intercom() {
       return {
         name: 'intercom',
@@ -139,10 +140,10 @@ const config: Config = {
           position: 'left',
         },
         {
-          href: 'https://github.com/soyio-id/soyio-docs',
-          label: 'GitHub',
+          label: 'Solicita una cuenta',
+          href: 'https://soyio.typeform.com/formularioweb',
           position: 'right',
-        },
+        }
       ],
     },
     footer: {
@@ -164,23 +165,19 @@ const config: Config = {
             },
           ],
         },
-        // {
-        //   title: 'Community',
-        //   items: [
-        //     {
-        //       label: 'Stack Overflow',
-        //       href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-        //     },
-        //     {
-        //       label: 'Discord',
-        //       href: 'https://discordapp.com/invite/docusaurus',
-        //     },
-        //     {
-        //       label: 'Twitter',
-        //       href: 'https://twitter.com/docusaurus',
-        //     },
-        //   ],
-        // },
+        {
+          title: 'Community',
+          items: [
+            {
+              label: 'LinkedIn',
+              href: 'https://www.linkedin.com/company/soyio/',
+            },
+            {
+              label: 'GitHub',
+              href: 'https://github.com/Soyio-id',
+            },
+          ],
+        },
         {
           title: 'Más',
           items: [
@@ -189,13 +186,17 @@ const config: Config = {
               href: 'https://soyio.id',
             },
             {
-              label: 'GitHub',
-              href: 'https://github.com/soyio-id/soyio-docs',
+              label: 'Trust Center',
+              href: 'https://trust.soyio.id',
             },
+            {
+              label: 'Status page',
+              href: 'https://soyio.instatus.com/',
+            }
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Soyio US LLC.`,
+      copyright: `© ${new Date().getFullYear()} Soyio US LLC.`,
     },
     languageTabs: [
       { language: 'ruby' },
@@ -233,6 +234,17 @@ const config: Config = {
     fathomAnalytics: {
       siteId: 'FGFGWGHJ',
     } satisfies FathomAnalyticsPlugin.Options,
+    zoom: {
+      selector: '.markdown > img',
+      background: {
+        light: 'rgb(255, 255, 255)',
+        dark: '#0B0C0D'
+      },
+      config: {
+        margin: 48,
+        // options you can specify via https://github.com/francoischalifour/medium-zoom#usage
+      }
+    },
   } satisfies Preset.ThemeConfig,
   future: {
     experimental_faster: {

@@ -5,10 +5,10 @@ test.describe('UI Elements', () => {
     await page.goto('http://localhost:3000');
   });
 
-  test('Verify dynamic background', async ({ page }) => {
-    // Wait for the canvas to be rendered (it's wrapped in BrowserOnly)
-    await page.waitForSelector('canvas', { timeout: 10000 });
-    await expect(page.locator('canvas')).toBeVisible();
+  test('Verify hero section', async ({ page }) => {
+    // Check for the main hero content instead of dynamic background
+    await expect(page.getByRole('heading', { name: /El nuevo estándar de privacidad digital/ })).toBeVisible();
+    await expect(page.getByText(/Construye productos privados que generan confianza/)).toBeVisible();
   });
 
   test('Verify logo presence', async ({ page }) => {

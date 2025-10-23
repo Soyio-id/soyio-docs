@@ -1,0 +1,377 @@
+.modules {
+  padding: 3rem 0 6rem 0;
+  background: var(--ifm-background-color);
+  overflow: hidden;
+}
+
+[data-theme='dark'] .modules {
+  background: #0D0E12;
+}
+
+.modulesTitle {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--ifm-heading-color);
+}
+
+.modulesSubtitle {
+  font-size: 1.125rem;
+  margin-bottom: 2rem;
+  margin-left: auto;
+  margin-right: auto;
+  color: var(--ifm-font-color-secondary);
+  opacity: 0.8;
+}
+
+[data-theme='dark'] .modulesSubtitle {
+  color: var(--ifm-font-color-secondary);
+  opacity: 0.6;
+}
+
+.modulesGrid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-rows: repeat(4, 180px);
+  gap: 1.25rem;
+  position: relative;
+
+}
+
+.moduleCard {
+  background: var(--ifm-color-emphasis-100);
+  color: var(--ifm-font-color-base);
+  border-radius: 18px;
+  overflow: hidden;
+  text-decoration: none;
+  transition: all 200ms ease;
+  position: relative;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  --ifm-link-hover-decoration: none;
+  z-index: 2;
+}
+
+.moduleCard:hover {
+  background: var(--ifm-color-emphasis-100);
+}
+
+[data-theme='dark'] .moduleCard {
+  border: 1px solid var(--ifm-color-emphasis-200);
+  background: var(--ifm-surface-color);
+}
+
+.moduleHero {
+  padding: 1rem;
+  min-height: 100%;
+  flex-grow: 1;
+  display: flex;
+  align-items: flex-end;
+  width: 100%;
+  overflow: hidden;
+}
+
+.moduleImage {
+  position: absolute;
+  top: -15%;
+  left: 0;
+  width: 150%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.moduleBody {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  transform: translateY(calc(1.5rem + 32px));
+  transition: transform 200ms ease-out;
+}
+
+.moduleCard:hover .moduleBody {
+  transform: translateY(0);
+}
+
+.moduleIcon {
+  height: 48px;
+  width: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--ifm-color-emphasis-100);
+  transition: filter 0.2s ease-in-out;
+}
+
+html[data-theme='dark'] .moduleIcon {
+  background: rgba(226, 232, 240, 0.12);
+}
+
+.moduleTitle {
+  font-size: 1.25rem;
+  margin: 0;
+  color: var(--ifm-heading-color);
+}
+
+.moduleDescription {
+  color: var(--ifm-font-color-secondary);
+  margin: 0;
+  line-height: 1.6;
+  font-size: 0.98rem;
+}
+
+.moduleCta {
+  margin-top: 0.75rem;
+  font-weight: 600;
+  color: var(--ifm-link-color);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.arrowIcon {
+  transition: transform 0.2s ease-in 0.1s;
+}
+
+.moduleCard:hover .arrowIcon {
+  transform: translateX(4px);
+}
+
+.cardConsent {
+  grid-column: 1 / span 3;
+  grid-row: 1 / span 2;
+}
+
+.cardConsent .moduleImage {
+  min-width: 125%;
+  height: 125%;
+  top: -20%;
+  left: -2%;
+  object-fit: cover;
+}
+
+.cardRights {
+  grid-column: 4 / span 3;
+  grid-row: 1 / span 2;
+}
+
+.cardRights .moduleImage {
+  min-width: 125%;
+  height: 125%;
+  top: -20%;
+  left: -12%;
+  object-fit: cover;
+}
+
+.cardPrivacyCenter {
+  grid-column: 1 / span 2;
+  grid-row: 3 / span 2;
+}
+
+.cardPrivacyCenter .moduleImage {
+  min-width: 125%;
+  height: 125%;
+  top: -30%;
+  left: -8%;
+  object-fit: cover;
+}
+
+.cardIdentity {
+  grid-column: 3 / span 2;
+  grid-row: 3 / span 2;
+}
+
+.cardIdentity .moduleImage {
+  min-width: 130%;
+  height: 130%;
+  top: -30%;
+  left: -15%;
+  object-fit: cover;
+}
+
+.cardSignature {
+  grid-column: 5 / span 2;
+  grid-row: 3;
+}
+
+.cardSignature .moduleImage {
+  min-width: 250%;
+  height: 250%;
+  top: -90%;
+  left: -70%;
+  object-fit: cover;
+}
+
+.cardAuth {
+  grid-column: 5 / span 2;
+  grid-row: 4;
+}
+
+.cardAuth .moduleImage {
+  min-width: 250%;
+  height: 250%;
+  top: -80%;
+  left: -60%;
+  object-fit: cover;
+}
+
+
+.cardSignature .moduleTitle,
+.cardAuth .moduleTitle {
+  font-size: 1rem;
+}
+
+.cardAuth .moduleDescription,
+.cardSignature .moduleDescription {
+  font-size: 0.875rem;
+}
+
+.cardAuth .moduleBody,
+.cardSignature .moduleBody {
+  gap: 0.5rem;
+}
+
+
+
+@media (max-width: 996px) {
+  .modulesGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: repeat(6, 180px);
+  }
+
+  .cardConsent {
+    grid-column: 1 / span 4;
+    grid-row: 1 / span 2;
+  }
+
+  .cardConsent .moduleImage {
+    min-width: 150%;
+    height: 150%;
+    top: -25%;
+    left: -20%;
+  }
+
+  .cardRights {
+    grid-column: 1 / span 2;
+    grid-row: 3 / span 2;
+  }
+
+  .cardRights .moduleImage {
+    min-width: 130%;
+    height: 130%;
+    top: -25%;
+    left: 0%;
+    object-position: 45% 50%;
+  }
+
+  .cardPrivacyCenter {
+    grid-column: 3 / span 2;
+    grid-row: 3 / span 2;
+  }
+
+  .cardPrivacyCenter .moduleImage {
+    min-width: 135%;
+    height: 135%;
+    top: -30%;
+    left: -15%;
+  }
+
+  .cardIdentity {
+    grid-column: 1 / span 2;
+    grid-row: 5 / span 2;
+  }
+
+  .cardSignature {
+    grid-column: 3 / span 2;
+    grid-row: 5;
+  }
+
+  .cardAuth {
+    grid-column: 3 / span 2;
+    grid-row: 6;
+  }
+}
+
+@media (max-width: 767px) {
+  .modulesGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(6, 300px);
+  }
+
+  .moduleCard {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .cardConsent .moduleImage {
+    min-width: 150%;
+    height: 150%;
+    top: -30%;
+    left: -10%;
+  }
+
+  .cardPrivacyCenter .moduleImage {
+    min-width: 150%;
+    height: 150%;
+    top: -35%;
+    left: -25%;
+  }
+
+  .cardAuth .moduleImage {
+    min-width: 200%;
+    height: 200%;
+    top: -50%;
+    left: -50%;
+  }
+
+  .cardSignature .moduleImage {
+    min-width: 200%;
+    height: 200%;
+    top: -60%;
+    left: -60%;
+  }
+
+  .modules {
+    padding: 2.5rem 0;
+  }
+
+  .modulesTitle {
+    font-size: 2rem;
+  }
+
+  .modulesSubtitle {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .modulesGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .moduleCard {
+    transition: none;
+  }
+
+  .moduleCta {
+    transition: none;
+  }
+}
+
+
+.blobContainer {
+  position: absolute;
+  bottom: -30%;
+  left: -80%;
+  z-index: 0;
+  transition: transform 0.3s ease-out;
+}
+
+.blob {
+  width: 75rem;
+  height: 45rem;
+}

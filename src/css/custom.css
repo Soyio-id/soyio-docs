@@ -232,3 +232,12 @@ table tbody tr td {
   display: flex;
   justify-content: center;
 }
+
+.medium-zoom-overlay {
+  z-index: 1000;
+}
+
+.medium-zoom-image--opened {
+  z-index: 1001;
+  border-radius: 1rem;
+}
