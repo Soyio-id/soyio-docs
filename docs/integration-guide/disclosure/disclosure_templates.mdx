@@ -82,7 +82,7 @@ Si tu empresa no tiene una definición específica en sus políticas, contáctan
 {
   "key": "cl_carnet_rut",
   "data_category": "user.government_id.national_identification_number",
-  "data_uses": ["identity.validation", "identity.matching"]
+  "data_uses": ["essential.fraud_detection", "essential.service"]
 }
 ```
 
@@ -100,22 +100,22 @@ Aquí tienes un ejemplo completo de cómo se vería el request para crear una pl
     {
       "key": "name",
       "data_category": "user.name.first",
-      "data_uses": ["identity.validation", "identity.matching"]
+      "data_uses": ["essential.fraud_detection", "essential.service"]
     },
     {
       "key": "last_name",
       "data_category": "user.name.last",
-      "data_uses": ["identity.validation", "identity.matching"]
+      "data_uses": ["essential.fraud_detection", "essential.service"]
     },
     {
       "key": "cl_carnet_rut",
       "data_category": "user.government_id.national_identification_number",
-      "data_uses": ["identity.validation", "identity.matching"]
+      "data_uses": ["essential.fraud_detection", "essential.service"]
     },
     {
       "key": "date_of_birth",
       "data_category": "user.demographic.birth_date",
-      "data_uses": ["identity.validation"]
+      "data_uses": ["essential.fraud_detection", "essential.service"]
     }
   ]
 }
