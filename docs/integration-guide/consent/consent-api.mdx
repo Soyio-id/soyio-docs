@@ -100,6 +100,132 @@ Antes de mostrar tu interfaz de consentimiento, consulta la [plantilla de consen
 - **Consistencia**: Mantienes la taxonomía estándar de Soyio para categorías de datos y usos de datos
 - **Cumplimiento**: Aseguras que la información mostrada coincide exactamente con lo registrado en la evidencia generada
 
+#### Manejo de texto formateado en las cláusulas
+
+Las cláusulas de consentimiento (`text`) pueden contener notación especial de texto formateado que debes procesar en tu interfaz para mostrar correctamente tooltips y referencias a documentos de privacidad. Para entender mejor la estructura completa de una plantilla de consentimiento, revisa la [guía de plantillas de consentimiento](./consent-templates).
+
+**Notación de tooltips**
+
+Los tooltips se indican con la siguiente sintaxis:
+
+```
+[[texto visible]](contenido del tooltip)
+```
+
+- El texto entre `[[` y `]]` es lo que se muestra al usuario como trigger del tooltip
+- El texto entre `(` y `)` es el contenido que debe aparecer al interactuar con el tooltip
+
+**Ejemplo:**
+
+```
+Acepto el procesamiento de mis [[datos personales]](información que te identifica como persona)
+```
+
+Deberías renderizar "datos personales" como un elemento interactivo que muestre "información que te identifica como persona" al hacer hover.
+
+**Ejemplo de procesamiento:**
+
+```javascript
+function processTooltips(text) {
+  const tooltipRegex = /\[\[([^\]]+)\]\]\(([^)]+)\)/g;
+
+  return text.replace(tooltipRegex, (match, triggerText, tooltipContent) => {
+    return `<span class="tooltip-trigger" data-tooltip="${escapeHtml(tooltipContent)}">${escapeHtml(triggerText)}</span>`;
+  });
+}
+
+const consentText = "Acepto el procesamiento de mis [[datos personales]](información que te identifica como persona) para los fines descritos.";
+const processedHTML = processTooltips(consentText);
+```
+
+**Notación de documentos de privacidad**
+
+Las referencias a documentos de privacidad se indican con la siguiente sintaxis:
+
+```
+{{ template_key:version }}
+```
+
+- `template_key` es el identificador del documento de privacidad
+- `version` es el número de versión del documento
+
+**Ejemplo:**
+
+```
+Acepto los {{ terms_and_conditions:1 }} y la {{ privacy_policy:2 }}
+```
+
+Para procesar estas referencias:
+
+1. Extrae el `template_key` y `version` del texto
+2. Obtén el documento correspondiente usando el [endpoint de obtención de documentos de privacidad](../../api/resources/index-privacy-documents.api.mdx) con los parámetros de consulta `where`
+3. Renderiza como un enlace usando el `name` y `url` del documento obtenido
+
+**Ejemplo de procesamiento:**
+
+```javascript
+async function processPrivacyDocuments(text, apiBaseUrl, apiKey) {
+  const documentRegex = /\{\{\s*([^:]+):(\d+)\s*\}\}/g;
+  const allMatches = [...text.matchAll(documentRegex)];
+
+  // Extract all unique template keys and versions
+  const templateKeys = [...new Set(allMatches.map(([, key]) => key.trim()))];
+  const versions = [...new Set(allMatches.map(([, , ver]) => Number(ver)))];
+
+  // Build filter for single API request
+  const whereFilter = {
+    template_key: { in: templateKeys },
+    version: { in: versions }
+  };
+
+  // Fetch all documents in one request
+  const response = await fetch(
+    `${apiBaseUrl}/privacy_documents?where=${encodeURIComponent(JSON.stringify(whereFilter))}`,
+    {
+      headers: {
+        'Authorization': apiKey,
+        'Content-Type': 'application/json'
+      }
+    }
+  );
+  const { privacy_documents } = await response.json();
+
+  // Replace each reference with corresponding document
+  let resultText = text;
+  allMatches.forEach(([fullMatch, templateKey, version]) => {
+    const document = privacy_documents.find(
+      doc => doc.template_key === templateKey.trim() && doc.version === Number(version)
+    );
+
+    if (document) {
+      resultText = resultText.replace(
+        fullMatch,
+        `<a href="${escapeHtml(document.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(document.name)}</a>`
+      );
+    }
+  });
+
+  return resultText;
+}
+
+const consentText = "Acepto los {{ terms_and_conditions:1 }} y la {{ privacy_policy:2 }}";
+const processedHTML = await processPrivacyDocuments(
+  consentText,
+  'https://api.soyio.id',
+  'your-api-key'
+);
+```
+
+:::info[Flexibilidad en la implementación]
+Las funciones de procesamiento mostradas arriba son la forma en que lo implementamos en nuestro SDK, pero tienes la libertad de presentar esta información de manera diferente según las necesidades de tu interfaz. Por ejemplo, podrías:
+
+- Consolidar todos los documentos de privacidad en una sección al final del texto de consentimiento y mostrar solo los nombres en el texto principal
+- Presentar los tooltips como notas al pie en lugar de elementos interactivos
+- Usar iconos o indicadores visuales personalizados para las referencias a documentos
+
+Sea cual sea el enfoque que elijas, **te recomendamos encarecidamente presentar toda la información al usuario de una forma u otra**, para garantizar la transparencia y el cumplimiento normativo.
+:::
+
 ### 3. Crea el token de acción
 
 Cuando el usuario otorga el consentimiento en tu interfaz, crea inmediatamente un token de acción usando el [endpoint de creación de tokens de acción](../../api/resources/create-action-token).
