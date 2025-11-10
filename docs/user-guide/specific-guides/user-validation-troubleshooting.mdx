@@ -2,8 +2,17 @@
 sidebar_position: 2
 title: No puedo completar mi verificación
 description: Pasos rápidos para resolver problemas comunes al validar tu identidad en Soyio.
-slug: /user-validation-troubleshooting
 ---
+
+import IconLabel from '@site/src/components/IconLabel';
+import androidIcon from '@iconify-icons/logos/android-icon';
+import appleIcon from '@iconify-icons/simple-icons/apple';
+import windowsIcon from '@iconify-icons/logos/microsoft-windows';
+import dotsGridIcon from '@iconify-icons/mdi/dots-grid';
+import chromeIcon from '@iconify-icons/logos/chrome';
+import safariIcon from '@iconify-icons/logos/safari';
+import edgeIcon from '@iconify-icons/logos/microsoft-edge';
+import firefoxIcon from '@iconify-icons/logos/firefox';
 
 # No puedo completar mi verificación
 
@@ -13,7 +22,17 @@ Si la captura del documento o la selfie no avanza, sigue estos pasos rápidos an
 
 - Usa los navegadores recomendados (Chrome, Safari, Edge o Firefox). Si estás usando otro, cambia al recomendado.
 - Si comienzas en un navegador no soportado como Firefox móvil u Opera, abre el enlace en Chrome o Safari.
-- Consulta la [tabla de compatibilidad de dispositivos](../../integration-guide/disclosure/device-compatibility.mdx) para conocer los requisitos mínimos.
+- Revisa la matriz rápida de compatibilidad y confirma que tu equipo está dentro de los requisitos.
+
+| Tipo de dispositivo | Sistema operativo mínimo | Navegadores recomendados | Estado |
+| --- | --- | --- | --- |
+| <IconLabel icon={androidIcon} label="Teléfonos Android" /> | Android 5 (Lollipop) | <IconLabel icon={chromeIcon} label="Chrome 90+" /> | Soporte completo |
+| <IconLabel icon={appleIcon} label="iPhone/iPad" colorVar="--ifm-font-color-base" /> | iOS 12 | <IconLabel icon={safariIcon} label="Safari 14.1+" /> <br /> <IconLabel icon={chromeIcon} label="Chrome 90+" /> | Soporte completo |
+| <IconLabel icon={windowsIcon} label="Computadoras Windows" /> | Windows 10/11 | <IconLabel icon={chromeIcon} label="Chrome 90+" /> <br /> <IconLabel icon={edgeIcon} label="Edge 95+" /> <br /> <IconLabel icon={firefoxIcon} label="Firefox 94+" /> | Soporte completo |
+| <IconLabel icon={appleIcon} label="Computadoras macOS" colorVar="--ifm-font-color-base" /> | macOS High Sierra (10.13) | <IconLabel icon={safariIcon} label="Safari 14.1+" /> <br /> <IconLabel icon={chromeIcon} label="Chrome 90+" /> <br /> <IconLabel icon={firefoxIcon} label="Firefox 94+" /> | Soporte completo |
+| <IconLabel icon={dotsGridIcon} label="Otros navegadores (Opera, Firefox móvil, Brave, etc.)" /> | — | — | Soporte parcial o no soportado; cambia a Chrome o Safari |
+
+Si no estás seguro de tu versión exacta, busca “Acerca de” en tu navegador o ajustes del dispositivo y compárala con la tabla.
 
 ## 2. Revisa los permisos de cámara
 
