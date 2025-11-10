@@ -13,12 +13,12 @@ Si la captura del documento o la selfie no avanza, sigue estos pasos rápidos an
 
 - Usa los navegadores recomendados (Chrome, Safari, Edge o Firefox). Si estás usando otro, cambia al recomendado.
 - Si comienzas en un navegador no soportado como Firefox móvil u Opera, abre el enlace en Chrome o Safari.
-- Consulta la [tabla de compatibilidad de dispositivos](../../integration-guide/disclosure/device-compatibility) para conocer los requisitos mínimos.
+- Consulta la [tabla de compatibilidad de dispositivos](../../integration-guide/disclosure/device-compatibility.mdx) para conocer los requisitos mínimos.
 
 ## 2. Revisa los permisos de cámara
 
 - Acepta el acceso a la cámara cuando el navegador lo solicite.
-- Si lo bloqueaste por error, sigue los pasos de la [guía de permisos de cámara](./camera-permissions) y vuelve a intentar.
+- Si lo bloqueaste por error, sigue los pasos de la [guía de permisos de cámara](./camera-permissions.md) y vuelve a intentar.
 
 ## 3. Desactiva filtros o efectos en la cámara
 
