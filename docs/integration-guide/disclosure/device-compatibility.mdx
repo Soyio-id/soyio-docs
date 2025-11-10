@@ -3,7 +3,7 @@ title: Compatibilidad de dispositivos
 description: Sistemas operativos y navegadores validados para ejecutar el flujo de verificación de identidad de Soyio.
 ---
 
-import { Icon } from '@iconify/react';
+import IconLabel from '@site/src/components/IconLabel';
 import androidIcon from '@iconify-icons/logos/android-icon';
 import appleIcon from '@iconify-icons/simple-icons/apple';
 import chromeIcon from '@iconify-icons/logos/chrome';
@@ -13,19 +13,6 @@ import edgeIcon from '@iconify-icons/logos/microsoft-edge';
 import operaIcon from '@iconify-icons/logos/opera';
 import braveIcon from '@iconify-icons/logos/brave';
 import dotsGridIcon from '@iconify-icons/mdi/dots-grid';
-
-export const IconLabel = ({ icon, label, colorVar }) => (
-  <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
-    <Icon
-      icon={icon}
-      width="20"
-      height="20"
-      aria-hidden="true"
-      style={colorVar ? { color: `var(${colorVar})` } : undefined}
-    />
-    <span>{label}</span>
-  </span>
-);
 
 # Compatibilidad de dispositivos
 
