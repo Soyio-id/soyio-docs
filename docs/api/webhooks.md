@@ -153,8 +153,21 @@ app.post('/webhook', verifyWebhookSignature, (req, res) => {
 });
 ```
 
+### Origen del tráfico saliente
+
+Las solicitudes pueden originarse de cualquiera de las siguientes direcciones IP:
+
+- `52.45.148.212`
+- `98.87.186.56`
+- `34.201.254.121`
+- `44.219.132.35`
+
+:::tip[Tip]
+Puedes restringir el tráfico entrante con un firewall, ACL u otros mecanismos de control de acceso, para asegurar que los eventos provengan desde nuestro sistema.
+:::
+
 ## Buenas prácticas
-- Antes de ir a producción, **prueba que tu webhook esta funcionando de manera adecuada**.
+- Antes de ir a producción, **prueba que tu webhook está funcionando de manera adecuada**.
 - **Verifica siempre la firma del webhook** para asegurar que proviene de Soyio y no ha sido modificado.
 - Si tu endpoint para webhooks ejecuta lógica compleja o realiza llamadas HTTP, es posible que se produzca un timeout antes de que Soyio pueda ser notificado de la recepción. Por esta razón, es mejor **acusar recibo inmediatamente del webhook retornando un código HTTP 200 y luego realizar el resto de las tareas**.
 - Los endpoints de webhook pueden ocasionalmente **recibir los mismos eventos más de una vez**. Aconsejamos considerar estos casos para evitar la duplicación de los eventos, lo que puede provocar resultados inesperados.
