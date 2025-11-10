@@ -1,0 +1,9 @@
+.iconLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.icon {
+  flex-shrink: 0;
+}
