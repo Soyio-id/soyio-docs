@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import BrowserOnly from '@docusaurus/BrowserOnly';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import { Icon } from '@iconify/react';
 import styles from './styles.module.css';
 
@@ -25,19 +26,19 @@ declare global {
 
 const CONSENT_STORAGE_KEY = 'soyio:intercom:consent';
 const INTERCOM_LAUNCHER_ID = 'soyio-intercom-launcher';
-const DEFAULT_INTERCOM_SETTINGS: IntercomSettings = {
-  app_id: 't56kvykx',
+const createDefaultIntercomSettings = (appId?: string): IntercomSettings => ({
+  app_id: appId ?? '',
   hide_default_launcher: true,
   custom_launcher_selector: `#${INTERCOM_LAUNCHER_ID}`,
-};
+});
 
-const getIntercomSettings = (): IntercomSettings => {
+const getIntercomSettings = (appId?: string): IntercomSettings => {
   if (typeof window === 'undefined') {
-    return DEFAULT_INTERCOM_SETTINGS;
+    return createDefaultIntercomSettings(appId);
   }
 
   return {
-    ...DEFAULT_INTERCOM_SETTINGS,
+    ...createDefaultIntercomSettings(appId),
     ...(window.intercomSettings ?? {}),
   };
 };
@@ -67,7 +68,11 @@ const persistConsent = () => {
   }
 };
 
-const SupportLauncherInner = () => {
+type SupportLauncherInnerProps = {
+  intercomAppId: string;
+};
+
+const SupportLauncherInner = ({ intercomAppId }: SupportLauncherInnerProps) => {
   const [hasConsent, setHasConsent] = useState(false);
   const [isPromptVisible, setIsPromptVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -79,13 +84,18 @@ const SupportLauncherInner = () => {
 
     const intercom = window.Intercom;
 
+    if (!intercomAppId) {
+      setErrorMessage('No pudimos iniciar el chat. Falta configurar Intercom.');
+      return false;
+    }
+
     if (typeof intercom !== 'function') {
       setErrorMessage('El chat todavía no está disponible. Inténtalo nuevamente en unos segundos.');
       return false;
     }
 
     try {
-      const currentSettings = window.intercomSettings ?? getIntercomSettings();
+      const currentSettings = window.intercomSettings ?? getIntercomSettings(intercomAppId);
       const updatedSettings: IntercomSettings = {
         ...currentSettings,
         disabled: false,
@@ -109,7 +119,7 @@ const SupportLauncherInner = () => {
       setErrorMessage('No pudimos iniciar el chat. Inténtalo nuevamente en unos segundos.');
       return false;
     }
-  }, []);
+  }, [intercomAppId]);
 
   const openMessenger = useCallback(() => {
     const isReady = enableIntercom();
@@ -188,8 +198,15 @@ const SupportLauncherInner = () => {
   );
 };
 
-const IntercomSupportLauncher = () => (
-  <BrowserOnly>{() => <SupportLauncherInner />}</BrowserOnly>
-);
+const IntercomSupportLauncher = () => {
+  const { siteConfig } = useDocusaurusContext();
+  const intercomAppId = siteConfig?.customFields?.intercomAppId;
+
+  if (typeof intercomAppId !== 'string' || !intercomAppId) {
+    return null;
+  }
+
+  return <BrowserOnly>{() => <SupportLauncherInner intercomAppId={intercomAppId} />}</BrowserOnly>;
+};
 
 export default IntercomSupportLauncher;
