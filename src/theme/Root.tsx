@@ -1,4 +1,3 @@
-import React from 'react';
 import type { Props } from '@theme/Root';
 import IntercomSupportLauncher from '../components/IntercomSupportLauncher';
 
