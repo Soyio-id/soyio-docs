@@ -5,6 +5,10 @@ import type * as OpenApiPlugin from 'docusaurus-plugin-openapi-docs';
 import { sidebarItemGenerator } from './lib/sidebarItemGenerator';
 import type * as FathomAnalyticsPlugin from 'docusaurus-plugin-fathom';
 
+const INTERCOM_APP_ID = 't56kvykx';
+const INTERCOM_LAUNCHER_SELECTOR = '#soyio-intercom-launcher';
+const intercomSnippet = `window.intercomSettings={app_id:'${INTERCOM_APP_ID}',hide_default_launcher:true,custom_launcher_selector:'${INTERCOM_LAUNCHER_SELECTOR}',disabled:true};(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/${INTERCOM_APP_ID}';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(document.readyState==='complete'){l();}else if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();`;
+
 const config: Config = {
   markdown: {
     mermaid: true,
@@ -99,7 +103,7 @@ const config: Config = {
               },
               {
                 tagName: 'script',
-                innerHTML: `window.intercomSettings={app_id:'t56kvykx'};(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/t56kvykx';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(document.readyState==='complete'){l();}else if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();`,
+                innerHTML: intercomSnippet,
               },
             ],
           };

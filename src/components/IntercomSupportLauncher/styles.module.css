@@ -1,0 +1,136 @@
+.launcherWrapper {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.75rem;
+  z-index: 1100;
+}
+
+.launcherButton {
+  border: none;
+  border-radius: 999px;
+  background: var(--ifm-color-primary);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.75rem .75rem;
+  box-shadow: 0 8px 24px rgba(64, 40, 127, 0.35);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--ifm-font-family-base);
+}
+
+.icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.launcherButton:hover {
+  transform: translateY(-1px);
+  background: var(--ifm-color-primary-light);
+  box-shadow: 0 12px 32px rgba(64, 40, 127, 0.45);
+}
+
+.prompt {
+  width: min(22rem, calc(100vw - 3rem));
+  background: var(--ifm-background-color);
+  color: var(--ifm-font-color-base);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 1rem;
+  padding: 1rem 1.25rem;
+  box-shadow: 0 18px 40px rgba(20, 16, 47, 0.25);
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.promptVisible {
+  animation: fadeUp 0.25s ease forwards;
+}
+
+.promptText {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.promptActions {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.promptActions button {
+  flex: 1 1 auto;
+  min-width: 8rem;
+}
+
+.acceptButton {
+  border: none;
+  border-radius: 999px;
+  background: var(--ifm-color-primary);
+  color: #ffffff;
+  font-weight: 600;
+  padding: 0.65rem 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.acceptButton:hover {
+  background: var(--ifm-color-primary-light);
+}
+
+.declineButton {
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ifm-font-color-base);
+  font-weight: 600;
+  padding: 0.65rem 1rem;
+  cursor: pointer;
+}
+
+.declineButton:hover {
+  background: var(--ifm-color-emphasis-100);
+}
+
+.errorInline {
+  margin: 0.75rem 0 0;
+  font-size: 0.8rem;
+  color: var(--ifm-color-danger);
+}
+
+.errorBanner {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--ifm-color-danger);
+  background: var(--ifm-color-danger-contrast-foreground, rgba(250, 82, 82, 0.12));
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(250, 82, 82, 0.35);
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 996px) {
+  .launcherWrapper {
+    right: 1rem;
+    bottom: 1rem;
+  }
+}
