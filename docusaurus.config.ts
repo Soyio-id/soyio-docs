@@ -1,3 +1,4 @@
+import dotenv from 'dotenv';
 import { themes as prismThemes } from 'prism-react-renderer';
 import { Config } from '@docusaurus/types';
 import * as Preset from '@docusaurus/preset-classic';
@@ -5,7 +6,41 @@ import type * as OpenApiPlugin from 'docusaurus-plugin-openapi-docs';
 import { sidebarItemGenerator } from './lib/sidebarItemGenerator';
 import type * as FathomAnalyticsPlugin from 'docusaurus-plugin-fathom';
 
+dotenv.config();
+dotenv.config({ path: '.env.local', override: true });
+const INTERCOM_APP_ID = process.env.INTERCOM_APP_ID ?? '';
+const ALGOLIA_APP_ID = process.env.ALGOLIA_APP_ID ?? '';
+const ALGOLIA_API_KEY = process.env.ALGOLIA_API_KEY ?? '';
+const ALGOLIA_INDEX_NAME = process.env.ALGOLIA_INDEX_NAME ?? '';
+const FATHOM_SITE_ID = process.env.FATHOM_SITE_ID ?? '';
+const INTERCOM_LAUNCHER_SELECTOR = '#soyio-intercom-launcher';
+const intercomSnippet = INTERCOM_APP_ID
+  ? `window.intercomSettings={app_id:'${INTERCOM_APP_ID}',hide_default_launcher:true,custom_launcher_selector:'${INTERCOM_LAUNCHER_SELECTOR}',disabled:true};(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/${INTERCOM_APP_ID}';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(document.readyState==='complete'){l();}else if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();`
+  : null;
+
+const algoliaConfig =
+  ALGOLIA_APP_ID && ALGOLIA_API_KEY && ALGOLIA_INDEX_NAME
+    ? {
+        appId: ALGOLIA_APP_ID,
+        apiKey: ALGOLIA_API_KEY,
+        indexName: ALGOLIA_INDEX_NAME,
+        searchPagePath: 'search',
+        contextualSearch: false,
+        insights: true,
+      }
+    : undefined;
+
+const fathomAnalyticsConfig: FathomAnalyticsPlugin.Options | undefined =
+  FATHOM_SITE_ID
+    ? {
+        siteId: FATHOM_SITE_ID,
+      }
+    : undefined;
+
 const config: Config = {
+  customFields: {
+    intercomAppId: INTERCOM_APP_ID,
+  },
   markdown: {
     mermaid: true,
     hooks: { onBrokenMarkdownLinks: 'warn'},
@@ -80,13 +115,13 @@ const config: Config = {
       },
     ],
     './lib/soyioDocs/index.ts',
-    'docusaurus-plugin-fathom',
+    ...(FATHOM_SITE_ID ? ['docusaurus-plugin-fathom'] : []),
     'docusaurus-plugin-image-zoom',
     async function intercom() {
       return {
         name: 'intercom',
         injectHtmlTags: () => {
-          if (process.env.NODE_ENV !== 'production') return {};
+          if (process.env.NODE_ENV !== 'production' || !intercomSnippet) return {};
 
           return {
             headTags: [
@@ -99,7 +134,7 @@ const config: Config = {
               },
               {
                 tagName: 'script',
-                innerHTML: `window.intercomSettings={app_id:'t56kvykx'};(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/t56kvykx';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(document.readyState==='complete'){l();}else if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();`,
+                innerHTML: intercomSnippet,
               },
             ],
           };
@@ -223,17 +258,16 @@ const config: Config = {
         'powershell',
       ],
     },
-    algolia: {
-      appId: 'CZDZ5E8BZZ',
-      apiKey: '5232edcb1c7751b28bdaab7c1b9cda53',
-      indexName: 'soyio',
-      searchPagePath: 'search',
-      contextualSearch: false,
-      insights: true,
-    },
-    fathomAnalytics: {
-      siteId: 'FGFGWGHJ',
-    } satisfies FathomAnalyticsPlugin.Options,
+    ...(algoliaConfig
+      ? {
+          algolia: algoliaConfig,
+        }
+      : {}),
+    ...(fathomAnalyticsConfig
+      ? {
+          fathomAnalytics: fathomAnalyticsConfig,
+        }
+      : {}),
     zoom: {
       selector: '.markdown > img',
       background: {
