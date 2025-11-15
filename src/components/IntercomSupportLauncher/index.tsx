@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import { Icon } from '@iconify/react';
@@ -101,16 +101,8 @@ const SupportLauncherInner = ({ intercomAppId }: SupportLauncherInnerProps) => {
         disabled: false,
       };
 
-      const isBooted = Boolean(intercom('booted'));
-      const isDisabled = Boolean(currentSettings?.disabled);
-
-      if (!isBooted) {
-        window.intercomSettings = updatedSettings;
-        intercom('boot', updatedSettings);
-      } else if (isDisabled) {
-        window.intercomSettings = updatedSettings;
-        intercom('update', updatedSettings);
-      }
+      window.intercomSettings = updatedSettings;
+      intercom('update', updatedSettings);
 
       setErrorMessage(null);
       return true;
@@ -156,11 +148,8 @@ const SupportLauncherInner = ({ intercomAppId }: SupportLauncherInnerProps) => {
     setErrorMessage(null);
   }, []);
 
-  const consentMessage = useMemo(
-    () =>
-      'Usamos Intercom para responder tus consultas. Debemos habilitar una cookie funcional (.soyio.id) para mantener la conversación. ¿Deseas continuar?',
-    [],
-  );
+  const consentMessage =
+    'Usamos Intercom para responder tus consultas. Debemos habilitar una cookie funcional (.soyio.id) para mantener la conversación. ¿Deseas continuar?';
 
   return (
     <div className={styles.launcherWrapper}>
