@@ -73,7 +73,7 @@ type SupportLauncherInnerProps = {
 };
 
 const SupportLauncherInner = ({ intercomAppId }: SupportLauncherInnerProps) => {
-  const [hasConsent, setHasConsent] = useState(false);
+  const [hasConsent, setHasConsent] = useState(() => getStoredConsent());
   const [isPromptVisible, setIsPromptVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -129,11 +129,10 @@ const SupportLauncherInner = ({ intercomAppId }: SupportLauncherInnerProps) => {
   }, [enableIntercom]);
 
   useEffect(() => {
-    if (getStoredConsent()) {
-      setHasConsent(true);
+    if (hasConsent) {
       enableIntercom();
     }
-  }, [enableIntercom]);
+  }, [enableIntercom, hasConsent]);
 
   const handleButtonClick = useCallback(() => {
     setErrorMessage(null);
