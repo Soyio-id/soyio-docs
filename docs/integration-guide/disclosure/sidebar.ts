@@ -42,6 +42,11 @@ const sidebar: SidebarsConfig = {
       id: 'integration-guide/disclosure/configuration',
       label: 'Configuración',
     },
+    {
+      type: 'doc',
+      id: 'integration-guide/disclosure/device-compatibility',
+      label: 'Compatibilidad de dispositivos',
+    },
   ],
 };
 
