@@ -13,6 +13,11 @@ const sidebar: SidebarsConfig = {
       id: 'integration-guide/intro',
     },
     {
+      type: 'doc',
+      id: 'integration-guide/faq',
+      label: 'Preguntas frecuentes',
+    },
+    {
       type: 'html',
       value: '<div style="margin: 1.125rem 0;"></div>',
     },
