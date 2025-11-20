@@ -1,0 +1,71 @@
+---
+id: create-entity
+title: "Crear una entidad"
+description: "Crea una nueva entidad asociada a tu empresa"
+sidebar_label: "Crear una entidad"
+hide_title: true
+hide_table_of_contents: true
+api: eJy9V0tv20YQ/iuDPSUGI1lqihY61Ul9cB+oEdsNAtUwRtyxtDG5S+9DsSrwV/WWa/5YMbskRUm2a7dBdZAoct7fzDfLtfA4d2IyFcfaK6/IictMSHK5VZVXRouJeGsJIWgEHWiJQNoriRLQmVyhREDwAaisLDkUmTAVWWTVEykmIreEnqLxlciEpdtAzr8xciUm6/hXWZJi4m2gTORGe9KeH2FVFSqPhoYfHQeyFi5fUIl85VcViYkws4+Ue5GJyrLbGP9kLYIje2XpmizpnHryzlul52I3wxPJSV2rHKWx8OWzVrkBSQUEF9AqA6Q5R6ecpxIHIhN0h2VVsMnoazT+RtTxwym6ymiXIhkfjvhn291xU0GujeSSfaW0KVV5shZ3r+6DdVd7O6pfjAN+5I0DSdAGWZEtlSfd4G2hMA5yTlB7VSrSjbwPri2XA+6XxtgALvSmaSxxm5D2mGTaAh8caANLsg0IBwdccirakmeAIFXCUyG7435UsjE7+EPvFUPJJ+D+4wZsKLootwEm7a9Gb8a/jj98f+Tm59X8qPzw3eni7fVc1JnAuSUqWeaJDrmtOqV2iAzgg/5xbh/xn2rgVw+416EocMZ20oDdEw477irZn+peQHBmCgMNdAR5QC1NTwC8Ir0DSmdqOx0lH8nmuYP7jno98cC4ZmBmnrSSSebL58Kr0vQwuA0EnvQcN2g8hEU37LuV5cH3ykehhuxaPnh9LwVYaywXHwNPvsoxV1/+0v+FCzZcOk3P2ogy4Tz64GL1PKqCuWB7WJKt/Wr3ujD4RQqUw7kijl9skn5M9UKzsrHqT5Ks0kSz0VHa05xsX+n14ajuwn3U+nuC3IRCgjYeelESrEywzLGxIbFwAzgtCB1BvqD8BvyCQJo8cA/EpAA9LLyv3GQ4lCZ3A2dWygyU3EA5Hj8C5RILJf8fHGP53b/BMQX5bAx/79SgU3sSjuNx3YW7kURrkY8DylPp9j3X/XHauD5OnhMWjvJg47qbcoXV1Q3x9WV9mYmS/MLw6aMyLq5J9AsxEUNqlyGr2yVxTNO1CLYQE9FC71DLmbnr0B9ipYbL0R73nJFdKpmgr2ygGTp40Si/FHW2axer6pk2jQx5bCd4kf6w1EvBGbbZn3EbJey7GmyqXKmfabXn5NjdBipxn32gJKmQCZ6J/Oj0BG5oxXFUxubKaF4LaS0vCCXZtDwcOFOoXPkgyTFdaizZ+1Ez9BE6xpp9J0XunmZtOXKOm9GbG9JfKXaIxuCn9+cs58hFAUndtuqnZP4xJTgjmJMmixBcXHxUAGlZGaU9dE013EoFVr2dKINtopQEo2+hVDp48+Ri1Zlg2ni3OTsft/O1f9btHUjZzLWJRW1m6Yz7j5HdKyyjzesxdmCu4onopFvlkiCqNryGeeQ1KiM7C8fV9PTDhi8zwcOVLI8Gh4NDvsXDWGIEucma3yxsrFDjaDes9YZGn/sa0vSRpzs/rApUOp4vbNwmiQ+mgnqH4wVTxWQq1usZOrqwRV3z7dtANvJKJpZoVdr408s6a9FhAoljJ96mUF+dJ9JeYhFSJ++wP1ND0jjKc6r8o7J9Njv97excZGLWvDyVRrKOxU+8NfCTmIj4+sXakRHivbUoUM8Dzlk22eSG4k25PW43cdyaC86qfaRXvQh3GzUlwt+c1r0q63Ua5rru5NOjBzWa0rbSjN1lXdd/A2zKInc=
+sidebar_class_name: "post api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Crear una entidad"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/entities"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Crea una nueva entidad asociada a tu empresa
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"required":true,"content":{"application/json":{"schema":{"type":"object","properties":{"user_reference":{"type":"string","description":"Identificador único del usuario en tu sistema.","example":"user_123"}}}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"201":{"description":"Entidad creada","content":{"application/json":{"schema":{"type":"object","properties":{"entity":{"x-tags":["Entities"],"type":"object","description":"Los objetos de Entidad permiten asociar los consentimientos de tus usuarios a un objeto. Una entidad representa a un usuario **no verificado** en el sistema, a diferencia de una identidad.\n","properties":{"id":{"type":"string","description":"ID único de la entidad.","example":"ent_1B2M2Y8AsgTpgAmY7PhCfg"},"agreement_id":{"type":"string","description":"ID del agreement asociado a la entidad.","example":"agr_1B2M2Y8AsgTpgAmY7PhCfg"},"identity_id":{"type":"string","nullable":true,"description":"ID de la identidad asociada a la entidad. Solo presente cuando la entidad tiene una identidad asociada.","example":"id_1B2M2Y8AsgTpgAmY7PhCfg"},"user_reference":{"type":"string","description":"Referencia del usuario en tu sistema, obtenida del último agreement que tenga asociado la entidad.","example":"user_123","nullable":true}},"title":"Entity"}}}}}},"401":{"description":"Error de autenticación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"authentication_error"},"title":{"type":"string","example":"Unauthorized"},"status":{"type":"integer","example":401},"detail":{"type":"string","example":"We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"}}}}}},"422":{"description":"Error de validación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","errors"],"properties":{"type":{"type":"string","example":"validation_error"},"title":{"type":"string","example":"Validation error"},"status":{"type":"integer","example":422},"errors":{"type":"array","items":{"type":"string"}}},"title":"ValidationError"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      
