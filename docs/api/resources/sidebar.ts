@@ -236,6 +236,12 @@ const sidebar: SidebarsConfig = {
       items: [
         {
           type: "doc",
+          id: "api/resources/schemas/consentactionindex",
+          label: "El objeto ConsentActionIndex",
+          className: "schema",
+        },
+        {
+          type: "doc",
           id: "api/resources/schemas/consentaction",
           label: "El objeto ConsentAction",
           className: "schema",
@@ -276,6 +282,12 @@ const sidebar: SidebarsConfig = {
       type: "category",
       label: "Consent commits",
       items: [
+        {
+          type: "doc",
+          id: "api/resources/schemas/consentcommitindex",
+          label: "El objeto ConsentCommitIndex",
+          className: "schema",
+        },
         {
           type: "doc",
           id: "api/resources/schemas/consentcommit",
@@ -860,6 +872,12 @@ const sidebar: SidebarsConfig = {
         },
         {
           type: "doc",
+          id: "api/resources/create-entity",
+          label: "Crear una entidad",
+          className: "api-method post",
+        },
+        {
+          type: "doc",
           id: "api/resources/get-entity",
           label: "Obtener una entidad específica",
           className: "api-method get",
@@ -872,8 +890,20 @@ const sidebar: SidebarsConfig = {
         },
         {
           type: "doc",
-          id: "api/resources/get-entity-session-token",
-          label: "Obtener un token de sesión para una entidad",
+          id: "api/resources/get-entity-agreement-compliance-statuses-by-reference",
+          label: "Obtener los estados de cumplimiento de una entidad usando user_reference",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/get-entity-session-token-by-reference",
+          label: "Obtener un token de sesión usando el user_reference de la entidad",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/get-entity-session-token-by-id",
+          label: "Obtener un token de sesión usando el ID de la entidad",
           className: "api-method get",
         },
         {
