@@ -22,7 +22,7 @@ En procesos digitales de empresas que usan Soyio encontrarás estas experiencias
 **Protección de datos:**
 - **Gestión de consentimientos**: Controlar qué datos compartes y para qué propósitos
 - **Gestión de derechos**: Ejercer tus derechos de acceso, rectificación, supresión y más
-- **Centro de privacidad**: Portal (cuando esté disponible) para revisar y administrar tus preferencias
+- **Centro de privacidad**: Portal para revisar y administrar tus preferencias
 
 **Identidad digital:**
 - **Verificación de identidad**: Validar tu identidad usando tu documento y biometría
@@ -36,7 +36,6 @@ Soyio te ofrece múltiples beneficios:
 - **Transparencia y control**: Sabes qué datos compartes y con qué empresas
 - **Uso conforme a la ley**: Tus datos se manejan de acuerdo con la normativa de protección de datos
 - **Facilidad de uso**: Crea una cuenta Soyio para acceder a los servicios que te soliciten sin repetir pasos innecesarios
-- **Evidencia de tus autorizaciones**: Genera evidencia de lo que autorizaste para proteger tus derechos legalmente
 
 
 ### ¿Qué son las passkeys?

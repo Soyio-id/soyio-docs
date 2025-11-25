@@ -56,7 +56,7 @@ Revisa la [guía de webhooks](../api/webhooks.md) para registrar las URLs por en
 ## Experiencia de usuario y cuentas
 
 ### ¿Qué es la Cuenta Soyio?
-Perfil personal donde el usuario guarda su identidad verificada, registra una autenticación fuerte (passkey o biometría) y controla qué comercios pueden acceder a sus datos dentro de la Soyio Verified Network.
+Perfil personal donde el usuario guarda su identidad verificada, registra un método de autenticación fuerte (passkey o biometría) y controla qué comercios pueden acceder a sus datos dentro de la Soyio Verified Network.
 
 ### ¿Cómo se crea una Cuenta Soyio?
 Tras una verificación exitosa, el flujo ofrece crear la cuenta como paso opcional; si acepta, registra una passkey (con respaldo biométrico) y queda lista para autenticarse en el futuro.
@@ -69,7 +69,7 @@ Revisa nuestra [guía de verificación de identidad](./disclosure/introduction) 
 :::
 
 ### ¿Qué pasa si el usuario no crea una cuenta Soyio?
-Podrá completar el flujo solicitado, pero sus datos quedarán bajo la responsabilidad de la empresa que los recolectó y no podrán reutilizarse en otros flujos. Si crea cuenta, podrá autenticarse o firmar en el futuro sin repetir la verificación.
+Podrá completar el flujo solicitado y los datos quedarán únicamente bajo responsabilidad de la empresa que los solicitó, por lo que el usuario no podrá reutilizarlos en otros flujos. Si crea cuenta, podrá autenticarse o firmar en el futuro sin repetir la verificación.
 
 ### ¿Qué restricciones de navegador debo considerar?
 Las passkeys no funcionan en Firefox y algunos navegadores móviles menos comunes. Prioriza Safari y Chrome en móvil, y comunica la restricción cuando ofrezcas autenticación con passkeys.
@@ -77,7 +77,7 @@ Las passkeys no funcionan en Firefox y algunos navegadores móviles menos comune
 ## Seguridad y cumplimiento
 
 ### ¿Cómo se manejan los datos biométricos?
-Las fotos y videos capturados para verificación se procesan y no se almacenan. Se conserva únicamente un vector biométrico cifrado para habilitar autenticación facial cuando el usuario lo autoriza.
+Las fotos y videos de alta resolución capturados para verificación se procesan y no se almacenan. Si se conserva un vector biométrico cifrado para habilitar autenticación facial cuando el usuario lo autoriza y también imágenes de baja resolución para fines de auditoría.
 
 ### ¿Qué debo documentar para cumplimiento?
 Mantén registro de: base legal o consentimiento utilizado, finalidades comunicadas, vigencia de los consentimientos, configuraciones de retención y URL de webhook. Usa los IDs de evidencia que entrega Soyio para auditar cada proceso.
