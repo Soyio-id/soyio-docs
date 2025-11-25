@@ -1,0 +1,73 @@
+---
+id: validation-attempt-successful
+title: "Successful"
+description: "#### Nombre del evento: `validation_attempt.successful`."
+sidebar_label: "Successful"
+hide_title: true
+hide_table_of_contents: true
+api: eJytVk1vGzcQ/SsD+mIDa301htM91YldwC1aBJbQJG0CZUSOJdq75JofqreGflJPvfXqP1YMV5Itr6w4QHWSVuS8NzNv3uydCDj1Iv9D/IaFVhi0NYAhUFkFLz5nwlbk0tNzJXIxXx86ac4Mo5Tk/WUsRCYUeel0xX+LXOzt7e3Br7acOAJFBdCcTLA5fHkIMl4idfw6zJfOJzMkIDO//xtBRjTKQjSgTeDroAia+1Lf/2P4p1ZkglaowBPMEKQtq4ICKgt0q4P1WJIJ1PlkRCYc3UTy4Y1VtcjvnjB+a03QZAi0ubSuXEMUz6E38W0G2sgi1sRcHV2SIyM1esAC7OSKAj9NuDgpCPZPMeAwTq5IhovmOVg41V4W1kdHy2cHHZEJaRMyc8WqKrRMdeteeSZ8J7ycUYn8LdQViVzYFFVkonLcuaDJ879aPTrjg9Nm2urX+Snc/2u0tI+6JTJBt8j1FLmgeRj33wx+GXx8feKno2p6Un48fjd7ezkVi0wYLGkbCJlYsr52dp2VtsmmJRzGqLAuLKpt+W7ePsVg/Qs61ypU9OTGqxZuzWcT6GLdbUaIPqLTTQG99oFKTN9loVmCG9VMSP3Bd5zXI3WMG7yv4Y50lXJaygu9lZoV/1JtbVBp33lK6iX6GdlraqZli+ZXBDdwlXd0s0NSbcl8I5Htzd/gMMdnCSwWmZCOMJAaY9iGm1wicCYY6DDoklpkfiQ5Q6hhZl2SCAd88JWVtNOHS+4ra3wjxUGv17ao9zSZWXsNjqSeaGVBWudIhsbjuGivPnxoXztzzjogA1RA5awkj6VelqaAP5uggimUFGZWpWln3+GZCzORi9WZTHhyc3K8M+5EdIXIxSyEyufdrkejJva2422tbUerLla6O++3ajIkN9fKOq5H5SJN0MP+8vKBWGRP42JVfWNMq6Jsqrzf/OBTB2LxmenL6HSoh2ydTaWx0uNrqh91GCv9M9UtkDN/E5uZBowsLS2XzSxJaTSBIBqEk3fncE0186isk9oaVLis/oxQUWJZoAdvCy11iIo8u33joeIkhpl1+q8kfZEJzdjNRe4w44Z67Ml7Ho3Acv+fuEMKBj+9H/E5T361ZFcr9nFK9qspwZBgSoYcQvRpk7PmjaqsNgG6KRFNvruRCtTQbGEupYruYdP3j6DUJgb74mItMsGr8uJh65+tJr9ZiruW2hpi9+raWEtP98eDzW9z+W3O2zbe3T75rE3usrZNYxOD3uDVYe/4cPD9qH+UH/XzwetO77j/Ox/kd6GkLh2SYQ55EFniLYWx7NlO0ijKtAbhfP1ypgjS1eVLDcrkqFSi5lH3LKtAP6zGPNk/Od9E7nd6nZ5YLP4D0g3M7w==
+sidebar_class_name: "event api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Successful"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"event"}
+  path={"webhook"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+#### Nombre del evento: `validation_attempt.successful`.
+Se envía cuando un intento de validación de identidad se ha completado exitosamente.
+
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"description":"Contiene información del intento de validación exitoso, incluyendo referencias al objeto requestable (DataSubjectRequest o DisclosureRequest).","content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"string","description":"ID único del evento","example":"evt_1B2M2Y8AsgTpgAmY7PhCfg"},"name":{"type":"string","enum":["validation_attempt.successful"],"description":"Nombre del evento"},"payload":{"type":"object","description":"Datos del intento de validación exitoso","properties":{"user_reference":{"type":"string","description":"Referencia de usuario del sistema del cliente","example":"user_123"},"requestable_type":{"type":"string","description":"Tipo de objeto asociado (DataSubjectRequest o DisclosureRequest)","example":"DataSubjectRequest"},"requestable_id":{"type":"string","description":"Token del objeto requestable asociado","example":"dsreq_1B2M2Y8AsgTpgAmY7PhCfg"},"validation_attempt_id":{"type":"string","description":"Token del intento de validación","example":"va_1B2M2Y8AsgTpgAmY7PhCfg"}}},"created_at":{"type":"string","format":"date-time","description":"Fecha y hora de creación del evento"}}}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Webhook recibido correctamente"},"4XX":{"description":"Error en el procesamiento del webhook"}}}
+>
+  
+</StatusCodes>
+
+
+      

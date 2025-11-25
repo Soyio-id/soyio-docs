@@ -422,6 +422,12 @@ const sidebar: SidebarsConfig = {
         },
         {
           type: "doc",
+          id: "api/resources/validation-attempt-successful",
+          label: "Successful",
+          className: "api-method event",
+        },
+        {
+          type: "doc",
           id: "api/resources/validation-attempt-failed",
           label: "Failed",
           className: "api-method event",
