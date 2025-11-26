@@ -1,0 +1,27 @@
+name: Index Docs
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "docs/**"
+  workflow_dispatch: {}
+
+jobs:
+  index:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout docs
+        uses: actions/checkout@v4
+
+      - name: Index documentation to Pinecone
+        uses: Soyio-id/soyio-docs-bot/indexer@main
+        with:
+          pinecone_api_key: ${{ secrets.PINECONE_API_KEY }}
+          pinecone_index: "soyio-docs"
+          gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
+          docs_path: "."
+          include_patterns: "docs/**/*.md,docs/**/*.mdx"
+          exclude_patterns: "**/README.md,**/AGENTS.md,docs/api/resources/**"
