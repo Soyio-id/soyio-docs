@@ -1,0 +1,31 @@
+---
+title: Validación NFC
+description: Activa la lectura NFC en tus flujos de disclosure con el SDK móvil de React Native y consulta sus resultados.
+---
+
+# Validación NFC
+
+La lectura NFC está disponible para reforzar la verificación de documentos directamente desde el chip del pasaporte o DNI. Solo aparece en el flujo móvil con el **Soyio React Native SDK**; si el usuario corre el flujo web o un SDK distinto, el paso no se mostrará aunque la plantilla lo tenga habilitado.
+
+## Activa NFC en tu plantilla
+
+- Usa el campo `mobile_nfc_enabled` del template de `disclosure_template` y ponlo en `true` cuando crees o actualices la plantilla (ej. [`PATCH /disclosure_templates/{id}`](../../api/resources/update-disclosure-template)).
+- No es necesario cambiar los data requirements; la lectura NFC se agrega como paso adicional cuando el SDK es compatible.
+
+```json title="Ejemplo de actualización"
+{
+  "mobile_nfc_enabled": true
+}
+```
+
+:::warning[SDK compatible]
+La lectura NFC solo está soportada en el Soyio React Native SDK. Si el usuario ejecuta el flujo en web, el paso no aparece aunque la plantilla tenga `mobile_nfc_enabled` en `true`.
+:::
+
+## Cómo leer los resultados
+
+- Consulta `performed_nfc_scan` en el `disclosure_request` para saber si el paso se ejecutó. Puedes verlo en el listado de [`GET /disclosure_requests`](../../api/resources/index-disclosure-requests) o en el detalle de cada request.
+- En los `validation_attempts` encuentras `nfc_detail` con el resultado específico (disponible en [`GET /validation_attempts`](../../api/resources/index-validation-attempts)):
+  - `not_requested`: la plantilla no tenía NFC activo o el flujo se ejecutó en un contexto sin soporte.
+  - `success`: el chip se leyó correctamente.
+  - `failed`: hubo un intento de lectura que no pudo completarse (chip dañado o error de lectura). El intento de validación puede terminar igual en `successful` porque la lectura NFC es una capa extra, no un requisito bloqueante.

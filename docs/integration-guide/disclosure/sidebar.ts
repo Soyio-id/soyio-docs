@@ -44,6 +44,11 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: 'doc',
+      id: 'integration-guide/disclosure/nfc-validation',
+      label: 'Validación NFC',
+    },
+    {
+      type: 'doc',
       id: 'integration-guide/disclosure/device-compatibility',
       label: 'Compatibilidad de dispositivos',
     },
