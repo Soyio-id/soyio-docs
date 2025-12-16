@@ -331,22 +331,3 @@ const getAuthResult = async (authRequestId) => {
   return data;
 };
 ```
-
-### 7. Probar tu Integración
-
-Para probar tu integración en ambiente de sandbox, puedes utilizar el parámetro `force_error` en el payload de la solicitud de autenticación.
-
-#### Simular Errores
-
-```json
-{
-  "identity_id": "id_...",
-  "force_error": "authentication_error"
-}
-```
-
-#### Tipos de Errores de Prueba
-
-- `authentication_error`: Simula un error de autenticación
-- `network_error`: Simula un error de red
-- `timeout_error`: Simula un timeout
