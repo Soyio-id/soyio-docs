@@ -680,6 +680,12 @@ const sidebar: SidebarsConfig = {
         },
         {
           type: "doc",
+          id: "api/resources/get-all-evidences",
+          label: "Obtener todas las evidencias",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
           id: "api/resources/index-agreements",
           label: "Obtener todos los acuerdos",
           className: "api-method get",
@@ -1031,6 +1037,12 @@ const sidebar: SidebarsConfig = {
           id: "api/resources/delete-api-key",
           label: "Revocar una API key",
           className: "api-method delete",
+        },
+        {
+          type: "doc",
+          id: "api/resources/refresh-api-key",
+          label: "Renovar una API key",
+          className: "api-method patch",
         },
         {
           type: "doc",
