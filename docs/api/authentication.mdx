@@ -13,6 +13,7 @@ Las API keys son tokens de autenticación que permiten el acceso a los diferente
 - **Puede ser creada dinámicamente** desde la API
 - **Tiene un alcance configurable** (scopes) para limitar el acceso a endpoints específicos
 - **Incluye fechas de expiración** (90 días por defecto en production, sin expiración en sandbox)
+- **Incluye un refresh token** cuando tiene fecha de expiración, que permite renovar la API key cuando expire
 
 ### Identificación por Prefijo
 
@@ -51,11 +52,106 @@ Puedes gestionar tus API keys tanto desde los siguientes endpoints:
 - **Listar todas las API keys**: [`GET /api_keys`](./resources/index-api-keys.api.mdx)
 - **Obtener detalles de una API key**: [`GET /api_keys/{id}`](./resources/get-api-key.api.mdx)
 - **Actualizar una API key**: [`PATCH /api_keys/{id}`](./resources/update-api-key.api.mdx)
+- **Renovar una API key**: [`PATCH /api_keys/{id}/refresh`](./resources/refresh-api-key.api.mdx)
 - **Revocar una API key**: [`DELETE /api_keys/{id}`](./resources/delete-api-key.api.mdx)
 
 :::danger[Importante]
-Usa HTTPS para todos los requests. Requests hechos mediante HTTP retornarán respuestas HTTP 403. **¡Mantén tus API keys en secreto!** Una vez creada, el token secreto solo se muestra una vez durante la creación.
+Usa HTTPS para todos los requests. Requests hechos mediante HTTP retornarán respuestas HTTP 403. **¡Mantén tus API keys y refresh tokens en secreto!** Una vez creada, el token secreto y el refresh token solo se muestran durante la creación y renovación.
 :::
+
+## Renovación de API Keys
+
+Cuando creas una API key con fecha de expiración, recibirás un **refresh token** junto con la API key. Este refresh token te permite extender el ciclo de vida de la API key cuando esté próxima a expirar o haya expirado.
+
+:::warning[Período de gracia del refresh token]
+Los refresh tokens tienen un **período de gracia de 60 días** después de la expiración de la API key. Si no renuevas la API key dentro de este período, el refresh token dejará de funcionar y deberás crear una nueva API key.
+:::
+
+### ¿Cómo funciona?
+
+1. **Creación**: Al crear una API key con [`POST /api_keys`](./resources/create-api-key.api.mdx), recibirás en la respuesta:
+   - `secret`: El token JWT de autenticación (la API key)
+   - `refresh_token`: Token para renovar la API key (solo si tiene fecha de expiración)
+
+2. **Almacenamiento**: Guarda ambos tokens de forma segura. El `refresh_token` es necesario para renovar la API key.
+
+3. **Renovación**: Cuando la API key esté próxima a expirar o haya expirado, usa el endpoint [`PATCH /api_keys/{id}/refresh`](./resources/refresh-api-key.api.mdx) con el `refresh_token` para obtener:
+   - Un nuevo `secret` (nueva API key extendida)
+   - Un nuevo `refresh_token` para futuras renovaciones
+
+### Ejemplo de flujo
+
+<Tabs>
+  <TabItem value="create" label="1. Crear API key" default>
+```bash
+curl -X POST https://api.soyio.com/v1/api_keys \
+  -H "Authorization: YOUR_EXISTING_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "api_key": {
+      "label": "Backend Service",
+      "expires_in_days": 30
+    }
+  }'
+```
+
+Respuesta:
+```json
+{
+  "api_key": {
+    "id": "ak_live_abc123",
+    "label": "Backend Service",
+    "environment": "production",
+    "expires_at": "2024-04-20T15:30:00Z",
+    "secret": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "refresh_token": "akrt_xyz789",
+    "scopes": ["*"],
+    "created_at": "2024-03-20T15:30:00Z"
+  }
+}
+```
+  </TabItem>
+  <TabItem value="refresh" label="2. Renovar API key">
+```bash
+curl -X PATCH https://api.soyio.com/v1/api_keys/ak_live_abc123/refresh \
+  -H "Authorization: YOUR_ADMIN_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "api_key": {
+      "refresh_token": "akrt_xyz789",
+      "expires_in_days": 60
+    }
+  }'
+```
+
+Respuesta:
+```json
+{
+  "api_key": {
+    "id": "ak_live_abc123",
+    "label": "Backend Service",
+    "environment": "production",
+    "expires_at": "2024-06-20T15:30:00Z",
+    "secret": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "refresh_token": "akrt_new456",
+    "scopes": ["*"],
+    "created_at": "2024-03-20T15:30:00Z"
+  }
+}
+```
+  </TabItem>
+</Tabs>
+
+:::warning[Guarda el nuevo refresh token]
+Cada vez que renuevas una API key, recibes un nuevo `refresh_token`. Asegúrate de actualizar el token almacenado con el nuevo valor para futuras renovaciones.
+:::
+
+### Cuándo renovar
+
+- **Antes de expirar**: Renueva la API key antes de que expire para evitar interrupciones en el servicio
+- **Después de expirar**: También puedes renovar una API key expirada usando su `refresh_token`, pero solo dentro del período de gracia de 60 días
+- **Límite del período de gracia**: Si han pasado más de 60 días desde la expiración de la API key, el refresh token dejará de funcionar y deberás crear una nueva API key
+- **API keys de sandbox**: Las API keys de sandbox no expiran por defecto, por lo que no reciben `refresh_token` a menos que especifiques `expires_in_days` al crearlas
 
 ## Buenas Prácticas
 
@@ -63,4 +159,6 @@ Usa HTTPS para todos los requests. Requests hechos mediante HTTP retornarán res
 - Utiliza scopes específicos para limitar el acceso solo a los endpoints necesarios
 - Rota tus API keys regularmente, especialmente en production
 - Revoca inmediatamente las API keys comprometidas
-:::
+- Guarda los refresh tokens de forma segura junto con las API keys
+- Implementa lógica de renovación automática cuando las API keys estén próximas a expirar
+- Actualiza siempre el refresh token después de cada renovación
