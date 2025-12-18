@@ -163,6 +163,79 @@ privacyCenter.mount("#privacy-center-container");
 
 Cuando un usuario envía una solicitud de ejercicio de derechos, se creará un nuevo [Data subject Request o DSR](../../api/resources/schemas/datasubjectrequest). Este recurso es el que mantendrá la trazabilidad de la solicitud y su estado a medida que se procese la solicitud.
 
+## Correlación con webhooks usando referencias
+
+Cada solicitud de ejercicio de derechos (DSR) puede incluir una **referencia opcional** (`request_reference`) que te permite correlacionar los webhooks y eventos que recibas de Soyio con tus propios sistemas de gestión.
+
+### ¿Para qué sirve?
+
+El campo `request_reference` te permite:
+
+- **Correlacionar webhooks**: Identifica rápidamente a qué ticket, caso o registro de tu sistema corresponde cada notificación de webhook.
+- **Seguimiento simplificado**: Mantén la trazabilidad entre tu sistema interno y las solicitudes procesadas en Soyio.
+- **Automatización eficiente**: Facilita la integración programática con tus flujos de trabajo existentes.
+
+### Cómo usar la referencia con el SDK
+
+Cuando inicializas el Privacy Center, puedes pasar una referencia en las opciones principales. Esta referencia se asociará automáticamente a todas las solicitudes creadas desde ese componente:
+
+<Tabs>
+  <TabItem value="web" label="SDK Web" default>
+```javascript title="Inicializar Privacy Center con referencia"
+import { PrivacyCenter } from "@soyio/soyio-widget";
+
+// Obtén el identificador de tu sistema (ej: ID de ticket, usuario, sesión)
+const userTicketId = "ticket-12345";
+
+const privacyCenterOptions = {
+  companyId: "<company_id>", // O usa sessionToken para modo autenticado
+  enabledFeatures: ['DataSubjectRequests', 'RequestTracking'],
+  requestReference: userTicketId,
+  onEvent: (event) => {
+    console.log('Evento del Privacy Center:', event);
+
+    // Cuando se crea una solicitud, la referencia estará incluida
+    if (event.type === 'data_subject_request.created') {
+      console.log('Solicitud creada con referencia:', event.data.request_reference);
+      // Actualiza tu sistema interno con el ID de Soyio
+      updateInternalTicket(userTicketId, event.data.id);
+    }
+  }
+};
+
+const privacyCenter = new PrivacyCenter(privacyCenterOptions);
+privacyCenter.mount("#privacy-center-container");
+```
+  </TabItem>
+</Tabs>
+
+:::info Uso directo de la API
+También puedes incluir el campo `request_reference` al crear solicitudes directamente mediante la [API de Soyio](../../api/resources/create-data-subject-request.api.mdx), especialmente útil cuando construyes tu propia interfaz personalizada o automatizas la creación de solicitudes desde tu backend.
+:::
+
+### Recibir la referencia en webhooks
+
+Cuando Soyio envíe webhooks sobre cambios en el estado de la solicitud, el campo `request_reference` estará incluido en la carga útil del evento:
+
+```json title="Ejemplo de webhook con referencia"
+{
+  "event": "data_subject_request.updated",
+  "data": {
+    "id": "dsr_abc123",
+    "request_type": "access",
+    "status": "processing",
+    "request_reference": "ticket-12345",
+    ...
+  }
+}
+```
+
+Esto te permite identificar inmediatamente el ticket o caso en tu sistema que corresponde a esta solicitud.
+
+:::tip Buena práctica
+Usa identificadores únicos y descriptivos como referencias (ej: `ticket-12345`, `caso-CRM-789`, `solicitud-2024-001`) para facilitar el debugging y el seguimiento.
+:::
+
 ## Siguientes pasos
 
 - [**Responde a las solicitudes de derecho**](./requests-management.mdx): Revisa cómo gestionar las solicitudes de derechos.
