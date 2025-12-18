@@ -1,0 +1,532 @@
+---
+title: Configuración de solicitudes de derechos
+description: Configura el comportamiento de las solicitudes de ejercicio de derechos según las necesidades de tu organización
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Configuración de solicitudes de derechos
+
+Personaliza el comportamiento del módulo de ejercicio de derechos para adaptarlo a los procesos y requisitos de tu organización. Configura aspectos como el tiempo límite de validación, los campos de contacto requeridos, las restricciones de solicitudes y el método de validación de identidad.
+
+Todas estas configuraciones se gestionan a través del objeto `data_subject_request` en la [configuración de tu compañía](../../api/resources/update-company-config.api.mdx).
+
+## Tiempo límite de validación
+
+Define un período de tiempo durante el cual el usuario debe validar su identidad después de crear una solicitud. Si el usuario no completa la validación dentro de este período, la solicitud expirará y deberá crear una nueva.
+
+### Cuándo usar un tiempo límite
+
+Configura un tiempo límite cuando:
+
+- **Seguridad reforzada**: Quieres asegurar que las solicitudes se validen en un período razonable para prevenir intentos fraudulentos.
+- **Gestión de recursos**: Necesitas evitar acumulación de solicitudes pendientes sin validar.
+- **Requisitos legales**: Tu organización tiene políticas específicas sobre el tiempo de validación de solicitudes.
+
+### Configurar el tiempo límite
+
+Usa el campo `validation_timeout_period` en la configuración de tu compañía. El valor debe estar en formato [ISO 8601 duration](https://en.wikipedia.org/wiki/ISO_8601#Durations).
+
+<Tabs>
+  <TabItem value="curl" label="cURL" default>
+```bash title="Configurar timeout de 24 horas"
+curl -X PATCH https://api.soyio.com/v1/config \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "data_subject_request": {
+      "validation_timeout_period": "P1D"
+    }
+  }'
+```
+  </TabItem>
+  <TabItem value="javascript" label="JavaScript">
+```javascript title="Configurar timeout de 72 horas"
+const response = await fetch('https://api.soyio.com/v1/config', {
+  method: 'PATCH',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    data_subject_request: {
+      validation_timeout_period: 'P3D' // 3 días
+    }
+  })
+});
+
+const config = await response.json();
+console.log('Configuración actualizada:', config);
+```
+  </TabItem>
+</Tabs>
+
+### Ejemplos de períodos
+
+| Período deseado | Valor ISO 8601 |
+| :--- | :--- |
+| 6 horas | `P6H` |
+| 24 horas | `P1D` |
+| 3 días | `P3D` |
+| 7 días | `P7D` |
+| Sin expiración | `null` |
+
+:::warning Importante
+El período total debe ser mayor a 0. Si estableces `null`, las solicitudes nunca expirarán y el usuario podrá validar su identidad en cualquier momento.
+:::
+
+## Campos de contacto
+
+Personaliza qué campos de información de contacto se solicitan al usuario cuando crea una solicitud de ejercicio de derechos. Puedes controlar la visibilidad y obligatoriedad de los campos `names`, `last_names` y `phone`.
+
+### Campos siempre requeridos
+
+Los siguientes campos **siempre son obligatorios** y no se pueden configurar:
+
+- **`nin`** (RUT o número de identificación nacional): Necesario para identificar al titular de datos.
+- **`email`**: Usado para enviar confirmaciones y notificaciones sobre la solicitud.
+
+### Campos configurables
+
+Puedes configurar estos campos opcionales:
+
+- **`names`**: Nombres del usuario
+- **`last_names`**: Apellidos del usuario
+- **`phone`**: Número de teléfono del usuario
+
+Para cada campo configurable, puedes definir:
+
+- **`visible`**: Si el campo se muestra en el formulario (`true`) o se oculta (`false`)
+- **`required`**: Si el campo es obligatorio cuando es visible (`true`) o es opcional (`false`)
+
+:::warning Importante
+Un campo no puede ser obligatorio (`required: true`) si no es visible (`visible: false`). Primero debe ser visible para poder marcarse como requerido.
+:::
+
+### Configurar campos de contacto
+
+Usa el campo `contact_field_configs` en la configuración de tu compañía:
+
+<Tabs>
+  <TabItem value="curl" label="cURL" default>
+```bash title="Configurar campos de contacto"
+curl -X PATCH https://api.soyio.com/v1/config \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "data_subject_request": {
+      "contact_field_configs": [
+        {
+          "field_name": "names",
+          "visible": true,
+          "required": true
+        },
+        {
+          "field_name": "last_names",
+          "visible": true,
+          "required": true
+        },
+        {
+          "field_name": "phone",
+          "visible": true,
+          "required": false
+        }
+      ]
+    }
+  }'
+```
+  </TabItem>
+  <TabItem value="javascript" label="JavaScript">
+```javascript title="Configurar campos de contacto"
+const response = await fetch('https://api.soyio.com/v1/config', {
+  method: 'PATCH',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    data_subject_request: {
+      contact_field_configs: [
+        {
+          field_name: 'names',
+          visible: true,
+          required: true
+        },
+        {
+          field_name: 'last_names',
+          visible: true,
+          required: false // Opcional
+        },
+        {
+          field_name: 'phone',
+          visible: true,
+          required: true // Requerido para contacto
+        }
+      ]
+    }
+  })
+});
+
+const config = await response.json();
+console.log('Configuración actualizada:', config);
+```
+  </TabItem>
+</Tabs>
+
+### Casos de uso comunes
+
+#### Solicitar solo información básica
+
+Si solo necesitas nombres y email además del RUT:
+
+```json
+{
+  "contact_field_configs": [
+    {
+      "field_name": "names",
+      "visible": true,
+      "required": true
+    },
+    {
+      "field_name": "last_names",
+      "visible": false,
+      "required": false
+    },
+    {
+      "field_name": "phone",
+      "visible": false,
+      "required": false
+    }
+  ]
+}
+```
+
+#### Requerir teléfono para notificaciones urgentes
+
+Si necesitas contactar al usuario por teléfono:
+
+```json
+{
+  "contact_field_configs": [
+    {
+      "field_name": "names",
+      "visible": true,
+      "required": true
+    },
+    {
+      "field_name": "last_names",
+      "visible": true,
+      "required": true
+    },
+    {
+      "field_name": "phone",
+      "visible": true,
+      "required": true
+    }
+  ]
+}
+```
+
+#### Permitir información opcional completa
+
+Si quieres dar flexibilidad al usuario:
+
+```json
+{
+  "contact_field_configs": [
+    {
+      "field_name": "names",
+      "visible": true,
+      "required": false
+    },
+    {
+      "field_name": "last_names",
+      "visible": true,
+      "required": false
+    },
+    {
+      "field_name": "phone",
+      "visible": true,
+      "required": false
+    }
+  ]
+}
+```
+
+## Limitaciones y alcance de solicitudes
+
+Controla cómo los usuarios pueden crear solicitudes de ejercicio de derechos, incluyendo restricciones sobre cuántos campos pueden modificar en una sola solicitud y si deben asociar las solicitudes a sucursales específicas.
+
+### Solicitudes de un solo campo vs. múltiples campos
+
+Determina si los usuarios pueden solicitar modificaciones (rectificación, supresión, oposición) de múltiples categorías de datos en una sola solicitud, o si deben crear una solicitud separada para cada categoría.
+
+#### Cuándo permitir múltiples campos
+
+**Permite múltiples campos** (`allow_many_data_categories_mutations: true`) cuando:
+
+- Tu organización puede procesar cambios en múltiples categorías de datos simultáneamente
+- Quieres simplificar la experiencia del usuario reduciendo el número de solicitudes
+- Tus sistemas de backend están preparados para gestionar actualizaciones masivas
+
+**Limita a un solo campo** (`allow_many_data_categories_mutations: false`) cuando:
+
+- Necesitas revisar y aprobar cada cambio individualmente
+- Tus procesos internos requieren trazabilidad granular por categoría de dato
+- Quieres evitar solicitudes complejas que puedan ser difíciles de gestionar
+
+#### Configurar limitación de campos
+
+<Tabs>
+  <TabItem value="curl" label="cURL" default>
+```bash title="Permitir solo un campo por solicitud"
+curl -X PATCH https://api.soyio.com/v1/config \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "data_subject_request": {
+      "allow_many_data_categories_mutations": false
+    }
+  }'
+```
+  </TabItem>
+  <TabItem value="javascript" label="JavaScript">
+```javascript title="Permitir múltiples campos por solicitud"
+const response = await fetch('https://api.soyio.com/v1/config', {
+  method: 'PATCH',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    data_subject_request: {
+      allow_many_data_categories_mutations: true
+    }
+  })
+});
+```
+  </TabItem>
+</Tabs>
+
+:::info Nota
+Esta configuración solo afecta a solicitudes de tipo `rectification`, `opposition` y `suppression`. Las solicitudes de tipo `access` no se ven afectadas por esta configuración.
+:::
+
+### Alcance por ramas de la empresa
+
+Define si las solicitudes deben estar obligatoriamente asociadas a una [rama específica](../../api/resources/schemas/branch.schema.mdx) de tu organización. Esto es útil para organizaciones con múltiples filiales que necesitan segmentar la gestión de solicitudes por sucursal.
+
+:::info Sobre las ramas
+Las [ramas o branches](../../api/resources/schemas/branch.schema.mdx) representan divisiones o unidades de negocio específicas dentro de tu compañía. Puedes crear y gestionar ramas usando los [endpoints de la API de branches](../../api/resources/create-branch.api.mdx). Los consentimientos están también asociados a estas ramas.
+:::
+
+#### Cuándo requerir selección de sucursal
+
+Requiere que los usuarios seleccionen una sucursal cuando:
+
+- Tu organización opera en múltiples ubicaciones físicas
+- Cada sucursal gestiona sus propios datos de clientes de manera independiente
+- Necesitas enrutar solicitudes al equipo responsable de cada ubicación
+- Cumples con requisitos legales de privacidad regionales específicos
+
+#### Configurar alcance por sucursales
+
+<Tabs>
+  <TabItem value="curl" label="cURL" default>
+```bash title="Requerir selección de sucursal"
+curl -X PATCH https://api.soyio.com/v1/config \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "data_subject_request": {
+      "appliable_scopes": ["branch"]
+    }
+  }'
+```
+  </TabItem>
+  <TabItem value="javascript" label="JavaScript">
+```javascript title="Solicitudes sin asociación a sucursal"
+const response = await fetch('https://api.soyio.com/v1/config', {
+  method: 'PATCH',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    data_subject_request: {
+      appliable_scopes: [] // Sin restricción de sucursal
+    }
+  })
+});
+```
+  </TabItem>
+</Tabs>
+
+:::tip Recomendación
+Si tu organización tiene una estructura centralizada de gestión de datos, deja `appliable_scopes` como array vacío (`[]`) para permitir solicitudes de alcance general sin restricción de sucursal.
+:::
+
+## Validación con registro civil (Gobierno)
+
+Habilita el modo de validación exclusiva mediante documento ante el Registro Civil, omitiendo la captura biométrica (selfies y verificación de vivacidad). Este modo es útil cuando prefieres una validación más simple o cuando tus usuarios no pueden completar la validación biométrica.
+
+### Diferencias entre modos de validación
+
+| Aspecto | Validación biométrica (tradicional) | Validación con registro civil |
+| :--- | :--- | :--- |
+| **Captura de selfie** | Requerida | No requerida |
+| **Verificación de vivacidad** | Requerida | No requerida |
+| **Datos del documento** | Opcional | Requerido (número de documento) |
+| **Validación contra Registro Civil** | No | Sí |
+| **Experiencia del usuario** | Requiere cámara y buena iluminación | Solo requiere número de documento |
+| **Nivel de seguridad** | Alto (biometría) | Medio (datos gubernamentales) |
+
+### Cuándo usar validación con registro civil
+
+Habilita este modo cuando:
+
+- **Restricciones técnicas**: Tus usuarios acceden desde dispositivos sin cámara o con cámaras de baja calidad
+- **Simplicidad preferida**: Prefieres una experiencia más rápida sin captura biométrica
+- **Contexto de uso**: Los usuarios acceden desde entornos con iluminación deficiente o restricciones de privacidad
+- **Volumen alto**: Procesas muchas solicitudes y prefieres reducir fricción en el proceso
+- **Suficiencia legal**: Tu organización determina que la validación gubernamental es suficiente para cumplir requisitos legales
+
+### Cuándo usar validación biométrica
+
+Mantén el modo tradicional cuando:
+
+- **Máxima seguridad**: Necesitas el nivel más alto de verificación de identidad
+- **Prevención de fraude**: Quieres reducir al mínimo intentos fraudulentos
+- **Requisitos legales**: Tu industria o jurisdicción requiere validación biométrica
+- **Datos sensibles**: Gestionas categorías especiales de datos que requieren mayor protección
+
+### Configurar validación con registro civil
+
+Usa el campo `government_only_mode` en la configuración de tu compañía:
+
+<Tabs>
+  <TabItem value="curl" label="cURL" default>
+```bash title="Habilitar validación con registro civil"
+curl -X PATCH https://api.soyio.com/v1/config \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "data_subject_request": {
+      "government_only_mode": true
+    }
+  }'
+```
+  </TabItem>
+  <TabItem value="javascript" label="JavaScript">
+```javascript title="Alternar modo de validación"
+// Habilitar validación con registro civil
+const enableGovMode = await fetch('https://api.soyio.com/v1/config', {
+  method: 'PATCH',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    data_subject_request: {
+      government_only_mode: true
+    }
+  })
+});
+
+// Volver a validación biométrica tradicional
+const disableGovMode = await fetch('https://api.soyio.com/v1/config', {
+  method: 'PATCH',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    data_subject_request: {
+      government_only_mode: false
+    }
+  })
+});
+```
+  </TabItem>
+</Tabs>
+
+### Experiencia del usuario
+
+Cuando `government_only_mode` está habilitado:
+
+1. **El usuario ingresa su solicitud** en el formulario del Privacy Center
+2. **Proporciona su RUT** y el **número de documento de identidad** (cédula de identidad)
+3. **Soyio valida los datos** contra el Registro Civil
+4. **Si la validación es exitosa**, la solicitud pasa a estado `validating` y luego a `processing`
+5. **No se solicitan selfies ni verificación de vivacidad**
+
+:::warning Limitación geográfica
+La validación contra el Registro Civil actualmente solo está disponible para Chile. Si tu organización opera en otros países, consulta con el equipo de Soyio sobre opciones de validación disponibles.
+:::
+
+:::info Impacto en solicitudes existentes
+El campo `government_only_mode` se aplica a nuevas solicitudes. Las solicitudes creadas antes de cambiar esta configuración mantendrán el método de validación con el que fueron creadas.
+:::
+
+## Consultar configuración actual
+
+Obtén la configuración actual de tu compañía para revisar todos los ajustes de DSR:
+
+<Tabs>
+  <TabItem value="curl" label="cURL" default>
+```bash title="Obtener configuración actual"
+curl -X GET https://api.soyio.com/v1/config \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+  </TabItem>
+  <TabItem value="javascript" label="JavaScript">
+```javascript title="Obtener configuración actual"
+const response = await fetch('https://api.soyio.com/v1/config', {
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY'
+  }
+});
+
+const config = await response.json();
+console.log('Configuración DSR:', config.data_subject_request);
+```
+  </TabItem>
+</Tabs>
+
+Ejemplo de respuesta:
+
+```json
+{
+  "data_subject_request": {
+    "validation_timeout_period": "P1D",
+    "government_only_mode": false,
+    "allow_many_data_categories_mutations": true,
+    "appliable_scopes": [],
+    "contact_field_configs": [
+      {
+        "field_name": "names",
+        "visible": true,
+        "required": true
+      },
+      {
+        "field_name": "last_names",
+        "visible": true,
+        "required": true
+      },
+      {
+        "field_name": "phone",
+        "visible": true,
+        "required": false
+      }
+    ]
+  }
+}
+```
+
+## Siguientes pasos
+
+- [**Recibe solicitudes de derecho**](./requests-intake.mdx): Integra el componente Privacy Center para empezar a recibir solicitudes.
+- [**Validación de la identidad**](./requests-validation.mdx): Entiende cómo funciona el proceso de validación de identidad.
+- [**Gestiona las solicitudes**](./requests-management.mdx): Aprende a procesar y responder solicitudes.
+- [**Referencia de API**](../../api/resources/update-company-config.api.mdx): Consulta la documentación completa de la API de configuración.

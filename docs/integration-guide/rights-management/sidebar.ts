@@ -34,6 +34,11 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: 'doc',
+      id: 'integration-guide/rights-management/dsr-configuration',
+      label: 'Configura tus solicitudes',
+    },
+    {
+      type: 'doc',
       id: 'integration-guide/rights-management/notifications',
       label: 'Configura las notificaciones',
     },
