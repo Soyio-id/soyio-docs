@@ -1,0 +1,183 @@
+# Cómo funciona REDEC
+
+## Funcionamiento general
+
+El módulo REDEC de Soyio te permite cumplir con la NCG 540 de la CMF registrando todas las acciones de consentimiento asociadas a evaluaciones de riesgo crediticio y generando reportes regulatorios.
+
+## Componentes del sistema
+
+### API de registro REDEC
+
+El endpoint `POST /api/v1/redec/consent_actions` registra acciones de consentimiento vinculadas a RUT de usuarios chilenos, cumpliendo con los requisitos específicos de la CMF.
+
+**Diferencias con consent_actions estándar**:
+- Requiere `entity_nin` (RUT del usuario)
+- Permite `executive_nin` (RUT del ejecutivo)
+- Diseñado específicamente para cumplimiento regulatorio chileno
+- Se incluye automáticamente en reportes RDC30
+
+### API de reportes
+
+Los endpoints de reportes te permiten:
+- Crear reportes RDC30 con rangos de fechas específicos
+- Los reportes se generan automáticamente en formato CMF
+
+```json title="POST /api/v1/reports"
+{
+  "kind": "rdc30",
+  "starts_at": "2026-01-01T00:00:00Z",
+  "ends_at": "2026-01-31T23:59:59Z"
+}
+```
+
+### Webhooks
+
+El sistema envía webhooks para eventos REDEC:
+- `consent_action.created` - Nueva acción de consentimiento registrada
+- `report.created` - Nuevo reporte generado (verifica `kind: "rdc30"` en el payload para reportes RDC30)
+
+:::tip[Sincronización semanal con CMF]
+Usa el webhook `report.created` y verifica el campo `kind` en el payload para identificar reportes RDC30 y sincronizarlos semanalmente con la CMF según lo requiere la normativa.
+:::
+
+## Modelo de datos REDEC
+
+### Acción de consentimiento REDEC
+
+Cada acción de consentimiento REDEC extiende el modelo estándar de consentimiento con información regulatoria:
+
+**Componentes principales**:
+- **Action Token**: Evidencia criptográfica del consentimiento
+- **Entity NIN**: RUT del usuario (obligatorio)
+- **Executive NIN**: RUT del ejecutivo (opcional)
+- **Consent Template**: Plantilla que define el propósito
+- **Timestamp**: Fecha y hora exacta del consentimiento
+- **Consent Method**: Método de captura (web, IVR, firma, etc.)
+- **Agreement**: Se actualiza automáticamente con el consentimiento
+
+:::info[¿Qué son las acciones de consentimiento?]
+Las acciones de consentimiento registran cada vez que un usuario otorga, actualiza o revoca un consentimiento. Para entender el concepto completo, revisa la [guía de gestión de consentimientos](../consent/consent-management.mdx).
+:::
+
+### Reporte RDC30
+
+El reporte RDC30 consolida todas las acciones de consentimiento en un período:
+
+**Información incluida**:
+- RUT de usuarios que otorgaron consentimiento
+- Fecha y hora de cada consentimiento
+- Tipo de consentimiento
+- Método de captura
+- RUT del ejecutivo (si aplica)
+- Actualizaciones y revocaciones
+
+## Relación con otros módulos
+
+### Integración con Consentimiento
+
+REDEC utiliza la infraestructura del módulo de consentimiento:
+- Las plantillas de consentimiento se crean igual que las plantillas estándar
+- El SDK captura consentimientos de la misma forma
+- Los Agreements se actualizan automáticamente
+- La evidencia se genera igual que en consentimientos regulares
+
+**La diferencia**: REDEC añade el registro del RUT y genera reportes regulatorios específicos para la CMF.
+
+Revisa la [guía de consentimientos](../consent/introduction.mdx) para entender los conceptos básicos.
+
+## Requisitos de la NCG 540
+
+### ¿Qué debe registrarse?
+
+Según la NCG 540, las instituciones deben registrar:
+
+1. **Consentimientos iniciales** - Cuando el usuario autoriza consulta de información crediticia
+2. **Actualizaciones de consentimiento** - Cuando el usuario modifica sus autorizaciones
+3. **Revocaciones** - Cuando el usuario retira el consentimiento
+4. **Información del solicitante** - RUT del usuario
+5. **Información del ejecutivo** - RUT de quien gestionó (opcional pero recomendado)
+6. **Tipo de crédito** - Clasificación del producto crediticio según la CMF
+
+### Cumplimiento de plantillas REDEC
+
+Para que un consentimiento sea válido para REDEC y se incluya en reportes RDC30, la plantilla de consentimiento debe cumplir requisitos estrictos:
+
+#### Data use permitido
+
+La plantilla debe usar **uno** de estos dos data uses:
+- `finance.credit_risk_assessment` - Evaluación de riesgo crediticio
+- `finance.commercial_risk_assessment` - Evaluación de riesgo comercial
+
+Todos los `data_requirements` de la plantilla deben usar el mismo data use. No mezcles ambos en una misma plantilla.
+
+#### Producto con redec_kind (obligatorio)
+
+La plantilla debe referenciar (vía `product_id`) un producto que tenga un `redec_kind` que clasifica el tipo de crédito.
+
+**Paso 1: Crear el producto**
+
+```json title="POST /api/v1/products"
+{
+  "name": "Crédito de Consumo",
+  "redec_kind": "consumer_credits"
+}
+```
+
+**Paso 2: Referenciar en la plantilla**
+
+```json title="POST /api/v1/redec/consent_templates"
+{
+  "name": "...",
+  "data_requirements": [...],
+  "product_id": "prod_abc123..."
+}
+```
+
+:::tip[Endpoint dedicado]
+Usa `/api/v1/redec/consent_templates` para crear plantillas REDEC. Este endpoint valida el cumplimiento automáticamente al momento de creación.
+:::
+
+**Valores válidos de redec_kind**:
+- `commercial_credits` - Créditos comerciales
+- `consumer_credits` - Créditos de consumo
+- `housing_credits` - Créditos hipotecarios
+- `financial_operations` - Operaciones financieras
+- `acquired_debt_instruments` - Instrumentos de deuda adquiridos
+- `contingent_credits` - Créditos contingentes
+- `freely_available_credit_line_limits` - Límites de líneas de crédito de libre disposición
+
+#### Validación automática
+
+El sistema valida automáticamente:
+- ✅ Data uses permitidos en `data_requirements`
+- ✅ La plantilla tiene un `product_id`
+- ✅ El producto referenciado tiene un `redec_kind` válido
+
+Si la plantilla no cumple, el endpoint `/redec/consent_actions` retornará error 400.
+
+:::warning[Solo templates REDEC-compliant en reportes]
+Únicamente las acciones registradas con plantillas REDEC-compliant se incluirán en los reportes RDC30. Las acciones con plantillas no conformes no serán reportables.
+:::
+
+### Plazos de reporte
+
+Los reportes RDC30 deben:
+- Generarse semanalmente (cada sábado entre las 00:00 y 01:00 si está habilitado)
+- Incluir todas las acciones del período
+- Estar disponibles para sincronización con la CMF
+- Conservarse por el tiempo establecido en la normativa
+
+## Flujo de trabajo recomendado
+
+1. **Configura** el módulo REDEC en tu cuenta y establece el código REDEC de tu empresa
+2. **Crea productos** con `redec_kind` para cada tipo de crédito que ofreces
+3. **Crea plantillas** de consentimiento REDEC-compliant referenciando los productos
+4. **Integra** el SDK o API para capturar consentimientos
+5. **Registra** cada acción con el endpoint REDEC incluyendo el RUT
+6. **Activa** los reportes periódicos automáticos en la configuración
+7. **Suscríbete** a webhooks para rastrear generación de reportes
+8. **Sincroniza** reportes con la CMF semanalmente usando los webhooks
+
+:::info[Configuración automática de reportes]
+En la sección de [configuración](./configuration.mdx) encontrarás cómo activar los reportes periódicos automáticos que simplifican el cumplimiento.
+:::

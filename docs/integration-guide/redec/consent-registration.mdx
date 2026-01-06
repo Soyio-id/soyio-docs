@@ -1,0 +1,354 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import SequenceDiagram from '../../../src/components/SequenceDiagram';
+
+# Captura consentimientos REDEC
+
+El registro REDEC te permite cumplir con la NCG 540 de la CMF capturando el RUT del usuario chileno junto con el consentimiento para evaluación de riesgo crediticio.
+
+## Antes de comenzar
+
+Esta guía asume que ya sabes cómo capturar consentimientos usando el SDK de Soyio.
+
+:::info[Prerrequisitos]
+Si aún no has capturado un consentimiento, lee primero la [guía de captura de consentimientos](../consent/consent-capture.mdx) para obtener el `action_token` necesario.
+:::
+
+**Requisitos específicos para REDEC:**
+- ✅ Tienes un `action_token` del consentimiento capturado
+- ✅ Conoces el RUT chileno del usuario (entity_nin)
+- ✅ Tu plantilla de consentimiento es REDEC-compliant ([verifica aquí](./configuration.mdx#plantillas-de-consentimiento-para-redec))
+- ✅ Has configurado el código REDEC de tu empresa ([configuración](./quickstart.mdx#paso-1-configura-tu-empresa-para-redec))
+
+**Lo que aprenderás:**
+- Cómo registrar consentimientos que cumplen con NCG 540
+- Qué parámetros usar según tu escenario
+- Cómo manejar diferentes casos de uso (sucursal, online, usuarios existentes)
+
+## Cómo funciona el registro REDEC
+
+El registro REDEC extiende el flujo estándar de consentimientos con información regulatoria requerida por la CMF.
+
+### Diferencias con consent_actions estándar
+
+| Aspecto | Consent Actions Estándar | REDEC Consent Actions |
+|---------|---------------------------|------------------------|
+| **Endpoint** | `/api/v1/consent_actions` | `/api/v1/redec/consent_actions` |
+| **Identificación** | No aplica | `entity_nin` (RUT, obligatorio) |
+| **Ejecutivo** | No aplica | `executive_nin` (RUT, opcional) |
+| **Cumplimiento** | Ley 21.719 | NCG 540 (CMF Chile) |
+| **Reportes** | No genera | Incluido en reportes RDC30 |
+| **Template** | Cualquiera | Solo REDEC-compliant |
+
+### Flujo de registro REDEC
+
+<SequenceDiagram
+  actors={[
+    { id: 'frontend', label: 'Tu Frontend' },
+    { id: 'backend', label: 'Tu Backend' },
+    { id: 'soyio', label: 'Soyio API' },
+  ]}
+  actions={[
+    {
+      from: 'frontend',
+      to: 'frontend',
+      label: 'Usuario acepta consentimiento',
+      isDashed: true
+    },
+    {
+      from: 'frontend',
+      to: 'frontend',
+      label: 'SDK genera action_token',
+      isDashed: true
+    },
+    {
+      from: 'frontend',
+      to: 'backend',
+      label: 'Envía action_token + RUT del usuario'
+    },
+    {
+      from: 'backend',
+      to: 'soyio',
+      label: 'POST /redec/consent_actions'
+    },
+    {
+      from: 'soyio',
+      to: 'soyio',
+      label: 'Valida RUT y template compliance',
+      isDashed: true
+    },
+    {
+      from: 'soyio',
+      to: 'soyio',
+      label: 'Registra acción de consentimiento',
+      isDashed: true
+    },
+    {
+      from: 'soyio',
+      to: 'backend',
+      label: 'Retorna consent_action con ID'
+    },
+    {
+      from: 'backend',
+      to: 'frontend',
+      label: 'Confirma registro exitoso'
+    }
+  ]}
+/>
+
+:::info[Identificadores de usuario]
+- **`entity_nin`**: RUT del usuario chileno (obligatorio para REDEC). Las entidades en Soyio se vinculan a este RUT.
+- **`entity_id`**: ID interno de Soyio creado automáticamente al registrar el consentimiento. Se puede reusar en futuros consentimientos del mismo usuario.
+- **`user_reference`**: Tu identificador interno del usuario. Si siempre usas el mismo, podemos resolver automáticamente la entidad correcta. Si incluyes `entity_id`, este tiene prioridad sobre `user_reference`.
+
+Para más información sobre estos identificadores, revisa la [guía de captura de consentimientos](../consent/consent-capture.mdx).
+:::
+
+### Endpoint de registro REDEC
+
+```
+POST /api/v1/redec/consent_actions
+```
+
+Este endpoint está diseñado específicamente para cumplimiento regulatorio chileno y requiere información adicional comparado con el registro estándar de consentimientos.
+
+## Parámetros según tu escenario
+
+| Escenario | action_token | entity_nin | executive_nin | entity_id / user_reference |
+|-----------|--------------|------------|---------------|----------------------------|
+| **Sucursal con ejecutivo** | ✅ Requerido | ✅ Requerido | ✅ Incluir | Opcional (identifica al usuario) |
+| **Solicitud online** | ✅ Requerido | ✅ Requerido | ❌ No aplica | Opcional (identifica al usuario) |
+| **Usuario existente** | ✅ Requerido | ✅ Requerido | Según caso | ✅ `entity_id` prima sobre `user_reference` |
+
+:::tip[entity_id vs user_reference]
+- Ambos sirven para identificar al usuario en tu sistema
+- Si incluyes `entity_id`, este tiene prioridad sobre `user_reference`
+- Si solo incluyes `user_reference` y siempre usas el mismo valor, lo resolvemos automáticamente a la entidad correcta
+:::
+
+## Implementa según tu escenario
+
+Elige el escenario que coincida con tu caso de uso:
+
+### Escenario 1: Solicitud en sucursal (con ejecutivo)
+
+**Cuándo usar**: Un ejecutivo bancario, asesor de crédito o funcionario gestiona la solicitud presencialmente. En este caso, el usuario no hace el "opt-in click" directamente.
+
+**Parámetros**: `action_token`, `entity_nin`, `executive_nin`, `user_reference`
+
+:::info[Captura sin SDK]
+Como el ejecutivo es quien gestiona la solicitud, necesitas crear el `action_token` mediante integración sin SDK. Revisa la [guía de captura de consentimientos](../consent/consent-capture.mdx) para aprender a generar action tokens con la información del usuario.
+:::
+
+<Tabs>
+  <TabItem value="javascript" label="JavaScript" default>
+    ```javascript
+    // Registra el consentimiento REDEC con información del ejecutivo
+    const response = await fetch('https://api.soyio.id/api/v1/redec/consent_actions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        action_token: actionToken,              // Token generado sin SDK
+        entity_nin: '12.345.678-9',             // RUT del usuario
+        executive_nin: '98.765.432-1',          // RUT del ejecutivo
+        user_reference: 'cliente_00042'         // ID interno del cliente
+      })
+    });
+
+    const { consent_action } = await response.json();
+    ```
+  </TabItem>
+  <TabItem value="curl" label="cURL">
+    ```bash
+    curl -X POST https://api.soyio.id/api/v1/redec/consent_actions \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "action_token": "at_abc123...",
+        "entity_nin": "12.345.678-9",
+        "executive_nin": "98.765.432-1",
+        "user_reference": "cliente_00042"
+      }'
+    ```
+  </TabItem>
+  <TabItem value="python" label="Python">
+    ```python
+    import requests
+
+    response = requests.post(
+        'https://api.soyio.id/api/v1/redec/consent_actions',
+        headers={
+            'Authorization': f'Bearer {API_KEY}',
+            'Content-Type': 'application/json'
+        },
+        json={
+            'action_token': action_token,
+            'entity_nin': '12.345.678-9',
+            'executive_nin': '98.765.432-1',
+            'user_reference': 'cliente_00042'
+        }
+    )
+
+    consent_action = response.json()['consent_action']
+    ```
+  </TabItem>
+</Tabs>
+
+---
+
+### Escenario 2: Solicitud online (sin ejecutivo)
+
+**Cuándo usar**: El usuario solicita crédito desde tu app o sitio web sin intervención de un ejecutivo.
+
+**Parámetros**: `action_token`, `entity_nin`, `user_reference`
+
+:::tip[Con SDK o sin SDK]
+Captura el consentimiento usando el SDK de Soyio (el usuario hace el opt-in click) o mediante integración sin SDK. Revisa la [guía de captura de consentimientos](../consent/consent-capture.mdx) para ambas opciones.
+:::
+
+<Tabs>
+  <TabItem value="javascript" label="JavaScript" default>
+    ```javascript
+    // Registra el consentimiento REDEC
+    const response = await fetch('https://api.soyio.id/api/v1/redec/consent_actions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        action_token: actionToken,
+        entity_nin: '12.345.678-9',            // RUT del usuario
+        user_reference: 'web_user_5678'       // ID interno del usuario
+      })
+    });
+
+    const { consent_action } = await response.json();
+    ```
+  </TabItem>
+  <TabItem value="curl" label="cURL">
+    ```bash
+    curl -X POST https://api.soyio.id/api/v1/redec/consent_actions \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "action_token": "at_xyz789...",
+        "entity_nin": "12.345.678-9",
+        "user_reference": "web_user_5678"
+      }'
+    ```
+  </TabItem>
+  <TabItem value="python" label="Python">
+    ```python
+    import requests
+
+    response = requests.post(
+        'https://api.soyio.id/api/v1/redec/consent_actions',
+        headers={
+            'Authorization': f'Bearer {API_KEY}',
+            'Content-Type': 'application/json'
+        },
+        json={
+            'action_token': action_token,
+            'entity_nin': '12.345.678-9',
+            'user_reference': 'web_user_5678'
+        }
+    )
+
+    consent_action = response.json()['consent_action']
+    ```
+  </TabItem>
+</Tabs>
+
+---
+
+### Escenario 3: Usuario existente
+
+**Cuándo usar**: El usuario ya tiene consentimientos previos (de otros módulos o re-consentimientos REDEC) y quieres asociar esta acción a su entidad existente.
+
+**Parámetros**: `action_token`, `entity_nin`, `entity_id`, `user_reference`
+
+<Tabs>
+  <TabItem value="javascript" label="JavaScript" default>
+    ```javascript
+    // 1. Busca el entity_id existente del usuario
+    const existingUser = await db.users.findOne({ rut: '11.111.111-1' });
+
+    // 2. Registra la nueva acción asociada a la entidad existente
+    const response = await fetch('https://api.soyio.id/api/v1/redec/consent_actions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        action_token: actionToken,
+        entity_nin: '11.111.111-1',
+        entity_id: existingUser.soyioEntityId,  // Asocia a entidad existente
+        user_reference: 'app_user_999'
+      })
+    });
+
+    const { consent_action } = await response.json();
+
+    // 3. La acción se registra para el mismo usuario
+    console.log('Consentimiento registrado:', consent_action.id);
+    ```
+  </TabItem>
+  <TabItem value="curl" label="cURL">
+    ```bash
+    curl -X POST https://api.soyio.id/api/v1/redec/consent_actions \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "action_token": "at_def456...",
+        "entity_nin": "11.111.111-1",
+        "entity_id": "ent_existing123",
+        "user_reference": "app_user_999"
+      }'
+    ```
+  </TabItem>
+  <TabItem value="python" label="Python">
+    ```python
+    # Busca el entity_id del usuario
+    existing_user = db.users.find_one({'rut': '11.111.111-1'})
+
+    # Registra asociado a la entidad existente
+    response = requests.post(
+        'https://api.soyio.id/api/v1/redec/consent_actions',
+        headers={'Authorization': f'Bearer {API_KEY}'},
+        json={
+            'action_token': action_token,
+            'entity_nin': '11.111.111-1',
+            'entity_id': existing_user['soyio_entity_id'],
+            'user_reference': 'app_user_999'
+        }
+    )
+
+    consent_action = response.json()['consent_action']
+    ```
+  </TabItem>
+</Tabs>
+
+Al registrar la acción con el mismo `entity_nin` y el mismo `entity_id` o `user_reference`, la acción se asocia al mismo usuario y se mantiene el historial completo.
+
+## Revocación de consentimiento
+
+:::info[Cómo revocar consentimientos]
+Para registrar una revocación, necesitas crear un `action_token` de tipo revocación mediante integración sin SDK.
+
+Revisa la [guía de captura de consentimientos](../consent/consent-capture.mdx) para aprender a generar action tokens de revocación. La revocación se incluirá automáticamente en los reportes RDC30.
+:::
+
+## Próximos pasos
+
+Ya registraste tu primera acción de consentimiento REDEC. Ahora puedes:
+
+- **[Genera reportes RDC30](./reports.mdx)** - Crea reportes regulatorios para la CMF y programa reportes periódicos automáticos
+- **[Configura webhooks](./configuration.mdx#webhooks)** - Recibe notificaciones cuando se registren consentimientos y se generen reportes
+- **[Gestiona consentimientos](../consent/consent-management.mdx)** - Consulta, actualiza y revoca consentimientos de tus usuarios
+
+¿Tienes dudas sobre el modelo de datos o la arquitectura? Revisa la [guía de cómo funciona REDEC](./how-it-works.mdx) para entender el flujo completo.

@@ -1,0 +1,179 @@
+# Configuración REDEC
+
+Esta guía cubre la configuración necesaria para usar el módulo REDEC de Soyio y cumplir con la NCG 540.
+
+## Configuración inicial
+
+### 1. Habilita el módulo REDEC
+
+Contacta a tu gerente de cuenta en Soyio para habilitar el módulo REDEC en tu cuenta. Una vez habilitado, tendrás acceso a:
+
+- Endpoint `/api/v1/redec/consent_actions`
+- Endpoint `/api/v1/redec/consent_templates`
+- Endpoint `/api/v1/reports` con tipo `rdc30`
+- Dashboard de gestión REDEC
+- Configuración de reportes automáticos
+
+### 2. Configura el código REDEC de tu empresa
+
+Establece el código REDEC (numérico) asignado por la CMF a tu institución:
+
+```json title="PATCH /api/v1/company"
+{
+  "redec_code": 123456
+}
+```
+
+:::warning[Código REDEC obligatorio]
+El código REDEC (numérico) es requerido para generar reportes RDC30 válidos. Asegúrate de usar el código correcto asignado por la CMF a tu institución financiera.
+:::
+
+### 3. Configura credenciales de API
+
+Usa las mismas credenciales de API de Soyio para acceder a los endpoints REDEC. No se requieren credenciales adicionales.
+
+## Configuración del módulo de consentimiento
+
+### Habilitar módulo REDEC
+
+Habilita el módulo REDEC en la configuración de consentimiento:
+
+```json title="PATCH /api/v1/company/settings"
+{
+  "consent": {
+    "redec_enabled": true
+  }
+}
+```
+
+Una vez habilitado, el endpoint `/redec/consent_actions` estará disponible para tu cuenta.
+
+### Reportes automáticos
+
+Configura la generación automática de reportes RDC30:
+
+```json title="PATCH /api/v1/company/settings"
+{
+  "consent": {
+    "redec_enabled": true,
+    "redec_automatic_rdc30": true
+  }
+}
+```
+
+Los reportes se generan automáticamente cada sábado entre las 00:00 y 01:00 cuando esta configuración está habilitada.
+
+:::tip[Sincronización con CMF]
+Los reportes semanales automáticos facilitan la sincronización continua con la plataforma de la CMF según requiere la NCG 540.
+:::
+
+## Plantillas de consentimiento para REDEC
+
+### Requisitos de cumplimiento REDEC
+
+Para que una plantilla de consentimiento sea válida para REDEC, debe cumplir requisitos estrictos establecidos por la NCG 540:
+
+#### 1. Data use permitido
+
+La plantilla debe usar **uno** de estos dos data uses en los `data_requirements`:
+
+- `finance.credit_risk_assessment` - Evaluación de riesgo crediticio
+- `finance.commercial_risk_assessment` - Evaluación de riesgo comercial
+
+Todos los `data_requirements` de la plantilla deben usar el mismo data use. No mezcles ambos en una misma plantilla.
+
+#### 2. Producto con redec_kind (obligatorio)
+
+La plantilla **debe** referenciar un producto (vía `product_id`) que tenga un `redec_kind` que clasifica el tipo de crédito según la CMF.
+
+**Primero, crea el producto**:
+
+```json title="POST /api/v1/products"
+{
+  "name": "Crédito de Consumo",
+  "redec_kind": "consumer_credits"
+}
+```
+
+| redec_kind | Descripción |
+| :--- | :--- |
+| `commercial_credits` | Créditos comerciales |
+| `consumer_credits` | Créditos de consumo |
+| `housing_credits` | Créditos hipotecarios |
+| `financial_operations` | Operaciones financieras |
+| `acquired_debt_instruments` | Instrumentos de deuda adquiridos |
+| `contingent_credits` | Créditos contingentes |
+| `freely_available_credit_line_limits` | Límites de líneas de crédito de libre disposición |
+
+**Luego, referencia el producto en la plantilla** usando el `product_id` retornado.
+
+:::tip[Endpoint específico para REDEC]
+Usa `POST /api/v1/redec/consent_templates` en lugar del endpoint general. Este valida el cumplimiento REDEC al momento de crear la plantilla, dándote feedback inmediato si algo no cumple con la normativa.
+:::
+
+### Ejemplo de plantilla REDEC-compliant
+
+**Paso 1: Crea el producto**
+
+```json title="POST /api/v1/products"
+{
+  "name": "Crédito de Consumo",
+  "redec_kind": "consumer_credits"
+}
+```
+
+Respuesta: `{ "product": { "id": "prod_123...", ... } }`
+
+**Paso 2: Crea la plantilla**
+
+```json title="POST /api/v1/redec/consent_templates"
+{
+  "name": "REDEC - Crédito de Consumo",
+  "duration": "P24M",
+  "title": "Autorización consulta información crediticia",
+  "text": "Autorizo a [Nombre de la institución] a consultar mi información crediticia para evaluar mi solicitud de crédito de consumo. Este consentimiento tiene una vigencia de 24 meses.",
+  "data_requirements": [
+    {
+      "data_category": "user.government_id.national_identification_number",
+      "data_uses": ["finance.credit_risk_assessment"]
+    },
+    {
+      "data_category": "user.financial",
+      "data_uses": ["finance.credit_risk_assessment"]
+    },
+    {
+      "data_category": "user.contact.email",
+      "data_uses": ["finance.credit_risk_assessment"]
+    }
+  ],
+  "product_id": "prod_123...",
+  "tags": ["redec", "credito_consumo", "ncg_540"]
+}
+```
+
+:::tip[Validación automática]
+Al usar el endpoint `/api/v1/redec/consent_templates`, obtienes validación inmediata del cumplimiento REDEC. Si la plantilla no cumple con los requisitos, recibirás un error con detalles específicos.
+:::
+
+### Elementos clave
+
+**Para el producto**:
+- `name`: Nombre descriptivo del producto crediticio
+- `redec_kind`: **Obligatorio**, debe ser uno de los 7 tipos válidos
+
+**Para la plantilla**:
+- `duration`: Vigencia del consentimiento (típicamente 24 meses según normativa)
+- `text`: Debe ser claro sobre el propósito de evaluación crediticia
+- `data_requirements`: Todos deben usar el mismo data use (`finance.credit_risk_assessment` o `finance.commercial_risk_assessment`)
+- `product_id`: **Obligatorio**, debe referenciar un producto con `redec_kind`
+- `tags`: Etiqueta con "redec" para fácil identificación
+
+:::info[Más sobre plantillas]
+Revisa la guía completa de [creación de plantillas de consentimiento](../consent/consent-templates.mdx) para opciones avanzadas de configuración.
+:::
+
+## Próximos pasos
+
+- [Registra consentimientos](./consent-registration.mdx) - Comienza a registrar acciones REDEC
+- [Genera reportes](./reports.mdx) - Crea reportes RDC30 para la CMF
+- [Cómo funciona](./how-it-works.mdx) - Entiende la arquitectura completa
