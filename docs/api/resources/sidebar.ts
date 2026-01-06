@@ -1064,6 +1064,72 @@ const sidebar: SidebarsConfig = {
         },
       ],
     },
+    {
+      type: "category",
+      label: "REDEC",
+      items: [
+        {
+          type: "doc",
+          id: "api/resources/create-redec-consent-action",
+          label: "Crear un consent action para REDEC",
+          className: "api-method post",
+        },
+        {
+          type: "doc",
+          id: "api/resources/create-redec-consent-template",
+          label: "Crear un template de consentimiento para REDEC",
+          className: "api-method post",
+        },
+        {
+          type: "doc",
+          id: "api/resources/update-redec-consent-template",
+          label: "Actualizar un template de consentimiento para REDEC",
+          className: "api-method patch",
+        },
+      ],
+    },
+    {
+      type: "category",
+      label: "Reports",
+      items: [
+        {
+          type: "doc",
+          id: "api/resources/schemas/report",
+          label: "El objeto Report",
+          className: "schema",
+        },
+        {
+          type: "doc",
+          id: "api/resources/schemas/reportindexlist",
+          label: "El objeto ReportIndexList",
+          className: "schema",
+        },
+        {
+          type: "doc",
+          id: "api/resources/schemas/reportinput",
+          label: "El objeto ReportInput",
+          className: "schema",
+        },
+        {
+          type: "doc",
+          id: "api/resources/index-reports",
+          label: "Obtener todos los reportes",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/create-report",
+          label: "Crear un nuevo reporte",
+          className: "api-method post",
+        },
+        {
+          type: "doc",
+          id: "api/resources/report-created",
+          label: "Created",
+          className: "api-method event",
+        },
+      ],
+    },
   ],
 };
 

@@ -1,0 +1,270 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import SequenceDiagram from '../../../src/components/SequenceDiagram';
+
+# Inicio rápido
+
+## Registra tu primera acción de consentimiento REDEC
+
+Esta guía te llevará paso a paso para registrar una acción de consentimiento que cumple con los requisitos de REDEC (NCG 540).
+
+## Pre-requisitos
+
+Antes de comenzar, asegúrate de tener:
+
+- **Cuenta Empresa en Soyio** con credenciales de API
+- **Módulo REDEC habilitado** en la configuración de tu cuenta
+
+:::warning[Importante]
+Si aún no tienes tu cuenta Empresa en Soyio, contacta a nuestro equipo para obtener una cuenta de prueba completando [el siguiente formulario](https://soyio.typeform.com/formularioweb).
+:::
+
+## Paso a paso
+
+### 1. Configura tu empresa para REDEC
+
+Antes de registrar consentimientos, configura el módulo REDEC en tu cuenta:
+
+**a) Establece el código REDEC de tu empresa**
+
+El código REDEC es asignado por la CMF a tu institución financiera. Configúralo en la información de tu empresa:
+
+```json title="PATCH /api/v1/company"
+{
+  "redec_code": 123456
+}
+```
+
+**b) Habilita el módulo REDEC**
+
+Activa el módulo REDEC en la configuración de consentimiento de tu empresa:
+
+```json title="PATCH /api/v1/company/settings"
+{
+  "consent": {
+    "redec_enabled": true
+  }
+}
+```
+
+:::warning[Código REDEC obligatorio]
+El código REDEC (numérico) es requerido para generar reportes RDC30 válidos. Asegúrate de usar el código correcto asignado por la CMF.
+:::
+
+### 2. Crea un producto con redec_kind
+
+Primero, crea un producto que clasifica el tipo de crédito según la CMF. El producto debe tener un `redec_kind`:
+
+```json title="POST /api/v1/products"
+{
+  "name": "Crédito de Consumo",
+  "redec_kind": "consumer_credits"
+}
+```
+
+**Valores válidos de redec_kind**:
+- `commercial_credits` - Créditos comerciales
+- `consumer_credits` - Créditos de consumo
+- `housing_credits` - Créditos hipotecarios
+- `financial_operations` - Operaciones financieras
+- `acquired_debt_instruments` - Instrumentos de deuda adquiridos
+- `contingent_credits` - Créditos contingentes
+- `freely_available_credit_line_limits` - Límites de líneas de crédito de libre disposición
+
+La respuesta incluirá el `product_id`:
+
+```json title="Respuesta"
+{
+  "product": {
+    "id": "prod_abc123...",
+    "name": "Crédito de Consumo",
+    "redec_kind": "consumer_credits"
+  }
+}
+```
+
+### 3. Crea una plantilla de consentimiento REDEC-compliant
+
+Usa el endpoint específico de REDEC para crear plantillas. Este endpoint valida automáticamente el cumplimiento REDEC:
+
+**Requisitos obligatorios**:
+
+1. **Data uses permitidos**: Solo puedes usar estos dos:
+   - `finance.credit_risk_assessment` (Evaluación de riesgo crediticio)
+   - `finance.commercial_risk_assessment` (Evaluación de riesgo comercial)
+
+2. **Product ID**: Debes referenciar un producto con `redec_kind` válido
+
+```json title="POST /api/v1/redec/consent_templates"
+{
+  "name": "Consentimiento REDEC - Crédito de Consumo",
+  "duration": "P24M",
+  "title": "Autorización consulta información crediticia",
+  "text": "Autorizo consultar mi información crediticia para evaluar mi solicitud de crédito de consumo.",
+  "data_requirements": [
+    {
+      "data_category": "user.government_id.national_identification_number",
+      "data_uses": ["finance.credit_risk_assessment"]
+    },
+    {
+      "data_category": "user.financial",
+      "data_uses": ["finance.credit_risk_assessment"]
+    }
+  ],
+  "product_id": "prod_abc123..."
+}
+```
+
+### 4. Captura el consentimiento del usuario
+
+Captura el consentimiento usando el SDK de Soyio o tu propia interfaz con la plantilla REDEC que creaste. Esto generará un `action_token`.
+
+:::tip[Consejo]
+Si no estás familiarizado con la captura de consentimiento, revisa primero la guía de [captura de consentimientos](../consent/consent-capture.mdx).
+:::
+
+### 5. Registra la acción de consentimiento REDEC
+
+Usa el endpoint específico de REDEC para registrar la acción con el RUT del usuario:
+
+<Tabs>
+  <TabItem value="curl" label="cURL" default>
+    ```bash
+    curl -X POST https://api.soyio.id/api/v1/redec/consent_actions \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "action_token": "at_abc123...",
+        "entity_nin": "12.345.678-9",
+        "executive_nin": "98.765.432-1",
+        "user_reference": "cliente_123"
+      }'
+    ```
+  </TabItem>
+  <TabItem value="javascript" label="JavaScript">
+    ```javascript
+    const response = await fetch('https://api.soyio.id/api/v1/redec/consent_actions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${YOUR_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        action_token: 'at_abc123...',
+        entity_nin: '12.345.678-9',  // RUT del usuario
+        executive_nin: '98.765.432-1',  // RUT del ejecutivo (opcional)
+        user_reference: 'cliente_123'  // ID interno (opcional)
+      })
+    });
+
+    const data = await response.json();
+    console.log('Consentimiento REDEC registrado:', data.consent_action);
+    ```
+  </TabItem>
+  <TabItem value="python" label="Python">
+    ```python
+    import requests
+
+    response = requests.post(
+        'https://api.soyio.id/api/v1/redec/consent_actions',
+        headers={
+            'Authorization': f'Bearer {YOUR_API_KEY}',
+            'Content-Type': 'application/json'
+        },
+        json={
+            'action_token': 'at_abc123...',
+            'entity_nin': '12.345.678-9',  # RUT del usuario
+            'executive_nin': '98.765.432-1',  # RUT del ejecutivo (opcional)
+            'user_reference': 'cliente_123'  # ID interno (opcional)
+        }
+    )
+
+    data = response.json()
+    print('Consentimiento REDEC registrado:', data['consent_action'])
+    ```
+  </TabItem>
+</Tabs>
+
+**Parámetros clave**:
+- `action_token`: Token generado al capturar el consentimiento
+- `entity_nin`: **RUT del usuario** (obligatorio para REDEC)
+- `executive_nin`: RUT del ejecutivo que gestionó la solicitud (opcional)
+- `user_reference`: Identificador del usuario en tu sistema (opcional)
+
+### 6. Confirma el registro exitoso
+
+La API retornará la acción de consentimiento creada:
+
+```json title="Respuesta exitosa"
+{
+  "consent_action": {
+    "id": "ca_redec_abc123...",
+    "action_token": "at_abc123...",
+    "entity_id": "ent_xyz789...",
+    "entity_nin": "12.345.678-9",
+    "executive_nin": "98.765.432-1",
+    "user_reference": "cliente_123",
+    "created_at": "2026-01-15T10:30:00Z",
+    "agreement_id": "agr_...",
+    "evidence_id": "ev_..."
+  }
+}
+```
+
+### 7. Flujo completo de evaluación crediticia
+
+Este es el flujo típico para una solicitud de crédito:
+
+<SequenceDiagram
+  actors={[
+    { id: 'user', label: 'Usuario' },
+    { id: 'frontend', label: 'Tu Frontend' },
+    { id: 'backend', label: 'Tu Backend' },
+    { id: 'soyio_api', label: 'Soyio API' },
+  ]}
+  actions={[
+    {
+      from: 'user',
+      to: 'frontend',
+      label: 'Solicita crédito y acepta consentimiento'
+    },
+    {
+      from: 'frontend',
+      to: 'frontend',
+      label: 'Captura consentimiento y genera action_token',
+      isDashed: true
+    },
+    {
+      from: 'frontend',
+      to: 'backend',
+      label: 'Envía action_token + RUT del usuario'
+    },
+    {
+      from: 'backend',
+      to: 'soyio_api',
+      label: 'POST /redec/consent_actions'
+    },
+    {
+      from: 'soyio_api',
+      to: 'backend',
+      label: 'Retorna acción registrada con entity_id'
+    },
+    {
+      from: 'backend',
+      to: 'backend',
+      label: 'Evalúa riesgo crediticio',
+      isDashed: true
+    }
+  ]}
+/>
+
+## Próximos pasos
+
+- [Cómo funciona REDEC](./how-it-works.mdx) - Entiende el modelo de datos y flujo completo
+- [Registra consentimientos](./consent-registration.mdx) - Guía completa del endpoint REDEC
+- [Genera reportes RDC30](./reports.mdx) - Crea reportes para la CMF y programa reportes periódicos automáticos
+- [Configuración](./configuration.mdx) - Configura REDEC en tu cuenta con opciones avanzadas
+
+:::tip[No olvides programar tus reportes]
+Configura reportes periódicos automáticos semanales para cumplir con los requisitos de sincronización de la CMF. Aprende cómo en la [guía de reportes](./reports.mdx#reportes-periódicos-automáticos).
+:::

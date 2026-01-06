@@ -1,0 +1,295 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Genera reportes de cumplimiento
+
+Los reportes de Soyio consolidan acciones de consentimiento en un período específico para cumplir con requisitos regulatorios.
+
+:::info[Soporte actual]
+Actualmente, Soyio soporta la generación de reportes RDC30 para cumplimiento con la NCG 540 de la CMF en Chile. Próximamente se agregarán otros tipos de reportes de cumplimiento.
+:::
+
+## ¿Qué es un reporte?
+
+Un reporte consolida todas las acciones de consentimiento registradas durante un período de tiempo. Dependiendo del tipo de reporte, incluye:
+
+- Todas las acciones de consentimiento del período
+- Identificación de los usuarios (RUT para reportes RDC30)
+- Fecha y hora de cada acción
+- Tipo de consentimiento
+- Método de captura
+- Información adicional según el tipo de reporte
+
+### Reporte RDC30
+
+El reporte RDC30 cumple con los requisitos de la NCG 540 de la CMF para instituciones financieras chilenas. Incluye:
+
+- RUT de usuarios que otorgaron consentimiento
+- Fecha y hora de cada acción
+- Tipo de consentimiento
+- Método de captura
+- RUT del ejecutivo (cuando corresponde)
+- Actualizaciones y revocaciones
+
+## Crear un reporte
+
+Crea reportes de cumplimiento usando el dashboard de administración o usando la API de Soyio con el endpoint [`POST /api/v1/reports`](../../api/resources/create-report.api.mdx).
+
+### Define el tipo de reporte
+
+Especifica el tipo de reporte que deseas generar usando el parámetro `kind`.
+
+```json
+{
+  "kind": "rdc30"
+}
+```
+
+**Tipos de reporte disponibles:**
+- `rdc30` - Reporte RDC30 para cumplimiento CMF (Chile)
+
+### Define el período del reporte
+
+Establece el rango de fechas para el reporte usando formato ISO 8601.
+
+```json
+{
+  "starts_at": "2026-01-01T00:00:00Z",
+  "ends_at": "2026-01-31T23:59:59Z"
+}
+```
+
+**Consideraciones:**
+- Usa zona horaria UTC (Z al final)
+- La fecha de inicio debe ser anterior a la fecha de fin
+- El período admite cualquier duración (semanal, mensual, trimestral, etc.)
+
+<Tabs>
+  <TabItem value="curl" label="cURL" default>
+    ```bash
+    curl -X POST https://api.soyio.id/api/v1/reports \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "kind": "rdc30",
+        "starts_at": "2026-01-01T00:00:00Z",
+        "ends_at": "2026-01-31T23:59:59Z"
+      }'
+    ```
+  </TabItem>
+  <TabItem value="javascript" label="JavaScript">
+    ```javascript
+    const response = await fetch('https://api.soyio.id/api/v1/reports', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${YOUR_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        kind: 'rdc30',                       // Tipo de reporte
+        starts_at: '2026-01-01T00:00:00Z',   // Inicio del período
+        ends_at: '2026-01-31T23:59:59Z'      // Fin del período
+      })
+    });
+
+    const data = await response.json();
+    console.log('Reporte iniciado:', data.report.id);
+    ```
+  </TabItem>
+  <TabItem value="python" label="Python">
+    ```python
+    import requests
+
+    response = requests.post(
+        'https://api.soyio.id/api/v1/reports',
+        headers={
+            'Authorization': f'Bearer {YOUR_API_KEY}',
+            'Content-Type': 'application/json'
+        },
+        json={
+            'kind': 'rdc30',                      # Tipo de reporte
+            'starts_at': '2026-01-01T00:00:00Z',  # Inicio del período
+            'ends_at': '2026-01-31T23:59:59Z'     # Fin del período
+        }
+    )
+
+    data = response.json()
+    print('Reporte iniciado:', data['report']['id'])
+    ```
+  </TabItem>
+</Tabs>
+
+La API retorna la información del reporte creado con el contenido completo:
+
+```json
+{
+  "report": {
+    "id": "rep_abc123...",               // ID del reporte
+    "kind": "rdc30",                     // Tipo de reporte
+    "starts_at": "2026-01-01T00:00:00Z", // Inicio del período
+    "ends_at": "2026-01-31T23:59:59Z",   // Fin del período
+    "created_at": "2026-02-01T09:00:00Z",// Fecha de creación
+    "generated_by": null,                // null para reportes vía API o automáticos
+    "content": "0000009876RDC3020260201...\n..."  // Contenido ASCII del reporte
+  }
+}
+```
+
+:::info[Campo generated_by]
+Si el reporte se genera vía API o automáticamente, el campo `generated_by` será `null`. Solo contendrá información del usuario cuando el reporte se genere manualmente desde el dashboard.
+:::
+
+## Opciones de generación
+
+Tienes dos formas de generar reportes:
+
+### Opción 1: Generación manual
+
+Crea reportes manualmente cuando los necesites usando el endpoint o el dashboard. Esta opción te da control total sobre cuándo generar cada reporte.
+
+**Cuándo usar**: Para reportes específicos, auditorías puntuales, o cuando prefieres control manual del proceso.
+
+### Opción 2: Generación automática
+
+Activa la generación automática de reportes semanales desde la configuración de tu cuenta. Soyio generará reportes automáticamente cada sábado entre las 00:00 y 01:00.
+
+**Cuándo usar**: Para cumplimiento regulatorio que requiere reportes periódicos (como RDC30). Recibirás notificaciones por webhook cada vez que se genere un reporte.
+
+:::tip[Recomendado para REDEC]
+Para cumplir con NCG 540, activa la generación automática y suscríbete al webhook [`report.created`](../../api/webhooks.md). Esto asegura que nunca te pierdas un reporte semanal.
+:::
+
+## Formato del reporte
+
+Cada tipo de reporte tiene su propio formato de contenido.
+
+### Formato del reporte RDC30
+
+El reporte RDC30 incluye todas las acciones de consentimiento del período en formato ASCII siguiendo las especificaciones técnicas de la CMF:
+
+```json
+{
+  "report": {
+    "id": "rep_abc123...",
+    "kind": "rdc30",
+    "starts_at": "2026-01-01T00:00:00Z",
+    "ends_at": "2026-01-31T23:59:59Z",
+    "created_at": "2026-02-01T09:00:00Z",
+    "generated_by": null,
+    "content": "0000009876RDC3020251027                                                 \nabc123def45678ghij90122025102710300020251117103000012345678K12009876543202\nxyz789ghi01234klmn56782025102015000020251026091500008765432122011222333403\n"
+  }
+}
+```
+
+El campo `content` contiene un texto ASCII con el formato requerido por la CMF:
+- **Línea 1**: Encabezado con el total de registros, tipo de reporte (RDC30) y fecha
+- **Líneas siguientes**: Cada acción de consentimiento en formato de ancho fijo
+
+:::tip[Formato CMF]
+El contenido del reporte RDC30 cumple con las especificaciones técnicas de la CMF, por lo que puede ser enviado directamente a su plataforma.
+:::
+
+## Configurar reportes automáticos
+
+Activa la generación automática de reportes usando el dashboard o la API con el endpoint [`PATCH /api/v1/company/settings`](../../api/resources/update-company-config.api.mdx):
+
+```json
+{
+  "consent": {
+    "redec_automatic_rdc30": true
+  }
+}
+```
+
+**Desde el dashboard:**
+
+1. Navega a **REDEC > Configuración**
+2. Activa **Reportes periódicos automáticos**
+3. Guarda la configuración
+
+Los reportes se generarán automáticamente cada sábado entre las 00:00 y 01:00. Recibirás una notificación por webhook con el evento [`report.created`](../../api/webhooks.md) cada vez que se genere un reporte.
+
+:::info[Más detalles]
+Consulta la [guía de configuración](./configuration.mdx#reportes-automáticos) para opciones avanzadas de configuración.
+:::
+
+## Webhooks de reportes
+
+Suscríbete al webhook [`report.created`](../../api/webhooks.md) para recibir notificaciones cuando se genere un reporte.
+
+### `report.created`
+
+Se envía cuando un nuevo reporte ha sido generado y está listo para consultar:
+
+```json title="Webhook payload"
+{
+  "event": "report.created",
+  "data": {
+    "id": "rep_abc123...",
+    "kind": "rdc30",
+    "starts_at": "2026-01-01T00:00:00Z",
+    "ends_at": "2026-01-31T23:59:59Z",
+    "created_at": "2026-02-01T09:00:00Z",
+    "generated_by": null,
+    "content": "0000009876RDC3020260201...\n..."
+  },
+  "created_at": "2026-02-01T09:00:00Z"
+}
+```
+
+**Cuándo usar**: Rastrea la generación de reportes y sincroniza automáticamente con sistemas externos (ej. CMF para reportes RDC30).
+
+:::tip[Verifica el tipo de reporte]
+Usa el campo `kind` en el payload para identificar si el reporte generado es de tipo `rdc30` antes de procesarlo. Esto es importante porque el webhook `report.created` se envía para todos los tipos de reportes.
+:::
+
+### Ejemplo de handler
+
+```javascript
+app.post('/webhooks/soyio', async (req, res) => {
+  const { event, data } = req.body;
+
+  if (event === 'report.created') {
+    // Verificar el tipo de reporte usando el campo 'kind'
+    if (data.kind === 'rdc30') {
+      // El contenido del reporte ya está en data.content
+      await syncReportToCMF(data);
+    }
+  }
+
+  res.status(200).send('OK');
+});
+```
+
+## Sincronización con CMF (RDC30)
+
+La NCG 540 requiere sincronización semanal con la CMF. Usa webhooks para automatizar este proceso:
+
+**Paso 1: Activa reportes automáticos**
+- Los reportes se generan cada sábado entre las 00:00 y 01:00 automáticamente
+
+**Paso 2: Suscríbete al webhook [`report.created`](../../api/webhooks.md)**
+- Recibirás el reporte completo con el contenido en cada notificación
+
+**Paso 3: Procesa y sincroniza desde el webhook**
+
+```javascript
+async function syncReportToCMF(report) {
+  // 1. El contenido ya viene en formato CMF (report.content)
+  // Listo para enviar directamente a la plataforma CMF
+
+  // 2. Enviar a plataforma CMF
+  await sendToCMF(report.content);
+
+  // 3. Almacenar para auditoría
+  await storeReportLocally(report);
+}
+```
+
+De esta forma, cada sábado cuando Soyio genere el reporte automáticamente, tu sistema recibirá el webhook con el contenido en formato CMF listo para sincronizar sin intervención manual.
+
+## Próximos pasos
+
+- [Configuración de REDEC](./configuration.mdx) - Configura reportes automáticos y webhooks
+- [Captura de consentimientos](./consent-registration.mdx) - Registra consentimientos REDEC-compliant
+- [Cómo funciona REDEC](./how-it-works.mdx) - Entiende el modelo de datos completo
