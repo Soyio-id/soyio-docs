@@ -1,0 +1,33 @@
+---
+id: reportinput
+title: "ReportInput"
+description: "Datos requeridos para crear un nuevo reporte"
+hide_title: true
+hide_table_of_contents: true
+schema: true
+sample: {"kind":"rdc30","starts_at":"2025-06-01T00:00:00Z","ends_at":"2025-06-30T23:59:59Z"}
+custom_edit_url: null
+---
+
+import Schema from "@theme/Schema";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"ReportInput"}
+>
+</Heading>
+
+
+
+Datos requeridos para crear un nuevo reporte
+
+<Schema
+	defaultCollapsibleOpen={true}
+  schema={{"x-tags":["Reports"],"type":"object","required":["kind","starts_at","ends_at"],"description":"Datos requeridos para crear un nuevo reporte","properties":{"kind":{"type":"string","description":"Tipo de reporte a generar","enum":["rdc30"],"example":"rdc30"},"starts_at":{"type":"string","format":"date-time","description":"Fecha y hora de inicio del período del reporte en formato ISO 8601","example":"2025-06-01T00:00:00Z"},"ends_at":{"type":"string","format":"date-time","description":"Fecha y hora de fin del período del reporte en formato ISO 8601","example":"2025-06-30T23:59:59Z"}},"title":"ReportInput"}}
+  schemaType={"response"}
+>
+  
+</Schema>
+            

@@ -5,7 +5,7 @@ description: "Las branches representan divisiones o unidades de negocio específ
 hide_title: true
 hide_table_of_contents: true
 schema: true
-sample: {"id":"branch_1B2M2Y8AsgTpgAmY7PhCfg","tin":"12.345.678-9","legal_company_name":"Sucursal de la empresa","version":1,"created_at":"2024-03-20T15:30:00Z"}
+sample: {"id":"branch_1B2M2Y8AsgTpgAmY7PhCfg","tin":"12.345.678-9","legal_company_name":"Sucursal de la empresa","version":1,"created_at":"2024-03-20T15:30:00Z","redec_code":123456}
 custom_edit_url: null
 ---
 
@@ -26,7 +26,7 @@ Las branches representan divisiones o unidades de negocio específicas dentro de
 
 <Schema
 	defaultCollapsibleOpen={true}
-  schema={{"type":"object","x-tags":["Branches"],"description":"Las branches representan divisiones o unidades de negocio específicas dentro de tu compañía.\n","properties":{"id":{"type":"string","description":"Identificador único de la sucursal.","example":"branch_1B2M2Y8AsgTpgAmY7PhCfg"},"tin":{"type":"string","description":"Número de identificación tributaria de la sucursal.","example":"12.345.678-9"},"legal_company_name":{"type":"string","description":"Nombre legal de la sucursal.","example":"Sucursal de la empresa"},"version":{"type":"integer","description":"Versión de la sucursal.","example":1},"created_at":{"type":"string","format":"date-time","description":"Fecha y hora de creación de la sucursal","example":"2024-03-20T15:30:00Z"}},"title":"Branch"}}
+  schema={{"type":"object","x-tags":["Branches"],"description":"Las branches representan divisiones o unidades de negocio específicas dentro de tu compañía.\n","properties":{"id":{"type":"string","description":"Identificador único de la sucursal.","example":"branch_1B2M2Y8AsgTpgAmY7PhCfg"},"tin":{"type":"string","description":"Número de identificación tributaria de la sucursal.","example":"12.345.678-9"},"legal_company_name":{"type":"string","description":"Nombre legal de la sucursal.","example":"Sucursal de la empresa"},"version":{"type":"integer","description":"Versión de la sucursal.","example":1},"created_at":{"type":"string","format":"date-time","description":"Fecha y hora de creación de la sucursal","example":"2024-03-20T15:30:00Z"},"redec_code":{"type":"integer","description":"Código único REDEC asignado a esta sucursal para cumplimiento normativo.\nEste código identifica a la sucursal en el sistema REDEC (Registro de Deudores de Créditos) de Chile.\n","example":123456,"nullable":true}},"title":"Branch"}}
   schemaType={"response"}
 >
   

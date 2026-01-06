@@ -5,6 +5,7 @@ import privacyCenterSidebar from './privacy-center/sidebar';
 import disclosureSidebar from './disclosure/sidebar';
 import signatureSidebar from './signature/sidebar';
 import authenticationSidebar from './authentication/sidebar';
+import redecSidebar from './redec/sidebar';
 
 const sidebar: SidebarsConfig = {
   integrationSidebar: [
@@ -110,6 +111,13 @@ const sidebar: SidebarsConfig = {
       items: signatureSidebar,
       collapsed: true,
       link: {type: 'doc', id: 'integration-guide/signature/introduction'},
+    },
+    {
+      type: 'category',
+      label: 'REDEC',
+      items: redecSidebar,
+      collapsed: true,
+      link: {type: 'doc', id: 'integration-guide/redec/introduction'},
     },
     {
       type: 'html',
