@@ -38,7 +38,7 @@ Usa las mismas credenciales de API de Soyio para acceder a los endpoints REDEC. 
 
 Habilita el módulo REDEC en la configuración de consentimiento:
 
-```json title="PATCH /api/v1/company/settings"
+```json title="PATCH /api/v1/config"
 {
   "consent": {
     "redec_enabled": true
@@ -52,7 +52,7 @@ Una vez habilitado, el endpoint `/redec/consent_actions` estará disponible para
 
 Configura la generación automática de reportes RDC30:
 
-```json title="PATCH /api/v1/company/settings"
+```json title="PATCH /api/v1/config"
 {
   "consent": {
     "redec_enabled": true,
