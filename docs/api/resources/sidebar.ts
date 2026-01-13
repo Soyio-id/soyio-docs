@@ -1076,6 +1076,12 @@ const sidebar: SidebarsConfig = {
         },
         {
           type: "doc",
+          id: "api/resources/create-redec-consent-commit",
+          label: "Crear un consent commit para REDEC",
+          className: "api-method post",
+        },
+        {
+          type: "doc",
           id: "api/resources/create-redec-consent-template",
           label: "Crear un template de consentimiento para REDEC",
           className: "api-method post",
