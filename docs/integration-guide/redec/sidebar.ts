@@ -24,6 +24,11 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: 'doc',
+      id: 'integration-guide/redec/receipts',
+      label: 'Recibos PDF',
+    },
+    {
+      type: 'doc',
       id: 'integration-guide/redec/reports',
       label: 'Genera reportes RDC30',
     },
