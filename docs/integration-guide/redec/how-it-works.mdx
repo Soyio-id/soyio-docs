@@ -34,11 +34,105 @@ Los endpoints de reportes te permiten:
 
 El sistema envía webhooks para eventos REDEC:
 - `consent_action.created` - Nueva acción de consentimiento registrada
+- `consent_action.redec_receipt_generated` - Recibo PDF de consentimiento REDEC generado y listo para descarga
 - `report.created` - Nuevo reporte generado (verifica `kind: "rdc30"` en el payload para reportes RDC30)
+
+#### Webhook de recibos PDF
+
+El webhook `consent_action.redec_receipt_generated` se envía cuando el recibo PDF de un consentimiento REDEC ha sido generado exitosamente y está listo para descarga:
+
+```json title="Payload del webhook"
+{
+  "event": "consent_action.redec_receipt_generated",
+  "data": {
+    "id": "consact_abc123...",
+    "user_reference": "cliente_00042",
+    "redec_receipt_pdf": "https://api.soyio.id/api/v1/redec/consent_actions/consact_redec_abc123.../download_receipt",
+    "redec_pdf_hash": "a3b2c1d4e5f6789012345678901234567890abcdef1234567890abcdef123456",
+    "redec_id": "REDEC_2026_001234",
+    "created_at": "2026-01-15T10:30:00Z"
+  }
+}
+```
+
+**Campos importantes**:
+- `redec_receipt_pdf`: URL para descargar el PDF del recibo
+- `redec_pdf_hash`: Hash SHA256 para verificar integridad del PDF
+- `redec_id`: Identificador único del proceso REDEC
+- `user_reference`: Tu referencia interna del usuario (si la proporcionaste)
 
 :::tip[Sincronización semanal con CMF]
 Usa el webhook `report.created` y verifica el campo `kind` en el payload para identificar reportes RDC30 y sincronizarlos semanalmente con la CMF según lo requiere la normativa.
 :::
+
+### Recibos PDF automáticos
+
+Cada consentimiento REDEC registrado genera automáticamente un **recibo PDF** con evidencia completa del consentimiento. Este recibo incluye:
+
+**Información del recibo**:
+- Identificador único del proceso REDEC
+- RUT del usuario que otorgó el consentimiento
+- RUT del ejecutivo (si aplica)
+- Fecha y hora exacta del consentimiento
+- Tipo de consentimiento y producto asociado
+- Método de captura (web, IVR, sucursal, etc.)
+
+Además, el sistema calcula un **hash SHA256** del PDF generado, que se retorna en la API para verificar la integridad del archivo descargado.
+
+#### Flujo de generación de recibos
+
+1. **Registro del consentimiento** - Cuando registras un consentimiento REDEC, el sistema inicia la generación del recibo
+2. **Generación automática** - El recibo PDF se genera en segundo plano
+3. **Notificación por webhook** - Cuando el PDF está listo, recibes el webhook `consent_action.redec_receipt_generated`
+4. **Descarga del recibo** - Usa el endpoint `/redec/consent_actions/{consent_action_id}/download_receipt` para descargar el PDF
+
+#### Verificación de integridad
+
+El sistema calcula un hash SHA256 para cada recibo PDF, el cual se retorna en el header `X-SHA256-Hash` de la API y en el webhook. Puedes usar este hash para verificar que el archivo descargado no ha sido modificado:
+
+```javascript
+import crypto from 'crypto';
+import fs from 'fs';
+
+// Verificar integridad del recibo descargado
+function verifyReceiptIntegrity(pdfPath, expectedHash) {
+  const fileBuffer = fs.readFileSync(pdfPath);
+  const sha256 = crypto.createHash('sha256');
+  sha256.update(fileBuffer);
+  const calculatedHash = sha256.digest('hex');
+
+  return calculatedHash === expectedHash;
+}
+
+// Usar con el hash del webhook
+const isValid = verifyReceiptIntegrity(
+  '/path/to/receipt.pdf',
+  'a3b2c1d4e5f6789012345678901234567890abcdef1234567890abcdef123456'
+);
+
+console.log('Recibo válido:', isValid);
+```
+
+:::info[Uso de recibos]
+Los recibos PDF sirven como evidencia auditable del consentimiento para:
+- Auditorías de la CMF
+- Verificación interna de cumplimiento
+- Respaldo legal ante disputas
+- Archivo histórico de consentimientos
+:::
+
+#### Endpoint de descarga
+
+```
+GET /api/v1/redec/consent_actions/{consent_action_id}/download_receipt
+```
+
+El endpoint retorna:
+- **Content-Type**: `application/pdf`
+- **Header SHA256**: Hash del PDF en el header `X-SHA256-Hash`
+- **Body**: Contenido binario del PDF
+
+Para más información sobre cómo descargar y trabajar con recibos, consulta la [guía de recibos REDEC](./receipts.mdx).
 
 ## Modelo de datos REDEC
 

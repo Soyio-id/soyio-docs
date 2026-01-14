@@ -343,6 +343,122 @@ Para registrar una revocación, necesitas crear un `action_token` de tipo revoca
 Revisa la [guía de captura de consentimientos](../consent/consent-capture.mdx) para aprender a generar action tokens de revocación. La revocación se incluirá automáticamente en los reportes RDC30.
 :::
 
+## Consentimiento verbal con audio
+
+REDEC soporta consentimientos capturados mediante grabación de audio (por ejemplo, call centers o IVR). Esto permite registrar consentimientos verbales con evidencia de audio verificable.
+
+### Paso 1: Crear el action_token
+
+Primero, debes <a href="/docs/api/resources/create-action-token/" target="_blank">crear un `action_token`</a> con los campos de audio requeridos en el `action_data`:
+
+- **`audio_reference`**: URL del archivo **MP3** que contiene la grabación del consentimiento
+- **`audio_hash`**: Hash SHA256 del archivo de audio en formato hexadecimal (minúsculas)
+
+:::warning[Requisitos obligatorios]
+1. **Ambos campos son obligatorios**: Si incluyes uno de estos campos, **debes incluir ambos**. No puedes enviar solo `audio_reference` sin `audio_hash` o viceversa.
+2. **Solo formato MP3**: El archivo de audio **debe ser formato MP3**. No se soportan otros formatos (WAV, AAC, OGG, etc.).
+:::
+
+### Paso 2: Crear el consent_action
+
+Una vez generado el `action_token` con los campos de audio, crea el `consent_action`:
+
+<Tabs>
+  <TabItem value="javascript" label="JavaScript" default>
+    ```javascript
+    // Crea el consent_action usando el action_token con audio
+    const response = await fetch('https://api.soyio.id/api/v1/redec/consent_actions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        action_token: actionToken,              // Token creado con audio_reference y audio_hash
+        entity_nin: '12.345.678-9',
+        executive_nin: '98.765.432-1',
+        user_reference: 'call_center_user_123'
+      })
+    });
+
+    const { consent_action } = await response.json();
+    console.log('Consentimiento con audio registrado:', consent_action.id);
+    ```
+  </TabItem>
+  <TabItem value="curl" label="cURL">
+    ```bash
+    curl -X POST https://api.soyio.id/api/v1/redec/consent_actions \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "action_token": "at_with_audio...",
+        "entity_nin": "12.345.678-9",
+        "executive_nin": "98.765.432-1",
+        "user_reference": "call_center_user_123"
+      }'
+    ```
+  </TabItem>
+  <TabItem value="python" label="Python">
+    ```python
+    import requests
+
+    # Crea el consent_action usando el action_token con audio
+    response = requests.post(
+        'https://api.soyio.id/api/v1/redec/consent_actions',
+        headers={
+            'Authorization': f'Bearer {API_KEY}',
+            'Content-Type': 'application/json'
+        },
+        json={
+            'action_token': action_token,  # Token creado con audio_reference y audio_hash
+            'entity_nin': '12.345.678-9',
+            'executive_nin': '98.765.432-1',
+            'user_reference': 'call_center_user_123'
+        }
+    )
+
+    consent_action = response.json()['consent_action']
+    print(f'Consentimiento con audio registrado: {consent_action["id"]}')
+    ```
+  </TabItem>
+</Tabs>
+
+---
+
+## Registro en lote (Consent Commits)
+
+Cuando necesites registrar múltiples acciones de consentimiento simultáneamente, usa el endpoint de **consent commits**. Esto te permite enviar varios `action_tokens` en una sola petición HTTP.
+
+### ¿Cuándo usar commits?
+
+| Escenario | Usar Commits | Usar Individual |
+|-----------|--------------|-----------------|
+| **Múltiples consentimientos del mismo usuario** | ✅ Sí | ❌ No recomendado |
+| **Batch processing de solicitudes** | ✅ Sí | ❌ No recomendado |
+| **Sincronización masiva de datos** | ✅ Sí | ❌ No recomendado |
+| **Un solo consentimiento** | ❌ No | ✅ Sí |
+
+### Endpoint de consent commits
+
+```
+POST /api/v1/redec/consent_commits
+```
+
+### Cómo implementar
+
+Para ver la estructura completa del request, parámetros, respuestas y ejemplos de código en múltiples lenguajes, consulta la <a href="/docs/api/resources/create-redec-consent-commit/" target="_blank">documentación del endpoint</a>.
+
+### Requisitos del commit
+
+- **Mínimo 1 action_token**: Debes incluir al menos un action token
+- **Al menos uno REDEC-compatible**: Mínimo una acción debe ser REDEC-compliant
+- **Mismo usuario**: Todas las acciones se asocian al mismo `entity_nin`
+
+:::tip[Beneficios de commits]
+- **Mejor rendimiento**: Una sola petición HTTP para múltiples acciones
+- **Simplifica batch processing**: Ideal para sincronización masiva de datos
+:::
+
 ## Próximos pasos
 
 Ya registraste tu primera acción de consentimiento REDEC. Ahora puedes:
