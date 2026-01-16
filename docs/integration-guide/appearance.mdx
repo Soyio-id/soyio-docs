@@ -1,0 +1,473 @@
+---
+sidebar_position: 10
+title: Personalización de apariencia
+description: Personaliza la apariencia de los componentes de Soyio.
+---
+
+import AppearanceDemo from '@site/src/components/AppearanceDemo';
+
+# Personalización de apariencia
+
+Personaliza la apariencia del [Centro de Privacidad](./privacy-center/introduction) y el [módulo de Consentimiento](./consent/introduction) de Soyio para que coincidan con tu marca. Las opciones de personalización se pasan a través del objeto `appearance` en la configuración.
+
+A continuación, explora la demostración de personalización de apariencia y ajústala a tu gusto.
+
+<AppearanceDemo />
+
+:::tip Referencia del SDK
+Esta guía cubre las opciones de personalización más comunes. Para documentación técnica completa del SDK y opciones avanzadas, consulta la [documentación oficial del SDK web de Soyio](https://github.com/Soyio-id/soy-io-widget?tab=readme-ov-file#appearance).
+:::
+
+## Estructura
+
+El objeto `appearance` consta de cuatro secciones principales:
+
+```javascript
+const appearance = {
+  theme: string,        // Tema predefinido
+  variables: Variables, // Variables CSS globales
+  rules: Rules,         // Reglas CSS por componente
+  config: Config,       // Configuración de comportamiento
+};
+```
+
+## Temas
+
+Los temas integrados sirven como base para la personalización: ofrecen paletas de colores y estilos de componentes preconfigurados que sirven de punto de partida y luego se ajustan según tus necesidades.
+
+| Tema | Descripción |
+| ----- | ----------- |
+| `"soyio"` | Tema claro predeterminado con colores de marca Soyio |
+| `"night"` | Tema oscuro con azules profundos y colores apagados |
+| `"flat"` | Tema minimalista con diseño plano y bordes rectos |
+
+## Variables
+
+Las variables permiten ajustar atributos visuales comunes en todos los componentes.
+
+### Variables disponibles
+
+#### Tipografía
+
+| Variable | Descripción | Por defecto |
+| -------- | ----------- | ----------- |
+| `fontFamily` | Familia de fuentes base (se usa como fallback para body y title si no se especifican) | `"system-ui, sans-serif"` |
+| `fontFamilyBody` | Familia de fuentes para texto de cuerpo/párrafo (usa `fontFamily` si no se especifica) | `var(--fontFamily)` |
+| `fontFamilyTitle` | Familia de fuentes para títulos y encabezados (usa `fontFamily` si no se especifica) | `var(--fontFamily)` |
+| `fontSizeBase` | Tamaño de fuente base para texto | `"1rem"` |
+
+#### Colores principales
+
+| Variable | Descripción | Por defecto |
+| -------- | ----------- | ----------- |
+| `colorPrimary` | Color principal para elementos interactivos | `"#0570DE"` |
+| `colorPrimarySurface` | Color de fondo para elementos primarios (ej. pestaña activa) | `"#EEF2FF"` |
+| `colorSecondary` | Color secundario para elementos interactivos | `"#A180F0"` |
+| `colorBackground` | Color de fondo | `"#FFFFFF"` |
+
+#### Colores de superficie
+
+| Variable | Descripción | Por defecto |
+| -------- | ----------- | ----------- |
+| `colorSurface` | Color de superficie para tarjetas y secciones | `"#F9FAFB"` |
+| `colorSurfaceMuted` | Color de superficie apagado | `"#F3F4F6"` |
+| `colorSurfaceStrong` | Color de superficie fuerte | `"#E5E7EB"` |
+
+#### Colores de borde
+
+| Variable | Descripción | Por defecto |
+| -------- | ----------- | ----------- |
+| `colorBorder` | Color de borde | `"#D1D5DB"` |
+| `colorBorderMuted` | Color de borde apagado | `"#E5E7EB"` |
+| `colorSwitchBorder` | Color de borde para componente Switch (no marcado) | `"#000000"` |
+
+#### Colores de texto
+
+| Variable | Descripción | Por defecto |
+| -------- | ----------- | ----------- |
+| `colorText` | Color de texto principal | `"#1E1B4B"` |
+| `colorTextSecondary` | Color de texto secundario | `"#6B7280"` |
+| `colorTextSubtle` | Color de texto sutil | `"#9CA3AF"` |
+| `colorTextInverted` | Color de texto invertido | `"#FFFFFF"` |
+| `colorTextTitle` | Color de texto de título/encabezado (usa `colorText` si no se especifica) | `var(--colorText)` |
+| `colorLink` | Color para elementos de enlace | `"#0570DE"` |
+
+#### Colores de entrada
+
+| Variable | Descripción | Por defecto |
+| -------- | ----------- | ----------- |
+| `colorInputFocus` | Color de borde/anillo de enfoque para elementos de entrada | `"#0570DE"` |
+| `colorInputErrorFocus` | Color de borde/anillo de enfoque para elementos de entrada en estado de error | `"#EF4444"` |
+| `colorSelectArrow` | Color para el ícono de flecha del menú desplegable select | `"#6B7280"` |
+
+#### Colores de estado
+
+| Variable | Descripción | Por defecto |
+| -------- | ----------- | ----------- |
+| `colorInfo` | Color de estado de información | `"#1E40AF"` |
+| `colorInfoBg` | Color de fondo de estado de información | `"#E0E7FF"` |
+| `colorSuccess` | Color de estado de éxito | `"#15803D"` |
+| `colorSuccessBg` | Color de fondo de estado de éxito | `"#DCFCE7"` |
+| `colorWarning` | Color de estado de advertencia | `"#B45309"` |
+| `colorWarningBg` | Color de fondo de estado de advertencia | `"#FEF3C7"` |
+| `colorDanger` | Color de estado de peligro | `"#EF4444"` |
+| `colorDangerBg` | Color de fondo de estado de peligro | `"#FEF2F2"` |
+
+#### Otros colores
+
+| Variable | Descripción | Por defecto |
+| -------- | ----------- | ----------- |
+| `colorOverlay` | Color de superposición | `"rgba(0, 0, 0, 0.5)"` |
+| `dataUseIconColor` | Color para iconos de uso de datos en [gestión de consentimientos](../consent/introduction) | Por defecto de la [configuración de la empresa](../company-configuration) |
+
+#### Bordes
+
+| Variable | Descripción | Por defecto |
+| -------- | ----------- | ----------- |
+| `borderRadius` | Radio de borde base (escala proporcionalmente para diferentes tamaños) | `"0.25rem"` |
+| `borderWidth` | Ancho de borde para elementos | `"1px"` |
+| `borderStyle` | Estilo de borde para elementos | `"solid"` |
+
+:::info Nota sobre el radio de borde
+La variable `borderRadius` sirve como unidad base. Los componentes más grandes (como Inputs y Buttons) usan un múltiplo de este valor (típicamente 2x), mientras que los elementos más pequeños usan una fracción o el valor base. Esto asegura un escalado consistente en todos los elementos de la UI.
+:::
+
+## Reglas
+
+Aplica CSS personalizado a elementos específicos usando el objeto `rules`. Soyio admite estilos para varios componentes incluyendo inputs, botones, switches y más.
+
+### Pseudo-clases y pseudo-elementos soportados
+
+La mayoría de las reglas admiten **pseudo-clases** y **pseudo-elementos** que se pueden agregar para estilizar diferentes estados:
+
+#### Pseudo-clases soportadas
+
+- `:hover` - Cuando el elemento está en hover
+- `:focus` - Cuando el elemento está enfocado
+- `:active` - Cuando el elemento está activo/presionado
+- `:disabled` - Cuando el elemento está deshabilitado
+- `:autofill` - Cuando el input está auto-rellenado
+- `:focus-visible` - Cuando está enfocado mediante navegación por teclado
+
+#### Pseudo-elementos soportados
+
+- `::placeholder` - Texto de marcador de posición en inputs
+- `::selection` - Texto seleccionado
+
+#### Ejemplo de uso
+
+```javascript
+rules: {
+  ".Button": { backgroundColor: "blue" },           // Estilo base
+  ".Button:hover": { backgroundColor: "darkblue" }, // Estado hover
+  ".Button:disabled": { opacity: "0.5" },           // Estado deshabilitado
+  ".Input::placeholder": { color: "gray" },         // Texto de marcador
+  ".RadioCard:hover": { borderColor: "var(--colorPrimary)" }, // Hover de tarjeta
+}
+```
+
+### Reglas soportadas
+
+#### Layout
+
+- `.MainContainer` - El contenedor principal
+- `.Card` - Contenedores de tarjeta
+- `.CardTitle` - Texto de título de tarjeta
+- `.Dialog` - Contenedores de diálogo
+- `.DialogOverlay` - Superposiciones de diálogo
+- `.DialogContent` - Áreas de contenido de diálogo
+
+#### Tipografía
+
+- `.Title` - Texto de título (clase base para todos los títulos)
+- `.StepTitle` - Texto de título del indicador de paso (también hereda de `.Title`)
+- `.Description` - Texto de descripción
+
+#### Inputs
+
+- `.Input` - Campos de entrada
+- `.Input--error` - Campos de entrada en estado de error
+- `.Label` - Etiquetas
+- `.HintIcon` - Iconos de ayuda/pista junto a etiquetas de entrada
+- `.TextArea` - Entradas de área de texto
+- `.Select` - Menús desplegables select
+- `.Combobox` - Entradas de combobox
+- `.NinInput` - Estiliza el campo de entrada para números de identidad nacional
+- `.TrackingCodeInput` - Estiliza el componente de entrada de código de seguimiento
+- `.TrackingCodeInputCell` - Estiliza celdas individuales en la entrada de código de seguimiento
+- `.TrackingCodeInputSeparator` - Estiliza el separador entre celdas de código de seguimiento
+
+#### Botones y enlaces
+
+- `.Button` - El componente de botón
+- `.Link` - Enlaces
+
+#### Controles de selección
+
+**Checkbox**
+
+- `.Checkbox` - El contenedor del checkbox
+- `.CheckboxInput` - El elemento checkbox estilizado (admite `borderRadius`, `borderColor`, `backgroundColor`)
+- `.CheckboxLabel` - La etiqueta del checkbox
+- `.CheckboxCheck` - El icono de marca de verificación dentro del checkbox
+- `.CheckboxInput--checked` - El estado marcado del checkbox
+
+**Radio**
+
+- `.Radio` - Contenedores de botón de radio
+- `.RadioButton` - El elemento de botón de radio (el círculo en el que se puede hacer clic)
+- `.RadioButton--checked` - Estado marcado del botón de radio
+- `.RadioIndicator` - El punto indicador interno del botón de radio
+- `.RadioIndicator--checked` - Estado marcado del indicador de radio (visible cuando está seleccionado)
+- `.RadioLabel` - Etiquetas de botón de radio
+
+**Switch**
+
+- `.Switch` - Interruptores de alternancia (envolvedor)
+- `.SwitchRoot` - Control de switch (pista)
+- `.SwitchThumb` - Pulgar del switch (círculo)
+- `.SwitchIcon` - Iconos del switch (marca/cruz)
+- `.SwitchRoot--checked` - Estado marcado de la pista del switch
+- `.SwitchThumb--checked` - Estado marcado del pulgar del switch
+
+**Radio card**
+
+- `.RadioCard` - Estiliza el elemento de tarjeta envolvente de un elemento de tarjeta de radio
+- `.RadioCard--checked` - Estado marcado de la tarjeta de radio
+- `.RadioCardButton` - El elemento de botón de radio dentro de una tarjeta de radio
+- `.RadioCardButton--checked` - Estado marcado del botón de tarjeta de radio
+- `.RadioCardIndicator` - El punto indicador interno dentro de una tarjeta de radio
+- `.RadioCardIndicator--checked` - Estado marcado del indicador de tarjeta de radio
+- `.RadioCardTitle` - El texto del título dentro de una tarjeta de radio (también hereda de `.CardTitle`)
+
+:::tip
+Los elementos `.RadioCardTitle` también tienen la clase `.CardTitle`, así que estiliza todos los títulos de tarjeta con `.CardTitle` y sobrescribe lo específico en `.RadioCardTitle`.
+:::
+
+#### Indicador de pasos
+
+El indicador de pasos muestra el progreso a través de formularios de varios pasos.
+
+- `.StepIndicatorContainer` - El contenedor que envuelve todos los indicadores de paso
+- `.StepIndicator` - Elemento de indicador de paso individual
+- `.StepIndicator--active` - El paso actualmente activo
+- `.StepIndicator--completed` - Pasos que se han completado
+- `.StepIndicator--pending` - Pasos que aún no se han alcanzado
+- `.StepIndicatorLine` - La línea de conexión entre pasos
+- `.StepIndicatorLine--top` - El segmento de línea encima de un indicador de paso
+- `.StepIndicatorLine--bottom` - El segmento de línea debajo de un indicador de paso
+- `.StepIndicatorIcon` - Icono mostrado dentro de un indicador de paso (para pasos completados)
+- `.StepIndicatorDot` - El marcador de punto en un indicador de paso
+- `.StepIndicatorNumber` - El número de paso mostrado en el indicador
+
+#### Retroalimentación
+
+- `.Loader` - Indicadores de carga
+- `.ErrorMessage` - Texto de mensaje de error
+- `.TooltipContent` - Estiliza el popover de contenido de un tooltip
+
+**Alert**
+
+- `.Alert` - Cajas de alerta
+- `.Alert--error` - Variante de alerta de error
+- `.Alert--warning` - Variante de alerta de advertencia
+- `.Alert--info` - Variante de alerta de información
+- `.Alert--success` - Variante de alerta de éxito
+- `.AlertIcon` - El icono dentro de una alerta
+- `.AlertContent` - El área de contenido/texto dentro de una alerta
+
+**Chip**
+
+- `.Chip` - Chips/Etiquetas
+- `.Chip--info` - Variante de chip de información
+- `.Chip--green` - Variante de chip verde
+- `.Chip--red` - Variante de chip rojo
+- `.Chip--amber` - Variante de chip ámbar
+
+#### Componentes de consentimiento
+
+Las siguientes reglas son específicas del **widget de consentimiento** y permiten personalizar elementos de UI relacionados con consentimientos:
+
+- `.CategoryTag` - Identificador de categoría de uso de datos (ej. "Compartir datos con terceros"). Aparece sobre las descripciones de categoría en vistas de consentimiento expandidas.
+- `.Badge` - Etiqueta de obligatorio/opcional que aparece en los elementos de consentimiento.
+
+:::note
+Estas reglas específicas de consentimiento solo están disponibles en el `widget de consentimiento` y no tendrán efecto en otros widgets como `PrivacyCenterBox`.
+:::
+
+## Configuración
+
+Ajusta el comportamiento de los componentes usando el objeto `config`.
+
+```javascript
+interface Config {
+  helperTextPosition?: 'top' | 'bottom';
+  hintIcon?: string;
+  icon?: {
+    weight?: 'thin' | 'light' | 'regular' | 'bold' | 'fill' | 'duotone';
+    size?: number;
+    dataUseVariant?: 'duotone' | 'outline' | 'solid';
+  };
+  iconRules?: Record<string, { weight?: IconWeight; size?: number }>;
+  mainPageColumns?: 1 | 2 | 3 | 4;
+  brandTheme?: 'default' | 'dark' | 'light';
+}
+```
+
+### Propiedades de configuración
+
+| Propiedad | Descripción | Por defecto |
+| --------- | ----------- | ----------- |
+| `helperTextPosition` | Posición del texto de ayuda/descripción relativa a las entradas del formulario | `"bottom"` |
+| `hintIcon` | Nombre del icono para tooltips de ayuda/pista en etiquetas de entrada | `"Question"` |
+| `icon.weight` | Variante de peso/estilo del icono global | `"regular"` |
+| `icon.size` | Tamaño predeterminado del icono global en píxeles | `24` |
+| `icon.dataUseVariant` | Variante de icono para iconos de uso de datos en [gestión de consentimientos](../consent/customization#estilos-de-íconos) (`duotone`, `outline`, `solid`) | Por defecto de la [configuración de la empresa](../company-configuration) |
+| `iconRules` | Sobrescrituras de estilo de icono por componente | `{}` |
+| `mainPageColumns` | Número de columnas en la cuadrícula de tarjetas de funciones del [Centro de Privacidad](../privacy-center/introduction) (1-4) | `2` |
+| `brandTheme` | Variante de tema para elementos de marca como el pie de página (`default`, `dark`, `light`) | `"default"` |
+
+### Iconos
+
+Soyio usa [Phosphor Icons](https://phosphoricons.com/), una familia de iconos flexible con múltiples variantes de peso. Personaliza la apariencia del icono a nivel global con la configuración `config.icon`, o sobrescribe iconos para componentes específicos con `config.iconRules`.
+
+#### Pesos de icono disponibles
+
+| Peso | Descripción |
+| ---- | ----------- |
+| `thin` | Ancho de trazo más delgado |
+| `light` | Ancho de trazo ligero |
+| `regular` | Ancho de trazo predeterminado |
+| `bold` | Ancho de trazo en negrita |
+| `fill` | Iconos rellenos/sólidos |
+| `duotone` | Iconos de dos tonos con opacidad |
+
+#### Ejemplo de icono global
+
+```javascript
+const appearance = {
+  config: {
+    icon: {
+      weight: "bold",
+      size: 20,
+    },
+  },
+};
+```
+
+#### Sobrescrituras de icono por componente
+
+Usa `iconRules` para personalizar iconos para componentes específicos. La clave es el nombre del componente (ej., `Alert`, `Switch`) o una clave específica de variante (ej., `Alert.error`):
+
+:::info Nota
+Para reglas de icono específicas de variante, usa notación de punto (`Alert.error`) en lugar de la sintaxis CSS de doble guión (`Alert--error`).
+:::
+
+```javascript
+const appearance = {
+  config: {
+    icon: {
+      weight: "regular", // Predeterminado global
+    },
+    iconRules: {
+      Alert: { weight: "fill" },           // Todas las alertas usan iconos rellenos
+      Switch: { weight: "bold", size: 16 }, // Los iconos de switch son en negrita y más pequeños
+      "Alert.error": { weight: "fill" },    // Alertas de error específicamente
+    },
+  },
+};
+```
+
+#### Personalización del icono de pista
+
+El icono de pista aparece junto a las etiquetas de entrada cuando hay un tooltip/pista disponible. Cambia qué icono se muestra con `hintIcon`:
+
+| Nombre del icono | Descripción |
+| ---------------- | ----------- |
+| `Question` | Signo de interrogación en círculo (predeterminado) |
+| `Info` | Icono de información "i" |
+| `QuestionMark` | Signo de interrogación simple |
+| `Warning` | Icono de advertencia/exclamación |
+
+```javascript
+const appearance = {
+  config: {
+    hintIcon: "Info", // Usar icono de información en lugar de signo de interrogación
+  },
+};
+```
+
+También estiliza el icono de pista usando la regla `.HintIcon`.
+
+## Ejemplo de configuración completa
+
+Este ejemplo muestra cómo combinar temas, variables, reglas y configuración para personalizar completamente la apariencia de los componentes. Usa esta configuración tanto en el [Centro de Privacidad](../privacy-center/customization) como en el [módulo de Consentimiento](../consent/customization).
+
+```javascript
+const appearance = {
+  theme: "soyio",
+  variables: {
+    fontFamily: "system-ui, sans-serif",
+    colorPrimary: "#f54c27",
+    colorSecondary: "#f54c27",
+    colorBackground: "#ffffff",
+    colorText: "#1E1B4B",
+    borderRadius: "0.5rem",
+    borderWidth: "3px",
+    borderStyle: "dashed",
+  },
+  rules: {
+    ".MainContainer": {
+      borderWidth: "1px",
+      borderColor: "#E5E7EB",
+      borderRadius: "0.25rem",
+    },
+    ".CheckboxInput": {
+      appearance: "none",
+      backgroundColor: "transparent",
+      cursor: "pointer",
+      width: "1rem",
+      height: "1rem",
+      borderRadius: "9999px",
+      borderWidth: "2px",
+      borderStyle: "solid",
+      borderColor: "var(--colorPrimary)",
+    },
+    ".CheckboxInput--checked": {
+      borderColor: "var(--colorPrimary)",
+      backgroundColor: "var(--colorPrimary)",
+    },
+    ".CheckboxInput:hover": {
+      borderColor: "var(--colorPrimary)",
+      boxShadow: "0 0 0 2px var(--colorPrimary)",
+    },
+    ".CheckboxInput:focus": {
+      outline: "none",
+      boxShadow: "0 0 0 2px var(--colorPrimary)",
+    },
+    ".CheckboxInput:focus-visible": {
+      outline: "none",
+      boxShadow: "0 0 0 2px var(--colorPrimary)",
+    },
+    ".SwitchRoot": {
+      backgroundColor: "#e5e7eb",
+      borderRadius: "9999px",
+      boxShadow: "none", // Eliminar sombra predeterminada
+    },
+    ".SwitchRoot--checked": {
+      backgroundColor: "var(--colorPrimary)",
+    },
+    ".SwitchThumb": {
+      backgroundColor: "white",
+      borderRadius: "9999px",
+      boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
+    },
+    ".SwitchIcon": {
+      display: "none", // Ocultar los iconos de marca/cruz
+    },
+  },
+  config: {
+    helperTextPosition: "top", // Posicionar texto de ayuda encima de las entradas
+  },
+};
+```
