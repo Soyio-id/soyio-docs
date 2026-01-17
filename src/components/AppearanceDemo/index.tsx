@@ -5,7 +5,6 @@ import { githubLightTheme, draculaTheme } from './themes';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import styles from './styles.module.css';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import { appearanceSchema } from '@soyio/soyio-widget';
 
 type WidgetType = 'privacy-center' | 'consent-box';
 
@@ -112,11 +111,49 @@ interface PrivacyCenterBoxWidget {
 }
 
 const AppearanceDemoContent = () => {
+  const [appearanceSchema, setAppearanceSchema] = useState<unknown>(null);
   const { siteConfig } = useDocusaurusContext();
   const privacyCenterUrl = siteConfig.customFields?.privacyCenterUrl as string;
   const colorMode = useThemeDetector();
 
   const [activeTab, setActiveTab] = useState<WidgetType>('privacy-center');
+
+  const applyAppearanceSchema = useCallback(
+    (monaco: Monaco, schema: unknown) => {
+      monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+        validate: true,
+        schemas: [
+          {
+            uri: 'soyio-appearance.json',
+            fileMatch: ['*'],
+            schema,
+          },
+        ],
+      });
+    },
+    [],
+  );
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    let isMounted = true;
+
+    // @ts-expect-error - Dynamic imports are supported at runtime, but TypeScript config doesn't allow it
+    import('@soyio/soyio-widget')
+      .then((module) => {
+        if (!isMounted) return;
+        setAppearanceSchema(module.appearanceSchema);
+        if (monacoRef.current) {
+          applyAppearanceSchema(monacoRef.current, module.appearanceSchema);
+        }
+      })
+      .catch((err) => console.error('Failed to load appearance schema', err));
+
+    return () => {
+      isMounted = false;
+    };
+  }, [applyAppearanceSchema]);
 
   // Get the appropriate presets based on active tab
   const currentPresets =
@@ -141,6 +178,7 @@ const AppearanceDemoContent = () => {
   const isWidgetReadyRef = useRef(false);
 
   const debouncedJsonValue = useDebounce(jsonValue, 300);
+  const monacoRef = useRef<Monaco | null>(null);
 
   // Calculate editor height based on content
   const editorHeight = React.useMemo(() => {
@@ -204,23 +242,19 @@ const AppearanceDemoContent = () => {
     [isFullscreen],
   );
 
-  const handleEditorWillMount = useCallback((monaco: Monaco) => {
-    // Register custom themes
-    monaco.editor.defineTheme('github-light', githubLightTheme);
-    monaco.editor.defineTheme('dracula', draculaTheme);
+  const handleEditorWillMount = useCallback(
+    (monaco: Monaco) => {
+      monacoRef.current = monaco;
+      // Register custom themes
+      monaco.editor.defineTheme('github-light', githubLightTheme);
+      monaco.editor.defineTheme('dracula', draculaTheme);
 
-    // Set JSON schema for validation
-    monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
-      validate: true,
-      schemas: [
-        {
-          uri: 'soyio-appearance.json',
-          fileMatch: ['*'],
-          schema: appearanceSchema,
-        },
-      ],
-    });
-  }, []);
+      if (appearanceSchema) {
+        applyAppearanceSchema(monaco, appearanceSchema);
+      }
+    },
+    [appearanceSchema, applyAppearanceSchema],
+  );
 
   // Maintain selected preset when switching tabs (if it exists in both)
   useEffect(() => {
