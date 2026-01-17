@@ -1,0 +1,329 @@
+.container {
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: var(--ifm-code-border-radius, 1rem);
+  overflow: hidden;
+  margin-bottom: 2rem;
+  background-color: var(--ifm-background-surface-color);
+  position: relative;
+}
+
+.containerFullscreen {
+  width: 100%;
+  height: 100vh;
+  background-color: var(--ifm-background-surface-color);
+  border-radius: 0;
+  margin-bottom: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2000;
+  overflow: hidden;
+}
+
+/* Widget Type Tabs - inline with header */
+.previewHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.widgetTabs {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.widgetTab {
+  background: var(--ifm-background-surface-color);
+  border: 1px solid var(--ifm-color-emphasis-300);
+  padding: 0.375rem 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.8125rem;
+  transition: all 0.15s;
+  color: var(--ifm-color-content);
+}
+
+.widgetTab:hover {
+  background: var(--ifm-color-emphasis-200);
+}
+
+.widgetTab.active {
+  background: var(--ifm-color-primary);
+  color: #fff;
+  border-color: var(--ifm-color-primary);
+}
+
+/* Content wrapper */
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+.contentFullscreen {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
+
+/* Left Panel - Editor Section */
+.leftPanel {
+  display: flex;
+  flex-direction: column;
+  order: 2; /* Second in normal mode */
+}
+
+.leftPanelFullscreen {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  border-right: 1px solid var(--ifm-color-emphasis-200);
+  overflow: hidden;
+  order: 1; /* First (left) in fullscreen */
+}
+
+/* Right Panel - Preview Section */
+.rightPanel {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  order: 1; /* First (top) in normal mode */
+}
+
+.rightPanelFullscreen {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  overflow: hidden;
+  order: 2; /* Second (right) in fullscreen */
+}
+
+.previewHeader {
+  background: var(--ifm-color-emphasis-100);
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--ifm-color-emphasis-600);
+  font-weight: 600;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Preview container - simple scrollable block */
+.widgetContainer {
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+  overflow: auto;
+  padding: 1rem;
+  box-sizing: border-box;
+  background: #f0f2f5;
+  flex: 1;
+}
+
+/* Consent box specific styling - larger padding, smaller height */
+.widgetContainerConsent {
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  overflow: auto;
+  padding: 2rem 3rem;
+  box-sizing: border-box;
+  background: #f0f2f5;
+  flex: 1;
+}
+
+[data-theme='dark'] .widgetContainer,
+[data-theme='dark'] .widgetContainerConsent {
+  background: #1e1e1e;
+}
+
+/* Presets Section */
+.presetsSection {
+  background: var(--ifm-background-surface-color);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Header with presets and title/copy */
+.editorHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: var(--ifm-color-emphasis-100);
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Presets row */
+.presetsRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.presetsLabel {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--ifm-color-emphasis-600);
+  font-weight: 600;
+  letter-spacing: 0.025em;
+}
+
+.presetButtons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.presetBtn {
+  background: var(--ifm-background-surface-color);
+  border: 1px solid var(--ifm-color-emphasis-300);
+  padding: 0.375rem 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.8125rem;
+  transition: all 0.15s;
+  color: var(--ifm-color-content);
+}
+
+.presetBtn:hover {
+  background: var(--ifm-color-emphasis-200);
+}
+
+.presetBtn.active {
+  background: var(--ifm-color-primary);
+  color: #fff;
+  border-color: var(--ifm-color-primary);
+}
+
+/* File title and copy button */
+.fileTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.fileTitle {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--ifm-color-emphasis-700);
+  font-family: var(--ifm-font-family-monospace);
+}
+
+.copyButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  padding: 0.375rem;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--ifm-color-emphasis-600);
+  transition: all 0.15s;
+}
+
+.copyButton:hover {
+  background: var(--ifm-color-emphasis-200);
+  color: var(--ifm-color-emphasis-800);
+}
+
+.copyButton.copied {
+  color: var(--ifm-color-success);
+}
+
+.copyIcon {
+  width: 16px;
+  height: 16px;
+}
+
+/* Editor wrapper - matches Docusaurus code block styling */
+.editorWrapper {
+  /* Height is dynamic based on content */
+  background: #f6f8fa; /* GitHub Light theme background */
+  overflow: visible; /* Allow autocomplete tooltips to overflow */
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+[data-theme='dark'] .editorWrapper {
+  background: #282A36; /* Dracula theme background */
+}
+
+/* Hint bar at bottom of editor */
+.hintBar {
+  padding: 0.25rem 1rem;
+  background: #f6f8fa; /* Same as editor light background */
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+  font-size: 0.8125rem;
+  color: var(--ifm-color-emphasis-700);
+  text-align: center;
+}
+
+.container .hintBar {
+  border-radius: 0 0 var(--ifm-code-border-radius, 1rem) var(--ifm-code-border-radius, 1rem);
+}
+
+[data-theme='dark'] .hintBar {
+  background: #282A36; /* Same as editor dark background */
+  color: var(--ifm-color-emphasis-600);
+}
+
+/* Fullscreen toggle button */
+.fullscreenButton {
+  background: var(--ifm-background-surface-color);
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--ifm-font-color-base);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  text-transform: none;
+}
+
+.fullscreenButton:hover {
+  background: var(--ifm-color-emphasis-200);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .editorHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .fileTitleRow {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .contentFullscreen {
+    flex-direction: column;
+  }
+
+  .leftPanelFullscreen,
+  .rightPanelFullscreen {
+    width: 100%;
+    border-right: none;
+  }
+
+  .leftPanelFullscreen {
+    border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  }
+}

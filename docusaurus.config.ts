@@ -14,6 +14,9 @@ const ALGOLIA_API_KEY = process.env.ALGOLIA_API_KEY ?? '';
 const ALGOLIA_INDEX_NAME = process.env.ALGOLIA_INDEX_NAME ?? '';
 const FATHOM_SITE_ID = process.env.FATHOM_SITE_ID ?? '';
 const INTERCOM_LAUNCHER_SELECTOR = '#soyio-intercom-launcher';
+const PRIVACY_CENTER_URL =
+  process.env.SOYIO_PRIVACY_CENTER_URL || 'https://privacy.soyio.id';
+
 const intercomSnippet = INTERCOM_APP_ID
   ? `window.intercomSettings={app_id:'${INTERCOM_APP_ID}',hide_default_launcher:true,custom_launcher_selector:'${INTERCOM_LAUNCHER_SELECTOR}',disabled:true};(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/${INTERCOM_APP_ID}';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(document.readyState==='complete'){l();}else if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();`
   : null;
@@ -27,6 +30,9 @@ const algoliaConfig =
         searchPagePath: 'search',
         contextualSearch: false,
         insights: true,
+        features: {
+          analytics: true,
+        },
       }
     : undefined;
 
@@ -40,10 +46,11 @@ const fathomAnalyticsConfig: FathomAnalyticsPlugin.Options | undefined =
 const config: Config = {
   customFields: {
     intercomAppId: INTERCOM_APP_ID,
+    privacyCenterUrl: PRIVACY_CENTER_URL,
   },
   markdown: {
     mermaid: true,
-    hooks: { onBrokenMarkdownLinks: 'warn'},
+    hooks: { onBrokenMarkdownLinks: 'warn' },
   },
   title: 'Soyio Docs',
   tagline: 'Documentación de la infraestructura de la privacidad digital',
@@ -121,7 +128,8 @@ const config: Config = {
       return {
         name: 'intercom',
         injectHtmlTags: () => {
-          if (process.env.NODE_ENV !== 'production' || !intercomSnippet) return {};
+          if (process.env.NODE_ENV !== 'production' || !intercomSnippet)
+            return {};
 
           return {
             headTags: [
@@ -178,7 +186,7 @@ const config: Config = {
           label: 'Solicita una cuenta',
           href: 'https://soyio.typeform.com/formularioweb',
           position: 'right',
-        }
+        },
       ],
     },
     footer: {
@@ -227,7 +235,7 @@ const config: Config = {
             {
               label: 'Status page',
               href: 'https://soyio.instatus.com/',
-            }
+            },
           ],
         },
       ],
@@ -272,12 +280,12 @@ const config: Config = {
       selector: '.markdown > img',
       background: {
         light: 'rgb(255, 255, 255)',
-        dark: '#0B0C0D'
+        dark: '#0B0C0D',
       },
       config: {
         margin: 48,
         // options you can specify via https://github.com/francoischalifour/medium-zoom#usage
-      }
+      },
     },
   } satisfies Preset.ThemeConfig,
   future: {

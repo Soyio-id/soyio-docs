@@ -63,6 +63,11 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: 'doc',
+      id: 'integration-guide/appearance',
+      label: 'Personalización de apariencia',
+    },
+    {
+      type: 'doc',
       id: 'integration-guide/production',
       label: 'Paso a producción',
     },
