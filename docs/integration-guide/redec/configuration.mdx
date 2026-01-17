@@ -9,6 +9,7 @@ Esta guía cubre la configuración necesaria para usar el módulo REDEC de Soyio
 Contacta a tu gerente de cuenta en Soyio para habilitar el módulo REDEC en tu cuenta. Una vez habilitado, tendrás acceso a:
 
 - Endpoint `/api/v1/redec/consent_actions`
+- Endpoint `/api/v1/redec/consent_commits`
 - Endpoint `/api/v1/redec/consent_templates`
 - Endpoint `/api/v1/reports` con tipo `rdc30`
 - Dashboard de gestión REDEC
@@ -65,6 +66,23 @@ Los reportes se generan automáticamente cada sábado entre las 00:00 y 01:00 cu
 
 :::tip[Sincronización con CMF]
 Los reportes semanales automáticos facilitan la sincronización continua con la plataforma de la CMF según requiere la NCG 540.
+:::
+
+### Recibos PDF automáticos
+
+Los **recibos PDF** se generan **automáticamente** para cada consentimiento REDEC registrado. No requieren configuración adicional.
+
+Cada recibo incluye:
+- Identificador único del proceso REDEC
+- Información completa del consentimiento
+- Información del usuario y ejecutivo (si aplica)
+
+El sistema calcula un hash SHA256 del PDF generado para verificación de integridad.
+
+:::info[Sin configuración requerida]
+Los recibos PDF son una funcionalidad automática del módulo REDEC. Una vez que `redec_enabled` está activo, todos los consentimientos REDEC generarán recibos automáticamente.
+
+Para recibir notificaciones cuando los recibos estén listos, suscríbete al webhook `consent_action.redec_receipt_generated`. Consulta la [guía de recibos](./receipts.mdx) para más detalles.
 :::
 
 ## Plantillas de consentimiento para REDEC
