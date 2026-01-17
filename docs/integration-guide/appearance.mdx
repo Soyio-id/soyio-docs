@@ -118,7 +118,7 @@ Las variables permiten ajustar atributos visuales comunes en todos los component
 | Variable | Descripción | Por defecto |
 | -------- | ----------- | ----------- |
 | `colorOverlay` | Color de superposición | `"rgba(0, 0, 0, 0.5)"` |
-| `dataUseIconColor` | Color para iconos de uso de datos en [gestión de consentimientos](../consent/introduction) | Por defecto de la [configuración de la empresa](../company-configuration) |
+| `dataUseIconColor` | Color para iconos de uso de datos en [gestión de consentimientos](./consent/introduction) | Por defecto de la [configuración de la empresa](./company-configuration) |
 
 #### Bordes
 
@@ -322,9 +322,9 @@ interface Config {
 | `hintIcon` | Nombre del icono para tooltips de ayuda/pista en etiquetas de entrada | `"Question"` |
 | `icon.weight` | Variante de peso/estilo del icono global | `"regular"` |
 | `icon.size` | Tamaño predeterminado del icono global en píxeles | `24` |
-| `icon.dataUseVariant` | Variante de icono para iconos de uso de datos en [gestión de consentimientos](../consent/customization#estilos-de-íconos) (`duotone`, `outline`, `solid`) | Por defecto de la [configuración de la empresa](../company-configuration) |
+| `icon.dataUseVariant` | Variante de icono para iconos de uso de datos en [gestión de consentimientos](./consent/customization#estilos-de-íconos) (`duotone`, `outline`, `solid`) | Por defecto de la [configuración de la empresa](./company-configuration) |
 | `iconRules` | Sobrescrituras de estilo de icono por componente | `{}` |
-| `mainPageColumns` | Número de columnas en la cuadrícula de tarjetas de funciones del [Centro de Privacidad](../privacy-center/introduction) (1-4) | `2` |
+| `mainPageColumns` | Número de columnas en la cuadrícula de tarjetas de funciones del [Centro de Privacidad](./privacy-center/introduction) (1-4) | `2` |
 | `brandTheme` | Variante de tema para elementos de marca como el pie de página (`default`, `dark`, `light`) | `"default"` |
 
 ### Iconos
@@ -401,7 +401,7 @@ También estiliza el icono de pista usando la regla `.HintIcon`.
 
 ## Ejemplo de configuración completa
 
-Este ejemplo muestra cómo combinar temas, variables, reglas y configuración para personalizar completamente la apariencia de los componentes. Usa esta configuración tanto en el [Centro de Privacidad](../privacy-center/customization) como en el [módulo de Consentimiento](../consent/customization).
+Este ejemplo muestra cómo combinar temas, variables, reglas y configuración para personalizar completamente la apariencia de los componentes. Usa esta configuración tanto en el [Centro de Privacidad](./privacy-center/customization) como en el [módulo de Consentimiento](./consent/customization).
 
 ```javascript
 const appearance = {
