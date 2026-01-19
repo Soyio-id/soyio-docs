@@ -1,0 +1,73 @@
+---
+id: download-redec-consent-action-receipt
+title: "Descargar recibo PDF REDEC"
+description: "Descarga el recibo PDF de una acción de consentimiento REDEC."
+sidebar_label: "Descargar recibo PDF REDEC"
+hide_title: true
+hide_table_of_contents: true
+api: eJzNV9tuGzcQ/RViXuIAC0kWnLYQgqCqL21apDB8QRAkhjAiR1rGu+SG5CpWhf2qfkJ/rBhyV5Ilx3XQosiLpOVybmdmzoxWEHDuYfQeLk5PTo/hJgNFXjpdBW0NjOCEvEQ3R0GFcCT11IrzkzOhSNQGBUqp//rT8KO0xpMJutRkghVRXe+DOS3ifW1kUS9JLMjpmZa4FtMm0NxphUqUpDSaQCJHn4vLX8bDF9/1PhjIwFbkkB16rWAEyn42hUV1QYrkcTI7lvz6giTpKkAGFTosKZDj2FZgsCQYQbC3xPo0R1ZhyCEDR59q7UjBKLiadsO/YgmhqOjiExgtQQZe5lQijFYQlhVr98FpM4cmA7rDsir4jKVQhsnhT8M3w3c/jP38qpqPy3ffn+fHszk0N+yAr1i3Z1XDwYC/7juRAF/jnzKVse5AJvB9rKpCywhRv1IzPvqSexnMrCsxwAim2qBbQtM0TQZHg8N9y6fOWcdpwppNdYn7svGPnuUesG6nH0mGe3i/T+8yCDoU/O0DhtoD5yCgLrgYK8e5Dzqhk3TtR7TBG+uQJ0fZnQmx/5yRZOJR0WvDwtbpP0ixSOvNRiaWKrltoaPBYbN291Htb7lD6kIJY4PY8pLE0tZOSEeKT7DwPXFeEHoSMid5K0JOQllZl2RCDEpgEHkIlR/1+8pK3/N2qW1Pq5jIlMqj/VRepOIxVijNBaenEfNvNI/aLLDQasJWyIevSuQFeVs7SRHqma3NV6Tz6InpPOZcmmdBzLRR4qVrTb4Sn3XIhVbi2UutXj3byWVMdRuSQKNEcEuBc9QGmk1s8LsNZ+x27L7LlIFtVtkK4SGUNooeQGIDxNHgaBMrtNQZyTqW6AJ1gdOCxJJCRxHD4X5dnWFRWEHmMWr/N3X2f1bOtamcleR9DJz7MSyfXDvD4RNrJ83DiE1YtpUxQ11Q18FskWTNr+P0wkpPbol/3/DAKCnklgfhnNKoCzmMoM8MIvvtmJqkMeX7qzjzmn43NCduPSM9uUU3IGvHRdDRikejpvZuzSx9rHR/cQi70/GS3EKrNCEqV9MUvThohZ9Dk+3qxar6Sp1W1e2KcZAe+NbzODc7iGKDpOpYA7WGHyv9Gy33jJz6TzWVuD/ZNksIrzfj89filpbsR2Wd1NagQq51KkROqCh6WaAX3hZa6lAr8j3Iun1j3A4UbFeGuHckwdjQscAmnrznYZW2k//GdxGViV/fXvE9T75rSr7Py9Z2SPYfQxKXJOZkyKGoOb+Wr5NRldUmiH4MRJPv3wtFLEXQZBKUqnYbZjh8IUpt6mCfDFbDzzMb0WnJ7ZILiVO0hxCnjfelWEpSWzb5WnWRKxJRtCUllJGUqEw86BmWQD9uhmoG3CVJ82Fv0BvwUWV9KDFmq3W/W5Td9prcrWr3/FttyPDbWK/begt0F/pVEadRljp31bLLe4jskiDb5hfIYNRt1XsUc5NBbn1g8dVqip6uXdE0fPypJhf5LIMFOs10G2lI6Ui9CkYzLPzuNr4N3MFFu388F4/s6A9G1rWX4d5aYFHzE2QQmaP9j9DcNFlXfOxYejeWkiJ1dlK7e/c9ev759AqyuJHeb+rb2NTtD1b+oEO77ZA84E/m1QdFVqtEGU2zvp9efVGijbC7rWPgTfM3Dp3pkA==
+sidebar_class_name: "get api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Descargar recibo PDF REDEC"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/redec/consent_actions/{token}/download_receipt"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Descarga el recibo PDF de una acción de consentimiento REDEC.
+El PDF incluye verificación de integridad mediante hash SHA256.
+
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"token","in":"path","required":true,"description":"Token del consent action","schema":{"type":"string"},"example":"consact_1B2M2Y8AsgTpgAmY7PhCfg"}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"PDF del recibo REDEC","content":{"application/pdf":{"schema":{"type":"string","format":"binary"}}}},"401":{"description":"Error de autenticación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"authentication_error"},"title":{"type":"string","example":"Unauthorized"},"status":{"type":"integer","example":401},"detail":{"type":"string","example":"We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"}}}}}},"404":{"description":"Recibo no disponible","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"invalid_request_error"},"title":{"type":"string","example":"Resource not found"},"status":{"type":"integer","example":404},"detail":{"type":"string","example":"Couldn't find <resource> with id '<id>'. Please check your request and try again"}},"title":"NotFoundErrorSchema"},"example":{"type":"invalid_request_error","title":"Resource not found","status":404,"detail":"Receipt PDF not available yet"}}}},"422":{"description":"Fallo en verificación de integridad","content":{"application/json":{"schema":{"type":"object","properties":{"type":{"type":"string","example":"invalid_request_error"},"title":{"type":"string","example":"Unprocessable entity"},"status":{"type":"integer","example":422},"detail":{"type":"string","example":"PDF integrity check failed"}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      
