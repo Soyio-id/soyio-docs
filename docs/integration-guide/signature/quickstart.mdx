@@ -8,7 +8,7 @@ Integra el proceso de firma en tu aplicación generando documentos listos para s
 
 Al iniciar el proceso de firma, al usuario se le presentará el documento listo para firmar, el que podrá previsualizar o descargar. Cuando el usuario esté seguro de firmar y haga click en el botón "Firmar con Soyio", deberá confirmar esta acción usando su llave de acceso almacenada en su dispositivo (passkey) o usando autenticación facial.
 
-:::info[Información]
+:::info
 Por ahora, este servicio está disponible solo para el SDK Web.
 :::
 
@@ -98,7 +98,7 @@ Donde `variable` es el **nombre de la variable** y `type` es opcional y correspo
 - `number`: Representa un número o cifra en el documento. Al reemplazarse, se desplegará formateado como un número, por ejemplo 10000 se convertirá en `10.000`.
 - `signature`: Representa una firma en el documento. Debe ubicarse en el lugar dónde irá la firma en el documento final.
 
-:::warning[Importante]
+:::info
 Se requiere al menos una variable de tipo `signature` en el documento para poder crear la plantilla.
 :::
 
@@ -130,7 +130,7 @@ Especifica en el *payload* del *request* el `identity_id` de tu usuario, el `tem
 }
 ```
 
-:::warning[Importante]
+:::warning
 Si no incluyes alguna variable, o envías un valor inválido de acuerdo al tipo especificado, arrojaremos un error.
 :::
 
@@ -165,7 +165,7 @@ Inicia el intento de firma con tu usuario desde el front-end de tu aplicación. 
 </script>
 ```
 
-:::tip[Tip]
+:::tip
 Para más detalles de la configuración revisa las instrucciones del `Readme` del [SDK Web](https://www.npmjs.com/package/@soyio/soyio-widget).
 :::
 
@@ -182,7 +182,7 @@ En la siguiente tabla se detallan los eventos que puedes escuchar:
 | `WIDGET_OPENED` | El usuario abre el popup de Soyio. |
 | `UNEXPECTED_ERROR` | Ocurrió un error inesperado en el proceso de firma. |
 
-:::tip[Tip]
+:::tip
 Para más detalles de la configuración revisa las instrucciones del `Readme` del [SDK Web](https://www.npmjs.com/package/@soyio/soyio-widget).
 :::
 

@@ -64,7 +64,7 @@ Tras una verificación exitosa, el flujo ofrece crear la cuenta como paso opcion
 ### ¿Qué significa que una identidad sea reutilizable?
 Que ya fue verificada antes y cumple las condiciones de confianza: correo coincide, la cuenta está activa (o hubo validación previa con ese comercio) y la autenticación fuerte se completó. En ese caso, evitamos repetir la captura de documentos y solo autenticamos al usuario.
 
-:::tip[Tip]
+:::tip
 Revisa nuestra [guía de verificación de identidad](./disclosure/introduction) para más detalles sobre cómo funciona la reutilización.
 :::
 

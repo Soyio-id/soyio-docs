@@ -24,7 +24,7 @@ Los estados de cumplimiento pueden ser:
 - `non_compliant`: El usuario no cumple con ningún requerimiento del template de consentimiento.
 - `partially_compliant`: El usuario cumple con algunos de los requerimientos del template de consentimiento.
 
-:::info[Profundiza]
+:::note
 Revisa la [estructura del Compliance Status](/docs/api/resources/schemas/compliancestatus) en nuestra referencia de API.
 :::
 
@@ -41,7 +41,7 @@ const getComplianceStatus = async (entityId) => {
 };
 ```
 
-:::tip[Consejo]
+:::tip
 Puedes filtrar por `consent_template_id` para obtener el estado de cumplimiento de un template en particular.
 :::
 
@@ -64,7 +64,7 @@ El Agreement es la fuente de verdad que determina qué permisos tiene un usuario
 
 Para consultar los consentimientos de un usuario de forma detallada y específica, debes obtener la versión más reciente del Agreement para un usuario específico y analizar `data_permissions` para verificar los permisos para cada categoría de datos y uso específico.
 
-:::info[Profundiza]
+:::note
 Para más información o explora el [schema del Agreement](/docs/api/resources/schemas/agreement) en nuestra referencia de API.
 :::
 
@@ -92,7 +92,7 @@ const getLatestAgreement = async (entityId) => {
 };
 ```
 
-:::tip[Consejo]
+:::tip
 También puedes filtrar por `user_reference` para obtener el Agreement de un usuario específico. Recuerda que el `user_reference` es el identificador de usuario interno de tu sistema que proporcionas opcionalmente como referencia cuando capturas el consentimiento.
 :::
 

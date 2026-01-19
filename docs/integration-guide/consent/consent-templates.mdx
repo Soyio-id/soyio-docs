@@ -62,7 +62,7 @@ Enlaza tus políticas de privacidad, términos y condiciones u otros documentos 
 }
 ```
 
-:::info[Importante]
+:::info
 Los documentos de privacidad deben estar previamente configurados en la plataforma para poder referenciarlos. Revisa la sección [Configuración de la empresa](../company-configuration.mdx) para más información.
 :::
 
@@ -119,7 +119,7 @@ Por defecto, un template de solicitud de consentimiento se asocia a toda tu comp
 - **Por producto:** Asocia el template a un producto específico (ej. aplicación móvil, programa de lealtad).
 - **Por filial (branch):** Asocia el template a una filial o marca específica de tu grupo empresarial.
 
-:::info[Información]
+:::info
 Los productos y filiales deben estar previamente configurados en el perfil de tu compañía en la plataforma. Revisa la sección [Configuración de la empresa](../company-configuration.mdx) para más información.
 :::
 
@@ -200,7 +200,7 @@ Cada vez que se levanta un flujo de consentimiento, se usa la última versión d
 
 Consulta el historial de versiones de una plantilla usando el endpoint [`GET /api/v1/consent_templates/{id}/versions`](../../api/resources/index-consent-template-versions.api.mdx).
 
-:::info[Información]
+:::warning
 Es importante considerar esto, ya que la evidencia de los consentimientos se asocia a la versión exacta de la plantilla que el usuario aceptó. Si el cambio de la plantilla afecta a los datos o usos que se solicitan, a su vigencia o al alcance del consentimiento (por ejemplo, si se asocia a otro producto o filial), el consentimiento asociado a esa plantilla aparecerá como `no compliant`.
 :::
 

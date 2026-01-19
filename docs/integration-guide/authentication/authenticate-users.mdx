@@ -13,7 +13,7 @@ Antes de comenzar, asegúrate de tener:
 - El SDK instalado en tu sitio o aplicación.
 - Un [Webhook](../../api/webhooks.md) configurado en tu cuenta para recibir los eventos de autenticación.
 
-:::warning[Importante]
+:::note
 Si aún no tienes tu cuenta empresa en Soyio, contacta a nuestro equipo a [hola@soyio.id](mailto:hola@soyio.id) para consultar por los planes disponibles y obtener una cuenta de prueba.
 :::
 
@@ -102,7 +102,7 @@ Utiliza el módulo de [verificación de identidad](../disclosure/how-it-works.md
 
 Cuando hayas creado la identidad verificada del usuario, podrás crear múltiples solicitudes de autenticación para ese usuario para todas tus operaciones críticas.
 
-:::tip[Pro Tip]
+:::tip
 Te recomendamos leer el paso a paso del módulo de [verificación de identidad](../disclosure/how-it-works.mdx) para integrarlo en tu flujo de onboarding o registro en tu aplicación.
 :::
 
@@ -150,7 +150,7 @@ const createAuthRequest = async (identityId) => {
 
 Inicia el proceso de autenticación desde el front-end de tu aplicación utilizando el SDK de Soyio.
 
-:::warning[Importante]
+:::info
 Para **evitar que el navegador bloquee el popup**, asegúrate de que el widget se inicialice solo a través de una interacción directa del usuario, como un clic, debido a las políticas de seguridad del navegador contra ventanas emergentes. Revisa más detalles en la documentación de nuestros SDKs.
 :::
 
@@ -229,7 +229,7 @@ A continuación te dejamos ejemplos de cómo inicializar el flujo de autenticaci
     </TabItem>
 </Tabs>
 
-:::info[Detalles]
+:::note
 Para más detalles sobre la configuración revisa las instrucciones del `Readme` del respectivo SDK:
 - [SDK Web](https://www.npmjs.com/package/@soyio/soyio-widget).
 - [SDK Mobile](https://www.npmjs.com/package/@soyio/soyio-rn-sdk).
@@ -283,7 +283,7 @@ const onEvent = (event) => {
 };
 ```
 
-:::info[Detalles]
+:::note
 Para más detalles sobre los eventos revisa las instrucciones del `Readme` del respectivo SDK:
 - [SDK Web](https://www.npmjs.com/package/@soyio/soyio-widget).
 - [SDK Mobile](https://www.npmjs.com/package/@soyio/soyio-rn-sdk).

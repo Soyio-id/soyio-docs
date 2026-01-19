@@ -46,7 +46,7 @@ Asegúrate de mantener los elementos de accesibilidad como el contraste adecuado
     };
     ```
 
-    :::tip[Pro Tip]
+    :::tip
     Para obtener más información sobre las variables y reglas de personalización, consulta nuestra [guía de personalización de apariencia](../appearance). Para detalles técnicos adicionales, revisa la [documentación oficial del SDK web de Soyio](https://github.com/Soyio-id/soy-io-widget?tab=readme-ov-file#appearance).
     :::
     </TabItem>
@@ -62,7 +62,7 @@ Personaliza el estilo de los íconos que se muestran en el componente de consent
 
 ![Estilos de íconos disponibles](/img/icon-styles-example.webp)
 
-:::info[Información]
+:::info
 Esta configuración se aplica a nivel de compañía y afecta todos los componentes de consentimiento de tu cuenta, incluyendo el portal de revocación de consentimientos del Privacy Center.
 :::
 
@@ -74,7 +74,7 @@ Personaliza el comportamiento del módulo de consentimiento desde la [configurac
 
 Especifica una lista de dominios permitidos para desplegar el componente de captura de consentimiento usando la opción `whitelisted_domains`. Esta es una medida de seguridad para evitar que el componente se pueda mostrar en sitios web que no sean de tu propiedad.
 
-:::info[Información]
+:::info
 La configuración de dominios permitidos se aplica a nivel de compañía y afecta todos los componentes de consentimiento de tu cuenta.
 :::
 
@@ -90,7 +90,7 @@ Cuando `label_display` está configurado como `mandatory_only`, puedes usar la o
 - **`required`** (por defecto): Muestra "Requerido"
 - **`mandatory`**: Muestra "Obligatorio"
 
-:::info[Información]
+:::info
 La configuración de etiquetas de obligatoriedad se aplica a nivel de compañía y afecta todos los componentes de consentimiento de tu cuenta, incluyendo el portal de revocación de consentimientos del Privacy Center.
 :::
 
@@ -112,11 +112,11 @@ const consentOptions = {
 };
 ```
 
-:::tip[Pro Tip]
+:::tip
 Recomendamos usar `notice` para que el usuario sepa qué consentimientos ya otorgó.
 :::
 
-:::info[Información]
+:::info
 La configuración de comportamiento cuando ya se ha otorgado consentimiento se aplica a nivel de componente por lo que lo debes configurar para cada componente de captura de consentimiento que desees personalizar.
 :::
 
@@ -137,11 +137,11 @@ const consentOptions = {
 };
 ```
 
-:::tip[Pro Tip]
+:::tip
 No se puede ocultar un consentimiento obligatorio. Siempre se recomienda usar `notice` para que el usuario sepa qué consentimientos ya otorgó.
 :::
 
-:::info[Información]
+:::info
 La configuración de comportamiento cuando ya se ha otorgado consentimiento se aplica a nivel de componente por lo que lo debes configurar para cada componente de captura de consentimiento que desees personalizar.
 :::
 
@@ -149,6 +149,6 @@ La configuración de comportamiento cuando ya se ha otorgado consentimiento se a
 
 Incluye un link al portal de gestión de consentimientos en cada solicitud de consentimiento configurando una url pública para el Privacy Center. Puedes hacerlo usando la opción `privacy_center.public_url` en la [configuración de tu compañía](../../integration-guide/company-configuration) en Soyio.
 
-:::info[Información]
+:::info
 La configuración de link al portal de gestión de consentimientos se aplica a nivel de compañía y afecta todos los componentes de consentimiento de tu cuenta.
 :::

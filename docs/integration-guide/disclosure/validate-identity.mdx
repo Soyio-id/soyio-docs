@@ -122,7 +122,7 @@ Puedes revisar más detalles en la [documentación de la API](../../api/resource
 }
 ```
 
-:::tip[Pro Tip]
+:::tip
     Si deseas hacer match de más de un dato, agrega más objetos al array `matchers`.
     Considera que el match es exitoso **si todos los datos coinciden**.
     En caso contrario, el proceso de disclosure **no se completará**.
@@ -132,10 +132,11 @@ Puedes revisar más detalles en la [documentación de la API](../../api/resource
 
 Inicia el proceso de entrega de datos y consentimiento desde el front-end de tu aplicación utilizando el SDK de Soyio.
 
-:::warning[Importante]
+:::warning
 Para **evitar que el navegador bloquee el popup**, asegúrate de que el widget se inicialice solo a través de una interacción directa del usuario, como un clic, debido a las políticas de seguridad del navegador contra ventanas emergentes. Revisa más detalles en la documentación de nuestros SDKs.
 :::
-:::info[Compatibilidad]
+
+:::info
 Revisa la [guía de compatibilidad de dispositivos](./device-compatibility) para conocer los dispositivos y navegadores soportados, mensajes de fallback y expectativas de soporte.
 :::
 
@@ -280,7 +281,7 @@ A continuación te dejamos ejemplos de cómo inicializar el flujo de disclosure 
         </TabItem>
 </Tabs>
 
-:::info[Detalles]
+:::note
 Para más detalles sobre la configuración revisa las instrucciones del `Readme` del respectivo SDK:
 - [SDK Web](https://www.npmjs.com/package/@soyio/soyio-widget).
 - [SDK Mobile](https://www.npmjs.com/package/@soyio/soyio-rn-sdk).
@@ -311,7 +312,7 @@ A continuación te detallamos los eventos que puedes escuchar:
     </TabItem>
 </Tabs>
 
-:::info[Detalles]
+:::note
 Para más detalles sobre los eventos revisa las instrucciones del `Readme` del respectivo SDK:
 - [SDK Web](https://www.npmjs.com/package/@soyio/soyio-widget).
 - [SDK Mobile](https://www.npmjs.com/package/@soyio/soyio-rn-sdk).
@@ -370,7 +371,7 @@ Adicionalmente, puedes escuchar eventos del proceso de verificación de identida
 }
 ```
 
-:::info[Información sobre errores]
+:::info
 Para información detallada sobre el manejo de errores, eventos de error y códigos de error específicos, consulta nuestra [guía de manejo de errores](./disclosure-error-handling).
 :::
 
@@ -388,6 +389,6 @@ Utiliza el `agreement_id` para consultar el agreement creado por tu usuario desd
 
 ¡Felicitaciones! Has completado la integración básica del módulo de Disclosure.
 
-:::tip[Tip]
+:::tip
 Para personalizar el comportamiento según las necesidades de tu empresa, consulta la [Configuración del módulo de Disclosure](./configuration) para ver opciones de personalización y configuración avanzada.
 :::

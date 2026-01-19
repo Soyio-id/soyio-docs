@@ -29,7 +29,7 @@ Durante el proceso de verificación de identidad, el usuario puede elegir crear 
 3. **Registro de autenticación**: Si el usuario acepta, debe registrar un método de autenticación fuerte (passkey o biometría facial).
 4. **Cuenta activa**: Una vez creada, la cuenta queda disponible en la Soyio Verified Network.
 
-:::info[Importante]
+:::note
 La creación de la Cuenta Soyio es completamente opcional para el usuario. Si el usuario decide no crear una cuenta, el proceso de disclosure se completa normalmente, pero deberá validar nuevamente en futuras interacciones.
 :::
 
@@ -81,7 +81,7 @@ El atajo siempre obliga a una autenticación fuerte:
 
 Mientras la autenticación se realiza, el `disclosure_request` permanece en estado `authenticating`. Cuando finaliza con éxito, recibirás el evento `disclosure_request.granted` (igual que en una validación completa) y `auth_attempt.successful` (diferente al que se enviaría en una validación completa).
 
-:::tip[Pro Tip]
+:::tip
 La autenticación simplificada es **más rápida y conveniente** para el usuario, **manteniendo el mismo nivel de seguridad**, mejorando la experiencia de manera significativa a través del uso de passkeys. Revisa nuestra [guía de passkeys para más información](../../user-guide/passkeys)
 :::
 

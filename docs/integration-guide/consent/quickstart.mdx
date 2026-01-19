@@ -16,7 +16,7 @@ Antes de comenzar, asegúrate de tener:
 - **Cuenta Empresa en Soyio** con credenciales de API
 - **SDK** instalado en tu proyecto. Sigue las instrucciones de instalación en la [documentación del SDK web de Soyio](https://github.com/Soyio-id/soy-io-widget).
 
-:::warning[Importante]
+:::note
 Si aún no tienes tu cuenta Empresa en Soyio, contacta a nuestro equipo para obtener una cuenta de prueba completando [el siguiente formulario](https://soyio.typeform.com/formularioweb).
 :::
 
@@ -28,7 +28,7 @@ Crea una plantilla de consentimiento (`consent template`) que defina para qué d
 
 Ejecuta un `POST` a la API de Soyio para crear la plantilla y guarda el `id` del `consent template` creado.
 
-:::tip[Tip]
+:::tip
 Para adaptar esta plantilla a tus necesidades, profundiza en la [creación de plantillas](./consent-templates.mdx) y explora todas las opciones de configuración.
 :::
 
@@ -71,7 +71,7 @@ Para adaptar esta plantilla a tus necesidades, profundiza en la [creación de pl
 
 Inicializa el componente de consentimiento en tu interfaz usando el SDK de Soyio. Para ello, necesitas el `id` del `consent_template` creado previamente. Estos empiezan con el prefijo `constpl_`. Si no lo tienes, puedes consultar la lista de plantillas de consentimiento en la [API de Soyio](../../api/resources/index-consent-templates.api.mdx).
 
-:::tip[Tip]
+:::tip
 Este módulo está diseñado para integrarse de manera nativa en tu interfaz y podrás personalizarlo con el look and feel de tu aplicación. Revisa la sección de [personalización](./customization.mdx) para más detalles.
 :::
 
@@ -127,7 +127,7 @@ Escucha el evento `CONSENT_CHECKBOX_CHANGE` que emite el componente, este evento
     </TabItem>
 </Tabs>
 
-:::tip[Tip]
+:::tip
 Explora otras formas de obtener el token de acción en la [guía de captura de consentimiento](./consent-capture.mdx).
 :::
 
@@ -148,7 +148,7 @@ Opcionalmente, agrega un id asociado al usuario usando el parámetro `user_refer
 
 Una vez se haya creado el registro de consentimiento, se retornará la acción creada. En ella, habrá un `entity_id`, que representa el identificador único del usuario que otorgó el consentimiento en Soyio. Te recomendamos guardar el `entity_id` en tu sistema y asociarlo al usuario para futuras referencias.
 
-:::tip[Tip]
+:::tip
 Explora otras formas de registrar el consentimiento en la [guía de captura de consentimiento](./consent-capture.mdx).
 :::
 
@@ -177,11 +177,11 @@ Te recomendamos consultar el estado de cumplimiento cada vez que necesites usar 
 }
 ```
 
-:::tip[Tip]
+:::tip
 Explora otras formas de consultar el estado de cumplimiento en la [guía de consulta de consentimiento](./consent-query.mdx).
 :::
 
-:::info[Recuerda]
+:::info
 La normativa establece que el usuario debe tener la posibilidad de gestionar su consentimiento. Revisa la [guía de gestión de consentimientos](./consent-management.mdx) para ver cómo puedes usar el Privacy Center de Soyio para cumplir con este requisito.
 :::
 
