@@ -18,7 +18,7 @@
   --ifm-color-primary-light: #5837af;
   --ifm-color-primary-lighter: #7150c8;
   --ifm-color-primary-lightest: #9177d4;
-  --ifm-code-font-size: .875rem;
+  --ifm-code-font-size: 0.875rem;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
   --ifm-font-family-base: 'Satoshi', sans-serif;
   --ifm-font-family-heading: 'Manrope', sans-serif;
@@ -39,7 +39,7 @@
   --ifm-table-stripe-background: transparent;
   --ifm-table-border-color: transparent;
   --ifm-table-cell-padding: 0.5rem 0.5rem;
-  --ifm-tabs-padding-vertical: .5rem;
+  --ifm-tabs-padding-vertical: 0.5rem;
   --ifm-link-color: var(--ifm-color-primary);
 }
 
@@ -56,9 +56,9 @@ html[data-theme='dark'] {
   --ifm-link-color: var(--ifm-color-primary-light);
   --ifm-navbar-link-hover-color: var(--ifm-color-primary-light);
   --ifm-breadcrumb-color-active: var(--ifm-color-primary-light);
-  --ifm-navbar-background-color: #0B0C0E;
+  --ifm-navbar-background-color: #0b0c0e;
   --ifm-footer-background-color: var(--ifm-navbar-background-color);
-  --ifm-menu-color-background-active: #23223E;
+  --ifm-menu-color-background-active: #23223e;
   --ifm-menu-color-active: var(--ifm-color-primary-light);
   --ifm-pre-background: var(--ifm-color-emphasis-100);
   --ifm-table-stripe-background: transparent;
@@ -74,7 +74,6 @@ h4,
 h5,
 h6 {
   font-family: var(--ifm-font-family-heading);
-
 }
 
 .DocSearch-Button {
@@ -99,13 +98,12 @@ h6 {
 
 /* Sidebar Menu */
 
-
-[class*="sidebar_"] nav {
-  padding: .5rem;
+[class*='sidebar_'] nav {
+  padding: 0.5rem;
 }
 
 .menu__link {
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   transition: all 0.2s ease-in-out;
 }
 
@@ -145,6 +143,21 @@ h6 {
 
 .markdown h6 {
   --ifm-h6-font-size: 0.75rem;
+}
+
+.markdown img {
+  border-radius: 1rem;
+}
+
+code {
+  border-radius: 0.25rem;
+  border: none;
+  padding: 4px 6px;
+}
+
+[class*='codeBlockContainer'] {
+  box-shadow: none !important;
+  border: 1px solid var(--ifm-color-emphasis-200);
 }
 
 /* ReactFlow */

@@ -26,6 +26,7 @@
     "@docusaurus/theme-mermaid": "^3.9.2",
     "@iconify-icons/logos": "^1.2.36",
     "@iconify-icons/mdi": "^1.2.48",
+    "@iconify-icons/ph": "^1.2.5",
     "@iconify-icons/simple-icons": "^1.2.74",
     "@iconify/react": "^6.0.2",
     "@mdx-js/react": "^3.1.1",

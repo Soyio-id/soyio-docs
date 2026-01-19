@@ -47,7 +47,7 @@ Las passkeys son una alternativa moderna y segura a las contraseñas tradicional
 - Están protegidas por la biometría de tu dispositivo (huella digital o reconocimiento facial)
 - No pueden ser robadas u obtenidas mediante phishing como las contraseñas tradicionales
 
-:::tip[Tip]
+:::tip
 Revisa nuestra [guía de passkeys](passkeys) para más información
 :::
 

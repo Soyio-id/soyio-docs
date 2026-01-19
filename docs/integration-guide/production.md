@@ -2,7 +2,7 @@
 
 Cuando estés listo para comenzar a utilizar Soyio en un entorno productivo, sigue estos pasos para asegurar una transición segura y controlada.
 
-:::warning[Importante]
+:::note
 En el ambiente de producción, todas las solicitudes y transacciones son reales y generan evidencias auditables.
 :::
 
@@ -20,8 +20,8 @@ Antes de desplegar tu entorno de producción, asegúrate de cumplir con el sigui
 - [ ] Revisar la rotación, permisos y fecha de expiración de tus API Keys.
 - [ ] Definir los usuarios administrativos y los métodos de acceso seguros (SSO con Google/Microsoft, MFA con passkeys o contraseñas seguras).
 
-:::tip[Tip]
-Consulta la guía [Probar en Sandbox](./sandbox) para conocer los pasos recomendados antes de esta etapa.
+:::tip
+Consulta la guía de [pruebas en Sandbox](./sandbox) para conocer los pasos recomendados antes de esta etapa.
 :::
 
 ## URL base de producción

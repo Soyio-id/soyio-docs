@@ -1,0 +1,57 @@
+.admonition {
+  margin-bottom: 1em;
+}
+
+.admonitionLayout {
+  align-items: flex-start;
+  display: flex;
+}
+
+.admonitionLayoutWithTitle {
+  align-items: flex-start;
+}
+
+.admonitionLayoutWithoutTitle {
+  align-items: flex-start;
+}
+
+.admonitionBody {
+  flex: 1;
+}
+
+.admonitionHeading {
+  font: var(--ifm-heading-font-weight) var(--ifm-h5-font-size) /
+    var(--ifm-heading-line-height) var(--ifm-heading-font-family);
+  text-transform: none;
+  font-size: 1rem;
+}
+
+/* Heading alone without content (does not handle fragment content) */
+.admonitionHeading:not(:last-child) {
+  margin-bottom: 0.3rem;
+}
+
+.admonitionHeading code {
+  text-transform: none;
+}
+
+.admonitionIcon {
+  display: inline-flex;
+  margin-right: 0.875rem;
+  margin-top: 0.22rem;
+}
+
+.admonitionLayoutWithTitle .admonitionIcon {
+  margin-top: 0.1rem;
+}
+
+.admonitionIcon svg {
+  display: inline-block;
+  height: 1.125rem;
+  width: 1.125rem;
+  fill: currentColor;
+}
+
+.admonitionContent > :last-child {
+  margin-bottom: 0;
+}

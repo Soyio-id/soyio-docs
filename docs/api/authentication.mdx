@@ -5,6 +5,11 @@ import TabItem from '@theme/TabItem';
 
 Nuestra API utiliza [Token Based Authentication sobre HTTPS](https://datatracker.ietf.org/doc/html/rfc6750) para la autenticación. Para tener acceso a nuestra API, necesitas crear y utilizar API keys específicas para cada entorno.
 
+
+:::danger
+Usa HTTPS para todos los requests. Requests hechos mediante HTTP retornarán respuestas HTTP 403. **Mantén tus API keys y refresh tokens en secreto.**
+:::
+
 ## API Keys
 
 Las API keys son tokens de autenticación que permiten el acceso a los diferentes recursos de la API de Soyio. Cada API key:
@@ -55,10 +60,6 @@ Puedes gestionar tus API keys tanto desde los siguientes endpoints:
 - **Renovar una API key**: [`PATCH /api_keys/{id}/refresh`](./resources/refresh-api-key.api.mdx)
 - **Revocar una API key**: [`DELETE /api_keys/{id}`](./resources/delete-api-key.api.mdx)
 
-:::danger[Importante]
-Usa HTTPS para todos los requests. Requests hechos mediante HTTP retornarán respuestas HTTP 403. **¡Mantén tus API keys y refresh tokens en secreto!** Una vez creada, el token secreto y el refresh token solo se muestran durante la creación y renovación.
-:::
-
 ## Renovación de API Keys
 
 Cuando creas una API key con fecha de expiración, recibirás un **refresh token** junto con la API key. Este refresh token te permite extender el ciclo de vida de la API key cuando esté próxima a expirar o haya expirado.
@@ -70,14 +71,16 @@ Los refresh tokens tienen un **período de gracia de 60 días** después de la e
 ### ¿Cómo funciona?
 
 1. **Creación**: Al crear una API key con [`POST /api_keys`](./resources/create-api-key.api.mdx), recibirás en la respuesta:
-   - `secret`: El token JWT de autenticación (la API key)
-   - `refresh_token`: Token para renovar la API key (solo si tiene fecha de expiración)
-
+    - `secret`: El token JWT de autenticación (la API key)
+    - `refresh_token`: Token para renovar la API key (solo si tiene fecha de expiración)
 2. **Almacenamiento**: Guarda ambos tokens de forma segura. El `refresh_token` es necesario para renovar la API key.
-
 3. **Renovación**: Cuando la API key esté próxima a expirar o haya expirado, usa el endpoint [`PATCH /api_keys/{id}/refresh`](./resources/refresh-api-key.api.mdx) con el `refresh_token` para obtener:
-   - Un nuevo `secret` (nueva API key extendida)
-   - Un nuevo `refresh_token` para futuras renovaciones
+    - Un nuevo `secret` (nueva API key extendida)
+    - Un nuevo `refresh_token` para futuras renovaciones
+
+:::info
+La API key y el refresh token **solo se muestran durante la creación y renovación**.
+:::
 
 ### Ejemplo de flujo
 

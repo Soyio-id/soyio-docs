@@ -72,8 +72,8 @@ Si tu endpoint responde con un código de estado fuera del rango 2XX, Soyio cont
 
 Después de este periodo, los webhooks no podrán volver a enviarse, pero puedes consultar la lista de eventos para reconciliar la información por eventos faltantes.
 
-:::note[Nota]
-Los tiempos mostrados son aproximados. El sistema de colas agrega una pequeña variación aleatoria (jitter) a cada intervalo para distribuir la carga y evitar picos de tráfico concentrados.
+:::info
+**Los tiempos mostrados son aproximados**. El sistema de colas agrega una pequeña variación aleatoria (jitter) a cada intervalo para distribuir la carga y evitar picos de tráfico concentrados.
 :::
 
 ### Alertas
@@ -106,8 +106,8 @@ Cada webhook incluye los siguientes headers adicionales:
 
 Cada webhook tiene una clave secreta única (`secret_key`) que se genera al momento de crear el webhook y puedes consultarla en cualquier momento en nuestro endpoint de [webhooks](./resources/get-webhook).
 
-:::warning[Importante]
-Guarda tu clave secreta de forma segura y nunca la expongas en tu código cliente o logs. Usa variables de entorno para almacenarla.
+:::danger
+**Guarda tu clave secreta de forma segura** y nunca la expongas en tu código cliente o logs. Usa variables de entorno para almacenarla.
 :::
 
 ### Verificar la firma
@@ -162,7 +162,7 @@ Las solicitudes pueden originarse de cualquiera de las siguientes direcciones IP
 - `34.201.254.121`
 - `44.219.132.35`
 
-:::tip[Tip]
+:::tip
 Puedes restringir el tráfico entrante con un firewall, ACL u otros mecanismos de control de acceso, para asegurar que los eventos provengan desde nuestro sistema.
 :::
 

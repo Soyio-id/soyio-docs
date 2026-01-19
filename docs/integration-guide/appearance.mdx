@@ -10,11 +10,15 @@ import AppearanceDemo from '@site/src/components/AppearanceDemo';
 
 Personaliza la apariencia del [Centro de Privacidad](./privacy-center/introduction) y el [módulo de Consentimiento](./consent/introduction) de Soyio para que coincidan con tu marca. Las opciones de personalización se pasan a través del objeto `appearance` en la configuración.
 
+:::note
+Hoy soportamos la personalización de apariencia para el módulo de verificación de identidad en menor medida. Consulta la [documentación de nuestro SDK web](https://github.com/Soyio-id/soy-io-widget?tab=readme-ov-file#disclosure-request) para más información.
+:::
+
 A continuación, explora la demostración de personalización de apariencia y ajústala a tu gusto.
 
 <AppearanceDemo />
 
-:::tip Referencia del SDK
+:::note
 Esta guía cubre las opciones de personalización más comunes. Para documentación técnica completa del SDK y opciones avanzadas, consulta la [documentación oficial del SDK web de Soyio](https://github.com/Soyio-id/soy-io-widget?tab=readme-ov-file#appearance).
 :::
 
@@ -292,7 +296,7 @@ Las siguientes reglas son específicas del **widget de consentimiento** y permit
 - `.Badge` - Etiqueta de obligatorio/opcional que aparece en los elementos de consentimiento.
 
 :::note
-Estas reglas específicas de consentimiento solo están disponibles en el `widget de consentimiento` y no tendrán efecto en otros widgets como `PrivacyCenterBox`.
+Estas reglas específicas de consentimiento solo están disponibles en el [widget de consentimiento](./consent/introduction) y no tendrán efecto en otros widgets como el del [centro de privacidad](./privacy-center/introduction).
 :::
 
 ## Configuración

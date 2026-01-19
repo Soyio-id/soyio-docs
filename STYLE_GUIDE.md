@@ -157,12 +157,15 @@ Las "admonitions" son bloques de texto resaltados para llamar la atención sobre
 - `warning`: Para advertencias o posibles problemas.
 - `danger`: Para indicar riesgos o acciones destructivas.
 
+**Títulos**
+Usa títulos solo cuando aporten contexto extra. Si el contenido se entiende sin título, omítelo.
+
 **Ejemplo**
-:::tip Consejo Rápido
+:::tip
 Puedes usar `console.log()` para depurar tus componentes de React directamente en el navegador.
 :::
 
-:::danger Cuidado
+:::danger
 Eliminar tu cuenta es una acción irreversible y perderás todos tus datos.
 :::
 
