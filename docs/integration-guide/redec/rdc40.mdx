@@ -1,0 +1,39 @@
+---
+title: Genera reportes RDC40
+description: "Reporte RDC40 para solicitudes de derecho REDEC (DSR): eventos que lo disparan y configuración de generación automática"
+---
+
+# Genera reportes RDC40
+
+El reporte **RDC40** consolida eventos asociados a **solicitudes de derecho REDEC (DSR)** en un período y los presenta en el formato requerido por la CMF.
+
+## Eventos que generan entradas en RDC40
+
+Soyio incluye entradas RDC40 para solicitudes REDEC cuando ocurren estos eventos:
+
+- **Creación** de la solicitud
+- **Inicio de procesamiento** de la solicitud
+- **Resolución** de la solicitud (aprobada, parcialmente aprobada, rechazada, o fallo de validación)
+
+## Generar un reporte RDC40
+
+Para generar un reporte, utiliza el endpoint de reportes con `kind: "rdc40"`. El flujo es el mismo que para RDC30, solo cambia el `kind`.
+
+Consulta los pasos generales en [RDC30](./rdc30.mdx#crear-un-reporte) y usa `kind: "rdc40"`.
+
+## Generación automática (diaria)
+
+Puedes generar RDC40 automáticamente activando la configuración de tu empresa:
+
+- `consent.redec_enabled`: habilita REDEC
+- `data_subject_request.redec_automatic_rdc40`: activa reportes automáticos RDC40
+
+Con esta opción habilitada, Soyio ejecuta una tarea diaria (00:00) que genera un reporte para el período **del día anterior**.
+
+## Sin eventos (“no changes”)
+
+Si en el período no existieron eventos que disparen entradas RDC40 para solicitudes REDEC, Soyio registra un evento interno:
+
+- `redec.rdc40_no_changes`
+
+En ese caso, igualmente debes **informar a la CMF** que no hubo cambios (“sin movimientos”) para el período correspondiente.

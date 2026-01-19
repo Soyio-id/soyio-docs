@@ -19,7 +19,7 @@ El endpoint `POST /api/v1/redec/consent_actions` registra acciones de consentimi
 ### API de reportes
 
 Los endpoints de reportes te permiten:
-- Crear reportes RDC30 con rangos de fechas específicos
+- Crear reportes RDC30 y RDC40 con rangos de fechas específicos
 - Los reportes se generan automáticamente en formato CMF
 
 ```json title="POST /api/v1/reports"
@@ -35,7 +35,8 @@ Los endpoints de reportes te permiten:
 El sistema envía webhooks para eventos REDEC:
 - `consent_action.created` - Nueva acción de consentimiento registrada
 - `consent_action.redec_receipt_generated` - Recibo PDF de consentimiento REDEC generado y listo para descarga
-- `report.created` - Nuevo reporte generado (verifica `kind: "rdc30"` en el payload para reportes RDC30)
+- `report.created` - Nuevo reporte generado (verifica `kind: "rdc30"` o `kind: "rdc40"` en el payload)
+- `redec.rdc40_no_changes` - Evento informativo cuando no hubo eventos que generen entradas RDC40 en el período (ver [Genera reportes RDC40](./rdc40.mdx))
 
 #### Webhook de recibos PDF
 

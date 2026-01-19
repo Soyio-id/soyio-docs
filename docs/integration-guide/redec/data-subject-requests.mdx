@@ -1,0 +1,54 @@
+---
+title: Solicitudes de ejercicio de derecho
+description: Solicitudes de derecho REDEC (DSR) desde el Privacy Center y cómo configurar operationId
+---
+
+# Solicitudes de ejercicio de derecho (DSR)
+
+Además del registro de consentimientos y reportes, REDEC también requiere **gestionar solicitudes de derecho** relacionadas al Registro de Deuda Consolidada.
+
+En Soyio, estas solicitudes se crean como **Data subject requests (DSR)** y pueden recibirse desde el **Privacy Center** del SDK Web.
+
+## Habilitar REDEC en el Privacy Center (SDK Web)
+
+Cuando montas el Privacy Center con `@soyio/soyio-widget`, puedes controlar qué “familias” de derechos se muestran mediante `enabledRights`.
+
+- Si `enabledRights` incluye `redec`, el formulario habilita el flujo de solicitudes REDEC.
+- Si `enabledRights` incluye `arsop` y `redec`, el usuario verá un paso inicial de selección.
+- Si `enabledRights` incluye solo `redec`, el paso de selección se omite.
+
+```ts title="Privacy Center (SDK Web)"
+import { PrivacyCenterBox } from '@soyio/soyio-widget';
+
+const privacyCenter = new PrivacyCenterBox({
+  companyId: 'com_...',
+  enabledFeatures: ['DataSubjectRequest'],
+  enabledRights: ['redec'],
+  redecOperationIds: [
+    { id: '0001', label: 'Operación 0001' },
+    { id: '0002', label: 'Operación 0002' },
+  ],
+});
+```
+
+## `operationId` (obligatorio)
+
+En solicitudes REDEC, el usuario debe seleccionar un **`operationId`** en el paso de detalle:
+
+- El valor almacenado y enviado a Soyio es el `id` seleccionado.
+- Los `operationId` deben estar definidos por tu institución según la **RDC01** y deben coincidir con los valores que reportas en esa obligación.
+
+## Tipos de solicitudes REDEC (kinds)
+
+Cuando el usuario inicia una solicitud REDEC, Soyio clasifica la DSR en uno de estos tipos:
+
+- `redec_update` (actualización)
+- `redec_rectification` (rectificación)
+- `redec_complementation` (complementación)
+- `redec_cancellation` (cancelación)
+
+Estos tipos se usan en el reporte **RDC40** como clasificación del evento.
+
+## Siguiente paso
+
+- Revisa [RDC40](./rdc40.mdx) para entender qué eventos disparan entradas del reporte y cómo generarlo.
