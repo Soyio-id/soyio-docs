@@ -22,7 +22,8 @@
 .admonitionHeading {
   font: var(--ifm-heading-font-weight) var(--ifm-h5-font-size) /
     var(--ifm-heading-line-height) var(--ifm-heading-font-family);
-  text-transform: uppercase;
+  text-transform: none;
+  font-size: 1rem;
 }
 
 /* Heading alone without content (does not handle fragment content) */
@@ -36,7 +37,7 @@
 
 .admonitionIcon {
   display: inline-flex;
-  margin-right: 0.75rem;
+  margin-right: 0.875rem;
   margin-top: 0.22rem;
 }
 
@@ -46,9 +47,9 @@
 
 .admonitionIcon svg {
   display: inline-block;
-  height: 1.6em;
-  width: 1.6em;
-  fill: var(--ifm-alert-foreground-color);
+  height: 1.125rem;
+  width: 1.125rem;
+  fill: currentColor;
 }
 
 .admonitionContent > :last-child {

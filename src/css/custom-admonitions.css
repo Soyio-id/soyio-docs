@@ -70,25 +70,6 @@
   font-weight: 600;
 }
 
-.alert [class*='admonitionIcon'] {
-  margin-right: 0.875rem;
-}
-
-.alert [class*='admonitionIcon'] svg {
-  fill: currentColor;
-  width: 1.125rem;
-  height: 1.125rem;
-}
-
-.alert [class*='admonitionHeading'] {
-  text-transform: none;
-  font-size: 1rem;
-}
-
-.alert [class*='admonitionContent'] {
-  padding-left: 0;
-}
-
 /* Note */
 .alert--secondary {
   --ifm-alert-background-color: var(--alert-note-bg);
@@ -146,19 +127,4 @@
 
 .alert ul {
   padding-left: 1rem;
-}
-
-.markdown img {
-  border-radius: 1rem;
-}
-
-code {
-  border-radius: 0.25rem;
-  border: none;
-  padding: 4px 6px;
-}
-
-[class*='codeBlockContainer'] {
-  box-shadow: none !important;
-  border: 1px solid var(--ifm-color-emphasis-200);
 }
