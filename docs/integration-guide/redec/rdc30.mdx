@@ -1,12 +1,12 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Genera reportes de cumplimiento
+# Genera reportes RDC30
 
 Los reportes de Soyio consolidan acciones de consentimiento en un período específico para cumplir con requisitos regulatorios.
 
 :::info[Soporte actual]
-Actualmente, Soyio soporta la generación de reportes RDC30 para cumplimiento con la NCG 540 de la CMF en Chile. Próximamente se agregarán otros tipos de reportes de cumplimiento.
+Soyio soporta la generación de reportes `rdc30` para cumplimiento con la NCG 540 de la CMF en Chile.
 :::
 
 ## ¿Qué es un reporte?
@@ -20,7 +20,7 @@ Un reporte consolida todas las acciones de consentimiento registradas durante un
 - Método de captura
 - Información adicional según el tipo de reporte
 
-### Reporte RDC30
+## Reporte RDC30
 
 El reporte RDC30 cumple con los requisitos de la NCG 540 de la CMF para instituciones financieras chilenas. Incluye:
 
@@ -30,6 +30,10 @@ El reporte RDC30 cumple con los requisitos de la NCG 540 de la CMF para instituc
 - Método de captura
 - RUT del ejecutivo (cuando corresponde)
 - Actualizaciones y revocaciones
+
+:::note[Otros reportes]
+Soyio también soporta RDC40 para solicitudes de derecho REDEC. Revisa [RDC40](./rdc40.mdx).
+:::
 
 ## Crear un reporte
 
@@ -151,7 +155,7 @@ Crea reportes manualmente cuando los necesites usando el endpoint o el dashboard
 
 ### Opción 2: Generación automática
 
-Activa la generación automática de reportes semanales desde la configuración de tu cuenta. Soyio generará reportes automáticamente cada sábado entre las 00:00 y 01:00.
+Activa la generación automática de reportes RDC30 desde la configuración de tu cuenta. Soyio generará un reporte automáticamente cada sábado entre las 00:00 y 01:00.
 
 **Cuándo usar**: Para cumplimiento regulatorio que requiere reportes periódicos (como RDC30). Recibirás notificaciones por webhook cada vez que se genere un reporte.
 
@@ -196,6 +200,7 @@ Activa la generación automática de reportes usando el dashboard o la API con e
 ```json
 {
   "consent": {
+    "redec_enabled": true,
     "redec_automatic_rdc30": true
   }
 }
@@ -203,8 +208,8 @@ Activa la generación automática de reportes usando el dashboard o la API con e
 
 **Desde el dashboard:**
 
-1. Navega a **REDEC > Configuración**
-2. Activa **Reportes periódicos automáticos**
+1. Navega a **Configuración > Consentimiento**
+2. Activa **Reportes periódicos automáticos (RDC30)**
 3. Guarda la configuración
 
 Los reportes se generarán automáticamente cada sábado entre las 00:00 y 01:00. Recibirás una notificación por webhook con el evento [`report.created`](../../api/webhooks.md) cada vez que se genere un reporte.
@@ -240,7 +245,7 @@ Se envía cuando un nuevo reporte ha sido generado y está listo para consultar:
 **Cuándo usar**: Rastrea la generación de reportes y sincroniza automáticamente con sistemas externos (ej. CMF para reportes RDC30).
 
 :::tip[Verifica el tipo de reporte]
-Usa el campo `kind` en el payload para identificar si el reporte generado es de tipo `rdc30` antes de procesarlo. Esto es importante porque el webhook `report.created` se envía para todos los tipos de reportes.
+Usa el campo `kind` en el payload para identificar el tipo de reporte antes de procesarlo. Esto es importante porque el webhook `report.created` se envía para todos los tipos de reportes.
 :::
 
 ### Ejemplo de handler
