@@ -33,6 +33,9 @@ importers:
       '@iconify-icons/mdi':
         specifier: ^1.2.48
         version: 1.2.48
+      '@iconify-icons/ph':
+        specifier: ^1.2.5
+        version: 1.2.5
       '@iconify-icons/simple-icons':
         specifier: ^1.2.74
         version: 1.2.74
@@ -1614,6 +1617,9 @@ packages:
 
   '@iconify-icons/mdi@1.2.48':
     resolution: {integrity: sha512-51bfNoRLhYDfxSu0Nyi/uRVq6q/tP4TyEc0vvuNwImrXpxrRJUAWJF2A36CfBkXm3hO9IBlph/CD/XNDJKgG6w==}
+
+  '@iconify-icons/ph@1.2.5':
+    resolution: {integrity: sha512-Ox2VkJDoFowrf0e74LlLUuLMiN73PsCN28MUx9wCQfyZAFrL8ntfBnMpzukfi/0vN9qpJKAiKYZ3dQ5JjBqt/A==}
 
   '@iconify-icons/simple-icons@1.2.74':
     resolution: {integrity: sha512-FWmuSbg+KDUreysuaE8DYu/jbv4+FtSY+ppAi8w8sgX9CKTP6watB+PLeMbklOL/G5PnBlHnvM/ihkZ+n96OZw==}
@@ -10335,6 +10341,10 @@ snapshots:
       '@iconify/types': 2.0.0
 
   '@iconify-icons/mdi@1.2.48':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-icons/ph@1.2.5':
     dependencies:
       '@iconify/types': 2.0.0
 
