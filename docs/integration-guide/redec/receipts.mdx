@@ -1,0 +1,157 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import SequenceDiagram from '../../../src/components/SequenceDiagram';
+
+# Recibos PDF REDEC
+
+Los recibos PDF proporcionan evidencia auditable de cada consentimiento REDEC registrado. Estos recibos se generan automáticamente y pueden descargarse para cumplimiento regulatorio y auditorías.
+
+## ¿Qué es un recibo REDEC?
+
+Un **recibo REDEC** es un documento PDF que contiene evidencia completa de un consentimiento registrado bajo la NCG 540. Cada recibo incluye:
+
+- **Identificador único REDEC**: ID del proceso regulatorio
+- **Información del usuario**: RUT del usuario que otorgó el consentimiento
+- **Información del ejecutivo**: RUT del ejecutivo que gestionó (si aplica)
+- **Fecha y hora exacta**: Timestamp del consentimiento
+- **Tipo de consentimiento**: Clasificación del producto crediticio
+- **Método de captura**: Web, IVR, sucursal, etc.
+
+Además, el sistema calcula automáticamente un **hash SHA256** del PDF generado. Este hash se almacena por separado y se retorna en la API, permitiéndote verificar la integridad del archivo descargado.
+
+:::tip[Uso en auditorías]
+Los recibos PDF sirven como evidencia legal y auditable del consentimiento para inspecciones de la CMF y verificación interna de cumplimiento.
+:::
+
+## Generación automática de recibos
+
+Los recibos se generan **automáticamente** para cada consentimiento REDEC sin requerir configuración adicional.
+
+### Flujo de generación
+
+<SequenceDiagram
+  actors={[
+    { id: 'backend', label: 'Tu Backend' },
+    { id: 'soyio', label: 'Soyio API' },
+    { id: 'webhook', label: 'Tu Webhook Handler' },
+  ]}
+  actions={[
+    {
+      from: 'backend',
+      to: 'soyio',
+      label: 'POST /redec/consent_actions'
+    },
+    {
+      from: 'soyio',
+      to: 'backend',
+      label: 'Retorna consent_action registrado'
+    },
+    {
+      from: 'soyio',
+      to: 'soyio',
+      label: 'Genera recibo PDF en segundo plano',
+      isDashed: true
+    },
+    {
+      from: 'soyio',
+      to: 'webhook',
+      label: 'Webhook: consent_action.redec_receipt_generated'
+    },
+    {
+      from: 'webhook',
+      to: 'soyio',
+      label: 'GET /redec/consent_actions/{id}'
+    },
+    {
+      from: 'soyio',
+      to: 'webhook',
+      label: 'Retorna referencia al PDF y hash correspondiente'
+    }
+  ]}
+/>
+
+### ¿Cuándo se genera el recibo?
+
+El recibo se genera automáticamente después de registrar un consentimiento REDEC:
+
+1. **Registro exitoso** - Llamas a `POST /redec/consent_actions`
+2. **Procesamiento asíncrono** - El sistema genera el PDF en segundo plano
+3. **Notificación webhook** - Recibes `consent_action.redec_receipt_generated` cuando está listo
+4. **Descarga disponible** - El PDF está listo para descarga mediante el endpoint
+
+:::info[Tiempo de generación]
+La generación del recibo toma entre 1-5 segundos después de registrar el consentimiento. Usa el webhook para saber exactamente cuándo está disponible.
+:::
+
+## Descargar recibos PDF
+
+Usa el endpoint [Download REDEC consent action receipt](/docs/api/resources/download-redec-consent-action-receipt) para descargar el PDF.
+
+El hash SHA256 para verificar integridad está en el campo `redec_pdf_hash` de [`GET /redec/consent_actions/{id}`](/docs/api/resources/show-redec-consent-action).
+
+## Verificación de integridad
+
+El sistema calcula automáticamente un hash SHA256 para cada recibo PDF generado. Este hash te permite verificar que el archivo descargado no ha sido modificado o corrompido.
+
+### ¿Por qué verificar integridad?
+
+La verificación de integridad es crucial para:
+- **Cumplimiento regulatorio**: Asegura que la evidencia no ha sido alterada
+- **Auditorías**: Demuestra que los documentos son auténticos
+- **Seguridad**: Detecta cualquier modificación o corrupción del archivo
+
+### Cómo verificar
+
+Compara el hash SHA256 del PDF descargado con el hash proporcionado en:
+- Campo `redec_pdf_hash` de `GET /redec/consent_actions/{id}`
+- Campo `redec_pdf_hash` del webhook `consent_action.redec_receipt_generated`
+
+<Tabs>
+  <TabItem value="javascript" label="JavaScript (Node.js)" default>
+    ```javascript
+    import crypto from 'crypto';
+    import fs from 'fs';
+
+    // Leer el archivo PDF descargado
+    const fileBuffer = fs.readFileSync('./receipt.pdf');
+
+    // Calcular hash SHA256
+    const calculatedHash = crypto.createHash('sha256').update(fileBuffer).digest('hex');
+
+    // Comparar con el hash esperado (de la API o webhook)
+    const expectedHash = 'ce494daad526933f3d66acd55a36a1ae...';
+    const isValid = calculatedHash === expectedHash;
+    ```
+  </TabItem>
+  <TabItem value="python" label="Python">
+    ```python
+    import hashlib
+
+    # Leer el archivo PDF descargado
+    with open('./receipt.pdf', 'rb') as f:
+        file_content = f.read()
+
+    # Calcular hash SHA256
+    calculated_hash = hashlib.sha256(file_content).hexdigest()
+
+    # Comparar con el hash esperado (de la API o webhook)
+    expected_hash = 'ce494daad526933f3d66acd55a36a1ae...'
+    is_valid = calculated_hash == expected_hash
+    ```
+  </TabItem>
+  <TabItem value="bash" label="Bash">
+    ```bash
+    # Calcular hash del PDF descargado
+    CALCULATED_HASH=$(sha256sum receipt.pdf | cut -d' ' -f1)
+
+    # Comparar con el hash esperado (de la API o webhook)
+    EXPECTED_HASH="ce494daad526933f3d66acd55a36a1ae..."
+
+    [ "$CALCULATED_HASH" = "$EXPECTED_HASH" ] && echo "Válido" || echo "Inválido"
+    ```
+  </TabItem>
+</Tabs>
+
+:::warning[Importante]
+Siempre verifica la integridad del recibo antes de almacenarlo o usarlo como evidencia. Un hash que no coincide indica que el archivo puede estar corrupto o haber sido modificado.
+:::

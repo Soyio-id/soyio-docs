@@ -1076,6 +1076,18 @@ const sidebar: SidebarsConfig = {
         },
         {
           type: "doc",
+          id: "api/resources/show-redec-consent-action",
+          label: "Obtener un consent action REDEC",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/download-redec-consent-action-receipt",
+          label: "Descargar recibo PDF REDEC",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
           id: "api/resources/create-redec-consent-commit",
           label: "Crear un consent commit para REDEC",
           className: "api-method post",
@@ -1091,6 +1103,12 @@ const sidebar: SidebarsConfig = {
           id: "api/resources/update-redec-consent-template",
           label: "Actualizar un template de consentimiento para REDEC",
           className: "api-method patch",
+        },
+        {
+          type: "doc",
+          id: "api/resources/consent-action-redec-receipt-generated",
+          label: "REDEC Receipt Generated",
+          className: "api-method event",
         },
       ],
     },

@@ -1,0 +1,73 @@
+---
+id: consent-action-redec-receipt-generated
+title: "REDEC Receipt Generated"
+description: "#### Nombre del evento: `consent_action.redec_receipt_generated`."
+sidebar_label: "REDEC Receipt Generated"
+hide_title: true
+hide_table_of_contents: true
+api: eJytVktz2zYQ/isY+JLMMNTDduzoVMVWGvc1HsudJG0yygpYiYhJAAZA1YxHP6iHnnrr1X+ss6Bki6Zqu9PqJIn7+Hb32295zQPMPR/8ys9Gx6Mj/inhxqKDoIw+kXzAhdEedRgK+ucMJYozFKhs+BY12aHkCZfohVOWTPiA7+zs7LCfTDF1yCTmDBeogxmwz6tYE4jBUkfRJq4ON5mv431OP+oxMtSLmz+AiRK0NMwjy4DVNtIwvFLBeChQB2SYs9PjN0wicyjU1LBYCrPggJUaGAihbv7UZLBCoApFkFI28uQf8VGKOQSV58Akelve/O7J5bK8zZAB80oaJhwSiIrNS3Ay4tFk45UPWED6UfOEO7ws0YfXRlZ8cH2vRUdGB4UamdIz4wpYA8ybJazrTZjSIi8rpFbkwH4++yEaE6iK+ZJl4DMCu0CnZkrU8VKe0PgC6kAIwNpciTjZzhdPMK65FxkWQN9CZZEPuJl+QRF4wq0jHgSFnp4quWHjg1N63hr7yTG7+UsrYTaGzhOOV1DYnPxwESa91/0f+x8Oh35+bufD4sPBaXY0m/NlwjUUuC0J6rIgfj6NPETgJqwWESmZhSo3ILcV3vQ+hmD8Pw+m1agmyslT+nZuLjCSM3+Aqo1G0iMQDzWz9OgmDmfoUIutbW1iOFuZKuI+K30JTtVzXHE6fhc5YcEGlpip19+lrM2ZWDnbljjyPZCnUy0cm8S+3/RG2iwE6wedjg/GwRzT1ZNUmKKzAuA7TTy9/m5KmG6BWjmb0OI83p63tF7jt8P+/stbeFFeGvtGrVM64NwpCbIBF3rTvtiVe7g/e5mm6R2GJy2WJB5QGmnc5o5ZZwT6be2pg19VXw8OX/Hlcplw0qyAcgLhwaFICPgiqAJbKN6gyIBVLDMukoQC3snWerXih4rzlvgbd6Lf7bYV8B1OM2Mu6glHUTXOoQi1plOD9t6/b7uNnDNuJbd1+VAvSETxWx2UE4QCQ2ZklB0SQNr5kPEBX9sk3KNboKPjd81Ll2+yCrScmqvUm0qZVMkOWNVZ9Fo9GaNbKBqKRGZdiVPw7NnK+TlfJvfjgrX/MqaR5UoSntU/yOo5X34i+KJ0KlRj0vC602DV5AKrjQmDVd9j1Uoy8pdlvdUMSjoQtxwuUCqgq0qXc3h6wi6wIhzWOKGMBgmr7mcIEl2tW555kyuhQinR09mpxZwPy5AZp77Go8MTrih37UgTpryhmnj0nsQykBD+T9hZDMa+e3dOdh79ekHJXoJslGQeLYmNcaX5rPTxhYQ4r6U1SgfWiYUo9J1GKaxi9ZGnVsrS3alEb58VSpfBPLlZy4TTzT67e6kYrZe9vs4PXdfbFE+8oY37uOWiPXaA2vfn7kxsvRL/Rc7bat5S202xvSeNTWHk/W5/70X34EX/1Xlvf7DfG/QP0+5B7xcypFe1yE4VosaOaZFpRVoMpbUhOYqrLOIhZbWIE/Mksui6ejsDERUZC1AkFZ5oGfCbtUxQZlKpOnIv7aZdvlz+DSziHR8=
+sidebar_class_name: "event api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"REDEC Receipt Generated"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"event"}
+  path={"webhook"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+#### Nombre del evento: `consent_action.redec_receipt_generated`.
+Se envía cuando se ha generado exitosamente el PDF de recibo REDEC para una acción de consentimiento. Este evento se gatilla después de que el PDF ha sido creado y guardado en el sistema.
+
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"description":"Contiene información del recibo REDEC generado, incluyendo la URL del PDF y su hash de verificación.","content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"string","description":"ID único del evento","example":"evt_1B2M2Y8AsgTpgAmY7PhCfg"},"name":{"type":"string","enum":["consent_action.redec_receipt_generated"],"description":"Nombre del evento"},"payload":{"type":"object","description":"Datos del recibo REDEC generado","properties":{"consent_action_id":{"type":"string","description":"Token de la acción de consentimiento","example":"consact_1B2M2Y8AsgTpgAmY7PhCfg"},"user_reference":{"type":"string","description":"Referencia de usuario del sistema del cliente","example":"user_123"},"redec_receipt_pdf":{"type":"string","format":"uri","description":"URL del PDF del recibo REDEC","example":"https://storage.example.com/receipts/redec_receipt_123.pdf"},"redec_pdf_hash":{"type":"string","description":"Hash SHA256 del PDF para verificación de integridad","example":"a1b2c3d4e5f6..."},"redec_id":{"type":"string","description":"Identificador único del proceso REDEC","example":"redec_xyz789"}}},"created_at":{"type":"string","format":"date-time","description":"Fecha y hora de creación del evento"}}}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Webhook recibido correctamente"},"4XX":{"description":"Error en el procesamiento del webhook"}}}
+>
+  
+</StatusCodes>
+
+
+      
