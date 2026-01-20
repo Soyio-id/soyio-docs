@@ -22,6 +22,7 @@
   "dependencies": {
     "@docusaurus/core": "^3.9.2",
     "@docusaurus/faster": "^3.9.2",
+    "@docusaurus/plugin-content-docs": "^3.9.2",
     "@docusaurus/preset-classic": "^3.9.2",
     "@docusaurus/theme-mermaid": "^3.9.2",
     "@iconify-icons/logos": "^1.2.36",
@@ -39,6 +40,8 @@
     "d3": "^7.9.0",
     "docusaurus-plugin-fathom": "^1.2.0",
     "docusaurus-plugin-image-zoom": "^3.0.1",
+    "docusaurus-plugin-llms": "^0.2.2",
+    "jsdom": "^25.0.1",
     "docusaurus-plugin-openapi-docs": "^4.5.1",
     "docusaurus-theme-openapi-docs": "^4.5.1",
     "lodash": "^4.17.21",
@@ -47,7 +50,9 @@
     "react-dom": "^19.2.0",
     "react-markdown": "^9.1.0",
     "reactflow": "^11.11.4",
-    "rehype-raw": "^7.0.0"
+    "rehype-raw": "^7.0.0",
+    "turndown": "^7.2.0",
+    "turndown-plugin-gfm": "^1.0.2"
   },
   "devDependencies": {
     "@docusaurus/eslint-plugin": "^3.9.2",
@@ -60,6 +65,8 @@
     "@playwright/test": "^1.56.0",
     "@types/react": "^19.2.8",
     "@types/react-dom": "^19.2.3",
+    "@types/turndown": "^5.0.5",
+    "baseline-browser-mapping": "^2.9.15",
     "dotenv": "^17.2.3",
     "eslint": "^9.37.0",
     "eslint-plugin-react": "^7.37.5",
