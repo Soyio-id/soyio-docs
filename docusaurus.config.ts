@@ -149,6 +149,15 @@ const config: Config = {
         },
       };
     },
+    [
+      'docusaurus-plugin-llms',
+      {
+        generateLLMsFullTxt: false,
+        generateMarkdownFiles: false,
+        removeDuplicateHeadings: true,
+        excludeImports: true,
+      },
+    ],
   ],
   themeConfig: {
     docs: {
