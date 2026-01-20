@@ -1,0 +1,24 @@
+.titleRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+.title {
+  margin-bottom: 0;
+}
+
+.hideContentTitle :global(.theme-doc-markdown h1:first-child),
+.hideContentTitle :global(.col--12.markdown header h1:first-child),
+.hideContentTitle :global(h1.openapi__heading:first-child) {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .titleRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
