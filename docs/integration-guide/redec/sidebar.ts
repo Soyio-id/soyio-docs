@@ -19,6 +19,11 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: 'doc',
+      id: 'integration-guide/redec/data-subject-requests',
+      label: 'Solicitudes de ejercicio de derecho',
+    },
+    {
+      type: 'doc',
       id: 'integration-guide/redec/consent-registration',
       label: 'Registra consentimientos',
     },
@@ -29,8 +34,13 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: 'doc',
-      id: 'integration-guide/redec/reports',
+      id: 'integration-guide/redec/rdc30',
       label: 'Genera reportes RDC30',
+    },
+    {
+      type: 'doc',
+      id: 'integration-guide/redec/rdc40',
+      label: 'Genera reportes RDC40',
     },
     {
       type: 'doc',

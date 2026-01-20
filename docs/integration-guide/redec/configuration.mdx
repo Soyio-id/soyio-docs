@@ -11,7 +11,7 @@ Contacta a tu gerente de cuenta en Soyio para habilitar el módulo REDEC en tu c
 - Endpoint `/api/v1/redec/consent_actions`
 - Endpoint `/api/v1/redec/consent_commits`
 - Endpoint `/api/v1/redec/consent_templates`
-- Endpoint `/api/v1/reports` con tipo `rdc30`
+- Endpoint `/api/v1/reports` con tipo `rdc30` y `rdc40`
 - Dashboard de gestión REDEC
 - Configuración de reportes automáticos
 
@@ -63,6 +63,21 @@ Configura la generación automática de reportes RDC30:
 ```
 
 Los reportes se generan automáticamente cada sábado entre las 00:00 y 01:00 cuando esta configuración está habilitada.
+
+Para reportes automáticos de RDC40 (solicitudes de derecho REDEC), configura:
+
+```json title="PATCH /api/v1/config"
+{
+  "consent": {
+    "redec_enabled": true
+  },
+  "data_subject_request": {
+    "redec_automatic_rdc40": true
+  }
+}
+```
+
+Los reportes RDC40 se generan automáticamente cada día a las 00:00 para el período del día anterior.
 
 :::tip[Sincronización con CMF]
 Los reportes semanales automáticos facilitan la sincronización continua con la plataforma de la CMF según requiere la NCG 540.
@@ -193,5 +208,5 @@ Revisa la guía completa de [creación de plantillas de consentimiento](../conse
 ## Próximos pasos
 
 - [Registra consentimientos](./consent-registration.mdx) - Comienza a registrar acciones REDEC
-- [Genera reportes](./reports.mdx) - Crea reportes RDC30 para la CMF
+- [RDC30](./rdc30.mdx) - Crea reportes RDC30 para la CMF
 - [Cómo funciona](./how-it-works.mdx) - Entiende la arquitectura completa
