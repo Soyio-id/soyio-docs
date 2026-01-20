@@ -123,6 +123,42 @@ Aquí tienes un ejemplo completo de cómo se vería el request para crear una pl
 
 ## Configuración avanzada
 
+### Configura niveles de validación
+
+Puedes configurar qué verificaciones de identidad se requieren para cada plantilla de disclosure usando los campos de validación:
+
+- `liveness_check`: Requiere prueba de vida (detección de persona real)
+- `id_scan_check`: Requiere escaneo del documento de identidad
+- `government_check`: Requiere verificación con bases de datos gubernamentales
+
+Estos campos **sobrescriben** la configuración por defecto de tu empresa, permitiéndote tener diferentes niveles de validación para diferentes tipos de disclosure.
+
+```json title="Ejemplo con validación biométrica completa"
+{
+  "name": "Validación alta seguridad",
+  "liveness_check": true,
+  "id_scan_check": true,
+  "government_check": false,
+  "data_requirements": [...]
+}
+```
+
+```json title="Ejemplo con validación básica de documento"
+{
+  "name": "Validación básica",
+  "liveness_check": false,
+  "id_scan_check": true,
+  "government_check": false,
+  "data_requirements": [...]
+}
+```
+
+:::tip[Prioridad de configuración]
+Si defines estos campos en la plantilla, tienen prioridad sobre la configuración general de tu empresa. Si no los defines, se usarán los valores configurados a nivel de empresa en `disclosure.liveness_check`, `disclosure.id_scan_check` y `disclosure.government_check`.
+:::
+
+Aprende más sobre los niveles de validación y sus casos de uso en la [guía de niveles de validación](./validation-levels).
+
 ### Conecta tus documentos de privacidad
 
 Asocia políticas y avisos usando `privacy_document_ids`. Los documentos deben estar configurados previamente en tu [perfil de compañía](../company-configuration). Incluye todas las versiones relevantes para que la evidencia del disclosure quede vinculada al marco legal correcto.

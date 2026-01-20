@@ -37,3 +37,146 @@ Usando el endpoint `PATCH /api/v1/config` puedes hacer que la validación de ide
   }
 }
 ```
+
+---
+
+## Niveles de validación
+
+Al igual que en el módulo de Disclosure, puedes configurar diferentes niveles de validación de identidad para las solicitudes de derechos (Data Subject Requests). Estos niveles determinan qué verificaciones se realizarán cuando un usuario valida su identidad durante el proceso de ejercicio de derechos.
+
+### Las tres verificaciones de validación
+
+Soyio ofrece tres tipos de verificaciones que se pueden combinar para crear diferentes niveles de validación:
+
+#### 1. Liveness Check (`liveness_check`)
+
+Verifica que la persona que está realizando la validación es una persona real y está presente durante el proceso.
+
+- **Detección de vida**: Prueba de que es una persona real, no una foto o video
+- **Prevención de fraude**: Evita suplantación mediante fotos o máscaras
+- **Dependencia**: Requiere que `id_scan_check` esté habilitado
+
+#### 2. ID Scan Check (`id_scan_check`)
+
+Verifica que el usuario presentó un documento de identidad válido y que los datos fueron extraídos correctamente.
+
+- **Validación de documento**: Verifica autenticidad del documento de identidad
+- **Extracción OCR**: Obtiene datos del documento (nombre, RUT, fecha de nacimiento, etc.)
+- **Requerido para liveness**: Es necesario para habilitar `liveness_check`
+
+#### 3. Government Check (`government_check`)
+
+Verifica que el documento de identidad fue validado contra las bases de datos oficiales del gobierno.
+
+- **Validación oficial**: Cruce con registros gubernamentales
+- **Detección de fraudes**: Identifica documentos reportados como robados o perdidos
+- **Consideración**: Puede requerir tiempo adicional de procesamiento
+
+### Combinaciones comunes
+
+| Nivel | `liveness_check` | `id_scan_check` | `government_check` |
+|-------|------------------|------------------|-------------------|
+| **Solo gobierno** | `false` | `false` | `true` |
+| **Documento básico** | `false` | `true` | `false` |
+| **Documento + Gobierno** | `false` | `true` | `true` |
+| **Biométrica completa** | `true` | `true` | `false` |
+| **Máxima seguridad** | `true` | `true` | `true` |
+
+:::tip[Recomendación para DSR]
+Para solicitudes de derechos, se recomienda la **validación biométrica completa** (`liveness_check: true`, `id_scan_check: true`, `government_check: false`) o **solo verificación gubernamental** (`government_check: true`) dependiendo del nivel de riesgo y los requisitos legales de tu organización.
+:::
+
+---
+
+## Configuración de validación para DSR
+
+Puedes configurar los niveles de validación para Data Subject Requests en dos lugares, con diferente prioridad:
+
+### 1. Configuración general de validación (Validation-level)
+
+La configuración a nivel de `validation` establece los valores **generales** para todos los procesos de validación.
+
+**Ubicación:** Objeto [Configuration](../../api/resources/schemas/configuration.schema.mdx) en `validation.*`
+
+**Campos:**
+- `validation.liveness_check`
+- `validation.id_scan_check`
+- `validation.government_check`
+
+### 2. Configuración específica de DSR (DSR-level)
+
+La configuración a nivel de `data_subject_request` es específica para solicitudes de derechos y tiene prioridad sobre la configuración general de validación.
+
+**Ubicación:** Objeto [Configuration](../../api/resources/schemas/configuration.schema.mdx) en `data_subject_request.*`
+
+**Campos:**
+- `data_subject_request.liveness_check`
+- `data_subject_request.id_scan_check`
+- `data_subject_request.government_check`
+
+:::info[Prioridad de configuración]
+La configuración de validación sigue el siguiente orden de prioridad:
+
+1. **Configuración de DSR**: Si `config.data_subject_request` tiene configuración, se usa esa configuración
+2. **Configuración general de validación**: Si `config.data_subject_request` no tiene configuración, se usa `config.validation`
+3. **Valores por defecto**: Si ninguna de las anteriores tiene configuración, se usan los valores por defecto (`liveness_check: true`, `id_scan_check: true`, `government_check: false`)
+:::
+
+---
+
+## Attestations resultantes en la Entity
+
+Después de completar la validación, los attestations correspondientes se almacenan en la [Entity](../data-subjects#entity-entidad) asociada a la solicitud de derechos.
+
+**Ejemplo de Entity con validación biométrica:**
+
+```json
+{
+  "id": "ent_abc123",
+  "agreement_id": "agr_xyz789",
+  "user_reference": "user_456",
+  "attestations": [
+    {
+      "kind": "liveness",
+      "validated_at": "2026-01-19T12:00:00Z"
+    },
+    {
+      "kind": "id_scan",
+      "validated_at": "2026-01-19T12:00:00Z"
+    },
+    {
+      "kind": "id_match",
+      "validated_at": "2026-01-19T12:00:00Z"
+    }
+  ]
+}
+```
+
+**Ejemplo de Entity con solo verificación gubernamental:**
+
+```json
+{
+  "id": "ent_abc123",
+  "agreement_id": "agr_xyz789",
+  "user_reference": "user_456",
+  "attestations": [
+    {
+      "kind": "government_check",
+      "validated_at": "2026-01-19T12:05:00Z"
+    }
+  ]
+}
+```
+
+Los attestations son **marcas** que registran qué verificaciones se realizaron sobre el usuario, permitiéndote conocer el nivel de validación que se completó.
+
+Aprende más sobre entidades y attestations en la [guía de sujetos de datos](../data-subjects).
+
+---
+
+## Recursos relacionados
+
+- [Sujetos de datos: Identity y Entity](../data-subjects)
+- [Niveles de validación en Disclosure](../disclosure/validation-levels)
+- [API: Configuration Schema](../../api/resources/schemas/configuration.schema.mdx)
+- [API: Entity Schema](../../api/resources/schemas/entity.schema.mdx)

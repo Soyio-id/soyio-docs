@@ -1,0 +1,192 @@
+# Niveles de Validación
+
+El módulo de Disclosure permite configurar diferentes niveles de validación de identidad según las necesidades de seguridad y cumplimiento de tu organización. Estos niveles determinan qué verificaciones se realizarán durante el proceso de validación del usuario.
+
+## Las tres verificaciones de validación
+
+Soyio ofrece tres tipos de verificaciones que se pueden combinar para crear diferentes niveles de validación:
+
+### 1. Liveness Check (`liveness_check`)
+
+La verificación de **liveness** (prueba de vida) verifica que hay una persona real que está realizando la validación y está presente durante el proceso. Cuando se combina con el escaneo de documento, podemos verificar que esta persona es la misma que corresponde al documento de identidad.
+
+**¿Qué valida?**
+- Detección de vida (prueba de que es una persona real, no una foto o video)
+- Prevención de suplantación de identidad mediante fotos o máscaras
+
+**Attestations generados:**
+- `liveness`: Indica que se realizó la prueba de vida
+- `id_match`: Indica que la persona del liveness coincide con la foto del documento (cuando se combina con `id_scan_check`)
+
+---
+
+### 2. Escaneo de documento de identidad (`id_scan_check`)
+
+La verificación de **escaneo de documento** verifica que el usuario presentó un documento de identidad válido y que los datos fueron extraídos correctamente.
+
+**¿Qué valida?**
+- Autenticidad del documento de identidad
+- Extracción OCR de datos del documento (nombre, RUT, fecha de nacimiento, etc.)
+- Validación de características de seguridad del documento
+
+**Attestation generado:**
+- `id_scan`: Indica que se escaneó y validó el documento
+
+---
+
+### 3. Government Check (`government_check`)
+
+La verificación **gubernamental** verifica que el documento de identidad fue validado contra las bases de datos oficiales del gobierno.
+
+**¿Qué valida?**
+- Validez actual del documento en registros gubernamentales. 
+- Detección de documentos reportados como robados o perdidos.
+- Cruce de información con bases de datos oficiales.
+
+**Attestation generado:**
+- `government_check`: Indica que se validó con registros gubernamentales
+
+---
+
+## Combinaciones comunes de validación
+
+Puedes combinar las tres verificaciones para crear diferentes niveles de validación según tus necesidades:
+
+| Nivel de Validación | `liveness_check` | `id_scan_check` | `government_check` | Attestations generados |
+|---------------------|------------------|------------------|-------------------|----------------------|
+| **Sin validación** | `false` | `false` | `false` | Ninguno |
+| **Solo verificación gubernamental** | `false` | `false` | `true` | `government_check` |
+| **Escaneo de documento** | `false` | `true` | `false` | `id_scan` |
+| **Escaneo + Gobierno** | `false` | `true` | `true` | `id_scan`, `government_check` |
+| **Biométrica completa** | `true` | `true` | `false` | `liveness`, `id_scan`, `id_match` |
+| **Biométrica + Gobierno** | `true` | `true` | `true` | `liveness`, `id_scan`, `id_match`, `government_check` |
+
+---
+
+## Configuración de validación
+
+Puedes configurar los niveles de validación en tres lugares, con diferente prioridad:
+
+### 1. Configuración general de validación (Validation-level)
+
+La configuración a nivel de `validation` establece los valores **generales** para todos los procesos de validación.
+
+**Ubicación:** Objeto [Configuration](../../api/resources/schemas/configuration.schema.mdx) en `validation.*`
+
+**Campos:**
+- `validation.liveness_check`
+- `validation.id_scan_check`
+- `validation.government_check`
+
+### 2. Configuración específica de disclosure (Disclosure-level)
+
+La configuración a nivel de `disclosure` es específica para el módulo de disclosure y tiene prioridad sobre la configuración general de validación.
+
+**Ubicación:** Objeto [Configuration](../../api/resources/schemas/configuration.schema.mdx) en `disclosure.*`
+
+**Campos:**
+- `disclosure.liveness_check`
+- `disclosure.id_scan_check`
+- `disclosure.government_check`
+
+---
+
+### 3. Configuración a nivel de plantilla (Template-level)
+
+La configuración a nivel de plantilla de disclosure **sobrescribe** la configuración de empresa para disclosures específicos.
+
+**Ubicación:** Objeto [DisclosureTemplate](../../api/resources/schemas/disclosuretemplate.schema.mdx)
+
+**Campos:**
+- `liveness_check`
+- `id_scan_check`
+- `government_check`
+
+Esto te permite tener diferentes niveles de validación para diferentes tipos de disclosure. Por ejemplo, puedes requerir validación gubernamental solo para ciertos procesos críticos.
+
+:::info[Prioridad de configuración]
+La configuración de validación sigue el siguiente orden de prioridad:
+
+1. **Configuración de plantilla**: Si la plantilla tiene configuración de validación, se usa esa configuración
+2. **Configuración de disclosure**: Si la plantilla no tiene configuración, se usa `config.disclosure`
+3. **Configuración general de validación**: Si `config.disclosure` tampoco tiene configuración, se usa `config.validation`
+4. **Valores por defecto**: Si ninguna de las anteriores tiene configuración, se usan los valores por defecto (`liveness_check: true`, `id_scan_check: true`, `government_check: false`)
+:::
+
+Aprende más sobre las plantillas de disclosure en la [guía de plantillas de disclosure](./disclosure_templates).
+
+---
+
+## Attestations resultantes en la Identity
+
+Después de completar exitosamente la validación, se crea una [Identity](/docs/integration-guide/data-subjects#identity-identidad) que contiene los attestations correspondientes a las verificaciones realizadas.
+
+**Ejemplo de Identity con validación biométrica completa:**
+
+```json
+{
+  "id": "id_abc123",
+  "email": "usuario@ejemplo.com",
+  "data": [...],
+  "attestations": [
+    {
+      "kind": "liveness",
+      "validated_at": "2026-01-19T12:00:00Z"
+    },
+    {
+      "kind": "id_scan",
+      "validated_at": "2026-01-19T12:00:00Z"
+    },
+    {
+      "kind": "id_match",
+      "validated_at": "2026-01-19T12:00:00Z"
+    }
+  ]
+}
+```
+
+**Ejemplo de Identity con validación máxima (biométrica + gobierno):**
+
+```json
+{
+  "id": "id_abc123",
+  "email": "usuario@ejemplo.com",
+  "data": [...],
+  "attestations": [
+    {
+      "kind": "liveness",
+      "validated_at": "2026-01-19T12:00:00Z"
+    },
+    {
+      "kind": "id_scan",
+      "validated_at": "2026-01-19T12:00:00Z"
+    },
+    {
+      "kind": "id_match",
+      "validated_at": "2026-01-19T12:00:00Z"
+    },
+    {
+      "kind": "government_check",
+      "validated_at": "2026-01-19T12:05:00Z"
+    }
+  ]
+}
+```
+
+Los attestations son **marcas** que registran qué verificaciones se realizaron sobre la identidad, permitiéndote:
+- Verificar el nivel de validación de un usuario
+- Conocer qué verificaciones se han realizado
+- Auditar el proceso de verificación
+
+Aprende más sobre identidades y attestations en la [guía de sujetos de datos](../data-subjects).
+
+---
+
+## Recursos relacionados
+
+- [Plantillas de Disclosure](./disclosure_templates)
+- [Configuración de Disclosure](./configuration)
+- [Sujetos de datos: Identity y Entity](../data-subjects)
+- [API: Configuration Schema](../../api/resources/schemas/configuration.schema.mdx)
+- [API: DisclosureTemplate Schema](../../api/resources/schemas/disclosuretemplate.schema.mdx)
+- [API: Identity Schema](../../api/resources/schemas/identity.schema.mdx)

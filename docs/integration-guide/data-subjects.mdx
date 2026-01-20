@@ -1,0 +1,160 @@
+# Sujetos de Datos: Identidades y Entidades
+
+En Soyio, un **sujeto de datos** (data subject) es cualquier persona cuyos datos personales son tratados por la plataforma. Dependiendo del contexto, Soyio representa a estos sujetos mediante dos objetos distintos: **Identidades** y **Entidades**.
+
+Comprender la diferencia entre estos dos conceptos es fundamental para integrar correctamente los módulos de Soyio.
+
+## Identity (Identidad)
+
+Una **Identity** representa a un **usuario identificado** en el sistema. Las identidades se crean exclusivamente a través del módulo de [Disclosure](/docs/integration-guide/disclosure/introduction) después de que un usuario completa exitosamente un proceso de validación de identidad.
+
+### Características
+
+- **Usuario identificado**: La identidad contiene los datos personales verificados del usuario (nombre, RUT, fecha de nacimiento, email, etc.).
+- **Datos verificados**: Los datos fueron validados durante el proceso de disclosure.
+- **Creación**: Solo se crea a través del módulo de Disclosure.
+- **Attestations**: Registra qué verificaciones de identidad se realizaron (liveness, id_scan, id_match, government_check).
+
+### Attestations en Identities
+
+Los attestations son **marcas** que registran qué verificaciones de identidad se realizaron sobre esta identidad y cuándo. Cada attestation indica:
+
+- **kind**: El tipo de verificación realizada
+- **validated_at**: La fecha y hora en que se realizó la verificación
+
+Los tipos de attestation posibles son:
+
+- `liveness`: Se realizó una prueba de vida (detección de persona real)
+- `id_scan`: Se escaneó y validó un documento de identidad
+- `id_match`: Se comparó la foto del documento con la imagen de la persona (coincidencia facial biométrica)
+- `government_check`: Se validó la información con registros gubernamentales
+
+### Ejemplo de Identity
+
+```json
+{
+  "id": "id_ma21KLsmaslopask912Aa2",
+  "email": "usuario@ejemplo.com",
+  "data": [
+    {
+      "key": "name",
+      "value": "María"
+    },
+    {
+      "key": "last_name",
+      "value": "González"
+    },
+    {
+      "key": "cl_carnet_rut",
+      "value": "12.345.678-9"
+    },
+    {
+      "key": "date_of_birth",
+      "value": "1990-05-15"
+    }
+  ],
+  "signed_documents": [
+    "sd_1B2M2Y8AsgTpgAmY7PhCfg"
+  ],
+  "attestations": [
+    {
+      "kind": "liveness",
+      "validated_at": "2026-01-19T12:00:00Z"
+    },
+    {
+      "kind": "id_scan",
+      "validated_at": "2026-01-19T12:00:00Z"
+    },
+    {
+      "kind": "id_match",
+      "validated_at": "2026-01-19T12:00:00Z"
+    }
+  ]
+}
+```
+
+---
+
+## Entity (Entidad)
+
+Una **Entity** representa a un **sujeto de datos** en el sistema. Las entidades se utilizan para:
+
+- **Consentimientos**: Cuando un usuario otorga consentimientos sin validación de identidad
+- **Solicitudes de derechos (Data Subject Requests)**: Cuando un usuario ejerce sus derechos de protección de datos
+
+### Creación de Entities
+
+Las entidades se crean de dos formas:
+
+1. **Automáticamente al crear un consentimiento**: Cuando se crea un consentimiento con un `user_reference` específico, se crea automáticamente una entidad asociada a ese sujeto.
+
+2. **Manualmente a través de la API**: Puedes crear entidades manualmente usando el endpoint de [creación de entidades](../api/resources/create-entity.api.mdx).
+
+### Anonimato
+
+Las entidades pueden ser **anónimas o no anónimas** según el `user_reference`:
+
+- **Anónimas**: La entidad no tiene `user_reference`, son entidades vacías asociadas solo a consentimientos o DSRs sin identificar al sujeto.
+- **No anónimas**: La entidad tiene un `user_reference` que corresponde a un identificador del usuario en tu base de datos, permitiendo rastrear al sujeto de datos.
+
+### Attestations en Entities
+
+Al igual que las identidades, las entidades pueden tener attestations que registran verificaciones de identidad realizadas. Esto ocurre cuando un usuario valida su identidad durante el proceso de una solicitud de derechos.
+
+Los tipos de attestation son los mismos: `liveness`, `id_scan`, `id_match`, y `government_check`.
+
+### Ejemplo de Entity
+
+```json
+{
+  "id": "ent_1B2M2Y8AsgTpgAmY7PhCfg",
+  "agreement_id": "agr_1B2M2Y8AsgTpgAmY7PhCfg",
+  "identity_id": "id_1B2M2Y8AsgTpgAmY7PhCfg",
+  "user_reference": "user_123",
+  "attestations": [
+    {
+      "kind": "government_check",
+      "validated_at": "2026-01-19T12:05:00Z"
+    }
+  ]
+}
+```
+
+---
+
+## Comparación: Identity vs Entity
+
+| Característica | Identity (Identidad) | Entity (Entidad) |
+|----------------|----------------------|-------------------|
+| **Contenido** | Datos personales verificados | user_reference opcional (puede estar vacío) |
+| **Creación** | Solo en Disclosure | En consentimientos o gestión de derechos |
+| **Datos incluidos** | name, last_name, email, RUT, etc. | user_reference |
+| **Attestations** | Siempre presentes después de validación | Opcionales, si se verifica en DSR |
+
+---
+
+## ¿Cuándo se requiere usar cada uno?
+
+El uso de Identity o Entity está determinado por el **módulo** que estés integrando:
+
+### Verificación de identidad → Identity
+
+El módulo de Disclosure crea una **Identity** cuando el usuario completa la validación de identidad. Esta identidad contiene todos los datos personales verificados del usuario.
+
+### Consentimiento → Entity
+
+El módulo de Consentimientos trabaja con **Entities** porque los consentimientos no requieren validación de identidad. Las entidades permiten asociar múltiples consentimientos a un mismo sujeto digital sin identificarlo.
+
+### Gestión de derechos → Entity
+
+El módulo de Solicitudes de Derechos trabaja con **Entities**. El usuario puede ejercer sus derechos de forma anónima o identificado según el `user_reference` de la entidad. Si el proceso de DSR incluye validación de identidad, la entidad obtendrá attestations.
+
+---
+
+## Recursos relacionados
+
+- [Módulo de Disclosure](./disclosure/introduction)
+- [Niveles de validación en Disclosure](./disclosure/validation-levels)
+- [Validación en Data Subject Requests](./rights-management/requests-validation)
+- [API: Identity Schema](../api/resources/schemas/identity.schema.mdx)
+- [API: Entity Schema](../api/resources/schemas/entity.schema.mdx)
