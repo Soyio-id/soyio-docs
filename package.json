@@ -66,6 +66,7 @@
     "@types/react": "^19.2.8",
     "@types/react-dom": "^19.2.3",
     "@types/turndown": "^5.0.5",
+    "@types/jsdom": "^21.1.6",
     "baseline-browser-mapping": "^2.9.15",
     "dotenv": "^17.2.3",
     "eslint": "^9.37.0",

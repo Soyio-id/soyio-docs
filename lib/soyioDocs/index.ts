@@ -10,6 +10,7 @@ import {
 } from 'fs';
 import { LoadContext, Plugin, PluginOptions } from '@docusaurus/types';
 import type * as OpenApiPlugin from 'docusaurus-plugin-openapi-docs';
+import { JSDOM } from 'jsdom';
 import { htmlToMarkdown } from '../../src/lib/htmlToMarkdown';
 
 function removeSidebarLabelFromFile(path: string) {
@@ -66,7 +67,6 @@ function getDocContentFromHtml(html: string) {
   }
 
   const articleHtml = match[0];
-  const { JSDOM } = require('jsdom');
   const dom = new JSDOM(articleHtml);
   const article = dom.window.document.querySelector('article');
   if (!article) {
@@ -162,7 +162,7 @@ export default async function soyioDocsPlugin(
         }
 
         const markdown = htmlToMarkdown(
-          docData.element,
+          docData.element as HTMLElement,
           context.siteConfig.url,
         );
         writeMarkdownOutput(buildDir, filePath, markdown);
