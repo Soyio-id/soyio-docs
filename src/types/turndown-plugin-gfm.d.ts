@@ -1,5 +1,7 @@
 declare module 'turndown-plugin-gfm' {
-  export const gfm: (turndownService: any) => void;
-  export const tables: (turndownService: any) => void;
-  export const strikethrough: (turndownService: any) => void;
+  import TurndownService from 'turndown';
+
+  export const gfm: (turndownService: TurndownService) => void;
+  export const tables: (turndownService: TurndownService) => void;
+  export const strikethrough: (turndownService: TurndownService) => void;
 }
