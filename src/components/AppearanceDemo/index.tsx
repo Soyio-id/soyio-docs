@@ -5,6 +5,8 @@ import { githubLightTheme, draculaTheme } from './themes';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import styles from './styles.module.css';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import { Icon } from '@iconify/react';
+import copyIcon from '@iconify-icons/mdi/content-copy';
 
 type WidgetType = 'privacy-center' | 'consent-box';
 
@@ -70,26 +72,6 @@ const useDebounce = <T,>(value: T, delay: number): T => {
   return debouncedValue;
 };
 
-// Copy icon SVG
-const CopyIcon = () => (
-  <svg
-    className={styles.copyIcon}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-  >
-    <rect
-      x="9"
-      y="9"
-      width="13"
-      height="13"
-      rx="2"
-      ry="2"
-    />
-    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-  </svg>
-);
 
 // Check icon SVG
 const CheckIcon = () => (
@@ -531,7 +513,14 @@ const AppearanceDemoContent = () => {
                   onClick={handleCopy}
                   title={copied ? 'Copied!' : 'Copy to clipboard'}
                 >
-                  {copied ? <CheckIcon /> : <CopyIcon />}
+                  {copied ? (
+                    <CheckIcon />
+                  ) : (
+                    <Icon
+                      icon={copyIcon}
+                      className={styles.copyIcon}
+                    />
+                  )}
                 </button>
               </div>
             </div>
