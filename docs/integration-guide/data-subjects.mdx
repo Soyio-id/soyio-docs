@@ -109,7 +109,6 @@ Los tipos de attestation son los mismos: `liveness`, `id_scan`, `id_match`, y `g
 {
   "id": "ent_1B2M2Y8AsgTpgAmY7PhCfg",
   "agreement_id": "agr_1B2M2Y8AsgTpgAmY7PhCfg",
-  "identity_id": "id_1B2M2Y8AsgTpgAmY7PhCfg",
   "user_reference": "user_123",
   "attestations": [
     {
@@ -143,11 +142,11 @@ El módulo de Disclosure crea una **Identity** cuando el usuario completa la val
 
 ### Consentimiento → Entity
 
-El módulo de Consentimientos trabaja con **Entities** porque los consentimientos no requieren validación de identidad. Las entidades permiten asociar múltiples consentimientos a un mismo sujeto digital sin identificarlo.
+El módulo de Consentimientos trabaja con **Entities** porque los consentimientos no requieren necesariamente una validación de identidad robusta. Las entidades permiten asociar consentimientos a un sujeto digital sin identificarlo.
 
 ### Gestión de derechos → Entity
 
-El módulo de Solicitudes de Derechos trabaja con **Entities**. El usuario puede ejercer sus derechos de forma anónima o identificado según el `user_reference` de la entidad. Si el proceso de DSR incluye validación de identidad, la entidad obtendrá attestations.
+El módulo de Solicitudes de Derechos trabaja con **Entities**. El usuario puede ejercer sus derechos sin validar su identidad y si el proceso de DSR incluye validación de identidad, la entidad obtendrá attestations. La solicitud puede asociarse a un usuario a través del `user_reference` de la entidad.
 
 ---
 
