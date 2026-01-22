@@ -189,7 +189,7 @@ En modo batch, aparecerá un botón "Guardar" para confirmar los cambios acumula
 const privacyCenterOptions = {
   // ...
   consentMode: 'batch',
-  showConfirmation: true // Muestra un diálogo de confirmación antes de guardar
+  showBatchConsentConfirmation: true // Muestra un diálogo de confirmación antes de guardar
 };
 ```
 
@@ -207,6 +207,17 @@ const privacyCenterOptions = {
   consentRetentionPeriod: '30 days'
 };
 ```
+
+### Persistencia de consentimientos superpuestos
+
+En el modelo de datos de Soyio, los consentimientos se gestionan a nivel de **permisos individuales** (combinación de Uso de Dato + Categoría de Dato). Es común que diferentes Plantillas de Consentimiento compartan ciertos permisos (superposición).
+
+El sistema maneja esta superposición utilizando una lógica de **unión**:
+
+1.  **Otorgamiento (Grant)**: Al otorgar una plantilla, se agregan todos sus permisos al acuerdo del usuario. Si un permiso ya existía (por otra plantilla activa), se mantiene.
+2.  **Revocación (Revoke)**: Al revocar una plantilla, se eliminan los permisos asociados a ella, **EXCEPTO** aquellos que son requeridos por otra plantilla que el usuario mantenga activa.
+
+Esto asegura que siempre se respeten todas las autorizaciones vigentes del usuario, sin revocar permisos accidentalmente que son necesarios para otros fines aceptados.
 
 ## Efecto de la modificación de consentimientos
 

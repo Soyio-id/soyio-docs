@@ -12,12 +12,12 @@ Define qué tipo de control visual utilizar para la gestión de consentimientos.
 
 `consentControl`: `'switch'` (default) | `'checkbox'`
 
-### Modo de operación (Batch Mode)
+### Modo de operación de consentimiento (Batch Mode)
 
 Permite agrupar múltiples cambios de consentimiento y guardarlos en una sola acción.
 
 - `consentMode`: `'immediate'` (default) | `'batch'`
-- `showConfirmation`: `boolean`. Muestra un diálogo de confirmación antes de guardar en modo batch.
+- `showBatchConsentConfirmation`: `boolean`. Muestra un diálogo de confirmación antes de guardar en modo batch.
 
 ### Periodo de retención
 
@@ -30,7 +30,7 @@ const privacyCenterOptions = {
   // ...
   consentControl: 'checkbox',
   consentMode: 'batch',
-  showConfirmation: true,
+  showBatchConsentConfirmation: true,
   consentRetentionPeriod: '30 days',
   appearance: {
     // ...
