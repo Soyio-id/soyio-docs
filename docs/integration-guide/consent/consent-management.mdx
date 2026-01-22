@@ -10,7 +10,7 @@ import SequenceDiagram from '../../../src/components/SequenceDiagram';
 # Gestiona consentimientos
 
 :::info
-Por ahora, este servicio está disponible [**sólo para el SDK Web**](https://github.com/Soyio-id/soy-io-widget).
+Por ahora, este servicio está disponible [**solo para el SDK Web**](https://github.com/Soyio-id/soy-io-widget).
 :::
 
 Los usuarios tienen el derecho fundamental de gestionar su consentimiento y revocarlo en cualquier momento. Soyio te proporciona las herramientas necesarias para cumplir con este requisito legal de manera transparente y auditable.
@@ -66,7 +66,7 @@ const privacyCenterOptions = {
 
 ## Integración en modo autenticado
 
-Usa el componente Privacy Center del SDK de Soyio y configuralo en modo autenticado para permitir que solo usuarios autenticados en tu aplicación puedan gestionar sus consentimientos.
+Usa el componente Privacy Center del SDK de Soyio y configúralo en modo autenticado para permitir que solo usuarios autenticados en tu aplicación puedan gestionar sus consentimientos.
 
 ### Flujo de inicialización
 
@@ -159,6 +159,54 @@ privacyCenter.mount("#privacy-center-container");
 ```
   </TabItem>
 </Tabs>
+
+## Configuración avanzada
+
+El Privacy Center permite configurar aspectos avanzados del comportamiento de la gestión de consentimientos mediante parámetros adicionales en la inicialización:
+
+### Controles de consentimiento
+
+Puedes elegir el tipo de control visual que se utilizará para otorgar o revocar consentimientos.
+
+`consentControl`: `'switch'` (default) | `'checkbox'`
+
+```javascript
+const privacyCenterOptions = {
+  // ...
+  consentControl: 'checkbox' // Usa checkboxes en lugar de switches
+};
+```
+
+### Modo de operación (Batch Mode)
+
+Por defecto, los cambios de consentimiento se aplican inmediatamente. Puedes configurar el modo "batch" para permitir al usuario realizar múltiples cambios y guardarlos en una sola acción.
+
+`consentMode`: `'immediate'` (default) | `'batch'`
+
+En modo batch, aparecerá un botón "Guardar" para confirmar los cambios acumulados.
+
+```javascript
+const privacyCenterOptions = {
+  // ...
+  consentMode: 'batch',
+  showConfirmation: true // Muestra un diálogo de confirmación antes de guardar
+};
+```
+
+### Periodo de retención
+
+Puedes definir un periodo durante el cual un consentimiento otorgado no puede ser revocado inmediatamente. Esto es útil para garantizar la estabilidad operativa de ciertos servicios.
+
+`consentRetentionPeriod`: string (e.g. `'30 days'`, `'1 week'`)
+
+Cuando se configura, si el usuario intenta revocar un consentimiento dentro del periodo de retención, el control aparecerá deshabilitado.
+
+```javascript
+const privacyCenterOptions = {
+  // ...
+  consentRetentionPeriod: '30 days'
+};
+```
 
 ## Efecto de la modificación de consentimientos
 
