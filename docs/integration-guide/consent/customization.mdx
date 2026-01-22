@@ -50,6 +50,24 @@ Asegúrate de mantener los elementos de accesibilidad como el contraste adecuado
     Para obtener más información sobre las variables y reglas de personalización, consulta nuestra [guía de personalización de apariencia](../appearance). Para detalles técnicos adicionales, revisa la [documentación oficial del SDK web de Soyio](https://github.com/Soyio-id/soy-io-widget?tab=readme-ov-file#appearance).
     :::
     </TabItem>
+    <TabItem value="mobile" label="SDK Mobile">
+    ```jsx
+    const appearance = {
+        theme: 'soyio',
+        variables: {
+            colorPrimary: '#f54c27',
+        }
+    };
+
+    // ...
+
+    <ConsentBox
+        options={options}
+        params={params}
+        appearance={appearance}
+    />
+    ```
+    </TabItem>
 </Tabs>
 
 ## Estilos de íconos

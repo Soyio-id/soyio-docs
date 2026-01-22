@@ -5,10 +5,6 @@ import Admonition from '@theme/Admonition';
 
 # Captura consentimientos
 
-:::info
-Por ahora, este servicio está disponible **sólo para el SDK Web**.
-:::
-
 Solicitar y obtener el consentimiento es el primer paso del ciclo de vida del consentimiento. En esta guía, te explicaremos cómo capturar el consentimiento de tus usuarios usando el SDK de Soyio.
 
 ## Flujo de captura de consentimiento
@@ -85,7 +81,7 @@ Puedes obtener el token de acción de tres maneras:
 
 Despliega el componente de captura de consentimiento usando el SDK de Soyio y una plantilla de consentimiento.
 
-Captura el evento `CONSENT_CHECKBOX_CHANGE` que emite el componente del SDK de Soyio cuando el usuario hace click en el checkbox de consentimiento. Este evento contiene el token de acción.
+Captura el evento `CONSENT_CHECKBOX_CHANGE` que emite el componente del SDK de Soyio cuando el usuario hace clic en el checkbox de consentimiento. Este evento contiene el token de acción.
 
 Usa este método para casos donde necesitas registrar el consentimiento en el momento de interacción del usuario. Por ejemplo, cuando estás solicitando el consentimiento para una finalidad adicional para datos que ya tienes en tu sistema.
 
@@ -105,9 +101,29 @@ Usa este método para casos donde necesitas registrar el consentimiento en el mo
         }
         ```
     </TabItem>
+    <TabItem value="mobile" label="SDK Mobile">
+        ```tsx
+        <ConsentBox
+            options={options}
+            params={params}
+            onEvent={(event) => {
+                if (event.type === 'CONSENT_CHECKBOX_CHANGE') {
+                    console.log(event);
+                }
+            }}
+        />
+        ```
+        ```typescript title="Respuesta"
+        {
+            type: 'CONSENT_CHECKBOX_CHANGE',
+            isSelected: boolean,
+            actionToken: string
+        }
+        ```
+    </TabItem>
 </Tabs>
 
-### Opción 2: Usa el SDK y usa la función `getStatus` del componente
+### Opción 2: Consulta el estado del componente (`getStatus` / `getState`)
 
 Usa la función `getStatus` del componente del SDK de Soyio para obtener el estado del checkbox. Este método es útil para casos donde necesitas registrar el consentimiento en el momento de persistir los datos del usuario. Por ejemplo, cuando el usuario hace submit de un formulario de registro.
 
@@ -123,6 +139,32 @@ Usa la función `getStatus` del componente del SDK de Soyio para obtener el esta
         {
             isSelected: boolean,
             actionToken: string | undefined
+        }
+        ```
+    </TabItem>
+    <TabItem value="mobile" label="SDK Mobile">
+        ```typescript title="Consulta el estado del checkbox"
+        // Usa una referencia al componente para obtener su estado actual
+        const consentRef = useRef<ConsentBoxRef>(null);
+
+        // ...
+
+        <ConsentBox
+            ref={consentRef}
+            options={options}
+            params={params}
+        />
+
+        // ...
+
+        const stateInfo = consentRef.current?.getState();
+        console.log(stateInfo);
+        ```
+
+        ```typescript title="Respuesta"
+        {
+            isSelected: boolean,
+            actionToken: string | null
         }
         ```
     </TabItem>
