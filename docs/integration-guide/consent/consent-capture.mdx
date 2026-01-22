@@ -215,6 +215,8 @@ Proporciona los `action_tokens` que obtuviste en el paso anterior. Tanto el `ent
 
 - El `user_reference` es útil para conciliar los datos de tu usuario con los consentimientos en Soyio, sin embargo, no reemplaza al `entity_id`.
 
+Un `ConsentCommit` puede procesar acciones mixtas de otorgamiento (`grant`) y revocación (`revoke`) en una sola llamada. Esto es ideal para escenarios como la actualización de preferencias en un portal de privacidad, ya que genera una única versión del acuerdo del usuario (`Agreement`) y una sola evidencia, simplificando el historial de consentimientos.
+
 ```json title="POST /api/v1/consent_commits"
 {
     "user_reference": "<identificador_usuario>", // Opcional
