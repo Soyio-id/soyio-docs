@@ -5,7 +5,7 @@ description: "Esquema para actualizar el estado de una solicitud de ejercicio de
 hide_title: true
 hide_table_of_contents: true
 schema: true
-sample: {"status":"resolved","approved":true,"rejection_reason":"Documentación insuficiente para procesar la solicitud"}
+sample: {"status":"resolved","terminal_state":"approved","rejection_reason":"Documentación insuficiente para procesar la solicitud"}
 custom_edit_url: null
 ---
 
@@ -27,7 +27,7 @@ Solo se permite el estado terminal `resolved`.
 
 <Schema
 	defaultCollapsibleOpen={true}
-  schema={{"x-tags":["Data subject requests"],"type":"object","description":"Esquema para actualizar el estado de una solicitud de ejercicio de derechos.\nSolo se permite el estado terminal `resolved`.\n","required":["status","approved"],"properties":{"status":{"type":"string","enum":["resolved"],"description":"Estado terminal de la solicitud. Debe ser `resolved`.\n","example":"resolved"},"approved":{"type":"boolean","description":"Indica si la solicitud fue aprobada o rechazada.\n- `true`: La solicitud ha sido completada exitosamente\n- `false`: La solicitud ha sido rechazada\n","example":true},"rejection_reason":{"type":"string","description":"Razón del rechazo de la solicitud.\n**Requerido únicamente cuando `approved` es `false`**.\n","example":"Documentación insuficiente para procesar la solicitud"}},"title":"DataSubjectRequestUpdate"}}
+  schema={{"x-tags":["Data subject requests"],"type":"object","description":"Esquema para actualizar el estado de una solicitud de ejercicio de derechos.\nSolo se permite el estado terminal `resolved`.\n","required":["status"],"properties":{"status":{"type":"string","enum":["resolved"],"description":"Estado terminal de la solicitud. Debe ser `resolved`.\n","example":"resolved"},"terminal_state":{"type":"string","enum":["approved","partially_approved","rejected"],"description":"Estado terminal de la solicitud. Si también se envía `approved`, `terminal_state` tiene precedencia.\n","example":"approved"},"approved":{"type":"boolean","deprecated":true,"description":"Campo legacy para indicar si la solicitud fue aprobada o rechazada.\n- `true`: La solicitud ha sido completada exitosamente\n- `false`: La solicitud ha sido rechazada\n","example":true},"rejection_reason":{"type":"string","description":"Razón del rechazo de la solicitud.\n**Requerido únicamente cuando `terminal_state` es `rejected` o `partially_approved`**.\n","example":"Documentación insuficiente para procesar la solicitud"}},"title":"DataSubjectRequestUpdate"}}
   schemaType={"response"}
 >
   

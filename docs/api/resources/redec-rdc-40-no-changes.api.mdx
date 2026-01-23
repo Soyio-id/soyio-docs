@@ -1,0 +1,74 @@
+---
+id: redec-rdc-40-no-changes
+title: "RDC40 no changes"
+description: "#### Nombre del evento: `redec.rdc40_no_changes`."
+sidebar_label: "RDC40 no changes"
+hide_title: true
+hide_table_of_contents: true
+api: eJy9VU1v20YQ/SuD9SUBaOoDNpzyVMd2AAeNEcgGnLQOlNHumFyb3KF3l2oEQz+pp95y9R8rZiklluU2yKU6UeTM25l5b97eq4hlUMUfakIt+xjUp0xxSx6jZXdqVKE8GdITo/eGZ3xUoSspqEwZCtrbVqJUoXZ2dnbgjJuZJzBUA83JRS7gc0rOvWRPHU91n/85v3LnBOTmD38h6A6dYXAMQd5pdtGjZ7dCCXDXEZQYbV2TgxqhJEcetX3426XTfCqdYHJ8tDeEFBPg4WsdbYMBxntQsceQX7nfOHwD7QHRRQqg2XsKLTtDDhAC11bb2BkKMDk5PjkCzQ6sKz0FzsA6qy2DIWg9awrYWIEEBm3Je8qvnMqUp7uOQnzNZqGK+yfzOmIXLTmCb7MSOOwCOW1RnjU2M8sBWvTYN5arTMlsyEUBxLatrU40DW6CoN6roCtqUJ7ioiVVKJ7dkI4qU60XUqOlIF+teRQToreu3KL09Bgevjqr+RGhKlP0BZu2ljyax+no9fjd+OOrw1BetOVh8/HgfXV0Xaplphw29Nwh5LpG5Pa8MER9m2VsiUrAW1zUjOa5RjezjyliXdNmC5uzMBTR1j+exztyAW8EavV23k+mYXncmMwZQ/S2LEmA+nMDXLOHWJFoM/aa7HzI1XK5zJT2hJHMFONzdVyzb+SLMhhpN9qGtop7Q7pCWCShJ/V4erQf68GlnyhTpB769sfD4bY8L2lWMd+CJ21n1nC/IDpiQy6SMLD34cN22on37GX/qH6yGlLFnz2okhIaihWbJCKRszAaK1WodUymAvk5eXGme9X5WhWqirENxWAQ0JkZf8kDLyzn1gywtYP5aGsm5+Tn1rDvF7WjGQZ4sUp+qZbZU1xs25/EZNPpfsov+j8S9VItP0n5uvM2Ls5lI/tJY2unt7R4xLCcLK2mGFWoGaEnr7LVw5s1728vL7YqOQl3HTXY24Z4gtUrxhsyVmwNOodw+P4UbmkhxbbstWWHBlcUVYSGUivil49MLxeGBTIupoFCsOymkW/J/Z+1QzoR3l5eSFygsJIzSLxBs9ES/7AlOKfVvQFdSPeNLIYzLVsXYZC6tRQGG/3CAnqbllGa7vudA6N9aKzrIqcVzpQ48OS745+svaD32v/yyrVV/psjbrjd2qx+zmI2DUaNh+O93eHB7viXi9F+sT8qxq/y4cHodwm07poTyzYmKzuXhRAVbZEoypK1Tiuxug9PzZocQ5BSV3cW6uRs1PTVB04X9q/rdZOTZdt75FE+zIdqufwHJFQF7g==
+sidebar_class_name: "event api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"RDC40 no changes"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"event"}
+  path={"webhook"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+#### Nombre del evento: `redec.rdc40_no_changes`.
+Se envía cuando no se encontraron eventos que gatillen la generación del reporte RDC40 en las últimas 24 horas.
+Los eventos gatillantes corresponden a solicitudes REDEC con ingreso, inicio de procesamiento o cierre.
+
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"description":"Contiene el evento de ausencia de cambios para RDC40.","content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"string","description":"ID único del evento","example":"evt_1B2M2Y8AsgTpgAmY7PhCfg"},"name":{"type":"string","enum":["redec.rdc40_no_changes"],"description":"Nombre del evento"},"payload":{"type":"object","description":"Detalle del evento","properties":{"detail":{"type":"string","description":"Mensaje descriptivo del motivo","example":"No triggering events for the last 24 hours."}}},"created_at":{"type":"string","format":"date-time","description":"Fecha y hora de creación del evento"}}}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Webhook recibido correctamente"},"4XX":{"description":"Error en el procesamiento del webhook"}}}
+>
+  
+</StatusCodes>
+
+
+      

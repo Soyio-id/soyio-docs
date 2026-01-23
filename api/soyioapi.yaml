@@ -123,6 +123,9 @@ tags:
       ### Guías relacionadas
 
       - [Autenticación](/docs/api/authentication)
+  - name: REDEC
+    description: |
+      Endpoints específicos para el cumplimiento normativo REDEC (Registro de Empresas y Entidades de Crédito) de Chile.
 paths:
   /consent_templates:
     get:
@@ -714,10 +717,10 @@ paths:
               value: '{"status":{"=":"pending"}}'
             date_filter:
               summary: Filtrar por fecha de creación
-              value: '{"created_at":{">":"2024-01-01"}}'
+              value: '{"created_at":{">":"2024-01-01T00:00:00.000Z"}}'
             combined_filter:
               summary: Filtros combinados
-              value: '{"status":{"=":"pending"},"created_at":{">":"2024-01-01"}}'
+              value: '{"status":{"=":"pending"},"created_at":{">":"2024-01-01T00:00:00.000Z"}}'
         - $ref: '#/components/parameters/OrderByParam'
       responses:
         '200':
@@ -1051,7 +1054,9 @@ paths:
       description: |
         Actualiza el estado de una solicitud de ejercicio de derechos.
 
-        Si `approved` es `false`, el campo `rejection_reason` es **obligatorio**
+        Si `terminal_state` es `rejected` o `partially_approved` (o `approved` es `false`), el campo
+        `rejection_reason` es **obligatorio**.
+        Cuando ambos están presentes, `terminal_state` tiene precedencia.
       operationId: updateDataSubjectRequest
       parameters:
         - name: id
@@ -1072,9 +1077,26 @@ paths:
                 summary: Aceptar solicitud
                 value:
                   status: resolved
-                  approved: true
+                  terminal_state: approved
               reject_request:
                 summary: Rechazar solicitud
+                value:
+                  status: resolved
+                  terminal_state: rejected
+                  rejection_reason: Documentación insuficiente para procesar la solicitud
+              partially_approve_request:
+                summary: Aceptar solicitud parcialmente
+                value:
+                  status: resolved
+                  terminal_state: partially_approved
+                  rejection_reason: Algunos datos no pudieron ser procesados
+              approve_request_legacy:
+                summary: Aceptar solicitud (legacy)
+                value:
+                  status: resolved
+                  approved: true
+              reject_request_legacy:
+                summary: Rechazar solicitud (legacy)
                 value:
                   status: resolved
                   approved: false
@@ -1221,6 +1243,14 @@ paths:
           explode: true
           schema:
             type: string
+        - name: filtered_by_agreement
+          in: query
+          description: 'Cuando se establece en `true`, retorna solo los datos permitidos por el `agreement` entre la identidad y la compañía. Por defecto retorna todos los datos del vault sin filtrar.'
+          required: false
+          schema:
+            type: boolean
+            default: false
+          example: true
       responses:
         '200':
           description: Operación exitosa
@@ -1281,7 +1311,7 @@ paths:
               value: '{"status":{"=":"successful"}}'
             date_range:
               summary: Filtrar por rango de fechas
-              value: '{"created_at":{">":"2024-01-01","<":"2024-12-31"}}'
+              value: '{"created_at":{">":"2024-01-01T00:00:00","<":"2024-12-31T00:00:00"}}'
         - $ref: '#/components/parameters/OrderByParam'
       responses:
         '200':
@@ -1552,7 +1582,7 @@ paths:
               value: '{"name":{"=":"disclosure_request.granted"}}'
             date_range:
               summary: Filtrar por rango de fechas
-              value: '{"created_at":{">":"2024-01-01","<":"2024-12-31"}}'
+              value: '{"created_at":{">":"2024-01-01T00:00:00","<":"2024-12-31T00:00:00"}}'
         - $ref: '#/components/parameters/OrderByParam'
       responses:
         '200':
@@ -1645,7 +1675,7 @@ paths:
               value: '{"identity_id":{"=":"id_ma21KLsmaslopask912Aa2"}}'
             date_filter:
               summary: Filtrar por fecha de firma
-              value: '{"created_at":{">":"2024-01-01"}}'
+              value: '{"created_at":{">":"2024-01-01T00:00:00"}}'
         - $ref: '#/components/parameters/OrderByParam'
       responses:
         '200':
@@ -1689,6 +1719,44 @@ paths:
           $ref: '#/components/responses/NotFoundError'
       security:
         - api_key: []
+  /evidences:
+    get:
+      tags:
+        - Agreements
+      summary: Obtener todas las evidencias
+      description: Retorna la lista completa de evidencias de todos los acuerdos de la compañía. Útil para auditorías o gestión centralizada de evidencias.
+      operationId: getAllEvidences
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
+        - $ref: '#/components/parameters/OrderByParam'
+        - name: where
+          in: query
+          description: 'Filtros en formato JSON. Permite combinar condiciones como `id`, `legal_basis` o rangos de `created_at`.'
+          required: false
+          schema:
+            type: string
+          examples:
+            id_filter:
+              summary: Filtrar por ID de evidencia
+              value: '{"id":{"=":"evd_pNMroI2OEfrDNdi8xT6kOQ"}}'
+            legal_basis_filter:
+              summary: Filtrar por base legal
+              value: '{"legal_basis":{"=":"consent"}}'
+            date_filter:
+              summary: Filtrar por fecha de creación
+              value: '{"created_at":{">":"2024-01-01T00:00:00"}}'
+      responses:
+        '200':
+          description: Evidencias encontradas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EvidenceList'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+      security:
+        - api_key: []
   /agreements:
     get:
       tags:
@@ -1727,10 +1795,10 @@ paths:
               value: '{"data_categories":{"in":["user.name", "user.contact.email"]}}'
             date_filter:
               summary: Filtrar por fecha de creación
-              value: '{"created_at":{">":"2024-01-01"}}'
+              value: '{"created_at":{">":"2024-01-01T00:00:00"}}'
             combined_filter:
               summary: Filtros combinados
-              value: '{"status":{"=":"active"},"created_at":{">":"2024-01-01"}}'
+              value: '{"status":{"=":"active"},"created_at":{">":"2024-01-01T00:00:00"}}'
         - $ref: '#/components/parameters/OrderByParam'
       responses:
         '200':
@@ -1996,6 +2064,11 @@ paths:
       tags:
         - Consent actions
       summary: Crear un consent action
+      description: |
+        Crea un nuevo consent action. Debes proporcionar al menos uno de los siguientes parámetros: `user_reference` o `entity_id`.
+        - Si solo envías `user_reference`, se intentará buscar una entidad con dicho identificador y si no, se creará una.
+        - Si solo envías `entity_id`, se usará la entidad existente.
+        - Si envías ambos, se prioriza el `entity_id`. El `user_reference` solo se utiliza si no se entrega `entity_id`.
       operationId: createConsentAction
       requestBody:
         required: true
@@ -2012,11 +2085,11 @@ paths:
                   example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
                 user_reference:
                   type: string
-                  description: Referencia del usuario
+                  description: 'Referencia del usuario. Requerido si no se proporciona `entity_id`. Si se envía junto a `entity_id`, este último se prioriza.'
                   example: '1234567890'
                 entity_id:
                   type: string
-                  description: 'ID de la entidad. Si no se proporciona, se creará una nueva entidad.'
+                  description: 'ID de la entidad existente. Requerido si no se proporciona `user_reference`. Si se envía junto a `user_reference`, se usará el `entity_id` para resolver la entidad.'
                   example: ent_1234567890
                 consent_method:
                   $ref: '#/components/schemas/EvidenceConsentMethod'
@@ -2027,6 +2100,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ConsentAction'
+        '400':
+          description: 'Error de solicitud: falta la información mínima o los identificadores no coinciden con una entidad válida'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: invalid_request_error
+                      title:
+                        type: string
+                        example: Bad Request
+                      status:
+                        type: integer
+                        example: 400
+                      detail:
+                        type: string
+                        examples:
+                          - Either user_reference or entity_id is required
+                          - Entity not found or does not belong to company
         '401':
           $ref: '#/components/responses/UnauthorizedError'
       security:
@@ -2162,8 +2259,13 @@ paths:
         - Consent commits
       summary: Crear un commit de consentimiento
       description: |
-        Crea un nuevo commit de consentimiento basado en los actions tokens. Cada action token
-        representa una checkbox de consentimiento específico que el usuario ha marcado a través de nuestro módulo de consentimiento.
+        Crea un nuevo commit de consentimiento basado en los actions tokens. Cada action token representa una checkbox de
+        consentimiento específico que el usuario ha marcado a través de nuestro módulo de consentimiento.
+
+        Debes proporcionar **al menos uno** de los siguientes parámetros: `user_reference` o `entity_id`.
+        - Si solo envías `user_reference`, buscaremos la entidad asociada y, si no existe, la crearemos automáticamente.
+        - Si solo envías `entity_id`, usaremos la entidad existente y leeremos su `user_reference`.
+        - Si envías ambos, se prioriza el `entity_id`. El `user_reference` solo se usa cuando no se proporciona `entity_id`.
       operationId: createConsentCommit
       requestBody:
         required: true
@@ -2176,7 +2278,7 @@ paths:
               properties:
                 user_reference:
                   type: string
-                  description: Referencia para identificar al usuario en tu sistema
+                  description: 'Referencia para identificar al usuario en tu sistema. Requerido si no se proporciona `entity_id`. Si se envía junto a `entity_id`, este último se prioriza.'
                   example: user_123
                 consent_actions:
                   type: array
@@ -2193,7 +2295,7 @@ paths:
                     - action_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb25zZW50X2lkIjoiY3RwbF85ODc2NTQzMjEwIiwiZW50aXR5X2lkIjoiZW50XzVGNlE2QzJFd2tYdGtFcEIxVGxHamsiLCJpYXQiOjE1MTYyMzkwMjJ9.8vkoM1VO5Kp6Udz9ISFnU7YD7HcGYt9yCUuZGrYPe2s
                 entity_id:
                   type: string
-                  description: Identificador opcional de la entidad asociada a este consentimiento
+                  description: 'ID de la entidad existente. Requerido si no se proporciona `user_reference`. Si se envía junto a `user_reference`, la entidad se resuelve usando este `entity_id`.'
                   example: ent_5F6Q6C2EwkXtkEpB1TlGjk
                 consent_method:
                   $ref: '#/components/schemas/EvidenceConsentMethod'
@@ -2207,6 +2309,31 @@ paths:
                 properties:
                   consent_commit:
                     $ref: '#/components/schemas/ConsentCommit'
+        '400':
+          description: Error de solicitud - validación XOR fallida o entidad no encontrada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: invalid_request_error
+                      title:
+                        type: string
+                        example: Bad Request
+                      status:
+                        type: integer
+                        example: 400
+                      detail:
+                        type: string
+                        examples:
+                          - 'Provide either user_reference or entity_id, not both'
+                          - Either user_reference or entity_id is required
+                          - Entity not found or does not belong to company
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '422':
@@ -2575,6 +2702,17 @@ paths:
                   type: string
                   description: Identificador único de la branch
                   example: branch_1B2M2Y8AsgTpgAmY7PhCfg
+                redec_kind:
+                  type: string
+                  description: Objetivo de REDEC del producto
+                  enum:
+                    - commercial_credits
+                    - consumer_credits
+                    - housing_credits
+                    - financial_operations
+                    - acquired_debt_instruments
+                    - contingent_credits
+                    - freely_available_credit_line_limits
       responses:
         '201':
           description: Producto creado
@@ -2727,6 +2865,43 @@ paths:
           $ref: '#/components/responses/UnauthorizedError'
       security:
         - api_key: []
+    post:
+      tags:
+        - Entities
+      summary: Crear una entidad
+      description: Crea una nueva entidad asociada a tu empresa
+      operationId: createEntity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_reference:
+                  type: string
+                  description: Identificador único del usuario en tu sistema.
+                  example: user_123
+      responses:
+        '201':
+          description: Entidad creada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  entity:
+                    $ref: '#/components/schemas/Entity'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '422':
+          description: Error de validación
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+      security:
+        - api_key: []
   '/entities/{id}':
     get:
       tags:
@@ -2796,12 +2971,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  compliance_statuses:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/ComplianceStatus'
+                $ref: '#/components/schemas/EntityComplianceStatusesResponse'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '404':
@@ -2812,26 +2982,80 @@ paths:
                 $ref: '#/components/schemas/NotFoundErrorSchema'
       security:
         - api_key: []
-  /entities/session_token:
+  '/entities/reference/{user_reference}/agreement/compliance_statuses':
     get:
       tags:
         - Entities
-      summary: Obtener un token de sesión para una entidad
+      summary: Obtener los estados de cumplimiento de una entidad usando user_reference
       description: |
-        Genera un token JWT que permite acceder a los endpoints con alcance de entidad para una entidad específica.
-        El token tiene una duración de 15 minutos y permite acceder a endpoints como data subject requests de la entidad.
-      operationId: getEntitySessionToken
+        Retorna la misma información que el endpoint basado en el `id` de la entidad, pero permite identificar a la entidad
+        utilizando el `user_reference` con el que fue registrada para tu empresa.
+
+        Este endpoint **no crea** entidades nuevas. Si el `user_reference` no corresponde a una entidad existente en tu empresa,
+        devolverá un error 404.
+      operationId: getEntityAgreementComplianceStatusesByReference
       parameters:
-        - name: entity_id
-          in: query
-          description: ID de la entidad para la cual se generará el token
+        - name: user_reference
+          in: path
+          description: user_reference asociado a la entidad dentro de tu empresa
           required: true
           schema:
             type: string
-          example: ent_1B2M2Y8AsgTpgAmY7PhCfg
+          example: external-user-123
+        - name: where
+          in: query
+          description: 'Filtros en formato JSON. Por ahora, solamente damos soporte para el filtro de igualdad con el `consent_template_id` y `data_subject`.'
+          required: false
+          schema:
+            type: string
+          examples:
+            consent_template_id_filter:
+              summary: Filtrar por `consent_template_id`
+              value: '{"consent_template_id":{"=":"constpl_7vH0nGSOnP9inT-1EsBP0g"}}'
+            data_subject_filter:
+              summary: Filtrar por `data_subject`
+              value: '{"data_subject":{"=":"prospect"}}'
+            consent_template_id_and_data_subject_filter:
+              summary: Filtrar por `consent_template_id` y `data_subject`
+              value: '{"consent_template_id":{"=":"constpl_7vH0nGSOnP9inT-1EsBP0g"},"data_subject":{"=":"prospect"}}'
       responses:
         '200':
-          description: Token generado exitosamente
+          description: Todos los estados de cumplimiento del sujeto encontrado por user_reference.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityComplianceStatusesResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: 'Recurso no encontrado. Se puede dar cuando no existe un agreement entre tu empresa y la entidad encontrada por user_reference, cuando no existe la entidad, o cuando el user_reference no pertenece a tu empresa.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundErrorSchema'
+      security:
+        - api_key: []
+  '/entities/reference/{user_reference}/session_token':
+    get:
+      tags:
+        - Entities
+      summary: Obtener un token de sesión usando el user_reference de la entidad
+      description: |
+        Igual que el endpoint anterior, pero identificando la entidad por su `user_reference` registrado en tu empresa.
+
+        Si no existe una entidad con ese `user_reference`, crearemos automáticamente una entidad para tu empresa antes de generar el token.
+      operationId: getEntitySessionTokenByReference
+      parameters:
+        - name: user_reference
+          in: path
+          description: user_reference asociado a la entidad dentro de tu empresa
+          required: true
+          schema:
+            type: string
+          example: external-user-123
+      responses:
+        '200':
+          description: Token generado exitosamente (se reutiliza la entidad existente o se crea una nueva si no existía)
           content:
             application/json:
               schema:
@@ -2842,28 +3066,55 @@ paths:
                     description: Token JWT para acceder a endpoints con alcance de entidad
                     example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb21wYW55X2lkIjoiY29tcF8xMjM0NTY3ODkwIiwiZW50aXR5X2lkIjoiZW50XzFCMk0yWThBc2dUcGdBbVk3UGhDZmciLCJzY29wZSI6WyIvZW50aXRpZXMvKiJdLCJpYXQiOjE1MTYyMzkwMjIsImV4cCI6MTUxNjI0MDAyMn0.example
         '400':
-          description: Error de solicitud - falta el parámetro entity_id
+          description: Error de solicitud - falta la información requerida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/NotFoundError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+      security:
+        - api_key: []
+  '/entities/{token}/session_token':
+    get:
+      tags:
+        - Entities
+      summary: Obtener un token de sesión usando el ID de la entidad
+      description: |
+        Genera un token JWT con alcance de entidad especificando el `token` de la entidad. El comportamiento es equivalente
+        al endpoint basado en `user_reference`, pero en este caso **no** se crean entidades nuevas: si el `token` no existe
+        o no pertenece a tu empresa, devolveremos un error 404.
+      operationId: getEntitySessionTokenById
+      parameters:
+        - name: token
+          in: path
+          description: ID de la entidad para la cual se generará el token
+          required: true
+          schema:
+            type: string
+          example: ent_1B2M2Y8AsgTpgAmY7PhCfg
+      responses:
+        '200':
+          description: Token generado exitosamente para la entidad indicada
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  type:
+                  token:
                     type: string
-                    example: invalid_request_error
-                  title:
-                    type: string
-                    example: Bad Request
-                  status:
-                    type: integer
-                    example: 400
-                  detail:
-                    type: string
-                    example: The required parameter entity_id is missing
+                    description: Token JWT para acceder a endpoints con alcance de entidad
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '404':
-          $ref: '#/components/responses/NotFoundError'
+          description: Recurso no encontrado. Se puede dar cuando el ID de la entidad no existe o no pertenece a tu empresa.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/NotFoundError'
       security:
         - api_key: []
   /entities/data_subject_requests:
@@ -2951,10 +3202,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                config:
-                  $ref: '#/components/schemas/Configuration'
+              $ref: '#/components/schemas/Configuration'
       responses:
         '200':
           description: Configuración actualizada exitosamente
@@ -3282,6 +3530,77 @@ paths:
                           - API key is already revoked
       security:
         - api_key: []
+  '/api_keys/{id}/refresh':
+    patch:
+      tags:
+        - API Keys
+      summary: Renovar una API key
+      description: Renueva una API key extendiendo su fecha de expiración y generando un nuevo refresh token. Requiere el refresh token actual para autorizar la operación.
+      operationId: refreshApiKey
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Token de la API key
+          schema:
+            type: string
+          example: ak_sandbox_1B2M2Y8AsgTpgAmY7PhCfg
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - api_key
+              properties:
+                api_key:
+                  type: object
+                  required:
+                    - refresh_token
+                  properties:
+                    refresh_token:
+                      type: string
+                      description: Token de actualización actual
+                      example: akrt_abc123xyz
+                    expires_in_days:
+                      type: integer
+                      description: Número de días hasta que expire la API key (por defecto 30 días)
+                      example: 60
+                      minimum: 1
+      responses:
+        '200':
+          description: API key renovada exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  api_key:
+                    allOf:
+                      - $ref: '#/components/schemas/ApiKey'
+                      - type: object
+                        properties:
+                          secret:
+                            type: string
+                            description: Nuevo JWT de autenticación
+                            example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                          refresh_token:
+                            type: string
+                            description: Nuevo refresh token emitido para la API key
+                            example: akrt_abc123xyz98172j9saa
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          description: Token de actualización inválido o API key revocada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+      security:
+        - api_key: []
   /privacy_center/session_token:
     get:
       tags:
@@ -3360,7 +3679,7 @@ paths:
                 type: object
                 properties:
                   stats:
-                    $ref: '#/components/schemas/ConsentActionStats'
+                    $ref: '#/components/schemas/ConsentActionStatus'
             text/csv:
               schema:
                 type: string
@@ -3483,6 +3802,11 @@ paths:
                   type: string
                   description: URL del sitio web
                   example: 'https://minuevaempresa.com'
+                redec_code:
+                  type: integer
+                  nullable: true
+                  description: Código REDEC asociado a la empresa
+                  example: 1234
       responses:
         '200':
           description: Información de la empresa actualizada exitosamente
@@ -3490,6 +3814,499 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CompanyInfo'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '422':
+          description: Error de validación
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+      security:
+        - api_key: []
+  /redec/consent_actions:
+    post:
+      tags:
+        - REDEC
+      summary: Crear un consent action para REDEC
+      description: |
+        Crea un nuevo consent action a través del endpoint REDEC. Este endpoint está diseñado
+        específicamente para registrar consentimientos en el contexto del cumplimiento normativo REDEC.
+
+        Debe proporcionar ya sea `entity_id` (para una entidad existente) o `user_reference` (para crear/encontrar una entidad).
+      operationId: createRedecConsentAction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsentActionRedecInput'
+      responses:
+        '201':
+          description: Consent action creado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  consent_action:
+                    $ref: '#/components/schemas/ConsentAction'
+        '400':
+          description: Error en la solicitud (parámetros faltantes o inválidos)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    example: invalid_request_error
+                  title:
+                    type: string
+                    example: Bad Request
+                  status:
+                    type: integer
+                    example: 400
+                  detail:
+                    type: string
+                    example: The required parameter entity_nin is missing
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '422':
+          description: Error de validación
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+      security:
+        - api_key: []
+  '/redec/consent_actions/{id}':
+    get:
+      tags:
+        - REDEC
+      summary: Obtener un consent action REDEC
+      description: Obtiene los detalles de una acción de consentimiento REDEC específica
+      operationId: showRedecConsentAction
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID de la acción de consentimiento
+          schema:
+            type: string
+          example: consact_1B2M2Y8AsgTpgAmY7PhCfg
+      responses:
+        '200':
+          description: Consent action encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  consent_action:
+                    $ref: '#/components/schemas/ConsentAction'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+      security:
+        - api_key: []
+  '/redec/consent_actions/{token}/download_receipt':
+    get:
+      tags:
+        - REDEC
+      summary: Descargar recibo PDF REDEC
+      description: |
+        Descarga el recibo PDF de una acción de consentimiento REDEC.
+        El PDF incluye verificación de integridad mediante hash SHA256.
+      operationId: downloadRedecConsentActionReceipt
+      parameters:
+        - name: token
+          in: path
+          required: true
+          description: Token del consent action
+          schema:
+            type: string
+          example: consact_1B2M2Y8AsgTpgAmY7PhCfg
+      responses:
+        '200':
+          description: PDF del recibo REDEC
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: Recibo no disponible
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundErrorSchema'
+              example:
+                type: invalid_request_error
+                title: Resource not found
+                status: 404
+                detail: Receipt PDF not available yet
+        '422':
+          description: Fallo en verificación de integridad
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    example: invalid_request_error
+                  title:
+                    type: string
+                    example: Unprocessable entity
+                  status:
+                    type: integer
+                    example: 422
+                  detail:
+                    type: string
+                    example: PDF integrity check failed
+      security:
+        - api_key: []
+  /redec/consent_commits:
+    post:
+      tags:
+        - REDEC
+      summary: Crear un consent commit para REDEC
+      description: |
+        Crea un nuevo consent commit (múltiples acciones de consentimiento) a través del endpoint REDEC.
+        Este endpoint está diseñado específicamente para registrar múltiples consentimientos simultáneamente
+        en el contexto del cumplimiento normativo REDEC.
+
+        **Características:**
+        - Permite procesar múltiples action tokens en una sola solicitud
+        - Soporta tokens de cualquier tipo de template de consentimiento, pero al menos uno de ellos debe provenir de un template compatible con el REDEC
+
+        Debe proporcionar ya sea `entity_id` (para una entidad existente) o `user_reference` (para crear/encontrar una entidad).
+      operationId: createRedecConsentCommit
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsentCommitRedecInput'
+      responses:
+        '201':
+          description: Consent commit creado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  consent_commit:
+                    $ref: '#/components/schemas/ConsentCommit'
+        '400':
+          description: Error en la solicitud (parámetros faltantes o inválidos)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    example: invalid_request_error
+                  title:
+                    type: string
+                    example: Bad Request
+                  status:
+                    type: integer
+                    example: 400
+                  detail:
+                    type: string
+                    example: must include at least one redec compatible action token
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          description: Funcionalidad REDEC no habilitada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    example: authentication_error
+                  title:
+                    type: string
+                    example: Forbidden
+                  status:
+                    type: integer
+                    example: 403
+                  detail:
+                    type: string
+                    example: company is not configured for redec
+        '422':
+          description: Error de validación
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+      security:
+        - api_key: []
+  /redec/consent_templates:
+    post:
+      tags:
+        - REDEC
+      summary: Crear un template de consentimiento para REDEC
+      description: |
+        Crea un nuevo template de consentimiento a través del endpoint REDEC. Este endpoint está diseñado
+        específicamente para templates de consentimiento en el contexto del cumplimiento normativo REDEC.
+
+        **Validaciones específicas de REDEC:**
+        - El template debe tener exactamente un data use
+        - El data use debe ser compatible con REDEC (`finance.commercial_risk_assessment` o `finance.credit_risk_assessment`)
+        - El template debe tener un producto asociado
+        - El producto debe tener un `redec_kind` configurado
+        - La funcionalidad REDEC debe estar habilitada para la compañía
+      operationId: createRedecConsentTemplate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RedecConsentTemplateInput'
+      responses:
+        '201':
+          description: Template de consentimiento REDEC creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsentTemplate'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          description: Funcionalidad REDEC no habilitada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: REDEC functionality is not enabled for this company
+        '404':
+          description: Producto no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Product not found
+        '422':
+          description: Error de validación REDEC
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                examples:
+                  single_data_use:
+                    value:
+                      error: REDEC templates must have exactly one data use
+                    summary: Debe tener exactamente un data use
+                  redec_compatible_use:
+                    value:
+                      error: 'Data use must be one of: finance.commercial_risk_assessment, finance.credit_risk_assessment'
+                    summary: Data use no compatible con REDEC
+                  product_required:
+                    value:
+                      error: REDEC templates must have a product
+                    summary: Producto requerido
+                  redec_kind_required:
+                    value:
+                      error: Product must have a REDEC kind
+                    summary: Producto sin REDEC kind
+      security:
+        - api_key: []
+  '/redec/consent_templates/{id}':
+    patch:
+      tags:
+        - REDEC
+      summary: Actualizar un template de consentimiento para REDEC
+      description: |
+        Actualiza un template de consentimiento existente a través del endpoint REDEC.
+        El modelo de template de consentimiento es versionado, por lo que cada cambio realizado no modifica la versión actual,
+        sino que genera una nueva versión, dejando trazable el historial de cambios.
+
+        **Validaciones específicas de REDEC:**
+        - El template debe tener exactamente un data use
+        - El data use debe ser compatible con REDEC (`finance.commercial_risk_assessment` o `finance.credit_risk_assessment`)
+        - El template debe tener un producto asociado
+        - El producto debe tener un `redec_kind` configurado
+        - La funcionalidad REDEC debe estar habilitada para la compañía
+      operationId: updateRedecConsentTemplate
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del template de consentimiento
+          schema:
+            type: string
+          example: constpl_wAspvmEr4ACDZaPUtfwjsA
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsentTemplateInput'
+      responses:
+        '200':
+          description: 'Nueva versión del template de consentimiento REDEC, con los cambios realizados.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsentTemplate'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          description: Funcionalidad REDEC no habilitada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: REDEC functionality is not enabled for this company
+        '404':
+          description: Template o producto no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                examples:
+                  template_not_found:
+                    value:
+                      error: Template not found
+                    summary: Template no encontrado
+                  product_not_found:
+                    value:
+                      error: Product not found
+                    summary: Producto no encontrado
+        '422':
+          description: Error de validación REDEC
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                examples:
+                  single_data_use:
+                    value:
+                      error: REDEC templates must have exactly one data use
+                    summary: Debe tener exactamente un data use
+                  redec_compatible_use:
+                    value:
+                      error: 'Data use must be one of: finance.commercial_risk_assessment, finance.credit_risk_assessment'
+                    summary: Data use no compatible con REDEC
+                  product_required:
+                    value:
+                      error: REDEC templates must have a product
+                    summary: Producto requerido
+                  redec_kind_required:
+                    value:
+                      error: Product must have a REDEC kind
+                    summary: Producto sin REDEC kind
+      security:
+        - api_key: []
+  /reports:
+    get:
+      tags:
+        - Reports
+      summary: Obtener todos los reportes
+      description: |
+        Retorna una lista paginada de todos los reportes generados para la empresa autenticada.
+        Los reportes pueden ser filtrados y ordenados usando los parámetros de consulta estándar.
+      operationId: indexReports
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
+        - $ref: '#/components/parameters/OrderByParam'
+        - name: where
+          in: query
+          description: Filtros en formato JSON
+          required: false
+          schema:
+            type: string
+          example: '{"kind":{"=":"redec"}}'
+      responses:
+        '200':
+          description: Reportes encontrados exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportIndexList'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+      security:
+        - api_key: []
+    post:
+      tags:
+        - Reports
+      summary: Crear un nuevo reporte
+      description: |
+        Genera un nuevo reporte del tipo especificado para el período de tiempo indicado.
+
+        Tipos de reportes disponibles:
+        - `rdc30`: Reporte de consentimientos REDEC (RDC30) que incluye todas las acciones de consentimiento
+          registradas en el período especificado que cumplen con los requisitos normativos REDEC.
+        - `rdc40`: Reporte de solicitudes REDEC (RDC40) que incluye eventos de ingreso, procesamiento y cierre
+          registrados en el período especificado para solicitudes de deudores.
+      operationId: createReport
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReportInput'
+      responses:
+        '201':
+          description: Reporte creado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  report:
+                    $ref: '#/components/schemas/Report'
+        '400':
+          description: 'Error en la solicitud (parámetros faltantes, tipo de reporte inválido, o error en la generación)'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    example: invalid_request_error
+                  title:
+                    type: string
+                    example: Bad Request
+                  status:
+                    type: integer
+                    example: 400
+                  detail:
+                    type: string
+                    examples:
+                      - The required parameter starts_at is missing
+                      - 'Unknown report kind: invalid_kind'
+                      - not all consent actions are redec compliant
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '422':
@@ -3629,6 +4446,15 @@ components:
           type: string
           description: URL del sitio web de la empresa.
           example: 'https://miempresa.com'
+        redec_code:
+          type: integer
+          nullable: true
+          description: Código REDEC asociado a la empresa.
+          example: 1234
+        is_live_mode:
+          type: boolean
+          description: Indica si la empresa está en modo live.
+          example: true
     FilterOrderAndPaginationMetadata:
       type: object
       properties:
@@ -3725,6 +4551,17 @@ components:
           description: Indica si la plantilla de consentimiento se muestra en el centro de privacidad.
           example: true
           default: true
+    RedecConsentTemplateInput:
+      allOf:
+        - $ref: '#/components/schemas/ConsentTemplateInput'
+        - type: object
+          required:
+            - product_id
+          properties:
+            product_id:
+              type: string
+              description: Identificador único del producto. Requerido para templates REDEC.
+              example: prod_1B2M2Y8AsgTpgAmY7PhCfg
     ConsentTemplate:
       description: |
         Una _consent template_ (template de consentimiento) es una configuración necesaria para el módulo de [_consent_](/docs/integration-guide/consent/introduction).
@@ -3908,6 +4745,24 @@ components:
             type: string
           example:
             - privdoc_jy21JCGqb-VHhHeUd2nmKw
+        mobile_nfc_enabled:
+          type: boolean
+          description: |
+            Indica si este template tiene habilitada lectura NFC. Solo aplica en el SDK móvil React Native; el flujo a través del SDK web continúa sin NFC.
+        skip_consent:
+          type: boolean
+          description: 'Indica si se debe saltar el paso de consentimiento durante el proceso de disclosure request. En caso de ser `true`, la pantalla en donde se solicita el consentimiento no se mostrará. Además, el `agreement` que se crea al final del proceso no tendrá permisos de acceso a los datos solicitados.'
+          default: false
+          example: false
+        force_validation:
+          type: boolean
+          description: |
+            Indica si los disclosure requests creados con este template deben forzar validación biométrica por defecto.
+            Cuando es `true`, los usuarios deberán completar el proceso de validación biométrica incluso si ya tienen
+            datos validados previamente. Este valor puede ser sobrescrito por el parámetro `forceValidation` en el
+            widget al crear un disclosure request específico.
+          default: false
+          example: false
     DisclosureTemplate:
       description: |
         Un template de disclosure define la configuración necesaria para solicitar datos e iniciar procesos de verificación de
@@ -3971,6 +4826,32 @@ components:
             type: string
           example:
             - privdoc_jy21JCGqb-VHhHeUd2nmKw
+        skip_consent:
+          type: boolean
+          description: Indica si se debe saltar el paso de consentimiento durante el proceso de disclosure request.
+          default: false
+          example: false
+        force_validation:
+          type: boolean
+          description: |
+            Indica si los disclosure requests creados con este template deben forzar validación biométrica por defecto.
+            Este valor puede ser sobrescrito por el parámetro `forceValidation` del widget.
+          default: false
+          example: false
+        liveness_check:
+          type: boolean
+          description: |
+            Indica si se requiere validación de liveness (prueba de vida). No puede ser `true` si `id_scan_check` es `false`.
+          example: true
+        id_scan_check:
+          type: boolean
+          description: |
+            Indica si se requiere escaneo del documento de identidad. Cuando se combina con `liveness_check`, se verifica que la persona que hizo el liveness corresponda la persona del documento de identidad.
+          example: true
+        government_check:
+          type: boolean
+          default: false
+          description: Indica si se debe hacer un cruce con la base de datos del gobierno durante la validación de identidad en disclosure requests creados con este template.
         created_at:
           type: string
           format: date-time
@@ -3981,6 +4862,11 @@ components:
           format: date-time
           description: Fecha de la última actualización del template.
           example: '2024-02-10T18:45:00Z'
+        mobile_nfc_enabled:
+          type: boolean
+          description: |
+            Indica si este template tiene habilitada lectura NFC. Solo aplica en el SDK móvil React Native; el flujo a través del SDK web continúa sin NFC.
+          example: false
     DisclosureTemplateList:
       type: object
       properties:
@@ -4045,6 +4931,8 @@ components:
               - `nationality`: Nacionalidad (**Demographic**)
               - `email`: Correo electrónico (**Contact > Email**)
               - `phone_number`: Teléfono (**Contact > Phone number**)
+              - `national_id_front_photo`: Foto frontal del documento de identidad (**Government Id**)
+              - `national_id_back_photo`: Foto trasera del documento de identidad (**Government Id**)
 
             --------------------
 
@@ -4208,6 +5096,12 @@ components:
           type: string
           description: Correo electrónico proveído por el comercio a la hora de crear el disclosure request.
           example: walter@white.com
+        performed_nfc_scan:
+          type:
+            - boolean
+            - 'null'
+          description: Indica si el flujo incluyó paso de lectura NFC (solo disponible vía React Native SDK).
+          example: true
         force_validation:
           type: boolean
           description: 'Indica si se creará el disclosure request incluso si ya existía uno previo. Cuando es `true`, el usuario debe realizar una nueva validación incluso si ya existía uno previo para el mismo template y referencia.'
@@ -4330,6 +5224,21 @@ components:
           example:
             - sd_1B2M2Y8AsgTpgAmY7PhCfg
             - sd_2C3N3Z9BtgQqhDnB0SkFhg
+        attestations:
+          type: array
+          description: |
+            Lista de attestations que documentan las validaciones realizadas sobre esta identidad.
+          items:
+            $ref: '#/components/schemas/Attestation'
+          example:
+            - kind: liveness
+              validated_at: '2026-01-19T12:00:00Z'
+            - kind: id_scan
+              validated_at: '2026-01-19T12:00:00Z'
+            - kind: id_match
+              validated_at: '2026-01-19T12:00:00Z'
+            - kind: government_check
+              validated_at: '2026-01-19T12:05:00Z'
     AuthAttempt:
       x-tags:
         - Auth attempts
@@ -4447,14 +5356,62 @@ components:
             - pending
             - in_progress
             - successful
-            - failed
+            - canceled
           description: Estado actual del flujo de validación.
+        failed_count:
+          type: integer
+          description: Cantidad de veces que el flujo de validación ha fallado.
+          example: 1
         user_reference:
           type:
             - string
             - 'null'
           description: Referencia de usuario de tu sistema para el flujo de validación.
           example: user_123
+        performed_nfc_scan:
+          type:
+            - boolean
+            - 'null'
+          description: Indica si el flujo incluyó paso de lectura NFC (solo disponible vía React Native SDK).
+          example: true
+        nfc_detail:
+          type: string
+          enum:
+            - not_requested
+            - failed
+            - success
+          description: Resultado detallado de la lectura NFC cuando aplica.
+          example: success
+        requestable_id:
+          type: string
+          description: 'ID del objeto asociado al intento de validación (ej. DataSubjectRequest, DisclosureRequest).'
+          example: dsreq_1B2M2Y8AsgTpgAmY7PhCfg
+        requestable_type:
+          type: string
+          description: Tipo de objeto asociado al intento de validación.
+          example: DataSubjectRequest
+        errors_array:
+          type: array
+          description: Lista de errores detallados asociados al flujo de validación.
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                description: Código interno del error.
+                example: auth-002
+              type:
+                type: string
+                description: 'Categoría del error (document, facial u otro).'
+                example: document
+              message:
+                type: string
+                description: Clave del error reportado.
+                example: document_validation_error
+              detail:
+                type: string
+                description: Mensaje listo para mostrar relacionado al error.
+                example: No pudimos validar el documento con la información enviada.
         error_reason:
           type:
             - 'null'
@@ -4469,11 +5426,11 @@ components:
           type: string
           format: date-time
           description: Fecha y hora de creación del flujo de validación.
-    ConsentCommit:
+    ConsentCommitIndex:
       x-tags:
         - Consent commits
       type: object
-      description: Agrupa una serie de acciones de consentimiento realizadas por un usuario
+      description: Versión simplificada del commit de consentimiento para listados. No incluye campos show-only para optimizar el tamaño de la respuesta.
       properties:
         id:
           type: string
@@ -4487,6 +5444,13 @@ components:
           type: string
           description: Identificador de la entidad asociada
           example: ent_1B2M2Y8AsgTpgAmY7PhCfg
+        context:
+          type: string
+          description: Contexto adicional asociado al commit de consentimiento. Referencia al contexto de la primera acción de consentimiento
+          example: web_signup
+          nullable: true
+        contextual_data:
+          $ref: '#/components/schemas/ContextualData'
         data_uses:
           type: array
           description: Lista de usos de datos cubiertos por las acciones de consentimiento asociadas
@@ -4497,19 +5461,46 @@ components:
             - marketing
         consent_actions:
           type: array
-          description: Acciones de consentimiento asociadas al commit
+          description: Acciones de consentimiento asociadas al commit (versión simplificada)
           items:
-            $ref: '#/components/schemas/ConsentAction'
+            $ref: '#/components/schemas/ConsentActionIndex'
         created_at:
           type: string
           format: date-time
           description: Fecha y hora de creación del consent commit
           example: '2024-03-20T15:30:00Z'
-    ConsentAction:
+    ConsentCommit:
+      x-tags:
+        - Consent commits
+      description: Agrupa una serie de acciones de consentimiento realizadas por un usuario
+      allOf:
+        - $ref: '#/components/schemas/ConsentCommitIndex'
+        - type: object
+          properties:
+            evidence_id:
+              type: string
+              description: Identificador de la evidencia generada por el acuerdo creado a partir del commit de consentimiento
+              example: evd_wCntp5aXB5q7fKSthevwrw
+            agreement_id:
+              type: string
+              description: Identificador del acuerdo generado por este commit de consentimiento
+              example: agr_wCntp5aXB5q7fKSthevwrw
+              nullable: true
+            agreement_version:
+              type: integer
+              description: Versión del acuerdo generado por este commit de consentimiento
+              example: 1
+              nullable: true
+            consent_actions:
+              type: array
+              description: Acciones de consentimiento asociadas al commit (versión completa)
+              items:
+                $ref: '#/components/schemas/ConsentAction'
+    ConsentActionIndex:
       x-tags:
         - Consent actions
       type: object
-      description: Representa una acción de consentimiento realizada por un usuario
+      description: Versión simplificada de la acción de consentimiento para listados. No incluye campos show-only para optimizar el tamaño de la respuesta.
       properties:
         id:
           type: string
@@ -4528,6 +5519,11 @@ components:
           type: string
           description: Identificador del template de consentimiento asociado.
           example: ctmpl_1B2M2Y8AsgTpgAmY7PhCfg
+        consent_commit_id:
+          type: string
+          description: 'Identificador del commit de consentimiento asociado a este recurso, en caso de se haya originado a través de un commit. De lo contrario, es nulo.'
+          example: ccmt_1B2M2Y8AsgTpgAmY7PhCfg
+          nullable: true
         consent_template_name:
           type: string
           description: Nombre de la plantilla de consentimiento asociado cuando no se expande la relación.
@@ -4559,12 +5555,62 @@ components:
           enum:
             - opt_in_click
             - voice_confirmation
+            - physical_confirmation
           example: opt_in_click
         action_data:
           type: object
           description: Datos adicionales de la acción (máximo 4KB de tamaño serializado en JSON)
           example:
             checkbox_id: cb_123
+        contextual_data:
+          $ref: '#/components/schemas/ContextualData'
+    ConsentAction:
+      x-tags:
+        - Consent actions
+      description: Representa una acción de consentimiento realizada por un usuario
+      allOf:
+        - $ref: '#/components/schemas/ConsentActionIndex'
+        - type: object
+          properties:
+            evidence_id:
+              type: string
+              description: Identificador de la evidencia asociada al acuerdo generado por esta acción de consentimiento
+              example: evd_wCntp5aXB5q7fKSthevwrw
+              nullable: true
+            agreement_id:
+              type: string
+              description: Identificador del acuerdo generado por esta acción de consentimiento
+              example: agr_wCntp5aXB5q7fKSthevwrw
+              nullable: true
+            agreement_version:
+              type: integer
+              description: Versión del acuerdo generado por esta acción de consentimiento
+              example: 1
+              nullable: true
+            data_categories:
+              type: array
+              description: Lista de categorías de datos únicas cubiertas por el template de consentimiento asociado
+              items:
+                type: string
+              example:
+                - user.name.first
+                - user.contact.email
+    ContextualData:
+      type: object
+      description: 'Datos contextuales como IP, user agent, etc.'
+      properties:
+        ip:
+          type: string
+          example: 192.168.1.1
+        user_agent:
+          type: string
+          example: Mozilla/5.0
+        url:
+          type: string
+          example: 'https://example.com'
+        phone_number:
+          type: string
+          example: '+56912345678'
     Event:
       x-tags:
         - Events
@@ -4652,6 +5698,10 @@ components:
           type: integer
           description: Versión del acuerdo
           example: 1
+        user_reference:
+          type: string
+          description: Referencia de usuario proporcionada por el cliente.
+          example: user_123
         subject_id:
           type: string
           description: Identificador único del usuario del acuerdo. Puede corresponder al identificador de un `Identity` o `Entity`. El `subject_type` indica el tipo del usuario en cuestión.
@@ -4673,10 +5723,6 @@ components:
           description: Datos procesados del agreement de acuerdo a la taxonomía de datos
           items:
             $ref: '#/components/schemas/DataPermission'
-        user_reference:
-          type: string
-          description: Referencia de usuario proporcionada por el cliente.
-          example: user_123
         previous_evidence_ids:
           type: array
           description: IDs de evidencias anteriores relacionadas con este acuerdo
@@ -4760,9 +5806,11 @@ components:
                     example: grant
                   action_type:
                     type: enum
-                    description: Tipo específico de acción (solo "opt_in_click" por ahora)
+                    description: Tipo específico de acción
                     enum:
                       - opt_in_click
+                      - voice_confirmation
+                      - physical_confirmation
                     example: opt_in_click
                   action_data:
                     type: object
@@ -4788,21 +5836,7 @@ components:
                     description: Fecha y hora de la acción
                     example: '2024-03-20T15:30:00Z'
                   contextual_data:
-                    type: object
-                    description: 'Datos contextuales como IP, user agent, etc.'
-                    properties:
-                      ip:
-                        type: string
-                        example: 192.168.1.1
-                      user_agent:
-                        type: string
-                        example: Mozilla/5.0
-                      url:
-                        type: string
-                        example: 'https://example.com'
-                      phone_number:
-                        type: string
-                        example: '+56912345678'
+                    $ref: '#/components/schemas/ContextualData'
         identification_method:
           type: object
           description: Información sobre el método de identificación utilizado.
@@ -4838,6 +5872,42 @@ components:
                 type: string
                 description: Tipo de evento.
                 example: disclosure_created
+        data_permissions_diff:
+          type: object
+          description: 'Diferencia de permisos de datos entre la versión anterior y actual del acuerdo. Muestra los permisos creados, removidos y extendidos.'
+          nullable: true
+          properties:
+            created:
+              type: array
+              description: Permisos de datos que fueron creados en esta versión del acuerdo
+              items:
+                $ref: '#/components/schemas/DataPermission'
+            removed:
+              type: array
+              description: Permisos de datos que fueron removidos en esta versión del acuerdo
+              items:
+                $ref: '#/components/schemas/DataPermission'
+            extended:
+              type: array
+              description: Permisos de datos cuya fecha de expiración fue extendida en esta versión del acuerdo
+              items:
+                $ref: '#/components/schemas/DataPermission'
+          example:
+            created:
+              - data_category: user.contact.email
+                data_label: email
+                data_use: marketing
+                expires_at: '2025-11-21'
+            removed:
+              - data_category: user.name.first
+                data_label: name
+                data_use: essential
+                expires_at: '2024-11-21'
+            extended:
+              - data_category: user.contact.phone
+                data_label: phone
+                data_use: essential
+                expires_at: '2026-11-21'
         created_at:
           type: string
           format: date-time
@@ -4976,6 +6046,13 @@ components:
           format: date-time
           description: Fecha y hora de creación de la sucursal
           example: '2024-03-20T15:30:00Z'
+        redec_code:
+          type: integer
+          description: |
+            Código único REDEC asignado a esta sucursal para cumplimiento normativo.
+            Este código identifica a la sucursal en el sistema REDEC (Registro de Deudores de Créditos) de Chile.
+          example: 123456
+          nullable: true
     BranchList:
       type: object
       properties:
@@ -5165,6 +6242,17 @@ components:
           type: integer
           description: Versión del producto
           example: 1
+        redec_kind:
+          type: string
+          description: Objetivo de REDEC del producto
+          enum:
+            - commercial_credits
+            - consumer_credits
+            - housing_credits
+            - financial_operations
+            - acquired_debt_instruments
+            - contingent_credits
+            - freely_available_credit_line_limits
         created_at:
           type: string
           format: date-time
@@ -5218,6 +6306,44 @@ components:
           items:
             $ref: '#/components/schemas/DSRRequestedField'
           description: Campos específicos que se solicita modificar
+    DSRRedecRequestDetail:
+      type: object
+      description: 'Detalle de solicitud para REDEC (update, rectification, complementation, cancellation)'
+      required:
+        - reason_code
+        - detail
+        - operation_id
+      properties:
+        redec_id:
+          type: string
+          description: Identificador del caso en REDEC.
+          example: redec_123
+        reason_code:
+          type: integer
+          description: Código de razón definido por REDEC. Debe ser válido para el tipo de solicitud REDEC.
+          example: 2
+        entry_channel_code:
+          type: integer
+          description: Código de la vía de ingreso de la solicitud.
+          example: 11
+        reason:
+          type: string
+          description: Texto asociado al código de razón. Solo de respuesta.
+          readOnly: true
+          example: Diferencias en la morosidad informada de la deuda objetada
+        detail:
+          type: string
+          description: Detalle adicional de la solicitud.
+          example: Actualización de monto informado
+        operation_id:
+          type: string
+          description: Código de la operación crediticia asociada a la solicitud.
+          example: op_123456
+        file_url:
+          type: string
+          nullable: true
+          description: 'URL del archivo adjunto (PDF), si aplica.'
+          readOnly: true
     DSRRequestedField:
       type: object
       required:
@@ -5236,7 +6362,9 @@ components:
           example: Corrección de fecha de nacimiento
         file_data:
           type: object
-          description: Datos del archivo adjunto (si aplica)
+          description: |
+            Datos del archivo adjunto (si aplica). Los archivos deben enviarse en formato `data_uri`
+            (`data:<mime>;base64,<payload>`) y pueden ser PDF o imágenes (JPG/PNG) con un tamaño máximo de 5 MB.
           additionalProperties: true
     DataSubjectRequest:
       x-tags:
@@ -5252,7 +6380,6 @@ components:
       required:
         - kind
         - contact_information
-        - request_detail
       properties:
         id:
           type: string
@@ -5270,6 +6397,22 @@ components:
           type: string
           description: Referencia del usuario en el sistema del cliente.
           example: user_123
+        request_reference:
+          type: string
+          description: Referencia opcional de la solicitud proporcionada por el cliente para correlacionar webhooks y eventos.
+          example: ticket-12345
+        company_branch_id:
+          type: string
+          description: Identificador de la sucursal a la que está asociada esta solicitud.
+          example: branch_1B2M2Y8AsgTpgAmY7PhCfg
+        government_only_mode:
+          type: boolean
+          description: |
+            Indica si la solicitud fue creada con el modo *government-only* activo. Cuando es `true`, el solicitante debe
+            ingresar manualmente su RUT y número de documento para iniciar la validación contra el Registro Civil.
+            Este valor se deriva de `company.config.data_subject_request.government_only_mode` y no es editable al crear
+            la solicitud.
+          example: true
         kind:
           type: string
           enum:
@@ -5278,6 +6421,10 @@ components:
             - opposition
             - suppression
             - portability
+            - redec_update
+            - redec_rectification
+            - redec_complementation
+            - redec_cancellation
           description: Tipo de solicitud.
           example: access
         status:
@@ -5288,13 +6435,24 @@ components:
             - processing
             - resolved
             - data_missmatch
+            - timed_out
           description: Estado actual de la solicitud.
           example: awaiting_verification
+        terminal_state:
+          type: string
+          enum:
+            - approved
+            - partially_approved
+            - rejected
+          description: |
+            Estado terminal de la solicitud cuando `status` es `resolved`.
+          example: approved
         approved:
           type: boolean
+          deprecated: true
           description: |
             Indica si la resolución fue aprobada (true) o rechazada (false).
-            Solo presente cuando el estado es 'resolved'.
+            Campo legacy derivado de `terminal_state` y puede ser `null` si la resolución es parcial.
           example: true
         data_usage_during_request:
           type: string
@@ -5313,30 +6471,39 @@ components:
           required:
             - nin
             - email
-            - names
-            - last_names
+          description: |
+            Información de contacto del titular. La visibilidad / obligatoriedad de alguno de estos campos es configurable.
           properties:
             nin:
               type: string
-              description: Número de identificación del usuario.
+              description: Número de identificación del usuario. No configurable.
               example: '123456789'
             email:
               type: string
               format: email
-              description: Email del usuario. Este email será el que se usará para enviar la confirmación de la solicitud.
+              description: Email del usuario. Este email se usa para enviar confirmaciones. No configurable.
               example: user@example.com
             names:
               type: string
-              description: Nombres del usuario.
+              description: Nombres del usuario. Configurable
               example: Juan Carlos
             last_names:
               type: string
-              description: Apellidos del usuario.
+              description: Apellidos del usuario. Configurable
               example: Pérez Gómez
+            phone:
+              type: string
+              description: Número de teléfono del usuario. Configurable
+              example: +56 9 1234 5678
         request_detail:
+          nullable: true
+          description: |
+            Detalle de la solicitud. Puede ser `null` cuando la solicitud es creada directamente por la compañía
+            (a través de la API). Cuando se crea a través del widget del centro de privacidad, este campo siempre estará presente.
           oneOf:
             - $ref: '#/components/schemas/DSRQueryRequestDetail'
             - $ref: '#/components/schemas/DSRMutationRequestDetail'
+            - $ref: '#/components/schemas/DSRRedecRequestDetail'
         workflow_run_id:
           type: string
           description: ID del workflow run asociado a la solicitud.
@@ -5362,11 +6529,40 @@ components:
               status:
                 const: resolved
           - properties:
-              approved:
-                const: false
+              terminal_state:
+                enum:
+                  - rejected
+                  - partially_approved
       then:
         required:
           - rejection_reason
+    DataSubjectRequestContactFieldConfig:
+      type: object
+      description: |
+        Configura los campos adicionales de contacto (nombres, apellidos y teléfono) que se muestran al titular durante la creación de una solicitud.
+      required:
+        - field_name
+        - visible
+        - required
+      properties:
+        field_name:
+          type: string
+          enum:
+            - names
+            - last_names
+            - phone
+          description: Campo de contacto al que se aplica la configuración.
+          example: phone
+        visible:
+          type: boolean
+          description: |
+            Determina si el campo se muestra en los formularios del Centro de Privacidad. Si es `false`, el titular no verá este campo.
+          example: true
+        required:
+          type: boolean
+          description: |
+            Indica si el campo debe ser completado cuando es visible. No puede establecerse en `true` cuando `visible` es `false`.
+          example: false
     DataSubjectRequestCreate:
       type: object
       description: |
@@ -5392,44 +6588,61 @@ components:
             - opposition
             - suppression
             - portability
+            - redec_update
+            - redec_rectification
+            - redec_complementation
+            - redec_cancellation
           description: Tipo de solicitud.
           example: access
+        origin:
+          type: string
+          description: Origen de la solicitud. Texto libre otorgado al comercio para fines de conciliación en futuras revisiones y/o análisis
+          example: portal-onboarding
+        initial_status:
+          type: string
+          enum:
+            - processing
+          description: |
+            Estado inicial opcional para la solicitud. Si se omite, la solicitud se crea con el estado por defecto `awaiting_verification`.
+            Solo se permite el valor `processing` para crear solicitudes que salten la fase de verificación inicial.
+          example: processing
         data_usage_during_request:
           type: string
           enum:
             - block
             - allow
-          description: 'Solo es requerido para las solicitudes de tipo `rectification`, `opposition` y `suppression`.'
+          description: 'Solo es requerido para las solicitudes de tipo `rectification`, `opposition`, `suppression` y `redec_*`.'
           example: block
         contact_information:
           type: object
-          required:
-            - nin
-            - email
-            - names
-            - last_names
+          description: Información de contacto del titular. La visibilidad / obligatoriedad de alguno de estos campos es configurable.
           properties:
             nin:
               type: string
-              description: Número de identificación del usuario.
+              description: Número de identificación del usuario. No configurable.
               example: '123456789'
             email:
               type: string
               format: email
-              description: Email del usuario.
+              description: Email del usuario. Este email se usa para enviar confirmaciones. No configurable.
               example: user@example.com
             names:
               type: string
-              description: Nombres del usuario.
-              example: Juan Carlos
+              description: nombres del usuario. configurable
+              example: juan carlos
             last_names:
               type: string
-              description: Apellidos del usuario.
-              example: Pérez Gómez
+              description: apellidos del usuario. configurable
+              example: pérez gómez
+            phone:
+              type: string
+              description: número de teléfono del usuario. configurable
+            example: +56 9 1234 5678
         request_detail:
           oneOf:
             - $ref: '#/components/schemas/DSRQueryRequestDetail'
             - $ref: '#/components/schemas/DSRMutationRequestDetail'
+            - $ref: '#/components/schemas/DSRRedecRequestDetail'
     DataSubjectRequestList:
       type: object
       properties:
@@ -5445,25 +6658,39 @@ components:
       type: object
       description: |
         Esquema para actualizar el estado de una solicitud de ejercicio de derechos.
-        Solo se permiten estados terminales: `completed` o `rejected`.
+        Solo se permite el estado terminal `resolved`.
       required:
         - status
       properties:
         status:
           type: string
           enum:
-            - completed
+            - resolved
+          description: |
+            Estado terminal de la solicitud. Debe ser `resolved`.
+          example: resolved
+        terminal_state:
+          type: string
+          enum:
+            - approved
+            - partially_approved
             - rejected
           description: |
-            Estado terminal de la solicitud:
-            - `completed`: La solicitud ha sido completada exitosamente
-            - `rejected`: La solicitud ha sido rechazada
-          example: completed
+            Estado terminal de la solicitud. Si también se envía `approved`, `terminal_state` tiene precedencia.
+          example: approved
+        approved:
+          type: boolean
+          deprecated: true
+          description: |
+            Campo legacy para indicar si la solicitud fue aprobada o rechazada.
+            - `true`: La solicitud ha sido completada exitosamente
+            - `false`: La solicitud ha sido rechazada
+          example: true
         rejection_reason:
           type: string
           description: |
             Razón del rechazo de la solicitud.
-            **Requerido únicamente cuando el status es `rejected`**.
+            **Requerido únicamente cuando `terminal_state` es `rejected` o `partially_approved`**.
           example: Documentación insuficiente para procesar la solicitud
     ValidationError:
       type: object
@@ -5486,6 +6713,53 @@ components:
           type: array
           items:
             type: string
+    ForbiddenError:
+      type: object
+      required:
+        - type
+        - title
+        - status
+        - detail
+      properties:
+        type:
+          type: string
+          example: authentication_error
+        title:
+          type: string
+          example: Forbidden
+        status:
+          type: integer
+          example: 403
+        detail:
+          type: string
+          example: You are not authorized to access this resource(s)
+    Attestation:
+      type: object
+      description: |
+        Los attestations representan validaciones específicas realizadas sobre una identidad o entidad.
+        Cada attestation certifica que se realizó un tipo particular de verificación en un momento determinado.
+
+        Los attestations se generan automáticamente al completar exitosamente un validation attempt y actualizan su timestamp si hay una revalidación.
+      properties:
+        kind:
+          type: string
+          enum:
+            - liveness
+            - id_scan
+            - id_match
+            - government_check
+          description: |
+            Tipo de attestation que certifica una validación específica:
+            - `liveness`: Certifica que se realizó una prueba de vida (detección de persona real)
+            - `id_scan`: Certifica que se escaneó y validó un documento de identidad
+            - `id_match`: Certifica que se comparó la foto del documento con la imagen de la persona (coincidencia facial)
+            - `government_check`: Certifica que se validó la información con registros gubernamentales
+          example: liveness
+        validated_at:
+          type: string
+          format: date-time
+          description: Fecha y hora en que se realizó la validación certificada por este attestation
+          example: '2026-01-19T12:00:00Z'
     Entity:
       x-tags:
         - Entities
@@ -5497,11 +6771,33 @@ components:
           type: string
           description: ID único de la entidad.
           example: ent_1B2M2Y8AsgTpgAmY7PhCfg
+        agreement_id:
+          type: string
+          description: ID del agreement asociado a la entidad.
+          example: agr_1B2M2Y8AsgTpgAmY7PhCfg
+        identity_id:
+          type: string
+          nullable: true
+          description: ID de la identidad asociada a la entidad. Solo presente cuando la entidad tiene una identidad asociada.
+          example: id_1B2M2Y8AsgTpgAmY7PhCfg
         user_reference:
           type: string
-          description: 'Referencia del usuario en tu sistema, obtenida del último agreement que tenga asociado la entidad.'
+          description: 'Referencia del usuario en tu sistema, almacenada directamente en la entidad (no depende del último agreement).'
           example: user_123
           nullable: true
+        attestations:
+          type: array
+          description: |
+            Lista de attestations que documentan las validaciones realizadas sobre esta entidad.
+          items:
+            $ref: '#/components/schemas/Attestation'
+          example:
+            - kind: liveness
+              validated_at: '2026-01-19T12:00:00Z'
+            - kind: id_scan
+              validated_at: '2026-01-19T12:00:00Z'
+            - kind: government_check
+              validated_at: '2026-01-19T12:05:00Z'
     EntityIndex:
       x-tags:
         - Entities
@@ -5556,6 +6852,14 @@ components:
           type: boolean
           description: Indica si el agreement es revocable o no.
           example: true
+    EntityComplianceStatusesResponse:
+      type: object
+      description: Respuesta estándar para los endpoints de estados de cumplimiento de entidades.
+      properties:
+        compliance_statuses:
+          type: array
+          items:
+            $ref: '#/components/schemas/ComplianceStatus'
     NotFoundErrorSchema:
       type: object
       required:
@@ -5606,6 +6910,16 @@ components:
           description: |
             Configuración exclusiva para las validaciones de identidad.
           properties:
+            liveness_check:
+              type: boolean
+              description: |
+                Indica si se requiere validación de liveness (prueba de vida). No puede ser `true` si `id_scan_check` es `false`.
+              example: true
+            id_scan_check:
+              type: boolean
+              description: |
+                Indica si se requiere escaneo del documento de identidad. Cuando se combina con `liveness_check`, se verifica que la persona que hizo el liveness corresponda la persona del documento de identidad.
+              example: true
             government_check:
               type: boolean
               default: false
@@ -5619,6 +6933,20 @@ components:
           description: |
             Configuración exclusiva para el módulo de Disclosure Request.
           properties:
+            liveness_check:
+              type: boolean
+              description: |
+                Indica si se requiere validación de liveness (prueba de vida). No puede ser `true` si `id_scan_check` es `false`.
+              example: true
+            id_scan_check:
+              type: boolean
+              description: |
+                Indica si se requiere escaneo del documento de identidad. Cuando se combina con `liveness_check`, se verifica que la persona que hizo el liveness corresponda la persona del documento de identidad.
+              example: true
+            government_check:
+              type: boolean
+              default: false
+              description: Indica si se debe hacer un cruce con la base de datos del gobierno durante el disclosure request.
             skip_passkey_registration:
               type: boolean
               default: false
@@ -5647,6 +6975,22 @@ components:
                 - mandatory
               default: required
               description: 'Texto del label de consentimiento cuando el `label_display` es `mandatory_only`. Si es `required`, entonces el label será `Requerido`. Si es `mandatory`, entonces el label será `Obligatorio`.'
+            redec_enabled:
+              type: boolean
+              default: false
+              description: |
+                Habilita la funcionalidad REDEC (Registro de Deudores de Créditos) para el módulo de consentimiento.
+                Cuando está habilitado, permite registrar y gestionar consentimientos de acuerdo con los requisitos
+                normativos REDEC de Chile.
+              example: true
+            redec_automatic_rdc30:
+              type: boolean
+              default: false
+              description: |
+                Habilita la generación automática semanal de reportes RDC30 para cumplimiento REDEC.
+                Cuando está habilitado, el sistema generará automáticamente reportes RDC30 de forma periódica
+                sin necesidad de solicitud manual. Requiere que `redec_enabled` esté activado.
+              example: false
         privacy_center:
           type: object
           description: |
@@ -5669,6 +7013,20 @@ components:
           description: |
             Configuración exclusiva para el Data Subject Request, módulo que se encuentra en el Centro de Privacidad.
           properties:
+            liveness_check:
+              type: boolean
+              description: |
+                Indica si se requiere validación de liveness (prueba de vida). No puede ser `true` si `id_scan_check` es `false`.
+              example: true
+            id_scan_check:
+              type: boolean
+              description: |
+                Indica si se requiere escaneo del documento de identidad. Cuando se combina con `liveness_check`, se verifica que la persona que hizo el liveness corresponda la persona del documento de identidad.
+              example: true
+            government_check:
+              type: boolean
+              default: false
+              description: Indica si se debe hacer un cruce con la base de datos del gobierno durante la validación de identidad en DSR.
             mandatory_validation:
               type: boolean
               default: false
@@ -5693,6 +7051,69 @@ components:
 
                 - `false` (por defecto): Se envían correos electrónicos informativos.
                 - `true`: No se envían correos electrónicos informativos.
+            validation_timeout_period:
+              type: string
+              nullable: true
+              description: |
+                Período de tiempo durante el cual el titular de datos puede validar su identidad después de crear una solicitud en [formato ISO 8601](https://docs.digi.com/resources/documentation/digidocs/90001488-13/reference/r_iso_8601_duration_format.htm).
+
+                - Si no se especifica (`null`): La solicitud no expira y el usuario puede validar su identidad en cualquier momento.
+                - Si se especifica: La solicitud expirará después del período indicado, y el usuario deberá crear una nueva solicitud.
+
+                El período total debe ser mayor que 0.
+              example: P1D
+            allow_many_data_categories_mutations:
+              type: boolean
+              default: true
+              description: |
+                Determina si las solicitudes de mutación (rectificación, oposición, supresión) pueden especificar más de una categoría de datos.
+
+                - `true` (por defecto): Las solicitudes de mutación pueden incluir múltiples categorías de datos.
+                - `false`: Las solicitudes de mutación están limitadas a una sola categoría de datos por solicitud.
+              example: true
+            contact_field_configs:
+              type: array
+              description: |
+                Configuración de los campos adicionales de contacto que puede completar el titular al crear su solicitud.
+
+                Cada elemento permite controlar la visibilidad y obligatoriedad de los campos soportados (`names`, `last_names`, `phone`).
+              items:
+                $ref: '#/components/schemas/DataSubjectRequestContactFieldConfig'
+            appliable_scopes:
+              type: array
+              items:
+                type: string
+                enum:
+                  - branch
+              default: []
+              description: |
+                Define si las solicitudes deben asociarse obligatoriamente a una sucursal de la empresa.
+
+                - Si está vacío (por defecto): Las solicitudes son de alcance general (sin asociación a sucursal).
+                - Si contiene `"branch"`: El solicitante debe seleccionar una sucursal al crear la solicitud.
+              example:
+                - branch
+            government_only_mode:
+              type: boolean
+              default: false
+              deprecated: true
+              description: |
+                **DEPRECATED**: Este campo ha sido reemplazado por `validation_mode` y `government_check`.
+                Para obtener el comportamiento equivalente, usa `validation_mode: "none"` con `government_check: true`.
+
+                Activa el modo de validación exclusiva con carnet ante el Registro Cívil: el usuario ingresa su RUT y número de documento y se omite la captura de selfies y liveness.
+
+                - `false` (por defecto): El flujo utiliza captura biométrica tradicional.
+                - `true`: el widget pide al usuario sus datos de número de documento para efectuar la validación gubernamental
+              example: true
+            redec_automatic_rdc40:
+              type: boolean
+              default: false
+              description: |
+                Habilita la generación automática diaria de reportes RDC40 para solicitudes REDEC.
+                Cuando está habilitado, el sistema generará automáticamente reportes RDC40 de forma periódica (diaria)
+                sin necesidad de solicitud manual. Requiere que `redec_enabled` esté activado.
+              example: false
         dashboard:
           type: object
           description: |
@@ -5813,8 +7234,14 @@ components:
           example: '2024-03-20T15:30:00Z'
         secret:
           type: string
-          description: Token JWT secreto de la API key. Solo se incluye al momento de la creación.
+          description: Token JWT secreto de la API key. Solo se incluye al momento de la creación o al renovarla.
           example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        refresh_token:
+          type: string
+          description: |
+            Token de actualización asociado a la API key. Solo se incluye cuando la clave tiene fecha de expiración y es creado o renovado mediante la API. Debe guardarse para extender la API key una vez vencida
+          example: akrt_1B2M2Y8AsgTpgAmY7PhCfg
+          nullable: true
     ApiKeyList:
       type: object
       properties:
@@ -5845,9 +7272,11 @@ components:
           example: grant
         action_type:
           type: string
-          description: Tipo específico de acción (solo "opt_in_click" por ahora)
+          description: Tipo específico de acción
           enum:
             - opt_in_click
+            - voice_confirmation
+            - physical_confirmation
           example: opt_in_click
         timestamp:
           type: string
@@ -5856,25 +7285,17 @@ components:
           example: '2024-03-20T15:30:00Z'
         action_data:
           type: object
-          description: Datos adicionales de la acción (máximo 4KB de tamaño serializado en JSON)
+          description: |
+            Datos adicionales de la acción. Se permite cualquier campo adicional, pero se recomienda no exceder los 4KB de tamaño serializado en JSON.
+
+            En caso de usar REDEC y se está tratando un consentimiento de audio, puede incluir los campos de `audio_reference` y `audio_hash`. Más información en la [documentación de REDEC](/docs/integration-guide/redec/consent-registration#consentimiento-verbal-con-audio).
           example:
             checkbox_id: cb_123
+            audio_reference: 'https://example.com/audio/consent_12345.mp3'
+            audio_hash: a3b2c1d4e5f67890abcdef1234567890abcdef1234567890abcdef1234567890
         contextual_data:
-          type: object
-          description: 'Datos contextuales como IP, user agent, etc.'
-          properties:
-            ip:
-              type: string
-              example: 192.168.1.1
-            user_agent:
-              type: string
-              example: Mozilla/5.0
-            url:
-              type: string
-              example: 'https://example.com'
-            phone_number:
-              type: string
-              example: '+56912345678'
+          $ref: '#/components/schemas/ContextualData'
+          description: Requerido cuando `action_type` es `opt_in_click`.
     ActionTokenResponse:
       type: object
       properties:
@@ -5884,7 +7305,7 @@ components:
           example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
     EvidenceConsentMethod:
       type: object
-      description: 'Método de captura del consentimiento. Es **requerido** si se crea el [action token a través de nuestra API](/docs/api/resources/create-action-token). En caso de usar nuestro embed, no es necesario proveer este campo.'
+      description: 'Método de captura del consentimiento. Es **requerido** si se crea el [action token a través de nuestra API](/docs/api/resources/create-action-token). En caso de usar nuestro embed, este campo no es necesario y **será ignorado**.'
       required:
         - channel
       properties:
@@ -5906,7 +7327,7 @@ components:
           example:
             details: se le mostró al usuario el texto de consentimiento en un chatbot de whatsapp
             chat_id: 13928
-    ConsentActionStats:
+    ConsentActionStatus:
       type: object
       description: Estadísticas de acciones de consentimiento
       properties:
@@ -6027,17 +7448,181 @@ components:
           format: float
           description: Promedio de disclosures por usuario
           example: 1.5
+    Report:
+      x-tags:
+        - Reports
+      type: object
+      description: Representa un reporte generado para la empresa
+      properties:
+        id:
+          type: string
+          description: Identificador único del reporte
+          example: rep_1B2M2Y8AsgTpgAmY7PhCfg
+        starts_at:
+          type: string
+          format: date-time
+          description: Fecha y hora de inicio del período del reporte
+          example: '2025-06-01T00:00:00Z'
+        ends_at:
+          type: string
+          format: date-time
+          description: Fecha y hora de fin del período del reporte
+          example: '2025-06-30T23:59:59Z'
+        content:
+          type: object
+          description: Contenido del reporte en formato específico según el tipo de reporte
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          description: Fecha y hora de creación del reporte
+          example: '2025-07-01T10:30:00Z'
+        generated_by:
+          type: object
+          description: Usuario de la empresa que generó el reporte
+          nullable: true
+          properties:
+            id:
+              type: string
+              description: Identificador único del usuario
+              example: cu_1B2M2Y8AsgTpgAmY7PhCfg
+            email:
+              type: string
+              description: Email del usuario
+              example: usuario@empresa.com
+    ReportIndexList:
+      x-tags:
+        - Reports
+      type: object
+      description: Lista de reportes con metadatos de paginación
+      properties:
+        reports:
+          type: array
+          items:
+            $ref: '#/components/schemas/Report'
+        metadata:
+          $ref: '#/components/schemas/FilterOrderAndPaginationMetadata'
+    ReportInput:
+      x-tags:
+        - Reports
+      type: object
+      required:
+        - kind
+        - starts_at
+        - ends_at
+      description: Datos requeridos para crear un nuevo reporte
+      properties:
+        kind:
+          type: string
+          description: Tipo de reporte a generar
+          enum:
+            - rdc30
+            - rdc40
+          example: rdc30
+        starts_at:
+          type: string
+          format: date-time
+          description: Fecha y hora de inicio del período del reporte en formato ISO 8601
+          example: '2025-06-01T00:00:00Z'
+        ends_at:
+          type: string
+          format: date-time
+          description: Fecha y hora de fin del período del reporte en formato ISO 8601
+          example: '2025-06-30T23:59:59Z'
+    ConsentActionRedecInput:
+      type: object
+      required:
+        - action_token
+        - entity_nin
+      description: Datos requeridos para crear una acción de consentimiento a través del endpoint REDEC
+      properties:
+        action_token:
+          type: string
+          description: Token de acción que contiene la información codificada del consentimiento
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        entity_nin:
+          type: string
+          description: NIN (Número de Identificación Nacional) de la entidad
+          example: 12.345.678-5
+        executive_nin:
+          type: string
+          description: NIN del ejecutivo que procesa la acción (opcional)
+          example: 11.111.111-1
+          nullable: true
+        user_reference:
+          type: string
+          description: Referencia del usuario en el sistema del cliente (se usa para crear o encontrar la entidad)
+          example: redec-entity-123
+          nullable: true
+        entity_id:
+          type: string
+          description: ID de la entidad existente (alternativa a user_reference)
+          example: ent_5F6Q6C2EwkXtkEpB1TlGjk
+          nullable: true
+        consent_method:
+          type: object
+          description: 'Método de captura del consentimiento. **Solo es requerido** si se crea el [action token a través de nuestra API](/docs/api/resources/create-action-token). En caso de usar nuestro embed, este campo no es necesario y **será ignorado**.'
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/EvidenceConsentMethod'
+            - nullable: true
+    ConsentCommitRedecInput:
+      type: object
+      required:
+        - consent_actions
+        - entity_nin
+      description: Datos requeridos para crear un consent commit a través del endpoint REDEC
+      properties:
+        consent_actions:
+          type: array
+          description: Array de action tokens que contienen la información codificada de los consentimientos
+          minItems: 1
+          items:
+            type: object
+            required:
+              - action_token
+            properties:
+              action_token:
+                type: string
+                description: Token de acción que contiene la información codificada del consentimiento
+                example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        entity_nin:
+          type: string
+          description: NIN (Número de Identificación Nacional) de la entidad
+          example: 12.345.678-5
+        executive_nin:
+          type: string
+          description: NIN del ejecutivo que procesa la acción (opcional)
+          example: 11.111.111-1
+          nullable: true
+        user_reference:
+          type: string
+          description: Referencia del usuario en el sistema del cliente (se usa para crear o encontrar la entidad)
+          example: redec-entity-123
+          nullable: true
+        entity_id:
+          type: string
+          description: ID de la entidad existente (alternativa a user_reference)
+          example: ent_5F6Q6C2EwkXtkEpB1TlGjk
+          nullable: true
+        consent_method:
+          type: object
+          description: 'Método de captura del consentimiento. **Solo es requerido** si se crea el [action token a través de nuestra API](/docs/api/resources/create-action-token). En caso de usar nuestro embed, este campo no es necesario y **será ignorado**.'
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/EvidenceConsentMethod'
+            - nullable: true
   securitySchemes:
     api_key:
-      type: apiKey
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
       description: Esquema de autenticación mediante una API key proporcionada en el header de las solicitudes.
-      name: Authorization
-      in: header
     entity_session_token:
-      type: apiKey
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
       description: Esquema de autenticación mediante un token JWT de sesión de entidad proporcionado en el header de las solicitudes. Se genera usando el endpoint /entities/session_token y tiene una duración de 15 minutos.
-      name: Authorization
-      in: header
 webhooks:
   agreementCreated:
     post:
@@ -6406,6 +7991,65 @@ webhooks:
                     - type: object
                       description: Datos de la acción de consentimiento actualizada
                     - $ref: '#/components/schemas/ConsentAction'
+                created_at:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de creación del evento
+      responses:
+        '200':
+          description: Webhook recibido correctamente
+        4XX:
+          description: Error en el procesamiento del webhook
+  consentActionRedecReceiptGenerated:
+    post:
+      tags:
+        - REDEC
+      summary: REDEC Receipt Generated
+      operationId: consentActionRedecReceiptGenerated
+      description: |
+        #### Nombre del evento: `consent_action.redec_receipt_generated`.
+        Se envía cuando se ha generado exitosamente el PDF de recibo REDEC para una acción de consentimiento. Este evento se gatilla después de que el PDF ha sido creado y guardado en el sistema.
+      requestBody:
+        description: 'Contiene información del recibo REDEC generado, incluyendo la URL del PDF y su hash de verificación.'
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID único del evento
+                  example: evt_1B2M2Y8AsgTpgAmY7PhCfg
+                name:
+                  type: string
+                  enum:
+                    - consent_action.redec_receipt_generated
+                  description: Nombre del evento
+                payload:
+                  type: object
+                  description: Datos del recibo REDEC generado
+                  properties:
+                    consent_action_id:
+                      type: string
+                      description: Token de la acción de consentimiento
+                      example: consact_1B2M2Y8AsgTpgAmY7PhCfg
+                    user_reference:
+                      type: string
+                      description: Referencia de usuario del sistema del cliente
+                      example: user_123
+                    redec_receipt_pdf:
+                      type: string
+                      format: uri
+                      description: URL del PDF del recibo REDEC
+                      example: 'https://storage.example.com/receipts/redec_receipt_123.pdf'
+                    redec_pdf_hash:
+                      type: string
+                      description: Hash SHA256 del PDF para verificación de integridad
+                      example: a1b2c3d4e5f6...
+                    redec_id:
+                      type: string
+                      description: Identificador único del proceso REDEC
+                      example: redec_xyz789
                 created_at:
                   type: string
                   format: date-time
@@ -6912,6 +8556,60 @@ webhooks:
           description: Webhook recibido correctamente
         4XX:
           description: Error en el procesamiento del webhook
+  validationAttemptSuccessful:
+    post:
+      tags:
+        - Validation attempts
+      summary: Successful
+      operationId: validationAttemptSuccessful
+      description: |
+        #### Nombre del evento: `validation_attempt.successful`.
+        Se envía cuando un intento de validación de identidad se ha completado exitosamente.
+      requestBody:
+        description: 'Contiene información del intento de validación exitoso, incluyendo referencias al objeto requestable (DataSubjectRequest o DisclosureRequest).'
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID único del evento
+                  example: evt_1B2M2Y8AsgTpgAmY7PhCfg
+                name:
+                  type: string
+                  enum:
+                    - validation_attempt.successful
+                  description: Nombre del evento
+                payload:
+                  type: object
+                  description: Datos del intento de validación exitoso
+                  properties:
+                    user_reference:
+                      type: string
+                      description: Referencia de usuario del sistema del cliente
+                      example: user_123
+                    requestable_type:
+                      type: string
+                      description: Tipo de objeto asociado (DataSubjectRequest o DisclosureRequest)
+                      example: DataSubjectRequest
+                    requestable_id:
+                      type: string
+                      description: Token del objeto requestable asociado
+                      example: dsreq_1B2M2Y8AsgTpgAmY7PhCfg
+                    validation_attempt_id:
+                      type: string
+                      description: Token del intento de validación
+                      example: va_1B2M2Y8AsgTpgAmY7PhCfg
+                created_at:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de creación del evento
+      responses:
+        '200':
+          description: Webhook recibido correctamente
+        4XX:
+          description: Error en el procesamiento del webhook
   validationAttemptFailed:
     post:
       tags:
@@ -6922,7 +8620,7 @@ webhooks:
         #### Nombre del evento: `validation_attempt.failed`.
         Se envía cuando un intento de validación de identidad ha fallado.
       requestBody:
-        description: Contiene el recurso ValidationAttempt actualizado. El payload corresponde al esquema completo del recurso.
+        description: 'Contiene información del intento de validación fallido, incluyendo referencias al objeto requestable (DataSubjectRequest o DisclosureRequest) y los errores.'
         content:
           application/json:
             schema:
@@ -6938,10 +8636,41 @@ webhooks:
                     - validation_attempt.failed
                   description: Nombre del evento
                 payload:
-                  allOf:
-                    - type: object
-                      description: Datos del intento de validación actualizado
-                    - $ref: '#/components/schemas/ValidationAttempt'
+                  type: object
+                  description: Datos del intento de validación fallido
+                  properties:
+                    user_reference:
+                      type: string
+                      description: Referencia de usuario del sistema del cliente
+                      example: user_123
+                    requestable_type:
+                      type: string
+                      description: Tipo de objeto asociado (DataSubjectRequest o DisclosureRequest)
+                      example: DataSubjectRequest
+                    requestable_id:
+                      type: string
+                      description: Token del objeto requestable asociado
+                      example: dsreq_1B2M2Y8AsgTpgAmY7PhCfg
+                    validation_attempt_id:
+                      type: string
+                      description: Token del intento de validación
+                      example: va_1B2M2Y8AsgTpgAmY7PhCfg
+                    error_reason:
+                      type: string
+                      description: Razón del error de validación
+                      example: document_validation_error
+                    errors_array:
+                      type: array
+                      description: Array de errores detallados
+                      items:
+                        type: object
+                        properties:
+                          message:
+                            type: string
+                            description: Mensaje de error
+                          code:
+                            type: string
+                            description: Código de error
                 created_at:
                   type: string
                   format: date-time
@@ -7000,6 +8729,85 @@ webhooks:
                       description: 'Lista de permisos de datos que han expirado, serializados según el esquema DataPermission usando Api::Exposed::V1::DataPermissionSerializer'
                       items:
                         $ref: '#/components/schemas/DataPermission'
+                created_at:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de creación del evento
+      responses:
+        '200':
+          description: Webhook recibido correctamente
+        4XX:
+          description: Error en el procesamiento del webhook
+  reportCreated:
+    post:
+      tags:
+        - Reports
+      summary: Created
+      operationId: reportCreated
+      description: |
+        #### Nombre del evento: `report.created`.
+        Se envía cuando se ha generado un nuevo reporte en el sistema.
+      requestBody:
+        description: Contiene el recurso Report creado. El payload corresponde al esquema completo del recurso.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID único del evento
+                  example: evt_1B2M2Y8AsgTpgAmY7PhCfg
+                name:
+                  type: string
+                  enum:
+                    - report.created
+                  description: Nombre del evento
+                payload:
+                  $ref: '#/components/schemas/Report'
+                created_at:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de creación del evento
+      responses:
+        '200':
+          description: Webhook recibido correctamente
+        4XX:
+          description: Error en el procesamiento del webhook
+  redecRdc40NoChanges:
+    post:
+      tags:
+        - Reports
+      summary: RDC40 no changes
+      operationId: redecRdc40NoChanges
+      description: |
+        #### Nombre del evento: `redec.rdc40_no_changes`.
+        Se envía cuando no se encontraron eventos que gatillen la generación del reporte RDC40 en las últimas 24 horas.
+        Los eventos gatillantes corresponden a solicitudes REDEC con ingreso, inicio de procesamiento o cierre.
+      requestBody:
+        description: Contiene el evento de ausencia de cambios para RDC40.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID único del evento
+                  example: evt_1B2M2Y8AsgTpgAmY7PhCfg
+                name:
+                  type: string
+                  enum:
+                    - redec.rdc40_no_changes
+                  description: Nombre del evento
+                payload:
+                  type: object
+                  description: Detalle del evento
+                  properties:
+                    detail:
+                      type: string
+                      description: Mensaje descriptivo del motivo
+                      example: No triggering events for the last 24 hours.
                 created_at:
                   type: string
                   format: date-time
