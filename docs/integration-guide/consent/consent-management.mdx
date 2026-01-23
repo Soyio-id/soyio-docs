@@ -181,7 +181,8 @@ const privacyCenterOptions = {
 
 Por defecto, los cambios de consentimiento se aplican inmediatamente. Puedes configurar el modo "batch" para permitir al usuario realizar múltiples cambios y guardarlos en una sola acción.
 
-`consentMode`: `'immediate'` (default) | `'batch'`
+- `consentMode`: `'immediate'` (default) | `'batch'`
+- `showBatchConsentConfirmation`: `boolean`. Muestra un diálogo de confirmación antes de guardar en modo batch.
 
 En modo batch, aparecerá un botón "Guardar" para confirmar los cambios acumulados.
 
@@ -197,7 +198,7 @@ const privacyCenterOptions = {
 
 Puedes definir un periodo durante el cual un consentimiento otorgado no puede ser revocado inmediatamente. Esto es útil para garantizar la estabilidad operativa de ciertos servicios.
 
-`consentRetentionPeriod`: string (e.g. `'30 days'`, `'1 week'`)
+`consentRetentionPeriod`: string (e.g. `'30 days'`, `'1 week'`). Unidades soportadas: `day`, `week`, `month`, `year`.
 
 Cuando se configura, si el usuario intenta revocar un consentimiento dentro del periodo de retención, el control aparecerá deshabilitado.
 
