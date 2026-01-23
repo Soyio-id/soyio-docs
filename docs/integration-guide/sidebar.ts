@@ -29,6 +29,11 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: 'doc',
+      id: 'integration-guide/data-subjects',
+      label: 'Sujetos de datos',
+    },
+    {
+      type: 'doc',
       id: 'integration-guide/evidence-traceability',
       label: 'Evidencia y trazabilidad',
     },
@@ -73,56 +78,66 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: 'html',
-      value: '<div style="margin-top: 1.25rem; margin-bottom: 0.25rem;"><span style="font-size: 0.8rem; color: var(--ifm-color-gray-600); padding-left: 12px; text-transform: uppercase; letter-spacing: 0.05em;">Módulos y funcionalidades</span></div>',
+      value:
+        '<div style="margin-top: 1.25rem; margin-bottom: 0.25rem;"><span style="font-size: 0.8rem; color: var(--ifm-color-gray-600); padding-left: 12px; text-transform: uppercase; letter-spacing: 0.05em;">Módulos y funcionalidades</span></div>',
     },
     {
       type: 'category',
       label: 'Consentimiento',
       items: consentSidebar,
       collapsed: true,
-      link: {type: 'doc', id: 'integration-guide/consent/introduction'},
+      link: { type: 'doc', id: 'integration-guide/consent/introduction' },
     },
     {
       type: 'category',
       label: 'Gestión de derechos',
       items: rightsManagementSidebar,
       collapsed: true,
-      link: {type: 'doc', id: 'integration-guide/rights-management/introduction'},
+      link: {
+        type: 'doc',
+        id: 'integration-guide/rights-management/introduction',
+      },
     },
     {
       type: 'category',
       label: 'Centro de privacidad',
       items: privacyCenterSidebar,
       collapsed: true,
-      link: {type: 'doc', id: 'integration-guide/privacy-center/introduction'},
+      link: {
+        type: 'doc',
+        id: 'integration-guide/privacy-center/introduction',
+      },
     },
     {
       type: 'category',
       label: 'Verificación de identidad',
       items: disclosureSidebar,
       collapsed: true,
-      link: {type: 'doc', id: 'integration-guide/disclosure/introduction'},
+      link: { type: 'doc', id: 'integration-guide/disclosure/introduction' },
     },
     {
       type: 'category',
       label: 'Autenticación',
       items: authenticationSidebar,
       collapsed: true,
-      link: {type: 'doc', id: 'integration-guide/authentication/introduction'},
+      link: {
+        type: 'doc',
+        id: 'integration-guide/authentication/introduction',
+      },
     },
     {
       type: 'category',
       label: 'Firma electrónica',
       items: signatureSidebar,
       collapsed: true,
-      link: {type: 'doc', id: 'integration-guide/signature/introduction'},
+      link: { type: 'doc', id: 'integration-guide/signature/introduction' },
     },
     {
       type: 'category',
       label: 'REDEC',
       items: redecSidebar,
       collapsed: true,
-      link: {type: 'doc', id: 'integration-guide/redec/introduction'},
+      link: { type: 'doc', id: 'integration-guide/redec/introduction' },
     },
     {
       type: 'html',

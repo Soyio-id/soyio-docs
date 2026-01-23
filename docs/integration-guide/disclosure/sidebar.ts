@@ -19,6 +19,11 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: 'doc',
+      id: 'integration-guide/disclosure/validation-levels',
+      label: 'Niveles de validación',
+    },
+    {
+      type: 'doc',
       id: 'integration-guide/disclosure/disclosure_templates',
       label: 'Crea plantillas',
     },
