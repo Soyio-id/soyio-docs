@@ -31,19 +31,19 @@ Las API keys se identifican por su prefijo según el entorno:
 
 Este tiene el siguiente formato:
 
-`Authorization: <api_key>`
+`Authorization: <jwt>`
 
-Donde `api_key` es la API key específica del entorno que deseas utilizar.
+Donde `jwt` es el valor de `secret` (JWT) que recibes al crear o renovar una API key. No uses el identificador con prefijo `ak_sandbox_` o `ak_live_` en el header.
 
 <Tabs>
   <TabItem value="sandbox" label="Ejemplo para Sandbox">
     ```bash
-    Authorization: ak_sandbox_1B2M2Y8AsgTpgAmY7PhCfg
+    Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
     ```
   </TabItem>
   <TabItem value="production" label="Ejemplo para Production">
     ```bash
-    Authorization: ak_live_2C3N3Z9BthUpgBnZ8QiDgh
+    Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
     ```
   </TabItem>
 </Tabs>

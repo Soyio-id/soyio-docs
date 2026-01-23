@@ -164,7 +164,7 @@ Como el ejecutivo es quien gestiona la solicitud, necesitas crear el `action_tok
   <TabItem value="curl" label="cURL">
     ```bash
     curl -X POST https://api.soyio.id/api/v1/redec/consent_actions \
-      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Authorization: YOUR_API_KEY" \
       -H "Content-Type: application/json" \
       -d '{
         "action_token": "at_abc123...",
@@ -232,7 +232,7 @@ Captura el consentimiento usando el SDK de Soyio (el usuario hace el opt-in clic
   <TabItem value="curl" label="cURL">
     ```bash
     curl -X POST https://api.soyio.id/api/v1/redec/consent_actions \
-      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Authorization: YOUR_API_KEY" \
       -H "Content-Type: application/json" \
       -d '{
         "action_token": "at_xyz789...",
@@ -301,7 +301,7 @@ Captura el consentimiento usando el SDK de Soyio (el usuario hace el opt-in clic
   <TabItem value="curl" label="cURL">
     ```bash
     curl -X POST https://api.soyio.id/api/v1/redec/consent_actions \
-      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Authorization: YOUR_API_KEY" \
       -H "Content-Type: application/json" \
       -d '{
         "action_token": "at_def456...",
@@ -388,7 +388,7 @@ Una vez generado el `action_token` con los campos de audio, crea el `consent_act
   <TabItem value="curl" label="cURL">
     ```bash
     curl -X POST https://api.soyio.id/api/v1/redec/consent_actions \
-      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Authorization: YOUR_API_KEY" \
       -H "Content-Type: application/json" \
       -d '{
         "action_token": "at_with_audio...",
