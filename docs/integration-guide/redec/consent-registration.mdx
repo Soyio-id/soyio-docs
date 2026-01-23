@@ -147,7 +147,7 @@ Como el ejecutivo es quien gestiona la solicitud, necesitas crear el `action_tok
     const response = await fetch('https://api.soyio.id/api/v1/redec/consent_actions', {
       method: 'POST',
       headers: {
-        'Authorization': `${API_KEY}`,
+        'Authorization': `Bearer ${API_KEY}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -164,7 +164,7 @@ Como el ejecutivo es quien gestiona la solicitud, necesitas crear el `action_tok
   <TabItem value="curl" label="cURL">
     ```bash
     curl -X POST https://api.soyio.id/api/v1/redec/consent_actions \
-      -H "Authorization: YOUR_API_KEY" \
+      -H "Authorization: Bearer YOUR_API_KEY" \
       -H "Content-Type: application/json" \
       -d '{
         "action_token": "at_abc123...",
@@ -181,7 +181,7 @@ Como el ejecutivo es quien gestiona la solicitud, necesitas crear el `action_tok
     response = requests.post(
         'https://api.soyio.id/api/v1/redec/consent_actions',
         headers={
-            'Authorization': API_KEY,
+            'Authorization': f'Bearer {API_KEY}',
             'Content-Type': 'application/json'
         },
         json={
@@ -216,7 +216,7 @@ Captura el consentimiento usando el SDK de Soyio (el usuario hace el opt-in clic
     const response = await fetch('https://api.soyio.id/api/v1/redec/consent_actions', {
       method: 'POST',
       headers: {
-        'Authorization': `${API_KEY}`,
+        'Authorization': `Bearer ${API_KEY}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -232,7 +232,7 @@ Captura el consentimiento usando el SDK de Soyio (el usuario hace el opt-in clic
   <TabItem value="curl" label="cURL">
     ```bash
     curl -X POST https://api.soyio.id/api/v1/redec/consent_actions \
-      -H "Authorization: YOUR_API_KEY" \
+      -H "Authorization: Bearer YOUR_API_KEY" \
       -H "Content-Type: application/json" \
       -d '{
         "action_token": "at_xyz789...",
@@ -248,7 +248,7 @@ Captura el consentimiento usando el SDK de Soyio (el usuario hace el opt-in clic
     response = requests.post(
         'https://api.soyio.id/api/v1/redec/consent_actions',
         headers={
-            'Authorization': API_KEY,
+            'Authorization': f'Bearer {API_KEY}',
             'Content-Type': 'application/json'
         },
         json={
@@ -281,7 +281,7 @@ Captura el consentimiento usando el SDK de Soyio (el usuario hace el opt-in clic
     const response = await fetch('https://api.soyio.id/api/v1/redec/consent_actions', {
       method: 'POST',
       headers: {
-        'Authorization': `${API_KEY}`,
+        'Authorization': `Bearer ${API_KEY}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -301,7 +301,7 @@ Captura el consentimiento usando el SDK de Soyio (el usuario hace el opt-in clic
   <TabItem value="curl" label="cURL">
     ```bash
     curl -X POST https://api.soyio.id/api/v1/redec/consent_actions \
-      -H "Authorization: YOUR_API_KEY" \
+      -H "Authorization: Bearer YOUR_API_KEY" \
       -H "Content-Type: application/json" \
       -d '{
         "action_token": "at_def456...",
@@ -319,7 +319,7 @@ Captura el consentimiento usando el SDK de Soyio (el usuario hace el opt-in clic
     # Registra asociado a la entidad existente
     response = requests.post(
         'https://api.soyio.id/api/v1/redec/consent_actions',
-        headers={'Authorization': API_KEY},
+        headers={'Authorization': f'Bearer {API_KEY}'},
         json={
             'action_token': action_token,
             'entity_nin': '11.111.111-1',
@@ -370,7 +370,7 @@ Una vez generado el `action_token` con los campos de audio, crea el `consent_act
     const response = await fetch('https://api.soyio.id/api/v1/redec/consent_actions', {
       method: 'POST',
       headers: {
-        'Authorization': `${API_KEY}`,
+        'Authorization': `Bearer ${API_KEY}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -388,7 +388,7 @@ Una vez generado el `action_token` con los campos de audio, crea el `consent_act
   <TabItem value="curl" label="cURL">
     ```bash
     curl -X POST https://api.soyio.id/api/v1/redec/consent_actions \
-      -H "Authorization: YOUR_API_KEY" \
+      -H "Authorization: Bearer YOUR_API_KEY" \
       -H "Content-Type: application/json" \
       -d '{
         "action_token": "at_with_audio...",
@@ -406,7 +406,7 @@ Una vez generado el `action_token` con los campos de audio, crea el `consent_act
     response = requests.post(
         'https://api.soyio.id/api/v1/redec/consent_actions',
         headers={
-            'Authorization': API_KEY,
+            'Authorization': f'Bearer {API_KEY}',
             'Content-Type': 'application/json'
         },
         json={

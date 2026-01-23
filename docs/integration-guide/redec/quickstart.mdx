@@ -131,7 +131,7 @@ Usa el endpoint específico de REDEC para registrar la acción con el RUT del us
   <TabItem value="curl" label="cURL" default>
     ```bash
     curl -X POST https://api.soyio.id/api/v1/redec/consent_actions \
-      -H "Authorization: YOUR_API_KEY" \
+      -H "Authorization: Bearer YOUR_API_KEY" \
       -H "Content-Type: application/json" \
       -d '{
         "action_token": "at_abc123...",
@@ -146,7 +146,7 @@ Usa el endpoint específico de REDEC para registrar la acción con el RUT del us
     const response = await fetch('https://api.soyio.id/api/v1/redec/consent_actions', {
       method: 'POST',
       headers: {
-        'Authorization': `${YOUR_API_KEY}`,
+        'Authorization': `Bearer ${YOUR_API_KEY}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -168,7 +168,7 @@ Usa el endpoint específico de REDEC para registrar la acción con el RUT del us
     response = requests.post(
         'https://api.soyio.id/api/v1/redec/consent_actions',
         headers={
-            'Authorization': YOUR_API_KEY,
+            'Authorization': f'Bearer {YOUR_API_KEY}',
             'Content-Type': 'application/json'
         },
         json={

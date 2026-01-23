@@ -31,19 +31,19 @@ Las API keys se identifican por su prefijo según el entorno:
 
 Este tiene el siguiente formato:
 
-`Authorization: <jwt>`
+`Authorization: Bearer <jwt>`
 
 Donde `jwt` es el valor de `secret` (JWT) que recibes al crear o renovar una API key. No uses el identificador con prefijo `ak_sandbox_` o `ak_live_` en el header.
 
 <Tabs>
   <TabItem value="sandbox" label="Ejemplo para Sandbox">
     ```bash
-    Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+    Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
     ```
   </TabItem>
   <TabItem value="production" label="Ejemplo para Production">
     ```bash
-    Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+    Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
     ```
   </TabItem>
 </Tabs>
@@ -88,7 +88,7 @@ La API key y el refresh token **solo se muestran durante la creación y renovaci
   <TabItem value="create" label="1. Crear API key" default>
 ```bash
 curl -X POST https://api.soyio.com/v1/api_keys \
-  -H "Authorization: YOUR_EXISTING_API_KEY" \
+  -H "Authorization: Bearer YOUR_EXISTING_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "api_key": {
@@ -117,7 +117,7 @@ Respuesta:
   <TabItem value="refresh" label="2. Renovar API key">
 ```bash
 curl -X PATCH https://api.soyio.com/v1/api_keys/ak_live_abc123/refresh \
-  -H "Authorization: YOUR_ADMIN_API_KEY" \
+  -H "Authorization: Bearer YOUR_ADMIN_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "api_key": {
