@@ -438,7 +438,7 @@ const enableGovMode = await fetch('https://api.soyio.com/v1/config', {
 const disableGovMode = await fetch('https://api.soyio.com/v1/config', {
   method: 'PATCH',
   headers: {
-    'Authorization': 'Bearer YOUR_API_KEY',
+    'Authorization': 'YOUR_API_KEY',
     'Content-Type': 'application/json'
   },
   body: JSON.stringify({
