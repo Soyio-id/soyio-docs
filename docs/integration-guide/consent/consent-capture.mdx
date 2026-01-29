@@ -187,6 +187,10 @@ Puedes hacer el registro de la acción de consentimiento de dos maneras:
 1. Crea una acción de consentimiento (`ConsentAction`)
 2. Crea un commit de varios consentimientos (`ConsentCommit`)
 
+:::info
+El `action_token` es un [JWT](https://en.wikipedia.org/wiki/JSON_Web_Token), por lo que puede confundirse con el [API Key](/docs/api/authentication#api-keys) de Soyio. **El `action_token` debe ir en el cuerpo de la solicitud, no en el header.**
+:::
+
 ### Opción 1: Crea una acción de consentimiento (`ConsentAction`)
 
 Crea una acción de consentimiento (`ConsentAction`) mediante el [endpoint de creación de acción de consentimiento](../../api/resources/create-consent-action.api.mdx).
