@@ -1152,6 +1152,12 @@ const sidebar: SidebarsConfig = {
           label: "Created",
           className: "api-method event",
         },
+        {
+          type: "doc",
+          id: "api/resources/redec-rdc-40-no-changes",
+          label: "RDC40 no changes",
+          className: "api-method event",
+        },
       ],
     },
   ],
