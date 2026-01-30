@@ -54,17 +54,18 @@ Los permisos definen el alcance del acceso a los datos. Cada permiso incluye:
 *   **Uso**: La finalidad del tratamiento (ej. `marketing.advertising`, `essential.service`). Consulta la [Taxonomía de Usos](./taxonomy#3-taxonomía-de-usos-de-datos-el-porqué).
 *   **Expiración**: La fecha hasta la cual el permiso es válido.
 *   **Scope (Alcance)**: El contexto donde es válido el permiso (ej. un Producto específico o una Sucursal).
+
 ### Scope (Alcance)
 
-Un permiso no siempre es global. Puede estar restringido a un contexto específico definido por tres campos:
+Un permiso no siempre es global. Puede estar restringido a un contexto específico.
 
-*   **Scope Type**: El tipo de alcance (`product` o `branch`).
-*   **Scope ID**: El identificador (token) del producto o sucursal.
-*   **Scope Version**: La versión específica del alcance.
+Los tipos de alcance son jerárquicos:
 
-Esto permite que un usuario otorgue consentimiento para un **Producto A** sin que ello implique autorización para todo el ecosistema de la empresa (o viceversa).
+1.  **Global**: Si no se define scope, el permiso aplica a toda la empresa.
+2.  **Branch (Sucursal)**: Aplica a una división física o lógica de la empresa (ej. "Sucursal Centro", "División Créditos", "Tienda Online").
+3.  **Product (Producto)**: Aplica a un producto o servicio específico (ej. "Tarjeta de Crédito Gold", "Seguro de Vida", "Suscripción Premium").
 
-
+**Jerarquía**: Un **Producto** puede estar contenido dentro de una **Sucursal**. Si un usuario otorga permiso para un Producto, el sistema entiende el contexto de la Sucursal a la que pertenece.
 
 ## Ciclo de Vida y Versionado
 
@@ -76,8 +77,8 @@ El Agreement es un recurso versionado. Cuando ocurren cambios (ej. nuevos consen
 
 1.  **Nueva Versión**: Se genera una **nueva versión** del acuerdo que incorpora los cambios.
 2.  **Continuidad**: La nueva versión se convierte inmediatamente en el estado vigente del usuario.
-3.  **Diffing (Cálculo de cambios)**: El sistema calcula qué permisos se agregaron, eliminaron o extendieron respecto a la versión anterior.
-4.  **Evidence**: Se genera y asocia una [Evidencia](./evidence-traceability#tipos-de-evidencia) inmutable para auditar el cambio.
+3.  **Cálculo de cambios (Diffing)**: El sistema calcula qué permisos se agregaron, eliminaron o extendieron respecto a la versión anterior.
+4.  **Evidencia**: Se genera y asocia una [Evidencia](./evidence-traceability#tipos-de-evidencia) inmutable para auditar el cambio.
 5.  **Historial**: La versión anterior se archiva como histórica, manteniendo la cadena de custodia intacta.
 
 ### Lógica de "Diffing"
