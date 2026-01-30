@@ -1,47 +1,283 @@
 ---
-title: Evidencia y Trazabilidad
-description: Sistema de auditoría y trazabilidad de Soyio para cumplimiento regulatorio
+title: Trazabilidad, auditabilidad y versionado
+description: Cómo Soyio garantiza trazabilidad, auditabilidad y versionado a lo largo del ciclo de vida de la privacidad
 ---
 
-# Evidencia y trazabilidad
+# Trazabilidad, auditabilidad y versionado
 
-La Evidencia documenta cómo ocurrió un evento relevante dentro de la plataforma, proporcionando trazabilidad y soporte verificable para auditorías. Cada evidencia contiene información técnica, legal y contextual que permite demostrar cumplimiento.
+En privacidad y protección de datos no basta con *estar en cumplimiento*. Las regulaciones exigen que las organizaciones sean capaces de **demostrar**, **reconstruir** y **auditar** decisiones pasadas en el tiempo.
 
-Existen distintos tipos de evidencia según el módulo o proceso al que se asocie. Para más información sobre la estructura de los objetos de evidencia, consulta la [API Reference](/docs/api/resources/schemas/evidence.schema.mdx).
+Soyio está diseñado desde su núcleo para habilitar:
 
-## Evidencia de consentimiento
+- Auditorías regulatorias y de terceros
+- Evidencia verificable de cumplimiento
+- Control interno y revisiones de seguridad
+- Cumplimiento continuo, no solo puntual
 
-Registra el mecanismo mediante el cual se otorgó o revocó un consentimiento. Estas evidencias se generan automáticamente cada vez que se crea o modifica el consentimiento y quedan reflejadas en el [Agreement del usuario](/docs/integration-guide/general-concepts#agreement).
+Esta guía explica cómo Soyio garantiza trazabilidad, auditabilidad y versionado a lo largo de todo el ciclo de vida de la privacidad.
 
-En este caso, la evidencia suele provenir de la interacción directa del usuario, por ejemplo:
+## Glosario de términos clave
 
-- Aceptar un consentimiento en un flujo web o móvil.
-- Revocar una autorización desde su perfil de privacidad.
-- Registro de un consentimiento en un chatbot de whatsapp.
-- Revocación de un consentimiento a través de un canal de atención telefónico.
+Para evitar confusiones, definimos los siguientes conceptos utilizados en esta guía:
 
-## Evidencia de ejercicio de derechos
+*   **[Documento de Privacidad (Privacy Document)](/docs/api/resources/index-privacy-documents)**: El texto legal versionado (Política de Privacidad, Términos y Condiciones) que el usuario acepta.
+*   **[Template de Consentimiento (Consent Template)](./consent/consent-templates.mdx)**: La definición de la interfaz de usuario (UI) y la estructura de finalidades que se presenta al usuario.
+*   **[Acuerdo (Agreement)](./general-concepts#agreement)**: El "contrato" compilado y versionado para un sujeto específico. Referencia la versión exacta del *Privacy Document* y el *Consent Template* en el momento del consentimiento.
+*   **[Evidencia (Evidence)](/docs/api/resources/schemas/evidence.schema.mdx)**: El registro inmutable que prueba la existencia del *Agreement*.
+
+## Principios de diseño
+
+### Inmutabilidad de eventos críticos
+
+En Soyio, las acciones relevantes para privacidad (consentimientos, acuerdos, solicitudes de titulares y disclosures) se registran como **eventos inmutables**.
+
+- Los eventos **no se sobrescriben**
+- Los cambios generan **nuevos eventos**
+- El historial completo permanece disponible
+
+:::info Integridad Técnica
+Soyio utiliza **HMAC-SHA512** y **encadenamiento de hashes** para garantizar la inmutabilidad. Para más detalles técnicos, consulta la sección de [Cadena de custodia](#cadena-de-custodia-y-tamper-evident-logging).
+:::
+
+Esto permite reconstruir con precisión **qué ocurrió, cuándo ocurrió y bajo qué contexto**.
+
+### Arquitectura basada en eventos
+
+Soyio no se basa únicamente en el "estado actual". Cada acción relevante genera un evento explícito (por ejemplo, creación de consentimientos, commits o solicitudes).
+
+Este enfoque permite:
+
+- Auditoría temporal
+- Análisis forense
+- Reconstrucción histórica de decisiones
+- Evidencia verificable ante terceros
+
+## Versionado explícito
+
+### Versionado de documentos y templates
+
+Los siguientes elementos están versionados explícitamente:
+
+- [Documentos de privacidad](/docs/api/resources/index-privacy-documents)
+- [Templates de consentimiento](./consent/consent-templates.mdx)
+- [Acuerdos (Agreements)](./general-concepts#agreement) y configuraciones legales
+
+Cada cambio:
+
+- Crea una **nueva versión**
+- Mantiene referencia a versiones anteriores
+- Preserva el contenido histórico completo
+
+Nunca se pierde el contexto bajo el cual una decisión fue tomada.
+
+### Versionado de decisiones
+
+Un consentimiento no es simplemente un valor booleano.
+
+Cada decisión queda asociada a:
+
+- Una versión específica del documento (Agreement)
+- Un conjunto concreto de finalidades (Data Permissions)
+- Un momento en el tiempo
+- Un canal y contexto determinados
+
+Esto asegura que las decisiones puedan ser **interpretadas correctamente incluso años después**.
+
+## Trazabilidad end-to-end
+
+Soyio permite trazar una acción desde su origen hasta su impacto.
+
+Para cualquier consentimiento, solicitud o disclosure es posible identificar:
+
+- El evento que lo originó
+- La versión del documento aplicable
+- La entidad y producto involucrados
+- Las acciones posteriores relacionadas
+
+Esto permite responder preguntas como:
+
+- ¿Qué texto aceptó exactamente este usuario?
+- ¿Qué versión estaba vigente en ese momento?
+- ¿Quién inició la acción?
+- ¿Qué ocurrió después?
+
+## Tipos de evidencia
+
+La evidencia documenta cómo ocurrió un evento relevante dentro de la plataforma, proporcionando trazabilidad y soporte verificable para auditorías. Cada evidencia contiene información técnica, legal y contextual que permite demostrar cumplimiento.
+
+Existen distintos tipos de evidencia según el módulo o proceso al que se asocie.
+
+### Componentes de la Evidencia
+
+Cada evidencia en Soyio no es solo un log, sino un objeto estructurado que incluye:
+1.  **Contexto**: Qué se aceptó (versión del Agreement).
+2.  **Sujeto**: Quién aceptó (Identity/Entity).
+3.  **Método**: Cómo se aceptó (Canal, IP, User Agent).
+4.  **Prueba Visual**: Snapshot de lo que el usuario vio.
+
+Para más información sobre el esquema JSON, consulta la [API Reference](/docs/api/resources/schemas/evidence.schema.mdx).
+
+### Evidencia de consentimiento
+
+Registra el mecanismo mediante el cual se otorgó o revocó un consentimiento. Estas evidencias se generan automáticamente cada vez que se crea o modifica el consentimiento y quedan reflejadas en el [Agreement del usuario](./general-concepts#agreement).
+
+Cada evidencia incluye componentes clave:
+*   **Método de Consentimiento**: Canal (Web, WhatsApp) y facilitador técnico.
+*   **Método de Identificación**: Vinculación criptográfica con la Identidad o Entidad.
+*   **Registro Visual**: Un **PDF Registry** (snapshot del render de la UI) que congela visualmente lo que el usuario vio al momento de aceptar, eliminando ambigüedades sobre el diseño o textos mostrados.
+
+Ejemplos de eventos que generan evidencia:
+
+- Aceptar un consentimiento en un flujo web o móvil
+- Revocar una autorización desde el perfil de privacidad
+- Registrar un consentimiento en un chatbot de WhatsApp
+- Revocar un consentimiento a través de un canal de atención telefónico
+
+### Evidencia de ejercicio de derechos
 
 Cada solicitud de ejercicio de derechos (acceso, rectificación, supresión, oposición, etc.) también genera evidencias que:
 
-- Registran la recepción de la solicitud.
-- Documentan el proceso de validación e identidad del solicitante.
-- Guardan el resultado final (resuelta, rechazada, en curso).
+- Registran la recepción de la solicitud
+- Documentan el proceso de validación e identidad del solicitante
+- Guardan el resultado final (resuelta, rechazada, en curso)
 
-## Evidencia técnica o de autenticación
+### Evidencia técnica o de autenticación
 
 Existen evidencias más acotadas, pero igualmente trazables, asociadas a:
 
-- Validación de identidad.
-- Autenticación.
-- Firma digital.
+- Validación de identidad
+- Autenticación
+- Firma digital
+
+## Rastro de auditoría
+
+Para cada evento relevante, Soyio registra información suficiente para auditoría, incluyendo:
+
+| Campo | Descripción |
+| :--- | :--- |
+| **Timestamp** | Momento exacto del evento (UTC). |
+| **Tipo de acción** | Naturaleza del evento (grant, revoke, request, etc.). |
+| **Actor** | Quién inició la acción (Usuario final, Sistema, API Client). |
+| **Identificadores** | Entity, producto y titular involucrados. |
+| **Origen / Correlation ID** | Identificador para correlacionar con logs de sistemas externos. |
+| **Referencias** | Versiones de documentos y templates utilizados. |
+| **Metadatos** | Información contextual adicional (canal, método, IP, etc.). |
+
+Este rastro de auditoría habilita:
+
+- Auditorías internas
+- Revisiones de terceros
+- Requerimientos regulatorios
+- Evidencia para certificaciones de seguridad y privacidad
+
+### Cadena de custodia y Tamper-evident logging
+
+El rastro de auditoría de Soyio no es un simple registro de texto plano; es una **cadena asegurada criptográficamente**.
+
+*   **Tamper-Evident Logging**: Cada entrada en el log se firma utilizando **HMAC-SHA512**. Esto garantiza que el contenido del evento (quién, qué, cuándo) no ha sido alterado desde su creación.
+*   **Cadena de Custodia (Hash Chaining)**: Cada nuevo evento incluye en su firma el hash del evento inmediatamente anterior (`previous_integrity_hash`). Esto crea una cadena ininterrumpida (conceptualmente similar a una blockchain) que permite verificar matemáticamente la integridad de toda la historia. Si un solo registro en el pasado fuera eliminado o modificado, la validación de la cadena fallaría en todos los eventos subsiguientes.
 
 ## Reportes de auditoría y cumplimiento
 
-Toda la información registrada en los objetos de evidencia puede utilizarse para generar reportes de auditoría y cumplimiento regulatorio. Estos reportes se generan en formatos solicitados por las instituciones reguladoras y también se encuentran disponibles en formatos json o pdf.
+Toda la información registrada en los objetos de evidencia puede utilizarse para generar reportes de auditoría y cumplimiento regulatorio. Estos reportes se generan en formatos solicitados por las instituciones reguladoras y también están disponibles en formatos JSON o PDF.
 
-Los tipos de reportes son:
+Los tipos de reportes incluyen:
 
-- **Reportes de auditoría de consentimiento**: generados por usuario o propósito y pueden ser filtrados por periodo.
-- **Reportes regulatorios de gestión de derechos**: generados para demostrar cumplimiento de plazos legales y trazabilidad de respuesta.
-- **Reporte de validación de identidad**: generado para demostrar los chequeos realizados para validar la identidad del solicitante.
+- **Reportes de auditoría de consentimiento**: generados por usuario o propósito, con filtros por periodo
+- **Reportes regulatorios de gestión de derechos**: demuestran cumplimiento de plazos legales y trazabilidad de respuesta
+- **Reportes de validación de identidad**: documentan los chequeos realizados para validar la identidad del solicitante
+
+## Casos de uso prácticos
+
+### Auditoría regulatoria
+
+**Requerimiento:**
+"Demuestre qué consentimiento tenía este titular el 12 de marzo de 2025."
+
+Con Soyio puedes reconstruir:
+
+- La versión del documento vigente en esa fecha
+- Las finalidades aceptadas
+- El evento de consentimiento
+- La evidencia temporal correspondiente
+
+### Cambio de política de privacidad
+
+**Requerimiento:**
+"¿A quién afecta este cambio y desde cuándo?"
+
+Con el modelo de versionado y eventos de Soyio puedes:
+
+- Identificar versiones impactadas
+- Mapear consentimientos históricos
+- Determinar si es necesario un nuevo consentimiento
+
+### Respuesta a solicitud de acceso
+
+**Requerimiento:**
+"Proporcione el historial completo de consentimientos de este usuario."
+
+Con Soyio puedes entregar:
+
+- Todas las versiones del [Agreement](./general-concepts#agreement)
+- Los eventos que originaron cada cambio
+- Las evidencias asociadas a cada decisión
+
+## Comportamientos intencionales del sistema
+
+Para asegurar confianza y consistencia, Soyio:
+
+- **No borra** eventos históricos
+- **No reescribe** decisiones pasadas
+- **No modifica** consentimientos de forma retroactiva
+
+Todo cambio es **explícito, trazable y auditable**.
+
+:::warning
+Estos comportamientos son intencionales y no pueden ser modificados. Garantizan la integridad de la evidencia ante cualquier auditoría o requerimiento regulatorio.
+:::
+
+## Anexo: Marco Normativo y Estándares
+
+El diseño de trazabilidad de Soyio da respuesta directa a los requerimientos de responsabilidad proactiva ("Accountability") presentes en las normativas modernas.
+
+### Brasil (LGPD)
+-   **Art. 8**: Establece que la **carga de la prueba** recae sobre el controlador para demostrar que el consentimiento fue obtenido conforme a la ley. Soyio mantiene el ciclo de vida completo (incluyendo revocaciones) para este fin.
+
+### California (CCPA / CPRA)
+-   **Auditability**: Aunque opera bajo un modelo de "Opt-out" (Do Not Sell) y "Opt-in" (menores), las empresas deben mantener registros de las solicitudes de los consumidores durante al menos 24 meses para demostrar cumplimiento.
+
+### Chile (Ley 21.719 - Nueva Ley de Datos)
+-   **Principio de Responsabilidad**: Los responsables deben implementar medidas para asegurar y **demostrar** el cumplimiento.
+-   **Trazabilidad**: Esencial ante fiscalizaciones de la Agencia de Protección de Datos.
+
+### Colombia (Ley 1581)
+-   **Prueba de la Autorización**: El Artículo 9 exige que los responsables conserven prueba del cumplimiento del deber de obtener autorización. Soyio automatiza la conservación de esta prueba.
+
+### Ecuador (LOPDP)
+-   **Responsabilidad Proactiva**: Exige demostrar que se cuenta con la base legal (consentimiento) adecuada antes del tratamiento.
+
+### GDPR (Europa)
+-   **Art. 7(1)**: Exige que el responsable sea capaz de **demostrar** que el interesado consintió. La arquitectura de evidencia inmutable de Soyio cumple esta función probatoria.
+
+### ISO 27701 (Gestión de Privacidad)
+-   **Cláusula 7.2.3**: Requiere mantener registros de consentimiento que incluyan el tiempo, método y contenido del mismo. Los registros de `Evidencia` de Soyio cubren estos puntos sistemáticamente.
+
+### México (LFPDPPP)
+-   **Carga de la Prueba**: El responsable tiene la obligación de acreditar que obtuvo el consentimiento del titular. La evidencia inmutable de Soyio facilita el cumplimiento del principio de **Responsabilidad**.
+
+### Perú (Ley 29733)
+-   **Carga de la Prueba**: El reglamento establece que corresponde al banco de datos o responsable del tratamiento acreditar la existencia del consentimiento.
+
+:::note Aviso Legal
+Esta sección es meramente informativa y busca facilitar la alineación técnica con normativas globales. No constituye asesoría legal. Recomendamos validar sus obligaciones de cumplimiento con su equipo legal.
+:::
+
+---
+
+## Próximos pasos
+
+- [Captura de consentimientos](./consent/consent-capture.mdx) - Aprende cómo se genera la evidencia al capturar consentimientos
+- [Consulta de consentimientos](./consent/consent-query.mdx) - Consulta el estado actual y el historial de consentimientos
+- [Gestión de derechos](./rights-management/introduction.mdx) - Gestiona solicitudes de derechos con trazabilidad completa
+- [API de evidencia](/docs/api/resources/schemas/evidence.schema.mdx) - Estructura de los objetos de evidencia
