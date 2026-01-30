@@ -1,0 +1,115 @@
+---
+title: Acuerdos y Permisos
+description: Entiende cómo Soyio gestiona el ciclo de vida de los acuerdos, el versionado y los permisos de datos.
+---
+
+# Acuerdos y Permisos
+
+En Soyio, un **Agreement** (Acuerdo) es la representación digital del "contrato" de privacidad vigente entre tu organización y un usuario específico. No es solo un registro estático; es un objeto vivo que evoluciona en el tiempo, manteniendo un historial completo y auditable de qué datos puedes procesar y por qué.
+
+## Anatomía de un Agreement
+
+Un Agreement vincula a un **Sujeto de Datos** con un conjunto de **Permisos de Datos** bajo el contexto de una **Empresa**.
+
+### Componentes clave
+
+*   **Sujeto (Subject)**: El titular de los datos. Puede ser una [Identity](./data-subjects#identity-identidad) (usuario verificado) o una [Entity](./data-subjects#entity-entidad) (usuario anónimo o no verificado).
+*   **User Reference**: Un identificador externo (tu propio ID de usuario) que permite vincular el acuerdo con tus sistemas.
+*   **Permisos (Data Permissions)**: La lista explícita de autorizaciones vigentes.
+*   **Estado (Latest)**: Un indicador booleano (`latest: true`) que señala que esta es la versión activa y vigente del acuerdo para ese usuario.
+*   **Versión**: Un número secuencial que indica la iteración del acuerdo.
+
+### Ejemplo de Estructura
+
+```json
+{
+  "id": "agr_1B2M2Y8AsgTpgAmY7PhCfg",
+  "user_reference": "user_123",
+  "latest": true,
+  "version": 4,
+  "created_at": "2025-03-12T10:00:00Z",
+  "data_permissions": [
+    {
+      "data_category": "user.contact.email",
+      "data_use": "marketing.advertising",
+      "expires_at": "2026-03-12T10:00:00Z",
+      "scope_type": "product",
+      "scope_id": "prod_8X9L2Z1...",
+      "scope_version": 1
+    },
+    {
+      "data_category": "user.financial.bank_account",
+      "data_use": "essential.service",
+      "expires_at": "2026-03-12T10:00:00Z"
+    }
+  ]
+}
+```
+
+### Data Permissions
+
+Los permisos definen el alcance del acceso a los datos. Cada permiso incluye:
+
+*   **Categoría**: El tipo de dato (ej. `user.contact.email`, `user.financial.bank_account`). Consulta la [Taxonomía de Categorías](./taxonomy#1-taxonomía-de-categorías-de-datos-el-qué).
+*   **Uso**: La finalidad del tratamiento (ej. `marketing.advertising`, `essential.service`). Consulta la [Taxonomía de Usos](./taxonomy#3-taxonomía-de-usos-de-datos-el-porqué).
+*   **Expiración**: La fecha hasta la cual el permiso es válido.
+*   **Scope (Alcance)**: El contexto donde es válido el permiso (ej. un Producto específico o una Sucursal).
+### Scope (Alcance)
+
+Un permiso no siempre es global. Puede estar restringido a un contexto específico definido por tres campos:
+
+*   **Scope Type**: El tipo de alcance (`product` o `branch`).
+*   **Scope ID**: El identificador (token) del producto o sucursal.
+*   **Scope Version**: La versión específica del alcance.
+
+Esto permite que un usuario otorgue consentimiento para un **Producto A** sin que ello implique autorización para todo el ecosistema de la empresa (o viceversa).
+
+
+
+## Ciclo de Vida y Versionado
+
+El aspecto más crítico de los Agreements en Soyio es su **inmutabilidad lógica**. Un Agreement nunca se modifica "in-place"; en su lugar, evoluciona a través de versiones.
+
+### Creación de versiones
+
+El Agreement es un recurso versionado. Cuando ocurren cambios (ej. nuevos consentimientos), actualizamos el recurso a una nueva versión para garantizar trazabilidad.
+
+1.  **Nueva Versión**: Se genera una **nueva versión** del acuerdo que incorpora los cambios.
+2.  **Continuidad**: La nueva versión se convierte inmediatamente en el estado vigente del usuario.
+3.  **Diffing (Cálculo de cambios)**: El sistema calcula qué permisos se agregaron, eliminaron o extendieron respecto a la versión anterior.
+4.  **Evidence**: Se genera y asocia una [Evidencia](./evidence-traceability#tipos-de-evidencia) inmutable para auditar el cambio.
+5.  **Historial**: La versión anterior se archiva como histórica, manteniendo la cadena de custodia intacta.
+
+### Lógica de "Diffing"
+
+Al crear una nueva versión, Soyio clasifica los cambios en los permisos en tres categorías:
+
+*   **Created (Nuevos)**: Permisos que no existían en la versión anterior.
+*   **Removed (Eliminados)**: Permisos que existían antes pero fueron revocados o no renovados en esta versión.
+*   **Extended (Extendidos)**: Permisos que ya existían y cuya fecha de expiración ha sido ampliada (renovación).
+
+Esta lógica permite responder preguntas como: *"¿Qué cambió exactamente en la relación de privacidad con este usuario el día de ayer?"*.
+
+## Relación con Sujetos de Datos
+
+Los Agreements pertenecen a un "Sujeto". Dependiendo de tu integración, este sujeto varía:
+
+### Agreements de Entidades (Entities)
+Son los más comunes en flujos de consentimiento web (cookies, formularios simples).
+*   **Caso de uso**: Un usuario entra a tu sitio y acepta cookies.
+*   **Comportamiento**: Se crea una [Entity](./data-subjects#entity-entidad) y un Agreement asociado. Si proporcionas un `user_reference`, podrás vincular este acuerdo a tu usuario logueado.
+
+### Agreements de Identidades (Identities)
+Ocurren cuando el usuario ha pasado por un proceso de verificación de identidad ([Disclosure](./disclosure/introduction)).
+*   **Caso de uso**: Onboarding digital bancario donde verificas el RUT/DNI del usuario.
+*   **Comportamiento**: El Agreement se asocia a la [Identity](./data-subjects#identity-identidad) verificada, ofreciendo el mayor nivel de certeza legal.
+
+## Consulta de Agreements
+
+Para consultar el estado actual de los permisos de un usuario, siempre debes buscar el Agreement marcado como `latest` asociado al `user_reference` o ID del sujeto.
+
+```bash
+GET /api/v1/agreements?user_reference=USER_123&latest=true
+```
+
+Esto retornará el contrato vigente, ignorando el historial de versiones pasadas.
