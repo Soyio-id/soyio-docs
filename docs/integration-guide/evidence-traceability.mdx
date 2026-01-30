@@ -22,14 +22,14 @@ Para evitar confusiones, definimos los siguientes conceptos utilizados en esta g
 
 *   **[Documento de Privacidad (Privacy Document)](/docs/api/resources/index-privacy-documents)**: Algún texto legal versionado (Política de Privacidad, Términos y Condiciones) que el usuario acepta.
 *   **[Template de Consentimiento (Consent Template)](./consent/consent-templates.mdx)**: La definición de lo que el usuario verá al dar su consentimiento, junto con las categorías de datos, finalidades y periodo de vigencia que se registran si es otorgado o revocado.
-*   **[Acuerdo (Agreement)](./agreements)**: El "contrato" compilado y versionado para un sujeto específico. Referencia la versión exacta del *Privacy Document* y el *Consent Template* en el momento del consentimiento.
-*   **[Evidencia (Evidence)](/docs/api/resources/schemas/evidence.schema.mdx)**: El registro inmutable que prueba la existencia del *Agreement*.
+*   **[Acuerdo (Agreement)](./agreements)**: El "contrato" compilado y versionado para un sujeto específico. Referencia las versiones exactas de los *Privacy Documents* y los *Consent Templates* que el usuario vio al dar su consentimiento.
+*   **[Evidencia (Evidence)](/docs/api/resources/schemas/evidence.schema.mdx)**: El registro inmutable que prueba la existencia y los cambios del *Agreement*.
 
 ## Principios de diseño
 
 ### Inmutabilidad de eventos críticos
 
-En Soyio, las acciones relevantes para privacidad (consentimientos, acuerdos, solicitudes de titulares y disclosures) se registran como **eventos inmutables**.
+En Soyio, las acciones relevantes para privacidad (consentimientos, solicitudes de titulares y disclosures) se registran como **eventos inmutables**.
 
 - Los eventos **no se sobrescriben**
 - Los cambios generan **nuevos eventos**
