@@ -15,7 +15,7 @@ Un Agreement vincula a un **Sujeto de Datos** con un conjunto de **Permisos de D
 
 *   **Sujeto (Subject)**: El titular de los datos. Puede ser una [Identity](./data-subjects#identity-identidad) (usuario verificado) o una [Entity](./data-subjects#entity-entidad) (usuario anónimo o no verificado).
 *   **User Reference**: Un identificador externo (tu propio ID de usuario) que permite vincular el acuerdo con tus sistemas.
-*   **Permisos (Data Permissions)**: La lista explícita de autorizaciones vigentes.
+*   **Permisos (Data Permissions)**: La lista explícita de categorías de datos y usos de datos con consentimiento vigente.
 *   **Estado (Latest)**: Un indicador booleano (`latest: true`) que señala que esta es la versión activa y vigente del acuerdo para ese usuario.
 *   **Versión**: Un número secuencial que indica la iteración del acuerdo.
 
@@ -48,7 +48,7 @@ Un Agreement vincula a un **Sujeto de Datos** con un conjunto de **Permisos de D
 
 ### Data Permissions
 
-Los permisos definen el alcance del acceso a los datos. Cada permiso incluye:
+Los permisos definen qué datos puedes usar, para qué y el alcance donde es válido el permiso. Cada permiso incluye:
 
 *   **Categoría**: El tipo de dato (ej. `user.contact.email`, `user.financial.bank_account`). Consulta la [Taxonomía de Categorías](./taxonomy#1-taxonomía-de-categorías-de-datos-el-qué).
 *   **Uso**: La finalidad del tratamiento (ej. `marketing.advertising`, `essential.service`). Consulta la [Taxonomía de Usos](./taxonomy#3-taxonomía-de-usos-de-datos-el-porqué).
@@ -96,8 +96,8 @@ Esta lógica permite responder preguntas como: *"¿Qué cambió exactamente en l
 Los Agreements pertenecen a un "Sujeto". Dependiendo de tu integración, este sujeto varía:
 
 ### Agreements de Entidades (Entities)
-Son los más comunes en flujos de consentimiento web (cookies, formularios simples).
-*   **Caso de uso**: Un usuario entra a tu sitio y acepta cookies.
+Son los más comunes en flujos de consentimiento web (formularios de suscripción, cotizaciones, registros simples).
+*   **Caso de uso**: Un usuario completa un formulario de suscripción a comunicaciones comerciales.
 *   **Comportamiento**: Se crea una [Entity](./data-subjects#entity-entidad) y un Agreement asociado. Si proporcionas un `user_reference`, podrás vincular este acuerdo a tu usuario logueado.
 
 ### Agreements de Identidades (Identities)

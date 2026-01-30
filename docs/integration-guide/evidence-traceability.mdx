@@ -20,8 +20,8 @@ Esta guía explica cómo Soyio garantiza trazabilidad, auditabilidad y versionad
 
 Para evitar confusiones, definimos los siguientes conceptos utilizados en esta guía:
 
-*   **[Documento de Privacidad (Privacy Document)](/docs/api/resources/index-privacy-documents)**: El texto legal versionado (Política de Privacidad, Términos y Condiciones) que el usuario acepta.
-*   **[Template de Consentimiento (Consent Template)](./consent/consent-templates.mdx)**: La definición de la interfaz de usuario (UI) y la estructura de finalidades que se presenta al usuario.
+*   **[Documento de Privacidad (Privacy Document)](/docs/api/resources/index-privacy-documents)**: Algún texto legal versionado (Política de Privacidad, Términos y Condiciones) que el usuario acepta.
+*   **[Template de Consentimiento (Consent Template)](./consent/consent-templates.mdx)**: La definición de lo que el usuario verá al dar su consentimiento, junto con las categorías de datos, finalidades y periodo de vigencia que se registran si es otorgado o revocado.
 *   **[Acuerdo (Agreement)](./agreements)**: El "contrato" compilado y versionado para un sujeto específico. Referencia la versión exacta del *Privacy Document* y el *Consent Template* en el momento del consentimiento.
 *   **[Evidencia (Evidence)](/docs/api/resources/schemas/evidence.schema.mdx)**: El registro inmutable que prueba la existencia del *Agreement*.
 
@@ -39,11 +39,11 @@ En Soyio, las acciones relevantes para privacidad (consentimientos, acuerdos, so
 Soyio utiliza **HMAC-SHA512** y **encadenamiento de hashes** para garantizar la inmutabilidad. Para más detalles técnicos, consulta la sección de [Cadena de custodia](#cadena-de-custodia-y-tamper-evident-logging).
 :::
 
-Esto permite reconstruir con precisión **qué ocurrió, cuándo ocurrió y bajo qué contexto**.
+Esto permite reconstruir con precisión **qué ocurrió, cuándo ocurrió y bajo qué contexto** y asegurar que no ha sido modificado.
 
 ### Arquitectura basada en eventos
 
-Soyio no se basa únicamente en el "estado actual". Cada acción relevante genera un evento explícito (por ejemplo, creación de consentimientos, commits o solicitudes).
+Soyio no se basa únicamente en el "estado actual". Cada acción relevante genera un evento explícito (por ejemplo, creación o revocación de consentimientos o solicitudes de ejercicio de derechos).
 
 Este enfoque permite:
 
@@ -61,6 +61,7 @@ Los siguientes elementos están versionados explícitamente:
 - [Documentos de privacidad](/docs/api/resources/index-privacy-documents)
 - [Templates de consentimiento](./consent/consent-templates.mdx)
 - [Acuerdos (Agreements)](./agreements) y configuraciones legales
+- Productos y branches asociados al alcance de los consentimientos
 
 Cada cambio:
 
@@ -113,7 +114,7 @@ Cada evidencia en Soyio no es solo un log, sino un objeto estructurado que inclu
 1.  **Contexto**: Qué se aceptó (versión del Agreement).
 2.  **Sujeto**: Quién aceptó (Identity/Entity).
 3.  **Método**: Cómo se aceptó (Canal, IP, User Agent).
-4.  **Prueba Visual**: Snapshot de lo que el usuario vio.
+4.  **Prueba Visual**: Registro visual reconstruido a partir de la versión del template asociada.
 
 Para más información sobre el esquema JSON, consulta la [API Reference](/docs/api/resources/schemas/evidence.schema.mdx).
 
@@ -124,12 +125,12 @@ Registra el mecanismo mediante el cual se otorgó o revocó un consentimiento. E
 Cada evidencia incluye componentes clave:
 *   **Método de Consentimiento**: Canal (Web, WhatsApp) y facilitador técnico.
 *   **Método de Identificación**: Vinculación criptográfica con la Identidad o Entidad.
-*   **Registro Visual**: Un **PDF Registry** (snapshot del render de la UI) que congela visualmente lo que el usuario vio al momento de aceptar, eliminando ambigüedades sobre el diseño o textos mostrados.
+*   **Registro Visual**: Un **PDF Registry** reconstruido desde la versión del template asociada al consentimiento, eliminando ambigüedades sobre los textos mostrados.
 
 Ejemplos de eventos que generan evidencia:
 
 - Aceptar un consentimiento en un flujo web o móvil
-- Revocar una autorización desde el perfil de privacidad
+- Revocar un consentimiento desde el perfil de privacidad
 - Registrar un consentimiento en un chatbot de WhatsApp
 - Revocar un consentimiento a través de un canal de atención telefónico
 
