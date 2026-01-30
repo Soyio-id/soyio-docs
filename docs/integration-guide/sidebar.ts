@@ -29,18 +29,23 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: 'doc',
-      id: 'integration-guide/data-subjects',
-      label: 'Sujetos de datos',
-    },
-    {
-      type: 'doc',
       id: 'integration-guide/evidence-traceability',
-      label: 'Evidencia y trazabilidad',
+      label: 'Trazabilidad y auditoría',
     },
     {
       type: 'doc',
       id: 'integration-guide/security-privacy',
       label: 'Seguridad y privacidad',
+    },
+    {
+      type: 'doc',
+      id: 'integration-guide/data-subjects',
+      label: 'Sujetos de datos',
+    },
+    {
+      type: 'doc',
+      id: 'integration-guide/agreements',
+      label: 'Acuerdos y Permisos',
     },
     {
       type: 'doc',
