@@ -22,7 +22,7 @@ Para evitar confusiones, definimos los siguientes conceptos utilizados en esta g
 
 *   **[Documento de Privacidad (Privacy Document)](/docs/api/resources/index-privacy-documents)**: El texto legal versionado (Política de Privacidad, Términos y Condiciones) que el usuario acepta.
 *   **[Template de Consentimiento (Consent Template)](./consent/consent-templates.mdx)**: La definición de la interfaz de usuario (UI) y la estructura de finalidades que se presenta al usuario.
-*   **[Acuerdo (Agreement)](./general-concepts#agreement)**: El "contrato" compilado y versionado para un sujeto específico. Referencia la versión exacta del *Privacy Document* y el *Consent Template* en el momento del consentimiento.
+*   **[Acuerdo (Agreement)](./agreements)**: El "contrato" compilado y versionado para un sujeto específico. Referencia la versión exacta del *Privacy Document* y el *Consent Template* en el momento del consentimiento.
 *   **[Evidencia (Evidence)](/docs/api/resources/schemas/evidence.schema.mdx)**: El registro inmutable que prueba la existencia del *Agreement*.
 
 ## Principios de diseño
@@ -60,7 +60,7 @@ Los siguientes elementos están versionados explícitamente:
 
 - [Documentos de privacidad](/docs/api/resources/index-privacy-documents)
 - [Templates de consentimiento](./consent/consent-templates.mdx)
-- [Acuerdos (Agreements)](./general-concepts#agreement) y configuraciones legales
+- [Acuerdos (Agreements)](./agreements) y configuraciones legales
 
 Cada cambio:
 
@@ -119,7 +119,7 @@ Para más información sobre el esquema JSON, consulta la [API Reference](/docs/
 
 ### Evidencia de consentimiento
 
-Registra el mecanismo mediante el cual se otorgó o revocó un consentimiento. Estas evidencias se generan automáticamente cada vez que se crea o modifica el consentimiento y quedan reflejadas en el [Agreement del usuario](./general-concepts#agreement).
+Registra el mecanismo mediante el cual se otorgó o revocó un consentimiento. Estas evidencias se generan automáticamente cada vez que se crea o modifica el consentimiento y quedan reflejadas en el [Agreement del usuario](./agreements).
 
 Cada evidencia incluye componentes clave:
 *   **Método de Consentimiento**: Canal (Web, WhatsApp) y facilitador técnico.
@@ -219,7 +219,7 @@ Con el modelo de versionado y eventos de Soyio puedes:
 
 Con Soyio puedes entregar:
 
-- Todas las versiones del [Agreement](./general-concepts#agreement)
+- Todas las versiones del [Agreement](./agreements)
 - Los eventos que originaron cada cambio
 - Las evidencias asociadas a cada decisión
 
