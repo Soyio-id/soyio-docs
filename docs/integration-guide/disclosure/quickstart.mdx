@@ -53,13 +53,15 @@ Soyio proporciona SDKs para diferentes plataformas que facilitan la integración
 
 ## Crea tu primera solicitud de Disclosure
 
-El siguiente ejemplo muestra cómo implementar una solicitud de revelación de datos hacia el usuario:
+El siguiente ejemplo muestra cómo implementar una solicitud de revelación de datos hacia el usuario usando el **método recomendado** (creación desde backend con matchers).
 
 :::warning
 Antes de crear una solicitud de disclosure, necesitas una plantilla de disclosure. Aprende a crear una en nuestra [guía de plantillas](./disclosure_templates).
 :::
 
-1. Crea una solicitud de disclosure desde tu backend:
+### Método recomendado: Backend con matchers
+
+1. Crea una solicitud de disclosure desde tu backend con matchers para prevención de fraude:
 
 ```javascript
 const response = await fetch('https://sandbox.soyio.id/api/v1/disclosure_requests', {
@@ -71,11 +73,59 @@ const response = await fetch('https://sandbox.soyio.id/api/v1/disclosure_request
   body: JSON.stringify({
     disclosure_template_id: "dtpl_...",
     user_reference: "user_123",
-    user_email: "user@example.com"
+    user_email: "user@example.com",
+    matchers: [
+      { key: "cl_carnet_rut", value: "12345678-9" },
+      { key: "name", value: "Juan" },
+      { key: "last_name", value: "Perez" }
+    ]
   })
 });
 const { disclosure_request_id } = await response.json();
 ```
+
+:::tip[¿Por qué usar matchers?]
+Los `matchers` validan que la identidad verificada corresponda a los datos que el usuario ya registró en tu sistema, previniendo fraudes como:
+- Creación de cuentas con identidades falsas
+- Suplantación de identidad durante la validación
+- Uso de documentos reales de terceros
+
+**Recomendación:** Incluye todos los datos que tengas del usuario (RUT, nombre, apellido, fecha de nacimiento) para maximizar la protección. Aprende más sobre [match de datos](./how-it-works#match-de-datos).
+:::
+
+### Método alternativo: Frontend sin matchers
+
+Si tienes un caso de uso de bajo riesgo y no necesitas validar contra datos existentes, puedes crear el disclosure request directamente desde el frontend:
+
+```javascript
+import { SoyioWidget } from "@soyio/soyio-widget";
+
+const widgetConfig = {
+  request: "disclosure",
+  configProps: {
+    companyId: "your_company_id",
+    userReference: "user_123",
+    userEmail: "user@example.com",
+    templateId: "dtpl_..."
+  },
+  onEvent: (event) => {
+    switch(event.type) {
+      case 'DISCLOSURE_REQUEST_SUCCESSFUL':
+        console.log('¡Proceso completado!');
+        break;
+      case 'WIDGET_CLOSED':
+        console.log('Widget cerrado');
+        break;
+    }
+  }
+};
+
+new SoyioWidget(widgetConfig);
+```
+
+:::warning[Sin protección de matchers]
+Esta opción **no permite usar matchers** para validación de datos. Solo usa este método si tu caso de uso tiene bajo riesgo de fraude.
+:::
 
 
 2. Inicia el widget en tu frontend:
