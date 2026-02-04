@@ -84,6 +84,31 @@ const response = await fetch('https://sandbox.soyio.id/api/v1/disclosure_request
 const { disclosure_request_id } = await response.json();
 ```
 
+2. Inicia el widget en tu frontend con el `disclosure_request_id` obtenido:
+
+```javascript
+import { SoyioWidget } from "@soyio/soyio-widget";
+
+const widgetConfig = {
+  request: "disclosure",
+  configProps: {
+    disclosureRequestId: disclosure_request_id
+  },
+  onEvent: (event) => {
+    switch(event.type) {
+      case 'DISCLOSURE_REQUEST_SUCCESSFUL':
+        console.log('¡Proceso completado!');
+        break;
+      case 'WIDGET_CLOSED':
+        console.log('Widget cerrado');
+        break;
+    }
+  }
+};
+
+new SoyioWidget(widgetConfig);
+```
+
 :::tip[¿Por qué usar matchers?]
 Los `matchers` validan que la identidad verificada corresponda a los datos que el usuario ya registró en tu sistema, previniendo fraudes como:
 - Creación de cuentas con identidades falsas
@@ -126,30 +151,6 @@ new SoyioWidget(widgetConfig);
 :::warning[Sin protección de matchers]
 Esta opción **no permite usar matchers** para validación de datos. Solo usa este método si tu caso de uso tiene bajo riesgo de fraude.
 :::
-
-
-2. Inicia el widget en tu frontend:
-
-```javascript
-import { SoyioWidget } from "@soyio/soyio-widget";
-const widgetConfig = {
-  request: "disclosure",
-  configProps: {
-    disclosureRequestId: disclosure_request_id
-  },
-  onEvent: (event) => {
-    switch(event.type) {
-      case 'DISCLOSURE_REQUEST_SUCCESSFUL':
-        console.log('¡Proceso completado!');
-        break;
-      case 'WIDGET_CLOSED':
-        console.log('Widget cerrado');
-        break;
-    }
-  }
-};
-new SoyioWidget(widgetConfig);
-```
 
 ## ¿Necesitas ayuda?
 
