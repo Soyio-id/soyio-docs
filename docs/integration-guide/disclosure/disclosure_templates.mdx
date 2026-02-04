@@ -43,8 +43,10 @@ Cada elemento acepta:
 
 Usa llaves descriptivas como `name`, `last_name`, `date_of_birth` o `cl_carnet_rut`. Estas claves se reconocen automáticamente por la API y también se usan para los `matchers` en [`POST /disclosure_requests`](../../api/resources/create-disclosure-request). Si necesitas una clave propia, defínela con claridad y especifica la categoría manualmente.
 
-:::info[Match de datos]
-Las llaves que definas aquí deben coincidir con los `matchers` que uses al crear un disclosure request. Aprende más sobre el [match de datos](./how-it-works#match-de-datos) para entender cómo funciona esta validación.
+:::warning[Match de datos y prevención de fraude]
+Las llaves que definas aquí deben coincidir con los `matchers` que uses al crear un disclosure request. Los matchers son **fundamentales para la prevención de fraude** en plataformas de comercio, ya que validan que la identidad verificada corresponde a los datos que el usuario proporcionó al registrarse.
+
+**Recomendación:** Define al menos las llaves `cl_carnet_rut`, `name`, `last_name` y `date_of_birth` en tus plantillas para poder usar matchers completos. Aprende más sobre el [match de datos](./how-it-works#match-de-datos) para entender cómo funciona esta validación.
 :::
 
 ### Define categorías de datos y usos

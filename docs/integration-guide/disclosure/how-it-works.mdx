@@ -27,7 +27,16 @@ Al finalizar el proceso de entrega de datos y consentimiento, se creará un [acu
 
 ### Match de datos
 
-Opcionalmente, si el usuario creó una cuenta en tu sistema previamente y entregó datos de identificación, puedes incluir como parte del proceso que Soyio **verifique el match entre los datos verificados** que el usuario entrega en este proceso y la información almacenada en tu sistema. Si ocupas esta opción y el match no es exitoso, el **proceso concluye sin crear una identidad**.
+:::danger[Crítico para prevención de fraude]
+El match de datos es una **capa esencial de seguridad** para prevenir fraudes en plataformas de comercio. Sin esta validación, un usuario podría:
+- Crear una cuenta con datos de una persona diferente a la que completó la validación
+- Completar la validación de identidad usando la cara y los documentos reales pero de otra persona
+- Obtener acceso no autorizado a servicios o realizar transacciones fraudulentas
+
+**Si operas un comercio**, evalúa cuidadosamente tu nivel de exposición al fraude antes de decidir no usar matchers. Esta funcionalidad está disponible solo cuando creas el disclosure request desde el backend.
+:::
+
+Si el usuario creó una cuenta en tu sistema previamente y entregó datos de identificación, puedes incluir como parte del proceso que Soyio **verifique el match entre los datos verificados** que el usuario entrega en este proceso y la información almacenada en tu sistema. Si ocupas esta opción y el match no es exitoso, el **proceso concluye sin crear una identidad**.
 
 Los campos disponibles para realizar el match son:
 
