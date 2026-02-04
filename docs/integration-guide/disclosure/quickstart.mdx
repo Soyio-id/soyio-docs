@@ -111,9 +111,9 @@ new SoyioWidget(widgetConfig);
 
 :::tip[¿Por qué usar matchers?]
 Los `matchers` validan que la identidad verificada corresponda a los datos que el usuario ya registró en tu sistema, previniendo fraudes como:
-- Creación de cuentas con identidades falsas
-- Suplantación de identidad durante la validación
-- Uso de documentos reales de terceros
+- Crear una cuenta con datos de una persona diferente a la que completó la validación
+- Completar la validación de identidad usando la cara y los documentos reales pero de otra persona
+- Obtener acceso no autorizado a servicios o realizar transacciones fraudulentas
 
 **Recomendación:** Incluye todos los datos que tengas del usuario (RUT, nombre, apellido, fecha de nacimiento) para maximizar la protección. Aprende más sobre [match de datos](./how-it-works#match-de-datos).
 :::
