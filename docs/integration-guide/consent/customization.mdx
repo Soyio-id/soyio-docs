@@ -165,6 +165,10 @@ Para habilitar esta funcionalidad en el widget, debes configurar la opción `all
   </TabItem>
   <TabItem value="mobile-granular-scope" label="SDK Mobile">
   ```tsx title="Configuración de selección granular"
+  const options = {
+    companyId: '<company_id>',
+  };
+
   const params = {
     templateId: '<consent_template_id>',
     allowGranularScopeSelection: true,
