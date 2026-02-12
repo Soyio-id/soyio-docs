@@ -118,7 +118,11 @@ Si tu empresa no tiene una definición específica en sus políticas, contáctan
 
 ### Define la vigencia del consentimiento
 
-Establece un período de duración para el consentimiento usando el formato ISO 8601.
+Puedes establecer la vigencia del consentimiento de dos formas: **Duración Fija** o **Duración Condicional**.
+
+#### Duración Fija (Por defecto)
+
+Establece un período de duración específico usando el formato ISO 8601. Es la opción por defecto si no especificas `duration_type`.
 
 **Formato:** `P[n]Y[n]M[n]DT[n]H[n]M[n]S`
 
@@ -128,17 +132,58 @@ Establece un período de duración para el consentimiento usando el formato ISO 
 - `P2Y3M` = 2 años y 3 meses
 - `P1Y6M3D` = 1 año, 6 meses y 3 días
 
+#### Duración Condicional
+
+Establece una condición lógica para la vigencia del consentimiento. Esto es útil cuando la duración depende de eventos externos o estados legales.
+
+Para usar este tipo de duración, debes configurar `duration_type: "conditional"` y especificar el tipo de cláusula en `duration_clause_type`.
+
+**Opciones disponibles para `duration_clause_type`:**
+
+| Valor | Descripción |
+| :--- | :--- |
+| `while_contractual_relationship` | Mientras dure la relación contractual. |
+| `while_legal_obligation` | Mientras exista una obligación legal. |
+| `until_purpose_fulfilled` | Hasta que se cumpla la finalidad. |
+| `until_revoked` | Hasta que sea revocado por el usuario. |
+| `custom` | Personalizado (requiere enviar el texto en `duration_clause_text`). |
+
+**Ejemplo de configuración (JSON):**
+
+```json
+{
+  "duration_type": "conditional",
+  "duration_clause_type": "while_contractual_relationship"
+}
+```
+
+**Ejemplo personalizado:**
+
+```json
+{
+  "duration_type": "conditional",
+  "duration_clause_type": "custom",
+  "duration_clause_text": "Hasta que el usuario cancele su suscripción."
+}
+```
+
 **Consideraciones:**
 - Una vez expirado, cuando consultes el consentimiento, aparecerá como "no otorgado". Por lo tanto, no podrás continuar tratando los datos para esa finalidad.
 - Deberás solicitarlo nuevamente si necesitas seguir tratando los datos.
 - Considera el ciclo de vida de tu relación con el usuario.
 
+:::info
+La duración definida será mostrada al usuario en un formato legible (ej. "8 meses") en el widget de consentimiento.
+:::
+
 ### Define el alcance del consentimiento
 
-Por defecto, un template de solicitud de consentimiento se asocia a toda tu compañía. Acota el alcance a un producto o filial específica usando la opción `product_id` o `branch_id`.
+Por defecto, un template de solicitud de consentimiento se asocia a toda tu compañía. Puedes acotar o definir múltiples alcances (productos o sucursales) para un mismo template.
 
-- **Por producto:** Asocia el template a un producto específico (ej. aplicación móvil, programa de lealtad).
-- **Por filial (branch):** Asocia el template a una filial o marca específica de tu grupo empresarial.
+ - **Por producto:** Asocia el template a uno o más productos específicos (ej. aplicación móvil, programa de lealtad).
+ - **Por filial (branch):** Asocia el template a una o más filiales o marcas específicas de tu grupo empresarial.
+
+ Para habilitar la selección granular de alcance (donde el usuario puede elegir qué productos/filiales autorizar), revisa la sección de [Personalización de Apariencia y Comportamiento](../consent/customization.mdx#selección-granular-de-alcance-sucursales-o-productos).
 
 :::info
 Los productos y filiales deben estar previamente configurados en el perfil de tu compañía en la plataforma. Revisa la sección [Configuración de la empresa](../company-configuration.mdx) para más información.

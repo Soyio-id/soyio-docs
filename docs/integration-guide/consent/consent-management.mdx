@@ -19,6 +19,7 @@ Usa el componente Privacy Center del [SDK de Soyio](https://github.com/Soyio-id/
 
 - Ver todos sus consentimientos de forma centralizada con su estado actual (otorgado/no otorgado).
 - Ver los consentimientos organizados de acuerdo al alcance configurado en tus plantillas de consentimiento para facilitar la navegación.
+- Revisar metadatos clave en el detalle del consentimiento, como alcance y duración (incluyendo duración condicional).
 - Revocar y otorgar consentimientos específicos de forma sencilla.
 
 ## Modos de integración
@@ -168,23 +169,23 @@ El Privacy Center permite configurar aspectos avanzados del comportamiento de la
 
 Puedes elegir el tipo de control visual que se utilizará para otorgar o revocar consentimientos.
 
-`consentControl`: `'switch'` (default) | `'checkbox'`
+`consentControl`: `'switch'` (por defecto) | `'checkbox'`
 
 ```javascript
 const privacyCenterOptions = {
   // ...
-  consentControl: 'checkbox' // Usa checkboxes en lugar de switches
+  consentControl: 'checkbox' // Usa casillas de verificación en lugar de switches
 };
 ```
 
-### Modo de operación (Batch Mode)
+### Modo de operación (modo batch)
 
-Por defecto, los cambios de consentimiento se aplican inmediatamente. Puedes configurar el modo "batch" para permitir al usuario realizar múltiples cambios y guardarlos en una sola acción.
+Por defecto, los cambios de consentimiento se aplican inmediatamente. Puedes configurar el modo `batch` para permitir al usuario realizar múltiples cambios y guardarlos en una sola acción.
 
-- `consentMode`: `'immediate'` (default) | `'batch'`
-- `showBatchConsentConfirmation`: `boolean`. Muestra un diálogo de confirmación antes de guardar en modo batch.
+- `consentMode`: `'immediate'` (por defecto) | `'batch'`
+- `showBatchConsentConfirmation`: `boolean`. Muestra un diálogo de confirmación antes de guardar en modo `batch`.
 
-En modo batch, aparecerá un botón "Guardar" para confirmar los cambios acumulados.
+En modo `batch`, aparecerá un botón "Guardar" para confirmar los cambios acumulados.
 
 ```javascript
 const privacyCenterOptions = {
@@ -208,6 +209,21 @@ const privacyCenterOptions = {
   consentRetentionPeriod: '30 days'
 };
 ```
+
+### Selección granular de alcance
+
+Si tus plantillas tienen múltiples alcances (scopes), puedes habilitar la selección granular para que el usuario decida por alcance dentro de un mismo consentimiento.
+
+`allowGranularScopeSelection`: `boolean` (por defecto `false`).
+
+```javascript
+const privacyCenterOptions = {
+  // ...
+  allowGranularScopeSelection: true
+};
+```
+
+Con esta configuración, el usuario verá casillas de verificación por alcance en el detalle del consentimiento y el control principal podrá quedar en estado parcial cuando solo algunos alcances estén activos.
 
 ### Persistencia de consentimientos superpuestos
 

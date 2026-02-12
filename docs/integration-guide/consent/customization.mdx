@@ -138,6 +138,46 @@ Recomendamos usar `notice` para que el usuario sepa qué consentimientos ya otor
 La configuración de comportamiento cuando ya se ha otorgado consentimiento se aplica a nivel de componente por lo que lo debes configurar para cada componente de captura de consentimiento que desees personalizar.
 :::
 
+### Selección granular de alcance (sucursales o productos)
+
+La selección granular de alcance permite a los usuarios seleccionar específicamente qué alcances (productos o sucursales) desean autorizar dentro de un mismo flujo.
+
+- **Selección flexible**: Los usuarios pueden marcar o desmarcar alcances individuales.
+- **Jerarquía**: Si existen productos y sucursales, los productos se listan primero.
+- **Acciones de consentimiento**:
+  - Los alcances seleccionados se incluirán en el token de acción como otorgados.
+  - Los alcances deseleccionados simplemente no se incluirán en la acción de consentimiento.
+
+:::warning
+Para que la selección granular funcione, la plantilla de consentimiento debe tener **múltiples alcances** (productos o sucursales) configurados. Si la plantilla tiene un solo alcance, esta opción no tendrá efecto.
+:::
+
+Para habilitar esta funcionalidad en el widget, debes configurar la opción `allowGranularScopeSelection: true`.
+
+<Tabs>
+  <TabItem value="web-granular-scope" label="SDK Web" default>
+  ```javascript title="Configuración de selección granular"
+  const consentOptions = {
+    templateId: '<consent_template_id>',
+    allowGranularScopeSelection: true,
+  };
+  ```
+  </TabItem>
+  <TabItem value="mobile-granular-scope" label="SDK Mobile">
+  ```tsx title="Configuración de selección granular"
+  const params = {
+    templateId: '<consent_template_id>',
+    allowGranularScopeSelection: true,
+  };
+
+  <ConsentBox
+    options={options}
+    params={params}
+  />
+  ```
+  </TabItem>
+</Tabs>
+
 ### Comportamiento de consentimientos obligatorios
 
 Usa la opción `mandatoryReconsentBehavior` para configurar el comportamiento del componente cuando el consentimiento es obligatorio y el usuario ya ha otorgado consentimiento previamente usando la misma plantilla de consentimiento.
