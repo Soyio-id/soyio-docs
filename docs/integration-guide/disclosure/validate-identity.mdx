@@ -161,6 +161,12 @@ Una vez que hayas creado el disclosure request (desde el backend en el paso 3, o
 Para **evitar que el navegador bloquee el popup**, asegúrate de que el widget se inicialice solo a través de una interacción directa del usuario, como un clic, debido a las políticas de seguridad del navegador contra ventanas emergentes. Revisa más detalles en la documentación de nuestros SDKs.
 :::
 
+:::warning[Si usas modo embebido (iframe)]
+Debes configurar `whitelisted_domains` con el dominio host donde se monta el iframe. Si no está permitido, el navegador bloqueará el flujo por CSP (`frame-ancestors`).
+
+Revisa la guía: [Flujo embebido de Disclosure (iframe)](./embedded-disclosure).
+:::
+
 :::info
 Revisa la [guía de compatibilidad de dispositivos](./device-compatibility) para conocer los dispositivos y navegadores soportados, mensajes de fallback y expectativas de soporte.
 :::

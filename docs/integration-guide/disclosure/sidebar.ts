@@ -14,6 +14,11 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: 'doc',
+      id: 'integration-guide/disclosure/embedded-disclosure',
+      label: 'Flujo embebido (iframe)',
+    },
+    {
+      type: 'doc',
       id: 'integration-guide/disclosure/how-it-works',
       label: 'Cómo funciona',
     },
