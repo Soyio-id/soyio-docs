@@ -44,11 +44,8 @@ npm install @soyio/soyio-widget
   import { DisclosureRequestBox } from "@soyio/soyio-widget";
 
   const widget = new DisclosureRequestBox({
-    request: "disclosure",
-    configProps: {
-      disclosureRequestId: "<disclosure_request_id>",
-      customColor: "#0F172A", // opcional
-    },
+    disclosureRequestId: "<disclosure_request_id>",
+    customColor: "#0F172A", // opcional
     onReady: () => {
       console.log("Embedded disclosure ready");
     },
