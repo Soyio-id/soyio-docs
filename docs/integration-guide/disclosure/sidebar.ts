@@ -34,6 +34,11 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: 'doc',
+      id: 'integration-guide/disclosure/embedded-disclosure',
+      label: 'Valida una identidad en modo embebido',
+    },
+    {
+      type: 'doc',
       id: 'integration-guide/disclosure/disclosure-error-handling',
       label: 'Manejo de errores',
     },
