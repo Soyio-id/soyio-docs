@@ -14,11 +14,6 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: 'doc',
-      id: 'integration-guide/disclosure/embedded-disclosure',
-      label: 'Flujo embebido (iframe)',
-    },
-    {
-      type: 'doc',
       id: 'integration-guide/disclosure/how-it-works',
       label: 'Cómo funciona',
     },
@@ -36,6 +31,11 @@ const sidebar: SidebarsConfig = {
       type: 'doc',
       id: 'integration-guide/disclosure/validate-identity',
       label: 'Valida una identidad obteniendo datos',
+    },
+    {
+      type: 'doc',
+      id: 'integration-guide/disclosure/embedded-disclosure',
+      label: 'Valida una identidad en modo embebido',
     },
     {
       type: 'doc',

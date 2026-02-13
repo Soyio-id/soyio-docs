@@ -161,11 +161,12 @@ Una vez que hayas creado el disclosure request (desde el backend en el paso 3, o
 Para **evitar que el navegador bloquee el popup**, asegúrate de que el widget se inicialice solo a través de una interacción directa del usuario, como un clic, debido a las políticas de seguridad del navegador contra ventanas emergentes. Revisa más detalles en la documentación de nuestros SDKs.
 :::
 
-:::warning[Si usas modo embebido (iframe)]
-Debes configurar `whitelisted_domains` con el dominio host donde se monta el iframe. Si no está permitido, el navegador bloqueará el flujo por CSP (`frame-ancestors`).
+#### Modalidad de integración: Popup vs modo embebido
 
-Revisa la guía: [Flujo embebido de Disclosure (iframe)](./embedded-disclosure).
-:::
+- **Popup (`SoyioWidget`)**: recomendado para la mayoría de integraciones web. Es la modalidad base de esta guía.
+- **Modo embebido (`DisclosureRequestBox`)**: recomendado cuando necesitas mantener el flujo dentro de la UI de tu aplicación.
+
+Para modo embebido, revisa [Valida una identidad en modo embebido](./embedded-disclosure), donde encontrarás requisitos de CSP (`whitelisted_domains`), passkeys y troubleshooting.
 
 :::info
 Revisa la [guía de compatibilidad de dispositivos](./device-compatibility) para conocer los dispositivos y navegadores soportados, mensajes de fallback y expectativas de soporte.

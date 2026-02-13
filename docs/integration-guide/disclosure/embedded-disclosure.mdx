@@ -1,6 +1,6 @@
-# Flujo embebido de Disclosure (iframe)
+# Valida una identidad en modo embebido
 
-Esta guía explica cómo ejecutar el flujo de **Disclosure** dentro de un iframe usando el SDK web `@soyio/soyio-widget`.
+Esta guía complementa la integración principal de Disclosure y se enfoca en los detalles específicos del modo embebido con el SDK web `@soyio/soyio-widget`.
 
 :::info[Alcance del flujo embebido]
 Actualmente, el modo embebido soporta solo Disclosure con `disclosure_request_id` ya creado.
@@ -11,7 +11,7 @@ No está soportada la creación del disclosure request desde frontend en este mo
 :::warning[Configuración obligatoria de CSP (`whitelisted_domains`)]
 Para usar Disclosure embebido debes registrar los dominios host en `whitelisted_domains` de tu compañía.
 
-Si el dominio donde montas el iframe no está permitido, el navegador bloqueará el render del flujo por política CSP (`frame-ancestors`).
+Si el dominio donde montas el flujo embebido no está permitido, el navegador bloqueará el render por política CSP (`frame-ancestors`).
 
 En modo embebido, Soyio arma `frame-ancestors` con:
 
@@ -19,30 +19,31 @@ En modo embebido, Soyio arma `frame-ancestors` con:
 - `whitelisted_domains` de la configuración
 :::
 
-## Cuándo usar embedded vs popup
+## Qué cubre esta guía
 
-- Usa **popup** (`SoyioWidget`) cuando quieras un flujo desacoplado de tu layout.
-- Usa **embedded** (`EmbeddedSoyioWidget`) cuando quieras mantener el flujo dentro de tu página.
+- Configuración de CSP para modo embebido.
+- Implementación con `DisclosureRequestBox`.
+- Consideraciones de passkeys y troubleshooting.
 
 ## Requisitos
 
 1. Tener un `disclosure_request_id` ya creado (requisito obligatorio para embedded).
-2. Configurar `whitelisted_domains` con los orígenes donde se montará el iframe.
+2. Configurar `whitelisted_domains` con los orígenes donde se montará el flujo embebido.
 3. Instalar el SDK web:
 
 ```bash
 npm install @soyio/soyio-widget
 ```
 
-## Implementación
+## Implementación (SDK Web)
 
 ```html
 <div id="embedded-disclosure"></div>
 
-<script>
-  import { EmbeddedSoyioWidget } from "@soyio/soyio-widget";
+<script type="module">
+  import { DisclosureRequestBox } from "@soyio/soyio-widget";
 
-  const widget = new EmbeddedSoyioWidget({
+  const widget = new DisclosureRequestBox({
     request: "disclosure",
     configProps: {
       disclosureRequestId: "<disclosure_request_id>",
@@ -63,13 +64,13 @@ npm install @soyio/soyio-widget
 </script>
 ```
 
-## Passkeys en flujo embebido
+## Passkeys en modo embebido
 
-La creación y autenticación con passkeys no siempre está soportada dentro de iframes/webviews. En esos casos, el SDK abre un popup temporal para completar passkey y luego retorna automáticamente al iframe.
+La creación y autenticación con passkeys no siempre está soportada dentro de contextos embebidos. En esos casos, el SDK abre un popup temporal para completar passkey y luego retorna automáticamente al flujo embebido.
 
 ## Troubleshooting CSP
 
-Si ves un iframe en blanco o errores en consola tipo `Refused to frame ... because an ancestor violates Content Security Policy`, revisa:
+Si ves la pantalla en blanco o errores en consola tipo `Refused to frame ... because an ancestor violates Content Security Policy`, revisa:
 
 1. Que el origen host esté en `whitelisted_domains`.
 2. Que el dominio de staging/producción sea exactamente el esperado.
