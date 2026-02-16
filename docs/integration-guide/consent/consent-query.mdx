@@ -15,7 +15,7 @@ Siempre consulta los consentimientos para verificar si puedes usar un dato para 
 
 Este endpoint te permite obtener el estado de cumplimiento de un usuario específico para cada template de consentimiento que tienes en tu empresa. Para ello, usa el endpoint del [Compliance Status](../../api/resources/get-entity-agreement-compliance-statuses.api.mdx).
 
-El Compliance Status procesa el último estado del Agreement para evaluar si el usuario cumple o no cumple con los requerimientos del template de consentimiento.
+El Compliance Status procesa el estado del Agreement para evaluar si el usuario cumple o no cumple con los requerimientos de la **última versión** del template de consentimiento. Opcionalmente, puedes consultar una **versión específica** del template usando filtros.
 
 ### Estados de cumplimiento
 
@@ -42,7 +42,14 @@ const getComplianceStatus = async (entityId) => {
 ```
 
 :::tip
-Puedes filtrar por `consent_template_id` para obtener el estado de cumplimiento de un template en particular.
+Puedes filtrar por `consent_template_id` para obtener el estado de cumplimiento de un template en particular. También puedes usar `consent_template_version` para consultar una versión específica.
+
+**Consideraciones:**
+- `consent_template_version` siempre debe ir acompañado de `consent_template_id`.
+- `consent_template_version` debe ser un número entero mayor que 0.
+
+**Ejemplo:**
+`?where={"consent_template_id":{"=":"constpl_..."},"consent_template_version":{"=":2}}`
 :::
 
 ### Casos de uso
