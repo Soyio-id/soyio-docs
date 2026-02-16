@@ -92,7 +92,7 @@ Soyio soporta dos formas de crear el proceso de entrega de datos y consentimient
 
 - **Desde el backend (Recomendado):** Crea la solicitud desde tu servidor para acceder a la **funcionalidad de match de datos**, crítica para la prevención de fraude. Esta es la forma recomendada para la mayoría de las integraciones, especialmente en plataformas de comercio.
 
-- **Desde el frontend (Alternativa):** Crea la solicitud directamente desde tu aplicación cliente a través de nuestro SDK. Esta opción es útil para casos de uso específicos donde no necesitas validación de datos previos o tienes un modelo de negocio de bajo riesgo de fraude. Si deseas usar esta opción, [salta al paso 4](#4-inicia-el-proceso-desde-el-front-end).
+- **Desde el frontend (Alternativa):** Crea la solicitud directamente desde tu aplicación cliente a través de nuestro SDK. Esta opción es útil para casos de uso específicos donde no necesitas validación de datos previos o tienes un modelo de negocio de bajo riesgo de fraude. Si deseas usar esta opción, [salta al paso 4](#4-inicia-el-widget-desde-el-front-end).
 
 :::tip[¿Cuál método debo usar?]
 - **Usa backend** si: operas un comercio, necesitas validar identidad contra datos existentes, manejas transacciones financieras, o requieres alta seguridad
@@ -166,7 +166,7 @@ Para **evitar que el navegador bloquee el popup**, asegúrate de que el widget s
 - **Popup (`SoyioWidget`)**: recomendado para la mayoría de integraciones web. Es la modalidad base de esta guía.
 - **Modo embebido (`DisclosureRequestBox`)**: recomendado cuando necesitas mantener el flujo dentro de la UI de tu aplicación.
 
-Para modo embebido, revisa [Valida una identidad en modo embebido](./embedded-disclosure), donde encontrarás requisitos de CSP (`whitelisted_domains`), passkeys y troubleshooting.
+Para modo embebido, revisa [Valida una identidad en modo embebido](./embedded-disclosure), donde encontrarás implementación con `DisclosureRequestBox` y consideraciones para passkeys.
 
 :::info
 Revisa la [guía de compatibilidad de dispositivos](./device-compatibility) para conocer los dispositivos y navegadores soportados, mensajes de fallback y expectativas de soporte.

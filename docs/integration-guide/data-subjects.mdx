@@ -6,12 +6,13 @@ Comprender la diferencia entre estos dos conceptos es fundamental para integrar 
 
 ## Identity (Identidad)
 
-Una **Identity** representa a un **usuario identificado** en el sistema. Las identidades se crean exclusivamente a través del módulo de [Disclosure](/docs/integration-guide/disclosure/introduction) después de que un usuario completa exitosamente un proceso de validación de identidad.
+Una **Identity** representa a un **usuario identificado** en el sistema. Las identidades se crean exclusivamente a través del módulo de [Disclosure](/docs/integration-guide/disclosure/introduction) después de que un usuario completa exitosamente un proceso de validación de identidad. Opcionalmente, también puede incluir un `user_reference` para correlacionar la identidad con el identificador interno de tu sistema.
 
 ### Características
 
 - **Usuario identificado**: La identidad contiene los datos personales verificados del usuario (nombre, RUT, fecha de nacimiento, email, etc.).
 - **Datos verificados**: Los datos fueron validados durante el proceso de disclosure.
+- **Referencia opcional**: Puede incluir `user_reference` para mapear la identidad con el usuario en tu sistema.
 - **Creación**: Solo se crea a través del módulo de Disclosure.
 - **Attestations**: Registra qué verificaciones de identidad se realizaron (liveness, id_scan, id_match, government_check).
 
@@ -35,6 +36,9 @@ Los tipos de attestation posibles son:
 {
   "id": "id_ma21KLsmaslopask912Aa2",
   "email": "usuario@ejemplo.com",
+  "user_reference": "user_123",
+  "created_at": "2023-10-26T10:00:00Z",
+  "updated_at": "2023-10-26T10:05:00Z",
   "data": [
     {
       "key": "name",
@@ -73,6 +77,16 @@ Los tipos de attestation posibles son:
 }
 ```
 
+### Consulta por `user_reference`
+
+Puedes buscar una identidad específica usando su `user_reference` a través del parámetro `where`:
+
+```bash
+GET /api/v1/identities?where={"user_reference":{"=":"user_123"}}
+```
+
+Este filtro es útil para sincronizar búsquedas entre tu identificador interno de usuario y los recursos de Soyio.
+
 ---
 
 ## Entity (Entidad)
@@ -108,8 +122,10 @@ Los tipos de attestation son los mismos: `liveness`, `id_scan`, `id_match`, y `g
 ```json
 {
   "id": "ent_1B2M2Y8AsgTpgAmY7PhCfg",
-  "agreement_id": "agr_1B2M2Y8AsgTpgAmY7PhCfg", // Referencia al [Agreement](/docs/integration-guide/agreements) activo
+  "agreement_id": "agr_1B2M2Y8AsgTpgAmY7PhCfg",
   "user_reference": "user_123",
+  "created_at": "2023-11-20T15:30:00Z",
+  "updated_at": "2023-11-20T15:30:00Z",
   "attestations": [
     {
       "kind": "government_check",
