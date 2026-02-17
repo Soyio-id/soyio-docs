@@ -86,12 +86,7 @@ function createSectionLabel(title: string, isFirstSection: boolean): SidebarItem
 
   return {
     type: 'html',
-    value:
-      '<div data-api-resource-section="true" style="margin-top: ' +
-      marginTop +
-      '; margin-bottom: 0.25rem;"><span style="font-size: 0.8rem; color: var(--ifm-color-gray-600); padding-left: 12px; text-transform: uppercase; letter-spacing: 0.05em;">' +
-      title +
-      '</span></div>',
+    value: `<div data-api-resource-section="true" style="margin-top: ${marginTop}; margin-bottom: 0.25rem;"><span style="font-size: 0.8rem; color: var(--ifm-color-gray-600); padding-left: 12px; text-transform: uppercase; letter-spacing: 0.05em;">${title}</span></div>`,
     defaultStyle: false,
   };
 }
