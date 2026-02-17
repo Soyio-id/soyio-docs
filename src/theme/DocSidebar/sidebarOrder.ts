@@ -22,10 +22,6 @@ export function isValidSidebarOrderMode(
   return mode === 'categorized' || mode === 'alphabetical';
 }
 
-export function isApiReferenceSidebar(path: string) {
-  return /(^|\/)docs\/api(\/|$)/.test(path);
-}
-
 function isResourceSectionLabel(item: SidebarItem) {
   return (
     item.type === 'html' &&
