@@ -1,3 +1,6 @@
+import { useCallback, useEffect, useState } from 'react';
+import useIsBrowser from '@docusaurus/useIsBrowser';
+
 export type SidebarOrderMode = 'categorized' | 'alphabetical';
 
 export type SidebarItem = {
@@ -41,6 +44,80 @@ export function isSidebarOrderToggleItem(item: SidebarItem) {
 
 export function hasApiResourceSections(sidebar: SidebarItem[]) {
   return sidebar.some(isResourceSectionLabel);
+}
+
+export function useSidebarOrder(
+  enabled = true,
+): [SidebarOrderMode, (nextMode: SidebarOrderMode) => void] {
+  const browser = useIsBrowser();
+  const [orderMode, setOrderMode] = useState<SidebarOrderMode>('categorized');
+
+  useEffect(() => {
+    if (!browser || !enabled) {
+      return;
+    }
+
+    const persistedMode = window.localStorage.getItem(SIDEBAR_ORDER_STORAGE_KEY);
+
+    if (isValidSidebarOrderMode(persistedMode)) {
+      setOrderMode(persistedMode);
+    }
+  }, [browser, enabled]);
+
+  useEffect(() => {
+    if (!browser || !enabled) {
+      return;
+    }
+
+    const onOrderModeChanged = (event: Event) => {
+      const nextMode = (event as CustomEvent<SidebarOrderMode>).detail;
+
+      if (isValidSidebarOrderMode(nextMode)) {
+        setOrderMode(nextMode);
+      }
+    };
+
+    const onStorageChanged = (event: StorageEvent) => {
+      if (event.key !== SIDEBAR_ORDER_STORAGE_KEY) {
+        return;
+      }
+
+      if (isValidSidebarOrderMode(event.newValue)) {
+        setOrderMode(event.newValue);
+      }
+    };
+
+    window.addEventListener(SIDEBAR_ORDER_EVENT_NAME, onOrderModeChanged as EventListener);
+    window.addEventListener('storage', onStorageChanged);
+
+    return () => {
+      window.removeEventListener(
+        SIDEBAR_ORDER_EVENT_NAME,
+        onOrderModeChanged as EventListener,
+      );
+      window.removeEventListener('storage', onStorageChanged);
+    };
+  }, [browser, enabled]);
+
+  const setSidebarOrderMode = useCallback(
+    (nextMode: SidebarOrderMode) => {
+      setOrderMode(nextMode);
+
+      if (!browser || !enabled) {
+        return;
+      }
+
+      window.localStorage.setItem(SIDEBAR_ORDER_STORAGE_KEY, nextMode);
+      window.dispatchEvent(
+        new CustomEvent<SidebarOrderMode>(SIDEBAR_ORDER_EVENT_NAME, {
+          detail: nextMode,
+        }),
+      );
+    },
+    [browser, enabled],
+  );
+
+  return [orderMode, setSidebarOrderMode];
 }
 
 function isTopLevelCategory(item: SidebarItem) {

@@ -1,13 +1,8 @@
 import clsx from 'clsx';
-import { useEffect, useState } from 'react';
 import { ThemeClassNames } from '@docusaurus/theme-common';
-import useIsBrowser from '@docusaurus/useIsBrowser';
 import {
   isSidebarOrderToggleItem,
-  isValidSidebarOrderMode,
-  SIDEBAR_ORDER_EVENT_NAME,
-  SIDEBAR_ORDER_STORAGE_KEY,
-  SidebarOrderMode,
+  useSidebarOrder,
 } from '../../DocSidebar/sidebarOrder';
 
 type SidebarHtmlItem = {
@@ -24,70 +19,7 @@ type SidebarHtmlItemProps = {
 };
 
 function SidebarOrderToggle() {
-  const browser = useIsBrowser();
-  const [orderMode, setOrderMode] = useState<SidebarOrderMode>('categorized');
-
-  useEffect(() => {
-    if (!browser) {
-      return;
-    }
-
-    const persistedMode = window.localStorage.getItem(SIDEBAR_ORDER_STORAGE_KEY);
-
-    if (isValidSidebarOrderMode(persistedMode)) {
-      setOrderMode(persistedMode);
-    }
-  }, [browser]);
-
-  useEffect(() => {
-    if (!browser) {
-      return;
-    }
-
-    const onOrderModeChanged = (event: Event) => {
-      const nextMode = (event as CustomEvent<SidebarOrderMode>).detail;
-
-      if (isValidSidebarOrderMode(nextMode)) {
-        setOrderMode(nextMode);
-      }
-    };
-
-    const onStorageChanged = (event: StorageEvent) => {
-      if (event.key !== SIDEBAR_ORDER_STORAGE_KEY) {
-        return;
-      }
-
-      if (isValidSidebarOrderMode(event.newValue)) {
-        setOrderMode(event.newValue);
-      }
-    };
-
-    window.addEventListener(SIDEBAR_ORDER_EVENT_NAME, onOrderModeChanged as EventListener);
-    window.addEventListener('storage', onStorageChanged);
-
-    return () => {
-      window.removeEventListener(
-        SIDEBAR_ORDER_EVENT_NAME,
-        onOrderModeChanged as EventListener,
-      );
-      window.removeEventListener('storage', onStorageChanged);
-    };
-  }, [browser]);
-
-  const setMode = (nextMode: SidebarOrderMode) => {
-    setOrderMode(nextMode);
-
-    if (!browser) {
-      return;
-    }
-
-    window.localStorage.setItem(SIDEBAR_ORDER_STORAGE_KEY, nextMode);
-    window.dispatchEvent(
-      new CustomEvent<SidebarOrderMode>(SIDEBAR_ORDER_EVENT_NAME, {
-        detail: nextMode,
-      }),
-    );
-  };
+  const [orderMode, setMode] = useSidebarOrder();
 
   return (
     <div className="api-sidebar-order-toggle" role="group" aria-label="API sidebar order">
