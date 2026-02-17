@@ -30,7 +30,7 @@ function SidebarOrderToggle() {
           orderMode === 'categorized' && 'is-active',
         )}
         onClick={() => setMode('categorized')}>
-        Categorias
+        Categorías
       </button>
       <button
         type="button"
