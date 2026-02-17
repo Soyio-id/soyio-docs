@@ -24,6 +24,7 @@
     "@docusaurus/faster": "^3.9.2",
     "@docusaurus/plugin-content-docs": "^3.9.2",
     "@docusaurus/preset-classic": "^3.9.2",
+    "@docusaurus/theme-common": "^3.9.2",
     "@docusaurus/theme-mermaid": "^3.9.2",
     "@iconify-icons/logos": "^1.2.36",
     "@iconify-icons/mdi": "^1.2.48",
