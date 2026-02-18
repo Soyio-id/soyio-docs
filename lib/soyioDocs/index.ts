@@ -31,6 +31,11 @@ type LlmSectionMetadata = {
   introRoute: string;
 };
 
+type LlmGroupPrefixRule = {
+  prefix: string;
+  group: string;
+};
+
 const LLM_SECTION_ORDER: LlmSectionKey[] = ['integration', 'api', 'user'];
 
 const LLM_SECTION_METADATA: Record<LlmSectionKey, LlmSectionMetadata> = {
@@ -68,6 +73,67 @@ const LLM_GROUP_ORDER: Record<LlmSectionKey, string[]> = {
   ],
   api: ['Fundamentos de API', 'Recursos de API', 'Esquemas', 'Otros'],
   user: ['General', 'Guias especificas', 'Otros'],
+};
+
+const LLM_GROUP_RULES: Record<LlmSectionKey, LlmGroupPrefixRule[]> = {
+  integration: [
+    {
+      prefix: '/docs/integration-guide/consent/',
+      group: 'Consentimiento',
+    },
+    {
+      prefix: '/docs/integration-guide/rights-management/',
+      group: 'Gestion de derechos',
+    },
+    {
+      prefix: '/docs/integration-guide/privacy-center/',
+      group: 'Centro de privacidad',
+    },
+    {
+      prefix: '/docs/integration-guide/disclosure/',
+      group: 'Verificacion de identidad',
+    },
+    {
+      prefix: '/docs/integration-guide/authentication/',
+      group: 'Autenticacion',
+    },
+    {
+      prefix: '/docs/integration-guide/signature/',
+      group: 'Firma electronica',
+    },
+    {
+      prefix: '/docs/integration-guide/redec/',
+      group: 'REDEC',
+    },
+    {
+      prefix: '/docs/integration-guide/',
+      group: 'Fundamentos y puesta en marcha',
+    },
+  ],
+  api: [
+    {
+      prefix: '/docs/api/resources/schemas/',
+      group: 'Esquemas',
+    },
+    {
+      prefix: '/docs/api/resources/',
+      group: 'Recursos de API',
+    },
+    {
+      prefix: '/docs/api/',
+      group: 'Fundamentos de API',
+    },
+  ],
+  user: [
+    {
+      prefix: '/docs/user-guide/specific-guides',
+      group: 'Guias especificas',
+    },
+    {
+      prefix: '/docs/user-guide/',
+      group: 'General',
+    },
+  ],
 };
 
 function normalizeBaseUrl(baseUrl: string) {
@@ -204,53 +270,13 @@ function resolveSection(docRoute: string): LlmSectionKey | null {
 }
 
 function resolveGroup(section: LlmSectionKey, docRoute: string) {
-  if (section === 'integration') {
-    if (docRoute.startsWith('/docs/integration-guide/consent/')) {
-      return 'Consentimiento';
+  const sectionRules = LLM_GROUP_RULES[section];
+  for (const rule of sectionRules) {
+    if (docRoute.startsWith(rule.prefix)) {
+      return rule.group;
     }
-    if (docRoute.startsWith('/docs/integration-guide/rights-management/')) {
-      return 'Gestion de derechos';
-    }
-    if (docRoute.startsWith('/docs/integration-guide/privacy-center/')) {
-      return 'Centro de privacidad';
-    }
-    if (docRoute.startsWith('/docs/integration-guide/disclosure/')) {
-      return 'Verificacion de identidad';
-    }
-    if (docRoute.startsWith('/docs/integration-guide/authentication/')) {
-      return 'Autenticacion';
-    }
-    if (docRoute.startsWith('/docs/integration-guide/signature/')) {
-      return 'Firma electronica';
-    }
-    if (docRoute.startsWith('/docs/integration-guide/redec/')) {
-      return 'REDEC';
-    }
-    if (docRoute.startsWith('/docs/integration-guide/')) {
-      return 'Fundamentos y puesta en marcha';
-    }
-    return 'Otros';
   }
 
-  if (section === 'api') {
-    if (docRoute.startsWith('/docs/api/resources/schemas/')) {
-      return 'Esquemas';
-    }
-    if (docRoute.startsWith('/docs/api/resources/')) {
-      return 'Recursos de API';
-    }
-    if (docRoute.startsWith('/docs/api/')) {
-      return 'Fundamentos de API';
-    }
-    return 'Otros';
-  }
-
-  if (docRoute.startsWith('/docs/user-guide/specific-guides')) {
-    return 'Guias especificas';
-  }
-  if (docRoute.startsWith('/docs/user-guide/')) {
-    return 'General';
-  }
   return 'Otros';
 }
 
@@ -294,9 +320,7 @@ function writeLlmIndexFile(
 
   LLM_SECTION_ORDER.forEach((sectionKey) => {
     const metadata = LLM_SECTION_METADATA[sectionKey];
-    const docs = (sectionEntries.get(sectionKey) || [])
-      .slice()
-      .sort((a, b) => a.docRoute.localeCompare(b.docRoute, 'es'));
+    const docs = sectionEntries.get(sectionKey) || [];
 
     if (docs.length === 0) {
       return;
