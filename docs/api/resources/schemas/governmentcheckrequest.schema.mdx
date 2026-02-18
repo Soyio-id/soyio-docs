@@ -1,0 +1,35 @@
+---
+id: governmentcheckrequest
+title: "GovernmentCheckRequest"
+description: "Los government check requests representan solicitudes de verificación de identidad contra el registro civil,"
+hide_title: true
+hide_table_of_contents: true
+schema: true
+sample: {"id":"govcheck_1B2M2Y8AsgTpgAmY7PhCfg","status":"pending","subject_id":"ent_5F6Q6C2EwkXtkEpB1TlGjk","user_reference":"user_123","validation_errors":[{"code":"auth-074","type":"document","message":"document_not_valid","detail":"Número de documento inválido."}],"created_at":"2024-07-29T15:51:28.071Z"}
+custom_edit_url: null
+---
+
+import Schema from "@theme/Schema";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"GovernmentCheckRequest"}
+>
+</Heading>
+
+
+
+Los government check requests representan solicitudes de verificación de identidad contra el registro civil,
+sin necesidad de biometría.
+
+
+<Schema
+	defaultCollapsibleOpen={true}
+  schema={{"x-tags":["Government check requests"],"type":"object","description":"Los government check requests representan solicitudes de verificación de identidad contra el registro civil,\nsin necesidad de biometría.\n","properties":{"id":{"type":"string","description":"Identificador único del government check request.","example":"govcheck_1B2M2Y8AsgTpgAmY7PhCfg"},"status":{"type":"string","enum":["pending","validating","successful","failed"],"description":"Estado actual del government check request."},"subject_id":{"type":"string","nullable":true,"description":"Identificador del sujeto asociado (Identity o Entity).","example":"ent_5F6Q6C2EwkXtkEpB1TlGjk"},"user_reference":{"type":"string","description":"Referencia de usuario de tu sistema.","example":"user_123"},"validation_errors":{"type":"array","description":"Errores de validación (solo presente cuando el estado es `failed`).\n\nCódigos posibles:\n- `auth-074` / `invalid_document_number`: Número de documento inválido.\n- `auth-075` / `government_api_error`: La base de datos gubernamental no estaba disponible al momento de la consulta.\n- `auth-076` / `document_not_valid`: El documento no se encuentra vigente.\n","items":{"type":"object","properties":{"code":{"type":"string","description":"Código de error.","enum":["auth-074","auth-075","auth-076"],"example":"auth-074"},"type":{"type":"string","description":"Tipo de error.","enum":["document"],"example":"document"},"message":{"type":"string","description":"Identificador del error.","enum":["document_not_valid","invalid_document_number","government_api_error"],"example":"document_not_valid"},"detail":{"type":"string","description":"Mensaje legible del error.","example":"Número de documento inválido."}}}},"created_at":{"type":"string","format":"date-time","description":"Fecha y hora de creación del government check request."}},"title":"GovernmentCheckRequest"}}
+  schemaType={"response"}
+>
+  
+</Schema>
+            
