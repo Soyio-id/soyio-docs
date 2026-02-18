@@ -6,6 +6,16 @@ Desde la [configuración](../../api/resources/schemas/configuration) de tu compa
 
 ## Configuración de disclosure (`disclosure`)
 
+### Dominios permitidos para embedding (`whitelisted_domains`)
+
+Si integras Disclosure en modo embebido, debes configurar los dominios host permitidos en `whitelisted_domains` a nivel de compañía.
+
+:::warning
+Si el dominio host no está en `whitelisted_domains`, el navegador bloqueará el flujo por política CSP (`frame-ancestors`).
+:::
+
+Revisa la implementación y ejemplos en [Valida una identidad en modo embebido](./embedded-disclosure).
+
 ### Omitir registro de llave de acceso (`disclosure.skip_passkey_registration`)
 
 Puedes configurar si se debe saltar el registro de llave de acceso (passkey) para usuarios que no deseen crear una cuenta con Soyio durante el proceso de disclosure:

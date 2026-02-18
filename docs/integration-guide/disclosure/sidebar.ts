@@ -19,6 +19,11 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: 'doc',
+      id: 'integration-guide/disclosure/validation-levels',
+      label: 'Niveles de validación',
+    },
+    {
+      type: 'doc',
       id: 'integration-guide/disclosure/disclosure_templates',
       label: 'Crea plantillas',
     },
@@ -26,6 +31,11 @@ const sidebar: SidebarsConfig = {
       type: 'doc',
       id: 'integration-guide/disclosure/validate-identity',
       label: 'Valida una identidad obteniendo datos',
+    },
+    {
+      type: 'doc',
+      id: 'integration-guide/disclosure/embedded-disclosure',
+      label: 'Valida una identidad en modo embebido',
     },
     {
       type: 'doc',

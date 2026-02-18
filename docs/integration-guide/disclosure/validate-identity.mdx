@@ -90,12 +90,27 @@ Antes de integrar el proceso de verificación de identidad, necesitas crear una 
 
 Soyio soporta dos formas de crear el proceso de entrega de datos y consentimiento (disclosure):
 
-- **Desde el back-end:** esta opción te permite **acceder a la funcionalidad de match de parámetros**.
+- **Desde el backend (Recomendado):** Crea la solicitud desde tu servidor para acceder a la **funcionalidad de match de datos**, crítica para la prevención de fraude. Esta es la forma recomendada para la mayoría de las integraciones, especialmente en plataformas de comercio.
 
-- **Desde el front-end:** en esta opción te permite iniciar el proceso de manera flexible desde el front-end de tu aplicación a través de nuestro SDK, el cual se encargará de crear la solicitud de disclosure. Si deseas utilizar esta opción, salta este paso y [avanza directamente al paso 4](#4-inicia-el-proceso-desde-el-front-end).
+- **Desde el frontend (Alternativa):** Crea la solicitud directamente desde tu aplicación cliente a través de nuestro SDK. Esta opción es útil para casos de uso específicos donde no necesitas validación de datos previos o tienes un modelo de negocio de bajo riesgo de fraude. Si deseas usar esta opción, [salta al paso 4](#4-inicia-el-widget-desde-el-front-end).
 
+:::tip[¿Cuál método debo usar?]
+- **Usa backend** si: operas un comercio, necesitas validar identidad contra datos existentes, manejas transacciones financieras, o requieres alta seguridad
+- **Usa frontend** si: tienes un caso de uso de bajo riesgo, no tienes datos previos del usuario, o necesitas un flujo más simple sin backend
+:::
 
-### 3. Crea el proceso desde el backend (opcional)
+### 3. Crea el proceso desde el backend
+
+Este es el **método recomendado** para la mayoría de las integraciones. Crear el disclosure request desde tu backend te permite utilizar los `matchers`, una capa crítica de seguridad que valida que los datos verificados coincidan con los datos que el usuario ya registró en tu sistema.
+
+:::danger[Prevención de fraude con matchers]
+Los matchers previenen fraudes como:
+- Crear una cuenta con datos de una persona diferente a la que completó la validación
+- Completar la validación de identidad usando la cara y los documentos reales pero de otra persona
+- Obtener acceso no autorizado a servicios o realizar transacciones fraudulentas
+
+**Sin matchers, estás expuesto a riesgos significativos de fraude.** Esta funcionalidad solo está disponible al crear el disclosure request desde el backend.
+:::
 
 Para crear el proceso desde el backend realiza un `POST` *request* desde tu back-end al [*endpoint* de disclosure requests](../../api/resources/create-disclosure-request.api.mdx) de Soyio.
 Esto creará una solicitud de disclosure y obtendrás un `disclosure_request_id`, que utilizarás en el siguiente paso.
@@ -105,7 +120,7 @@ Esto creará una solicitud de disclosure y obtendrás un `disclosure_request_id`
 
 #### Ejemplo del Payload
 
-Inicia el proceso indicando el `disclosure_template_id` de la plantilla creada (el que comienza con `dtpl_...`) previamente y opcionalmente indica el o los datos con los que deseas hacer match.
+Inicia el proceso indicando el `disclosure_template_id` de la plantilla creada (el que comienza con `dtpl_...`) y los `matchers` con los datos que deseas validar.
 Puedes revisar más detalles en la [documentación de la API](../../api/resources/schemas/disclosurerequest.schema.mdx).
 
 ```json
@@ -113,7 +128,7 @@ Puedes revisar más detalles en la [documentación de la API](../../api/resource
     "disclosure_template_id": "dtpl_...",
     "user_reference": "<identificador de usuario de la empresa>",
     "user_email": "<email del usuario>",
-    "matchers": [ // Comprobación del RUT (Opcional)
+    "matchers": [ // Validación crítica para prevención de fraude
         {
         "key": "cl_carnet_rut",
         "value": "12345678-9" // sin puntos y con guión
@@ -122,19 +137,36 @@ Puedes revisar más detalles en la [documentación de la API](../../api/resource
 }
 ```
 
-:::tip
-    Si deseas hacer match de más de un dato, agrega más objetos al array `matchers`.
-    Considera que el match es exitoso **si todos los datos coinciden**.
-    En caso contrario, el proceso de disclosure **no se completará**.
+:::warning[Configuración de matchers]
+**Recomendación:** Incluye todos los datos disponibles que el usuario proporcionó al registrarse (RUT, nombre, apellido, fecha de nacimiento). Esto maximiza la protección contra fraude.
+
+El match es exitoso **si todos los datos coinciden**. Si algún dato no coincide, el proceso de disclosure **se detendrá** y no se creará una identidad, protegiendo tu plataforma de intentos fraudulentos.
+
+Para hacer match de múltiples datos, agrega más objetos al array `matchers`:
+```json
+"matchers": [
+  { "key": "cl_carnet_rut", "value": "12345678-9" },
+  { "key": "name", "value": "Juan" },
+  { "key": "last_name", "value": "Perez" },
+  { "key": "date_of_birth", "value": "1990-01-15" }
+]
+```
 :::
 
-### 4. Inicia el proceso desde el front-end
+### 4. Inicia el widget desde el front-end
 
-Inicia el proceso de entrega de datos y consentimiento desde el front-end de tu aplicación utilizando el SDK de Soyio.
+Una vez que hayas creado el disclosure request (desde el backend en el paso 3, o directamente desde el frontend como se muestra más abajo), inicia el widget de Soyio en tu aplicación para que el usuario complete el proceso de verificación.
 
 :::warning
 Para **evitar que el navegador bloquee el popup**, asegúrate de que el widget se inicialice solo a través de una interacción directa del usuario, como un clic, debido a las políticas de seguridad del navegador contra ventanas emergentes. Revisa más detalles en la documentación de nuestros SDKs.
 :::
+
+#### Modalidad de integración: Popup vs modo embebido
+
+- **Popup (`SoyioWidget`)**: recomendado para la mayoría de integraciones web. Es la modalidad base de esta guía.
+- **Modo embebido (`DisclosureRequestBox`)**: recomendado cuando necesitas mantener el flujo dentro de la UI de tu aplicación.
+
+Para modo embebido, revisa [Valida una identidad en modo embebido](./embedded-disclosure), donde encontrarás implementación con `DisclosureRequestBox` y consideraciones para passkeys.
 
 :::info
 Revisa la [guía de compatibilidad de dispositivos](./device-compatibility) para conocer los dispositivos y navegadores soportados, mensajes de fallback y expectativas de soporte.
@@ -148,7 +180,7 @@ A continuación te dejamos ejemplos de cómo inicializar el flujo de disclosure 
 
     <TabItem value="web" label="SDK Web" default>
 
-            ```html title="Disclosure request creado en backend"
+            ```html title="Con disclosure request creado en backend (Recomendado)"
             <button id="start-disclosure-request">Start disclosure request</button>
 
             <script>
@@ -175,7 +207,7 @@ A continuación te dejamos ejemplos de cómo inicializar el flujo de disclosure 
             </script>
             ```
 
-            ```html title="Disclosure request que se crea en frontend"
+            ```html title="Con disclosure request creado en frontend (Alternativa sin matchers)"
             <button id="start-disclosure-request">Start disclosure request</button>
 
         <script>
@@ -205,10 +237,14 @@ A continuación te dejamos ejemplos de cómo inicializar el flujo de disclosure 
             </script>
             ```
 
+            :::warning[Sin protección de matchers]
+            Al crear el disclosure request desde el frontend, **no podrás usar matchers** para validar los datos. Esta opción es adecuada solo para casos de uso de bajo riesgo de fraude.
+            :::
+
         </TabItem>
         <TabItem value="mobile" label="SDK Mobile">
 
-            ```javascript title="Disclosure request creado en backend"
+            ```javascript title="Con disclosure request creado en backend (Recomendado)"
             import { useSoyioAuth } from "@soyio/soyio-rn-sdk";
 
             export default function App() {
@@ -242,7 +278,7 @@ A continuación te dejamos ejemplos de cómo inicializar el flujo de disclosure 
             }
             ```
 
-            ```javascript title="Disclosure request que se crea en frontend"
+            ```javascript title="Con disclosure request creado en frontend (Alternativa sin matchers)"
             import { useSoyioAuth } from "@soyio/soyio-rn-sdk";
 
             export default function App() {
@@ -278,6 +314,10 @@ A continuación te dejamos ejemplos de cómo inicializar el flujo de disclosure 
             );
             }
             ```
+
+            :::warning[Sin protección de matchers]
+            Al crear el disclosure request desde el frontend, **no podrás usar matchers** para validar los datos. Esta opción es adecuada solo para casos de uso de bajo riesgo de fraude.
+            :::
         </TabItem>
 </Tabs>
 

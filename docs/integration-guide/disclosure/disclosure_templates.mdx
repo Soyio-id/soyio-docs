@@ -43,8 +43,10 @@ Cada elemento acepta:
 
 Usa llaves descriptivas como `name`, `last_name`, `date_of_birth` o `cl_carnet_rut`. Estas claves se reconocen automáticamente por la API y también se usan para los `matchers` en [`POST /disclosure_requests`](../../api/resources/create-disclosure-request). Si necesitas una clave propia, defínela con claridad y especifica la categoría manualmente.
 
-:::info[Match de datos]
-Las llaves que definas aquí deben coincidir con los `matchers` que uses al crear un disclosure request. Aprende más sobre el [match de datos](./how-it-works#match-de-datos) para entender cómo funciona esta validación.
+:::warning[Match de datos y prevención de fraude]
+Las llaves que definas aquí deben coincidir con los `matchers` que uses al crear un disclosure request. Los matchers son **fundamentales para la prevención de fraude** en plataformas de comercio, ya que validan que la identidad verificada corresponde a los datos que el usuario proporcionó al registrarse.
+
+**Recomendación:** Define al menos las llaves `cl_carnet_rut`, `name`, `last_name` y `date_of_birth` en tus plantillas para poder usar matchers completos. Aprende más sobre el [match de datos](./how-it-works#match-de-datos) para entender cómo funciona esta validación.
 :::
 
 ### Define categorías de datos y usos
@@ -122,6 +124,42 @@ Aquí tienes un ejemplo completo de cómo se vería el request para crear una pl
 ```
 
 ## Configuración avanzada
+
+### Configura niveles de validación
+
+Puedes configurar qué verificaciones de identidad se requieren para cada plantilla de disclosure usando los campos de validación:
+
+- `liveness_check`: Requiere prueba de vida (detección de persona real)
+- `id_scan_check`: Requiere escaneo del documento de identidad
+- `government_check`: Requiere verificación con bases de datos gubernamentales
+
+Estos campos **sobrescriben** la configuración por defecto de tu empresa, permitiéndote tener diferentes niveles de validación para diferentes tipos de disclosure.
+
+```json title="Ejemplo con validación biométrica completa"
+{
+  "name": "Validación alta seguridad",
+  "liveness_check": true,
+  "id_scan_check": true,
+  "government_check": false,
+  "data_requirements": [...]
+}
+```
+
+```json title="Ejemplo con validación básica de documento"
+{
+  "name": "Validación básica",
+  "liveness_check": false,
+  "id_scan_check": true,
+  "government_check": false,
+  "data_requirements": [...]
+}
+```
+
+:::tip[Prioridad de configuración]
+Si defines estos campos en la plantilla, tienen prioridad sobre la configuración general de tu empresa. Si no los defines, se usarán los valores configurados a nivel de empresa en `disclosure.liveness_check`, `disclosure.id_scan_check` y `disclosure.government_check`.
+:::
+
+Aprende más sobre los niveles de validación y sus casos de uso en la [guía de niveles de validación](./validation-levels).
 
 ### Conecta tus documentos de privacidad
 

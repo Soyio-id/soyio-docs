@@ -1,6 +1,46 @@
 # Apariencia y comportamiento
 
-Al igual que los otros componentes de Soyio, el Privacy Center se puede personalizar mediante el uso del parámetro `appearance`. Este parámetro permite configurar el aspecto visual del componente.
+Al igual que los otros componentes de Soyio, el Privacy Center se puede personalizar tanto en su aspecto visual como en su comportamiento funcional.
+
+## Configuración de comportamiento
+
+El Privacy Center ofrece opciones avanzadas para adaptar su funcionamiento a tus necesidades de negocio. Estas opciones se configuran directamente en el objeto de opciones del widget.
+
+### Controles de consentimiento
+
+Define qué tipo de control visual utilizar para la gestión de consentimientos.
+
+- `consentControl`: `'switch'` (default) | `'checkbox'`
+
+### Modo de operación de consentimiento (Batch Mode)
+
+Permite agrupar múltiples cambios de consentimiento y guardarlos en una sola acción.
+
+- `consentMode`: `'immediate'` (default) | `'batch'`
+- `showBatchConsentConfirmation`: `boolean`. Muestra un diálogo de confirmación antes de guardar en modo batch.
+
+### Periodo de retención
+
+Establece un tiempo mínimo durante el cual un consentimiento otorgado no puede ser revocado.
+
+- `consentRetentionPeriod`: `string` (e.g. `'30 days'`, `'1 week'`). Unidades soportadas: `day`, `week`, `month`, `year`.
+
+```javascript
+const privacyCenterOptions = {
+  // ...
+  consentControl: 'checkbox',
+  consentMode: 'batch',
+  showBatchConsentConfirmation: true,
+  consentRetentionPeriod: '30 days',
+  appearance: {
+    // ...
+  }
+};
+```
+
+## Personalización visual (Appearance)
+
+El parámetro `appearance` permite configurar detalladamente el aspecto visual del componente.
 
 ## Variables de personalización
 

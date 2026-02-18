@@ -183,7 +183,7 @@ async function processPrivacyDocuments(text, apiBaseUrl, apiKey) {
     `${apiBaseUrl}/privacy_documents?where=${encodeURIComponent(JSON.stringify(whereFilter))}`,
     {
       headers: {
-        'Authorization': apiKey,
+        'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json'
       }
     }
