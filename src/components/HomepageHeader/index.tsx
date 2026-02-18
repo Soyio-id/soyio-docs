@@ -7,13 +7,19 @@ import BigKeyImage from './images/bigkey.png';
 import { useMouseParallax } from '../../hooks/useMouseParallax';
 
 import ConsorcioSvg from './images/consorcio.svg';
+import CajalosandesSvg from './images/cajalosandes.svg';
+import CruzverdeSvg from './images/cruzverde.svg';
+import FamilyshopSvg from './images/familyshop.svg';
 import NeatSvg from './images/neat.svg';
 import FraccionalSvg from './images/fraccional.svg';
 import HycoSvg from './images/hyco.svg';
+import MaicaoSvg from './images/maicao.svg';
 import PlatanusSvg from './images/platanus.svg';
+import RipleySvg from './images/ripley.svg';
 import SmartfitSvg from './images/smartfit.svg';
 import SbpaySvg from './images/sbpay.svg';
 import SalcobrandSvg from './images/salcobrand.svg';
+import SpinSvg from './images/spin.svg';
 
 export default function HomepageHeader() {
   const { elementRef: headerRef, mousePosition } = useMouseParallax();
@@ -22,6 +28,18 @@ export default function HomepageHeader() {
     {
       name: 'consorcio',
       logo: ConsorcioSvg,
+    },
+    {
+      name: 'cajalosandes',
+      logo: CajalosandesSvg,
+    },
+    {
+      name: 'cruzverde',
+      logo: CruzverdeSvg,
+    },
+    {
+      name: 'familyshop',
+      logo: FamilyshopSvg,
     },
     {
       name: 'salcobrand',
@@ -40,8 +58,16 @@ export default function HomepageHeader() {
       logo: HycoSvg,
     },
     {
+      name: 'maicao',
+      logo: MaicaoSvg,
+    },
+    {
       name: 'platanus',
       logo: PlatanusSvg,
+    },
+    {
+      name: 'ripley',
+      logo: RipleySvg,
     },
 
     {
@@ -51,6 +77,10 @@ export default function HomepageHeader() {
     {
       name: 'sbpay',
       logo: SbpaySvg,
+    },
+    {
+      name: 'spin',
+      logo: SpinSvg,
     },
   ];
   return (
@@ -99,12 +129,22 @@ export default function HomepageHeader() {
             />
           </div>
         </div>
-        <div className={styles.partnerLogos}>
-          {partners.map((partner) => (
-            <div className={styles.logoItem} key={partner.name}>
-              <partner.logo className={styles.partnerLogo} />
-            </div>
-          ))}
+        <div className={styles.partnerLogos} aria-label="Partners using Soyio">
+          <div className={styles.logoTrack}>
+            {[0, 1].map((groupIndex) => (
+              <div
+                className={styles.logoGroup}
+                key={`partner-group-${groupIndex}`}
+                aria-hidden={groupIndex === 1}
+              >
+                {partners.map((partner) => (
+                  <div className={styles.logoItem} key={`${partner.name}-${groupIndex}`}>
+                    <partner.logo className={styles.partnerLogo} />
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </header>
