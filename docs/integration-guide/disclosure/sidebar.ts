@@ -59,6 +59,11 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: 'doc',
+      id: 'integration-guide/disclosure/government-check',
+      label: 'Verificación gubernamental vía API',
+    },
+    {
+      type: 'doc',
       id: 'integration-guide/disclosure/device-compatibility',
       label: 'Compatibilidad de dispositivos',
     },

@@ -1,0 +1,183 @@
+import SequenceDiagram from '../../../src/components/SequenceDiagram';
+
+# Verificación gubernamental vía API
+
+Verifica la identidad de una persona contra el registro civil de forma directa desde tu backend, sin necesidad de widget ni validación biométrica.
+
+## Caso de uso
+
+El **government check request** es un recurso API-only que permite consultar el registro civil usando el RUT y número de documento de identidad de una persona. Es útil cuando necesitas verificar la vigencia de un documento de identidad sin requerir que el usuario pase por un flujo interactivo.
+
+A diferencia del [flujo de disclosure](./validate-identity) que involucra al usuario en el widget, este proceso es completamente server-to-server.
+
+## Integración
+
+El flujo que integrarás es el siguiente:
+
+<SequenceDiagram
+  actors={[
+    { id: 'backend', label: 'Tu backend' },
+    { id: 'soyio_api', label: 'Soyio API' },
+  ]}
+  actions={[
+    {
+      from: 'backend',
+      to: 'soyio_api',
+      label: 'Crear government check request'
+    },
+    {
+      from: 'soyio_api',
+      to: 'soyio_api',
+      label: 'Valida contra registro civil'
+    },
+    {
+      from: 'soyio_api',
+      to: 'backend',
+      label: 'Retorna government check request (successful / failed)'
+    },
+    {
+      from: 'soyio_api',
+      to: 'backend',
+      label: 'Webhook: government_check_request.successful / failed',
+      isDashed: true,
+      webhook: 'government_check_request.successful'
+    }
+  ]}
+/>
+
+### Pre requisitos
+
+1. Tener una **API key** válida. Puedes crearla desde el [dashboard](https://app.soyio.id) o vía la [API](../../api/resources/create-api-key.api.mdx).
+2. (Opcional) Tener un [webhook](../../api/webhooks.md) configurado para recibir los eventos de resultado.
+
+## Paso a paso
+
+### 1. Crea un government check request
+
+Envía un `POST` desde tu backend al endpoint de [crear government check request](../../api/resources/create-government-check-request.api.mdx) con el RUT y número de documento de la persona a verificar. La API valida los datos contra el registro civil de forma sincrónica y retorna el resultado directamente en la respuesta.
+
+#### Ejemplo de respuesta exitosa
+
+```json
+{
+  "government_check_request": {
+    "id": "govcheck_1B2M2Y8AsgTpgAmY7PhCfg",
+    "status": "successful",
+    "subject_id": "ent_5F6Q6C2EwkXtkEpB1TlGjk",
+    "user_reference": "user_123",
+    "validation_errors": [],
+    "created_at": "2026-02-16T12:00:00.000Z"
+  }
+}
+```
+
+#### Ejemplo de respuesta fallida
+
+Cuando la verificación falla, el campo `validation_errors` contendrá los errores específicos:
+
+```json
+{
+  "government_check_request": {
+    "id": "govcheck_1B2M2Y8AsgTpgAmY7PhCfg",
+    "status": "failed",
+    "subject_id": null,
+    "user_reference": "user_123",
+    "validation_errors": [
+       {
+        "code": "auth-074",
+        "type": "document",
+        "message": "invalid_document_number"
+      }
+    ],
+    "created_at": "2026-02-16T12:00:00.000Z"
+  }
+}
+```
+
+### 2. Escucha los eventos de webhook (opcional)
+
+Adicionalmente, Soyio enviará un evento a tu webhook con el resultado de la verificación. Los posibles eventos son:
+
+- **`government_check_request.successful`**: La verificación contra el registro civil fue exitosa.
+- **`government_check_request.failed`**: La verificación falló (documento inválido, datos no coinciden, etc.).
+
+#### Ejemplo de webhook
+
+```json title="government_check_request.successful"
+{
+  "id": "evt_...",
+  "name": "government_check_request.successful",
+  "payload": {
+    "user_reference": "user_123",
+    "government_check_request_id": "govcheck_1B2M2Y8AsgTpgAmY7PhCfg",
+    "subject_id": "ent_5F6Q6C2EwkXtkEpB1TlGjk"
+  },
+  "created_at": "2026-02-16T12:00:05.000Z"
+}
+```
+
+```json title="government_check_request.failed"
+{
+  "id": "evt_...",
+  "name": "government_check_request.failed",
+  "payload": {
+    "user_reference": "user_123",
+    "government_check_request_id": "govcheck_1B2M2Y8AsgTpgAmY7PhCfg",
+    "subject_id": null
+  },
+  "created_at": "2026-02-16T12:00:05.000Z"
+}
+```
+
+## Pruebas en sandbox
+
+En modo sandbox, puedes simular distintos escenarios de verificación gubernamental
+usando RUTs específicos.
+
+### RUTs de prueba
+
+| RUT | Resultado | Error | Descripción |
+|-----|-----------|-------|-------------|
+| `11111111-1` | `failed` | `auth-076` / `document_not_valid` | Documento no vigente. |
+| `22222222-2` | `failed` | `auth-074` / `invalid_document_number` | Número de documento inválido. |
+| `33333333-3` | `failed` | `auth-075` / `government_api_error` | Error en el servicio del registro civil. |
+
+Cualquier otro RUT con **formato válido** retornará una verificación exitosa (`successful`).
+
+### Ejemplo: verificación fallida por documento inválido
+
+```bash title="Request"
+curl -X POST https://sandbox.soyio.id/api/v1/government_check_requests \
+  -H "Authorization: Bearer ak_sandbox_..." \
+  -H "Content-Type: application/json" \
+  -d '{
+    "government_check_request": {
+      "nin": "22222222-2",
+      "document_number": "123456789",
+      "user_reference": "user_123"
+    }
+  }'
+```
+
+```json title="Response"
+{
+  "government_check_request": {
+    "id": "govcheck_...",
+    "status": "failed",
+    "subject_id": null,
+    "user_reference": "user_123",
+    "validation_errors": [
+      {
+        "code": "auth-074",
+        "type": "document",
+        "message": "invalid_document_number"
+      }
+    ],
+    "created_at": "2026-02-16T12:00:00.000Z"
+  }
+}
+```
+
+:::info[Verificación gubernamental en disclosure]
+Este recurso es independiente del flujo de disclosure. Si buscas habilitar la verificación gubernamental como parte del proceso de verificación de identidad con widget, consulta la sección de [verificación gubernamental](./how-it-works#verificación-gubernamental) en la guía de cómo funciona.
+:::
