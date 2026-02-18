@@ -148,11 +148,33 @@
 }
 
 .partnerLogos {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  margin-top: auto;
+  padding: 0.25rem 0;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+.logoTrack {
   display: flex;
-  justify-content: center;
+  align-items: center;
+  width: max-content;
+  will-change: transform;
+  animation: scrollPartnerLogos 30s linear infinite;
+}
+
+.logoGroup {
+  display: flex;
   align-items: center;
   gap: 2rem;
-  margin-top: auto;
+  padding-right: 2rem;
+  flex-shrink: 0;
+}
+
+.partnerLogos:hover .logoTrack {
+  animation-play-state: paused;
 }
 
 .logoItem {
@@ -161,6 +183,9 @@
   height: 1.75rem;
   opacity: 1;
   width: auto;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
   transition: all 0.2s ease;
 }
 
@@ -171,12 +196,23 @@
 .logoItem:hover {
   filter: grayscale(0%);
   opacity: 0.8;
-  scale: 1.1;
+  transform: scale(1.1);
 }
 
 .partnerLogo {
+  display: block;
   height: 100%;
   width: auto;
+}
+
+@keyframes scrollPartnerLogos {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 .container {
@@ -218,9 +254,9 @@
     flex-wrap: wrap;
   }
 
-  .partnerLogos {
-    flex-wrap: wrap;
+  .logoGroup {
     gap: 1.5rem;
+    padding-right: 1.5rem;
   }
 
   .logoItem {
@@ -238,6 +274,18 @@
     width: 75rem;
     height: 45rem;
     transform: rotate(-90deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .partnerLogos {
+    overflow-x: auto;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .logoTrack {
+    animation: none;
   }
 }
 
