@@ -3,6 +3,10 @@ const { devices } = require('@playwright/test');
 
 /** @type {import('@playwright/test').PlaywrightTestConfig} */
 const e2ePort = Number(process.env.E2E_PORT ?? '4173');
+const isCi = !!process.env.CI;
+const e2eServerCommand = isCi
+  ? `pnpm run build && pnpm run serve --port ${e2ePort} --host 127.0.0.1`
+  : `pnpm start --no-open --port ${e2ePort} --host 127.0.0.1`;
 
 const config = {
   testDir: './tests/e2e',
@@ -29,7 +33,7 @@ const config = {
     },
   ],
   webServer: {
-    command: `pnpm start --no-open --port ${e2ePort} --host 127.0.0.1`,
+    command: e2eServerCommand,
     port: e2ePort,
     timeout: 120 * 1000,
     reuseExistingServer: false,
