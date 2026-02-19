@@ -42,17 +42,13 @@ test.describe('Responsiveness', () => {
     expect(heroContentBounds).not.toBeNull();
     expect(heroTitleBounds).not.toBeNull();
 
-    if (!(viewport && heroContentBounds && heroTitleBounds)) {
-      return;
-    }
-
-    expect(heroContentBounds.x).toBeGreaterThanOrEqual(0);
-    expect(heroContentBounds.x + heroContentBounds.width).toBeLessThanOrEqual(
-      viewport.width,
+    expect(heroContentBounds!.x).toBeGreaterThanOrEqual(0);
+    expect(heroContentBounds!.x + heroContentBounds!.width).toBeLessThanOrEqual(
+      viewport!.width,
     );
-    expect(heroTitleBounds.x).toBeGreaterThanOrEqual(0);
-    expect(heroTitleBounds.x + heroTitleBounds.width).toBeLessThanOrEqual(
-      viewport.width,
+    expect(heroTitleBounds!.x).toBeGreaterThanOrEqual(0);
+    expect(heroTitleBounds!.x + heroTitleBounds!.width).toBeLessThanOrEqual(
+      viewport!.width,
     );
   });
 
