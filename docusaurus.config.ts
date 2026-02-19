@@ -13,6 +13,9 @@ const ALGOLIA_APP_ID = process.env.ALGOLIA_APP_ID ?? '';
 const ALGOLIA_API_KEY = process.env.ALGOLIA_API_KEY ?? '';
 const ALGOLIA_INDEX_NAME = process.env.ALGOLIA_INDEX_NAME ?? '';
 const FATHOM_SITE_ID = process.env.FATHOM_SITE_ID ?? '';
+const SOYIO_OPENAPI_SPEC_PATH =
+  process.env.SOYIO_OPENAPI_SPEC_PATH ??
+  'https://soyio-docs.s3.amazonaws.com/soyio-open-api.yaml';
 const INTERCOM_LAUNCHER_SELECTOR = '#soyio-intercom-launcher';
 const PRIVACY_CENTER_URL =
   process.env.SOYIO_PRIVACY_CENTER_URL || 'https://privacy.soyio.id';
@@ -108,9 +111,9 @@ const config: Config = {
         docsPluginId: 'classic', // configured for preset-classic
         config: {
           soyio: {
-            specPath: 'https://soyio-docs.s3.amazonaws.com/soyio-open-api.yaml',
-            // specPath: 'api/soyioapi.yaml',
+            specPath: SOYIO_OPENAPI_SPEC_PATH,
             outputDir: 'docs/api/resources',
+            showSchemas: false,
             sidebarOptions: {
               groupPathsBy: 'tag',
               sidebarGenerators: {
