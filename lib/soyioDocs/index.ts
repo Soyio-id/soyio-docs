@@ -196,17 +196,26 @@ function extractTitleFromMarkdown(markdown: string, fallbackTitle: string) {
 function extractDescriptionFromMarkdown(markdown: string) {
   const lines = markdown.split('\n');
   const descriptionLines: string[] = [];
-  let insideCodeBlock = false;
+  let activeCodeFence: string | null = null;
 
   for (const rawLine of lines) {
     const trimmedLine = rawLine.trim();
+    const fenceMatch = trimmedLine.match(/^([`~]{3,})/);
 
-    if (trimmedLine.startsWith('```')) {
-      insideCodeBlock = !insideCodeBlock;
-      continue;
+    if (fenceMatch) {
+      const fenceCharacter = fenceMatch[1][0];
+      if (!activeCodeFence) {
+        activeCodeFence = fenceCharacter;
+        continue;
+      }
+
+      if (activeCodeFence === fenceCharacter) {
+        activeCodeFence = null;
+        continue;
+      }
     }
 
-    if (insideCodeBlock) {
+    if (activeCodeFence) {
       continue;
     }
 
