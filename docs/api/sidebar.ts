@@ -37,6 +37,7 @@ const RESOURCE_SECTIONS: SidebarSection[] = [
       'Auth attempts',
       'Signature attempts',
       'Signed documents',
+      'Government check requests',
     ],
   },
   {
