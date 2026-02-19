@@ -21,6 +21,41 @@ test.describe('Responsiveness', () => {
     await expect(sidebar).toBeVisible();
   });
 
+  test('Keep homepage hero content inside mobile viewport', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+
+    const hero = page.locator('header[class*="heroBanner"]');
+    await expect(hero).toBeVisible();
+
+    const heroContent = hero.locator('[class*="content"]').first();
+    const heroTitle = hero.getByRole('heading', { level: 1 });
+    await expect(heroContent).toBeVisible();
+    await expect(heroTitle).toBeVisible();
+
+    const viewport = page.viewportSize();
+    const heroContentBounds = await heroContent.boundingBox();
+    const heroTitleBounds = await heroTitle.boundingBox();
+
+    expect(viewport).not.toBeNull();
+    expect(heroContentBounds).not.toBeNull();
+    expect(heroTitleBounds).not.toBeNull();
+
+    if (!(viewport && heroContentBounds && heroTitleBounds)) {
+      return;
+    }
+
+    expect(heroContentBounds.x).toBeGreaterThanOrEqual(0);
+    expect(heroContentBounds.x + heroContentBounds.width).toBeLessThanOrEqual(
+      viewport.width,
+    );
+    expect(heroTitleBounds.x).toBeGreaterThanOrEqual(0);
+    expect(heroTitleBounds.x + heroTitleBounds.width).toBeLessThanOrEqual(
+      viewport.width,
+    );
+  });
+
   test('Verify responsive design on tablet', async ({ page }) => {
     await page.setViewportSize({ width: 768, height: 1024 });
     // On tablet, left navbar items should be visible
