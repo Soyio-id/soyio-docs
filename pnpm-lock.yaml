@@ -37,6 +37,9 @@ importers:
       '@iconify-icons/logos':
         specifier: ^1.2.36
         version: 1.2.36
+      '@iconify-icons/lucide':
+        specifier: ^1.2.135
+        version: 1.2.135
       '@iconify-icons/mdi':
         specifier: ^1.2.48
         version: 1.2.48
@@ -79,9 +82,6 @@ importers:
       docusaurus-plugin-image-zoom:
         specifier: ^3.0.1
         version: 3.0.1(@docusaurus/theme-classic@3.9.2(@docusaurus/faster@3.9.2(@docusaurus/types@3.9.2(@swc/core@1.13.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)))(@rspack/core@1.5.8)(@swc/core@1.13.5)(@types/react@19.2.8)(lightningcss@1.30.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.5.4))
-      docusaurus-plugin-llms:
-        specifier: ^0.2.2
-        version: 0.2.2(@docusaurus/core@3.9.2(@docusaurus/faster@3.9.2(@docusaurus/types@3.9.2(@swc/core@1.13.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)))(@mdx-js/react@3.1.1(@types/react@19.2.8)(react@19.2.0))(@rspack/core@1.5.8)(@swc/core@1.13.5)(lightningcss@1.30.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.5.4))
       docusaurus-plugin-openapi-docs:
         specifier: ^4.5.1
         version: 4.5.1(@docusaurus/plugin-content-docs@3.9.2(@docusaurus/faster@3.9.2(@docusaurus/types@3.9.2(@swc/core@1.13.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)))(@mdx-js/react@3.1.1(@types/react@19.2.8)(react@19.2.0))(@rspack/core@1.5.8)(@swc/core@1.13.5)(lightningcss@1.30.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.5.4))(@docusaurus/utils-validation@3.9.2(@swc/core@1.13.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@docusaurus/utils@3.9.2(@swc/core@1.13.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0)
@@ -1649,6 +1649,9 @@ packages:
 
   '@iconify-icons/logos@1.2.36':
     resolution: {integrity: sha512-VzF299ubR4SKCZzLJoAawxeSjszJV1Q6y+4chCIPQuAafqfjtDjZxagZxL3ILKCsRLNN/z3zmCOOAL83tC8kLw==}
+
+  '@iconify-icons/lucide@1.2.135':
+    resolution: {integrity: sha512-t2Dya1a+PInBmHScbbGyseze7rrGHRW/dYF4GTR6f51N08sCg6KrtE4zmplnZE1ul2NyC+sxKpXRCv48hEgaQw==}
 
   '@iconify-icons/mdi@1.2.48':
     resolution: {integrity: sha512-51bfNoRLhYDfxSu0Nyi/uRVq6q/tP4TyEc0vvuNwImrXpxrRJUAWJF2A36CfBkXm3hO9IBlph/CD/XNDJKgG6w==}
@@ -4020,12 +4023,6 @@ packages:
     resolution: {integrity: sha512-mQrqA99VpoMQJNbi02qkWAMVNC4+kwc6zLLMNzraHAJlwn+HrlUmZSEDcTwgn+H4herYNxHKxveE2WsYy73eGw==}
     peerDependencies:
       '@docusaurus/theme-classic': '>=3.0.0'
-
-  docusaurus-plugin-llms@0.2.2:
-    resolution: {integrity: sha512-DZlZ6cv9p5poFE00Qg78aurBNWhLa4o0VhH4kI33DUT0y4ydlFEJJbf8Bks9BuuGPFbY/Guebn+hRc2QymMImg==}
-    engines: {node: '>=18.0'}
-    peerDependencies:
-      '@docusaurus/core': ^3.0.0
 
   docusaurus-plugin-openapi-docs@4.5.1:
     resolution: {integrity: sha512-3I6Sjz19D/eM86a24/nVkYfqNkl/zuXSP04XVo7qm/vlPeCpHVM4li2DLj7PzElr6dlS9RbaS4HVIQhEOPGBRQ==}
@@ -10516,6 +10513,10 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
+  '@iconify-icons/lucide@1.2.135':
+    dependencies:
+      '@iconify/types': 2.0.0
+
   '@iconify-icons/mdi@1.2.48':
     dependencies:
       '@iconify/types': 2.0.0
@@ -13176,13 +13177,6 @@ snapshots:
       '@docusaurus/theme-classic': 3.9.2(@docusaurus/faster@3.9.2(@docusaurus/types@3.9.2(@swc/core@1.13.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)))(@rspack/core@1.5.8)(@swc/core@1.13.5)(@types/react@19.2.8)(lightningcss@1.30.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.5.4)
       medium-zoom: 1.1.0
       validate-peer-dependencies: 2.2.0
-
-  docusaurus-plugin-llms@0.2.2(@docusaurus/core@3.9.2(@docusaurus/faster@3.9.2(@docusaurus/types@3.9.2(@swc/core@1.13.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)))(@mdx-js/react@3.1.1(@types/react@19.2.8)(react@19.2.0))(@rspack/core@1.5.8)(@swc/core@1.13.5)(lightningcss@1.30.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.5.4)):
-    dependencies:
-      '@docusaurus/core': 3.9.2(@docusaurus/faster@3.9.2(@docusaurus/types@3.9.2(@swc/core@1.13.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)))(@mdx-js/react@3.1.1(@types/react@19.2.8)(react@19.2.0))(@rspack/core@1.5.8)(@swc/core@1.13.5)(lightningcss@1.30.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.5.4)
-      gray-matter: 4.0.3
-      minimatch: 9.0.5
-      yaml: 2.8.2
 
   docusaurus-plugin-openapi-docs@4.5.1(@docusaurus/plugin-content-docs@3.9.2(@docusaurus/faster@3.9.2(@docusaurus/types@3.9.2(@swc/core@1.13.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)))(@mdx-js/react@3.1.1(@types/react@19.2.8)(react@19.2.0))(@rspack/core@1.5.8)(@swc/core@1.13.5)(lightningcss@1.30.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.5.4))(@docusaurus/utils-validation@3.9.2(@swc/core@1.13.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@docusaurus/utils@3.9.2(@swc/core@1.13.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0):
     dependencies:
@@ -18503,7 +18497,8 @@ snapshots:
 
   yaml@1.10.2: {}
 
-  yaml@2.8.2: {}
+  yaml@2.8.2:
+    optional: true
 
   yargs-parser@21.1.1: {}
 
