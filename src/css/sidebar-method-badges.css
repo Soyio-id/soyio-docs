@@ -1,5 +1,19 @@
 
 /* Sidebar Method labels */
+:root {
+  --sidebar-badge-schema-bg: var(--ifm-color-secondary-darkest);
+  --sidebar-badge-schema-fg: #ffffff;
+  --sidebar-badge-event-bg: #0f766e;
+  --sidebar-badge-event-fg: #ecfeff;
+}
+
+[data-theme='dark'] {
+  --sidebar-badge-schema-bg: #9ca3af;
+  --sidebar-badge-schema-fg: #111827;
+  --sidebar-badge-event-bg: #14b8a6;
+  --sidebar-badge-event-fg: #042f2e;
+}
+
 .api-method > .menu__link,
 .schema > .menu__link {
   align-items: center;
@@ -28,7 +42,7 @@
 }
 
 .schema > .menu__link::before {
-  font-size: .375rem;
+  font-size: .5rem;
 }
 
 .get > .menu__link::before {
@@ -63,12 +77,15 @@
 
 .event > .menu__link::before {
   content: "event";
-  background-color: var(--ifm-color-secondary-darkest);
+  font-size: .5rem;
+  background-color: var(--sidebar-badge-event-bg);
+  color: var(--sidebar-badge-event-fg);
 }
 
 .schema > .menu__link::before {
   content: "schema";
-  background-color: var(--ifm-color-secondary-darkest);
+  background-color: var(--sidebar-badge-schema-bg);
+  color: var(--sidebar-badge-schema-fg);
 }
 
 .menu__list-item--deprecated > .menu__link,
@@ -102,7 +119,7 @@
 }
 
 .schema-contrast > .menu__link::before {
-  font-size: .375rem;
+  font-size: .5rem;
 }
 
 
@@ -150,9 +167,10 @@
 
 .event-contrast > .menu__link::before {
   content: "event";
-  background-color: var(--ifm-color-secondary-contrast-background);
-  color: var(--ifm-color-secondary-contrast-foreground);
-  border-color: var(--ifm-color-secondary-dark);
+  font-size: .5rem;
+  background-color: var(--ifm-color-info-contrast-background);
+  color: var(--ifm-color-info-contrast-foreground);
+  border-color: var(--ifm-color-info-dark);
 }
 
 .schema-contrast > .menu__link::before {
