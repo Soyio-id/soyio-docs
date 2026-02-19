@@ -1,0 +1,73 @@
+---
+id: government-check-request-failed
+title: "Failed"
+description: "#### Nombre del evento: `government_check_request.failed`."
+sidebar_label: "Failed"
+hide_title: true
+hide_table_of_contents: true
+api: eJy9Vk1PG0kQ/Sul4pJIg782hOycFghERNooC0iQ3UROubvsaTzTPekPJxbyT9pTbrnyx1Y1YweM+di9LCcD1VWv3qt65SuMNAmY/4Vv3Iy9rdhGUAWrKXj+kjjEgJ8ydDV7isbZY405Tn6GHkjkSRt4RKZkjRlqDsqbWsIxx62trS1456qRZ9BcAs/YRpfD55ssw6bgcFmwM24Sfe58tKcMbGfXfxOoRFY7SBYmD+CEgmBMZUnadT5azHD5932n55hf3UF14Gw0bBmMHTtfkTLX322D78H8ktxo18EMlbORbZS0VNelUQ033csgua8wqIIrkk9xXjPm6EaXrCJmWHthMhoO8l+jb8WE6I2dbNB3/Bquf1ij3C3yMEP+RlVdyjuexWF/f/D74MOrvTA5qyd71Yfd98XBeIKLDC1VfF8RtqkS1Z8QQbRfx7OhpFSpaV460vd1vP76NUUXHqV5g6QU2A89j9mzVff2sl7iZBlqCDRDCom8EfIgJggmRFHmNn9N/v7gF+njITaG/0opzTaasVGknb8t2iOt3sCYuFlb8mEtQ2pIfQCMTWVJI8kVfeLHwQmqkC45OqDglCF9Z6ZsHO4cvfzj5cHg8Ov0Ik4P6/3+WfnmcoqLxSJD5Zki6yHF+5A0CxUxR02Rt6OpeIOrI1YFwRwK5xuZJOHNCq4Gq/mRRQ61s6Edh0Gvt7nN5zwqnBNilRkZ7UA571lFEtJZuHtxcbH57NB754EtcAm1d4oDVUZKNyi+tklRIFQcC6ebbZO9l4mPBea4iskwsJ+xFye9wuRLzLGIsQ55txvI6pH71glublzH6C7Vpjvrb3Byyn5mWnWg9olHFODZ8vFzXGR381Jd/8ecTifVsvys/UWinuPik8BXyZs4PxXrapmm2gynPL+lsFSWVpsYzHHE5NljtvxwtNL97fnZBpLD8CVx1YhNSczTqKXiFWtDNjIkS7D3/himPBewtfPKOEualhIVTJqbVkoKEFxplIlJc+iIwpIyzoeBQzDODqObsv0/sUNTEd6en0lc4LAcZ5B4TXqtJfdkS3DKMGHLniCF5vbJYlhdO2MjdJtuDYfuWr8wh/aqCZU6+Z87Bf0dqIxN0QlZiwzlVJ3cHMjD1eq3R+mxo7K6KU+ejrWzcNfFb2z3Cdd90hjXffFR61o3Lhz0Bi+2e7vbg1/P+jv5Tj8fvOr0dvt/SqB8LWimx8TGEU9l0WQ6N4ZDJlbsolk11Z6a1m1FdM3QPF1+aSDVOCZXZGSVg0xE5N9WayyVxUXazP1Or9PDxeIfgAtpEA==
+sidebar_class_name: "event api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Failed"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"event"}
+  path={"webhook"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+#### Nombre del evento: `government_check_request.failed`.
+Se envía cuando un government check request ha fallado.
+
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"description":"Contiene información del government check request fallido.","content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"string","description":"ID único del evento","example":"evt_1B2M2Y8AsgTpgAmY7PhCfg"},"name":{"type":"string","enum":["government_check_request.failed"],"description":"Nombre del evento"},"payload":{"type":"object","description":"Datos del government check request","properties":{"user_reference":{"type":"string","description":"Referencia de usuario de tu sistema","example":"user_123"},"government_check_request_id":{"type":"string","description":"Identificador único del government check request","example":"govcheck_1B2M2Y8AsgTpgAmY7PhCfg"},"subject_id":{"type":"string","nullable":true,"description":"Identificador del sujeto asociado","example":"ent_5F6Q6C2EwkXtkEpB1TlGjk"}}},"created_at":{"type":"string","format":"date-time","description":"Fecha y hora de creación del evento"}}}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Webhook recibido correctamente"},"4XX":{"description":"Error en el procesamiento del webhook"}}}
+>
+  
+</StatusCodes>
+
+
+      

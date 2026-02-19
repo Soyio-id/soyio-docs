@@ -1066,6 +1066,48 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: "category",
+      label: "Government check requests",
+      items: [
+        {
+          type: "doc",
+          id: "api/resources/schemas/governmentcheckrequest",
+          label: "El objeto GovernmentCheckRequest",
+          className: "schema",
+        },
+        {
+          type: "doc",
+          id: "api/resources/create-government-check-request",
+          label: "Crear un government check request",
+          className: "api-method post",
+        },
+        {
+          type: "doc",
+          id: "api/resources/index-government-check-requests",
+          label: "Obtener todos los government check requests",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/get-government-check-request",
+          label: "Obtener un government check request específico",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/government-check-request-successful",
+          label: "Successful",
+          className: "api-method event",
+        },
+        {
+          type: "doc",
+          id: "api/resources/government-check-request-failed",
+          label: "Failed",
+          className: "api-method event",
+        },
+      ],
+    },
+    {
+      type: "category",
       label: "REDEC",
       items: [
         {

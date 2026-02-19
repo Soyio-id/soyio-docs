@@ -123,6 +123,10 @@ tags:
       ### Guías relacionadas
 
       - [Autenticación](/docs/api/authentication)
+  - name: Government check requests
+    description: |
+      Los government check requests representan solicitudes de verificación de identidad directamente contra el registro civil,
+      sin necesidad de biometría. Permiten validar datos de identidad (RUT y número de documento) contra bases de datos gubernamentales.
   - name: REDEC
     description: |
       Endpoints específicos para el cumplimiento normativo REDEC (Registro de Empresas y Entidades de Crédito) de Chile.
@@ -551,6 +555,22 @@ paths:
       parameters:
         - $ref: '#/components/parameters/PageParam'
         - $ref: '#/components/parameters/PerPageParam'
+        - name: where
+          in: query
+          description: |
+            Filtros en formato JSON.
+            Para `liveness_check` e `id_scan_check`, se considera el valor efectivo del template;
+            si el template no define `validation_mode`, se usa la configuración de la compañía.
+          required: false
+          schema:
+            type: string
+          examples:
+            liveness_check_enabled:
+              summary: Filtrar templates con liveness habilitado
+              value: '{"liveness_check":{"=":true}}'
+            id_scan_check_disabled:
+              summary: Filtrar templates sin escaneo de documento
+              value: '{"id_scan_check":{"=":false}}'
         - $ref: '#/components/parameters/OrderByParam'
       responses:
         '200':
@@ -2168,11 +2188,11 @@ paths:
             text/csv:
               schema:
                 type: string
-                description: 'Datos de consent actions en formato CSV con campos básicos como ID, fechas y relaciones expandidas si se solicitan'
+                description: 'Datos de consent actions en formato CSV con campos básicos como ID, versión del template y relaciones expandidas si se solicitan'
                 example: |
-                  id,user_reference,consent_template_token,consent_template_name,created_at,updated_at
-                  consact_abc123,user_456,ctmpl_def789,Consentimiento de marketing,2024-01-15T10:30:00Z,2024-01-15T10:30:00Z
-                  consact_xyz987,user_654,ctmpl_ghi321,Consentimiento de análisis,2024-01-14T09:15:00Z,2024-01-14T09:15:00Z
+                  id,user_reference,consent_template_token,consent_template_name,consent_template_version,created_at,updated_at
+                  consact_abc123,user_456,ctmpl_def789,Consentimiento de marketing,2,2024-01-15T10:30:00Z,2024-01-15T10:30:00Z
+                  consact_xyz987,user_654,ctmpl_ghi321,Consentimiento de análisis,1,2024-01-14T09:15:00Z,2024-01-14T09:15:00Z
         '401':
           $ref: '#/components/responses/UnauthorizedError'
       security:
@@ -2951,7 +2971,7 @@ paths:
           example: ent_1B2M2Y8AsgTpgAmY7PhCfg
         - name: where
           in: query
-          description: 'Filtros en formato JSON. Por ahora, solamente damos soporte para el filtro de igualdad con el `consent_template_id` y `data_subject`.'
+          description: 'Filtros en formato JSON. Por ahora, damos soporte para filtros de igualdad con `consent_template_id`, `consent_template_version` y `data_subject`. Cuando envíes `consent_template_version`, también debes enviar `consent_template_id`, y el valor debe ser mayor a 0.'
           required: false
           schema:
             type: string
@@ -2959,6 +2979,9 @@ paths:
             consent_template_id_filter:
               summary: Filtrar por `consent_template_id`
               value: '{"consent_template_id":{"=":"constpl_7vH0nGSOnP9inT-1EsBP0g"}}'
+            consent_template_version_filter:
+              summary: Filtrar por `consent_template_id` y `consent_template_version`
+              value: '{"consent_template_id":{"=":"constpl_7vH0nGSOnP9inT-1EsBP0g"},"consent_template_version":{"=":2}}'
             data_subject_filter:
               summary: Filtrar por `data_subject`
               value: '{"data_subject":{"=":"prospect"}}'
@@ -3004,7 +3027,7 @@ paths:
           example: external-user-123
         - name: where
           in: query
-          description: 'Filtros en formato JSON. Por ahora, solamente damos soporte para el filtro de igualdad con el `consent_template_id` y `data_subject`.'
+          description: 'Filtros en formato JSON. Por ahora, damos soporte para filtros de igualdad con `consent_template_id`, `consent_template_version` y `data_subject`. Cuando envíes `consent_template_version`, también debes enviar `consent_template_id`, y el valor debe ser mayor a 0.'
           required: false
           schema:
             type: string
@@ -3012,6 +3035,9 @@ paths:
             consent_template_id_filter:
               summary: Filtrar por `consent_template_id`
               value: '{"consent_template_id":{"=":"constpl_7vH0nGSOnP9inT-1EsBP0g"}}'
+            consent_template_version_filter:
+              summary: Filtrar por `consent_template_id` y `consent_template_version`
+              value: '{"consent_template_id":{"=":"constpl_7vH0nGSOnP9inT-1EsBP0g"},"consent_template_version":{"=":2}}'
             data_subject_filter:
               summary: Filtrar por `data_subject`
               value: '{"data_subject":{"=":"prospect"}}'
@@ -3685,9 +3711,9 @@ paths:
                 type: string
                 description: Datos de estadísticas en formato CSV
                 example: |
-                  actions_count,ratio,entities_count,consent_template_token,consent_template_name,consent_template_is_optional
-                  75,0.5,25,ct_abc123,Consentimiento de marketing,true
-                  75,0.5,20,ct_def456,Consentimiento de análisis,false
+                  actions_count,ratio,entities_count,consent_template_token,consent_template_name,consent_template_is_optional,consent_template_version
+                  75,0.5,25,ct_abc123,Consentimiento de marketing,true,1
+                  75,0.5,20,ct_def456,Consentimiento de análisis,false,2
         '401':
           $ref: '#/components/responses/UnauthorizedError'
       security:
@@ -4317,6 +4343,110 @@ paths:
                 $ref: '#/components/schemas/ValidationError'
       security:
         - api_key: []
+  /government_check_requests:
+    post:
+      tags:
+        - Government check requests
+      summary: Crear un government check request
+      description: |
+        Crea un nuevo government check request para verificar datos de identidad contra el registro civil.
+        Se debe proporcionar `subject_id` o `user_reference` (mutuamente exclusivos).
+      operationId: createGovernmentCheckRequest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GovernmentCheckRequestInput'
+      responses:
+        '200':
+          description: Government check request creado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  government_check_request:
+                    $ref: '#/components/schemas/GovernmentCheckRequest'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '422':
+          description: Error de validación
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ValidationError'
+                  - type: object
+                    properties:
+                      errors:
+                        example:
+                          - Either subject_id or user_reference is required
+                          - nin is required
+                          - document_number is required
+                          - nin has an invalid format. Must be a valid Chilean RUT
+      security:
+        - api_key: []
+    get:
+      tags:
+        - Government check requests
+      summary: Obtener todos los government check requests
+      operationId: indexGovernmentCheckRequests
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
+        - name: where
+          in: query
+          description: Filtros en formato JSON
+          required: false
+          schema:
+            type: string
+          examples:
+            status_filter:
+              summary: Filtrar por estado
+              value: '{"status":{"=":"pending"}}'
+        - $ref: '#/components/parameters/OrderByParam'
+      responses:
+        '200':
+          description: Government check requests encontrados
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GovernmentCheckRequestList'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+      security:
+        - api_key: []
+  '/government_check_requests/{id}':
+    get:
+      tags:
+        - Government check requests
+      summary: Obtener un government check request específico
+      operationId: getGovernmentCheckRequest
+      parameters:
+        - name: id
+          in: path
+          description: ID del government check request
+          required: true
+          schema:
+            type: string
+          example: govcheck_1B2M2Y8AsgTpgAmY7PhCfg
+      responses:
+        '200':
+          description: Government check request encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  government_check_request:
+                    $ref: '#/components/schemas/GovernmentCheckRequest'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+      security:
+        - api_key: []
 components:
   parameters:
     PageParam:
@@ -4596,6 +4726,7 @@ components:
         - data_requirements
         - data_subject
         - created_at
+        - updated_at
       properties:
         id:
           type: string
@@ -5188,6 +5319,21 @@ components:
           type: string
           description: Correo electrónico asociado a la identidad.
           example: hari.seldon@trantor.empire
+        user_reference:
+          type: string
+          description: Referencia de usuario de tu sistema para esta identidad en el contexto de la compañía autenticada.
+          example: user_123
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          description: Fecha y hora de creación de la identidad.
+          example: '2024-03-20T15:30:00Z'
+        updated_at:
+          type: string
+          format: date-time
+          description: Fecha y hora de la última actualización de la identidad.
+          example: '2024-03-20T15:30:00Z'
         data:
           type: array
           description: Colección de información adicional sobre la identidad en forma de pares clave-valor.
@@ -5262,6 +5408,18 @@ components:
           type: string
           description: Identificador de la identidad que realiza el intento.
           example: id_ma21KLsmaslopask912Aa2
+        requestable_id:
+          type: string
+          description: Identificador del recurso asociado al intento de autenticación.
+          example: dreq_1B2M2Y8AsgTpgAmY7PhCfg
+        requestable_type:
+          type: string
+          description: Tipo del recurso asociado al intento de autenticación.
+          enum:
+            - DisclosureRequest
+            - SignatureAttempt
+            - AuthRequest
+          example: DisclosureRequest
         status:
           type: string
           enum:
@@ -5528,6 +5686,10 @@ components:
           type: string
           description: Nombre de la plantilla de consentimiento asociado cuando no se expande la relación.
           example: Essential Services Template
+        consent_template_version:
+          type: integer
+          description: Versión de la plantilla de consentimiento asociada cuando no se expande la relación.
+          example: 1
         context:
           type: string
           description: Contexto adicional asociado a la acción de consentimiento
@@ -5772,10 +5934,6 @@ components:
               type: string
               description: Canal a través del cual se obtuvo el consentimiento.
               example: website
-            details:
-              type: string
-              description: Detalles específicos sobre cómo se obtuvo el consentimiento.
-              example: cliked in selector tab to opt-in consent
             capture_facilitator:
               type: string
               description: Entidad que facilitó el proceso de consentimiento.
@@ -5872,6 +6030,13 @@ components:
                 type: string
                 description: Tipo de evento.
                 example: disclosure_created
+              metadata:
+                type: object
+                description: Metadatos adicionales al evento
+                nullable: true
+                example:
+                  details: se le mostró al usuario el texto de consentimiento en un chatbot de whatsapp
+                  chat_id: 13928
         data_permissions_diff:
           type: object
           description: 'Diferencia de permisos de datos entre la versión anterior y actual del acuerdo. Muestra los permisos creados, removidos y extendidos.'
@@ -5929,6 +6094,28 @@ components:
           type: string
           description: 'Propósito específico del uso del dato. Sigue la taxonomía de usos de datos. Revisa [taxonomía](/docs/integration-guide/taxonomy) para más información.'
           example: essential.service.authentication
+        data_subject:
+          type: string
+          description: |
+            Sujeto de derecho para el cual se aplica este permiso de datos.
+            El valor se hereda del template de consentimiento que originó el permiso.
+          enum:
+            - anonymous_user
+            - citizen_voter
+            - commuter
+            - consultant
+            - customer
+            - employee
+            - job_applicant
+            - next_of_kin
+            - passenger
+            - patient
+            - prospect
+            - shareholder
+            - supplier_vendor
+            - trainee
+            - visitor
+          example: customer
         scope_type:
           type: string
           enum:
@@ -6785,6 +6972,16 @@ components:
           description: 'Referencia del usuario en tu sistema, almacenada directamente en la entidad (no depende del último agreement).'
           example: user_123
           nullable: true
+        created_at:
+          type: string
+          format: date-time
+          description: Fecha y hora de creación de la entidad.
+          example: '2024-03-20T15:30:00Z'
+        updated_at:
+          type: string
+          format: date-time
+          description: Fecha y hora de la última actualización de la entidad.
+          example: '2024-03-20T15:30:00Z'
         attestations:
           type: array
           description: |
@@ -6809,6 +7006,36 @@ components:
           type: string
           description: ID único de la entidad.
           example: ent_1B2M2Y8AsgTpgAmY7PhCfg
+        user_reference:
+          type: string
+          description: 'Referencia del usuario en tu sistema, almacenada directamente en la entidad (no depende del último agreement).'
+          example: user_123
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          description: Fecha y hora de creación de la entidad.
+          example: '2024-03-20T15:30:00Z'
+        updated_at:
+          type: string
+          format: date-time
+          description: Fecha y hora de la última actualización de la entidad.
+          example: '2024-03-20T15:30:00Z'
+        attestations:
+          type: array
+          description: |
+            Lista de attestations que documentan las validaciones realizadas sobre este sujeto.
+          items:
+            $ref: '#/components/schemas/Attestation'
+          example:
+            - kind: liveness
+              validated_at: '2026-01-19T12:00:00Z'
+            - kind: id_scan
+              validated_at: '2026-01-19T12:00:00Z'
+            - kind: id_match
+              validated_at: '2026-01-19T12:00:00Z'
+            - kind: government_check
+              validated_at: '2026-01-19T12:05:00Z'
     EntityList:
       type: object
       properties:
@@ -7008,6 +7235,11 @@ components:
               type: string
               description: 'URL privada del Centro de Privacidad. Revisa [funcionalidades y modos](/docs/integration-guide/privacy-center/functionalities) del Centro de Privacidad para más información.'
               example: 'https://private-privacy.example.com'
+            whitelisted_domains:
+              type: array
+              items:
+                type: string
+              description: Lista de dominios permitidos para incrustar el Centro de Privacidad.
         data_subject_request:
           type: object
           description: |
@@ -7370,6 +7602,10 @@ components:
                     type: boolean
                     description: Si el template es opcional
                     example: true
+                  version:
+                    type: integer
+                    description: La versión del template de consentimiento asociado
+                    example: 1
     ConsentCommitStats:
       type: object
       description: Estadísticas de commits de consentimiento
@@ -7612,6 +7848,110 @@ components:
           allOf:
             - $ref: '#/components/schemas/EvidenceConsentMethod'
             - nullable: true
+    GovernmentCheckRequest:
+      x-tags:
+        - Government check requests
+      type: object
+      description: |
+        Los government check requests representan solicitudes de verificación de identidad contra el registro civil,
+        sin necesidad de biometría.
+      properties:
+        id:
+          type: string
+          description: Identificador único del government check request.
+          example: govcheck_1B2M2Y8AsgTpgAmY7PhCfg
+        status:
+          type: string
+          enum:
+            - pending
+            - validating
+            - successful
+            - failed
+          description: Estado actual del government check request.
+        subject_id:
+          type: string
+          nullable: true
+          description: Identificador del sujeto asociado (Identity o Entity).
+          example: ent_5F6Q6C2EwkXtkEpB1TlGjk
+        user_reference:
+          type: string
+          description: Referencia de usuario de tu sistema.
+          example: user_123
+        validation_errors:
+          type: array
+          description: |
+            Errores de validación (solo presente cuando el estado es `failed`).
+
+            Códigos posibles:
+            - `auth-074` / `invalid_document_number`: Número de documento inválido.
+            - `auth-075` / `government_api_error`: La base de datos gubernamental no estaba disponible al momento de la consulta.
+            - `auth-076` / `document_not_valid`: El documento no se encuentra vigente.
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                description: Código de error.
+                enum:
+                  - auth-074
+                  - auth-075
+                  - auth-076
+                example: auth-074
+              type:
+                type: string
+                description: Tipo de error.
+                enum:
+                  - document
+                example: document
+              message:
+                type: string
+                description: Identificador del error.
+                enum:
+                  - document_not_valid
+                  - invalid_document_number
+                  - government_api_error
+                example: document_not_valid
+              detail:
+                type: string
+                description: Mensaje legible del error.
+                example: Número de documento inválido.
+        created_at:
+          type: string
+          format: date-time
+          description: Fecha y hora de creación del government check request.
+    GovernmentCheckRequestInput:
+      type: object
+      required:
+        - nin
+        - document_number
+      properties:
+        nin:
+          type: string
+          description: RUT del titular (formato chileno).
+          example: 12345678-9
+        document_number:
+          type: string
+          description: Número de documento de identidad.
+          example: '123456789'
+        subject_id:
+          type: string
+          nullable: true
+          description: Token del sujeto existente (Identity o Entity). Mutuamente exclusivo con `user_reference`.
+          example: ent_5F6Q6C2EwkXtkEpB1TlGjk
+        user_reference:
+          type: string
+          nullable: true
+          description: Referencia de usuario de tu sistema. Mutuamente exclusivo con `subject_id`.
+          example: user_123
+    GovernmentCheckRequestList:
+      type: object
+      properties:
+        government_check_requests:
+          type: array
+          items:
+            $ref: '#/components/schemas/GovernmentCheckRequest'
+        metadata:
+          $ref: '#/components/schemas/FilterOrderAndPaginationMetadata'
   securitySchemes:
     api_key:
       type: http
@@ -8808,6 +9148,108 @@ webhooks:
                       type: string
                       description: Mensaje descriptivo del motivo
                       example: No triggering events for the last 24 hours.
+                created_at:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de creación del evento
+      responses:
+        '200':
+          description: Webhook recibido correctamente
+        4XX:
+          description: Error en el procesamiento del webhook
+  governmentCheckRequestSuccessful:
+    post:
+      tags:
+        - Government check requests
+      summary: Successful
+      operationId: governmentCheckRequestSuccessful
+      description: |
+        #### Nombre del evento: `government_check_request.successful`.
+        Se envía cuando un government check request se ha completado exitosamente.
+      requestBody:
+        description: Contiene información del government check request completado exitosamente.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID único del evento
+                  example: evt_1B2M2Y8AsgTpgAmY7PhCfg
+                name:
+                  type: string
+                  enum:
+                    - government_check_request.successful
+                  description: Nombre del evento
+                payload:
+                  type: object
+                  description: Datos del government check request
+                  properties:
+                    user_reference:
+                      type: string
+                      description: Referencia de usuario de tu sistema
+                      example: user_123
+                    government_check_request_id:
+                      type: string
+                      description: Identificador único del government check request
+                      example: govcheck_1B2M2Y8AsgTpgAmY7PhCfg
+                    subject_id:
+                      type: string
+                      nullable: true
+                      description: Identificador del sujeto asociado
+                      example: ent_5F6Q6C2EwkXtkEpB1TlGjk
+                created_at:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de creación del evento
+      responses:
+        '200':
+          description: Webhook recibido correctamente
+        4XX:
+          description: Error en el procesamiento del webhook
+  governmentCheckRequestFailed:
+    post:
+      tags:
+        - Government check requests
+      summary: Failed
+      operationId: governmentCheckRequestFailed
+      description: |
+        #### Nombre del evento: `government_check_request.failed`.
+        Se envía cuando un government check request ha fallado.
+      requestBody:
+        description: Contiene información del government check request fallido.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID único del evento
+                  example: evt_1B2M2Y8AsgTpgAmY7PhCfg
+                name:
+                  type: string
+                  enum:
+                    - government_check_request.failed
+                  description: Nombre del evento
+                payload:
+                  type: object
+                  description: Datos del government check request
+                  properties:
+                    user_reference:
+                      type: string
+                      description: Referencia de usuario de tu sistema
+                      example: user_123
+                    government_check_request_id:
+                      type: string
+                      description: Identificador único del government check request
+                      example: govcheck_1B2M2Y8AsgTpgAmY7PhCfg
+                    subject_id:
+                      type: string
+                      nullable: true
+                      description: Identificador del sujeto asociado
+                      example: ent_5F6Q6C2EwkXtkEpB1TlGjk
                 created_at:
                   type: string
                   format: date-time
