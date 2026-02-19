@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Responsiveness', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('http://localhost:3000');
+    await page.goto('/');
   });
 
   test('Verify responsive design on mobile', async ({ page }) => {
@@ -24,6 +24,8 @@ test.describe('Responsiveness', () => {
   test('Verify responsive design on tablet', async ({ page }) => {
     await page.setViewportSize({ width: 768, height: 1024 });
     // On tablet, left navbar items should be visible
-    await expect(page.locator('.theme-layout-navbar-left.navbar__items')).toBeVisible();
+    await expect(
+      page.locator('.theme-layout-navbar-left.navbar__items'),
+    ).toBeVisible();
   });
 });
