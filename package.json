@@ -46,7 +46,7 @@
     "docusaurus-plugin-openapi-docs": "^4.5.1",
     "docusaurus-theme-openapi-docs": "^4.5.1",
     "jsdom": "^25.0.1",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "prism-react-renderer": "^2.4.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
