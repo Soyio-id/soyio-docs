@@ -79,7 +79,7 @@ Para más información o explora el [schema del Agreement](/docs/api/resources/s
 
 #### Paso 1: Obtén la versión más reciente
 
-Obtén la versión más reciente del Agreement de un usuario específico usando el endpoint de listado con filtros y ordenando por `created_at` de forma descendente.
+Obtén la versión más reciente del Agreement de un usuario específico usando el [endpoint de listado de agreements](../../api/resources/index-agreements.api.mdx), filtrando y ordenando por `created_at` de forma descendente.
 
 ```javascript title="Obtener la versión más reciente del Agreement por entity_id"
 const getLatestAgreement = async (entityId) => {
@@ -101,6 +101,8 @@ const getLatestAgreement = async (entityId) => {
 
 :::tip
 También puedes filtrar por `user_reference` para obtener el Agreement de un usuario específico. Recuerda que el `user_reference` es el identificador de usuario interno de tu sistema que proporcionas opcionalmente como referencia cuando capturas el consentimiento.
+
+Si necesitas más detalle de filtros y estructura de respuesta, revisa [Obtener todos los acuerdos](../../api/resources/index-agreements.api.mdx).
 :::
 
 #### Paso 2: Verifica los permisos

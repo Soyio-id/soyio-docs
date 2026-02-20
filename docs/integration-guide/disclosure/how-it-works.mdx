@@ -36,7 +36,7 @@ El match de datos es una **capa esencial de seguridad** para prevenir fraudes en
 **Si operas un comercio**, evalúa cuidadosamente tu nivel de exposición al fraude antes de decidir no usar matchers. Esta funcionalidad está disponible solo cuando creas el disclosure request desde el backend.
 :::
 
-Si el usuario creó una cuenta en tu sistema previamente y entregó datos de identificación, puedes incluir como parte del proceso que Soyio **verifique el match entre los datos verificados** que el usuario entrega en este proceso y la información almacenada en tu sistema. Si ocupas esta opción y el match no es exitoso, el **proceso concluye sin crear una identidad**.
+Si el usuario creó una cuenta en tu sistema previamente y entregó datos de identificación, puedes incluir como parte del proceso que Soyio **verifique el match entre los datos verificados** que el usuario entrega en este proceso y la información almacenada en tu sistema. Si usas esta opción y el match no es exitoso, el **proceso concluye sin crear una identidad**.
 
 Los campos disponibles para realizar el match son:
 
@@ -56,7 +56,7 @@ Los campos disponibles para realizar el match son:
 - **Awaiting missing data**: Se requiere información adicional del usuario. El sistema espera que el usuario complete los datos faltantes
 - **Granted**: El proceso se ha completado exitosamente. Se han validado los datos y obtenido los consentimientos necesarios
 - **Timed Out**: La solicitud ha expirado por inactividad. El proceso no se completó dentro del tiempo establecido
-- **Failed**: La solicitud ha fallado por que los datos no hacen match. Este chequeo solo ocurre cuando se realiza un match de datos. El proceso no se completó exitosamente.
+- **Failed**: La solicitud ha fallado porque los datos no hacen match. Este chequeo solo ocurre cuando se realiza un match de datos. El proceso no se completó exitosamente.
 
 <details>
     <summary>Diagrama de estados</summary>

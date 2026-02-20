@@ -79,7 +79,7 @@ Para este enfoque, no necesitas el SDK instalado en tu frontend. Crea tokens de 
 
 ### 1. Crea o selecciona una plantilla de consentimiento
 
-Usa una [plantilla de consentimiento](./consent-templates) ya creada o [crea una nueva plantilla de consentimiento](../../api/resources/create-consent-template). Revisa la [guía de plantillas de consentimiento](./consent-templates) para más información.
+Usa una [plantilla de consentimiento](./consent-templates) ya creada o [crea una nueva plantilla de consentimiento](../../api/resources/create-consent-template.api.mdx). Revisa la [guía de plantillas de consentimiento](./consent-templates) para más información.
 
 ### 2. Implementa tu propia lógica de consentimiento
 
@@ -87,7 +87,7 @@ Con este enfoque, tienes total libertad para implementar tu propia interfaz y l�
 
 #### Obtén información de la plantilla
 
-Antes de mostrar tu interfaz de consentimiento, consulta la [plantilla de consentimiento](../../api/resources/get-consent-template) para obtener:
+Antes de mostrar tu interfaz de consentimiento, consulta la [plantilla de consentimiento](../../api/resources/get-consent-template.api.mdx) para obtener:
 
 - **Cláusula del consentimiento** (`text`): El texto explicativo que debes mostrar al usuario
 - **Categorías de datos** (`data_categories`): Los tipos de datos que se recolectarán según la [taxonomía](../../integration-guide/taxonomy) de Soyio
@@ -228,7 +228,7 @@ Sea cual sea el enfoque que elijas, **te recomendamos encarecidamente presentar 
 
 ### 3. Crea el token de acción
 
-Cuando el usuario otorga el consentimiento en tu interfaz, crea inmediatamente un token de acción usando el [endpoint de creación de tokens de acción](../../api/resources/create-action-token).
+Cuando el usuario otorga el consentimiento en tu interfaz, crea inmediatamente un token de acción usando el [endpoint de creación de tokens de acción](../../api/resources/create-action-token.api.mdx).
 
 **Importante**: Para una trazabilidad adecuada, incluye información contextual en `action_data` y `contextual_data`:
 
@@ -262,12 +262,14 @@ La respuesta incluye el `action_token` que necesitas para crear el registro de c
 ```
 
 :::tip
-Si quieres registrar una revocación de consentimiento sin SDK, usa el endpoint de creación de acción de consentimiento con el `kind` seteado a `revoke`.
+Si quieres registrar una revocación de consentimiento sin SDK, crea el action token con `kind` seteado a `revoke`.
+
+Consulta [Crea un action token](../../api/resources/create-action-token.api.mdx) para ver todos los campos disponibles y ejemplos adicionales.
 :::
 
 ### 4. Crea el registro de consentimiento
 
-Una vez que el usuario haya otorgado su(s) consentimiento(s) y tengas el `action_token`, crea el registro de consentimiento mediante el [endpoint de creación de acción de consentimiento](../../api/resources/create-consent-action), incluyendo la información contextual del método de captura. Opcionalmente, puedes agregar el `user_reference` para asociar el consentimiento con un usuario específico de tu sistema.
+Una vez que el usuario haya otorgado su(s) consentimiento(s) y tengas el `action_token`, crea el registro de consentimiento mediante el [endpoint de creación de acción de consentimiento](../../api/resources/create-consent-action.api.mdx), incluyendo la información contextual del método de captura. Opcionalmente, puedes agregar el `user_reference` para asociar el consentimiento con un usuario específico de tu sistema.
 
 **Importante**: Para una trazabilidad completa, incluye información detallada en `consent_method`:
 
@@ -291,7 +293,11 @@ Una vez que el usuario haya otorgado su(s) consentimiento(s) y tengas el `action
 }
 ```
 
-También puedes crear un [consent commits](../../api/resources/schemas/consentcommit) si quieres registrar varios consentimientos en una misma transacción. Revisa la [guía de registro agrupado de consentimientos](./consent-capture#opci%C3%B3n-2-crea-un-commit-de-varios-consentimientos-consentcommit) para más información.
+:::tip
+Puedes usar [Crear un consent action](../../api/resources/create-consent-action.api.mdx) como referencia del payload completo y sus validaciones.
+:::
+
+También puedes crear un [consent commit](../../api/resources/create-consent-commit.api.mdx) si quieres registrar varios consentimientos en una misma transacción. Revisa la [guía de registro agrupado de consentimientos](./consent-capture#opci%C3%B3n-2-crea-un-commit-de-varios-consentimientos-consentcommit) para más información.
 
 ## Mejores prácticas para trazabilidad
 

@@ -70,3 +70,8 @@ Para mantener el orden y facilitar la navegación, nuestra documentación se div
 # Content Style Guide
 
 For guidelines on writing documentation, including tone, voice, and usage of Docusaurus components, refer to the [Content Style Guide](./STYLE_GUIDE.md).
+
+# Project Skill
+
+- **Proofreading skill (agent-agnostic):** `.agents/skills/soyio-docs-proofread/SKILL.md`
+- **Use case:** Proofread docs changes, enforce `STYLE_GUIDE.md`, and verify backend integration examples link to corresponding API reference resources.
