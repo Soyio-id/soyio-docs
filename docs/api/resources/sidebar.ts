@@ -128,24 +128,6 @@ const sidebar: SidebarsConfig = {
         },
         {
           type: "doc",
-          id: "api/resources/schemas/consenttemplateindex",
-          label: "El objeto ConsentTemplateIndex",
-          className: "schema",
-        },
-        {
-          type: "doc",
-          id: "api/resources/schemas/eventlog",
-          label: "El objeto EventLog",
-          className: "schema",
-        },
-        {
-          type: "doc",
-          id: "api/resources/schemas/datarequirement",
-          label: "El objeto DataRequirement",
-          className: "schema",
-        },
-        {
-          type: "doc",
           id: "api/resources/index-consent-templates",
           label: "Obtener todos los templates de consentimiento",
           className: "api-method get",
@@ -236,12 +218,6 @@ const sidebar: SidebarsConfig = {
       items: [
         {
           type: "doc",
-          id: "api/resources/schemas/consentactionindex",
-          label: "El objeto ConsentActionIndex",
-          className: "schema",
-        },
-        {
-          type: "doc",
           id: "api/resources/schemas/consentaction",
           label: "El objeto ConsentAction",
           className: "schema",
@@ -282,12 +258,6 @@ const sidebar: SidebarsConfig = {
       type: "category",
       label: "Consent commits",
       items: [
-        {
-          type: "doc",
-          id: "api/resources/schemas/consentcommitindex",
-          label: "El objeto ConsentCommitIndex",
-          className: "schema",
-        },
         {
           type: "doc",
           id: "api/resources/schemas/consentcommit",
@@ -674,12 +644,6 @@ const sidebar: SidebarsConfig = {
         },
         {
           type: "doc",
-          id: "api/resources/schemas/datause",
-          label: "El objeto DataUse",
-          className: "schema",
-        },
-        {
-          type: "doc",
           id: "api/resources/get-all-evidences",
           label: "Obtener todas las evidencias",
           className: "api-method get",
@@ -842,6 +806,12 @@ const sidebar: SidebarsConfig = {
         },
         {
           type: "doc",
+          id: "api/resources/update-product",
+          label: "Actualizar un producto",
+          className: "api-method patch",
+        },
+        {
+          type: "doc",
           id: "api/resources/index-product-versions",
           label: "Obtener todas las versiones de un producto",
           className: "api-method get",
@@ -862,18 +832,6 @@ const sidebar: SidebarsConfig = {
           type: "doc",
           id: "api/resources/schemas/entity",
           label: "El objeto Entity",
-          className: "schema",
-        },
-        {
-          type: "doc",
-          id: "api/resources/schemas/entityindex",
-          label: "El objeto EntityIndex",
-          className: "schema",
-        },
-        {
-          type: "doc",
-          id: "api/resources/schemas/compliancestatus",
-          label: "El objeto ComplianceStatus",
           className: "schema",
         },
         {
@@ -1066,6 +1024,72 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: "category",
+      label: "Reports",
+      items: [
+        {
+          type: "doc",
+          id: "api/resources/schemas/report",
+          label: "El objeto Report",
+          className: "schema",
+        },
+        {
+          type: "doc",
+          id: "api/resources/index-reports",
+          label: "Obtener todos los reportes",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/create-report",
+          label: "Crear un nuevo reporte",
+          className: "api-method post",
+        },
+        {
+          type: "doc",
+          id: "api/resources/report-created",
+          label: "Created",
+          className: "api-method event",
+        },
+        {
+          type: "doc",
+          id: "api/resources/redec-rdc-40-no-changes",
+          label: "RDC40 no changes",
+          className: "api-method event",
+        },
+      ],
+    },
+    {
+      type: "category",
+      label: "Exports",
+      items: [
+        {
+          type: "doc",
+          id: "api/resources/schemas/export",
+          label: "El objeto Export",
+          className: "schema",
+        },
+        {
+          type: "doc",
+          id: "api/resources/index-exports",
+          label: "Listar exportaciones",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/resources/create-export",
+          label: "Crear una exportación asíncrona",
+          className: "api-method post",
+        },
+        {
+          type: "doc",
+          id: "api/resources/show-export",
+          label: "Obtener estado de exportación",
+          className: "api-method get",
+        },
+      ],
+    },
+    {
+      type: "category",
       label: "Government check requests",
       items: [
         {
@@ -1150,54 +1174,6 @@ const sidebar: SidebarsConfig = {
           type: "doc",
           id: "api/resources/consent-action-redec-receipt-generated",
           label: "REDEC Receipt Generated",
-          className: "api-method event",
-        },
-      ],
-    },
-    {
-      type: "category",
-      label: "Reports",
-      items: [
-        {
-          type: "doc",
-          id: "api/resources/schemas/report",
-          label: "El objeto Report",
-          className: "schema",
-        },
-        {
-          type: "doc",
-          id: "api/resources/schemas/reportindexlist",
-          label: "El objeto ReportIndexList",
-          className: "schema",
-        },
-        {
-          type: "doc",
-          id: "api/resources/schemas/reportinput",
-          label: "El objeto ReportInput",
-          className: "schema",
-        },
-        {
-          type: "doc",
-          id: "api/resources/index-reports",
-          label: "Obtener todos los reportes",
-          className: "api-method get",
-        },
-        {
-          type: "doc",
-          id: "api/resources/create-report",
-          label: "Crear un nuevo reporte",
-          className: "api-method post",
-        },
-        {
-          type: "doc",
-          id: "api/resources/report-created",
-          label: "Created",
-          className: "api-method event",
-        },
-        {
-          type: "doc",
-          id: "api/resources/redec-rdc-40-no-changes",
-          label: "RDC40 no changes",
           className: "api-method event",
         },
       ],
