@@ -30,7 +30,7 @@ Usa el campo `name` para reconocer la plantilla desde el Dashboard. Define la vi
 
 El campo `data_subject` delimita para quién aplica el flujo (por ejemplo, `customer`, `employee` o `prospect`). Alinea esta selección con los perfiles que estás verificando para que tus reportes y evidencias sean consistentes.
 
-## 3. Define los datos que necesitas
+### 3. Define los datos que necesitas
 
 Los `data_requirements` definen los datos personales que el usuario debe entregar al momento de verificar su identidad. Estos datos se extraen automáticamente del documento de identidad (cédula, pasaporte, etc.).
 
@@ -41,7 +41,7 @@ Cada elemento acepta:
 
 ### Elige la llave correcta
 
-Usa llaves descriptivas como `name`, `last_name`, `date_of_birth` o `cl_carnet_rut`. Estas claves se reconocen automáticamente por la API y también se usan para los `matchers` en [`POST /disclosure_requests`](../../api/resources/create-disclosure-request). Si necesitas una clave propia, defínela con claridad y especifica la categoría manualmente.
+Usa llaves descriptivas como `name`, `last_name`, `date_of_birth` o `cl_carnet_rut`. Estas claves se reconocen automáticamente por la API y también se usan para los `matchers` en [`POST /api/v1/disclosure_requests`](../../api/resources/create-disclosure-request.api.mdx). Si necesitas una clave propia, defínela con claridad y especifica la categoría manualmente.
 
 :::warning[Match de datos y prevención de fraude]
 Las llaves que definas aquí deben coincidir con los `matchers` que uses al crear un disclosure request. Los matchers son **fundamentales para la prevención de fraude** en plataformas de comercio, ya que validan que la identidad verificada corresponde a los datos que el usuario proporcionó al registrarse.
@@ -90,7 +90,7 @@ Si tu empresa no tiene una definición específica en sus políticas, contáctan
 
 ### Ejemplo completo de plantilla
 
-Aquí tienes un ejemplo completo de cómo se vería el request para crear una plantilla de disclosure:
+Aquí tienes un ejemplo completo de cómo se vería la solicitud para crear una plantilla de disclosure:
 
 ```json title="POST /api/v1/disclosure_templates"
 {
@@ -122,6 +122,10 @@ Aquí tienes un ejemplo completo de cómo se vería el request para crear una pl
   ]
 }
 ```
+
+:::tip
+Si necesitas el detalle completo de parámetros y respuestas, consulta [Crear un template de divulgación](../../api/resources/create-disclosure-template.api.mdx).
+:::
 
 ## Configuración avanzada
 
@@ -169,16 +173,16 @@ Asocia políticas y avisos usando `privacy_document_ids`. Los documentos deben e
 
 ### Crear la plantilla
 
-Usa el endpoint [`POST /disclosure_templates`](../../api/resources/create-disclosure-template) para crear tu plantilla con la configuración que definiste.
+Usa el endpoint [`POST /api/v1/disclosure_templates`](../../api/resources/create-disclosure-template.api.mdx) para crear tu plantilla con la configuración que definiste.
 
 ### Usar la plantilla
 
-Cuando la plantilla esté lista, referencia su `id` para iniciar un proceso de verificación de identidad con [`POST /disclosure_requests`](../../api/resources/create-disclosure-request). Si defines `matchers`, asegúrate de que coincidan con las llaves configuradas en los `data_requirements` para evitar errores de validación.
+Cuando la plantilla esté lista, referencia su `id` para iniciar un proceso de verificación de identidad con [`POST /api/v1/disclosure_requests`](../../api/resources/create-disclosure-request.api.mdx). Si defines `matchers`, asegúrate de que coincidan con las llaves configuradas en los `data_requirements` para evitar errores de validación.
 
 ### Gestiona la plantilla
 
-Recuerda actualizar la plantilla con [`PATCH /disclosure_templates/{id}`](../../api/resources/update-disclosure-template) cuando cambien los datos solicitados o las finalidades.
+Recuerda actualizar la plantilla con [`PATCH /api/v1/disclosure_templates/{id}`](../../api/resources/update-disclosure-template.api.mdx) cuando cambien los datos solicitados o las finalidades.
 
 :::warning
-Solo puedes eliminar una plantilla si no tiene disclosures asociados. Revisa nuestra [referencia de API](../../api/resources/delete-disclosure-template) para más información.
+Solo puedes eliminar una plantilla si no tiene disclosures asociados. Revisa [Eliminar un template de divulgación](../../api/resources/delete-disclosure-template.api.mdx) para más información.
 :::

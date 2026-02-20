@@ -127,13 +127,17 @@ El flujo de inicialización para el modo autenticado es el siguiente:
 
 ### Obtén el token de sesión
 
-Usa el endpoint `api/v1/privacy_center/session_token` para obtener el token de sesión. Este endpoint requiere el `entity_id` o el `identity_id` de la entidad para la cual se generará el token.
+Usa el endpoint `/api/v1/privacy_center/session_token` para obtener el token de sesión. Este endpoint requiere el `entity_id` o el `identity_id` de la entidad para la cual se generará el token.
 
 ```json title="POST /api/v1/privacy_center/session_token"
 {
     "entity_id": "<entity_id>"
 }
 ```
+
+:::tip
+Consulta [Obtener un token de sesión para el centro de privacidad](../../api/resources/get-privacy-center-session-token.api.mdx) para revisar parámetros, respuestas y errores del endpoint.
+:::
 
 ### Configura el Privacy Center
 

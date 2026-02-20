@@ -75,7 +75,7 @@ El flujo que integrarás es el siguiente:
   ]}
 />
 
-### Pre requisitos
+### Prerrequisitos
 
 1. Tener el [SDK](../intro) instalado en tu sitio o aplicación.
 2. Tener un [Webhook](../../api/webhooks.md) configurado en tu cuenta.
@@ -112,7 +112,7 @@ Los matchers previenen fraudes como:
 **Sin matchers, estás expuesto a riesgos significativos de fraude.** Esta funcionalidad solo está disponible al crear el disclosure request desde el backend.
 :::
 
-Para crear el proceso desde el backend realiza un `POST` *request* desde tu back-end al [*endpoint* de disclosure requests](../../api/resources/create-disclosure-request.api.mdx) de Soyio.
+Para crear el proceso desde el backend, realiza una solicitud `POST` al [endpoint de disclosure requests](../../api/resources/create-disclosure-request.api.mdx) de Soyio.
 Esto creará una solicitud de disclosure y obtendrás un `disclosure_request_id`, que utilizarás en el siguiente paso.
 
 #### Endpoint
@@ -136,6 +136,10 @@ Puedes revisar más detalles en la [documentación de la API](../../api/resource
     ]
 }
 ```
+
+:::tip
+Si necesitas revisar todos los campos y validaciones, consulta [Crear un disclosure request](../../api/resources/create-disclosure-request.api.mdx).
+:::
 
 :::warning[Configuración de matchers]
 **Recomendación:** Incluye todos los datos disponibles que el usuario proporcionó al registrarse (RUT, nombre, apellido, fecha de nacimiento). Esto maximiza la protección contra fraude.
@@ -186,7 +190,7 @@ A continuación te dejamos ejemplos de cómo inicializar el flujo de disclosure 
             <script>
                 import { SoyioWidget } from "@soyio/soyio-widget";
 
-                // Configuracion
+                // Configuración
                 const widgetConfig = {
                     request: "disclosure",
                     configProps: {
@@ -213,7 +217,7 @@ A continuación te dejamos ejemplos de cómo inicializar el flujo de disclosure 
         <script>
             import { SoyioWidget } from "@soyio/soyio-widget";
 
-            // Configuracion
+            // Configuración
             const widgetConfig = {
                 request: "disclosure",
                 configProps: {
@@ -329,7 +333,7 @@ Para más detalles sobre la configuración revisa las instrucciones del `Readme`
 
 ### 5. Escucha los eventos en el front-end de tu aplicación
 
-A medida que el usuario completando el flujo se emitirán eventos, los cuales informarán sobre el estado del proceso, y dependiendo del caso, tu sistema deberá manejarlos. Cuando el usuario complete el proceso exitosamente se emitirá un evento de `DISCLOSURE_REQUEST_SUCCESSFUL`.
+A medida que el usuario completa el flujo, se emitirán eventos que informan sobre el estado del proceso. Según el caso, tu sistema deberá manejarlos. Cuando el usuario complete el proceso exitosamente se emitirá el evento `DISCLOSURE_REQUEST_SUCCESSFUL`.
 
 A continuación te detallamos los eventos que puedes escuchar:
 
@@ -358,13 +362,13 @@ Para más detalles sobre los eventos revisa las instrucciones del `Readme` del r
 - [SDK Mobile](https://www.npmjs.com/package/@soyio/soyio-rn-sdk).
 :::
 
-### 6. Escucha los eventos en el back-end de tu aplicación
+### 6. Escucha los eventos en el backend de tu aplicación
 
-Al igual que en el front, a medida que el usuario avanza en el flujo, se enviarán varios eventos mediante [webhooks](../../api/webhooks.md), que representan cambios en el estado del proceso y sus objetos asociados.
+Al igual que en el frontend, a medida que el usuario avanza en el flujo se enviarán varios eventos mediante [webhooks](../../api/webhooks.md), que representan cambios en el estado del proceso y sus objetos asociados.
 
 #### Eventos de éxito
 
-El evento que determina que un disclosure **se ha terminado con éxito** es el de `disclosure_request.granted`. En el encontraras el `identity_id` de la identidad creada, con el cual podrás consultar la información de la identidad en el [endpoint de identidades](../../api/resources/get-identity.api.mdx).
+El evento que determina que un disclosure **se completó con éxito** es `disclosure_request.granted`. En él encontrarás el `identity_id` de la identidad creada, con el cual podrás consultar la información de la identidad en el [endpoint de identidades](../../api/resources/get-identity.api.mdx).
 
 ```javascript
 {

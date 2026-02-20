@@ -31,9 +31,22 @@ El reporte RDC30 cumple con los requisitos de la NCG 540 de la CMF para instituc
 - RUT del ejecutivo (cuando corresponde)
 - Actualizaciones y revocaciones
 
-:::note[Otros reportes]
-Soyio también soporta RDC40 para solicitudes de derecho REDEC. Revisa [RDC40](./rdc40.mdx).
+:::note
+Soyio también soporta [RDC40 para solicitudes de derecho REDEC](./rdc40.mdx).
 :::
+
+
+### Estructura del reporte
+
+<img src="/img/RDC30.png" alt="Desglose visual de los campos del formato RDC30" width="100%"/>
+
+El contenido del RDC30 se organiza en un encabezado y líneas de detalle en formato de ancho fijo.
+
+- **Encabezado**: incluye código de institución CMF (10 dígitos), identificador de archivo y fecha del reporte.
+- **Detalle por registro**: cada línea representa una acción de consentimiento con su ID único, fecha/hora de consentimiento y fecha/hora de fin.
+- **Campos regulatorios**: se reportan RUT consultado, medio, finalidad, objetivo y RUT del ejecutivo cuando corresponda.
+- **Integridad**: cada línea cierra con un hash encriptado de 64 caracteres.
+
 
 ## Crear un reporte
 
