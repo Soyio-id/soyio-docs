@@ -85,6 +85,12 @@ Captura el evento `CONSENT_CHECKBOX_CHANGE` que emite el componente del SDK de S
 
 Usa este método para casos donde necesitas registrar el consentimiento en el momento de interacción del usuario. Por ejemplo, cuando estás solicitando el consentimiento para una finalidad adicional para datos que ya tienes en tu sistema.
 
+Si tu plantilla tiene múltiples alcances (por ejemplo, productos o sucursales) y quieres que el usuario seleccione cuáles autoriza, revisa la configuración en la guía de [Personalización](./customization.mdx).
+
+ :::caution Importante: Persistencia de "Última Intención"
+ Ten en cuenta que cada interacción del usuario con un checkbox genera un nuevo `actionToken` que representa ese estado específico. **Debes siempre persistir el último `actionToken` generado**, ya que este representa la última intención o decisión confirmada del usuario.
+ :::
+
 <Tabs>
     <TabItem value="web" label="SDK Web" default>
         ```typescript

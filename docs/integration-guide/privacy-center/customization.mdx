@@ -10,14 +10,26 @@ El Privacy Center ofrece opciones avanzadas para adaptar su funcionamiento a tus
 
 Define qué tipo de control visual utilizar para la gestión de consentimientos.
 
-- `consentControl`: `'switch'` (default) | `'checkbox'`
+- `consentControl`: `'switch'` (por defecto) | `'checkbox'`
 
-### Modo de operación de consentimiento (Batch Mode)
+### Modo de operación de consentimiento (modo batch)
 
 Permite agrupar múltiples cambios de consentimiento y guardarlos en una sola acción.
 
-- `consentMode`: `'immediate'` (default) | `'batch'`
-- `showBatchConsentConfirmation`: `boolean`. Muestra un diálogo de confirmación antes de guardar en modo batch.
+- `consentMode`: `'immediate'` (por defecto) | `'batch'`
+- `showBatchConsentConfirmation`: `boolean`. Muestra un diálogo de confirmación antes de guardar en modo `batch`.
+
+### Selección granular de alcance
+
+Permite que el usuario seleccione o deseleccione alcances específicos dentro de un mismo consentimiento cuando la plantilla tiene múltiples alcances (scopes).
+
+- `allowGranularScopeSelection`: `boolean` (por defecto `false`).
+
+Cuando esta opción está habilitada:
+
+- El detalle del consentimiento muestra una casilla de verificación por alcance (producto/sucursal).
+- La casilla principal refleja estado parcial cuando hay solo algunos alcances seleccionados.
+- Si la plantilla no tiene múltiples alcances, el comportamiento visual se mantiene igual.
 
 ### Periodo de retención
 
@@ -32,6 +44,7 @@ const privacyCenterOptions = {
   consentMode: 'batch',
   showBatchConsentConfirmation: true,
   consentRetentionPeriod: '30 days',
+  allowGranularScopeSelection: true,
   appearance: {
     // ...
   }
