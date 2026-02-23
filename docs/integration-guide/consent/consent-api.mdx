@@ -323,6 +323,10 @@ Parámetros clave:
 - `origin_event` (`system`, `event_id`, `occurred_at`).
 - `selected_scopes` (opcional): para revocar solo un subconjunto de alcances en templates multi-alcance.
 
+:::tip
+Para revisar validaciones y respuestas del endpoint, consulta [Crear una revocación de consentimiento iniciada por la empresa](../../api/resources/create-consent-revocation.api.mdx).
+:::
+
 :::warning Reglas importantes
 Este endpoint aplica guardrails de revocación. En particular:
 
@@ -349,6 +353,10 @@ curl -X POST \
     }
   }'
 ```
+
+:::tip
+Si necesitas consultar una revocación ya creada, revisa [Obtener una revocación de consentimiento iniciada por la empresa](../../api/resources/show-consent-revocation.api.mdx) y [CompanyConsentRevocation](../../api/resources/schemas/companyconsentrevocation.schema.mdx).
+:::
 
 ## Mejores prácticas para trazabilidad
 
