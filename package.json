@@ -36,7 +36,7 @@
     "@mdx-js/react": "^3.1.1",
     "@mermaid-js/layout-elk": "^0.1.9",
     "@monaco-editor/react": "^4.6.0",
-    "@soyio/soyio-widget": "2.19.0",
+    "@soyio/soyio-widget": "2.24.0",
     "@types/d3": "^7.4.3",
     "allof-merge": "^0.6.7",
     "clsx": "^2.1.1",
