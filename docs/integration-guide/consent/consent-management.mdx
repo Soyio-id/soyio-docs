@@ -10,7 +10,7 @@ import SequenceDiagram from '../../../src/components/SequenceDiagram';
 # Gestiona consentimientos
 
 :::info
-Por ahora, este servicio está disponible [**solo para el SDK Web**](https://github.com/Soyio-id/soy-io-widget).
+El portal de gestión para usuarios finales está disponible [**solo para el SDK Web**](https://github.com/Soyio-id/soy-io-widget). La revocación iniciada por la compañía se realiza vía API backend.
 :::
 
 Los usuarios tienen el derecho fundamental de gestionar su consentimiento y revocarlo en cualquier momento. Soyio te proporciona las herramientas necesarias para cumplir con este requisito legal de manera transparente y auditable.
@@ -21,6 +21,65 @@ Usa el componente Privacy Center del [SDK de Soyio](https://github.com/Soyio-id/
 - Ver los consentimientos organizados de acuerdo al alcance configurado en tus plantillas de consentimiento para facilitar la navegación.
 - Revisar metadatos clave en el detalle del consentimiento, como alcance y duración (incluyendo duración condicional).
 - Revocar y otorgar consentimientos específicos de forma sencilla.
+
+## Revocación de consentimiento (iniciada por la compañía)
+
+Además de la revocación iniciada por el usuario, puedes revocar consentimientos de forma programática desde tus sistemas internos.
+
+Este flujo es útil para casos como:
+
+- término de contrato o cierre de cuenta,
+- cambios de estado de cliente que invalidan permisos previos,
+- cumplimiento de políticas internas de negocio.
+
+Endpoint:
+
+```text
+POST /api/v1/consent_revocations
+```
+
+Parámetros clave:
+
+- Identificación del sujeto (`identity_id`, `entity_id` o `user_reference`).
+- `consent_template_id`.
+- `reason_code`.
+- `origin_event` (`system`, `event_id`, `occurred_at`).
+- `selected_scopes` (opcional): para revocar solo un subconjunto de alcances en templates multi-alcance.
+
+:::tip
+Para revisar validaciones y respuestas del endpoint, consulta [Crear una revocación de consentimiento iniciada por la empresa](../../api/resources/create-consent-revocation.api.mdx).
+:::
+
+:::warning Reglas importantes
+Este endpoint aplica guardrails de revocación. En particular:
+
+- el template debe tener `duration_type="conditional"`,
+- el template debe tener `revocable_data_uses` configurado,
+- `selected_scopes` (si se envía) debe ser subconjunto de los `scopes` del template.
+:::
+
+Ejemplo:
+
+```bash
+curl -X POST \
+  https://api.soyio.id/api/v1/consent_revocations \
+  -H "Authorization: Bearer <YOUR_API_KEY>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "user_reference": "user-external-id-987",
+    "consent_template_id": "constpl_1B2M2Y8AsgTpgAmY7PhCfg",
+    "reason_code": "account_closure",
+    "origin_event": {
+      "system": "crm_system",
+      "event_id": "evt_xyz123",
+      "occurred_at": "2026-02-11T15:10:00Z"
+    }
+  }'
+```
+
+:::tip
+Si necesitas consultar una revocación ya creada, revisa [Obtener una revocación de consentimiento iniciada por la empresa](../../api/resources/show-consent-revocation.api.mdx) y [CompanyConsentRevocation](../../api/resources/schemas/companyconsentrevocation.schema.mdx).
+:::
 
 ## Modos de integración
 
