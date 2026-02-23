@@ -46,6 +46,7 @@ const RESOURCE_SECTIONS: SidebarSection[] = [
       'Agreements',
       'Consent templates',
       'Consent actions',
+      'Consent revocations',
       'Consent commits',
       'Data subject requests',
       'Privacy documents',

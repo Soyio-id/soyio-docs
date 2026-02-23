@@ -1,0 +1,33 @@
+---
+id: companyconsentrevocation
+title: "CompanyConsentRevocation"
+description: ""
+hide_title: true
+hide_table_of_contents: true
+schema: true
+sample: {"id":"ccrev_1B2M2Y8AsgTpgAmY7PhCfg","subject_id":"ent_1B2M2Y8AsgTpgAmY7PhCfg","subject_type":"Entity","consent_template_id":"constpl_1B2M2Y8AsgTpgAmY7PhCfg","consent_template_version":3,"selected_scopes":[{"scope_type":"product","scope_id":"prod_1B2M2Y8AsgTpgAmY7PhCfg","scope_version":1}],"reason_code":"contract_ended","reason_text":"Contrato finalizado en sistema core","origin_event":{"system":"core-banking","event_id":"evt-12345","occurred_at":"2026-02-11T15:10:00Z"},"status":"applied","agreement_id":"agr_1B2M2Y8AsgTpgAmY7PhCfg","agreement_version":4,"created_at":"2026-02-11T15:10:00Z"}
+custom_edit_url: null
+---
+
+import Schema from "@theme/Schema";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"CompanyConsentRevocation"}
+>
+</Heading>
+
+
+
+
+
+<Schema
+	defaultCollapsibleOpen={true}
+  schema={{"x-tags":["Consent revocations"],"type":"object","required":["id","subject_id","subject_type","consent_template_id","consent_template_version","reason_code","origin_event","status","created_at"],"properties":{"id":{"type":"string","description":"Identificador único de la revocación iniciada por la empresa.","example":"ccrev_1B2M2Y8AsgTpgAmY7PhCfg"},"subject_id":{"type":"string","description":"Identificador del sujeto afectado (`ent_` o `id_`).","example":"ent_1B2M2Y8AsgTpgAmY7PhCfg"},"subject_type":{"type":"string","enum":["Entity","Identity"],"example":"Entity"},"consent_template_id":{"type":"string","description":"Identificador del template de consentimiento.","example":"constpl_1B2M2Y8AsgTpgAmY7PhCfg"},"consent_template_version":{"type":"integer","example":3},"selected_scopes":{"type":"array","nullable":true,"items":{"type":"object","required":["scope_type","scope_id","scope_version"],"properties":{"scope_type":{"type":"string","enum":["product","branch"],"description":"Tipo de ámbito.","example":"product"},"scope_id":{"type":"string","description":"Identificador público tokenizado del recurso scope.","example":"prod_1B2M2Y8AsgTpgAmY7PhCfg"},"scope_version":{"type":"integer","description":"Versión del recurso scope persistida en esta versión del template.\nEste valor queda fijado al guardar y no se actualiza automáticamente cuando aparecen nuevas versiones del scope.\n","example":1}},"title":"ConsentTemplateScope"}},"reason_code":{"type":"string","example":"contract_ended"},"reason_text":{"type":"string","nullable":true,"example":"Contrato finalizado en sistema core"},"origin_event":{"type":"object","required":["system","event_id"],"properties":{"system":{"type":"string","description":"Sistema origen que dispara la revocación.","example":"core-banking"},"event_id":{"type":"string","description":"Identificador idempotente del evento origen.","example":"evt-12345"},"occurred_at":{"type":"string","format":"date-time","nullable":true,"description":"Fecha/hora de ocurrencia del evento origen.","example":"2026-02-11T15:10:00Z"}},"title":"ConsentRevocationOriginEvent"},"status":{"type":"string","enum":["pending","applied","no_changes","failed"],"example":"applied"},"agreement_id":{"type":"string","nullable":true,"description":"Identificador del acuerdo resultante cuando hubo cambios efectivos.","example":"agr_1B2M2Y8AsgTpgAmY7PhCfg"},"agreement_version":{"type":"integer","nullable":true,"description":"Versión del acuerdo resultante cuando hubo cambios efectivos.","example":4},"created_at":{"type":"string","format":"date-time","example":"2026-02-11T15:10:00Z"}},"title":"CompanyConsentRevocation"}}
+  schemaType={"response"}
+>
+  
+</Schema>
+            

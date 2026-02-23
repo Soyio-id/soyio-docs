@@ -320,7 +320,7 @@ Parámetros clave:
 - Identificación del sujeto (`identity_id`, `entity_id` o `user_reference`).
 - `consent_template_id`.
 - `reason_code`.
-- `source` (`system`, `event_id`, `occurred_at`).
+- `origin_event` (`system`, `event_id`, `occurred_at`).
 - `selected_scopes` (opcional): para revocar solo un subconjunto de alcances en templates multi-alcance.
 
 :::warning Reglas importantes
@@ -342,7 +342,7 @@ curl -X POST \
     "user_reference": "user-external-id-987",
     "consent_template_id": "constpl_1B2M2Y8AsgTpgAmY7PhCfg",
     "reason_code": "account_closure",
-    "source": {
+    "origin_event": {
       "system": "crm_system",
       "event_id": "evt_xyz123",
       "occurred_at": "2026-02-11T15:10:00Z"
