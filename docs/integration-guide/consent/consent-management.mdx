@@ -22,7 +22,7 @@ Los usuarios tienen el derecho fundamental de gestionar su consentimiento y revo
 Usa el componente Privacy Center del [SDK de Soyio](https://github.com/Soyio-id/soy-io-widget) para disponer de un portal de gestión de consentimientos donde tus usuarios pueden:
 
 - Ver todos sus consentimientos de forma centralizada con su estado actual (otorgado/no otorgado).
-- Ver los consentimientos organizados de acuerdo al alcance configurado en tus plantillas de consentimiento para facilitar la navegación.
+- Ver los consentimientos organizados por alcance (producto/sucursal) cuando habilitas `groupConsentsByScope`.
 - Revisar metadatos clave en el detalle del consentimiento, como alcance y duración (incluyendo duración condicional).
 - Revocar y otorgar consentimientos específicos de forma sencilla.
 
@@ -232,6 +232,26 @@ const privacyCenterOptions = {
 ```
 
 Con esta configuración, el usuario verá casillas de verificación por alcance en el detalle del consentimiento y el control principal podrá quedar en estado parcial cuando solo algunos alcances estén activos.
+
+### Visualización agrupada por alcance
+
+Si necesitas ordenar muchos consentimientos por producto o sucursal, habilita la visualización agrupada por alcance.
+
+`groupConsentsByScope`: `boolean` (por defecto `false`).
+
+Con esta configuración:
+
+- Los consentimientos con alcance se muestran en acordeones por alcance.
+- Los consentimientos sin alcance se muestran en una sección general.
+
+```javascript
+const privacyCenterOptions = {
+  // ...
+  groupConsentsByScope: true
+};
+```
+
+Puedes combinar `groupConsentsByScope` con `allowGranularScopeSelection` para agrupar consentimientos y mantener la selección granular por alcance dentro de cada template.
 
 ### Persistencia de consentimientos superpuestos
 

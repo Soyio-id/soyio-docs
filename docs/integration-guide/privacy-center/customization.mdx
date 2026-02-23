@@ -41,6 +41,18 @@ Cuando esta opción está habilitada:
 - La casilla principal refleja estado parcial cuando hay solo algunos alcances seleccionados.
 - Si la plantilla no tiene múltiples alcances, el comportamiento visual se mantiene igual.
 
+### Visualización agrupada por alcance
+
+Muestra los consentimientos agrupados por alcance (producto/sucursal) para que el usuario navegue más fácil cuando existen múltiples templates.
+
+- `groupConsentsByScope`: `boolean` (por defecto `false`).
+
+Cuando esta opción está habilitada:
+
+- Los consentimientos con alcance se muestran en acordeones por alcance.
+- Los consentimientos sin alcance se muestran en un grupo general.
+- Puedes combinarla con `allowGranularScopeSelection` para agrupar y, al mismo tiempo, permitir selección por alcance dentro de cada consentimiento.
+
 ### Periodo de retención
 
 Establece un tiempo mínimo durante el cual un consentimiento otorgado no puede ser revocado.
@@ -64,6 +76,7 @@ const privacyCenterOptions = {
   showBatchConsentConfirmation: true,
   consentRetentionPeriod: '30 days',
   allowGranularScopeSelection: true,
+  groupConsentsByScope: true,
   appearance: {
     config: {
       showHeader: true
