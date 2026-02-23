@@ -35,6 +35,19 @@ const privacyCenter = new PrivacyCenterBox({
 Revisa la referencia del API para [Obtener todos los data subject requests](../../api/resources/index-data-subject-requests.api.mdx) para mas detalles.
 :::
 
+## Personalización de textos en REDEC
+
+Si necesitas ajustar el copy que ve el usuario en el flujo REDEC (por ejemplo, ejemplos por tipo de solicitud), puedes usar la configuración de contenido del Privacy Center:
+
+- `content.rightExamples.redec_update`
+- `content.rightExamples.redec_rectification`
+- `content.rightExamples.redec_complementation`
+- `content.rightExamples.redec_cancellation`
+
+:::tip
+Revisa [Apariencia y comportamiento del Privacy Center](../privacy-center/customization) para la configuración completa de `content` y `appearance.config.showHeader`.
+:::
+
 ## `operationId` (obligatorio)
 
 En solicitudes REDEC, el usuario debe seleccionar un **`operationId`** en el paso de detalle:
