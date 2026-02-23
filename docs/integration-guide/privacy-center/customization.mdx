@@ -12,6 +12,17 @@ Define qué tipo de control visual utilizar para la gestión de consentimientos.
 
 - `consentControl`: `'switch'` (por defecto) | `'checkbox'`
 
+### Encabezado y textos personalizados
+
+Permite controlar la visibilidad del encabezado del Privacy Center y personalizar los textos mostrados para solicitudes ARSOP/REDEC.
+
+- `appearance.config.showHeader`: `boolean`. Muestra u oculta el encabezado principal del componente.
+- `content.header.title`: `string`. Sobrescribe el título del encabezado.
+- `content.header.description`: `string`. Sobrescribe la descripción del encabezado.
+- `content.rightExamples`: `object`. Sobrescribe ejemplos de derechos por tipo de solicitud.
+  - Claves soportadas: `access`, `opposition`, `rectification`, `suppression`, `portability`, `redec_update`, `redec_rectification`, `redec_complementation`, `redec_cancellation`.
+- `header` y `rightExamples`: alias compatibles para integraciones existentes.
+
 ### Modo de operación de consentimiento (modo batch)
 
 Permite agrupar múltiples cambios de consentimiento y guardarlos en una sola acción.
@@ -41,12 +52,23 @@ Establece un tiempo mínimo durante el cual un consentimiento otorgado no puede 
 const privacyCenterOptions = {
   // ...
   consentControl: 'checkbox',
+  content: {
+    header: {
+      title: 'Centro de privacidad',
+      description: 'Gestiona tus solicitudes y preferencias de consentimiento.'
+    },
+    rightExamples: {
+      access: 'Ejemplo: Quiero conocer qué datos tienen sobre mí.'
+    }
+  },
   consentMode: 'batch',
   showBatchConsentConfirmation: true,
   consentRetentionPeriod: '30 days',
   allowGranularScopeSelection: true,
   appearance: {
-    // ...
+    config: {
+      showHeader: true
+    }
   }
 };
 ```
