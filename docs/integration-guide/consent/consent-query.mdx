@@ -15,7 +15,7 @@ Siempre consulta los consentimientos para verificar si puedes usar un dato para 
 
 Este endpoint te permite obtener el estado de cumplimiento de un usuario específico para cada template de consentimiento que tienes en tu empresa. Para ello, usa el endpoint del [Compliance Status](../../api/resources/get-entity-agreement-compliance-statuses.api.mdx).
 
-El Compliance Status procesa el último estado del Agreement para evaluar si el usuario cumple o no cumple con los requerimientos del template de consentimiento.
+El Compliance Status procesa el estado del Agreement para evaluar si el usuario cumple o no cumple con los requerimientos de la **última versión** del template de consentimiento. Opcionalmente, puedes consultar una **versión específica** del template usando filtros.
 
 ### Estados de cumplimiento
 
@@ -25,7 +25,7 @@ Los estados de cumplimiento pueden ser:
 - `partially_compliant`: El usuario cumple con algunos de los requerimientos del template de consentimiento.
 
 :::note
-Revisa la [estructura del Compliance Status](/docs/api/resources/schemas/compliancestatus) en nuestra referencia de API.
+Revisa la [respuesta del endpoint de Compliance Status](/docs/api/resources/get-entity-agreement-compliance-statuses) en nuestra referencia de API.
 :::
 
 ### Ejemplo de implementación
@@ -42,7 +42,14 @@ const getComplianceStatus = async (entityId) => {
 ```
 
 :::tip
-Puedes filtrar por `consent_template_id` para obtener el estado de cumplimiento de un template en particular.
+Puedes filtrar por `consent_template_id` para obtener el estado de cumplimiento de un template en particular. También puedes usar `consent_template_version` para consultar una versión específica.
+
+**Consideraciones:**
+- `consent_template_version` siempre debe ir acompañado de `consent_template_id`.
+- `consent_template_version` debe ser un número entero mayor que 0.
+
+**Ejemplo:**
+`?where={"consent_template_id":{"=":"constpl_..."},"consent_template_version":{"=":2}}`
 :::
 
 ### Casos de uso
@@ -72,7 +79,7 @@ Para más información o explora el [schema del Agreement](/docs/api/resources/s
 
 #### Paso 1: Obtén la versión más reciente
 
-Obtén la versión más reciente del Agreement de un usuario específico usando el endpoint de listado con filtros y ordenando por `created_at` de forma descendente.
+Obtén la versión más reciente del Agreement de un usuario específico usando el [endpoint de listado de agreements](../../api/resources/index-agreements.api.mdx), filtrando y ordenando por `created_at` de forma descendente.
 
 ```javascript title="Obtener la versión más reciente del Agreement por entity_id"
 const getLatestAgreement = async (entityId) => {
@@ -94,6 +101,8 @@ const getLatestAgreement = async (entityId) => {
 
 :::tip
 También puedes filtrar por `user_reference` para obtener el Agreement de un usuario específico. Recuerda que el `user_reference` es el identificador de usuario interno de tu sistema que proporcionas opcionalmente como referencia cuando capturas el consentimiento.
+
+Si necesitas más detalle de filtros y estructura de respuesta, revisa [Obtener todos los acuerdos](../../api/resources/index-agreements.api.mdx).
 :::
 
 #### Paso 2: Verifica los permisos

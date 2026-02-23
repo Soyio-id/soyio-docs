@@ -34,6 +34,11 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: 'doc',
+      id: 'integration-guide/disclosure/embedded-disclosure',
+      label: 'Valida una identidad en modo embebido',
+    },
+    {
+      type: 'doc',
       id: 'integration-guide/disclosure/disclosure-error-handling',
       label: 'Manejo de errores',
     },
@@ -51,6 +56,11 @@ const sidebar: SidebarsConfig = {
       type: 'doc',
       id: 'integration-guide/disclosure/nfc-validation',
       label: 'Validación NFC',
+    },
+    {
+      type: 'doc',
+      id: 'integration-guide/disclosure/government-check',
+      label: 'Verificación gubernamental vía API',
     },
     {
       type: 'doc',

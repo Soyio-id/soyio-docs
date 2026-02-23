@@ -1,10 +1,20 @@
 # Configuración
 
-Personaliza el comportamiento del módulo del disclosure según las necesidades de tu empresa.
+Personaliza el comportamiento del módulo de Disclosure según las necesidades de tu empresa.
 
-Desde la [configuración](../../api/resources/schemas/configuration) de tu compañía en Soyio, puedes personalizar el comportamiento del módulo de disclosure a través de las siguientes opciones:
+Desde la [configuración](../../api/resources/schemas/configuration.schema.mdx) de tu compañía en Soyio, puedes personalizar el comportamiento del módulo de Disclosure a través de las siguientes opciones:
 
 ## Configuración de disclosure (`disclosure`)
+
+### Dominios permitidos para embedding (`whitelisted_domains`)
+
+Si integras Disclosure en modo embebido, debes configurar los dominios host permitidos en `whitelisted_domains` a nivel de compañía.
+
+:::warning
+Si el dominio host no está en `whitelisted_domains`, el navegador bloqueará el flujo por política CSP (`frame-ancestors`).
+:::
+
+Revisa la implementación y ejemplos en [Valida una identidad en modo embebido](./embedded-disclosure).
 
 ### Omitir registro de llave de acceso (`disclosure.skip_passkey_registration`)
 

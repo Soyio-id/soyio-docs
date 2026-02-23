@@ -1,0 +1,33 @@
+---
+id: export
+title: "Export"
+description: "Exportación asíncrona de recursos"
+hide_title: true
+hide_table_of_contents: true
+schema: true
+sample: {"id":"exp_1B2M2Y8AsgTpgAmY7PhCfg","resource_kind":"consent_actions","output_format":"csv","status":"processing","records_count":1200,"error_message":"Export record limit exceeded. Maximum allowed is 100000 records","file_name":"consent-actions-2026-02-19.csv","download_url":"https://app.soyio.id/attachments/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBB","created_at":"2026-02-19T15:30:00Z","completed_at":"2026-02-19T15:31:22Z"}
+custom_edit_url: null
+---
+
+import Schema from "@theme/Schema";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Export"}
+>
+</Heading>
+
+
+
+Exportación asíncrona de recursos
+
+<Schema
+	defaultCollapsibleOpen={true}
+  schema={{"x-tags":["Exports"],"type":"object","description":"Exportación asíncrona de recursos","properties":{"id":{"type":"string","description":"Identificador único de la exportación","example":"exp_1B2M2Y8AsgTpgAmY7PhCfg"},"resource_kind":{"type":"string","description":"Recurso exportado","enum":["consent_actions","consent_commits"],"example":"consent_actions"},"output_format":{"type":"string","description":"Formato de salida","enum":["csv"],"example":"csv"},"status":{"type":"string","description":"Estado actual de la exportación","enum":["pending","processing","completed","failed"],"example":"processing"},"records_count":{"type":"integer","nullable":true,"description":"Número total de registros exportados cuando la exportación finaliza","example":1200},"error_message":{"type":"string","nullable":true,"description":"Mensaje de error cuando la exportación falla","example":"Export record limit exceeded. Maximum allowed is 100000 records"},"file_name":{"type":"string","nullable":true,"description":"Nombre del archivo generado","example":"consent-actions-2026-02-19.csv"},"download_url":{"type":"string","nullable":true,"description":"URL firmada para descargar el archivo generado","example":"https://app.soyio.id/attachments/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBB"},"created_at":{"type":"string","format":"date-time","description":"Fecha y hora de creación","example":"2026-02-19T15:30:00Z"},"completed_at":{"type":"string","format":"date-time","nullable":true,"description":"Fecha y hora de finalización","example":"2026-02-19T15:31:22Z"}},"title":"Export"}}
+  schemaType={"response"}
+>
+  
+</Schema>
+            

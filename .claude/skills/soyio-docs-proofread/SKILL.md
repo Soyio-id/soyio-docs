@@ -1,0 +1,1 @@
+../../../.agents/skills/soyio-docs-proofread/SKILL.md

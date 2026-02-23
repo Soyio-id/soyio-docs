@@ -5,11 +5,11 @@ import chevronDownIcon from '@iconify-icons/mdi/chevron-down';
 import checkIcon from '@iconify-icons/mdi/check';
 import warningIcon from '@iconify-icons/mdi/alert-circle';
 import externalLinkIcon from '@iconify-icons/mdi/open-in-new';
+import fileTextIcon from '@iconify-icons/lucide/file-text';
 import openAiIcon from '@iconify-icons/simple-icons/openai';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import { useLocation } from '@docusaurus/router';
 import useIsBrowser from '@docusaurus/useIsBrowser';
-import { useDoc } from '@docusaurus/plugin-content-docs/client';
 import { htmlToMarkdown } from '../../lib/htmlToMarkdown';
 
 import styles from './styles.module.css';
@@ -25,6 +25,7 @@ const claudeIcon: IconData = {
 };
 
 const COPY_SUCCESS_TIMEOUT = 2000;
+const DOCS_ROUTE_BASE_PATH = '/docs';
 
 const CHATGPT_BASE_URL = 'https://chatgpt.com/?prompt=';
 const CLAUDE_BASE_URL = 'https://claude.ai/new?q=';
@@ -33,13 +34,24 @@ function buildPrompt(url: string) {
   return `Lee esta página ${url} para poder hacer preguntas.`;
 }
 
-function buildLlmMarkdownPath(source: string, docsDir = 'docs') {
-  const normalizedSource = source.replace(/^@site\//, '');
-  const withoutDocsDir = normalizedSource.startsWith(`${docsDir}/`)
-    ? normalizedSource.slice(docsDir.length + 1)
-    : normalizedSource;
+function buildMarkdownPath(pathname: string, docsRouteBasePath: string) {
+  const trimmedPath = pathname.replace(/\/+$/, '');
 
-  return withoutDocsDir.replace(/\.mdx?$/, '.md');
+  const normalizedPath =
+    !trimmedPath || trimmedPath === '/' ? '/' : trimmedPath;
+  const docsPath = normalizedPath.startsWith(`${docsRouteBasePath}/`)
+    ? normalizedPath
+    : `${docsRouteBasePath}${normalizedPath === '/' ? '' : normalizedPath}`;
+
+  if (docsPath === docsRouteBasePath) {
+    return `${docsRouteBasePath}/index.md`;
+  }
+
+  if (docsPath.endsWith('.md')) {
+    return docsPath;
+  }
+
+  return `${docsPath}.md`;
 }
 
 function getMainContentElement(): HTMLElement | null {
@@ -54,29 +66,18 @@ export default function LLMActionsDropdown() {
   const [status, setStatus] = useState<CopyStatus>('idle');
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const isBrowser = useIsBrowser();
-  const { siteConfig } = useDocusaurusContext();
   const { pathname } = useLocation();
-  const { metadata } = useDoc();
+  const { siteConfig } = useDocusaurusContext();
 
-  const { pageUrl, markdownUrl, origin } = useMemo(() => {
-    const baseUrl = siteConfig.baseUrl.endsWith('/')
-      ? siteConfig.baseUrl.slice(0, -1)
-      : siteConfig.baseUrl;
+  const { markdownUrl, origin } = useMemo(() => {
     const resolvedOrigin = isBrowser ? window.location.origin : siteConfig.url;
-    const llmBaseUrl = `${resolvedOrigin}${baseUrl}`;
-    const markdownPath = buildLlmMarkdownPath(metadata.source);
+    const markdownPath = buildMarkdownPath(pathname, DOCS_ROUTE_BASE_PATH);
+
     return {
       origin: resolvedOrigin,
-      pageUrl: `${resolvedOrigin}${pathname}`,
-      markdownUrl: `${llmBaseUrl}/${markdownPath}`,
+      markdownUrl: new URL(markdownPath, `${resolvedOrigin}/`).toString(),
     };
-  }, [
-    isBrowser,
-    metadata.source,
-    pathname,
-    siteConfig.baseUrl,
-    siteConfig.url,
-  ]);
+  }, [isBrowser, pathname, siteConfig.url]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -134,7 +135,7 @@ export default function LLMActionsDropdown() {
   };
 
   const openChatGpt = () => {
-    const prompt = buildPrompt(pageUrl);
+    const prompt = buildPrompt(markdownUrl);
     window.open(
       `${CHATGPT_BASE_URL}${encodeURIComponent(prompt)}`,
       '_blank',
@@ -149,6 +150,11 @@ export default function LLMActionsDropdown() {
       '_blank',
       'noopener',
     );
+  };
+
+  const openMarkdown = () => {
+    window.open(markdownUrl, '_blank', 'noopener');
+    setIsOpen(false);
   };
 
   const buttonLabel = (() => {
@@ -234,6 +240,32 @@ export default function LLMActionsDropdown() {
           <button
             className={styles.menuItem}
             type="button"
+            onClick={openMarkdown}
+            role="menuitem"
+          >
+            <span className={styles.iconWrapper}>
+              <Icon
+                icon={fileTextIcon}
+                className={styles.menuIcon}
+                aria-hidden="true"
+              />
+            </span>
+            <span className={styles.menuContent}>
+              <span className={styles.menuTitle}>Ver contenido Markdown</span>
+              <span className={styles.menuDescription}>
+                Abrir la version .md de esta pagina
+              </span>
+            </span>
+            <Icon
+              icon={externalLinkIcon}
+              className={styles.externalIcon}
+              aria-hidden="true"
+            />
+          </button>
+
+          <button
+            className={styles.menuItem}
+            type="button"
             onClick={openChatGpt}
             role="menuitem"
           >
@@ -247,7 +279,7 @@ export default function LLMActionsDropdown() {
             <span className={styles.menuContent}>
               <span className={styles.menuTitle}>Abrir en ChatGPT</span>
               <span className={styles.menuDescription}>
-                Haz preguntas sobre esta página
+                Haz preguntas sobre esta pagina en Markdown
               </span>
             </span>
             <Icon
@@ -273,7 +305,7 @@ export default function LLMActionsDropdown() {
             <span className={styles.menuContent}>
               <span className={styles.menuTitle}>Abrir en Claude</span>
               <span className={styles.menuDescription}>
-                Haz preguntas sobre esta página
+                Haz preguntas sobre esta pagina en Markdown
               </span>
             </span>
             <Icon
