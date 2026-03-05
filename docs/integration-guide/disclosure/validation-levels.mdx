@@ -118,7 +118,7 @@ La configuración de validación sigue el siguiente orden de prioridad:
 
 ### Umbral de `id_match` (`id_match_min_level`)
 
-Cuando la validación incluye biometría completa (`liveness_check: true` e `id_scan_check: true`), puedes definir el umbral mínimo de coincidencia facial para considerar exitoso el `id_match`.
+Cuando la validación usa `validation_mode: full` (equivalente a `liveness_check: true` e `id_scan_check: true`), puedes definir el umbral mínimo de coincidencia facial para considerar exitoso el `id_match`.
 
 - Rango permitido: `1` a `10`.
 - Valor más alto: más exigente.
