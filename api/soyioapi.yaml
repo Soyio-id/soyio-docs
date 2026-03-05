@@ -44,6 +44,10 @@
       "description": "Los consent actions permiten crear acciones de consentimiento.\n"
     },
     {
+      "name": "Consent revocations",
+      "description": "Las consent revocations permiten registrar revocaciones de consentimiento iniciadas por la empresa.\n"
+    },
+    {
       "name": "Consent commits",
       "description": "Los consent commits permiten crear múltiples acciones de consentimiento.\n"
     },
@@ -180,6 +184,85 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/ConsentTemplateInput"
+              },
+              "examples": {
+                "scopes_with_explicit_versions": {
+                  "summary": "Crear template con scopes versionados explícitamente",
+                  "value": {
+                    "name": "Consentimiento marketing por alcance",
+                    "title": "Autorización de tratamiento",
+                    "text": "Autorizo el tratamiento de mis datos según {{ privacy_policy }}",
+                    "data_subject": "customer",
+                    "duration_type": "fixed",
+                    "duration": "P6M",
+                    "data_requirements": [
+                      {
+                        "key": "email",
+                        "data_uses": [
+                          "marketing.email"
+                        ]
+                      }
+                    ],
+                    "scopes": [
+                      {
+                        "scope_type": "product",
+                        "scope_id": "prod_1B2M2Y8AsgTpgAmY7PhCfg",
+                        "scope_version": 2
+                      },
+                      {
+                        "scope_type": "branch",
+                        "scope_id": "branch_1B2M2Y8AsgTpgAmY7PhCfg",
+                        "scope_version": 4
+                      }
+                    ]
+                  }
+                },
+                "scopes_without_version": {
+                  "summary": "Crear template dejando que API resuelva latest",
+                  "value": {
+                    "name": "Consentimiento operacional",
+                    "title": "Consentimiento base",
+                    "text": "Acepto el tratamiento para fines operacionales",
+                    "data_subject": "customer",
+                    "duration_type": "conditional",
+                    "duration_clause_type": "while_contractual_relationship",
+                    "data_requirements": [
+                      {
+                        "key": "phone_number",
+                        "data_uses": [
+                          "essential.service.notifications"
+                        ]
+                      }
+                    ],
+                    "scopes": [
+                      {
+                        "scope_type": "product",
+                        "scope_id": "prod_1B2M2Y8AsgTpgAmY7PhCfg"
+                      }
+                    ]
+                  }
+                },
+                "legacy_fields": {
+                  "summary": "Compatibilidad legado con product_id y branch_id",
+                  "value": {
+                    "name": "Consentimiento legado",
+                    "title": "Consentimiento",
+                    "text": "Acepto los términos del consentimiento",
+                    "data_subject": "customer",
+                    "duration_type": "fixed",
+                    "duration": "P3M",
+                    "data_requirements": [
+                      {
+                        "key": "email",
+                        "data_uses": [
+                          "essential.service.authentication"
+                        ]
+                      }
+                    ],
+                    "product_id": "prod_1B2M2Y8AsgTpgAmY7PhCfg",
+                    "branch_id": "branch_1B2M2Y8AsgTpgAmY7PhCfg"
+                  }
+                }
               }
             }
           }
@@ -299,6 +382,59 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/ConsentTemplateInput"
+              },
+              "examples": {
+                "update_and_pin_new_scope_version": {
+                  "summary": "Actualizar template creando nueva versión con scope fijo",
+                  "value": {
+                    "name": "Consentimiento marketing por alcance",
+                    "title": "Autorización de tratamiento",
+                    "text": "Autorizo el tratamiento de mis datos según {{ privacy_policy }}",
+                    "data_subject": "customer",
+                    "duration_type": "fixed",
+                    "duration": "P12M",
+                    "data_requirements": [
+                      {
+                        "key": "email",
+                        "data_uses": [
+                          "marketing.email"
+                        ]
+                      }
+                    ],
+                    "scopes": [
+                      {
+                        "scope_type": "product",
+                        "scope_id": "prod_1B2M2Y8AsgTpgAmY7PhCfg",
+                        "scope_version": 3
+                      }
+                    ]
+                  }
+                },
+                "migrate_legacy_to_scopes": {
+                  "summary": "Migrar input legado a scopes en nueva versión",
+                  "value": {
+                    "name": "Consentimiento legado migrado",
+                    "title": "Consentimiento",
+                    "text": "Acepto los términos del consentimiento",
+                    "data_subject": "customer",
+                    "duration_type": "fixed",
+                    "duration": "P6M",
+                    "data_requirements": [
+                      {
+                        "key": "email",
+                        "data_uses": [
+                          "essential.service.authentication"
+                        ]
+                      }
+                    ],
+                    "scopes": [
+                      {
+                        "scope_type": "product",
+                        "scope_id": "prod_1B2M2Y8AsgTpgAmY7PhCfg"
+                      }
+                    ]
+                  }
+                }
               }
             }
           }
@@ -364,6 +500,47 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/ActionTokenCreateInput"
+              },
+              "examples": {
+                "full_template_scope": {
+                  "summary": "Token para todos los scopes del template",
+                  "value": {
+                    "context": "web_signup",
+                    "kind": "grant",
+                    "action_type": "opt_in_click",
+                    "timestamp": "2024-03-20T15:30:00Z",
+                    "action_data": {
+                      "checkbox_id": "cb_123"
+                    },
+                    "contextual_data": {
+                      "ip": "192.168.1.1",
+                      "user_agent": "Mozilla/5.0"
+                    }
+                  }
+                },
+                "partial_scope_selection": {
+                  "summary": "Token para un subconjunto de scopes",
+                  "value": {
+                    "context": "web_signup",
+                    "kind": "grant",
+                    "action_type": "opt_in_click",
+                    "timestamp": "2024-03-20T15:30:00Z",
+                    "selected_scopes": [
+                      {
+                        "scope_type": "product",
+                        "scope_id": "prod_1B2M2Y8AsgTpgAmY7PhCfg",
+                        "scope_version": 2
+                      }
+                    ],
+                    "action_data": {
+                      "checkbox_id": "cb_123"
+                    },
+                    "contextual_data": {
+                      "ip": "192.168.1.1",
+                      "user_agent": "Mozilla/5.0"
+                    }
+                  }
+                }
               }
             }
           }
@@ -3296,7 +3473,7 @@
           "Consent actions"
         ],
         "summary": "Crear un consent action",
-        "description": "Crea un nuevo consent action. Debes proporcionar al menos uno de los siguientes parámetros: `user_reference` o `entity_id`.\n- Si solo envías `user_reference`, se intentará buscar una entidad con dicho identificador y si no, se creará una.\n- Si solo envías `entity_id`, se usará la entidad existente.\n- Si envías ambos, se prioriza el `entity_id`. El `user_reference` solo se utiliza si no se entrega `entity_id`.\n",
+        "description": "Crea un nuevo consent action. Debes proporcionar al menos uno de los siguientes parámetros: `user_reference` o `entity_id`.\n- Si solo envías `user_reference`, se intentará buscar una entidad con dicho identificador y si no, se creará una.\n- Si solo envías `entity_id`, se usará la entidad existente.\n- Si envías ambos, se prioriza el `entity_id`. El `user_reference` solo se utiliza si no se entrega `entity_id`.\n\nEl alcance efectivo de la acción se define en el `action_token`:\n- si el token incluye `selected_scopes`, se aplica solo a ese subconjunto\n- si no incluye `selected_scopes`, se aplica a todos los scopes del template\n",
         "operationId": "createConsentAction",
         "requestBody": {
           "required": true,
@@ -3547,6 +3724,156 @@
         ]
       }
     },
+    "/consent_revocations": {
+      "post": {
+        "tags": [
+          "Consent revocations"
+        ],
+        "summary": "Crear una revocación de consentimiento iniciada por la empresa",
+        "description": "Revoca permisos de consentimiento por lógica de negocio de la empresa (por ejemplo, fin de contrato u obligación).\nEsta operación no representa un clic del usuario y crea un registro `CompanyConsentRevocation` como fuente de versión.\n\nReglas principales:\n- El `consent_template` debe tener `duration_type=conditional`.\n- El template debe tener `revocable_data_uses` configurado.\n- `selected_scopes`, si se envía, debe ser subconjunto de los scopes del template.\n- Si no hay permisos efectivamente revocables, responde exitosamente con estado `no_changes`.\n",
+        "operationId": "createConsentRevocation",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConsentRevocationCreateInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Evento idempotente ya procesado previamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "consent_revocation": {
+                      "$ref": "#/components/schemas/CompanyConsentRevocation"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Revocación creada y procesada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "consent_revocation": {
+                      "$ref": "#/components/schemas/CompanyConsentRevocation"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error de parámetros del request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "invalid_request_error"
+                    },
+                    "title": {
+                      "type": "string",
+                      "example": "Invalid parameter"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "example": 400
+                    },
+                    "detail": {
+                      "type": "string",
+                      "example": "Either identity_id, entity_id or user_reference is required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "422": {
+            "description": "Error de validación de guardrails de revocación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/consent_revocations/{id}": {
+      "get": {
+        "tags": [
+          "Consent revocations"
+        ],
+        "summary": "Obtener una revocación de consentimiento iniciada por la empresa",
+        "operationId": "showConsentRevocation",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Identificador de revocación",
+            "example": "ccrev_1B2M2Y8AsgTpgAmY7PhCfg"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Revocación encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "consent_revocation": {
+                      "$ref": "#/components/schemas/CompanyConsentRevocation"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
     "/consent_commits": {
       "get": {
         "tags": [
@@ -3651,7 +3978,7 @@
           "Consent commits"
         ],
         "summary": "Crear un commit de consentimiento",
-        "description": "Crea un nuevo commit de consentimiento basado en los actions tokens. Cada action token representa una checkbox de\nconsentimiento específico que el usuario ha marcado a través de nuestro módulo de consentimiento.\n\nDebes proporcionar **al menos uno** de los siguientes parámetros: `user_reference` o `entity_id`.\n- Si solo envías `user_reference`, buscaremos la entidad asociada y, si no existe, la crearemos automáticamente.\n- Si solo envías `entity_id`, usaremos la entidad existente y leeremos su `user_reference`.\n- Si envías ambos, se prioriza el `entity_id`. El `user_reference` solo se usa cuando no se proporciona `entity_id`.\n",
+        "description": "Crea un nuevo commit de consentimiento basado en los actions tokens. Cada action token representa una checkbox de\nconsentimiento específico que el usuario ha marcado a través de nuestro módulo de consentimiento.\n\nDebes proporcionar **al menos uno** de los siguientes parámetros: `user_reference` o `entity_id`.\n- Si solo envías `user_reference`, buscaremos la entidad asociada y, si no existe, la crearemos automáticamente.\n- Si solo envías `entity_id`, usaremos la entidad existente y leeremos su `user_reference`.\n- Si envías ambos, se prioriza el `entity_id`. El `user_reference` solo se usa cuando no se proporciona `entity_id`.\n\nCada `action_token` puede incluir `selected_scopes` para otorgar/revocar solo parte de los scopes del template.\n",
         "operationId": "createConsentCommit",
         "requestBody": {
           "required": true,
@@ -4333,6 +4660,11 @@
                     "type": "string",
                     "description": "Nombre del producto",
                     "example": "Mi Producto"
+                  },
+                  "display_name": {
+                    "type": "string",
+                    "description": "Nombre comercial visible del producto.",
+                    "example": "Cuenta Corriente Plus"
                   },
                   "branch_id": {
                     "type": "string",
@@ -5310,6 +5642,11 @@
                     "type": "string",
                     "description": "Nombre legal de la branch.",
                     "example": "Sucursal de la empresa"
+                  },
+                  "display_name": {
+                    "type": "string",
+                    "description": "Nombre comercial visible de la branch.",
+                    "example": "Sucursal Centro"
                   }
                 }
               }
@@ -5423,6 +5760,11 @@
                     "type": "string",
                     "description": "Nombre legal de la branch",
                     "example": "Sucursal de la empresa"
+                  },
+                  "display_name": {
+                    "type": "string",
+                    "description": "Nombre comercial visible de la branch.",
+                    "example": "Sucursal Centro"
                   }
                 }
               }
@@ -6340,7 +6682,29 @@
                   "type": "object",
                   "properties": {
                     "consent_action": {
-                      "$ref": "#/components/schemas/ConsentAction"
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/ConsentAction"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "redec_receipt_pdf": {
+                              "type": "string",
+                              "format": "uri",
+                              "nullable": true,
+                              "description": "URL del PDF del recibo REDEC. Disponible una vez generado el recibo.",
+                              "example": "https://storage.example.com/receipts/redec_receipt_123.pdf"
+                            },
+                            "redec_pdf_hash": {
+                              "type": "string",
+                              "nullable": true,
+                              "description": "Hash SHA256 del PDF del recibo REDEC para verificación de integridad.",
+                              "example": "a1b2c3d4e5f6..."
+                            }
+                          }
+                        }
+                      ]
                     }
                   }
                 }
@@ -6573,6 +6937,54 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/RedecConsentTemplateInput"
+              },
+              "examples": {
+                "redec_with_legacy_product_id": {
+                  "summary": "REDEC con producto legado",
+                  "value": {
+                    "name": "Consentimiento REDEC comercial",
+                    "title": "Autorización REDEC",
+                    "text": "Autorizo consulta para evaluación comercial",
+                    "data_subject": "customer",
+                    "duration_type": "fixed",
+                    "duration": "P12M",
+                    "product_id": "prod_1B2M2Y8AsgTpgAmY7PhCfg",
+                    "data_requirements": [
+                      {
+                        "key": "cl_carnet_rut",
+                        "data_uses": [
+                          "finance.commercial_risk_assessment"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "redec_with_scopes": {
+                  "summary": "REDEC con scope explícito de producto",
+                  "value": {
+                    "name": "Consentimiento REDEC crediticio",
+                    "title": "Autorización REDEC",
+                    "text": "Autorizo consulta para evaluación crediticia",
+                    "data_subject": "customer",
+                    "duration_type": "fixed",
+                    "duration": "P6M",
+                    "scopes": [
+                      {
+                        "scope_type": "product",
+                        "scope_id": "prod_1B2M2Y8AsgTpgAmY7PhCfg",
+                        "scope_version": 2
+                      }
+                    ],
+                    "data_requirements": [
+                      {
+                        "key": "cl_carnet_rut",
+                        "data_uses": [
+                          "finance.credit_risk_assessment"
+                        ]
+                      }
+                    ]
+                  }
+                }
               }
             }
           }
@@ -6698,6 +7110,34 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/ConsentTemplateInput"
+              },
+              "examples": {
+                "redec_update_with_scoped_product": {
+                  "summary": "Actualizar REDEC fijando versión de producto",
+                  "value": {
+                    "name": "Consentimiento REDEC crediticio",
+                    "title": "Autorización REDEC",
+                    "text": "Autorizo consulta para evaluación crediticia",
+                    "data_subject": "customer",
+                    "duration_type": "fixed",
+                    "duration": "P12M",
+                    "scopes": [
+                      {
+                        "scope_type": "product",
+                        "scope_id": "prod_1B2M2Y8AsgTpgAmY7PhCfg",
+                        "scope_version": 3
+                      }
+                    ],
+                    "data_requirements": [
+                      {
+                        "key": "cl_carnet_rut",
+                        "data_uses": [
+                          "finance.credit_risk_assessment"
+                        ]
+                      }
+                    ]
+                  }
+                }
               }
             }
           }
@@ -7513,7 +7953,6 @@
           "name",
           "title",
           "text",
-          "duration",
           "data_requirements",
           "data_subject"
         ],
@@ -7525,8 +7964,38 @@
           },
           "duration": {
             "type": "string",
+            "nullable": true,
             "description": "Período de disponibilidad en [formato ISO](https://docs.digi.com/resources/documentation/digidocs/90001488-13/reference/r_iso_8601_duration_format.htm). Esto determina por cuánto tiempo puedes solicitar los datos del usuario desde que te dio su consentimiento.",
             "example": "P2M"
+          },
+          "duration_type": {
+            "type": "string",
+            "description": "Tipo de duración del consentimiento. `fixed` usa `duration` en formato ISO, `conditional` usa una cláusula legal.",
+            "enum": [
+              "fixed",
+              "conditional"
+            ],
+            "default": "fixed",
+            "example": "fixed"
+          },
+          "duration_clause_type": {
+            "type": "string",
+            "nullable": true,
+            "description": "Cláusula legal para duración condicional.\nRequerida cuando `duration_type` es `conditional`.\n",
+            "enum": [
+              "while_contractual_relationship",
+              "while_legal_obligation",
+              "until_purpose_fulfilled",
+              "until_revoked",
+              "custom"
+            ],
+            "example": "while_contractual_relationship"
+          },
+          "duration_clause_text": {
+            "type": "string",
+            "nullable": true,
+            "description": "Texto libre de cláusula legal. Requerido cuando `duration_clause_type` es `custom`.",
+            "example": "Mientras dure la relación contractual."
           },
           "title": {
             "type": "string",
@@ -7569,13 +8038,30 @@
           },
           "product_id": {
             "type": "string",
-            "description": "Identificador único del producto. No puede estar presente si se especifica `branch_id`.",
+            "description": "Identificador único del producto.\nCampo legado compatible: si se envía, se convierte internamente a `scopes` con `scope_type=product`.\nSi también se envía `scopes`, prevalece `scopes`.\n",
             "example": "prod_1B2M2Y8AsgTpgAmY7PhCfg"
           },
           "branch_id": {
             "type": "string",
-            "description": "Identificador único de la branch. No puede estar presente si se especifica `product_id`.",
+            "description": "Identificador único de la branch.\nCampo legado compatible: si se envía, se convierte internamente a `scopes` con `scope_type=branch`.\nSi también se envía `scopes`, prevalece `scopes`.\n",
             "example": "branch_1B2M2Y8AsgTpgAmY7PhCfg"
+          },
+          "scopes": {
+            "type": "array",
+            "description": "Lista de ámbitos de aplicación del consentimiento. Permite uno o múltiples scopes.\nSi `scope_version` se omite, el API resuelve la versión `latest` al momento de crear/actualizar y la persiste en la versión del template.\nEl template no sigue automáticamente nuevas versiones del scope después de guardado.\n",
+            "items": {
+              "$ref": "#/components/schemas/ConsentTemplateScopeInput"
+            }
+          },
+          "revocable_data_uses": {
+            "type": "array",
+            "description": "Lista de data uses permitidos para revocación iniciada por la empresa vía `/consent_revocations`.\nCada valor puede ser exacto (por ejemplo `third_party_sharing.intra_company`) o prefijo raíz\n(por ejemplo `third_party_sharing`).\n",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "third_party_sharing"
+            ]
           },
           "optional": {
             "type": "boolean",
@@ -7597,13 +8083,11 @@
           },
           {
             "type": "object",
-            "required": [
-              "product_id"
-            ],
+            "description": "Input para templates REDEC.\nDebe incluir un alcance de producto, ya sea vía `product_id` (legado) o en `scopes` con `scope_type=product`.\n",
             "properties": {
               "product_id": {
                 "type": "string",
-                "description": "Identificador único del producto. Requerido para templates REDEC.",
+                "description": "Identificador único del producto (campo legado compatible para REDEC).",
                 "example": "prod_1B2M2Y8AsgTpgAmY7PhCfg"
               }
             }
@@ -7645,7 +8129,7 @@
           "title",
           "text",
           "version",
-          "duration",
+          "duration_type",
           "data_requirements",
           "data_subject",
           "created_at",
@@ -7669,8 +8153,37 @@
           },
           "duration": {
             "type": "string",
+            "nullable": true,
             "description": "Periodo de retención de datos en [formato ISO](https://docs.digi.com/resources/documentation/digidocs/90001488-13/reference/r_iso_8601_duration_format.htm)",
             "example": "P12M3H"
+          },
+          "duration_type": {
+            "type": "string",
+            "description": "Tipo de duración del consentimiento.",
+            "enum": [
+              "fixed",
+              "conditional"
+            ],
+            "example": "fixed"
+          },
+          "duration_clause_type": {
+            "type": "string",
+            "nullable": true,
+            "description": "Cláusula legal para duración condicional.",
+            "enum": [
+              "while_contractual_relationship",
+              "while_legal_obligation",
+              "until_purpose_fulfilled",
+              "until_revoked",
+              "custom"
+            ],
+            "example": "while_contractual_relationship"
+          },
+          "duration_clause_text": {
+            "type": "string",
+            "nullable": true,
+            "description": "Texto libre de cláusula legal cuando la cláusula es custom.",
+            "example": "Mientras dure la relación contractual."
           },
           "title": {
             "type": "string",
@@ -7714,13 +8227,30 @@
           },
           "product_id": {
             "type": "string",
-            "description": "Identificador único del producto. No puede estar presente si se especifica `branch_id`.",
+            "description": "Identificador único del producto cuando existe un único scope de tipo product (campo legado compatible).",
             "example": "prod_1B2M2Y8AsgTpgAmY7PhCfg"
           },
           "branch_id": {
             "type": "string",
-            "description": "Identificador único de la branch. No puede estar presente si se especifica `product_id`.",
+            "description": "Identificador único de la branch cuando existe un único scope de tipo branch (campo legado compatible).",
             "example": "branch_1B2M2Y8AsgTpgAmY7PhCfg"
+          },
+          "scopes": {
+            "type": "array",
+            "description": "Lista de ámbitos de aplicación del consentimiento ya resueltos y versionados.\nEstos scopes son snapshot del momento de creación/actualización de esta versión del template.\n",
+            "items": {
+              "$ref": "#/components/schemas/ConsentTemplateScope"
+            }
+          },
+          "revocable_data_uses": {
+            "type": "array",
+            "description": "Data uses permitidos para revocaciones iniciadas por la empresa.",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "third_party_sharing"
+            ]
           },
           "optional": {
             "type": "boolean",
@@ -7758,6 +8288,64 @@
           },
           "metadata": {
             "$ref": "#/components/schemas/FilterOrderAndPaginationMetadata"
+          }
+        }
+      },
+      "ConsentTemplateScopeInput": {
+        "type": "object",
+        "required": [
+          "scope_type",
+          "scope_id"
+        ],
+        "properties": {
+          "scope_type": {
+            "type": "string",
+            "enum": [
+              "product",
+              "branch"
+            ],
+            "description": "Tipo de ámbito.",
+            "example": "product"
+          },
+          "scope_id": {
+            "type": "string",
+            "description": "Identificador público tokenizado del recurso scope.",
+            "example": "prod_1B2M2Y8AsgTpgAmY7PhCfg"
+          },
+          "scope_version": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Versión del recurso scope.\nSi se omite, el API resuelve la versión `latest` al momento del write y persiste ese valor.\n",
+            "example": 1
+          }
+        }
+      },
+      "ConsentTemplateScope": {
+        "type": "object",
+        "required": [
+          "scope_type",
+          "scope_id",
+          "scope_version"
+        ],
+        "properties": {
+          "scope_type": {
+            "type": "string",
+            "enum": [
+              "product",
+              "branch"
+            ],
+            "description": "Tipo de ámbito.",
+            "example": "product"
+          },
+          "scope_id": {
+            "type": "string",
+            "description": "Identificador público tokenizado del recurso scope.",
+            "example": "prod_1B2M2Y8AsgTpgAmY7PhCfg"
+          },
+          "scope_version": {
+            "type": "integer",
+            "description": "Versión del recurso scope persistida en esta versión del template.\nEste valor queda fijado al guardar y no se actualiza automáticamente cuando aparecen nuevas versiones del scope.\n",
+            "example": 1
           }
         }
       },
@@ -8852,11 +9440,27 @@
             ],
             "example": "opt_in_click"
           },
+          "scope_selection_behavior": {
+            "type": "string",
+            "description": "Semántica de selección de scopes para acciones de tipo `grant`.\n`replace` aplica intención final (puede revocar scopes no seleccionados).\n`additive` agrega solo los scopes seleccionados sin revocar los no seleccionados.\n",
+            "enum": [
+              "replace",
+              "additive"
+            ],
+            "example": "replace"
+          },
           "action_data": {
             "type": "object",
             "description": "Datos adicionales de la acción (máximo 4KB de tamaño serializado en JSON)",
             "example": {
               "checkbox_id": "cb_123"
+            }
+          },
+          "selected_scopes": {
+            "type": "array",
+            "description": "Scopes seleccionados para esta acción.\nSi está vacío en templates sin scopes, la acción aplica de forma global.\n",
+            "items": {
+              "$ref": "#/components/schemas/ConsentTemplateScope"
             }
           },
           "contextual_data": {
@@ -9173,6 +9777,22 @@
                       "description": "Versión del template de consentimiento asociado.",
                       "example": 1
                     },
+                    "scope_selection_behavior": {
+                      "type": "string",
+                      "description": "Semántica de selección de scopes (`replace` o `additive`).",
+                      "enum": [
+                        "replace",
+                        "additive"
+                      ],
+                      "example": "replace"
+                    },
+                    "selected_scopes": {
+                      "type": "array",
+                      "description": "Scopes seleccionados para esta acción.",
+                      "items": {
+                        "$ref": "#/components/schemas/ConsentTemplateScope"
+                      }
+                    },
                     "timestamp": {
                       "type": "string",
                       "format": "date-time",
@@ -9360,14 +9980,15 @@
             "nullable": true
           },
           "scope_version": {
-            "type": "string",
+            "type": "integer",
             "description": "Versión del producto o filial para la cual está vigente el uso del dato.",
             "nullable": true
           },
           "expires_at": {
             "type": "string",
             "format": "date",
-            "description": "Fecha de expiración del permiso de uso"
+            "description": "Fecha de expiración del permiso de uso",
+            "nullable": true
           }
         }
       },
@@ -9482,6 +10103,11 @@
             "type": "string",
             "description": "Nombre legal de la sucursal.",
             "example": "Sucursal de la empresa"
+          },
+          "display_name": {
+            "type": "string",
+            "description": "Nombre comercial visible de la sucursal.",
+            "example": "Sucursal Centro"
           },
           "version": {
             "type": "integer",
@@ -9728,6 +10354,11 @@
             "type": "string",
             "description": "Nombre del producto",
             "example": "Mi Producto"
+          },
+          "display_name": {
+            "type": "string",
+            "description": "Nombre comercial visible del producto.",
+            "example": "Cuenta Corriente Plus"
           },
           "branch_id": {
             "type": "string",
@@ -10254,9 +10885,6 @@
         }
       },
       "DataSubjectRequestUpdate": {
-        "x-tags": [
-          "Data subject requests"
-        ],
         "type": "object",
         "description": "Esquema para actualizar el estado de una solicitud de ejercicio de derechos.\nSolo se permite el estado terminal `resolved`.\n",
         "required": [
@@ -10370,6 +10998,14 @@
             "format": "date-time",
             "description": "Fecha y hora en que se realizó la validación certificada por este attestation",
             "example": "2026-01-19T12:00:00Z"
+          },
+          "id_match_level": {
+            "type": "integer",
+            "nullable": true,
+            "minimum": 1,
+            "maximum": 10,
+            "description": "Nivel de exigencia aplicado al attestation de `id_match`.\n\nActualmente solo aplica a `id_match`:\n- Si está presente, representa el nivel mínimo de coincidencia facial que se exigió al momento de certificar el `id_match`.\n- Si es `null`, puedes asumir compatibilidad histórica con nivel `3`.\n",
+            "example": 3
           }
         }
       },
@@ -10632,6 +11268,14 @@
                 "type": "boolean",
                 "default": true,
                 "description": "Indica si los datos de la transacción deben ser eliminados después de la validación."
+              },
+              "id_match_min_level": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 10,
+                "default": 3,
+                "description": "Nivel mínimo de coincidencia facial requerido para validar `id_match` cuando la validación incluye liveness + escaneo de documento (`validation_mode: full`).\n",
+                "example": 3
               }
             }
           },
@@ -10653,6 +11297,14 @@
                 "type": "boolean",
                 "default": false,
                 "description": "Indica si se debe hacer un cruce con la base de datos del gobierno durante el disclosure request."
+              },
+              "id_match_min_level": {
+                "type": "integer",
+                "nullable": true,
+                "minimum": 1,
+                "maximum": 10,
+                "description": "Override opcional del nivel mínimo de coincidencia facial para `id_match` en Disclosure.\n\n- Si es `null`: se usa `validation.id_match_min_level`.\n- Si tiene valor: se usa ese valor para Disclosure.\n",
+                "example": null
               },
               "skip_passkey_registration": {
                 "type": "boolean",
@@ -10750,6 +11402,14 @@
                 "type": "boolean",
                 "default": false,
                 "description": "Indica si se debe hacer un cruce con la base de datos del gobierno durante la validación de identidad en DSR."
+              },
+              "id_match_min_level": {
+                "type": "integer",
+                "nullable": true,
+                "minimum": 1,
+                "maximum": 10,
+                "description": "Override opcional del nivel mínimo de coincidencia facial para `id_match` en Data Subject Request.\n\n- Si es `null`: se usa `validation.id_match_min_level`.\n- Si tiene valor: se usa ese valor para DSR.\n",
+                "example": null
               },
               "mandatory_validation": {
                 "type": "boolean",
@@ -11004,7 +11664,7 @@
           },
           "action_type": {
             "type": "string",
-            "description": "Tipo específico de acción",
+            "description": "Tipo específico de acción.\nPara templates REDEC, cuando `action_data` incluye `audio_reference` y `audio_hash`, el valor debe ser `voice_confirmation`.\nPara templates REDEC, cuando `action_type` es `voice_confirmation`, también se deben incluir `audio_reference` y `audio_hash`.\n",
             "enum": [
               "opt_in_click",
               "voice_confirmation",
@@ -11018,9 +11678,26 @@
             "description": "Fecha y hora de la acción",
             "example": "2024-03-20T15:30:00Z"
           },
+          "selected_scopes": {
+            "type": "array",
+            "description": "Subconjunto de scopes del template que representa la selección del usuario para esta acción.\nSi se omite, la acción aplica a todos los scopes del template.\n",
+            "items": {
+              "$ref": "#/components/schemas/ConsentTemplateScope"
+            }
+          },
+          "scope_selection_behavior": {
+            "type": "string",
+            "description": "Semántica para manejar scopes no seleccionados en acciones `grant`.\n`replace` trata la selección como intención final (puede revocar scopes no seleccionados).\n`additive` agrega solo los scopes seleccionados sin revocar scopes no seleccionados.\n",
+            "enum": [
+              "replace",
+              "additive"
+            ],
+            "default": "replace",
+            "example": "additive"
+          },
           "action_data": {
             "type": "object",
-            "description": "Datos adicionales de la acción. Se permite cualquier campo adicional, pero se recomienda no exceder los 4KB de tamaño serializado en JSON.\n\nEn caso de usar REDEC y se está tratando un consentimiento de audio, puede incluir los campos de `audio_reference` y `audio_hash`. Más información en la [documentación de REDEC](/docs/integration-guide/redec/consent-registration#consentimiento-verbal-con-audio).\n",
+            "description": "Datos adicionales de la acción. Se permite cualquier campo adicional, pero se recomienda no exceder los 4KB de tamaño serializado en JSON.\n\nEn caso de usar REDEC y se está tratando un consentimiento de audio, puede incluir los campos de `audio_reference` y `audio_hash`. Más información en la [documentación de REDEC](/docs/integration-guide/redec/consent-registration#consentimiento-verbal-con-audio).\nPara templates REDEC, cuando se envían ambos campos de audio, `action_type` debe ser `voice_confirmation`.\nPara templates REDEC, cuando `action_type` es `voice_confirmation`, se requieren ambos campos de audio.\n",
             "example": {
               "checkbox_id": "cb_123",
               "audio_reference": "https://example.com/audio/consent_12345.mp3",
@@ -11040,6 +11717,181 @@
             "type": "string",
             "description": "Token JWT de la acción de consentimiento",
             "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+          }
+        }
+      },
+      "ConsentRevocationOriginEvent": {
+        "type": "object",
+        "required": [
+          "system",
+          "event_id"
+        ],
+        "properties": {
+          "system": {
+            "type": "string",
+            "description": "Sistema origen que dispara la revocación.",
+            "example": "core-banking"
+          },
+          "event_id": {
+            "type": "string",
+            "description": "Identificador idempotente del evento origen.",
+            "example": "evt-12345"
+          },
+          "occurred_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Fecha/hora de ocurrencia del evento origen.",
+            "example": "2026-02-11T15:10:00Z"
+          }
+        }
+      },
+      "ConsentRevocationCreateInput": {
+        "type": "object",
+        "required": [
+          "consent_template_id",
+          "reason_code",
+          "origin_event"
+        ],
+        "properties": {
+          "identity_id": {
+            "type": "string",
+            "description": "Identificador de identidad a revocar. No puede combinarse con `entity_id` ni `user_reference`.",
+            "example": "id_1B2M2Y8AsgTpgAmY7PhCfg"
+          },
+          "entity_id": {
+            "type": "string",
+            "description": "Identificador de entidad a revocar. Se prioriza sobre `user_reference`.",
+            "example": "ent_1B2M2Y8AsgTpgAmY7PhCfg"
+          },
+          "user_reference": {
+            "type": "string",
+            "description": "Referencia de usuario para resolver la entidad cuando no se entrega `entity_id`.",
+            "example": "user_123"
+          },
+          "consent_template_id": {
+            "type": "string",
+            "description": "Identificador del template de consentimiento.",
+            "example": "constpl_1B2M2Y8AsgTpgAmY7PhCfg"
+          },
+          "consent_template_version": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Versión específica del template. Si se omite, usa latest.",
+            "example": 3
+          },
+          "selected_scopes": {
+            "type": "array",
+            "description": "Subconjunto de scopes a revocar. Si se omite, intenta revocar todos los scopes del template,\nrespetando los guardrails de `revocable_data_uses`.\n",
+            "items": {
+              "$ref": "#/components/schemas/ConsentTemplateScope"
+            }
+          },
+          "reason_code": {
+            "type": "string",
+            "description": "Código de motivo de revocación definido por la empresa.",
+            "example": "contract_ended"
+          },
+          "reason_text": {
+            "type": "string",
+            "nullable": true,
+            "description": "Texto libre opcional con más contexto.",
+            "example": "Contrato finalizado en sistema core"
+          },
+          "origin_event": {
+            "$ref": "#/components/schemas/ConsentRevocationOriginEvent"
+          }
+        }
+      },
+      "CompanyConsentRevocation": {
+        "x-tags": [
+          "Consent revocations"
+        ],
+        "type": "object",
+        "required": [
+          "id",
+          "subject_id",
+          "subject_type",
+          "consent_template_id",
+          "consent_template_version",
+          "reason_code",
+          "origin_event",
+          "status",
+          "created_at"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identificador único de la revocación iniciada por la empresa.",
+            "example": "ccrev_1B2M2Y8AsgTpgAmY7PhCfg"
+          },
+          "subject_id": {
+            "type": "string",
+            "description": "Identificador del sujeto afectado (`ent_` o `id_`).",
+            "example": "ent_1B2M2Y8AsgTpgAmY7PhCfg"
+          },
+          "subject_type": {
+            "type": "string",
+            "enum": [
+              "Entity",
+              "Identity"
+            ],
+            "example": "Entity"
+          },
+          "consent_template_id": {
+            "type": "string",
+            "description": "Identificador del template de consentimiento.",
+            "example": "constpl_1B2M2Y8AsgTpgAmY7PhCfg"
+          },
+          "consent_template_version": {
+            "type": "integer",
+            "example": 3
+          },
+          "selected_scopes": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ConsentTemplateScope"
+            }
+          },
+          "reason_code": {
+            "type": "string",
+            "example": "contract_ended"
+          },
+          "reason_text": {
+            "type": "string",
+            "nullable": true,
+            "example": "Contrato finalizado en sistema core"
+          },
+          "origin_event": {
+            "$ref": "#/components/schemas/ConsentRevocationOriginEvent"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "applied",
+              "no_changes",
+              "failed"
+            ],
+            "example": "applied"
+          },
+          "agreement_id": {
+            "type": "string",
+            "nullable": true,
+            "description": "Identificador del acuerdo resultante cuando hubo cambios efectivos.",
+            "example": "agr_1B2M2Y8AsgTpgAmY7PhCfg"
+          },
+          "agreement_version": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Versión del acuerdo resultante cuando hubo cambios efectivos.",
+            "example": 4
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-02-11T15:10:00Z"
           }
         }
       },
