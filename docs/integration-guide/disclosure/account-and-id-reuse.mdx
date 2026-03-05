@@ -50,7 +50,7 @@ Cuando creas un nuevo `disclosure_request`, el widget verifica automáticamente 
 - **Email coincidente**: El correo del request coincide con una identidad existente
 - **Cuenta Soyio activa**: La identidad pertenece a un usuario con cuenta activa
 - **Historial con la empresa**: El usuario previamente validó su identidad con ese comercio
-- **Attestations previos compatibles**: La identidad debe tener los attestations requeridos por la validación configurada (`liveness`, `id_scan` y opcionalmente `government_check`). Cuando además aplica `id_match` (`validation_mode: full`), su `id_match_level` debe ser igual o mayor al `id_match_min_level` exigido.
+- **Attestations previos compatibles**: La identidad debe tener los attestations requeridos por la validación configurada (`liveness`, `id_scan`, `id_match` cuando `validation_mode: full`, y opcionalmente `government_check`). Cuando aplica `id_match`, su `id_match_level` debe ser igual o mayor al `id_match_min_level` exigido.
 
 Cuando se cumplen las condiciones, se muestra la pantalla **"Welcome back"** con la opción "Usar mis datos validados". El flujo evita toda la etapa de validación de documentos y el usuario solo debe autenticarse para confirmar que sigue siendo el titular de esa identidad.
 
