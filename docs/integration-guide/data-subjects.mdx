@@ -22,12 +22,13 @@ Los attestations son **marcas** que registran qué verificaciones de identidad s
 
 - **kind**: El tipo de verificación realizada
 - **validated_at**: La fecha y hora en que se realizó la verificación
+- **id_match_level**: Nivel aplicado en `id_match` (solo aparece en attestations de tipo `id_match`)
 
 Los tipos de attestation posibles son:
 
 - `liveness`: Se realizó una prueba de vida (detección de persona real)
 - `id_scan`: Se escaneó y validó un documento de identidad
-- `id_match`: Se comparó la foto del documento con la imagen de la persona (coincidencia facial biométrica)
+- `id_match`: Se comparó la foto del documento con la imagen de la persona (coincidencia facial biométrica). Puede incluir `id_match_level` para indicar el umbral aplicado.
 - `government_check`: Se validó la información con registros gubernamentales
 
 ### Ejemplo de Identity
@@ -71,7 +72,8 @@ Los tipos de attestation posibles son:
     },
     {
       "kind": "id_match",
-      "validated_at": "2026-01-19T12:00:00Z"
+      "validated_at": "2026-01-19T12:00:00Z",
+      "id_match_level": 3
     }
   ]
 }
