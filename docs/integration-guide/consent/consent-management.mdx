@@ -258,7 +258,7 @@ Puedes combinar `groupConsentsByScope` con `allowGranularScopeSelection` para ag
 
 Si necesitas agrupar múltiples alcances en categorías de negocio (por ejemplo, "Productos financieros" o "Sucursales principales"), puedes definir grupos personalizados.
 
-`consentManagement.scopeGroups`: `array` opcional.
+`consentManagement.scopeGroups`: `array` opcional. Requiere `groupConsentsByScope: true`.
 
 - Cada grupo debe incluir `title` y `scopes`.
 - Cada alcance en `scopes` debe tener `{ scopeType: 'product' | 'branch', scopeId: string }`.
