@@ -126,7 +126,7 @@ La configuración de validación sigue el siguiente orden de prioridad:
 
 ### Umbral de `id_match` para DSR
 
-En DSR también puedes ajustar el nivel mínimo requerido para considerar válido el `id_match` cuando usas `validation_mode: full` (equivalente a `liveness_check: true` e `id_scan_check: true`).
+En DSR también puedes ajustar el nivel mínimo requerido para considerar válido el `id_match` cuando usas `validation_mode: full` (equivalente a requerir `liveness` + `id_scan` y validar también `id_match`).
 
 - Rango permitido: `1` a `10`.
 - Si `data_subject_request.id_match_min_level` es `null`, se usa `validation.id_match_min_level`.
