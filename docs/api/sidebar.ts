@@ -148,6 +148,10 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: 'doc',
+      id: 'api/authorization',
+    },
+    {
+      type: 'doc',
       id: 'api/sandbox-mode',
     },
     {
