@@ -50,8 +50,11 @@ Cuando creas un nuevo `disclosure_request`, el widget verifica automáticamente 
 - **Email coincidente**: El correo del request coincide con una identidad existente
 - **Cuenta Soyio activa**: La identidad pertenece a un usuario con cuenta activa
 - **Historial con la empresa**: El usuario previamente validó su identidad con ese comercio
+- **Attestations previos compatibles**: La identidad debe tener los attestations requeridos por la validación configurada (`liveness`, `id_scan` y opcionalmente `government_check`). Cuando además aplica `id_match` (`validation_mode: full`), su `id_match_level` debe ser igual o mayor al `id_match_min_level` exigido.
 
 Cuando se cumplen las condiciones, se muestra la pantalla **"Welcome back"** con la opción "Usar mis datos validados". El flujo evita toda la etapa de validación de documentos y el usuario solo debe autenticarse para confirmar que sigue siendo el titular de esa identidad.
+
+Si la identidad reutilizable no cumple los attestations requeridos (o no alcanza el umbral de `id_match` cuando corresponde), el sistema no usa el atajo y deriva al flujo completo de validación.
 
 <details>
   <summary>Flujo de reutilización de identidad</summary>
@@ -60,10 +63,12 @@ Cuando se cumplen las condiciones, se muestra la pantalla **"Welcome back"** con
       A[Nuevo disclosure_request] --> B{Correo coincide con identidad previamente verificada}
       B -- No --> G[Iniciar flujo completo de validación]
       B -- Sí --> C{Cuenta Soyio activa}
-      C -- Sí --> E[Muestra pantalla Welcome back]
+      C -- Sí --> J{Attestations previos<br/>compatibles}
       C -- No --> D{Historial con la empresa}
-      D -- Sí --> E
+      D -- Sí --> J
       D -- No --> G
+      J -- Sí --> E[Muestra pantalla Welcome back]
+      J -- No --> G
       E --> F{Usuario elige reutilizar datos}
       F -- Sí --> H[Desencadena autenticación fuerte<br/>passkey o biometría]
       H --> I[Eventos auth_attempt.successful<br/>y disclosure_request.granted]
@@ -80,6 +85,10 @@ El atajo siempre obliga a una autenticación fuerte:
 2. **Biometría facial**: Se presenta como respaldo si la passkey no está disponible.
 
 Mientras la autenticación se realiza, el `disclosure_request` permanece en estado `authenticating`. Cuando finaliza con éxito, recibirás el evento `disclosure_request.granted` (igual que en una validación completa) y `auth_attempt.successful` (diferente al que se enviaría en una validación completa).
+
+:::info[Compatibilidad histórica de `id_match_level`]
+Si la identidad tiene attestation `id_match` sin `id_match_level`, Soyio la evalúa con compatibilidad histórica usando nivel `3`.
+:::
 
 :::tip
 La autenticación simplificada es **más rápida y conveniente** para el usuario, **manteniendo el mismo nivel de seguridad**, mejorando la experiencia de manera significativa a través del uso de passkeys. Revisa nuestra [guía de passkeys para más información](../../user-guide/passkeys)

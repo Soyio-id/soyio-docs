@@ -102,6 +102,7 @@ La configuración a nivel de `validation` establece los valores **generales** pa
 - `validation.liveness_check`
 - `validation.id_scan_check`
 - `validation.government_check`
+- `validation.id_match_min_level`
 
 ### 2. Configuración específica de DSR (DSR-level)
 
@@ -113,14 +114,22 @@ La configuración a nivel de `data_subject_request` es específica para solicitu
 - `data_subject_request.liveness_check`
 - `data_subject_request.id_scan_check`
 - `data_subject_request.government_check`
+- `data_subject_request.id_match_min_level`
 
 :::info[Prioridad de configuración]
 La configuración de validación sigue el siguiente orden de prioridad:
 
 1. **Configuración de DSR**: Si `config.data_subject_request` tiene configuración, se usa esa configuración
 2. **Configuración general de validación**: Si `config.data_subject_request` no tiene configuración, se usa `config.validation`
-3. **Valores por defecto**: Si ninguna de las anteriores tiene configuración, se usan los valores por defecto (`liveness_check: true`, `id_scan_check: true`, `government_check: false`)
+3. **Valores por defecto**: Si ninguna de las anteriores tiene configuración, se usan los valores por defecto (`liveness_check: true`, `id_scan_check: true`, `government_check: false`, `id_match_min_level: 3`)
 :::
+
+### Umbral de `id_match` para DSR
+
+En DSR también puedes ajustar el nivel mínimo requerido para considerar válido el `id_match` cuando usas biometría completa (`liveness_check: true` e `id_scan_check: true`).
+
+- Rango permitido: `1` a `10`.
+- Si `data_subject_request.id_match_min_level` es `null`, se usa `validation.id_match_min_level`.
 
 ---
 
@@ -146,7 +155,8 @@ Después de completar la validación, los attestations correspondientes se almac
     },
     {
       "kind": "id_match",
-      "validated_at": "2026-01-19T12:00:00Z"
+      "validated_at": "2026-01-19T12:00:00Z",
+      "id_match_level": 3
     }
   ]
 }

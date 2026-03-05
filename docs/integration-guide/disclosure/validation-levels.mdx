@@ -78,6 +78,7 @@ La configuración a nivel de `validation` establece los valores **generales** pa
 - `validation.liveness_check`
 - `validation.id_scan_check`
 - `validation.government_check`
+- `validation.id_match_min_level`
 
 ### 2. Configuración específica de disclosure (Disclosure-level)
 
@@ -89,6 +90,7 @@ La configuración a nivel de `disclosure` es específica para el módulo de disc
 - `disclosure.liveness_check`
 - `disclosure.id_scan_check`
 - `disclosure.government_check`
+- `disclosure.id_match_min_level`
 
 ---
 
@@ -111,8 +113,17 @@ La configuración de validación sigue el siguiente orden de prioridad:
 1. **Configuración de plantilla**: Si la plantilla tiene configuración de validación, se usa esa configuración
 2. **Configuración de disclosure**: Si la plantilla no tiene configuración, se usa `config.disclosure`
 3. **Configuración general de validación**: Si `config.disclosure` tampoco tiene configuración, se usa `config.validation`
-4. **Valores por defecto**: Si ninguna de las anteriores tiene configuración, se usan los valores por defecto (`liveness_check: true`, `id_scan_check: true`, `government_check: false`)
+4. **Valores por defecto**: Si ninguna de las anteriores tiene configuración, se usan los valores por defecto (`liveness_check: true`, `id_scan_check: true`, `government_check: false`, `id_match_min_level: 3`)
 :::
+
+### Umbral de `id_match` (`id_match_min_level`)
+
+Cuando la validación incluye biometría completa (`liveness_check: true` e `id_scan_check: true`), puedes definir el umbral mínimo de coincidencia facial para considerar exitoso el `id_match`.
+
+- Rango permitido: `1` a `10`.
+- Valor más alto: más exigente.
+- Si `disclosure.id_match_min_level` es `null`, Disclosure usa `validation.id_match_min_level`.
+- Este umbral también se aplica cuando Soyio evalúa si una identidad es reutilizable en el flujo "Welcome back".
 
 Aprende más sobre las plantillas de disclosure en la [guía de plantillas de disclosure](./disclosure_templates).
 
@@ -140,7 +151,8 @@ Después de completar exitosamente la validación, se crea una [Identity](/docs/
     },
     {
       "kind": "id_match",
-      "validated_at": "2026-01-19T12:00:00Z"
+      "validated_at": "2026-01-19T12:00:00Z",
+      "id_match_level": 3
     }
   ]
 }
@@ -164,7 +176,8 @@ Después de completar exitosamente la validación, se crea una [Identity](/docs/
     },
     {
       "kind": "id_match",
-      "validated_at": "2026-01-19T12:00:00Z"
+      "validated_at": "2026-01-19T12:00:00Z",
+      "id_match_level": 3
     },
     {
       "kind": "government_check",
