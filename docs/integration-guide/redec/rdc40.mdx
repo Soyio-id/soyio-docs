@@ -1,11 +1,36 @@
 ---
 title: Genera reportes RDC40
-description: "Reporte RDC40 para solicitudes de derecho REDEC (DSR): eventos que lo disparan y configuración de generación automática"
+description: "Reporte RDC40 para solicitudes de derecho REDEC (DSR): estructura, generación manual o automática y sincronización con la CMF"
 ---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Genera reportes RDC40
 
-El reporte **RDC40** consolida eventos asociados a **solicitudes de derecho REDEC (DSR)** en un período y los presenta en el formato requerido por la CMF.
+Los reportes **RDC40** de Soyio **consolidan eventos de solicitudes de derecho REDEC (DSR)** en un período y los presentan en el formato requerido por la CMF en Chile.
+
+:::tip
+Soyio también soporta [RDC30 para acciones de consentimiento](./rdc30.mdx).
+:::
+
+### Estructura del reporte
+
+<img src="/img/RDC40.png" alt="Desglose visual de los campos del formato RDC40" width="100%"/>
+
+El contenido del RDC40 se organiza en un encabezado y líneas de detalle en formato de ancho fijo.
+
+- **Código de institución**: código CMF de 10 dígitos asignado a tu institución.
+- **Identificación de archivo**: identificador del tipo de archivo, correspondiente a `RDC40`.
+- **Fecha del reporte**: fecha asociada al archivo reportado.
+- **ID único de la solicitud**: identificador interno de la solicitud REDEC.
+- **Fecha evento**: fecha en la que ingresó, avanzó o cerró la solicitud.
+- **Vía de ingreso**: canal por el cual se originó la solicitud.
+- **Respuesta solicitud**: resultado reportado para la solicitud (por ejemplo, solicitud abierta o ya resuelta).
+- **Evento**: tipo de hito reportado para la solicitud (ingreso, inicio de análisis o cierre).
+- **Clasificación de la solicitud**: categoría REDEC de la solicitud (actualización, rectificación, complementación o cancelación).
+- **Fundamento**: motivo regulatorio asociado al cambio o resolución reportada.
+- **Código de la operación**: identificador interno de la operación o crédito reclamado.
 
 ## Eventos que generan entradas en RDC40
 
@@ -13,27 +38,182 @@ Soyio incluye entradas RDC40 para solicitudes REDEC cuando ocurren estos eventos
 
 - **Creación** de la solicitud
 - **Inicio de procesamiento** de la solicitud
-- **Resolución** de la solicitud (aprobada, parcialmente aprobada, rechazada, o fallo de validación)
+- **Resolución** de la solicitud (aprobada, parcialmente aprobada, rechazada o fallo de validación)
 
-## Generar un reporte RDC40
+## Genera un reporte
 
-Para generar un reporte, utiliza el endpoint de reportes con `kind: "rdc40"`. El flujo es el mismo que para RDC30, solo cambia el `kind`.
+Crea reportes de cumplimiento usando el dashboard de administración o la API de Soyio con el endpoint [`POST /api/v1/reports`](../../api/resources/create-report.api.mdx).
 
-Consulta los pasos generales en [RDC30](./rdc30.mdx#crear-un-reporte) y usa `kind: "rdc40"`.
+### Define el tipo de reporte
 
-## Generación automática (diaria)
+Especifica el tipo de reporte usando el parámetro `kind`.
 
-Puedes generar RDC40 automáticamente activando la configuración de tu empresa:
+```json
+{
+  "kind": "rdc40"
+}
+```
 
-- `consent.redec_enabled`: habilita REDEC
-- `data_subject_request.redec_automatic_rdc40`: activa reportes automáticos RDC40
+**Tipos de reporte disponibles:**
+- `rdc40` - Reporte RDC40 para solicitudes REDEC (DSR), cumplimiento CMF (Chile)
 
-Con esta opción habilitada, Soyio ejecuta una tarea diaria (00:00) que genera un reporte para el período **del día anterior**.
+### Define el período del reporte
+
+Establece el rango de fechas para el reporte usando formato ISO 8601.
+
+```json
+{
+  "starts_at": "2026-01-01T00:00:00Z",
+  "ends_at": "2026-01-31T23:59:59Z"
+}
+```
+
+**Consideraciones:**
+- Usa zona horaria UTC (Z al final)
+- La fecha de inicio debe ser anterior a la fecha de fin
+- El período admite cualquier duración (diario, semanal, mensual, etc.)
+
+<Tabs>
+  <TabItem value="curl" label="cURL" default>
+    ```bash
+    curl -X POST https://api.soyio.id/api/v1/reports \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "kind": "rdc40",
+        "starts_at": "2026-01-01T00:00:00Z",
+        "ends_at": "2026-01-31T23:59:59Z"
+      }'
+    ```
+  </TabItem>
+  <TabItem value="javascript" label="JavaScript">
+    ```javascript
+    const response = await fetch('https://api.soyio.id/api/v1/reports', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${YOUR_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        kind: 'rdc40',                       // Tipo de reporte
+        starts_at: '2026-01-01T00:00:00Z',   // Inicio del período
+        ends_at: '2026-01-31T23:59:59Z'      // Fin del período
+      })
+    });
+
+    const data = await response.json();
+    console.log('Reporte iniciado:', data.report.id);
+    ```
+  </TabItem>
+  <TabItem value="python" label="Python">
+    ```python
+    import requests
+
+    response = requests.post(
+        'https://api.soyio.id/api/v1/reports',
+        headers={
+            'Authorization': f'Bearer {YOUR_API_KEY}',
+            'Content-Type': 'application/json'
+        },
+        json={
+            'kind': 'rdc40',                      # Tipo de reporte
+            'starts_at': '2026-01-01T00:00:00Z',  # Inicio del período
+            'ends_at': '2026-01-31T23:59:59Z'     # Fin del período
+        }
+    )
+
+    data = response.json()
+    print('Reporte iniciado:', data['report']['id'])
+    ```
+  </TabItem>
+</Tabs>
+
+La API retorna la información del reporte creado con el contenido completo. La estructura de la respuesta es la misma que para [RDC30](./rdc30.mdx#formato-del-reporte-rdc30); solo cambia el valor de `kind` y el formato del campo `content` según las especificaciones CMF para RDC40.
+
+## Opciones de generación
+
+Genera reportes de dos formas:
+
+### Opción 1: Generación manual
+
+Crea reportes manualmente cuando los necesites usando el endpoint o el dashboard. Esta opción te da control total sobre cuándo generar cada reporte.
+
+**Cuándo usar**: Para reportes específicos, auditorías puntuales o cuando prefieres control manual del proceso.
+
+### Opción 2: Generación automática
+
+Activa la generación automática de reportes RDC40 desde la configuración de tu cuenta. Soyio generará un reporte automáticamente cada día a las 00:00 (UTC) para el período del día anterior.
+
+**Cuándo usar**: Para cumplimiento regulatorio que requiere reportes diarios de solicitudes REDEC. Recibirás notificaciones por webhook cada vez que se genere un reporte.
+
+:::tip[Recomendado para REDEC]
+Para cumplir con la CMF, activa la generación automática y suscríbete al webhook [`report.created`](../../api/webhooks.md). Así recibirás cada reporte RDC40 sin intervención manual.
+:::
+
+## Configura la generación automática de reportes
+
+Activa la generación automática de reportes RDC40 usando el dashboard o la API con el endpoint [`PATCH /api/v1/config`](../../api/resources/update-company-config.api.mdx):
+
+```json
+{
+  "consent": {
+    "redec_enabled": true
+  },
+  "data_subject_request": {
+    "redec_automatic_rdc40": true
+  }
+}
+```
+
+**Desde el dashboard:**
+
+1. Navega a **Configuración > Consentimiento**
+2. Activa **Reportes automáticos RDC40** (solicitudes REDEC)
+3. Guarda la configuración
+
+Los reportes se generarán automáticamente cada día a las 00:00 (UTC) para el día anterior. Recibirás una notificación por webhook con el evento [`report.created`](../../api/webhooks.md) cada vez que se genere un reporte.
+
+:::info[Más detalles]
+Consulta la [guía de configuración](./configuration.mdx#reportes-automáticos) para opciones avanzadas.
+:::
 
 ## Sin eventos (“no changes”)
 
-Si en el período no existieron eventos que disparen entradas RDC40 para solicitudes REDEC, Soyio registra un evento interno:
+Si en el período no existieron eventos que generen entradas RDC40 para solicitudes REDEC, Soyio registra un evento interno:
 
 - `redec.rdc40_no_changes`
 
-En ese caso, igualmente debes **informar a la CMF** que no hubo cambios (“sin movimientos”) para el período correspondiente.
+En ese caso, informa a la CMF que no hubo cambios (“sin movimientos”) para el período correspondiente.
+
+## Suscríbete al evento de creación de reportes
+
+Suscríbete al webhook [`report.created`](../../api/webhooks.md) para recibir notificaciones cuando se genere un reporte.
+
+### `report.created`
+
+Se envía cuando un nuevo reporte ha sido generado y está listo para consultar. El payload incluye el campo `kind` (por ejemplo `"rdc40"`) y el contenido en `content`.
+
+**Cuándo usar**: Rastrea la generación de reportes y sincroniza automáticamente con sistemas externos (ej. CMF para reportes RDC40).
+
+:::tip[Verifica el tipo de reporte]
+Usa el campo `kind` en el payload para identificar el tipo de reporte antes de procesarlo. Filtra por `data.kind === 'rdc40'` para manejar solo reportes RDC40.
+:::
+
+## Sincroniza con la CMF
+
+La normativa REDEC puede requerir reportes diarios de solicitudes DSR. Usa webhooks para automatizar el proceso:
+
+**Paso 1: Activa reportes automáticos**
+- Los reportes se generan automáticamente cada día a las 00:00 (UTC) para el día anterior
+
+**Paso 2: Suscríbete al webhook [`report.created`](../../api/webhooks.md)**
+- Recibirás el reporte completo con el contenido en cada notificación
+
+**Paso 3: Procesa y sincroniza desde el webhook**
+- Filtra por `data.kind === 'rdc40'` y envía el contenido a la plataforma CMF o almacena para auditoría
+
+## Próximos pasos
+
+- [Configuración de REDEC](./configuration.mdx) - Configura reportes automáticos y webhooks
+- [Captura de consentimientos](./consent-registration.mdx) - Registra consentimientos REDEC-compliant
+- [Cómo funciona REDEC](./how-it-works.mdx) - Entiende el modelo de datos completo
