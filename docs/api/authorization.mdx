@@ -1,54 +1,35 @@
-# Autorización
+# Autorizacion
 
-Controla qué puede hacer cada API key con un modelo basado en permisos.
+Autorizacion define que operaciones puede ejecutar una API key ya autenticada.
 
-Esta guía explica la arquitectura general. Los nombres exactos de permisos pueden evolucionar, pero el modelo de evaluación se mantiene estable.
+En otras palabras:
 
-## Qué evalúa la API
+- autenticacion valida quien llama
+- autorizacion valida si esa key puede ejecutar el endpoint pedido
 
-Después de autenticar el request, Soyio evalúa autorización en capas:
+Si necesitas repasar creacion, uso y renovacion de API keys, vuelve a la [guia de autenticacion](./authentication).
 
-1. Valida que la API key esté activa (no revocada y no expirada)
-2. Evalúa permisos requeridos por el endpoint
-3. Evalúa restricciones de recurso (por ejemplo, existencia y estado del recurso)
-4. Evalúa reglas de negocio o feature flags del endpoint
+## Modelo de autorizacion
 
-Solo cuando todas las capas pasan, la operación se ejecuta.
+Despues de autenticar el request, Soyio evalua acceso en capas:
 
-## Estructura de permisos
+1. confirma que la API key este activa
+2. revisa los permisos requeridos por el endpoint
+3. aplica restricciones del recurso, como existencia o pertenencia
+4. aplica reglas adicionales, por ejemplo feature flags o reglas de negocio
 
-Los permisos siguen una estructura modular, por ejemplo:
+La operacion solo se ejecuta cuando todas las capas pasan.
 
-- `consent.api.actions.create`
-- `consent.api.actions.read`
-- `consent.api.commits.create`
-- `dsr.api.requests.read`
+## Donde defines el acceso de una API key
 
-También existen permisos de administración por módulo, por ejemplo:
+Puedes gestionar permisos desde el [dashboard de Soyio](https://dashboard.soyio.id) o via API al crear y actualizar API keys.
 
-- `consent.api.manage`
-- `dsr.api.manage`
-
-En varios endpoints, el permiso `<modulo>.api.manage` también habilita operaciones de ese módulo.
-
-:::warning
-`*.api.manage` es una abreviatura para explicar el patrón.
-
-No es un permiso literal y no debes enviarlo como string.
-
-Usa siempre valores exactos, por ejemplo `consent.api.manage` o `dsr.api.manage`.
-:::
-
-## Dónde se declaran permisos en una API key
-
-Declara permisos al crear o actualizar una API key:
+Hoy el acceso de una API key se define con el campo `permissions`.
 
 - Crear API key: [`POST /api_keys`](./resources/create-api-key.api.mdx)
 - Actualizar API key: [`PATCH /api_keys/{id}`](./resources/update-api-key.api.mdx)
 
-En ambos endpoints puedes enviar el campo `permissions`.
-
-Ejemplo válido:
+Ejemplo valido:
 
 ```json
 {
@@ -62,7 +43,7 @@ Ejemplo válido:
 }
 ```
 
-Ejemplo inválido:
+Ejemplo invalido:
 
 ```json
 {
@@ -72,18 +53,40 @@ Ejemplo inválido:
 }
 ```
 
-## Cómo leer `api_any_of` en la referencia
+:::warning
+`*.api.manage` es solo una forma de explicar el patron.
 
-En la página de cada endpoint, dentro de la referencia de API, verás el bloque `x-permissions` con una lista `api_any_of`.
+No es un permiso literal. Debes enviar strings exactos, por ejemplo `consent.api.manage`, `dsr.api.write` o `api_keys.api.read`.
+:::
 
-Piensa `api_any_of` como "uno de estos permisos basta".
+## Como se estructuran los permisos
 
-Regla:
+Los permisos actuales siguen un patron modular. Algunos ejemplos reales hoy son:
 
-- Si la API key tiene **al menos uno** de los permisos listados, el endpoint autoriza
-- Si no tiene ninguno, el endpoint niega acceso
+- `consent.api.read`
+- `consent.api.write`
+- `consent.api.actions.read`
+- `consent.api.actions.write`
+- `consent.api.commits.read`
+- `consent.api.commits.write`
+- `dsr.api.read`
+- `dsr.api.write`
+- `disclosure.api.read`
+- `disclosure.api.write`
+- `api_keys.api.read`
+- `api_keys.api.manage`
 
-Ejemplo que puedes ver en un endpoint:
+Tambien existen permisos de administracion por modulo, como `consent.api.manage`, `dsr.api.manage`, `roles.api.manage` o `webhooks.api.manage`.
+
+En varios endpoints, el permiso `<modulo>.api.manage` tambien habilita operaciones de ese modulo. No es global para toda la API.
+
+## Como saber que acceso necesita un endpoint
+
+En la referencia de API, cada endpoint puede mostrar un bloque `x-permissions` con `api_any_of`.
+
+Piensa `api_any_of` como: "uno de estos permisos basta".
+
+Ejemplo:
 
 ```yaml
 x-permissions:
@@ -92,74 +95,44 @@ x-permissions:
     - consent.api.manage
 ```
 
-En este caso, cualquiera de esos dos permisos permite acceder al endpoint.
+Lectura rapida:
 
-Lectura rápida del ejemplo:
-
-| Permisos de la API key | ¿Accede al endpoint? |
-|---|---|
-| `consent.api.actions.read` | Sí |
-| `consent.api.manage` | Sí |
+| Permisos de la API key | Accede al endpoint |
+| --- | --- |
+| `consent.api.actions.read` | Si |
+| `consent.api.manage` | Si |
 | `dsr.api.manage` | No |
-| Ninguno de los anteriores | No |
+| ninguno de los anteriores | No |
 
-`<modulo>.api.manage` aplica solo a su módulo. No es un permiso global para toda la API.
+## Disena acceso por integracion
 
-## Cómo diseñar permisos por integración
+Usa el principio de minimo privilegio:
 
-Define permisos por caso de uso, no por "todo el módulo" por defecto.
+1. lista los endpoints que usa tu servicio
+2. revisa los permisos del endpoint en la referencia
+3. asigna el permiso mas acotado posible
+4. usa `<modulo>.api.manage` solo si realmente necesitas amplitud operativa
+5. revisa permisos cada vez que agregues endpoints nuevos a la integracion
 
-Recomendación práctica:
+## Troubleshooting rapido
 
-1. Lista qué endpoints usa tu servicio
-2. Revisa `api_any_of` en la página de cada endpoint
-3. Elige el permiso más acotado posible
-4. Usa `<modulo>.api.manage` solo cuando realmente necesites amplitud operativa
+| Codigo | Que suele significar |
+| --- | --- |
+| `401 Unauthorized` | token ausente, invalido, revocado o no autenticable |
+| `403 Forbidden` | token valido, pero bloqueado por una regla adicional |
+| `404 Not Found` | recurso inexistente o endpoint que oculta acceso no autorizado |
 
-## Errores comunes y cómo leerlos
+Checklist rapido:
 
-- `401 Unauthorized`: token inválido, ausente o no autenticable
-- `403 Forbidden`: autenticado pero bloqueado por una regla adicional (por ejemplo feature flag)
-- `404 Not Found`: respuesta usada en varios endpoints para ocultar recursos no autorizados o inexistentes
+1. confirma que usas `Authorization: Bearer <secret_jwt>`
+2. confirma que la API key sigue activa
+3. revisa `api_any_of` en la referencia del endpoint
+4. verifica que tu key tenga uno de esos permisos exactos
+5. revisa si el endpoint tiene reglas extra o si el recurso realmente existe
 
-:::tip
-Si tu token es válido pero recibes `404`, revisa primero permisos del endpoint y verifica que el recurso exista.
-:::
+## Buenas practicas operativas
 
-## Cómo depurar un `404` de autorización
-
-Si recibes `404`, puede ser por permisos o porque el recurso no existe. Revisa esto en orden:
-
-1. Verifica autenticación básica
-   - Usa `Authorization: Bearer <secret_jwt>`
-   - No uses `ak_sandbox_...` o `ak_live_...` como bearer token
-2. Verifica estado de la API key
-   - Confirma que no esté revocada
-   - Confirma que no esté expirada
-3. Revisa `api_any_of` en la página del endpoint
-   - Tu API key debe tener al menos uno de esos permisos exactos
-4. Valida el permiso exacto
-   - Usa strings exactos como `consent.api.manage`
-   - No uses comodines como `*.api.manage`
-5. Confirma que el módulo coincida
-   - `consent.api.manage` no reemplaza `dsr.api.manage`
-6. Revisa reglas adicionales del endpoint
-   - Algunas operaciones requieren condiciones de negocio o feature flags
-7. Prueba con un recurso conocido
-   - Si falla solo con un ID específico, ese recurso puede no existir
-
-## Buenas prácticas de operación
-
-- Usa una API key por servicio
-- Evita compartir una misma key entre sistemas con responsabilidades distintas
-- Revisa permisos al agregar nuevos endpoints a una integración
-- Monitorea uso de keys y revoca claves que ya no se usan
-
-## Relación con autenticación
-
-Autenticación y autorización son etapas distintas:
-
-- Autenticación: valida identidad de la API key
-- Autorización: valida permisos para la operación solicitada
-
-Si necesitas repasar creación, uso y renovación de API keys, vuelve a la [guía de autenticación](./authentication).
+- usa una API key por servicio
+- evita compartir una misma key entre sistemas distintos
+- revisa permisos cuando cambie el alcance de la integracion
+- monitorea uso de keys y revoca las que ya no se usan
