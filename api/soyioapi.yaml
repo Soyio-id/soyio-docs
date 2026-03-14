@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Soyio API",
-    "description": "API del Servicio de Identidad de Soyio",
+    "description": "API del Servicio de Identidad de Soyio.\n\n## Permisos\nCada operación puede declarar `x-permissions`. Esta extensión es solo documentación y no es un header.\n`x-permissions` usa llaves `dashboard_any_of` y/o `api_any_of` para listar permisos válidos según el\ntipo de autenticación. Los permisos definidos están en `components.schemas.Permission`.",
     "contact": {
       "email": "soporte@soyio.id"
     },
@@ -44,6 +44,10 @@
       "description": "Los consent actions permiten crear acciones de consentimiento.\n"
     },
     {
+      "name": "Consent revocations",
+      "description": "Las consent revocations permiten registrar revocaciones de consentimiento iniciadas por la empresa.\n"
+    },
+    {
       "name": "Consent commits",
       "description": "Los consent commits permiten crear múltiples acciones de consentimiento.\n"
     },
@@ -80,7 +84,7 @@
       "description": "Los documentos firmados son documentos digitales que han sido autenticados por los usuarios mediante su firma electrónica. Estos documentos pueden incluir contratos, acuerdos legales, y otros documentos importantes que requieren confirmación de identidad y consentimiento explícito del usuario.\n\nLa firma de estos documentos se gestiona a través del modelo `SignatureAttempt`, que verifica la identidad del usuario y asegura que la firma sea válida y segura.\n"
     },
     {
-      "name": "Agreements",
+      "name": "Agreements and Evidence",
       "description": "Los acuerdos (agreements) representan las reglas de compartimiento de datos entre la empresa y un usuario.\nCada acuerdo puede tener múltiples versiones y evidencias asociadas que respaldan su validez.\nLas evidencias pueden incluir archivos descargables que proporcionan prueba del consentimiento otorgado.\n"
     },
     {
@@ -98,6 +102,10 @@
     {
       "name": "Company",
       "description": "La compañía es el objeto que representa a tu empresa y sus respectivas configuraciones. La mayoría de los objetos de nuestra API están relacionados a una compañía.\n"
+    },
+    {
+      "name": "Users",
+      "description": "Los usuarios de compañía representan las cuentas con acceso al dashboard de tu empresa.\nCada usuario puede tener un rol asignado con permisos específicos.\n"
     },
     {
       "name": "Branches",
@@ -162,6 +170,19 @@
             "$ref": "#/components/responses/UnauthorizedError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "consent_templates.api.read",
+            "consent_templates.api.manage",
+            "consent.api.read",
+            "consent.api.manage",
+            "consent.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -180,6 +201,85 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/ConsentTemplateInput"
+              },
+              "examples": {
+                "scopes_with_explicit_versions": {
+                  "summary": "Crear template con scopes versionados explícitamente",
+                  "value": {
+                    "name": "Consentimiento marketing por alcance",
+                    "title": "Autorización de tratamiento",
+                    "text": "Autorizo el tratamiento de mis datos según {{ privacy_policy }}",
+                    "data_subject": "customer",
+                    "duration_type": "fixed",
+                    "duration": "P6M",
+                    "data_requirements": [
+                      {
+                        "key": "email",
+                        "data_uses": [
+                          "marketing.email"
+                        ]
+                      }
+                    ],
+                    "scopes": [
+                      {
+                        "scope_type": "product",
+                        "scope_id": "prod_1B2M2Y8AsgTpgAmY7PhCfg",
+                        "scope_version": 2
+                      },
+                      {
+                        "scope_type": "branch",
+                        "scope_id": "branch_1B2M2Y8AsgTpgAmY7PhCfg",
+                        "scope_version": 4
+                      }
+                    ]
+                  }
+                },
+                "scopes_without_version": {
+                  "summary": "Crear template dejando que API resuelva latest",
+                  "value": {
+                    "name": "Consentimiento operacional",
+                    "title": "Consentimiento base",
+                    "text": "Acepto el tratamiento para fines operacionales",
+                    "data_subject": "customer",
+                    "duration_type": "conditional",
+                    "duration_clause_type": "while_contractual_relationship",
+                    "data_requirements": [
+                      {
+                        "key": "phone_number",
+                        "data_uses": [
+                          "essential.service.notifications"
+                        ]
+                      }
+                    ],
+                    "scopes": [
+                      {
+                        "scope_type": "product",
+                        "scope_id": "prod_1B2M2Y8AsgTpgAmY7PhCfg"
+                      }
+                    ]
+                  }
+                },
+                "legacy_fields": {
+                  "summary": "Compatibilidad legado con product_id y branch_id",
+                  "value": {
+                    "name": "Consentimiento legado",
+                    "title": "Consentimiento",
+                    "text": "Acepto los términos del consentimiento",
+                    "data_subject": "customer",
+                    "duration_type": "fixed",
+                    "duration": "P3M",
+                    "data_requirements": [
+                      {
+                        "key": "email",
+                        "data_uses": [
+                          "essential.service.authentication"
+                        ]
+                      }
+                    ],
+                    "product_id": "prod_1B2M2Y8AsgTpgAmY7PhCfg",
+                    "branch_id": "branch_1B2M2Y8AsgTpgAmY7PhCfg"
+                  }
+                }
               }
             }
           }
@@ -226,6 +326,19 @@
             }
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.write",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "consent_templates.api.write",
+            "consent_templates.api.manage",
+            "consent.api.write",
+            "consent.api.manage",
+            "consent.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -269,6 +382,19 @@
             "$ref": "#/components/responses/NotFoundError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "consent_templates.api.read",
+            "consent_templates.api.manage",
+            "consent.api.read",
+            "consent.api.manage",
+            "consent.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -299,6 +425,59 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/ConsentTemplateInput"
+              },
+              "examples": {
+                "update_and_pin_new_scope_version": {
+                  "summary": "Actualizar template creando nueva versión con scope fijo",
+                  "value": {
+                    "name": "Consentimiento marketing por alcance",
+                    "title": "Autorización de tratamiento",
+                    "text": "Autorizo el tratamiento de mis datos según {{ privacy_policy }}",
+                    "data_subject": "customer",
+                    "duration_type": "fixed",
+                    "duration": "P12M",
+                    "data_requirements": [
+                      {
+                        "key": "email",
+                        "data_uses": [
+                          "marketing.email"
+                        ]
+                      }
+                    ],
+                    "scopes": [
+                      {
+                        "scope_type": "product",
+                        "scope_id": "prod_1B2M2Y8AsgTpgAmY7PhCfg",
+                        "scope_version": 3
+                      }
+                    ]
+                  }
+                },
+                "migrate_legacy_to_scopes": {
+                  "summary": "Migrar input legado a scopes en nueva versión",
+                  "value": {
+                    "name": "Consentimiento legado migrado",
+                    "title": "Consentimiento",
+                    "text": "Acepto los términos del consentimiento",
+                    "data_subject": "customer",
+                    "duration_type": "fixed",
+                    "duration": "P6M",
+                    "data_requirements": [
+                      {
+                        "key": "email",
+                        "data_uses": [
+                          "essential.service.authentication"
+                        ]
+                      }
+                    ],
+                    "scopes": [
+                      {
+                        "scope_type": "product",
+                        "scope_id": "prod_1B2M2Y8AsgTpgAmY7PhCfg"
+                      }
+                    ]
+                  }
+                }
               }
             }
           }
@@ -330,6 +509,19 @@
               }
             }
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.write",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "consent_templates.api.write",
+            "consent_templates.api.manage",
+            "consent.api.write",
+            "consent.api.manage",
+            "consent.api.manage"
+          ]
         },
         "security": [
           {
@@ -364,6 +556,47 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/ActionTokenCreateInput"
+              },
+              "examples": {
+                "full_template_scope": {
+                  "summary": "Token para todos los scopes del template",
+                  "value": {
+                    "context": "web_signup",
+                    "kind": "grant",
+                    "action_type": "opt_in_click",
+                    "timestamp": "2024-03-20T15:30:00Z",
+                    "action_data": {
+                      "checkbox_id": "cb_123"
+                    },
+                    "contextual_data": {
+                      "ip": "192.168.1.1",
+                      "user_agent": "Mozilla/5.0"
+                    }
+                  }
+                },
+                "partial_scope_selection": {
+                  "summary": "Token para un subconjunto de scopes",
+                  "value": {
+                    "context": "web_signup",
+                    "kind": "grant",
+                    "action_type": "opt_in_click",
+                    "timestamp": "2024-03-20T15:30:00Z",
+                    "selected_scopes": [
+                      {
+                        "scope_type": "product",
+                        "scope_id": "prod_1B2M2Y8AsgTpgAmY7PhCfg",
+                        "scope_version": 2
+                      }
+                    ],
+                    "action_data": {
+                      "checkbox_id": "cb_123"
+                    },
+                    "contextual_data": {
+                      "ip": "192.168.1.1",
+                      "user_agent": "Mozilla/5.0"
+                    }
+                  }
+                }
               }
             }
           }
@@ -395,6 +628,19 @@
               }
             }
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "consent_actions.api.write",
+            "consent_actions.api.manage",
+            "consent.api.write",
+            "consent.api.manage",
+            "consent.api.manage"
+          ]
         },
         "security": [
           {
@@ -449,6 +695,16 @@
             "$ref": "#/components/responses/NotFoundError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "consent.api.read",
+            "consent.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -501,6 +757,16 @@
             "$ref": "#/components/responses/NotFoundError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "consent.api.read",
+            "consent.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -540,6 +806,18 @@
           "401": {
             "$ref": "#/components/responses/UnauthorizedError"
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "disclosure.dashboard.read",
+            "consent.dashboard.read",
+            "consent.dashboard.manage",
+            "disclosure.dashboard.manage"
+          ],
+          "api_any_of": [
+            "privacy_documents.api.read",
+            "privacy_documents.api.manage"
+          ]
         },
         "security": [
           {
@@ -662,6 +940,17 @@
             }
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "disclosure.dashboard.write",
+            "consent.dashboard.manage",
+            "disclosure.dashboard.manage"
+          ],
+          "api_any_of": [
+            "privacy_documents.api.write",
+            "privacy_documents.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -710,6 +999,18 @@
           "404": {
             "$ref": "#/components/responses/NotFoundError"
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "disclosure.dashboard.read",
+            "consent.dashboard.read",
+            "consent.dashboard.manage",
+            "disclosure.dashboard.manage"
+          ],
+          "api_any_of": [
+            "privacy_documents.api.read",
+            "privacy_documents.api.manage"
+          ]
         },
         "security": [
           {
@@ -763,6 +1064,18 @@
           "404": {
             "$ref": "#/components/responses/NotFoundError"
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "disclosure.dashboard.read",
+            "consent.dashboard.read",
+            "consent.dashboard.manage",
+            "disclosure.dashboard.manage"
+          ],
+          "api_any_of": [
+            "privacy_documents.api.read",
+            "privacy_documents.api.manage"
+          ]
         },
         "security": [
           {
@@ -823,6 +1136,18 @@
             "$ref": "#/components/responses/NotFoundError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "disclosure.dashboard.read",
+            "consent.dashboard.read",
+            "consent.dashboard.manage",
+            "disclosure.dashboard.manage"
+          ],
+          "api_any_of": [
+            "privacy_documents.api.read",
+            "privacy_documents.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -881,6 +1206,19 @@
           "401": {
             "$ref": "#/components/responses/UnauthorizedError"
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "disclosure.dashboard.read",
+            "disclosure.dashboard.manage"
+          ],
+          "api_any_of": [
+            "disclosure_templates.api.read",
+            "disclosure_templates.api.manage",
+            "disclosure.api.read",
+            "disclosure.api.manage",
+            "disclosure.api.manage"
+          ]
         },
         "security": [
           {
@@ -943,6 +1281,19 @@
             }
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "disclosure.dashboard.write",
+            "disclosure.dashboard.manage"
+          ],
+          "api_any_of": [
+            "disclosure_templates.api.write",
+            "disclosure_templates.api.manage",
+            "disclosure.api.write",
+            "disclosure.api.manage",
+            "disclosure.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -985,6 +1336,19 @@
           "404": {
             "$ref": "#/components/responses/NotFoundError"
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "disclosure.dashboard.read",
+            "disclosure.dashboard.manage"
+          ],
+          "api_any_of": [
+            "disclosure_templates.api.read",
+            "disclosure_templates.api.manage",
+            "disclosure.api.read",
+            "disclosure.api.manage",
+            "disclosure.api.manage"
+          ]
         },
         "security": [
           {
@@ -1047,6 +1411,19 @@
             }
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "disclosure.dashboard.write",
+            "disclosure.dashboard.manage"
+          ],
+          "api_any_of": [
+            "disclosure_templates.api.write",
+            "disclosure_templates.api.manage",
+            "disclosure.api.write",
+            "disclosure.api.manage",
+            "disclosure.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -1105,6 +1482,19 @@
               }
             }
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "disclosure.dashboard.write",
+            "disclosure.dashboard.manage"
+          ],
+          "api_any_of": [
+            "disclosure_templates.api.write",
+            "disclosure_templates.api.manage",
+            "disclosure.api.write",
+            "disclosure.api.manage",
+            "disclosure.api.manage"
+          ]
         },
         "security": [
           {
@@ -1168,6 +1558,19 @@
           "401": {
             "$ref": "#/components/responses/UnauthorizedError"
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "disclosure.dashboard.read",
+            "disclosure.dashboard.manage"
+          ],
+          "api_any_of": [
+            "disclosure_requests.api.read",
+            "disclosure_requests.api.manage",
+            "disclosure.api.read",
+            "disclosure.api.manage",
+            "disclosure.api.manage"
+          ]
         },
         "security": [
           {
@@ -1290,6 +1693,19 @@
             }
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "disclosure.dashboard.write",
+            "disclosure.dashboard.manage"
+          ],
+          "api_any_of": [
+            "disclosure_requests.api.write",
+            "disclosure_requests.api.manage",
+            "disclosure.api.write",
+            "disclosure.api.manage",
+            "disclosure.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -1336,6 +1752,19 @@
           "404": {
             "$ref": "#/components/responses/NotFoundError"
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "disclosure.dashboard.read",
+            "disclosure.dashboard.manage"
+          ],
+          "api_any_of": [
+            "disclosure_requests.api.read",
+            "disclosure_requests.api.manage",
+            "disclosure.api.read",
+            "disclosure.api.manage",
+            "disclosure.api.manage"
+          ]
         },
         "security": [
           {
@@ -1416,6 +1845,16 @@
             }
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "disclosure.dashboard.write",
+            "disclosure.dashboard.manage"
+          ],
+          "api_any_of": [
+            "auth_requests.api.write",
+            "auth_requests.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -1477,6 +1916,16 @@
             "$ref": "#/components/responses/UnauthorizedError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "disclosure.dashboard.read",
+            "disclosure.dashboard.manage"
+          ],
+          "api_any_of": [
+            "auth_requests.api.read",
+            "auth_requests.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -1525,6 +1974,16 @@
           "404": {
             "$ref": "#/components/responses/NotFoundError"
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "disclosure.dashboard.read",
+            "disclosure.dashboard.manage"
+          ],
+          "api_any_of": [
+            "auth_requests.api.read",
+            "auth_requests.api.manage"
+          ]
         },
         "security": [
           {
@@ -1591,6 +2050,16 @@
             }
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "dsr.dashboard.write",
+            "dsr.dashboard.manage"
+          ],
+          "api_any_of": [
+            "data_subject_requests.api.write",
+            "data_subject_requests.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -1628,6 +2097,16 @@
           "401": {
             "$ref": "#/components/responses/UnauthorizedError"
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "dsr.dashboard.read",
+            "dsr.dashboard.manage"
+          ],
+          "api_any_of": [
+            "data_subject_requests.api.read",
+            "data_subject_requests.api.manage"
+          ]
         },
         "security": [
           {
@@ -1672,6 +2151,16 @@
           "404": {
             "$ref": "#/components/responses/NotFoundError"
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "dsr.dashboard.read",
+            "dsr.dashboard.manage"
+          ],
+          "api_any_of": [
+            "data_subject_requests.api.read",
+            "data_subject_requests.api.manage"
+          ]
         },
         "security": [
           {
@@ -1799,6 +2288,16 @@
               }
             }
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "dsr.dashboard.write",
+            "dsr.dashboard.manage"
+          ],
+          "api_any_of": [
+            "data_subject_requests.api.write",
+            "data_subject_requests.api.manage"
+          ]
         },
         "security": [
           {
@@ -1945,6 +2444,15 @@
             "$ref": "#/components/responses/UnauthorizedError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "dsr.dashboard.read",
+            "dsr.dashboard.manage"
+          ],
+          "api_any_of": [
+            "identities.api.read"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -2001,6 +2509,15 @@
           "401": {
             "$ref": "#/components/responses/UnauthorizedError"
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "dsr.dashboard.read",
+            "dsr.dashboard.manage"
+          ],
+          "api_any_of": [
+            "identities.api.read"
+          ]
         },
         "security": [
           {
@@ -2094,6 +2611,15 @@
             "$ref": "#/components/responses/UnauthorizedError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "disclosure.dashboard.read",
+            "disclosure.dashboard.manage"
+          ],
+          "api_any_of": [
+            "validation_attempts.api.read"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -2143,6 +2669,15 @@
           "404": {
             "$ref": "#/components/responses/NotFoundError"
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "disclosure.dashboard.read",
+            "disclosure.dashboard.manage"
+          ],
+          "api_any_of": [
+            "validation_attempts.api.read"
+          ]
         },
         "security": [
           {
@@ -2203,6 +2738,15 @@
             "$ref": "#/components/responses/UnauthorizedError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "disclosure.dashboard.read",
+            "disclosure.dashboard.manage"
+          ],
+          "api_any_of": [
+            "auth_attempts.api.read"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -2252,6 +2796,15 @@
           "404": {
             "$ref": "#/components/responses/NotFoundError"
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "disclosure.dashboard.read",
+            "disclosure.dashboard.manage"
+          ],
+          "api_any_of": [
+            "auth_attempts.api.read"
+          ]
         },
         "security": [
           {
@@ -2373,6 +2926,16 @@
             "$ref": "#/components/responses/UnauthorizedError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "disclosure.dashboard.write",
+            "disclosure.dashboard.manage"
+          ],
+          "api_any_of": [
+            "signature_attempts.api.write",
+            "signature_attempts.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -2430,6 +2993,16 @@
             "$ref": "#/components/responses/UnauthorizedError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "disclosure.dashboard.read",
+            "disclosure.dashboard.manage"
+          ],
+          "api_any_of": [
+            "signature_attempts.api.read",
+            "signature_attempts.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -2479,6 +3052,16 @@
           "404": {
             "$ref": "#/components/responses/NotFoundError"
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "disclosure.dashboard.read",
+            "disclosure.dashboard.manage"
+          ],
+          "api_any_of": [
+            "signature_attempts.api.read",
+            "signature_attempts.api.manage"
+          ]
         },
         "security": [
           {
@@ -2539,6 +3122,16 @@
             "$ref": "#/components/responses/UnauthorizedError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "events.api.read",
+            "events.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -2589,6 +3182,16 @@
             "$ref": "#/components/responses/NotFoundError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "events.api.read",
+            "events.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -2626,6 +3229,16 @@
           "404": {
             "$ref": "#/components/responses/NotFoundError"
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.write",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "events.api.write",
+            "events.api.manage"
+          ]
         },
         "security": [
           {
@@ -2687,6 +3300,15 @@
             "$ref": "#/components/responses/UnauthorizedError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "disclosure.dashboard.read",
+            "disclosure.dashboard.manage"
+          ],
+          "api_any_of": [
+            "signed_documents.api.read"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -2737,6 +3359,15 @@
             "$ref": "#/components/responses/NotFoundError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "disclosure.dashboard.read",
+            "disclosure.dashboard.manage"
+          ],
+          "api_any_of": [
+            "signed_documents.api.read"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -2747,7 +3378,7 @@
     "/evidences": {
       "get": {
         "tags": [
-          "Agreements"
+          "Agreements and Evidence"
         ],
         "summary": "Obtener todas las evidencias",
         "description": "Retorna la lista completa de evidencias de todos los acuerdos de la compañía. Útil para auditorías o gestión centralizada de evidencias.",
@@ -2801,6 +3432,15 @@
             "$ref": "#/components/responses/UnauthorizedError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "agreements.api.read"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -2811,7 +3451,7 @@
     "/agreements": {
       "get": {
         "tags": [
-          "Agreements"
+          "Agreements and Evidence"
         ],
         "summary": "Obtener todos los acuerdos",
         "description": "Retorna la lista de todos los acuerdos en su última versión.",
@@ -2881,6 +3521,15 @@
             "$ref": "#/components/responses/UnauthorizedError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "agreements.api.read"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -2891,7 +3540,7 @@
     "/agreements/{id}": {
       "get": {
         "tags": [
-          "Agreements"
+          "Agreements and Evidence"
         ],
         "summary": "Obtener un acuerdo específico",
         "description": "Retorna los detalles de un acuerdo en su última versión.",
@@ -2931,6 +3580,15 @@
             "$ref": "#/components/responses/NotFoundError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "agreements.api.read"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -2941,7 +3599,7 @@
     "/agreements/{id}/evidences": {
       "get": {
         "tags": [
-          "Agreements"
+          "Agreements and Evidence"
         ],
         "summary": "Obtener todas las evidencias de un acuerdo",
         "description": "Retorna la lista de evidencias asociadas a un acuerdo específico.",
@@ -2985,6 +3643,16 @@
             "$ref": "#/components/responses/NotFoundError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "consent.api.read",
+            "consent.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -2995,7 +3663,7 @@
     "/agreements/{id}/evidences/{evidenceId}": {
       "get": {
         "tags": [
-          "Agreements"
+          "Agreements and Evidence"
         ],
         "summary": "Obtener una evidencia específica de un acuerdo",
         "description": "Retorna los detalles de una evidencia específica asociada a un acuerdo.",
@@ -3045,6 +3713,16 @@
             "$ref": "#/components/responses/NotFoundError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "consent.api.read",
+            "consent.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -3055,7 +3733,7 @@
     "/agreements/{id}/evidences/{evidenceId}/download": {
       "get": {
         "tags": [
-          "Agreements"
+          "Agreements and Evidence"
         ],
         "summary": "Descargar el archivo de una evidencia específica",
         "description": "Permite descargar el archivo asociado a una evidencia específica de un acuerdo. Es útil en caso de auditoría o querer demostrar en formato PDF que el acuerdo tuvo un cambio.",
@@ -3109,6 +3787,16 @@
             "$ref": "#/components/responses/NotFoundError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "consent.api.read",
+            "consent.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -3119,7 +3807,7 @@
     "/agreements/{id}/versions": {
       "get": {
         "tags": [
-          "Agreements"
+          "Agreements and Evidence"
         ],
         "summary": "Obtener todas las versiones de un acuerdo",
         "description": "Retorna la lista de versiones asociadas a un acuerdo específico.",
@@ -3163,6 +3851,16 @@
             "$ref": "#/components/responses/NotFoundError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "consent.api.read",
+            "consent.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -3173,7 +3871,7 @@
     "/agreements/{id}/versions/{versionNumber}": {
       "get": {
         "tags": [
-          "Agreements"
+          "Agreements and Evidence"
         ],
         "summary": "Obtener una versión específica de un acuerdo",
         "description": "Retorna los detalles de una versión específica de un acuerdo.",
@@ -3223,6 +3921,16 @@
             "$ref": "#/components/responses/NotFoundError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "consent.api.read",
+            "consent.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -3233,7 +3941,7 @@
     "/agreements/{id}/versions/{versionNumber}/evidence": {
       "get": {
         "tags": [
-          "Agreements"
+          "Agreements and Evidence"
         ],
         "summary": "Obtener la evidencia de una versión específica",
         "description": "Retorna la evidencia asociada a una versión específica de un acuerdo.",
@@ -3283,6 +3991,16 @@
             "$ref": "#/components/responses/NotFoundError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "consent.api.read",
+            "consent.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -3296,7 +4014,7 @@
           "Consent actions"
         ],
         "summary": "Crear un consent action",
-        "description": "Crea un nuevo consent action. Debes proporcionar al menos uno de los siguientes parámetros: `user_reference` o `entity_id`.\n- Si solo envías `user_reference`, se intentará buscar una entidad con dicho identificador y si no, se creará una.\n- Si solo envías `entity_id`, se usará la entidad existente.\n- Si envías ambos, se prioriza el `entity_id`. El `user_reference` solo se utiliza si no se entrega `entity_id`.\n",
+        "description": "Crea un nuevo consent action. Debes proporcionar al menos uno de los siguientes parámetros: `user_reference` o `entity_id`.\n- Si solo envías `user_reference`, se intentará buscar una entidad con dicho identificador y si no, se creará una.\n- Si solo envías `entity_id`, se usará la entidad existente.\n- Si envías ambos, se prioriza el `entity_id`. El `user_reference` solo se utiliza si no se entrega `entity_id`.\n\nEl alcance efectivo de la acción se define en el `action_token`:\n- si el token incluye `selected_scopes`, se aplica solo a ese subconjunto\n- si no incluye `selected_scopes`, se aplica a todos los scopes del template\n",
         "operationId": "createConsentAction",
         "requestBody": {
           "required": true,
@@ -3381,6 +4099,19 @@
           "401": {
             "$ref": "#/components/responses/UnauthorizedError"
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.write",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "consent_actions.api.write",
+            "consent_actions.api.manage",
+            "consent.api.write",
+            "consent.api.manage",
+            "consent.api.manage"
+          ]
         },
         "security": [
           {
@@ -3488,6 +4219,19 @@
             }
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "consent_actions.api.read",
+            "consent_actions.api.manage",
+            "consent.api.read",
+            "consent.api.manage",
+            "consent.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -3540,11 +4284,200 @@
             "$ref": "#/components/responses/NotFoundError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "consent_actions.api.read",
+            "consent_actions.api.manage",
+            "consent.api.read",
+            "consent.api.manage",
+            "consent.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
           }
         ]
+      }
+    },
+    "/consent_revocations": {
+      "post": {
+        "tags": [
+          "Consent revocations"
+        ],
+        "summary": "Crear una revocación de consentimiento iniciada por la empresa",
+        "description": "Revoca permisos de consentimiento por lógica de negocio de la empresa (por ejemplo, fin de contrato u obligación).\nEsta operación no representa un clic del usuario y crea un registro `CompanyConsentRevocation` como fuente de versión.\n\nReglas principales:\n- El `consent_template` debe tener `duration_type=conditional`.\n- El template debe tener `revocable_data_uses` configurado.\n- `selected_scopes`, si se envía, debe ser subconjunto de los scopes del template.\n- Si no hay permisos efectivamente revocables, responde exitosamente con estado `no_changes`.\n",
+        "operationId": "createConsentRevocation",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConsentRevocationCreateInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Evento idempotente ya procesado previamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "consent_revocation": {
+                      "$ref": "#/components/schemas/CompanyConsentRevocation"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Revocación creada y procesada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "consent_revocation": {
+                      "$ref": "#/components/schemas/CompanyConsentRevocation"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error de parámetros del request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "invalid_request_error"
+                    },
+                    "title": {
+                      "type": "string",
+                      "example": "Invalid parameter"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "example": 400
+                    },
+                    "detail": {
+                      "type": "string",
+                      "example": "Either identity_id, entity_id or user_reference is required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "422": {
+            "description": "Error de validación de guardrails de revocación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.write",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "consent_revocations.api.write",
+            "consent_revocations.api.manage",
+            "consent.api.write",
+            "consent.api.manage",
+            "consent.api.manage"
+          ]
+        }
+      }
+    },
+    "/consent_revocations/{id}": {
+      "get": {
+        "tags": [
+          "Consent revocations"
+        ],
+        "summary": "Obtener una revocación de consentimiento iniciada por la empresa",
+        "operationId": "showConsentRevocation",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Identificador de revocación",
+            "example": "ccrev_1B2M2Y8AsgTpgAmY7PhCfg"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Revocación encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "consent_revocation": {
+                      "$ref": "#/components/schemas/CompanyConsentRevocation"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "consent_revocations.api.read",
+            "consent_revocations.api.manage",
+            "consent.api.read",
+            "consent.api.manage",
+            "consent.api.manage"
+          ]
+        }
       }
     },
     "/consent_commits": {
@@ -3640,6 +4573,19 @@
             }
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "consent_commits.api.read",
+            "consent_commits.api.manage",
+            "consent.api.read",
+            "consent.api.manage",
+            "consent.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -3651,7 +4597,7 @@
           "Consent commits"
         ],
         "summary": "Crear un commit de consentimiento",
-        "description": "Crea un nuevo commit de consentimiento basado en los actions tokens. Cada action token representa una checkbox de\nconsentimiento específico que el usuario ha marcado a través de nuestro módulo de consentimiento.\n\nDebes proporcionar **al menos uno** de los siguientes parámetros: `user_reference` o `entity_id`.\n- Si solo envías `user_reference`, buscaremos la entidad asociada y, si no existe, la crearemos automáticamente.\n- Si solo envías `entity_id`, usaremos la entidad existente y leeremos su `user_reference`.\n- Si envías ambos, se prioriza el `entity_id`. El `user_reference` solo se usa cuando no se proporciona `entity_id`.\n",
+        "description": "Crea un nuevo commit de consentimiento basado en los actions tokens. Cada action token representa una checkbox de\nconsentimiento específico que el usuario ha marcado a través de nuestro módulo de consentimiento.\n\nDebes proporcionar **al menos uno** de los siguientes parámetros: `user_reference` o `entity_id`.\n- Si solo envías `user_reference`, buscaremos la entidad asociada y, si no existe, la crearemos automáticamente.\n- Si solo envías `entity_id`, usaremos la entidad existente y leeremos su `user_reference`.\n- Si envías ambos, se prioriza el `entity_id`. El `user_reference` solo se usa cuando no se proporciona `entity_id`.\n\nCada `action_token` puede incluir `selected_scopes` para otorgar/revocar solo parte de los scopes del template.\n",
         "operationId": "createConsentCommit",
         "requestBody": {
           "required": true,
@@ -3770,6 +4716,19 @@
             }
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.write",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "consent_commits.api.write",
+            "consent_commits.api.manage",
+            "consent.api.write",
+            "consent.api.manage",
+            "consent.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -3819,6 +4778,19 @@
             "$ref": "#/components/responses/NotFoundError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "consent_commits.api.read",
+            "consent_commits.api.manage",
+            "consent.api.read",
+            "consent.api.manage",
+            "consent.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -3858,6 +4830,16 @@
           "401": {
             "$ref": "#/components/responses/UnauthorizedError"
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "webhooks.dashboard.read",
+            "webhooks.dashboard.write"
+          ],
+          "api_any_of": [
+            "webhooks.api.read",
+            "webhooks.api.manage"
+          ]
         },
         "security": [
           {
@@ -3963,6 +4945,15 @@
             }
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "webhooks.dashboard.write"
+          ],
+          "api_any_of": [
+            "webhooks.api.write",
+            "webhooks.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -4011,6 +5002,16 @@
           "404": {
             "$ref": "#/components/responses/NotFoundError"
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "webhooks.dashboard.read",
+            "webhooks.dashboard.write"
+          ],
+          "api_any_of": [
+            "webhooks.api.read",
+            "webhooks.api.manage"
+          ]
         },
         "security": [
           {
@@ -4120,6 +5121,15 @@
             }
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "webhooks.dashboard.write"
+          ],
+          "api_any_of": [
+            "webhooks.api.write",
+            "webhooks.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -4154,6 +5164,15 @@
           "404": {
             "$ref": "#/components/responses/NotFoundError"
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "webhooks.dashboard.write"
+          ],
+          "api_any_of": [
+            "webhooks.api.write",
+            "webhooks.api.manage"
+          ]
         },
         "security": [
           {
@@ -4207,6 +5226,16 @@
           "404": {
             "$ref": "#/components/responses/NotFoundError"
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "webhooks.dashboard.read",
+            "webhooks.dashboard.write"
+          ],
+          "api_any_of": [
+            "webhooks.api.read",
+            "webhooks.api.manage"
+          ]
         },
         "security": [
           {
@@ -4267,6 +5296,16 @@
             "$ref": "#/components/responses/NotFoundError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "webhooks.dashboard.read",
+            "webhooks.dashboard.write"
+          ],
+          "api_any_of": [
+            "webhooks.api.read",
+            "webhooks.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -4307,6 +5346,16 @@
             "$ref": "#/components/responses/UnauthorizedError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "products.api.read",
+            "products.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -4333,6 +5382,11 @@
                     "type": "string",
                     "description": "Nombre del producto",
                     "example": "Mi Producto"
+                  },
+                  "display_name": {
+                    "type": "string",
+                    "description": "Nombre comercial visible del producto.",
+                    "example": "Cuenta Corriente Plus"
                   },
                   "branch_id": {
                     "type": "string",
@@ -4387,6 +5441,16 @@
             }
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.write",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "products.api.write",
+            "products.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -4435,6 +5499,16 @@
           "404": {
             "$ref": "#/components/responses/NotFoundError"
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "products.api.read",
+            "products.api.manage"
+          ]
         },
         "security": [
           {
@@ -4517,6 +5591,16 @@
             }
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.write",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "products.api.write",
+            "products.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -4569,6 +5653,16 @@
           "404": {
             "$ref": "#/components/responses/NotFoundError"
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "consent.api.read",
+            "consent.api.manage"
+          ]
         },
         "security": [
           {
@@ -4628,6 +5722,16 @@
           "404": {
             "$ref": "#/components/responses/NotFoundError"
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "consent.api.read",
+            "consent.api.manage"
+          ]
         },
         "security": [
           {
@@ -4689,6 +5793,16 @@
             "$ref": "#/components/responses/UnauthorizedError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "entities.api.read",
+            "entities.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -4749,6 +5863,16 @@
             }
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.write",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "entities.api.write",
+            "entities.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -4798,6 +5922,16 @@
           "404": {
             "$ref": "#/components/responses/NotFoundError"
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "entities.api.read",
+            "entities.api.manage"
+          ]
         },
         "security": [
           {
@@ -4878,6 +6012,16 @@
             }
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "consent.api.read",
+            "consent.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -4956,6 +6100,16 @@
               }
             }
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "consent.api.read",
+            "consent.api.manage"
+          ]
         },
         "security": [
           {
@@ -5200,6 +6354,14 @@
             "$ref": "#/components/responses/UnauthorizedError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "config.manage"
+          ],
+          "api_any_of": [
+            "config.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -5252,6 +6414,945 @@
             }
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "config.manage"
+          ],
+          "api_any_of": [
+            "config.api.manage"
+          ]
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/ui_config": {
+      "get": {
+        "tags": [
+          "Configuration"
+        ],
+        "summary": "Obtener configuración de UI",
+        "description": "Retorna la configuración mínima necesaria para renderizar elementos visuales del dashboard.\nEste endpoint es de solo lectura y está disponible para usuarios autenticados del dashboard.\n",
+        "operationId": "getUiConfig",
+        "responses": {
+          "200": {
+            "description": "Configuración de UI obtenida exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ui_config": {
+                      "$ref": "#/components/schemas/UIConfiguration"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "403": {
+            "$ref": "#/components/responses/ForbiddenError"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/config/general": {
+      "get": {
+        "tags": [
+          "Configuration"
+        ],
+        "summary": "Obtener configuración general",
+        "operationId": "getGeneralConfig",
+        "responses": {
+          "200": {
+            "description": "Configuración general obtenida exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "config": {
+                      "type": "object",
+                      "properties": {
+                        "alert_notification_email": {
+                          "type": "string"
+                        },
+                        "icon_variant": {
+                          "type": "string",
+                          "enum": [
+                            "duotone",
+                            "outline",
+                            "solid"
+                          ]
+                        },
+                        "default_color": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "whitelisted_domains": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "config.manage"
+          ],
+          "api_any_of": [
+            "config.api.manage"
+          ]
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Configuration"
+        ],
+        "summary": "Actualizar configuración general",
+        "operationId": "updateGeneralConfig",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "alert_notification_email": {
+                    "type": "string"
+                  },
+                  "icon_variant": {
+                    "type": "string"
+                  },
+                  "default_color": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "whitelisted_domains": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Configuración general actualizada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "config": {
+                      "type": "object",
+                      "properties": {
+                        "alert_notification_email": {
+                          "type": "string"
+                        },
+                        "icon_variant": {
+                          "type": "string",
+                          "enum": [
+                            "duotone",
+                            "outline",
+                            "solid"
+                          ]
+                        },
+                        "default_color": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "whitelisted_domains": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "config.manage"
+          ],
+          "api_any_of": [
+            "config.api.manage"
+          ]
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/config/dashboard": {
+      "get": {
+        "tags": [
+          "Configuration"
+        ],
+        "summary": "Obtener configuración de dashboard",
+        "operationId": "getDashboardConfig",
+        "responses": {
+          "200": {
+            "description": "Configuración de dashboard obtenida exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "config": {
+                      "type": "object",
+                      "properties": {
+                        "auth_methods": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "config.manage"
+          ],
+          "api_any_of": [
+            "config.api.manage"
+          ]
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Configuration"
+        ],
+        "summary": "Actualizar configuración de dashboard",
+        "operationId": "updateDashboardConfig",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "auth_methods": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Configuración de dashboard actualizada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "config": {
+                      "type": "object",
+                      "properties": {
+                        "auth_methods": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "config.manage"
+          ],
+          "api_any_of": [
+            "config.api.manage"
+          ]
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/config/validation": {
+      "get": {
+        "tags": [
+          "Configuration"
+        ],
+        "summary": "Obtener configuración de validación",
+        "operationId": "getValidationConfig",
+        "responses": {
+          "200": {
+            "description": "Configuración de validación obtenida exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "config": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "config.manage"
+          ],
+          "api_any_of": [
+            "config.api.manage"
+          ]
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Configuration"
+        ],
+        "summary": "Actualizar configuración de validación",
+        "operationId": "updateValidationConfig",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "liveness_check": {
+                    "type": "boolean"
+                  },
+                  "id_scan_check": {
+                    "type": "boolean"
+                  },
+                  "government_check": {
+                    "type": "boolean"
+                  },
+                  "ephemeral_transaction_data": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Configuración de validación actualizada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "config": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "config.manage"
+          ],
+          "api_any_of": [
+            "config.api.manage"
+          ]
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/config/disclosure": {
+      "get": {
+        "tags": [
+          "Configuration"
+        ],
+        "summary": "Obtener configuración de disclosure",
+        "operationId": "getDisclosureConfig",
+        "responses": {
+          "200": {
+            "description": "Configuración de disclosure obtenida exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "config": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "disclosure.dashboard.read",
+            "disclosure.dashboard.write",
+            "disclosure.dashboard.config",
+            "disclosure.dashboard.manage",
+            "config.manage"
+          ],
+          "api_any_of": [
+            "disclosure.api.config",
+            "disclosure.api.manage",
+            "disclosure.api.manage",
+            "config.api.manage"
+          ]
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Configuration"
+        ],
+        "summary": "Actualizar configuración de disclosure",
+        "operationId": "updateDisclosureConfig",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "liveness_check": {
+                    "type": "boolean"
+                  },
+                  "id_scan_check": {
+                    "type": "boolean"
+                  },
+                  "government_check": {
+                    "type": "boolean"
+                  },
+                  "skip_passkey_registration": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Configuración de disclosure actualizada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "config": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "disclosure.dashboard.config",
+            "disclosure.dashboard.manage",
+            "config.manage"
+          ],
+          "api_any_of": [
+            "disclosure.api.config",
+            "disclosure.api.manage",
+            "disclosure.api.manage",
+            "config.api.manage"
+          ]
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/config/consent": {
+      "get": {
+        "tags": [
+          "Configuration"
+        ],
+        "summary": "Obtener configuración de consent",
+        "operationId": "getConsentConfig",
+        "responses": {
+          "200": {
+            "description": "Configuración de consent obtenida exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "config": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.write",
+            "consent.dashboard.config",
+            "consent.dashboard.manage",
+            "config.manage"
+          ],
+          "api_any_of": [
+            "consent.api.config",
+            "consent.api.manage",
+            "consent.api.manage",
+            "config.api.manage"
+          ]
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Configuration"
+        ],
+        "summary": "Actualizar configuración de consent",
+        "operationId": "updateConsentConfig",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "whitelisted_domains": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "label_display": {
+                    "type": "string"
+                  },
+                  "mandatory_label_text": {
+                    "type": "string"
+                  },
+                  "redec_enabled": {
+                    "type": "boolean"
+                  },
+                  "redec_automatic_rdc30": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Configuración de consent actualizada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "config": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.config",
+            "consent.dashboard.manage",
+            "config.manage"
+          ],
+          "api_any_of": [
+            "consent.api.config",
+            "consent.api.manage",
+            "consent.api.manage",
+            "config.api.manage"
+          ]
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/config/privacy_center": {
+      "get": {
+        "tags": [
+          "Configuration"
+        ],
+        "summary": "Obtener configuración de Privacy Center",
+        "operationId": "getPrivacyCenterConfig",
+        "responses": {
+          "200": {
+            "description": "Configuración de Privacy Center obtenida exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "config": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "config.manage"
+          ],
+          "api_any_of": [
+            "config.api.manage"
+          ]
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Configuration"
+        ],
+        "summary": "Actualizar configuración de Privacy Center",
+        "operationId": "updatePrivacyCenterConfig",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "contact_email": {
+                    "type": "string"
+                  },
+                  "public_url": {
+                    "type": "string"
+                  },
+                  "private_url": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Configuración de Privacy Center actualizada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "config": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "config.manage"
+          ],
+          "api_any_of": [
+            "config.api.manage"
+          ]
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/config/data_subject_request": {
+      "get": {
+        "tags": [
+          "Configuration"
+        ],
+        "summary": "Obtener configuración de data subject request",
+        "operationId": "getDataSubjectRequestConfig",
+        "responses": {
+          "200": {
+            "description": "Configuración de data subject request obtenida exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "config": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "dsr.dashboard.read",
+            "dsr.dashboard.write",
+            "dsr.dashboard.config",
+            "dsr.dashboard.manage",
+            "config.manage"
+          ],
+          "api_any_of": [
+            "data_subject_requests.api.config",
+            "data_subject_requests.api.manage",
+            "config.api.manage"
+          ]
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Configuration"
+        ],
+        "summary": "Actualizar configuración de data subject request",
+        "operationId": "updateDataSubjectRequestConfig",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "mandatory_validation": {
+                    "type": "boolean"
+                  },
+                  "disable_informative_emails": {
+                    "type": "boolean"
+                  },
+                  "disable_functional_emails": {
+                    "type": "boolean"
+                  },
+                  "redec_automatic_rdc40": {
+                    "type": "boolean"
+                  },
+                  "liveness_check": {
+                    "type": "boolean"
+                  },
+                  "id_scan_check": {
+                    "type": "boolean"
+                  },
+                  "government_check": {
+                    "type": "boolean"
+                  },
+                  "validation_timeout_period": {
+                    "type": "string"
+                  },
+                  "allow_many_data_categories_mutations": {
+                    "type": "boolean"
+                  },
+                  "contact_field_configs": {
+                    "type": "array",
+                    "items": {
+                      "type": "object"
+                    }
+                  },
+                  "blacklisted_data_categories": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "appliable_scopes": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Configuración de data subject request actualizada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "config": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "dsr.dashboard.config",
+            "dsr.dashboard.manage",
+            "config.manage"
+          ],
+          "api_any_of": [
+            "data_subject_requests.api.config",
+            "data_subject_requests.api.manage",
+            "config.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -5282,6 +7383,16 @@
             "$ref": "#/components/responses/UnauthorizedError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "branches.api.read",
+            "branches.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -5310,6 +7421,11 @@
                     "type": "string",
                     "description": "Nombre legal de la branch.",
                     "example": "Sucursal de la empresa"
+                  },
+                  "display_name": {
+                    "type": "string",
+                    "description": "Nombre comercial visible de la branch.",
+                    "example": "Sucursal Centro"
                   }
                 }
               }
@@ -5345,6 +7461,16 @@
               }
             }
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.write",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "branches.api.write",
+            "branches.api.manage"
+          ]
         },
         "security": [
           {
@@ -5395,6 +7521,16 @@
             "$ref": "#/components/responses/NotFoundError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "branches.api.read",
+            "branches.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -5423,6 +7559,11 @@
                     "type": "string",
                     "description": "Nombre legal de la branch",
                     "example": "Sucursal de la empresa"
+                  },
+                  "display_name": {
+                    "type": "string",
+                    "description": "Nombre comercial visible de la branch.",
+                    "example": "Sucursal Centro"
                   }
                 }
               }
@@ -5458,6 +7599,16 @@
               }
             }
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.write",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "branches.api.write",
+            "branches.api.manage"
+          ]
         },
         "security": [
           {
@@ -5498,6 +7649,17 @@
           "401": {
             "$ref": "#/components/responses/UnauthorizedError"
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "api_keys.dashboard.read",
+            "api_keys.dashboard.write"
+          ],
+          "api_any_of": [
+            "api_keys.api.read",
+            "api_keys.api.manage",
+            "api_keys.api.write"
+          ]
         },
         "security": [
           {
@@ -5572,6 +7734,693 @@
             }
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "api_keys.dashboard.write"
+          ],
+          "api_any_of": [
+            "api_keys.api.write",
+            "api_keys.api.manage"
+          ]
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/roles": {
+      "get": {
+        "tags": [
+          "Roles"
+        ],
+        "summary": "Obtener roles de la compañía",
+        "operationId": "indexRoles",
+        "responses": {
+          "200": {
+            "description": "Roles encontrados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoleList"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "users.dashboard.read",
+            "users.dashboard.manage"
+          ],
+          "api_any_of": [
+            "roles.api.read",
+            "roles.api.manage",
+            "roles.api.manage"
+          ]
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Roles"
+        ],
+        "summary": "Crear un rol",
+        "operationId": "createRole",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "role"
+                ],
+                "properties": {
+                  "role": {
+                    "$ref": "#/components/schemas/RoleInput"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Rol creado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "role": {
+                      "$ref": "#/components/schemas/Role"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "422": {
+            "description": "Error de validación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "users.dashboard.manage"
+          ],
+          "api_any_of": [
+            "roles.api.write",
+            "roles.api.manage",
+            "roles.api.manage"
+          ]
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/roles/{token}": {
+      "get": {
+        "tags": [
+          "Roles"
+        ],
+        "summary": "Obtener un rol",
+        "operationId": "getRole",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "description": "Token del rol",
+            "schema": {
+              "type": "string"
+            },
+            "example": "role_1B2M2Y8AsgTpgAmY7PhCfg"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Rol encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "role": {
+                      "$ref": "#/components/schemas/Role"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "users.dashboard.read",
+            "users.dashboard.manage"
+          ],
+          "api_any_of": [
+            "roles.api.read",
+            "roles.api.manage",
+            "roles.api.manage"
+          ]
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Roles"
+        ],
+        "summary": "Actualizar un rol",
+        "operationId": "updateRole",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "description": "Token del rol",
+            "schema": {
+              "type": "string"
+            },
+            "example": "role_1B2M2Y8AsgTpgAmY7PhCfg"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "role"
+                ],
+                "properties": {
+                  "role": {
+                    "$ref": "#/components/schemas/RoleInput"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Rol actualizado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "role": {
+                      "$ref": "#/components/schemas/Role"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "422": {
+            "description": "Error de validación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "users.dashboard.manage"
+          ],
+          "api_any_of": [
+            "roles.api.write",
+            "roles.api.manage",
+            "roles.api.manage"
+          ]
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Roles"
+        ],
+        "summary": "Eliminar un rol",
+        "operationId": "deleteRole",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "description": "Token del rol",
+            "schema": {
+              "type": "string"
+            },
+            "example": "role_1B2M2Y8AsgTpgAmY7PhCfg"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Rol eliminado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "role": {
+                      "$ref": "#/components/schemas/Role"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "422": {
+            "description": "Error de validación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "users.dashboard.manage"
+          ],
+          "api_any_of": [
+            "roles.api.delete",
+            "roles.api.manage"
+          ]
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/company_users": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Obtener usuarios de la compañía",
+        "operationId": "indexCompanyUsers",
+        "responses": {
+          "200": {
+            "description": "Usuarios encontrados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompanyUserList"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "users.dashboard.read",
+            "users.dashboard.manage"
+          ],
+          "api_any_of": [
+            "company_users.api.read",
+            "company_users.api.manage",
+            "company_users.api.manage"
+          ]
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Crear un usuario de compañía",
+        "operationId": "createCompanyUser",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "company_user"
+                ],
+                "properties": {
+                  "company_user": {
+                    "$ref": "#/components/schemas/CompanyUserCreateInput"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Usuario creado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "company_user": {
+                      "$ref": "#/components/schemas/CompanyUser"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error de parámetros inválidos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "invalid_request_error"
+                    },
+                    "title": {
+                      "type": "string",
+                      "example": "Invalid parameter"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "example": 400
+                    },
+                    "detail": {
+                      "type": "string",
+                      "example": "role_id is invalid"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "422": {
+            "description": "Error de validación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "users.dashboard.manage"
+          ],
+          "api_any_of": [
+            "company_users.api.write",
+            "company_users.api.manage",
+            "company_users.api.manage"
+          ]
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/company_users/{token}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Obtener un usuario de compañía",
+        "operationId": "getCompanyUser",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "description": "Token del usuario de compañía",
+            "schema": {
+              "type": "string"
+            },
+            "example": "cusr_1B2M2Y8AsgTpgAmY7PhCfg"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuario encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "company_user": {
+                      "$ref": "#/components/schemas/CompanyUser"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "users.dashboard.read",
+            "users.dashboard.manage"
+          ],
+          "api_any_of": [
+            "company_users.api.read",
+            "company_users.api.manage",
+            "company_users.api.manage"
+          ]
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Actualizar rol de un usuario de compañía",
+        "description": "Reemplaza el rol actual por el rol indicado en `role_id`.",
+        "operationId": "updateCompanyUser",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "description": "Token del usuario de compañía",
+            "schema": {
+              "type": "string"
+            },
+            "example": "cusr_1B2M2Y8AsgTpgAmY7PhCfg"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "company_user"
+                ],
+                "properties": {
+                  "company_user": {
+                    "$ref": "#/components/schemas/CompanyUserUpdateInput"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Usuario actualizado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "company_user": {
+                      "$ref": "#/components/schemas/CompanyUser"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error de parámetros inválidos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "invalid_request_error"
+                    },
+                    "title": {
+                      "type": "string",
+                      "example": "Invalid parameter"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "example": 400
+                    },
+                    "detail": {
+                      "type": "string",
+                      "example": "role_id is invalid"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "users.dashboard.manage"
+          ],
+          "api_any_of": [
+            "company_users.api.write",
+            "company_users.api.manage",
+            "company_users.api.manage"
+          ]
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Eliminar un usuario de compañía",
+        "operationId": "deleteCompanyUser",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "description": "Token del usuario de compañía",
+            "schema": {
+              "type": "string"
+            },
+            "example": "cusr_1B2M2Y8AsgTpgAmY7PhCfg"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuario eliminado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "company_user": {
+                      "$ref": "#/components/schemas/CompanyUser"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "users.dashboard.manage"
+          ],
+          "api_any_of": [
+            "company_users.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -5620,6 +8469,17 @@
           "404": {
             "$ref": "#/components/responses/NotFoundError"
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "api_keys.dashboard.read",
+            "api_keys.dashboard.write"
+          ],
+          "api_any_of": [
+            "api_keys.api.read",
+            "api_keys.api.manage",
+            "api_keys.api.write"
+          ]
         },
         "security": [
           {
@@ -5693,6 +8553,15 @@
             }
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "api_keys.dashboard.write"
+          ],
+          "api_any_of": [
+            "api_keys.api.write",
+            "api_keys.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -5763,6 +8632,15 @@
               }
             }
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "api_keys.dashboard.write"
+          ],
+          "api_any_of": [
+            "api_keys.api.write",
+            "api_keys.api.manage"
+          ]
         },
         "security": [
           {
@@ -5877,6 +8755,15 @@
             "$ref": "#/components/responses/NotFoundError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "api_keys.dashboard.write"
+          ],
+          "api_any_of": [
+            "api_keys.api.write",
+            "api_keys.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -5957,6 +8844,16 @@
             "$ref": "#/components/responses/NotFoundError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "consent.api.read",
+            "consent.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -6012,6 +8909,19 @@
           "401": {
             "$ref": "#/components/responses/UnauthorizedError"
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "consent_actions.api.read",
+            "consent_actions.api.manage",
+            "consent.api.read",
+            "consent.api.manage",
+            "consent.api.manage"
+          ]
         },
         "security": [
           {
@@ -6069,6 +8979,19 @@
             "$ref": "#/components/responses/UnauthorizedError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "consent_commits.api.read",
+            "consent_commits.api.manage",
+            "consent.api.read",
+            "consent.api.manage",
+            "consent.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -6125,6 +9048,19 @@
             "$ref": "#/components/responses/UnauthorizedError"
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "disclosure.dashboard.read",
+            "disclosure.dashboard.manage"
+          ],
+          "api_any_of": [
+            "disclosure_requests.api.read",
+            "disclosure_requests.api.manage",
+            "disclosure.api.read",
+            "disclosure.api.manage",
+            "disclosure.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -6154,6 +9090,14 @@
           "401": {
             "$ref": "#/components/responses/UnauthorizedError"
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "config.manage"
+          ],
+          "api_any_of": [
+            "config.api.manage"
+          ]
         },
         "security": [
           {
@@ -6220,6 +9164,14 @@
               }
             }
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "config.manage"
+          ],
+          "api_any_of": [
+            "config.api.manage"
+          ]
         },
         "security": [
           {
@@ -6304,6 +9256,16 @@
             }
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.write",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "consent_actions.api.write",
+            "consent.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -6340,7 +9302,29 @@
                   "type": "object",
                   "properties": {
                     "consent_action": {
-                      "$ref": "#/components/schemas/ConsentAction"
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/ConsentAction"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "redec_receipt_pdf": {
+                              "type": "string",
+                              "format": "uri",
+                              "nullable": true,
+                              "description": "URL del PDF del recibo REDEC. Disponible una vez generado el recibo.",
+                              "example": "https://storage.example.com/receipts/redec_receipt_123.pdf"
+                            },
+                            "redec_pdf_hash": {
+                              "type": "string",
+                              "nullable": true,
+                              "description": "Hash SHA256 del PDF del recibo REDEC para verificación de integridad.",
+                              "example": "a1b2c3d4e5f6..."
+                            }
+                          }
+                        }
+                      ]
                     }
                   }
                 }
@@ -6353,6 +9337,16 @@
           "404": {
             "$ref": "#/components/responses/NotFoundError"
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "consent_actions.api.read",
+            "consent.api.manage"
+          ]
         },
         "security": [
           {
@@ -6440,6 +9434,16 @@
               }
             }
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "consent_actions.api.read",
+            "consent.api.manage"
+          ]
         },
         "security": [
           {
@@ -6552,6 +9556,16 @@
             }
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.write",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "consent_commits.api.write",
+            "consent.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -6573,6 +9587,54 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/RedecConsentTemplateInput"
+              },
+              "examples": {
+                "redec_with_legacy_product_id": {
+                  "summary": "REDEC con producto legado",
+                  "value": {
+                    "name": "Consentimiento REDEC comercial",
+                    "title": "Autorización REDEC",
+                    "text": "Autorizo consulta para evaluación comercial",
+                    "data_subject": "customer",
+                    "duration_type": "fixed",
+                    "duration": "P12M",
+                    "product_id": "prod_1B2M2Y8AsgTpgAmY7PhCfg",
+                    "data_requirements": [
+                      {
+                        "key": "cl_carnet_rut",
+                        "data_uses": [
+                          "finance.commercial_risk_assessment"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "redec_with_scopes": {
+                  "summary": "REDEC con scope explícito de producto",
+                  "value": {
+                    "name": "Consentimiento REDEC crediticio",
+                    "title": "Autorización REDEC",
+                    "text": "Autorizo consulta para evaluación crediticia",
+                    "data_subject": "customer",
+                    "duration_type": "fixed",
+                    "duration": "P6M",
+                    "scopes": [
+                      {
+                        "scope_type": "product",
+                        "scope_id": "prod_1B2M2Y8AsgTpgAmY7PhCfg",
+                        "scope_version": 2
+                      }
+                    ],
+                    "data_requirements": [
+                      {
+                        "key": "cl_carnet_rut",
+                        "data_uses": [
+                          "finance.credit_risk_assessment"
+                        ]
+                      }
+                    ]
+                  }
+                }
               }
             }
           }
@@ -6665,6 +9727,16 @@
             }
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.write",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "consent.api.write",
+            "consent.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -6698,6 +9770,34 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/ConsentTemplateInput"
+              },
+              "examples": {
+                "redec_update_with_scoped_product": {
+                  "summary": "Actualizar REDEC fijando versión de producto",
+                  "value": {
+                    "name": "Consentimiento REDEC crediticio",
+                    "title": "Autorización REDEC",
+                    "text": "Autorizo consulta para evaluación crediticia",
+                    "data_subject": "customer",
+                    "duration_type": "fixed",
+                    "duration": "P12M",
+                    "scopes": [
+                      {
+                        "scope_type": "product",
+                        "scope_id": "prod_1B2M2Y8AsgTpgAmY7PhCfg",
+                        "scope_version": 3
+                      }
+                    ],
+                    "data_requirements": [
+                      {
+                        "key": "cl_carnet_rut",
+                        "data_uses": [
+                          "finance.credit_risk_assessment"
+                        ]
+                      }
+                    ]
+                  }
+                }
               }
             }
           }
@@ -6803,6 +9903,16 @@
             }
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.write",
+            "consent.dashboard.manage"
+          ],
+          "api_any_of": [
+            "consent.api.write",
+            "consent.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -6853,6 +9963,18 @@
           "401": {
             "$ref": "#/components/responses/UnauthorizedError"
           }
+        },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.read",
+            "consent.dashboard.manage",
+            "dsr.dashboard.read",
+            "dsr.dashboard.manage"
+          ],
+          "api_any_of": [
+            "reports.api.read",
+            "reports.api.manage"
+          ]
         },
         "security": [
           {
@@ -6939,6 +10061,18 @@
             }
           }
         },
+        "x-permissions": {
+          "dashboard_any_of": [
+            "consent.dashboard.write",
+            "consent.dashboard.manage",
+            "dsr.dashboard.write",
+            "dsr.dashboard.manage"
+          ],
+          "api_any_of": [
+            "reports.api.write",
+            "reports.api.manage"
+          ]
+        },
         "security": [
           {
             "api_key": []
@@ -7003,7 +10137,13 @@
           {
             "api_key": []
           }
-        ]
+        ],
+        "x-permissions": {
+          "api_any_of": [
+            "exports.api.read",
+            "exports.api.manage"
+          ]
+        }
       },
       "post": {
         "tags": [
@@ -7056,7 +10196,13 @@
           {
             "api_key": []
           }
-        ]
+        ],
+        "x-permissions": {
+          "api_any_of": [
+            "exports.api.write",
+            "exports.api.manage"
+          ]
+        }
       }
     },
     "/exports/{id}": {
@@ -7106,7 +10252,13 @@
           {
             "api_key": []
           }
-        ]
+        ],
+        "x-permissions": {
+          "api_any_of": [
+            "exports.api.read",
+            "exports.api.manage"
+          ]
+        }
       }
     },
     "/government_check_requests": {
@@ -7182,7 +10334,13 @@
           {
             "api_key": []
           }
-        ]
+        ],
+        "x-permissions": {
+          "api_any_of": [
+            "government_check_requests.api.write",
+            "government_check_requests.api.manage"
+          ]
+        }
       },
       "get": {
         "tags": [
@@ -7235,7 +10393,13 @@
           {
             "api_key": []
           }
-        ]
+        ],
+        "x-permissions": {
+          "api_any_of": [
+            "government_check_requests.api.read",
+            "government_check_requests.api.manage"
+          ]
+        }
       }
     },
     "/government_check_requests/{id}": {
@@ -7284,7 +10448,13 @@
           {
             "api_key": []
           }
-        ]
+        ],
+        "x-permissions": {
+          "api_any_of": [
+            "government_check_requests.api.read",
+            "government_check_requests.api.manage"
+          ]
+        }
       }
     }
   },
@@ -7428,6 +10598,26 @@
             }
           }
         }
+      },
+      "ForbiddenError": {
+        "description": "Acceso prohibido",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ForbiddenError"
+            }
+          }
+        }
+      },
+      "ValidationError": {
+        "description": "Error de validación",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ValidationError"
+            }
+          }
+        }
       }
     },
     "schemas": {
@@ -7507,13 +10697,261 @@
           }
         }
       },
+      "DashboardPermission": {
+        "type": "string",
+        "description": "Permisos disponibles para usuarios de dashboard.",
+        "enum": [
+          "dashboard.read",
+          "dashboard.write",
+          "dashboard.manage",
+          "consent.dashboard.read",
+          "consent.dashboard.write",
+          "consent.dashboard.config",
+          "consent.dashboard.manage",
+          "dsr.dashboard.read",
+          "dsr.dashboard.write",
+          "dsr.dashboard.config",
+          "dsr.dashboard.manage",
+          "disclosure.dashboard.read",
+          "disclosure.dashboard.write",
+          "disclosure.dashboard.config",
+          "disclosure.dashboard.manage",
+          "users.dashboard.read",
+          "users.dashboard.manage",
+          "api_keys.dashboard.read",
+          "api_keys.dashboard.write",
+          "webhooks.dashboard.read",
+          "webhooks.dashboard.write",
+          "config.manage",
+          "data.dashboard.pii.read"
+        ]
+      },
+      "ApiPermission": {
+        "type": "string",
+        "description": "Permisos disponibles para API keys.",
+        "enum": [
+          "api.read",
+          "api.write",
+          "api.manage",
+          "agreements.api.read",
+          "api_keys.api.read",
+          "api_keys.api.write",
+          "api_keys.api.manage",
+          "auth_attempts.api.read",
+          "auth_requests.api.read",
+          "auth_requests.api.write",
+          "auth_requests.api.manage",
+          "branches.api.read",
+          "branches.api.write",
+          "branches.api.manage",
+          "company_users.api.read",
+          "company_users.api.write",
+          "company_users.api.manage",
+          "config.api.manage",
+          "consent.api.read",
+          "consent.api.write",
+          "consent.api.config",
+          "consent.api.manage",
+          "consent_actions.api.read",
+          "consent_actions.api.write",
+          "consent_actions.api.manage",
+          "consent_commits.api.read",
+          "consent_commits.api.write",
+          "consent_commits.api.manage",
+          "consent_revocations.api.read",
+          "consent_revocations.api.write",
+          "consent_revocations.api.manage",
+          "consent_templates.api.read",
+          "consent_templates.api.write",
+          "consent_templates.api.manage",
+          "data_subject_requests.api.read",
+          "data_subject_requests.api.write",
+          "data_subject_requests.api.config",
+          "data_subject_requests.api.manage",
+          "disclosure.api.read",
+          "disclosure.api.write",
+          "disclosure.api.config",
+          "disclosure.api.manage",
+          "disclosure_requests.api.read",
+          "disclosure_requests.api.write",
+          "disclosure_requests.api.manage",
+          "disclosure_templates.api.read",
+          "disclosure_templates.api.write",
+          "disclosure_templates.api.manage",
+          "entities.api.read",
+          "entities.api.write",
+          "entities.api.manage",
+          "events.api.read",
+          "events.api.write",
+          "events.api.manage",
+          "exports.api.read",
+          "exports.api.write",
+          "exports.api.manage",
+          "government_check_requests.api.read",
+          "government_check_requests.api.write",
+          "government_check_requests.api.manage",
+          "identities.api.read",
+          "privacy_documents.api.read",
+          "privacy_documents.api.write",
+          "privacy_documents.api.manage",
+          "products.api.read",
+          "products.api.write",
+          "products.api.manage",
+          "reports.api.read",
+          "reports.api.write",
+          "reports.api.manage",
+          "roles.api.read",
+          "roles.api.write",
+          "roles.api.delete",
+          "roles.api.manage",
+          "signature_attempts.api.read",
+          "signature_attempts.api.write",
+          "signature_attempts.api.manage",
+          "signed_documents.api.read",
+          "validation_attempts.api.read",
+          "webhooks.api.read",
+          "webhooks.api.write",
+          "webhooks.api.manage"
+        ]
+      },
+      "Permission": {
+        "type": "string",
+        "description": "Permiso válido para autorización de endpoints.",
+        "enum": [
+          "dashboard.read",
+          "dashboard.write",
+          "dashboard.manage",
+          "consent.dashboard.read",
+          "consent.dashboard.write",
+          "consent.dashboard.config",
+          "consent.dashboard.manage",
+          "dsr.dashboard.read",
+          "dsr.dashboard.write",
+          "dsr.dashboard.config",
+          "dsr.dashboard.manage",
+          "disclosure.dashboard.read",
+          "disclosure.dashboard.write",
+          "disclosure.dashboard.config",
+          "disclosure.dashboard.manage",
+          "users.dashboard.read",
+          "users.dashboard.manage",
+          "api_keys.dashboard.read",
+          "api_keys.dashboard.write",
+          "webhooks.dashboard.read",
+          "webhooks.dashboard.write",
+          "config.manage",
+          "data.dashboard.pii.read",
+          "api.read",
+          "api.write",
+          "api.manage",
+          "agreements.api.read",
+          "api_keys.api.read",
+          "api_keys.api.write",
+          "api_keys.api.manage",
+          "auth_attempts.api.read",
+          "auth_requests.api.read",
+          "auth_requests.api.write",
+          "auth_requests.api.manage",
+          "branches.api.read",
+          "branches.api.write",
+          "branches.api.manage",
+          "company_users.api.read",
+          "company_users.api.write",
+          "company_users.api.manage",
+          "config.api.manage",
+          "consent.api.read",
+          "consent.api.write",
+          "consent.api.config",
+          "consent.api.manage",
+          "consent_actions.api.read",
+          "consent_actions.api.write",
+          "consent_actions.api.manage",
+          "consent_commits.api.read",
+          "consent_commits.api.write",
+          "consent_commits.api.manage",
+          "consent_revocations.api.read",
+          "consent_revocations.api.write",
+          "consent_revocations.api.manage",
+          "consent_templates.api.read",
+          "consent_templates.api.write",
+          "consent_templates.api.manage",
+          "data_subject_requests.api.read",
+          "data_subject_requests.api.write",
+          "data_subject_requests.api.config",
+          "data_subject_requests.api.manage",
+          "disclosure.api.read",
+          "disclosure.api.write",
+          "disclosure.api.config",
+          "disclosure.api.manage",
+          "disclosure_requests.api.read",
+          "disclosure_requests.api.write",
+          "disclosure_requests.api.manage",
+          "disclosure_templates.api.read",
+          "disclosure_templates.api.write",
+          "disclosure_templates.api.manage",
+          "entities.api.read",
+          "entities.api.write",
+          "entities.api.manage",
+          "events.api.read",
+          "events.api.write",
+          "events.api.manage",
+          "exports.api.read",
+          "exports.api.write",
+          "exports.api.manage",
+          "government_check_requests.api.read",
+          "government_check_requests.api.write",
+          "government_check_requests.api.manage",
+          "identities.api.read",
+          "privacy_documents.api.read",
+          "privacy_documents.api.write",
+          "privacy_documents.api.manage",
+          "products.api.read",
+          "products.api.write",
+          "products.api.manage",
+          "reports.api.read",
+          "reports.api.write",
+          "reports.api.manage",
+          "roles.api.read",
+          "roles.api.write",
+          "roles.api.delete",
+          "roles.api.manage",
+          "signature_attempts.api.read",
+          "signature_attempts.api.write",
+          "signature_attempts.api.manage",
+          "signed_documents.api.read",
+          "validation_attempts.api.read",
+          "webhooks.api.read",
+          "webhooks.api.write",
+          "webhooks.api.manage"
+        ]
+      },
+      "PermissionRequirement": {
+        "type": "object",
+        "description": "Documenta permisos requeridos para el endpoint. Se usa solo en la extensión `x-permissions`\ny no forma parte del request.",
+        "additionalProperties": false,
+        "properties": {
+          "dashboard_any_of": {
+            "type": "array",
+            "description": "Permisos que autorizan el endpoint cuando la autenticación es dashboard.",
+            "items": {
+              "$ref": "#/components/schemas/DashboardPermission"
+            }
+          },
+          "api_any_of": {
+            "type": "array",
+            "description": "Permisos que autorizan el endpoint cuando la autenticación es API key.",
+            "items": {
+              "$ref": "#/components/schemas/ApiPermission"
+            }
+          }
+        }
+      },
       "ConsentTemplateInput": {
         "type": "object",
         "required": [
           "name",
           "title",
           "text",
-          "duration",
           "data_requirements",
           "data_subject"
         ],
@@ -7525,8 +10963,38 @@
           },
           "duration": {
             "type": "string",
+            "nullable": true,
             "description": "Período de disponibilidad en [formato ISO](https://docs.digi.com/resources/documentation/digidocs/90001488-13/reference/r_iso_8601_duration_format.htm). Esto determina por cuánto tiempo puedes solicitar los datos del usuario desde que te dio su consentimiento.",
             "example": "P2M"
+          },
+          "duration_type": {
+            "type": "string",
+            "description": "Tipo de duración del consentimiento. `fixed` usa `duration` en formato ISO, `conditional` usa una cláusula legal.",
+            "enum": [
+              "fixed",
+              "conditional"
+            ],
+            "default": "fixed",
+            "example": "fixed"
+          },
+          "duration_clause_type": {
+            "type": "string",
+            "nullable": true,
+            "description": "Cláusula legal para duración condicional.\nRequerida cuando `duration_type` es `conditional`.\n",
+            "enum": [
+              "while_contractual_relationship",
+              "while_legal_obligation",
+              "until_purpose_fulfilled",
+              "until_revoked",
+              "custom"
+            ],
+            "example": "while_contractual_relationship"
+          },
+          "duration_clause_text": {
+            "type": "string",
+            "nullable": true,
+            "description": "Texto libre de cláusula legal. Requerido cuando `duration_clause_type` es `custom`.",
+            "example": "Mientras dure la relación contractual."
           },
           "title": {
             "type": "string",
@@ -7569,13 +11037,30 @@
           },
           "product_id": {
             "type": "string",
-            "description": "Identificador único del producto. No puede estar presente si se especifica `branch_id`.",
+            "description": "Identificador único del producto.\nCampo legado compatible: si se envía, se convierte internamente a `scopes` con `scope_type=product`.\nSi también se envía `scopes`, prevalece `scopes`.\n",
             "example": "prod_1B2M2Y8AsgTpgAmY7PhCfg"
           },
           "branch_id": {
             "type": "string",
-            "description": "Identificador único de la branch. No puede estar presente si se especifica `product_id`.",
+            "description": "Identificador único de la branch.\nCampo legado compatible: si se envía, se convierte internamente a `scopes` con `scope_type=branch`.\nSi también se envía `scopes`, prevalece `scopes`.\n",
             "example": "branch_1B2M2Y8AsgTpgAmY7PhCfg"
+          },
+          "scopes": {
+            "type": "array",
+            "description": "Lista de ámbitos de aplicación del consentimiento. Permite uno o múltiples scopes.\nSi `scope_version` se omite, el API resuelve la versión `latest` al momento de crear/actualizar y la persiste en la versión del template.\nEl template no sigue automáticamente nuevas versiones del scope después de guardado.\n",
+            "items": {
+              "$ref": "#/components/schemas/ConsentTemplateScopeInput"
+            }
+          },
+          "revocable_data_uses": {
+            "type": "array",
+            "description": "Lista de data uses permitidos para revocación iniciada por la empresa vía `/consent_revocations`.\nCada valor puede ser exacto (por ejemplo `third_party_sharing.intra_company`) o prefijo raíz\n(por ejemplo `third_party_sharing`).\n",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "third_party_sharing"
+            ]
           },
           "optional": {
             "type": "boolean",
@@ -7597,13 +11082,11 @@
           },
           {
             "type": "object",
-            "required": [
-              "product_id"
-            ],
+            "description": "Input para templates REDEC.\nDebe incluir un alcance de producto, ya sea vía `product_id` (legado) o en `scopes` con `scope_type=product`.\n",
             "properties": {
               "product_id": {
                 "type": "string",
-                "description": "Identificador único del producto. Requerido para templates REDEC.",
+                "description": "Identificador único del producto (campo legado compatible para REDEC).",
                 "example": "prod_1B2M2Y8AsgTpgAmY7PhCfg"
               }
             }
@@ -7645,7 +11128,7 @@
           "title",
           "text",
           "version",
-          "duration",
+          "duration_type",
           "data_requirements",
           "data_subject",
           "created_at",
@@ -7669,8 +11152,37 @@
           },
           "duration": {
             "type": "string",
+            "nullable": true,
             "description": "Periodo de retención de datos en [formato ISO](https://docs.digi.com/resources/documentation/digidocs/90001488-13/reference/r_iso_8601_duration_format.htm)",
             "example": "P12M3H"
+          },
+          "duration_type": {
+            "type": "string",
+            "description": "Tipo de duración del consentimiento.",
+            "enum": [
+              "fixed",
+              "conditional"
+            ],
+            "example": "fixed"
+          },
+          "duration_clause_type": {
+            "type": "string",
+            "nullable": true,
+            "description": "Cláusula legal para duración condicional.",
+            "enum": [
+              "while_contractual_relationship",
+              "while_legal_obligation",
+              "until_purpose_fulfilled",
+              "until_revoked",
+              "custom"
+            ],
+            "example": "while_contractual_relationship"
+          },
+          "duration_clause_text": {
+            "type": "string",
+            "nullable": true,
+            "description": "Texto libre de cláusula legal cuando la cláusula es custom.",
+            "example": "Mientras dure la relación contractual."
           },
           "title": {
             "type": "string",
@@ -7714,13 +11226,30 @@
           },
           "product_id": {
             "type": "string",
-            "description": "Identificador único del producto. No puede estar presente si se especifica `branch_id`.",
+            "description": "Identificador único del producto cuando existe un único scope de tipo product (campo legado compatible).",
             "example": "prod_1B2M2Y8AsgTpgAmY7PhCfg"
           },
           "branch_id": {
             "type": "string",
-            "description": "Identificador único de la branch. No puede estar presente si se especifica `product_id`.",
+            "description": "Identificador único de la branch cuando existe un único scope de tipo branch (campo legado compatible).",
             "example": "branch_1B2M2Y8AsgTpgAmY7PhCfg"
+          },
+          "scopes": {
+            "type": "array",
+            "description": "Lista de ámbitos de aplicación del consentimiento ya resueltos y versionados.\nEstos scopes son snapshot del momento de creación/actualización de esta versión del template.\n",
+            "items": {
+              "$ref": "#/components/schemas/ConsentTemplateScope"
+            }
+          },
+          "revocable_data_uses": {
+            "type": "array",
+            "description": "Data uses permitidos para revocaciones iniciadas por la empresa.",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "third_party_sharing"
+            ]
           },
           "optional": {
             "type": "boolean",
@@ -7758,6 +11287,64 @@
           },
           "metadata": {
             "$ref": "#/components/schemas/FilterOrderAndPaginationMetadata"
+          }
+        }
+      },
+      "ConsentTemplateScopeInput": {
+        "type": "object",
+        "required": [
+          "scope_type",
+          "scope_id"
+        ],
+        "properties": {
+          "scope_type": {
+            "type": "string",
+            "enum": [
+              "product",
+              "branch"
+            ],
+            "description": "Tipo de ámbito.",
+            "example": "product"
+          },
+          "scope_id": {
+            "type": "string",
+            "description": "Identificador público tokenizado del recurso scope.",
+            "example": "prod_1B2M2Y8AsgTpgAmY7PhCfg"
+          },
+          "scope_version": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Versión del recurso scope.\nSi se omite, el API resuelve la versión `latest` al momento del write y persiste ese valor.\n",
+            "example": 1
+          }
+        }
+      },
+      "ConsentTemplateScope": {
+        "type": "object",
+        "required": [
+          "scope_type",
+          "scope_id",
+          "scope_version"
+        ],
+        "properties": {
+          "scope_type": {
+            "type": "string",
+            "enum": [
+              "product",
+              "branch"
+            ],
+            "description": "Tipo de ámbito.",
+            "example": "product"
+          },
+          "scope_id": {
+            "type": "string",
+            "description": "Identificador público tokenizado del recurso scope.",
+            "example": "prod_1B2M2Y8AsgTpgAmY7PhCfg"
+          },
+          "scope_version": {
+            "type": "integer",
+            "description": "Versión del recurso scope persistida en esta versión del template.\nEste valor queda fijado al guardar y no se actualiza automáticamente cuando aparecen nuevas versiones del scope.\n",
+            "example": 1
           }
         }
       },
@@ -8852,11 +12439,27 @@
             ],
             "example": "opt_in_click"
           },
+          "scope_selection_behavior": {
+            "type": "string",
+            "description": "Semántica de selección de scopes para acciones de tipo `grant`.\n`replace` aplica intención final (puede revocar scopes no seleccionados).\n`additive` agrega solo los scopes seleccionados sin revocar los no seleccionados.\n",
+            "enum": [
+              "replace",
+              "additive"
+            ],
+            "example": "replace"
+          },
           "action_data": {
             "type": "object",
             "description": "Datos adicionales de la acción (máximo 4KB de tamaño serializado en JSON)",
             "example": {
               "checkbox_id": "cb_123"
+            }
+          },
+          "selected_scopes": {
+            "type": "array",
+            "description": "Scopes seleccionados para esta acción.\nSi está vacío en templates sin scopes, la acción aplica de forma global.\n",
+            "items": {
+              "$ref": "#/components/schemas/ConsentTemplateScope"
             }
           },
           "contextual_data": {
@@ -8992,7 +12595,7 @@
       },
       "Agreement": {
         "x-tags": [
-          "Agreements"
+          "Agreements and Evidence"
         ],
         "type": "object",
         "title": "Agreement",
@@ -9074,7 +12677,7 @@
       },
       "Evidence": {
         "x-tags": [
-          "Agreements"
+          "Agreements and Evidence"
         ],
         "type": "object",
         "description": "Representa una evidencia que respalda un consentimiento o acuerdo.",
@@ -9172,6 +12775,22 @@
                       "type": "integer",
                       "description": "Versión del template de consentimiento asociado.",
                       "example": 1
+                    },
+                    "scope_selection_behavior": {
+                      "type": "string",
+                      "description": "Semántica de selección de scopes (`replace` o `additive`).",
+                      "enum": [
+                        "replace",
+                        "additive"
+                      ],
+                      "example": "replace"
+                    },
+                    "selected_scopes": {
+                      "type": "array",
+                      "description": "Scopes seleccionados para esta acción.",
+                      "items": {
+                        "$ref": "#/components/schemas/ConsentTemplateScope"
+                      }
                     },
                     "timestamp": {
                       "type": "string",
@@ -9360,14 +12979,15 @@
             "nullable": true
           },
           "scope_version": {
-            "type": "string",
+            "type": "integer",
             "description": "Versión del producto o filial para la cual está vigente el uso del dato.",
             "nullable": true
           },
           "expires_at": {
             "type": "string",
             "format": "date",
-            "description": "Fecha de expiración del permiso de uso"
+            "description": "Fecha de expiración del permiso de uso",
+            "nullable": true
           }
         }
       },
@@ -9482,6 +13102,11 @@
             "type": "string",
             "description": "Nombre legal de la sucursal.",
             "example": "Sucursal de la empresa"
+          },
+          "display_name": {
+            "type": "string",
+            "description": "Nombre comercial visible de la sucursal.",
+            "example": "Sucursal Centro"
           },
           "version": {
             "type": "integer",
@@ -9728,6 +13353,11 @@
             "type": "string",
             "description": "Nombre del producto",
             "example": "Mi Producto"
+          },
+          "display_name": {
+            "type": "string",
+            "description": "Nombre comercial visible del producto.",
+            "example": "Cuenta Corriente Plus"
           },
           "branch_id": {
             "type": "string",
@@ -10254,9 +13884,6 @@
         }
       },
       "DataSubjectRequestUpdate": {
-        "x-tags": [
-          "Data subject requests"
-        ],
         "type": "object",
         "description": "Esquema para actualizar el estado de una solicitud de ejercicio de derechos.\nSolo se permite el estado terminal `resolved`.\n",
         "required": [
@@ -10888,6 +14515,284 @@
           }
         }
       },
+      "CompanyUserRole": {
+        "type": "object",
+        "description": "Rol asignado al usuario de compañía.",
+        "required": [
+          "id",
+          "name"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Token del rol asignado.",
+            "example": "role_1B2M2Y8AsgTpgAmY7PhCfg"
+          },
+          "name": {
+            "type": "string",
+            "description": "Nombre del rol asignado.",
+            "example": "editor"
+          }
+        }
+      },
+      "UIConfiguration": {
+        "type": "object",
+        "x-tags": [
+          "Configuration"
+        ],
+        "description": "Configuración mínima utilizada para renderizado de interfaz en dashboard.",
+        "properties": {
+          "icon_variant": {
+            "type": "string",
+            "enum": [
+              "duotone",
+              "outline",
+              "solid"
+            ],
+            "description": "Variante de íconos utilizada por la UI."
+          },
+          "default_color": {
+            "type": "string",
+            "nullable": true,
+            "description": "Color base de personalización para íconos en UI."
+          },
+          "consent": {
+            "type": "object",
+            "properties": {
+              "label_display": {
+                "type": "string",
+                "enum": [
+                  "optional_only",
+                  "mandatory_only"
+                ]
+              },
+              "mandatory_label_text": {
+                "type": "string",
+                "enum": [
+                  "required",
+                  "mandatory"
+                ]
+              }
+            }
+          },
+          "privacy_center": {
+            "type": "object",
+            "properties": {
+              "public_url": {
+                "type": "string",
+                "nullable": true
+              },
+              "contact_email": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          }
+        }
+      },
+      "CompanyUser": {
+        "type": "object",
+        "x-tags": [
+          "Users"
+        ],
+        "description": "Usuario de dashboard perteneciente a una compañía.",
+        "required": [
+          "id",
+          "email",
+          "name",
+          "created_at",
+          "updated_at",
+          "roles",
+          "permissions"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Token único del usuario de compañía.",
+            "example": "cusr_1B2M2Y8AsgTpgAmY7PhCfg"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Email del usuario de compañía.",
+            "example": "dashboard.user@example.com"
+          },
+          "name": {
+            "type": "string",
+            "description": "Nombre del usuario de compañía.",
+            "example": "Dashboard User"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha y hora de creación del usuario.",
+            "example": "2024-03-20T15:30:00Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha y hora de última actualización del usuario.",
+            "example": "2024-03-20T15:30:00Z"
+          },
+          "roles": {
+            "type": "array",
+            "description": "Roles actualmente asignados al usuario.",
+            "items": {
+              "$ref": "#/components/schemas/CompanyUserRole"
+            }
+          },
+          "permissions": {
+            "type": "array",
+            "description": "Permisos efectivos del usuario, derivados de sus roles.",
+            "items": {
+              "$ref": "#/components/schemas/DashboardPermission"
+            }
+          }
+        }
+      },
+      "CompanyUserList": {
+        "type": "object",
+        "properties": {
+          "company_users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CompanyUser"
+            }
+          }
+        }
+      },
+      "CompanyUserCreateInput": {
+        "type": "object",
+        "required": [
+          "name",
+          "email",
+          "role_id"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Nombre del usuario de compañía.",
+            "example": "Dashboard User"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Email del usuario de compañía.",
+            "example": "dashboard.user@example.com"
+          },
+          "role_id": {
+            "type": "string",
+            "description": "Token del rol a asignar al usuario.",
+            "example": "role_1B2M2Y8AsgTpgAmY7PhCfg"
+          }
+        }
+      },
+      "CompanyUserUpdateInput": {
+        "type": "object",
+        "required": [
+          "role_id"
+        ],
+        "properties": {
+          "role_id": {
+            "type": "string",
+            "description": "Token del rol que reemplazará el rol actual del usuario.",
+            "example": "role_1B2M2Y8AsgTpgAmY7PhCfg"
+          }
+        }
+      },
+      "RoleInput": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Nombre del rol.",
+            "example": "support-analyst"
+          },
+          "description": {
+            "type": "string",
+            "description": "Descripción opcional del rol.",
+            "example": "Can review and triage requests"
+          },
+          "permissions": {
+            "type": "array",
+            "description": "Permisos de dashboard asociados al rol.",
+            "items": {
+              "$ref": "#/components/schemas/DashboardPermission"
+            }
+          }
+        }
+      },
+      "Role": {
+        "type": "object",
+        "x-tags": [
+          "Roles"
+        ],
+        "description": "Rol asignable a usuarios de una compañía.",
+        "required": [
+          "id",
+          "name",
+          "permissions",
+          "built_in",
+          "created_at",
+          "updated_at"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identificador único del rol.",
+            "example": "role_1B2M2Y8AsgTpgAmY7PhCfg"
+          },
+          "name": {
+            "type": "string",
+            "description": "Nombre del rol.",
+            "example": "admin"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "description": "Descripción del rol.",
+            "example": "Full dashboard access"
+          },
+          "permissions": {
+            "type": "array",
+            "description": "Permisos dashboard incluidos en el rol.",
+            "items": {
+              "$ref": "#/components/schemas/DashboardPermission"
+            }
+          },
+          "built_in": {
+            "type": "boolean",
+            "description": "Indica si el rol es administrado por el sistema.",
+            "example": true
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha y hora de creación del rol.",
+            "example": "2024-03-20T15:30:00Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha y hora de última actualización del rol.",
+            "example": "2024-03-20T15:30:00Z"
+          }
+        }
+      },
+      "RoleList": {
+        "type": "object",
+        "properties": {
+          "roles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Role"
+            }
+          }
+        }
+      },
       "ApiKey": {
         "type": "object",
         "x-tags": [
@@ -11004,7 +14909,7 @@
           },
           "action_type": {
             "type": "string",
-            "description": "Tipo específico de acción",
+            "description": "Tipo específico de acción.\nPara templates REDEC, cuando `action_data` incluye `audio_reference` y `audio_hash`, el valor debe ser `voice_confirmation`.\nPara templates REDEC, cuando `action_type` es `voice_confirmation`, también se deben incluir `audio_reference` y `audio_hash`.\n",
             "enum": [
               "opt_in_click",
               "voice_confirmation",
@@ -11018,9 +14923,26 @@
             "description": "Fecha y hora de la acción",
             "example": "2024-03-20T15:30:00Z"
           },
+          "selected_scopes": {
+            "type": "array",
+            "description": "Subconjunto de scopes del template que representa la selección del usuario para esta acción.\nSi se omite, la acción aplica a todos los scopes del template.\n",
+            "items": {
+              "$ref": "#/components/schemas/ConsentTemplateScope"
+            }
+          },
+          "scope_selection_behavior": {
+            "type": "string",
+            "description": "Semántica para manejar scopes no seleccionados en acciones `grant`.\n`replace` trata la selección como intención final (puede revocar scopes no seleccionados).\n`additive` agrega solo los scopes seleccionados sin revocar scopes no seleccionados.\n",
+            "enum": [
+              "replace",
+              "additive"
+            ],
+            "default": "replace",
+            "example": "additive"
+          },
           "action_data": {
             "type": "object",
-            "description": "Datos adicionales de la acción. Se permite cualquier campo adicional, pero se recomienda no exceder los 4KB de tamaño serializado en JSON.\n\nEn caso de usar REDEC y se está tratando un consentimiento de audio, puede incluir los campos de `audio_reference` y `audio_hash`. Más información en la [documentación de REDEC](/docs/integration-guide/redec/consent-registration#consentimiento-verbal-con-audio).\n",
+            "description": "Datos adicionales de la acción. Se permite cualquier campo adicional, pero se recomienda no exceder los 4KB de tamaño serializado en JSON.\n\nEn caso de usar REDEC y se está tratando un consentimiento de audio, puede incluir los campos de `audio_reference` y `audio_hash`. Más información en la [documentación de REDEC](/docs/integration-guide/redec/consent-registration#consentimiento-verbal-con-audio).\nPara templates REDEC, cuando se envían ambos campos de audio, `action_type` debe ser `voice_confirmation`.\nPara templates REDEC, cuando `action_type` es `voice_confirmation`, se requieren ambos campos de audio.\n",
             "example": {
               "checkbox_id": "cb_123",
               "audio_reference": "https://example.com/audio/consent_12345.mp3",
@@ -11040,6 +14962,181 @@
             "type": "string",
             "description": "Token JWT de la acción de consentimiento",
             "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+          }
+        }
+      },
+      "ConsentRevocationOriginEvent": {
+        "type": "object",
+        "required": [
+          "system",
+          "event_id"
+        ],
+        "properties": {
+          "system": {
+            "type": "string",
+            "description": "Sistema origen que dispara la revocación.",
+            "example": "core-banking"
+          },
+          "event_id": {
+            "type": "string",
+            "description": "Identificador idempotente del evento origen.",
+            "example": "evt-12345"
+          },
+          "occurred_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Fecha/hora de ocurrencia del evento origen.",
+            "example": "2026-02-11T15:10:00Z"
+          }
+        }
+      },
+      "ConsentRevocationCreateInput": {
+        "type": "object",
+        "required": [
+          "consent_template_id",
+          "reason_code",
+          "origin_event"
+        ],
+        "properties": {
+          "identity_id": {
+            "type": "string",
+            "description": "Identificador de identidad a revocar. No puede combinarse con `entity_id` ni `user_reference`.",
+            "example": "id_1B2M2Y8AsgTpgAmY7PhCfg"
+          },
+          "entity_id": {
+            "type": "string",
+            "description": "Identificador de entidad a revocar. Se prioriza sobre `user_reference`.",
+            "example": "ent_1B2M2Y8AsgTpgAmY7PhCfg"
+          },
+          "user_reference": {
+            "type": "string",
+            "description": "Referencia de usuario para resolver la entidad cuando no se entrega `entity_id`.",
+            "example": "user_123"
+          },
+          "consent_template_id": {
+            "type": "string",
+            "description": "Identificador del template de consentimiento.",
+            "example": "constpl_1B2M2Y8AsgTpgAmY7PhCfg"
+          },
+          "consent_template_version": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Versión específica del template. Si se omite, usa latest.",
+            "example": 3
+          },
+          "selected_scopes": {
+            "type": "array",
+            "description": "Subconjunto de scopes a revocar. Si se omite, intenta revocar todos los scopes del template,\nrespetando los guardrails de `revocable_data_uses`.\n",
+            "items": {
+              "$ref": "#/components/schemas/ConsentTemplateScope"
+            }
+          },
+          "reason_code": {
+            "type": "string",
+            "description": "Código de motivo de revocación definido por la empresa.",
+            "example": "contract_ended"
+          },
+          "reason_text": {
+            "type": "string",
+            "nullable": true,
+            "description": "Texto libre opcional con más contexto.",
+            "example": "Contrato finalizado en sistema core"
+          },
+          "origin_event": {
+            "$ref": "#/components/schemas/ConsentRevocationOriginEvent"
+          }
+        }
+      },
+      "CompanyConsentRevocation": {
+        "x-tags": [
+          "Consent revocations"
+        ],
+        "type": "object",
+        "required": [
+          "id",
+          "subject_id",
+          "subject_type",
+          "consent_template_id",
+          "consent_template_version",
+          "reason_code",
+          "origin_event",
+          "status",
+          "created_at"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identificador único de la revocación iniciada por la empresa.",
+            "example": "ccrev_1B2M2Y8AsgTpgAmY7PhCfg"
+          },
+          "subject_id": {
+            "type": "string",
+            "description": "Identificador del sujeto afectado (`ent_` o `id_`).",
+            "example": "ent_1B2M2Y8AsgTpgAmY7PhCfg"
+          },
+          "subject_type": {
+            "type": "string",
+            "enum": [
+              "Entity",
+              "Identity"
+            ],
+            "example": "Entity"
+          },
+          "consent_template_id": {
+            "type": "string",
+            "description": "Identificador del template de consentimiento.",
+            "example": "constpl_1B2M2Y8AsgTpgAmY7PhCfg"
+          },
+          "consent_template_version": {
+            "type": "integer",
+            "example": 3
+          },
+          "selected_scopes": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ConsentTemplateScope"
+            }
+          },
+          "reason_code": {
+            "type": "string",
+            "example": "contract_ended"
+          },
+          "reason_text": {
+            "type": "string",
+            "nullable": true,
+            "example": "Contrato finalizado en sistema core"
+          },
+          "origin_event": {
+            "$ref": "#/components/schemas/ConsentRevocationOriginEvent"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "applied",
+              "no_changes",
+              "failed"
+            ],
+            "example": "applied"
+          },
+          "agreement_id": {
+            "type": "string",
+            "nullable": true,
+            "description": "Identificador del acuerdo resultante cuando hubo cambios efectivos.",
+            "example": "agr_1B2M2Y8AsgTpgAmY7PhCfg"
+          },
+          "agreement_version": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Versión del acuerdo resultante cuando hubo cambios efectivos.",
+            "example": 4
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-02-11T15:10:00Z"
           }
         }
       },
@@ -11734,7 +15831,7 @@
     "agreementCreated": {
       "post": {
         "tags": [
-          "Agreements"
+          "Agreements and Evidence"
         ],
         "summary": "Created",
         "operationId": "agreementCreated",
@@ -11797,7 +15894,7 @@
     "agreementUpdated": {
       "post": {
         "tags": [
-          "Agreements"
+          "Agreements and Evidence"
         ],
         "summary": "Updated",
         "operationId": "agreementUpdated",
@@ -13261,7 +17358,7 @@
     "agreementDataPermissionsExpired": {
       "post": {
         "tags": [
-          "Agreements"
+          "Agreements and Evidence"
         ],
         "summary": "Data Permissions Expired",
         "operationId": "agreementDataPermissionsExpired",

@@ -1,0 +1,77 @@
+---
+id: get-general-config
+title: "Obtener configuración general"
+description: "Obtener configuración general"
+sidebar_label: "Obtener configuración general"
+hide_title: true
+hide_table_of_contents: true
+api: eJy9Vk1vGzcQ/SsEc0mA7cou0otODQI3SFCgBpwgB1uQRuRYYswlGXKoWhX2x+Q39Nar/1gx5OrDkhGjaFFfvNqdefvmzczjbiTBIsnxtXzr3a1Z5AhkvJOTRvqA9cd7LcdygfQOHUawNVA2MmIK3iVMcryRP56d8T+NSUUTCsZ4j6nMw59OLCqA8HNCZzQIvDfkE3ToCGUjlXeEjhgHQrBGldePviQG28ikltgBX9E6oBxLP/+CimQjQ2SyZCoVVQk+GwcWI02dJ3M7vGqKHRh7kJkoGreQfSON8m66gmigEnwc0Eh0uWMZdfbkHVfjM1lTrpK3RstJ30iNt5AtTZW3Pj4F47K1MLcoxxQz9o38fWkIrUmEeqp9B8algzyIEdaykYawS0/w3v418vXZ+Wl/LmL0UWgUkFl4o2qj/k0rIn7NJqJmLcqzRpIhW2QgoJwkq0As8+S4IRXrCW3voQu21JtpWYnWdjF/7k59xXdTPzlO9tH8gZpTBjb7HOMIFxgPk16fnfc7ut9F/4xC+Wy1cJ7EAUsUa5+jUBE13wGbWnFpERIKtUR1J2iJQnuVeQdKUQJILIlCGo9G2qvUJr82vjVa7np5/0PA2JmUjK/ToCEt5x6inoJbT/0ti1+3oO3AwQJZawjm9DEEswthUVDlaGgtx9ebknCHfD3pJ83R6PzGO4xRqCdXvGhD6AaG1xtZgI6YN3IFNuN/WAHz7JCWfrAs3nmgpRzLUQ0f7QkmjCuMlV2OVo7lVvYETs/9/U75EQQzWp3LYw2uMK6MrhsUYsY5JPFySH4l++YYF0L4h5heZ1WFfVl/cNQryWVuW3XFqzgY2rZhu0nlN3OpJUaO5RwhlhGvF7/42AHJsfzw+eMJk4v0NWMHp/YgOtRsgyiyA/Hm8r24wzWTDT4q4x2wszuBViwRNJZSLCTBNqgMZY2p5Q1kSFpPE5ZxmJK/Q/d/chfljeLD548clzCVAI2C4zXoRyX5Z0sSVziMv8g8BJ7D0engjSMxKtUaTKNH9Yq1IIOuSql3a6RRnP8kOuMyeRaLDyB364s61erkFQ8Sq39SPHdEoxVllJTxjPZeb4vSKEpqe+Nu3IsX4rIspE837i03rpz6lUTIqFFoVBYiRDF7tLyzVlwk4iO8rDnHY9HD7+2swqyF8/wsu0G89sYdYbFgwlpYYRKzYyuYifXIi9l++WciQATBhyJEEQb+YvXwzRrtk0i4ePiLm3XjyAR/OgSt+NWnfaLGW+NKJiZ6+Oa40zPlu+AdOkptPexSe7ljPGuHIxJUOSKHzwaZeF4If95bdiPZY2pfztuz9oxvBZ+ogzLrDspsP+umjzq8WxHCexoFC8YxbDGbzWB4W3+UjdyiTBq59In42WYzh4Sfou17vv01Yyw+z44cTf0AueYDoXbswMHfKIWB9tZ9+nnwyIPfXfBy8oF4QPtokwv69oPGrQ+wN5sa8ZFXpe9lM5CoVtFP+r7/G3o92S8=
+sidebar_class_name: "get api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+show_extensions: true
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Obtener configuración general"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/config/general"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+<details>
+<summary><strong>Permisos requeridos</strong></summary>
+
+**Dashboard:** necesitas al menos uno de estos permisos.
+- `config.manage`
+
+**API Keys:** necesitas al menos uno de estos permisos.
+- `config.api.manage`
+
+</details>
+
+
+
+Obtener configuración general
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Configuración general obtenida exitosamente","content":{"application/json":{"schema":{"type":"object","properties":{"config":{"type":"object","properties":{"alert_notification_email":{"type":"string"},"icon_variant":{"type":"string","enum":["duotone","outline","solid"]},"default_color":{"type":"string","nullable":true},"whitelisted_domains":{"type":"array","items":{"type":"string"}}}}}}}}},"401":{"description":"Error de autenticación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"authentication_error"},"title":{"type":"string","example":"Unauthorized"},"status":{"type":"integer","example":401},"detail":{"type":"string","example":"We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

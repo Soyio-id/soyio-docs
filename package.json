@@ -18,7 +18,7 @@
     "test:e2e:ui": "playwright test --ui",
     "preinstall": "npx only-allow pnpm",
     "regenerate-api-spec": "scripts/regenerate-api-spec.sh",
-    "regenerate-api-docs": "docusaurus regenerate-api-docs"
+    "regenerate-api-docs": "docusaurus regenerate-api-docs && node scripts/postprocess-api-sidebar.mjs"
   },
   "dependencies": {
     "@docusaurus/core": "^3.9.2",

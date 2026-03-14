@@ -43,7 +43,7 @@ const RESOURCE_SECTIONS: SidebarSection[] = [
   {
     title: 'CONSENTIMIENTO Y PRIVACIDAD',
     categoryLabels: [
-      'Agreements',
+      'Agreements and Evidence',
       'Consent templates',
       'Consent actions',
       'Consent commits',
