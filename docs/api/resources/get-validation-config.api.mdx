@@ -1,0 +1,77 @@
+---
+id: get-validation-config
+title: "Obtener configuración de validación"
+description: "Obtener configuración de validación"
+sidebar_label: "Obtener configuración de validación"
+hide_title: true
+hide_table_of_contents: true
+api: eJy9Vs1uIzcMfhVCe9kFpmOn2F586mKRFlkUaIBkm0McxLTE2NrMSIrEMeIa8zD7DHvrNS9WUPK/gbRFi/oyMxL56SP5kfJKMc6SGt2qj9492FkXka136q5SPlD5uDBqpGbEv2FjTV4ptqpSkVLwLlFSo5X6fjiUh6Gkow0ZZrSD1fblmwNDsMgw5dNPmZw1CPRs2SdsyTGpSmnvmBwLHIbQWJ2PHXxJgrlSSc+pRXnjZSA1Un76hTSrSoUotNkWRrrwPLHr869S74dnp4zPY/RRiGInHKwuXP8Nq0hPnY1kJM95r1JsuZFnYuQuqUoZYrSNJP4whoK1xUwcrZPU0zO2oZEl7HheiAqdexL+qt8c8arrZyfOPtrfyYjLms3OxzqmGcV9p/fDs35L91X0GwLtu8aA8wx7LAmWvougIxlZwSbVcNkQJgI9J/0IPCcwXncihxwUIMOcOaTRYGC8TnXyS+tra9al7Cv1/F2g2NqUrHc5AoNpPvUYzT265b1/kOQXQdQtOpyR5BqDPd3GYLcmkhTSXbS8VKPbVXZ4JHm/6++qI+n8KnKmCPo10ecUMbk10duVynhHAVRqgU1H/2EgQrclnvt1O0u3IM/VSA2K+WCxbXARJsUFxUKwi40aqU0BEjoz9c/bGgww2MHiTB1n44riwprSSyF2NMUEb9fO71RfHeNiCP8Q05tOlxS/LR9i9U5JpJuiXUlTlk7alm6rWTlZQs02aqSmhDGLvbz85GOLrEbq0831CZPz9NRRi6eDAloyFh0TdA7hw+UFPNJSyAYftfUOZdw5oAbmhIZyKA0mSL6x2nJnKNXSiwLJy/tEWRH37B/J/Z/cIZ8In26uxS5R2mhZ7A2ag5D8X4YEVwQz6Q6ETkTgxZycCd46hkGO1lIaHMQLS2BLrqTS7DfU2Q/QWtexl2T1lbLuwefslKGnrkRIkv2T4KUihhrIUtLWC9qF2QRlCLJrPXZj9+YNXOae9GnsPkrh8qVYSISODIEh3WDECJOD/p3UcJ5Y7rXc6WJPOR9+N9gKzBKcl73OrZNXj90RliQMmgYXlGByPA0msBx4mOz6fwIBI0JjE2OEsOYPi5evjTU+QaLZyx9SrLFjG/ypCGr4xaedo6EH67InJX756qTSE+3b4B05TnW59lJ9uWU8qdeXJep8WVKbrwqVRC9MP+6Gd6VkxpS6nNXDeihLwSduMWvdYdb2352rB4XedgrTMw9Cg9YJep45q/Xo20zKMm43w++uUnOfWLZXqykm+hybvpflp45inv1iHy1ORWu3ckmU2u2N8w9aU+DdHD/9y3AwkH8+lzaVS3KP+VFPZ/T1FrrlHvZqVSyupWn6XlVrEmVo9Hd93/8J6eaPOg==
+sidebar_class_name: "get api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+show_extensions: true
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Obtener configuración de validación"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/config/validation"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+<details>
+<summary><strong>Permisos requeridos</strong></summary>
+
+**Dashboard:** necesitas al menos uno de estos permisos.
+- `config.manage`
+
+**API Keys:** necesitas al menos uno de estos permisos.
+- `config.api.manage`
+
+</details>
+
+
+
+Obtener configuración de validación
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Configuración de validación obtenida exitosamente","content":{"application/json":{"schema":{"type":"object","properties":{"config":{"type":"object"}}}}}},"401":{"description":"Error de autenticación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"authentication_error"},"title":{"type":"string","example":"Unauthorized"},"status":{"type":"integer","example":401},"detail":{"type":"string","example":"We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

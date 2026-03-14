@@ -1,0 +1,77 @@
+---
+id: get-dashboard-config
+title: "Obtener configuración de dashboard"
+description: "Obtener configuración de dashboard"
+sidebar_label: "Obtener configuración de dashboard"
+hide_title: true
+hide_table_of_contents: true
+api: eJy9Vk1vGzcQ/SsD5pIA25VcpBedGqRu4aBADdiBD7YhjcixxHiXpMlZwaqwPya/Ibde/ceKIfUtNGnRorpotTsz+97MvEetFOMsqdGteu/dg511Edl6p+4r5QOVHxdGjdSM+CdM86nHaEqoqlSkFLxLlNRopb4fDuXLUNLRhlxltKuq7csXB4bAbKqAnzI5axDo2bJP2JJjUpXS3jE5lmIYQmN1RjH4lKTiSiU9pxblipeB1Ej56SfSrCoVomBmW/DogvKbcdjxfNwSz71Je9EYIy5VpSxTu38/cbRupvrNp1Jvh2enxM9j9FH4YidkrC4d+Df0Ij11NpKRaeVnlWLLjXwnRu6SqpQhRtvI+A5JllrHJCpFz9iGJvPteF6ACpwxCX7Vb17x1dSPTpJ9tL+TkZQ1ml2OdUwzivtJb4dn/RbuV6vfEGjfNQacZ9hDSbD0XQQdycgdbFINlw1hItBz0o/AcwLjdSd7lUkBMsyZQxoNBsbrVCe/tL62Rm1n+fxdoNjalKx3mcF2XcfolmP/IM0vm1W36HBG0msM9vQxBrsNkaaQ7qLlpRrdrnLCI8n1fX9fHa3Ob6ILiqD/Wju5QUxuDfN2pXK1I/iVWmDT0X9IQ8AWqRRLEDEhz9VIDUr4YB9iorigWPB1sVEjtel+Qmem/nk7gAEGO1icqeNWXFFcWFOEFGJHU0zwep38RvXVcV0M4R/W9KbTpb+vyw+JeqOE6GZiV6LItVds5rZdWHmzUM0xaqSmhDFvern42ccWWY3Uh5vrEyTn6amjFk9dAloyFh0TdA7h3eUFPNJSwAYftfUOxTQdUANzQkOZSoMJkm+sttwZSrUIUUrycpwoL8SY/SO5/xM75DfCh5triUuUNoss8QbNASX/TUpwRTATaSB0sgRewsmZ4K1jGGS2ltLggC8sgS250kqzr6azH6C1rmMvzeorZd2Dz90pjqeuZJGk+yfkZSKGGsirpK2XahdmQ8oQ5NT6zt25V6/gMkvSpzv3XgaXz9UCInQkqibdYMQIkwP5Tmo4TyynYxa6xFPuh9+5WimzBOflWefWzavv3FEtaRg0DS4oweTYDCawHHiY7OQ/gYARobGJMUJY44fFy+fGGp8g0ezlDxnWnWMb/OkS1PCrT7tEQw/W5UxK/PLZyaQn2rfBO3Kc6nLmpfpyi3hSr09K1PmkpDafEyrJvjD9uHPuSonHlLmc1cN6KLeCT9xi3nWHebf/nqkejHmrE6ZnHoQGrZPa2XFWa9/b2KTkbuvcV2ruE8vT1WqKiT7Gpu/l9lNHMbu+WHO0OJVFu5XjoQxuz8rfaU2Bdx5++mfhwIx/OReNyvG4B/xI0Ln65u+NW+7VXq1KxLUopu9VtQZRHKO/7/v+T55rozI=
+sidebar_class_name: "get api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+show_extensions: true
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Obtener configuración de dashboard"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/config/dashboard"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+<details>
+<summary><strong>Permisos requeridos</strong></summary>
+
+**Dashboard:** necesitas al menos uno de estos permisos.
+- `config.manage`
+
+**API Keys:** necesitas al menos uno de estos permisos.
+- `config.api.manage`
+
+</details>
+
+
+
+Obtener configuración de dashboard
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Configuración de dashboard obtenida exitosamente","content":{"application/json":{"schema":{"type":"object","properties":{"config":{"type":"object","properties":{"auth_methods":{"type":"array","items":{"type":"string"}}}}}}}}},"401":{"description":"Error de autenticación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"authentication_error"},"title":{"type":"string","example":"Unauthorized"},"status":{"type":"integer","example":401},"detail":{"type":"string","example":"We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

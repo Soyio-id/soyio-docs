@@ -1,167 +1,147 @@
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 # Autenticación
 
-Nuestra API utiliza [Token Based Authentication sobre HTTPS](https://datatracker.ietf.org/doc/html/rfc6750) para la autenticación. Para tener acceso a nuestra API, necesitas crear y utilizar API keys específicas para cada entorno.
+La autenticación es la capa que permite identificar de forma segura a la integración que llama a la API.
 
+En Soyio, esto se resuelve con API keys. Cada API key representa a un servicio y entrega un `secret` JWT para autenticar requests.
+
+Una vez autenticada la key, la autorización define qué operaciones puede ejecutar. Si quieres entender esa segunda capa, revisa la [guía de autorización](./authorization).
 
 :::danger
-Usa HTTPS para todos los requests. Requests hechos mediante HTTP retornarán respuestas HTTP 403. **Mantén tus API keys y refresh tokens en secreto.**
+Usa HTTPS para todos los requests. Requests por HTTP retornan `403`.
+
+Guarda `secret` y `refresh_token` en un secret manager. Ambos son sensibles.
 :::
 
-## API Keys
+## API keys
 
-Las API keys son tokens de autenticación que permiten el acceso a los diferentes recursos de la API de Soyio. Cada API key:
+Las API keys sirven para autenticar integraciones server-to-server con Soyio.
 
-- **Es específica para un entorno**: sandbox o production
-- **Puede ser creada dinámicamente** desde la API
-- **Tiene un alcance configurable** (scopes) para limitar el acceso a endpoints específicos
-- **Incluye fechas de expiración** (90 días por defecto en production, sin expiración en sandbox)
-- **Incluye un refresh token** cuando tiene fecha de expiración, que permite renovar la API key cuando expire
+Cada API key:
 
-### Identificación por Prefijo
+- pertenece a un entorno (`sandbox` o `production`)
+- autentica requests usando `Authorization: Bearer <secret_jwt>`
+- puede tener expiración
+- puede incluir un `refresh_token` para renovación
+- define su acceso a la API a traves de permisos
 
-Las API keys se identifican por su prefijo según el entorno:
-
-- **Sandbox**: `ak_sandbox_[identificador]`
-- **Production**: `ak_live_[identificador]`
-
-## Header de autenticación
-
-Este tiene el siguiente formato:
-
-`Authorization: Bearer <jwt>`
-
-Donde `jwt` es el valor de `secret` (JWT) que recibes al crear o renovar una API key. No uses el identificador con prefijo `ak_sandbox_` o `ak_live_` en el header.
-
-<Tabs>
-  <TabItem value="sandbox" label="Ejemplo para Sandbox">
-    ```bash
-    Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-    ```
-  </TabItem>
-  <TabItem value="production" label="Ejemplo para Production">
-    ```bash
-    Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-    ```
-  </TabItem>
-</Tabs>
-
-
-## Gestión de API Keys
-
-Puedes gestionar tus API keys tanto desde los siguientes endpoints:
-
-- **Crear nueva API key**: [`POST /api_keys`](./resources/create-api-key.api.mdx)
-- **Listar todas las API keys**: [`GET /api_keys`](./resources/index-api-keys.api.mdx)
-- **Obtener detalles de una API key**: [`GET /api_keys/{id}`](./resources/get-api-key.api.mdx)
-- **Actualizar una API key**: [`PATCH /api_keys/{id}`](./resources/update-api-key.api.mdx)
-- **Renovar una API key**: [`PATCH /api_keys/{id}/refresh`](./resources/refresh-api-key.api.mdx)
-- **Revocar una API key**: [`DELETE /api_keys/{id}`](./resources/delete-api-key.api.mdx)
-
-## Renovación de API Keys
-
-Cuando creas una API key con fecha de expiración, recibirás un **refresh token** junto con la API key. Este refresh token te permite extender el ciclo de vida de la API key cuando esté próxima a expirar o haya expirado.
-
-:::warning[Período de gracia del refresh token]
-Los refresh tokens tienen un **período de gracia de 60 días** después de la expiración de la API key. Si no renuevas la API key dentro de este período, el refresh token dejará de funcionar y deberás crear una nueva API key.
-:::
-
-### ¿Cómo funciona?
-
-1. **Creación**: Al crear una API key con [`POST /api_keys`](./resources/create-api-key.api.mdx), recibirás en la respuesta:
-    - `secret`: El token JWT de autenticación (la API key)
-    - `refresh_token`: Token para renovar la API key (solo si tiene fecha de expiración)
-2. **Almacenamiento**: Guarda ambos tokens de forma segura. El `refresh_token` es necesario para renovar la API key.
-3. **Renovación**: Cuando la API key esté próxima a expirar o haya expirado, usa el endpoint [`PATCH /api_keys/{id}/refresh`](./resources/refresh-api-key.api.mdx) con el `refresh_token` para obtener:
-    - Un nuevo `secret` (nueva API key extendida)
-    - Un nuevo `refresh_token` para futuras renovaciones
+Puedes revisar y gestionar tus API keys en el [dashboard de Soyio](https://dashboard.soyio.id). La API también permite crear, actualizar, renovar y revocar keys cuando necesitas automatizar ese ciclo de vida.
 
 :::info
-La API key y el refresh token **solo se muestran durante la creación y renovación**.
+Autenticación responde la pregunta "quién está llamando".
+
+Autorización responde la pregunta "qué puede hacer".
 :::
 
-### Ejemplo de flujo
+## Entornos
 
-<Tabs>
-  <TabItem value="create" label="1. Crear API key" default>
+Hoy existen dos tipos de API key:
+
+- Sandbox: prefijo `ak_sandbox_`
+- Production: prefijo `ak_live_`
+
+Por defecto:
+
+- Las keys de `production` expiran en 90 dias
+- Las keys de `sandbox` no expiran
+
+:::tip
+El header `Authorization` debe usar el `secret` JWT, no el identificador `ak_sandbox_...` o `ak_live_...`.
+:::
+
+Si estás probando una integración nueva, revisa también la [guía de modo sandbox](./sandbox-mode).
+
+## Cómo enviar el header de autenticación
+
+Usa este formato:
+
 ```bash
-curl -X POST https://api.soyio.com/v1/api_keys \
-  -H "Authorization: Bearer YOUR_EXISTING_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "api_key": {
-      "label": "Backend Service",
-      "expires_in_days": 30
-    }
-  }'
+Authorization: Bearer <secret_jwt>
 ```
 
-Respuesta:
+`<secret_jwt>` corresponde al campo `secret` que recibes al crear o renovar una API key.
+
+## Cómo gestionar API keys
+
+La forma mas simple de administrarlas es desde el [dashboard de Soyio](https://dashboard.soyio.id). Si tu integracion necesita automatizar este flujo, usa la referencia de API:
+
+- [API Keys en la referencia](./resources/index-api-keys.api.mdx)
+
+### Crear una API key
+
+Al crear una API key recibes, segun el caso:
+
+- `secret` para autenticar requests
+- `refresh_token` cuando la key tiene expiracion
+
+Ejemplo mínimo:
+
 ```json
 {
   "api_key": {
-    "id": "ak_live_abc123",
-    "label": "Backend Service",
-    "environment": "production",
-    "expires_at": "2024-04-20T15:30:00Z",
-    "secret": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "refresh_token": "akrt_xyz789",
-    "scopes": ["*"],
-    "created_at": "2024-03-20T15:30:00Z"
+    "label": "Integration Worker",
+    "expires_in_days": 30,
+    "permissions": [
+      "consent_actions.api.read",
+      "api_keys.api.manage"
+    ]
   }
 }
 ```
-  </TabItem>
-  <TabItem value="refresh" label="2. Renovar API key">
-```bash
-curl -X PATCH https://api.soyio.com/v1/api_keys/ak_live_abc123/refresh \
-  -H "Authorization: Bearer YOUR_ADMIN_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "api_key": {
-      "refresh_token": "akrt_xyz789",
-      "expires_in_days": 60
-    }
-  }'
-```
 
-Respuesta:
+:::info
+Para detalles de permisos, usa la [guía de autorización](./authorization).
+
+Los nombres de permisos siguen los recursos de la API Reference, por ejemplo `branches.api.write`, `products.api.manage` o `data_subject_requests.api.config`.
+
+`secret` y `refresh_token` se muestran solo en creación y renovación.
+:::
+
+### Renovar una API key
+
+Cuando una API key tiene expiración, puedes renovarla con su `refresh_token`. La renovación devuelve un nuevo `secret` y un nuevo `refresh_token`.
+
+Ejemplo mínimo de payload:
+
 ```json
 {
   "api_key": {
-    "id": "ak_live_abc123",
-    "label": "Backend Service",
-    "environment": "production",
-    "expires_at": "2024-06-20T15:30:00Z",
-    "secret": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "refresh_token": "akrt_new456",
-    "scopes": ["*"],
-    "created_at": "2024-03-20T15:30:00Z"
+    "refresh_token": "akrt_abc123xyz"
   }
 }
 ```
-  </TabItem>
-</Tabs>
 
-:::warning[Guarda el nuevo refresh token]
-Cada vez que renuevas una API key, recibes un nuevo `refresh_token`. Asegúrate de actualizar el token almacenado con el nuevo valor para futuras renovaciones.
+Si quieres extender la expiración al renovar, puedes enviar también `expires_in_days`.
+
+#### Cuándo renovar
+
+- antes de que expire la key, para evitar interrupciones
+- inmediatamente si rotas secretos por seguridad
+- después de expirar, mientras el `refresh_token` siga vigente
+
+:::warning[Periodo de gracia del refresh token]
+Después de que expira una API key, su `refresh_token` sigue vigente por 60 días.
+
+Si no renuevas dentro de ese periodo, debes crear una API key nueva.
 :::
 
-### Cuándo renovar
+### Revocar una API key
 
-- **Antes de expirar**: Renueva la API key antes de que expire para evitar interrupciones en el servicio
-- **Después de expirar**: También puedes renovar una API key expirada usando su `refresh_token`, pero solo dentro del período de gracia de 60 días
-- **Límite del período de gracia**: Si han pasado más de 60 días desde la expiración de la API key, el refresh token dejará de funcionar y deberás crear una nueva API key
-- **API keys de sandbox**: Las API keys de sandbox no expiran por defecto, por lo que no reciben `refresh_token` a menos que especifiques `expires_in_days` al crearlas
+Revoca una API key cuando:
 
-## Buenas Prácticas
+- una integracion ya no se usa
+- sospechas exposicion del `secret`
+- estas reemplazando una key por otra
 
-- Crea API keys separadas para cada aplicación o servicio
-- Utiliza scopes específicos para limitar el acceso solo a los endpoints necesarios
-- Rota tus API keys regularmente, especialmente en production
-- Revoca inmediatamente las API keys comprometidas
-- Guarda los refresh tokens de forma segura junto con las API keys
-- Implementa lógica de renovación automática cuando las API keys estén próximas a expirar
-- Actualiza siempre el refresh token después de cada renovación
+Una key revocada deja de autenticar requests.
+
+## Buenas prácticas
+
+- usa una API key por servicio o integracion
+- asigna solo los permisos minimos necesarios
+- separa keys de sandbox y production
+- rota y revoca keys como parte de tu operacion normal
+- guarda `secret` y `refresh_token` en un secret manager
+
+## Siguiente paso
+
+Ahora revisa la [guía de autorización](./authorization) para entender cómo se evalúa el acceso endpoint por endpoint.

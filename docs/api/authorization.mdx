@@ -1,0 +1,213 @@
+# Autorización
+
+Una vez que una API key ya fue autenticada, la autorización determina a qué endpoints y operaciones puede acceder.
+
+En otras palabras:
+
+- la autenticación confirma quién está llamando
+- la autorización define qué puede hacer esa integración
+
+Si necesitas repasar creación, uso y renovación de API keys, vuelve a la [guía de autenticación](./authentication).
+
+## Modelo de autorización
+
+Después de autenticar el request, Soyio evalúa acceso en capas:
+
+1. confirma que la API key esté activa
+2. revisa los permisos requeridos por el endpoint
+3. aplica restricciones del recurso, como existencia o pertenencia
+4. aplica reglas adicionales, por ejemplo feature flags o reglas de negocio
+
+La operación solo se ejecuta cuando todas las capas pasan.
+
+## Cómo definir el acceso de una API key
+
+Puedes gestionar permisos desde el [dashboard de Soyio](https://dashboard.soyio.id) o vía API al crear y actualizar API keys.
+
+Hoy el acceso de una API key se define con el campo `permissions`.
+
+- Crear API key: [`POST /api_keys`](./resources/create-api-key.api.mdx)
+- Actualizar API key: [`PATCH /api_keys/{id}`](./resources/update-api-key.api.mdx)
+
+Ejemplo válido:
+
+```json
+{
+  "api_key": {
+    "label": "Integration Worker",
+    "permissions": [
+      "consent_actions.api.read",
+      "api_keys.api.manage"
+    ]
+  }
+}
+```
+
+Ejemplo inválido:
+
+```json
+{
+  "api_key": {
+    "permissions": ["*.api.manage"]
+  }
+}
+```
+
+:::warning
+`*.api.manage` es solo una forma de explicar el patrón.
+
+No es un permiso literal. Debes enviar strings exactos, por ejemplo `consent.api.manage`, `branches.api.write` o `api_keys.api.read`.
+:::
+
+## Cómo se estructuran los permisos
+
+Los permisos actuales siguen el nombre del recurso en la referencia de API. Algunos ejemplos reales hoy son:
+
+- `api.read`
+- `api.write`
+- `api.manage`
+- `branches.api.read`
+- `branches.api.write`
+- `products.api.manage`
+- `consent_actions.api.read`
+- `consent_commits.api.write`
+- `data_subject_requests.api.config`
+- `disclosure_requests.api.read`
+- `api_keys.api.manage`
+
+## Tipos de permisos
+
+### 1. Permisos globales de la API
+
+- `api.read`: habilita todas las lecturas
+- `api.write`: habilita todas las escrituras
+- `api.manage`: habilita toda la API
+
+:::important
+`api.write` no implica lecturas.
+
+Si una integracion necesita leer y escribir, asigna `api.manage` o combina `api.read` con los permisos de escritura que correspondan.
+:::
+
+### 2. Permisos por recurso
+
+La mayoría de recursos siguen el patrón `<resource>.api.<ability>`.
+
+Ejemplos:
+
+- `branches.api.read`
+- `branches.api.write`
+- `reports.api.read`
+- `reports.api.write`
+- `government_check_requests.api.manage`
+
+Cuando un recurso expone `manage`, ese permiso actúa como shortcut del recurso completo.
+
+Por ejemplo:
+
+- `products.api.manage` incluye `products.api.read` y `products.api.write`
+- `data_subject_requests.api.manage` incluye `data_subject_requests.api.read`, `data_subject_requests.api.write` y `data_subject_requests.api.config`
+
+### 3. Permisos agrupadores por familia
+
+Algunas familias también tienen permisos agrupadores para reunir recursos relacionados:
+
+- `consent.api.read`, `consent.api.write`, `consent.api.config`, `consent.api.manage`
+- `disclosure.api.read`, `disclosure.api.write`, `disclosure.api.config`, `disclosure.api.manage`
+
+Estos permisos agrupadores no reemplazan los permisos de recurso en la referencia, pero pueden aparecer como alternativa válida en `x-permissions` para endpoints de su familia.
+
+Ejemplo de recursos que caen bajo `consent.api.manage`:
+
+- `consent_templates.api.*`
+- `consent_actions.api.*`
+- `consent_commits.api.*`
+- `consent_revocations.api.*`
+
+Ejemplo de recursos que caen bajo `disclosure.api.manage`:
+
+- `disclosure_templates.api.*`
+- `disclosure_requests.api.*`
+
+## Reglas rápidas de lectura
+
+Toma estas reglas como referencia al diseñar permisos:
+
+- `*.api.read` = solo lectura del recurso
+- `*.api.write` = solo escritura del recurso
+- `*.api.config` = configuración del recurso
+- `*.api.manage` = acceso completo al recurso o familia
+
+:::warning
+No asumas que `write` incluye `read`.
+
+Si quieres ambas capacidades, debes asignarlas explícitamente o usar `manage`.
+:::
+
+## Cómo identificar qué acceso necesita un endpoint
+
+En la referencia de API, cada endpoint muestra una sección expandable de **Permisos requeridos**.
+
+Dentro de esa sección puedes ver dos listas:
+
+- `Dashboard`: permisos válidos para sesiones del dashboard
+- `API Keys`: permisos válidos para API keys
+
+Piensa cada lista como un `*_any_of`: basta con tener uno de los permisos listados.
+
+Ejemplo:
+
+Si el endpoint muestra en **API Keys**:
+
+- `consent_actions.api.read`
+- `consent_actions.api.manage`
+- `consent.api.manage`
+
+Lectura rapida:
+
+| Permisos de la API key | Accede al endpoint |
+| --- | --- |
+| `consent_actions.api.read` | Si |
+| `consent_actions.api.manage` | Si |
+| `consent.api.manage` | Si |
+| `data_subject_requests.api.manage` | No |
+| ninguno de los anteriores | No |
+
+Regla práctica:
+
+- si ves un permiso de recurso, es la opción más acotada
+- si ves `*.api.manage`, ese shortcut también sirve para ese recurso o familia
+- si no aparece en la lista del endpoint, no asumas que otorga acceso
+
+## Cómo diseñar permisos para una integración
+
+Usa el principio de mínimo privilegio:
+
+1. lista los endpoints que usa tu servicio
+2. revisa los permisos del endpoint en la referencia
+3. asigna el permiso más acotado posible
+4. usa `<resource>.api.manage` o un permiso agrupador solo si realmente necesitas amplitud operativa
+5. revisa permisos cada vez que agregues endpoints nuevos a la integración
+
+## Qué revisar si algo falla
+
+| Código | Qué suele significar |
+| --- | --- |
+| `401 Unauthorized` | token ausente, inválido, revocado o no autenticable |
+| `403 Forbidden` | token válido, pero bloqueado por una regla adicional |
+| `404 Not Found` | recurso inexistente o endpoint que oculta acceso no autorizado |
+
+Checklist rápido:
+
+1. confirma que usas `Authorization: Bearer <secret_jwt>`
+2. confirma que la API key sigue activa
+3. revisa `api_any_of` en la referencia del endpoint
+4. verifica que tu key tenga uno de esos permisos exactos
+5. revisa si el endpoint tiene reglas extra o si el recurso realmente existe
+
+## Buenas prácticas operativas
+
+- usa una API key por servicio
+- evita compartir una misma key entre sistemas distintos
+- revisa permisos cuando cambie el alcance de la integracion
+- monitorea uso de keys y revoca las que ya no se usan

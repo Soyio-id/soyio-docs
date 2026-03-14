@@ -1,0 +1,85 @@
+---
+id: update-dashboard-config
+title: "Actualizar configuración de dashboard"
+description: "Actualizar configuración de dashboard"
+sidebar_label: "Actualizar configuración de dashboard"
+hide_title: true
+hide_table_of_contents: true
+api: eJy9V81y2zYQfhUMcklmGMr2pBee6rruNJkePLUTH2yPtQLWEmISQIClY0bDh8kz9NarX6yzgEjJ0tRN2jS6SASxi+/bn2+hpSSYR1ldyCNnb8y8DUDGWXlVSOcxP7zWspKt10D4M8TFzEHQebcsZMAPLUb6yelOVsv0aAJqWVFosZDKWUJL/Aq8r41KHifvo7O8FtUCG+Bf1HmUlXSz96hIFtIHPp8MxmTb0uK6QVo4HTd2QwjQyUIawmZzPVIwdi77/GGQ0Tsbs6+DvT3+0hhVMD6xrdbslXn4wwqNQg9UBShqoTafQIPAe0MuQoOWUH4zeipH8/8NAwfi1d7+LvfjEFxgytAyGaNyEP4LvXUZXOR3hSRDNX9HAmqjLKRGAlNzpT0mmX1tkygk3kPj68S3pUUGynCukfHLfjjiSdO3lo1dMJ9Qs8kKzdrGWMI5hk2jV3v7/Qj3Se/nKJRray2sI7GBEkXn2iBUQM0rUMdSnNQIEYVaoLoVtEChnWq5rhIpASQWRD5Wk4l2KpbRdcaVRssxlQcHT6TyDmqjv08eU/jjv8ljBvnVOXw3monR7IvyeHDQj3C/pntGVBtHH+eTcy7uX3oMjYnROJtcjOJxDba7djccv9zkZQMW5sjhAm92X4M34xbmhaoNhjpZXSyTwS3y76v+qthK/eGgUkGovxezFA9Cu0J6sZTJ4RaDglPT4jdkwnizcMlKeiC1YHEDWshKTrLBZBNkxHCHISNsQy0rOXRDBKtn7n5siAl4M7nbl9vxOMVwZ3TuBh9anEEUz1fGL2RfbPsF77/Sp9OtyhF+nh941wvJVIe0nXJnrbR7SN5YYHwyU017ZCVnCCFVbP7xiwsNkKzkm/OzHSTH8UOLDeyqtmhQG7CEorUgDk9ei1vsGKx3QRln0xCzAmuxQNCYqNQQRXS1UYZajbHkhmKX1F1HTCVxTe4W7ffELtKJ4s35Ge+LGIdS5v0a9CNK7h8piVMUc7QYQLRcBI63o9XeGUtiktgajJNHfEUnyKDNodSb/bT/g2iMbclxsPpCspL+vr4JHQ+Ssz2yLwZV4d429salkK7E5ZSrj1O2EzFOo8ZapPpTxjGE13qIhEaRTMtLe2mfPRMnqZNdvLRHnO10j8vIfYssBqhqCBDE9FHXT0txHImvOEkfeD+mILr1aMpuOmEdv2vtKuLlpd3yxVEWdQ13GMV0W0Omops4MV2rxlR4CCBqEwmC8Cv84u7hc220iyLi/OFPzvClJePdbuWU4jcX14Yab4xNlhjp4bPl8pgq13hn0VIs88CL5cmIeFquxiSoNCaxScNeRi4ywh/X47eQLEw5L/vlXrnHS95FaiA1iIXUEF8sx48yPfYX4T1NfA3GsvukVMuVXg4Cy7ajn6tCLlwkfrtcziDi21D3PS9/aDGkkcGiHgzMuNYuuP5y7jaGwFG+Jrw8y5N+NQN2rwwsntniUCn09OTeTeE/OTw7+pVFYvVvoXGajQJ85LsGfJSVlPzHg4Y5mtaWsgY7b3mQVDI75Z7jztqI2JYCJVrDhLfdBsTlMu844xbve1msuGSJ66/6vv8LyPepwg==
+sidebar_class_name: "patch api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+show_extensions: true
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Actualizar configuración de dashboard"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"patch"}
+  path={"/config/dashboard"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+<details>
+<summary><strong>Permisos requeridos</strong></summary>
+
+**Dashboard:** necesitas al menos uno de estos permisos.
+- `config.manage`
+
+**API Keys:** necesitas al menos uno de estos permisos.
+- `config.api.manage`
+
+</details>
+
+
+
+Actualizar configuración de dashboard
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"required":true,"content":{"application/json":{"schema":{"type":"object","properties":{"auth_methods":{"type":"array","items":{"type":"string"}}}}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Configuración de dashboard actualizada exitosamente","content":{"application/json":{"schema":{"type":"object","properties":{"config":{"type":"object","properties":{"auth_methods":{"type":"array","items":{"type":"string"}}}}}}}}},"401":{"description":"Error de autenticación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"authentication_error"},"title":{"type":"string","example":"Unauthorized"},"status":{"type":"integer","example":401},"detail":{"type":"string","example":"We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"}}}}}},"422":{"description":"Error de validación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","errors"],"properties":{"type":{"type":"string","example":"validation_error"},"title":{"type":"string","example":"Validation error"},"status":{"type":"integer","example":422},"errors":{"type":"array","items":{"type":"string"}}},"title":"ValidationError"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

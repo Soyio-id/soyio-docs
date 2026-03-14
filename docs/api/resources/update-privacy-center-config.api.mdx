@@ -1,0 +1,85 @@
+---
+id: update-privacy-center-config
+title: "Actualizar configuración de Privacy Center"
+description: "Actualizar configuración de Privacy Center"
+sidebar_label: "Actualizar configuración de Privacy Center"
+hide_title: true
+hide_table_of_contents: true
+api: eJy9V81uGzcQfhWCuSTAZmUb6WVPdQ0XTdCDUTv1wTakETmWGO+SDDmreCPsw+QZcuvVL1YMqZ+11DhNG0QXaZczw2/+vhktJcEsyupKnjh7a2ZtADLOyptCOo/54bWWlWy9BsKzYBaguhO0hCFryEIGfN9ipF+c7mS1TI8moJYVhRYLqZwltMRH4H1tVLI6ehed5XdRzbEB/kWdR1lJN32HimQhfWAMZDDyKZsBRWNswNQD8UjB2JnsC+nbaW3UuA1fOGbwhF84Tx/2JXpnY77y6OCAvzRGFYxPgam2gVLm4bMVGsUqKiKHRYCiFmrzETQIvDfkIjR8Ir9nKDjye3JrJ14dHO7jPg3BBYYLLWMwKjvwf1BtM32VzwpJhmr+jgTURllIjcT5utn1IdvaTUMh8R4aX/MraGmegTKcMTJ+zmO+4knVt5aVXTAfUbPKCs1Wx1jCGYah0quDw34D90nrlyiUa2strCMxQImic20QKqDmN1DHUpzVCBGFmqO6EzRHoZ1quRySUwJIzIl8rEYj7VQso+uMK43epvLo6IlULqA2+sfkMYU//pc8ZpDfnMM/N2pio/av8nh01G/gbiUhBOhkIQ1hE/+x/zeoBlef5ptzLu5fegyNidE4m0xoiPOpg6DHYLuxu+X45d4sG7AwQw4XeLN/DN5sRNgvVG0w1MnqapkU7pB/3/Q3xU7qj9fkEoT6ChGloBDaFdyrpUxWd9woOD8tfkd3GHSDNHc8NzyQmjOBAc1lJUdZYeQz0rFaI40YFhgyzETQct0XEayeuvtNa4zAm9HiUO5G5hzDwujcFz60OIUonq+UX8i+2LUL3n+jTadblWP9PD+w1AvJ/q4TeM49lhtjk8ZNqfHN7GqSkZWcIoTkfP7xqwsNkKzkm8uLPSSn8X2LDezzt2hQG7CEorUgjs9eizvsGKx3QRln0xSyAmsxR9CYXKkhiuhqowy1GmPJrcUmqRtHTHUxJneH9kdiF+lG8ebyguUixnVRs7wG/cgl91WXxDmKGVoMIFouAsfiaLV3xpIYJW8NxtEjf0UnyKDNodTDzjr8STTGtuQ4WH0hmVP/2K49p2vy2VtTtsw23E4Gb4dLyWBZMfbWpfCvKOmcK5XTuxddTrnGWqRaVcYx3Nd6HTWNIqmW1/baPnsmzlLru3htT7gy0pKXvfQtahQaVQ0Bgpg8oolJKU4j8T6TCIXlMQXcbQdaNtMJ6/istavslNd2xxZnRNQ1LDCKyS7pTEQ3cmKypZmJ8BBA1CYSBOFX+MXi4VNttIsi4uzhL66Ga0vGu/0qK8XvLm4VNd4amzQx0sMny6U0Ua7xzqKlWOYxGcuzDeJJuRquoNJw3aSWC5Lw5+3QLiSTWM7LYXlQHqS900VqIDWThdQ830bij9K9aUjCexr5GozlO1Y7bWbZNS2vy2vLszeFnLtILLJcTiHi21D3Pb9+32JII4fnQTAw5aq74tmUsziYHyd5zXh5kTeF1fjYXzmYcrPGsVLo6UnZ4cw4O744+Y2pZfWHonGalQJ84F0FPshKSv5/Qus5nN4tZQ121vIMqmQ2yp3K+9kgbDu8ldxabwi2G0BcLrPEBRND38ti5Usmxv6m7/u/AS4euNs=
+sidebar_class_name: "patch api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+show_extensions: true
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Actualizar configuración de Privacy Center"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"patch"}
+  path={"/config/privacy_center"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+<details>
+<summary><strong>Permisos requeridos</strong></summary>
+
+**Dashboard:** necesitas al menos uno de estos permisos.
+- `config.manage`
+
+**API Keys:** necesitas al menos uno de estos permisos.
+- `config.api.manage`
+
+</details>
+
+
+
+Actualizar configuración de Privacy Center
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"required":true,"content":{"application/json":{"schema":{"type":"object","properties":{"contact_email":{"type":"string"},"public_url":{"type":"string"},"private_url":{"type":"string"}}}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Configuración de Privacy Center actualizada exitosamente","content":{"application/json":{"schema":{"type":"object","properties":{"config":{"type":"object"}}}}}},"401":{"description":"Error de autenticación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"authentication_error"},"title":{"type":"string","example":"Unauthorized"},"status":{"type":"integer","example":401},"detail":{"type":"string","example":"We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"}}}}}},"422":{"description":"Error de validación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","errors"],"properties":{"type":{"type":"string","example":"validation_error"},"title":{"type":"string","example":"Validation error"},"status":{"type":"integer","example":422},"errors":{"type":"array","items":{"type":"string"}}},"title":"ValidationError"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      
