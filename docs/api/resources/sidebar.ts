@@ -1,1208 +1,1382 @@
 import type { SidebarsConfig } from "@docusaurus/plugin-content-docs";
 
 const sidebar: SidebarsConfig = {
-  apisidebar: [
+  "apisidebar": [
     {
-      type: "category",
-      label: "Configuration",
-      items: [
+      "type": "category",
+      "label": "Configuration",
+      "items": [
         {
-          type: "doc",
-          id: "api/resources/schemas/configuration",
-          label: "El objeto Configuration",
-          className: "schema",
+          "type": "doc",
+          "id": "api/resources/schemas/configuration",
+          "label": "El objeto Configuration",
+          "className": "schema"
         },
         {
-          type: "doc",
-          id: "api/resources/get-company-config",
-          label: "Obtener la configuración de la empresa",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/schemas/uiconfiguration",
+          "label": "El objeto UIConfiguration",
+          "className": "schema"
         },
         {
-          type: "doc",
-          id: "api/resources/update-company-config",
-          label: "Actualizar la configuración de la empresa",
-          className: "api-method patch",
+          "type": "doc",
+          "id": "api/resources/get-company-config",
+          "label": "Obtener la configuración de la empresa",
+          "className": "api-method get"
         },
-      ],
+        {
+          "type": "doc",
+          "id": "api/resources/update-company-config",
+          "label": "Actualizar la configuración de la empresa",
+          "className": "api-method patch"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/get-ui-config",
+          "label": "Obtener configuración de UI",
+          "className": "api-method get"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/get-general-config",
+          "label": "Obtener configuración general",
+          "className": "api-method get"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/update-general-config",
+          "label": "Actualizar configuración general",
+          "className": "api-method patch"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/get-dashboard-config",
+          "label": "Obtener configuración de dashboard",
+          "className": "api-method get"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/update-dashboard-config",
+          "label": "Actualizar configuración de dashboard",
+          "className": "api-method patch"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/get-validation-config",
+          "label": "Obtener configuración de validación",
+          "className": "api-method get"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/update-validation-config",
+          "label": "Actualizar configuración de validación",
+          "className": "api-method patch"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/get-disclosure-config",
+          "label": "Obtener configuración de disclosure",
+          "className": "api-method get"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/update-disclosure-config",
+          "label": "Actualizar configuración de disclosure",
+          "className": "api-method patch"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/get-consent-config",
+          "label": "Obtener configuración de consent",
+          "className": "api-method get"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/update-consent-config",
+          "label": "Actualizar configuración de consent",
+          "className": "api-method patch"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/get-privacy-center-config",
+          "label": "Obtener configuración de Privacy Center",
+          "className": "api-method get"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/update-privacy-center-config",
+          "label": "Actualizar configuración de Privacy Center",
+          "className": "api-method patch"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/get-data-subject-request-config",
+          "label": "Obtener configuración de data subject request",
+          "className": "api-method get"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/update-data-subject-request-config",
+          "label": "Actualizar configuración de data subject request",
+          "className": "api-method patch"
+        },
+        {
+          "type": "category",
+          "label": "Users",
+          "items": [
+            {
+              "type": "doc",
+              "id": "api/resources/schemas/companyuser",
+              "label": "El objeto CompanyUser",
+              "className": "schema"
+            },
+            {
+              "type": "doc",
+              "id": "api/resources/index-company-users",
+              "label": "Obtener usuarios de la compañía",
+              "className": "api-method get"
+            },
+            {
+              "type": "doc",
+              "id": "api/resources/create-company-user",
+              "label": "Crear un usuario de compañía",
+              "className": "api-method post"
+            },
+            {
+              "type": "doc",
+              "id": "api/resources/get-company-user",
+              "label": "Obtener un usuario de compañía",
+              "className": "api-method get"
+            },
+            {
+              "type": "doc",
+              "id": "api/resources/update-company-user",
+              "label": "Actualizar rol de un usuario de compañía",
+              "className": "api-method patch"
+            },
+            {
+              "type": "doc",
+              "id": "api/resources/delete-company-user",
+              "label": "Eliminar un usuario de compañía",
+              "className": "api-method delete"
+            }
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Roles",
+          "items": [
+            {
+              "type": "doc",
+              "id": "api/resources/schemas/role",
+              "label": "El objeto Role",
+              "className": "schema"
+            },
+            {
+              "type": "doc",
+              "id": "api/resources/index-roles",
+              "label": "Obtener roles de la compañía",
+              "className": "api-method get"
+            },
+            {
+              "type": "doc",
+              "id": "api/resources/create-role",
+              "label": "Crear un rol",
+              "className": "api-method post"
+            },
+            {
+              "type": "doc",
+              "id": "api/resources/get-role",
+              "label": "Obtener un rol",
+              "className": "api-method get"
+            },
+            {
+              "type": "doc",
+              "id": "api/resources/update-role",
+              "label": "Actualizar un rol",
+              "className": "api-method patch"
+            },
+            {
+              "type": "doc",
+              "id": "api/resources/delete-role",
+              "label": "Eliminar un rol",
+              "className": "api-method delete"
+            }
+          ]
+        }
+      ]
     },
     {
-      type: "category",
-      label: "Disclosure requests",
-      items: [
+      "type": "category",
+      "label": "Disclosure requests",
+      "items": [
         {
-          type: "doc",
-          id: "api/resources/schemas/disclosurerequest",
-          label: "El objeto DisclosureRequest",
-          className: "schema",
+          "type": "doc",
+          "id": "api/resources/schemas/disclosurerequest",
+          "label": "El objeto DisclosureRequest",
+          "className": "schema"
         },
         {
-          type: "doc",
-          id: "api/resources/index-disclosure-requests",
-          label: "Obtener todos los disclosure requests",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/index-disclosure-requests",
+          "label": "Obtener todos los disclosure requests",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/create-disclosure-request",
-          label: "Crear un disclosure request",
-          className: "api-method post",
+          "type": "doc",
+          "id": "api/resources/create-disclosure-request",
+          "label": "Crear un disclosure request",
+          "className": "api-method post"
         },
         {
-          type: "doc",
-          id: "api/resources/get-disclosure-request",
-          label: "Obtener un disclosure request específico",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/get-disclosure-request",
+          "label": "Obtener un disclosure request específico",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/get-disclosure-requests-stats",
-          label: "Obtener estadísticas de disclosure requests",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/get-disclosure-requests-stats",
+          "label": "Obtener estadísticas de disclosure requests",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/disclosure-request-granted",
-          label: "Granted",
-          className: "api-method event",
+          "type": "doc",
+          "id": "api/resources/disclosure-request-granted",
+          "label": "Granted",
+          "className": "api-method event"
         },
         {
-          type: "doc",
-          id: "api/resources/disclosure-request-timed-out",
-          label: "Timed out",
-          className: "api-method event",
+          "type": "doc",
+          "id": "api/resources/disclosure-request-timed-out",
+          "label": "Timed out",
+          "className": "api-method event"
         },
         {
-          type: "doc",
-          id: "api/resources/disclosure-request-failed",
-          label: "Failed",
-          className: "api-method event",
-        },
-      ],
+          "type": "doc",
+          "id": "api/resources/disclosure-request-failed",
+          "label": "Failed",
+          "className": "api-method event"
+        }
+      ]
     },
     {
-      type: "category",
-      label: "Auth requests",
-      items: [
+      "type": "category",
+      "label": "Auth requests",
+      "items": [
         {
-          type: "doc",
-          id: "api/resources/schemas/authrequest",
-          label: "El objeto AuthRequest",
-          className: "schema",
+          "type": "doc",
+          "id": "api/resources/schemas/authrequest",
+          "label": "El objeto AuthRequest",
+          "className": "schema"
         },
         {
-          type: "doc",
-          id: "api/resources/create-auth-request",
-          label: "Crear un request de autenticación",
-          className: "api-method post",
+          "type": "doc",
+          "id": "api/resources/create-auth-request",
+          "label": "Crear un request de autenticación",
+          "className": "api-method post"
         },
         {
-          type: "doc",
-          id: "api/resources/index-auth-requests",
-          label: "Obtener todos los auth requests",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/index-auth-requests",
+          "label": "Obtener todos los auth requests",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/get-auth-request",
-          label: "Obtener un auth request específico",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/get-auth-request",
+          "label": "Obtener un auth request específico",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/auth-request-successful",
-          label: "Successful",
-          className: "api-method event",
-        },
-      ],
+          "type": "doc",
+          "id": "api/resources/auth-request-successful",
+          "label": "Successful",
+          "className": "api-method event"
+        }
+      ]
     },
     {
-      type: "category",
-      label: "Consent templates",
-      items: [
+      "type": "category",
+      "label": "Consent templates",
+      "items": [
         {
-          type: "doc",
-          id: "api/resources/schemas/consenttemplate",
-          label: "El objeto ConsentTemplate",
-          className: "schema",
+          "type": "doc",
+          "id": "api/resources/schemas/consenttemplate",
+          "label": "El objeto ConsentTemplate",
+          "className": "schema"
         },
         {
-          type: "doc",
-          id: "api/resources/index-consent-templates",
-          label: "Obtener todos los templates de consentimiento",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/index-consent-templates",
+          "label": "Obtener todos los templates de consentimiento",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/create-consent-template",
-          label: "Crear un template de consentimiento",
-          className: "api-method post",
+          "type": "doc",
+          "id": "api/resources/create-consent-template",
+          "label": "Crear un template de consentimiento",
+          "className": "api-method post"
         },
         {
-          type: "doc",
-          id: "api/resources/get-consent-template",
-          label: "Obtener la última versión de un template de consentimiento",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/get-consent-template",
+          "label": "Obtener la última versión de un template de consentimiento",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/update-consent-template",
-          label: "Actualizar un template de consentimiento",
-          className: "api-method patch",
+          "type": "doc",
+          "id": "api/resources/update-consent-template",
+          "label": "Actualizar un template de consentimiento",
+          "className": "api-method patch"
         },
         {
-          type: "doc",
-          id: "api/resources/create-action-token",
-          label: "Crea un action token",
-          className: "api-method post",
+          "type": "doc",
+          "id": "api/resources/create-action-token",
+          "label": "Crea un action token",
+          "className": "api-method post"
         },
         {
-          type: "doc",
-          id: "api/resources/index-consent-template-versions",
-          label: "Obtener todas las versiones de un template de consentimiento",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/index-consent-template-versions",
+          "label": "Obtener todas las versiones de un template de consentimiento",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/get-consent-template-version",
-          label: "Obtener una versión específica de un template de consentimiento",
-          className: "api-method get",
-        },
-      ],
+          "type": "doc",
+          "id": "api/resources/get-consent-template-version",
+          "label": "Obtener una versión específica de un template de consentimiento",
+          "className": "api-method get"
+        }
+      ]
     },
     {
-      type: "category",
-      label: "Disclosure templates",
-      items: [
+      "type": "category",
+      "label": "Disclosure templates",
+      "items": [
         {
-          type: "doc",
-          id: "api/resources/schemas/disclosuretemplate",
-          label: "El objeto DisclosureTemplate",
-          className: "schema",
+          "type": "doc",
+          "id": "api/resources/schemas/disclosuretemplate",
+          "label": "El objeto DisclosureTemplate",
+          "className": "schema"
         },
         {
-          type: "doc",
-          id: "api/resources/index-disclosure-templates",
-          label: "Obtener todos los templates de divulgación",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/index-disclosure-templates",
+          "label": "Obtener todos los templates de divulgación",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/create-disclosure-template",
-          label: "Crear un template de divulgación",
-          className: "api-method post",
+          "type": "doc",
+          "id": "api/resources/create-disclosure-template",
+          "label": "Crear un template de divulgación",
+          "className": "api-method post"
         },
         {
-          type: "doc",
-          id: "api/resources/get-disclosure-template",
-          label: "Obtener un template de divulgación",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/get-disclosure-template",
+          "label": "Obtener un template de divulgación",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/update-disclosure-template",
-          label: "Actualizar un template de divulgación",
-          className: "api-method patch",
+          "type": "doc",
+          "id": "api/resources/update-disclosure-template",
+          "label": "Actualizar un template de divulgación",
+          "className": "api-method patch"
         },
         {
-          type: "doc",
-          id: "api/resources/delete-disclosure-template",
-          label: "Eliminar un template de divulgación",
-          className: "api-method delete",
-        },
-      ],
+          "type": "doc",
+          "id": "api/resources/delete-disclosure-template",
+          "label": "Eliminar un template de divulgación",
+          "className": "api-method delete"
+        }
+      ]
     },
     {
-      type: "category",
-      label: "Consent actions",
-      items: [
+      "type": "category",
+      "label": "Consent actions",
+      "items": [
         {
-          type: "doc",
-          id: "api/resources/schemas/consentaction",
-          label: "El objeto ConsentAction",
-          className: "schema",
+          "type": "doc",
+          "id": "api/resources/schemas/consentaction",
+          "label": "El objeto ConsentAction",
+          "className": "schema"
         },
         {
-          type: "doc",
-          id: "api/resources/create-consent-action",
-          label: "Crear un consent action",
-          className: "api-method post",
+          "type": "doc",
+          "id": "api/resources/create-consent-action",
+          "label": "Crear un consent action",
+          "className": "api-method post"
         },
         {
-          type: "doc",
-          id: "api/resources/index-consent-actions",
-          label: "Listar consent actions",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/index-consent-actions",
+          "label": "Listar consent actions",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/show-consent-action",
-          label: "Obtener un consent action",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/show-consent-action",
+          "label": "Obtener un consent action",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/get-consent-actions-stats",
-          label: "Obtener estadísticas de conversión de las acciones de consentimiento",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/get-consent-actions-stats",
+          "label": "Obtener estadísticas de conversión de las acciones de consentimiento",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/consent-action-created",
-          label: "Created",
-          className: "api-method event",
-        },
-      ],
+          "type": "doc",
+          "id": "api/resources/consent-action-created",
+          "label": "Created",
+          "className": "api-method event"
+        }
+      ]
     },
     {
-      type: "category",
-      label: "Consent commits",
-      items: [
+      "type": "category",
+      "label": "Consent revocations",
+      "items": [
         {
-          type: "doc",
-          id: "api/resources/schemas/consentcommit",
-          label: "El objeto ConsentCommit",
-          className: "schema",
+          "type": "doc",
+          "id": "api/resources/schemas/companyconsentrevocation",
+          "label": "El objeto CompanyConsentRevocation",
+          "className": "schema"
         },
         {
-          type: "doc",
-          id: "api/resources/index-consent-commits",
-          label: "Listar commits de consentimiento",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/create-consent-revocation",
+          "label": "Crear una revocación de consentimiento iniciada por la empresa",
+          "className": "api-method post"
         },
         {
-          type: "doc",
-          id: "api/resources/create-consent-commit",
-          label: "Crear un commit de consentimiento",
-          className: "api-method post",
-        },
-        {
-          type: "doc",
-          id: "api/resources/show-consent-commit",
-          label: "Obtener un commit de consentimiento",
-          className: "api-method get",
-        },
-        {
-          type: "doc",
-          id: "api/resources/get-consent-commits-stats",
-          label: "Obtener estadísticas de conversión de commits de consentimiento",
-          className: "api-method get",
-        },
-        {
-          type: "doc",
-          id: "api/resources/consent-commit-created",
-          label: "Created",
-          className: "api-method event",
-        },
-      ],
+          "type": "doc",
+          "id": "api/resources/show-consent-revocation",
+          "label": "Obtener una revocación de consentimiento iniciada por la empresa",
+          "className": "api-method get"
+        }
+      ]
     },
     {
-      type: "category",
-      label: "Consent revocations",
-      items: [
+      "type": "category",
+      "label": "Consent commits",
+      "items": [
         {
-          type: "doc",
-          id: "api/resources/schemas/companyconsentrevocation",
-          label: "El objeto CompanyConsentRevocation",
-          className: "schema",
+          "type": "doc",
+          "id": "api/resources/schemas/consentcommit",
+          "label": "El objeto ConsentCommit",
+          "className": "schema"
         },
         {
-          type: "doc",
-          id: "api/resources/create-consent-revocation",
-          label: "Crear una revocación de consentimiento iniciada por la empresa",
-          className: "api-method post",
+          "type": "doc",
+          "id": "api/resources/index-consent-commits",
+          "label": "Listar commits de consentimiento",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/show-consent-revocation",
-          label: "Obtener una revocación de consentimiento iniciada por la empresa",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/create-consent-commit",
+          "label": "Crear un commit de consentimiento",
+          "className": "api-method post"
         },
-      ],
+        {
+          "type": "doc",
+          "id": "api/resources/show-consent-commit",
+          "label": "Obtener un commit de consentimiento",
+          "className": "api-method get"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/get-consent-commits-stats",
+          "label": "Obtener estadísticas de conversión de commits de consentimiento",
+          "className": "api-method get"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/consent-commit-created",
+          "label": "Created",
+          "className": "api-method event"
+        }
+      ]
     },
     {
-      type: "category",
-      label: "Privacy documents",
-      items: [
+      "type": "category",
+      "label": "Privacy documents",
+      "items": [
         {
-          type: "doc",
-          id: "api/resources/schemas/privacydocument",
-          label: "El objeto PrivacyDocument",
-          className: "schema",
+          "type": "doc",
+          "id": "api/resources/schemas/privacydocument",
+          "label": "El objeto PrivacyDocument",
+          "className": "schema"
         },
         {
-          type: "doc",
-          id: "api/resources/index-privacy-documents",
-          label: "Obtener todos los documentos de privacidad",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/index-privacy-documents",
+          "label": "Obtener todos los documentos de privacidad",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/create-privacy-document",
-          label: "Crea un privacy document",
-          className: "api-method post",
+          "type": "doc",
+          "id": "api/resources/create-privacy-document",
+          "label": "Crea un privacy document",
+          "className": "api-method post"
         },
         {
-          type: "doc",
-          id: "api/resources/get-privacy-document",
-          label: "Obtener la última versión de un documento de privacidad específico",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/get-privacy-document",
+          "label": "Obtener la última versión de un documento de privacidad específico",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/index-privacy-document-versions",
-          label: "Obtener todas las versiones de un documento de privacidad",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/index-privacy-document-versions",
+          "label": "Obtener todas las versiones de un documento de privacidad",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/get-privacy-document-version",
-          label: "Obtener una versión específica de un documento de privacidad",
-          className: "api-method get",
-        },
-      ],
+          "type": "doc",
+          "id": "api/resources/get-privacy-document-version",
+          "label": "Obtener una versión específica de un documento de privacidad",
+          "className": "api-method get"
+        }
+      ]
     },
     {
-      type: "category",
-      label: "Identities",
-      items: [
+      "type": "category",
+      "label": "Identities",
+      "items": [
         {
-          type: "doc",
-          id: "api/resources/schemas/identity",
-          label: "El objeto Identity",
-          className: "schema",
+          "type": "doc",
+          "id": "api/resources/schemas/identity",
+          "label": "El objeto Identity",
+          "className": "schema"
         },
         {
-          type: "doc",
-          id: "api/resources/index-identities",
-          label: "Obtener todas las identidades",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/index-identities",
+          "label": "Obtener todas las identidades",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/get-identity",
-          label: "Obtener una identidad específica",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/get-identity",
+          "label": "Obtener una identidad específica",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/delete-identity",
-          label: "Eliminar una identidad",
-          className: "api-method delete",
-        },
-      ],
+          "type": "doc",
+          "id": "api/resources/delete-identity",
+          "label": "Eliminar una identidad",
+          "className": "api-method delete"
+        }
+      ]
     },
     {
-      type: "category",
-      label: "Validation attempts",
-      items: [
+      "type": "category",
+      "label": "Validation attempts",
+      "items": [
         {
-          type: "doc",
-          id: "api/resources/schemas/validationattempt",
-          label: "El objeto ValidationAttempt",
-          className: "schema",
+          "type": "doc",
+          "id": "api/resources/schemas/validationattempt",
+          "label": "El objeto ValidationAttempt",
+          "className": "schema"
         },
         {
-          type: "doc",
-          id: "api/resources/index-validation-attempts",
-          label: "Obtener todos los intentos de validación",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/index-validation-attempts",
+          "label": "Obtener todos los intentos de validación",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/get-validation-attempt",
-          label: "Obtener un flujo de validación específico",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/get-validation-attempt",
+          "label": "Obtener un flujo de validación específico",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/validation-attempt-successful",
-          label: "Successful",
-          className: "api-method event",
+          "type": "doc",
+          "id": "api/resources/validation-attempt-successful",
+          "label": "Successful",
+          "className": "api-method event"
         },
         {
-          type: "doc",
-          id: "api/resources/validation-attempt-failed",
-          label: "Failed",
-          className: "api-method event",
-        },
-      ],
+          "type": "doc",
+          "id": "api/resources/validation-attempt-failed",
+          "label": "Failed",
+          "className": "api-method event"
+        }
+      ]
     },
     {
-      type: "category",
-      label: "Auth attempts",
-      items: [
+      "type": "category",
+      "label": "Auth attempts",
+      "items": [
         {
-          type: "doc",
-          id: "api/resources/schemas/authattempt",
-          label: "El objeto AuthAttempt",
-          className: "schema",
+          "type": "doc",
+          "id": "api/resources/schemas/authattempt",
+          "label": "El objeto AuthAttempt",
+          "className": "schema"
         },
         {
-          type: "doc",
-          id: "api/resources/index-auth-attempts",
-          label: "Obtener todos los intentos de autenticación",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/index-auth-attempts",
+          "label": "Obtener todos los intentos de autenticación",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/get-auth-attempt",
-          label: "Obtener un intento de autenticación específico",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/get-auth-attempt",
+          "label": "Obtener un intento de autenticación específico",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/auth-attempt-successful",
-          label: "Successful",
-          className: "api-method event",
+          "type": "doc",
+          "id": "api/resources/auth-attempt-successful",
+          "label": "Successful",
+          "className": "api-method event"
         },
         {
-          type: "doc",
-          id: "api/resources/auth-attempt-failed",
-          label: "Failed",
-          className: "api-method event",
-        },
-      ],
+          "type": "doc",
+          "id": "api/resources/auth-attempt-failed",
+          "label": "Failed",
+          "className": "api-method event"
+        }
+      ]
     },
     {
-      type: "category",
-      label: "Signature attempts",
-      items: [
+      "type": "category",
+      "label": "Signature attempts",
+      "items": [
         {
-          type: "doc",
-          id: "api/resources/schemas/signatureattempt",
-          label: "El objeto SignatureAttempt",
-          className: "schema",
+          "type": "doc",
+          "id": "api/resources/schemas/signatureattempt",
+          "label": "El objeto SignatureAttempt",
+          "className": "schema"
         },
         {
-          type: "doc",
-          id: "api/resources/create-signature-attempt",
-          label: "Crear un intento de firma",
-          className: "api-method post",
+          "type": "doc",
+          "id": "api/resources/create-signature-attempt",
+          "label": "Crear un intento de firma",
+          "className": "api-method post"
         },
         {
-          type: "doc",
-          id: "api/resources/index-signature-attempts",
-          label: "Obtener todos los intentos de firma",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/index-signature-attempts",
+          "label": "Obtener todos los intentos de firma",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/get-signature-attempt",
-          label: "Obtener un intento de firma específico",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/get-signature-attempt",
+          "label": "Obtener un intento de firma específico",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/signature-attempt-successful",
-          label: "Successful",
-          className: "api-method event",
+          "type": "doc",
+          "id": "api/resources/signature-attempt-successful",
+          "label": "Successful",
+          "className": "api-method event"
         },
         {
-          type: "doc",
-          id: "api/resources/signature-attempt-failed",
-          label: "Failed",
-          className: "api-method event",
-        },
-      ],
+          "type": "doc",
+          "id": "api/resources/signature-attempt-failed",
+          "label": "Failed",
+          "className": "api-method event"
+        }
+      ]
     },
     {
-      type: "category",
-      label: "Data subject requests",
-      items: [
+      "type": "category",
+      "label": "Data subject requests",
+      "items": [
         {
-          type: "doc",
-          id: "api/resources/schemas/datasubjectrequest",
-          label: "El objeto DataSubjectRequest",
-          className: "schema",
+          "type": "doc",
+          "id": "api/resources/schemas/datasubjectrequest",
+          "label": "El objeto DataSubjectRequest",
+          "className": "schema"
         },
         {
-          type: "doc",
-          id: "api/resources/schemas/datasubjectrequestupdate",
-          label: "El objeto DataSubjectRequestUpdate",
-          className: "schema",
+          "type": "doc",
+          "id": "api/resources/create-data-subject-request",
+          "label": "Crea un data subject request.\n",
+          "className": "api-method post"
         },
         {
-          type: "doc",
-          id: "api/resources/create-data-subject-request",
-          label: "Crea un data subject request.\n",
-          className: "api-method post",
+          "type": "doc",
+          "id": "api/resources/index-data-subject-requests",
+          "label": "Obtener todos los data subject requests",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/index-data-subject-requests",
-          label: "Obtener todos los data subject requests",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/get-data-subject-request",
+          "label": "Obtener un data subject request específico",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/get-data-subject-request",
-          label: "Obtener un data subject request específico",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/update-data-subject-request",
+          "label": "Actualizar el estado de un data subject request",
+          "className": "api-method put"
         },
         {
-          type: "doc",
-          id: "api/resources/update-data-subject-request",
-          label: "Actualizar el estado de un data subject request",
-          className: "api-method put",
+          "type": "doc",
+          "id": "api/resources/get-data-subject-request-by-identifier",
+          "label": "Obtener un data subject request por identificador humanizado",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/get-data-subject-request-by-identifier",
-          label: "Obtener un data subject request por identificador humanizado",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/send-data-subject-request-recovery-email",
+          "label": "Enviar correo de recuperación del identificador de la solicitud",
+          "className": "api-method post"
         },
         {
-          type: "doc",
-          id: "api/resources/send-data-subject-request-recovery-email",
-          label: "Enviar correo de recuperación del identificador de la solicitud",
-          className: "api-method post",
+          "type": "doc",
+          "id": "api/resources/data-subject-request-created",
+          "label": "Created",
+          "className": "api-method event"
         },
         {
-          type: "doc",
-          id: "api/resources/data-subject-request-created",
-          label: "Created",
-          className: "api-method event",
+          "type": "doc",
+          "id": "api/resources/data-subject-request-updated",
+          "label": "Updated",
+          "className": "api-method event"
         },
         {
-          type: "doc",
-          id: "api/resources/data-subject-request-updated",
-          label: "Updated",
-          className: "api-method event",
+          "type": "doc",
+          "id": "api/resources/data-subject-request-validating",
+          "label": "Validating",
+          "className": "api-method event"
         },
         {
-          type: "doc",
-          id: "api/resources/data-subject-request-validating",
-          label: "Validating",
-          className: "api-method event",
+          "type": "doc",
+          "id": "api/resources/data-subject-request-processing",
+          "label": "Processing",
+          "className": "api-method event"
         },
         {
-          type: "doc",
-          id: "api/resources/data-subject-request-processing",
-          label: "Processing",
-          className: "api-method event",
+          "type": "doc",
+          "id": "api/resources/data-subject-request-resolved",
+          "label": "Resolved",
+          "className": "api-method event"
         },
         {
-          type: "doc",
-          id: "api/resources/data-subject-request-resolved",
-          label: "Resolved",
-          className: "api-method event",
-        },
-        {
-          type: "doc",
-          id: "api/resources/data-subject-request-data-missmatch",
-          label: "Data missmatch",
-          className: "api-method event",
-        },
-      ],
+          "type": "doc",
+          "id": "api/resources/data-subject-request-data-missmatch",
+          "label": "Data missmatch",
+          "className": "api-method event"
+        }
+      ]
     },
     {
-      type: "category",
-      label: "Events",
-      items: [
+      "type": "category",
+      "label": "Events",
+      "items": [
         {
-          type: "doc",
-          id: "api/resources/schemas/event",
-          label: "El objeto Event",
-          className: "schema",
+          "type": "doc",
+          "id": "api/resources/schemas/event",
+          "label": "El objeto Event",
+          "className": "schema"
         },
         {
-          type: "doc",
-          id: "api/resources/index-events",
-          label: "Obtener todos los eventos",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/index-events",
+          "label": "Obtener todos los eventos",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/get-event",
-          label: "Obtener un evento específico",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/get-event",
+          "label": "Obtener un evento específico",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/broadcast-event",
-          label: "Reenviar un evento a los webhooks suscritos",
-          className: "api-method post",
-        },
-      ],
+          "type": "doc",
+          "id": "api/resources/broadcast-event",
+          "label": "Reenviar un evento a los webhooks suscritos",
+          "className": "api-method post"
+        }
+      ]
     },
     {
-      type: "category",
-      label: "Signed documents",
-      items: [
+      "type": "category",
+      "label": "Signed documents",
+      "items": [
         {
-          type: "doc",
-          id: "api/resources/schemas/signeddocument",
-          label: "El objeto SignedDocument",
-          className: "schema",
+          "type": "doc",
+          "id": "api/resources/schemas/signeddocument",
+          "label": "El objeto SignedDocument",
+          "className": "schema"
         },
         {
-          type: "doc",
-          id: "api/resources/index-signed-documents",
-          label: "Obtener todos los documentos firmados.",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/index-signed-documents",
+          "label": "Obtener todos los documentos firmados.",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/get-signed-document",
-          label: "Obtener un documento firmado.",
-          className: "api-method get",
-        },
-      ],
+          "type": "doc",
+          "id": "api/resources/get-signed-document",
+          "label": "Obtener un documento firmado.",
+          "className": "api-method get"
+        }
+      ]
     },
     {
-      type: "category",
-      label: "Agreements",
-      items: [
+      "type": "category",
+      "label": "Agreements and Evidence",
+      "items": [
         {
-          type: "doc",
-          id: "api/resources/schemas/agreement",
-          label: "El objeto Agreement",
-          className: "schema",
+          "type": "doc",
+          "id": "api/resources/schemas/agreement",
+          "label": "El objeto Agreement",
+          "className": "schema"
         },
         {
-          type: "doc",
-          id: "api/resources/schemas/evidence",
-          label: "El objeto Evidence",
-          className: "schema",
+          "type": "doc",
+          "id": "api/resources/schemas/evidence",
+          "label": "El objeto Evidence",
+          "className": "schema"
         },
         {
-          type: "doc",
-          id: "api/resources/get-all-evidences",
-          label: "Obtener todas las evidencias",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/get-all-evidences",
+          "label": "Obtener todas las evidencias",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/index-agreements",
-          label: "Obtener todos los acuerdos",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/index-agreements",
+          "label": "Obtener todos los acuerdos",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/get-agreement",
-          label: "Obtener un acuerdo específico",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/get-agreement",
+          "label": "Obtener un acuerdo específico",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/get-agreement-evidences",
-          label: "Obtener todas las evidencias de un acuerdo",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/get-agreement-evidences",
+          "label": "Obtener todas las evidencias de un acuerdo",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/get-agreement-evidence",
-          label: "Obtener una evidencia específica de un acuerdo",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/get-agreement-evidence",
+          "label": "Obtener una evidencia específica de un acuerdo",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/download-agreement-evidence",
-          label: "Descargar el archivo de una evidencia específica",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/download-agreement-evidence",
+          "label": "Descargar el archivo de una evidencia específica",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/get-agreement-versions",
-          label: "Obtener todas las versiones de un acuerdo",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/get-agreement-versions",
+          "label": "Obtener todas las versiones de un acuerdo",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/get-agreement-version",
-          label: "Obtener una versión específica de un acuerdo",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/get-agreement-version",
+          "label": "Obtener una versión específica de un acuerdo",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/get-agreement-version-evidence",
-          label: "Obtener la evidencia de una versión específica",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/get-agreement-version-evidence",
+          "label": "Obtener la evidencia de una versión específica",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/agreement-created",
-          label: "Created",
-          className: "api-method event",
+          "type": "doc",
+          "id": "api/resources/agreement-created",
+          "label": "Created",
+          "className": "api-method event"
         },
         {
-          type: "doc",
-          id: "api/resources/agreement-updated",
-          label: "Updated",
-          className: "api-method event",
+          "type": "doc",
+          "id": "api/resources/agreement-updated",
+          "label": "Updated",
+          "className": "api-method event"
         },
         {
-          type: "doc",
-          id: "api/resources/agreement-data-permissions-expired",
-          label: "Data Permissions Expired",
-          className: "api-method event",
-        },
-      ],
+          "type": "doc",
+          "id": "api/resources/agreement-data-permissions-expired",
+          "label": "Data Permissions Expired",
+          "className": "api-method event"
+        }
+      ]
     },
     {
-      type: "category",
-      label: "Webhooks",
-      items: [
+      "type": "category",
+      "label": "Webhooks",
+      "items": [
         {
-          type: "doc",
-          id: "api/resources/schemas/webhook",
-          label: "El objeto Webhook",
-          className: "schema",
+          "type": "doc",
+          "id": "api/resources/schemas/webhook",
+          "label": "El objeto Webhook",
+          "className": "schema"
         },
         {
-          type: "doc",
-          id: "api/resources/schemas/webhooktransaction",
-          label: "El objeto WebhookTransaction",
-          className: "schema",
+          "type": "doc",
+          "id": "api/resources/schemas/webhooktransaction",
+          "label": "El objeto WebhookTransaction",
+          "className": "schema"
         },
         {
-          type: "doc",
-          id: "api/resources/index-webhooks",
-          label: "Obtener todos los webhooks",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/index-webhooks",
+          "label": "Obtener todos los webhooks",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/create-webhook",
-          label: "Crear un webhook",
-          className: "api-method post",
+          "type": "doc",
+          "id": "api/resources/create-webhook",
+          "label": "Crear un webhook",
+          "className": "api-method post"
         },
         {
-          type: "doc",
-          id: "api/resources/get-webhook",
-          label: "Obtener un webhook específico",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/get-webhook",
+          "label": "Obtener un webhook específico",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/update-webhook",
-          label: "Actualizar un webhook",
-          className: "api-method patch",
+          "type": "doc",
+          "id": "api/resources/update-webhook",
+          "label": "Actualizar un webhook",
+          "className": "api-method patch"
         },
         {
-          type: "doc",
-          id: "api/resources/delete-webhook",
-          label: "Eliminar un webhook",
-          className: "api-method delete",
+          "type": "doc",
+          "id": "api/resources/delete-webhook",
+          "label": "Eliminar un webhook",
+          "className": "api-method delete"
         },
         {
-          type: "doc",
-          id: "api/resources/index-webhook-transactions",
-          label: "Obtener todas las transacciones de un webhook específico",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/index-webhook-transactions",
+          "label": "Obtener todas las transacciones de un webhook específico",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/get-webhook-transaction",
-          label: "Obtener una transacción específica de un webhook",
-          className: "api-method get",
-        },
-      ],
+          "type": "doc",
+          "id": "api/resources/get-webhook-transaction",
+          "label": "Obtener una transacción específica de un webhook",
+          "className": "api-method get"
+        }
+      ]
     },
     {
-      type: "category",
-      label: "Products",
-      items: [
+      "type": "category",
+      "label": "Products",
+      "items": [
         {
-          type: "doc",
-          id: "api/resources/schemas/product",
-          label: "El objeto Product",
-          className: "schema",
+          "type": "doc",
+          "id": "api/resources/schemas/product",
+          "label": "El objeto Product",
+          "className": "schema"
         },
         {
-          type: "doc",
-          id: "api/resources/index-products",
-          label: "Obtener todos los productos",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/index-products",
+          "label": "Obtener todos los productos",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/create-product",
-          label: "Crear un producto",
-          className: "api-method post",
+          "type": "doc",
+          "id": "api/resources/create-product",
+          "label": "Crear un producto",
+          "className": "api-method post"
         },
         {
-          type: "doc",
-          id: "api/resources/get-product",
-          label: "Obtener la última versión de un producto específico",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/get-product",
+          "label": "Obtener la última versión de un producto específico",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/update-product",
-          label: "Actualizar un producto",
-          className: "api-method patch",
+          "type": "doc",
+          "id": "api/resources/update-product",
+          "label": "Actualizar un producto",
+          "className": "api-method patch"
         },
         {
-          type: "doc",
-          id: "api/resources/index-product-versions",
-          label: "Obtener todas las versiones de un producto",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/index-product-versions",
+          "label": "Obtener todas las versiones de un producto",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/get-product-version",
-          label: "Obtener una versión específica de un producto",
-          className: "api-method get",
-        },
-      ],
+          "type": "doc",
+          "id": "api/resources/get-product-version",
+          "label": "Obtener una versión específica de un producto",
+          "className": "api-method get"
+        }
+      ]
     },
     {
-      type: "category",
-      label: "Entities",
-      items: [
+      "type": "category",
+      "label": "Entities",
+      "items": [
         {
-          type: "doc",
-          id: "api/resources/schemas/entity",
-          label: "El objeto Entity",
-          className: "schema",
+          "type": "doc",
+          "id": "api/resources/schemas/entity",
+          "label": "El objeto Entity",
+          "className": "schema"
         },
         {
-          type: "doc",
-          id: "api/resources/index-entities",
-          label: "Obtener todas las entidades",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/index-entities",
+          "label": "Obtener todas las entidades",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/create-entity",
-          label: "Crear una entidad",
-          className: "api-method post",
+          "type": "doc",
+          "id": "api/resources/create-entity",
+          "label": "Crear una entidad",
+          "className": "api-method post"
         },
         {
-          type: "doc",
-          id: "api/resources/get-entity",
-          label: "Obtener una entidad específica",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/get-entity",
+          "label": "Obtener una entidad específica",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/get-entity-agreement-compliance-statuses",
-          label: "Obtener los estados de cumplimiento de la entidad",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/get-entity-agreement-compliance-statuses",
+          "label": "Obtener los estados de cumplimiento de la entidad",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/get-entity-agreement-compliance-statuses-by-reference",
-          label: "Obtener los estados de cumplimiento de una entidad usando user_reference",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/get-entity-agreement-compliance-statuses-by-reference",
+          "label": "Obtener los estados de cumplimiento de una entidad usando user_reference",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/get-entity-session-token-by-reference",
-          label: "Obtener un token de sesión usando el user_reference de la entidad",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/get-entity-session-token-by-reference",
+          "label": "Obtener un token de sesión usando el user_reference de la entidad",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/get-entity-session-token-by-id",
-          label: "Obtener un token de sesión usando el ID de la entidad",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/get-entity-session-token-by-id",
+          "label": "Obtener un token de sesión usando el ID de la entidad",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/index-entity-data-subject-requests",
-          label: "Obtener todas las solicitudes de ejercicio de derechos de una entidad",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/index-entity-data-subject-requests",
+          "label": "Obtener todas las solicitudes de ejercicio de derechos de una entidad",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/get-entity-data-subject-request",
-          label: "Obtener una solicitud de ejercicio de derechos específica de una entidad",
-          className: "api-method get",
-        },
-      ],
+          "type": "doc",
+          "id": "api/resources/get-entity-data-subject-request",
+          "label": "Obtener una solicitud de ejercicio de derechos específica de una entidad",
+          "className": "api-method get"
+        }
+      ]
     },
     {
-      type: "category",
-      label: "Company",
-      items: [
+      "type": "category",
+      "label": "Company",
+      "items": [
         {
-          type: "doc",
-          id: "api/resources/get-company-info",
-          label: "Obtener información de la empresa",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/get-company-info",
+          "label": "Obtener información de la empresa",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/update-company-info",
-          label: "Actualizar información de la empresa",
-          className: "api-method patch",
-        },
-      ],
+          "type": "doc",
+          "id": "api/resources/update-company-info",
+          "label": "Actualizar información de la empresa",
+          "className": "api-method patch"
+        }
+      ]
     },
     {
-      type: "category",
-      label: "Branches",
-      items: [
+      "type": "category",
+      "label": "Branches",
+      "items": [
         {
-          type: "doc",
-          id: "api/resources/schemas/branch",
-          label: "El objeto Branch",
-          className: "schema",
+          "type": "doc",
+          "id": "api/resources/schemas/branch",
+          "label": "El objeto Branch",
+          "className": "schema"
         },
         {
-          type: "doc",
-          id: "api/resources/index-branches",
-          label: "Obtener todas las branches",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/index-branches",
+          "label": "Obtener todas las branches",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/create-branch",
-          label: "Crear una branch",
-          className: "api-method post",
+          "type": "doc",
+          "id": "api/resources/create-branch",
+          "label": "Crear una branch",
+          "className": "api-method post"
         },
         {
-          type: "doc",
-          id: "api/resources/get-branch",
-          label: "Obtener una branch específica",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/get-branch",
+          "label": "Obtener una branch específica",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/update-branch",
-          label: "Actualizar una branch",
-          className: "api-method patch",
-        },
-      ],
+          "type": "doc",
+          "id": "api/resources/update-branch",
+          "label": "Actualizar una branch",
+          "className": "api-method patch"
+        }
+      ]
     },
     {
-      type: "category",
-      label: "Privacy center",
-      items: [
+      "type": "category",
+      "label": "Privacy center",
+      "items": [
         {
-          type: "doc",
-          id: "api/resources/get-privacy-center-session-token",
-          label: "Obtener un token de sesión para el centro de privacidad",
-          className: "api-method get",
-        },
-      ],
+          "type": "doc",
+          "id": "api/resources/get-privacy-center-session-token",
+          "label": "Obtener un token de sesión para el centro de privacidad",
+          "className": "api-method get"
+        }
+      ]
     },
     {
-      type: "category",
-      label: "API Keys",
-      items: [
+      "type": "category",
+      "label": "API Keys",
+      "items": [
         {
-          type: "doc",
-          id: "api/resources/schemas/apikey",
-          label: "El objeto ApiKey",
-          className: "schema",
+          "type": "doc",
+          "id": "api/resources/schemas/apikey",
+          "label": "El objeto ApiKey",
+          "className": "schema"
         },
         {
-          type: "doc",
-          id: "api/resources/index-api-keys",
-          label: "Obtener todas las claves API",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/index-api-keys",
+          "label": "Obtener todas las claves API",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/create-api-key",
-          label: "Crear una nueva API key",
-          className: "api-method post",
+          "type": "doc",
+          "id": "api/resources/create-api-key",
+          "label": "Crear una nueva API key",
+          "className": "api-method post"
         },
         {
-          type: "doc",
-          id: "api/resources/get-api-key",
-          label: "Obtener una API key específica",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/get-api-key",
+          "label": "Obtener una API key específica",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/update-api-key",
-          label: "Actualizar una API key",
-          className: "api-method patch",
+          "type": "doc",
+          "id": "api/resources/update-api-key",
+          "label": "Actualizar una API key",
+          "className": "api-method patch"
         },
         {
-          type: "doc",
-          id: "api/resources/delete-api-key",
-          label: "Revocar una API key",
-          className: "api-method delete",
+          "type": "doc",
+          "id": "api/resources/delete-api-key",
+          "label": "Revocar una API key",
+          "className": "api-method delete"
         },
         {
-          type: "doc",
-          id: "api/resources/refresh-api-key",
-          label: "Renovar una API key",
-          className: "api-method patch",
+          "type": "doc",
+          "id": "api/resources/refresh-api-key",
+          "label": "Renovar una API key",
+          "className": "api-method patch"
         },
         {
-          type: "doc",
-          id: "api/resources/api-key-created",
-          label: "Created",
-          className: "api-method event",
+          "type": "doc",
+          "id": "api/resources/api-key-created",
+          "label": "Created",
+          "className": "api-method event"
         },
         {
-          type: "doc",
-          id: "api/resources/api-key-updated",
-          label: "Updated",
-          className: "api-method event",
+          "type": "doc",
+          "id": "api/resources/api-key-updated",
+          "label": "Updated",
+          "className": "api-method event"
         },
         {
-          type: "doc",
-          id: "api/resources/api-key-destroyed",
-          label: "Destroyed",
-          className: "api-method event",
-        },
-      ],
+          "type": "doc",
+          "id": "api/resources/api-key-destroyed",
+          "label": "Destroyed",
+          "className": "api-method event"
+        }
+      ]
     },
     {
-      type: "category",
-      label: "Reports",
-      items: [
+      "type": "category",
+      "label": "Reports",
+      "items": [
         {
-          type: "doc",
-          id: "api/resources/schemas/report",
-          label: "El objeto Report",
-          className: "schema",
+          "type": "doc",
+          "id": "api/resources/schemas/report",
+          "label": "El objeto Report",
+          "className": "schema"
         },
         {
-          type: "doc",
-          id: "api/resources/index-reports",
-          label: "Obtener todos los reportes",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/index-reports",
+          "label": "Obtener todos los reportes",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/create-report",
-          label: "Crear un nuevo reporte",
-          className: "api-method post",
+          "type": "doc",
+          "id": "api/resources/create-report",
+          "label": "Crear un nuevo reporte",
+          "className": "api-method post"
         },
         {
-          type: "doc",
-          id: "api/resources/report-created",
-          label: "Created",
-          className: "api-method event",
+          "type": "doc",
+          "id": "api/resources/report-created",
+          "label": "Created",
+          "className": "api-method event"
         },
         {
-          type: "doc",
-          id: "api/resources/redec-rdc-40-no-changes",
-          label: "RDC40 no changes",
-          className: "api-method event",
-        },
-      ],
+          "type": "doc",
+          "id": "api/resources/redec-rdc-40-no-changes",
+          "label": "RDC40 no changes",
+          "className": "api-method event"
+        }
+      ]
     },
     {
-      type: "category",
-      label: "Exports",
-      items: [
+      "type": "category",
+      "label": "Exports",
+      "items": [
         {
-          type: "doc",
-          id: "api/resources/schemas/export",
-          label: "El objeto Export",
-          className: "schema",
+          "type": "doc",
+          "id": "api/resources/schemas/export",
+          "label": "El objeto Export",
+          "className": "schema"
         },
         {
-          type: "doc",
-          id: "api/resources/index-exports",
-          label: "Listar exportaciones",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/index-exports",
+          "label": "Listar exportaciones",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/create-export",
-          label: "Crear una exportación asíncrona",
-          className: "api-method post",
+          "type": "doc",
+          "id": "api/resources/create-export",
+          "label": "Crear una exportación asíncrona",
+          "className": "api-method post"
         },
         {
-          type: "doc",
-          id: "api/resources/show-export",
-          label: "Obtener estado de exportación",
-          className: "api-method get",
-        },
-      ],
+          "type": "doc",
+          "id": "api/resources/show-export",
+          "label": "Obtener estado de exportación",
+          "className": "api-method get"
+        }
+      ]
     },
     {
-      type: "category",
-      label: "Government check requests",
-      items: [
+      "type": "category",
+      "label": "Government check requests",
+      "items": [
         {
-          type: "doc",
-          id: "api/resources/schemas/governmentcheckrequest",
-          label: "El objeto GovernmentCheckRequest",
-          className: "schema",
+          "type": "doc",
+          "id": "api/resources/schemas/governmentcheckrequest",
+          "label": "El objeto GovernmentCheckRequest",
+          "className": "schema"
         },
         {
-          type: "doc",
-          id: "api/resources/create-government-check-request",
-          label: "Crear un government check request",
-          className: "api-method post",
+          "type": "doc",
+          "id": "api/resources/create-government-check-request",
+          "label": "Crear un government check request",
+          "className": "api-method post"
         },
         {
-          type: "doc",
-          id: "api/resources/index-government-check-requests",
-          label: "Obtener todos los government check requests",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/index-government-check-requests",
+          "label": "Obtener todos los government check requests",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/get-government-check-request",
-          label: "Obtener un government check request específico",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/get-government-check-request",
+          "label": "Obtener un government check request específico",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/government-check-request-successful",
-          label: "Successful",
-          className: "api-method event",
+          "type": "doc",
+          "id": "api/resources/government-check-request-successful",
+          "label": "Successful",
+          "className": "api-method event"
         },
         {
-          type: "doc",
-          id: "api/resources/government-check-request-failed",
-          label: "Failed",
-          className: "api-method event",
-        },
-      ],
+          "type": "doc",
+          "id": "api/resources/government-check-request-failed",
+          "label": "Failed",
+          "className": "api-method event"
+        }
+      ]
     },
     {
-      type: "category",
-      label: "REDEC",
-      items: [
+      "type": "category",
+      "label": "REDEC",
+      "items": [
         {
-          type: "doc",
-          id: "api/resources/create-redec-consent-action",
-          label: "Crear un consent action para REDEC",
-          className: "api-method post",
+          "type": "doc",
+          "id": "api/resources/create-redec-consent-action",
+          "label": "Crear un consent action para REDEC",
+          "className": "api-method post"
         },
         {
-          type: "doc",
-          id: "api/resources/show-redec-consent-action",
-          label: "Obtener un consent action REDEC",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/show-redec-consent-action",
+          "label": "Obtener un consent action REDEC",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/download-redec-consent-action-receipt",
-          label: "Descargar recibo PDF REDEC",
-          className: "api-method get",
+          "type": "doc",
+          "id": "api/resources/download-redec-consent-action-receipt",
+          "label": "Descargar recibo PDF REDEC",
+          "className": "api-method get"
         },
         {
-          type: "doc",
-          id: "api/resources/create-redec-consent-commit",
-          label: "Crear un consent commit para REDEC",
-          className: "api-method post",
+          "type": "doc",
+          "id": "api/resources/create-redec-consent-commit",
+          "label": "Crear un consent commit para REDEC",
+          "className": "api-method post"
         },
         {
-          type: "doc",
-          id: "api/resources/create-redec-consent-template",
-          label: "Crear un template de consentimiento para REDEC",
-          className: "api-method post",
+          "type": "doc",
+          "id": "api/resources/create-redec-consent-template",
+          "label": "Crear un template de consentimiento para REDEC",
+          "className": "api-method post"
         },
         {
-          type: "doc",
-          id: "api/resources/update-redec-consent-template",
-          label: "Actualizar un template de consentimiento para REDEC",
-          className: "api-method patch",
+          "type": "doc",
+          "id": "api/resources/update-redec-consent-template",
+          "label": "Actualizar un template de consentimiento para REDEC",
+          "className": "api-method patch"
         },
         {
-          type: "doc",
-          id: "api/resources/consent-action-redec-receipt-generated",
-          label: "REDEC Receipt Generated",
-          className: "api-method event",
-        },
-      ],
-    },
-  ],
+          "type": "doc",
+          "id": "api/resources/consent-action-redec-receipt-generated",
+          "label": "REDEC Receipt Generated",
+          "className": "api-method event"
+        }
+      ]
+    }
+  ]
 };
 
 export default sidebar.apisidebar;

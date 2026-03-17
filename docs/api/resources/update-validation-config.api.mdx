@@ -1,0 +1,85 @@
+---
+id: update-validation-config
+title: "Actualizar configuración de validación"
+description: "Actualizar configuración de validación"
+sidebar_label: "Actualizar configuración de validación"
+hide_title: true
+hide_table_of_contents: true
+api: eJy9V81uGzcQfhWCuSTAZmUb6WVPdQ0XddCDUTv1wTakETmWGO+SDDmreCPsw+QZeuvVL1YMqX8Vat2m1UW75Az5zd83s3NJMImyupVnzj6YSRuAjLPyvpDOY3650LKSrddA+CvURqfFLC4LGfBTi5F+cLqT1Ty9moBaVhRaLKRyltASb4H3tVFJe/AxOstrUU2xAX6izqOspBt/REWykD4wADIYebc2M7QY41BNUT1uyI+dqxGs7Atp9DAqsIdEJm6GwTZo6ZAU+ik2GKAeUgAbQTHkoQaCP5NPP/ZD9M7GDPfk6Ij/NEYVjE8erdYeVub5Nys0illyZ34FRS3U5gtoEPhkyEVgnCi/mQ9VDtme3NKCd0fH+6DPQ3CBsULLGIzKcP8NqnWK3Oa9QpKhmv8jAbVRFlIjgak5DbdtyGetzowUjOUsxCdofM1L0NI0A01RQ8bPQc1XHFT9YFnZBfMFNass0Kx1jCWcYNhUend03K/gHjz9BoVyba2FdSQ2UKLoXBuECqh5BepYissaIaJIOSpoikI71XI6JKMEkJgS+VgNBtqpWEbXGVcavQ7lycmBUG6k3X8dx+T++E/iOFtRzYtiuGYosVL7W3E8OelXcNeSEAJ0spCGsIn7NydnL1BtXH2eb86xeHrrMTQmRuNsOkJDnI4dBD0E2w3dA/sv12bZgIUJsrvAm/1t8GYlwnahaoOhTla386TwiPx8398XO6E/XZJLEOoQCyWPENoF1tu5TEfu2FBwcFr8hrYw4gZp6rjVeCA1ZfYCmspKDrLCYJ0QnGAYZhgyxDbUspLLgohg9dg9rWpiAN4MZsdy1yVXGGZG54LwocUxRPF6ofxG9sXuueD9C890ulXZya/zC0u9kWzrMnJXXFy5IlbxW+UY38ymJhnuOAghJW1++NGFBkhW8v3N9R6S8/ipxQb2iVs0qA1YQtFaEKeXF+IROwbrXVDG2dR+rMBaTBE0JlNqiCK62ihDrcZYph5pyVA3jJhyYkjuEe3/iV2kG8X7m2uWixiX2czyGvSWSe4vTRJXKCZoMYBoOQkci6PV3hlLYpCsNRgHW/aKTpBBm12pN0vq+DvRGNuSY2f1hWQy/WU9KJ0vWWd/sMlT084okxf3h5e8fmhcYQkejeyDS9FZUNUVJzJHf8/5nBEaa5FSWRnH1lzopVM1iqRa3tk7++qVuEys4OKdPePESSNjdoJvUaPQqGoIEMRoi0FGpTiPxHNO4hqWxxQPt250+ZhOWMd7rV0Er7yzO2dxwERdwwyjGO3y0Uh0AydGawYaCQ8BRG0iQRB+gV/Mnr/WRrsoIk6ef+dkubNkvNtPwlL87OJaUeODsUkTIz1/tZxpI+Ua7yxaimVun7G8XCEelYumCyo1XWzS6CAj5yvh9+tmXkjmuByX4/KoPOIl7yI1kGrNQqqtF5D7VqxXxUr4RANfg0nTb6K9+YJ9l3SdOX/Jv/eFnLpIvD2fjyHih1D3PS9/ajGkHsTywcCY0+2Wm1UO30ZPOctzx9vrPDosWsr+DMJUnDVOlUJPB2U3+8jl6fXZT0w5i0+TxmlWCvCZhxf4LCsp+TOHlo05rc1lDXbScl+qZD6UK5gHts3pf5vPklnLkcF2GxDn8yxxzYTR97JY2JIJs7/v+/4Ph1bWrQ==
+sidebar_class_name: "patch api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+show_extensions: true
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Actualizar configuración de validación"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"patch"}
+  path={"/config/validation"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+<details>
+<summary><strong>Permisos requeridos</strong></summary>
+
+**Dashboard:** necesitas al menos uno de estos permisos.
+- `config.manage`
+
+**API Keys:** necesitas al menos uno de estos permisos.
+- `config.api.manage`
+
+</details>
+
+
+
+Actualizar configuración de validación
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"required":true,"content":{"application/json":{"schema":{"type":"object","properties":{"liveness_check":{"type":"boolean"},"id_scan_check":{"type":"boolean"},"government_check":{"type":"boolean"},"ephemeral_transaction_data":{"type":"boolean"}}}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Configuración de validación actualizada exitosamente","content":{"application/json":{"schema":{"type":"object","properties":{"config":{"type":"object"}}}}}},"401":{"description":"Error de autenticación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"authentication_error"},"title":{"type":"string","example":"Unauthorized"},"status":{"type":"integer","example":401},"detail":{"type":"string","example":"We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"}}}}}},"422":{"description":"Error de validación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","errors"],"properties":{"type":{"type":"string","example":"validation_error"},"title":{"type":"string","example":"Validation error"},"status":{"type":"integer","example":422},"errors":{"type":"array","items":{"type":"string"}}},"title":"ValidationError"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      
