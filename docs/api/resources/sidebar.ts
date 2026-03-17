@@ -256,6 +256,30 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: "category",
+      label: "Consent revocations",
+      items: [
+        {
+          type: "doc",
+          id: "api/resources/schemas/companyconsentrevocation",
+          label: "El objeto CompanyConsentRevocation",
+          className: "schema",
+        },
+        {
+          type: "doc",
+          id: "api/resources/create-consent-revocation",
+          label: "Crear una revocación de consentimiento iniciada por la empresa",
+          className: "api-method post",
+        },
+        {
+          type: "doc",
+          id: "api/resources/show-consent-revocation",
+          label: "Obtener una revocación de consentimiento iniciada por la empresa",
+          className: "api-method get",
+        },
+      ],
+    },
+    {
+      type: "category",
       label: "Consent commits",
       items: [
         {
@@ -293,30 +317,6 @@ const sidebar: SidebarsConfig = {
           id: "api/resources/consent-commit-created",
           label: "Created",
           className: "api-method event",
-        },
-      ],
-    },
-    {
-      type: "category",
-      label: "Consent revocations",
-      items: [
-        {
-          type: "doc",
-          id: "api/resources/schemas/companyconsentrevocation",
-          label: "El objeto CompanyConsentRevocation",
-          className: "schema",
-        },
-        {
-          type: "doc",
-          id: "api/resources/create-consent-revocation",
-          label: "Crear una revocación de consentimiento iniciada por la empresa",
-          className: "api-method post",
-        },
-        {
-          type: "doc",
-          id: "api/resources/show-consent-revocation",
-          label: "Obtener una revocación de consentimiento iniciada por la empresa",
-          className: "api-method get",
         },
       ],
     },
@@ -514,12 +514,6 @@ const sidebar: SidebarsConfig = {
           type: "doc",
           id: "api/resources/schemas/datasubjectrequest",
           label: "El objeto DataSubjectRequest",
-          className: "schema",
-        },
-        {
-          type: "doc",
-          id: "api/resources/schemas/datasubjectrequestupdate",
-          label: "El objeto DataSubjectRequestUpdate",
           className: "schema",
         },
         {
