@@ -596,6 +596,12 @@ const sidebar: SidebarsConfig = {
         },
         {
           "type": "doc",
+          "id": "api/resources/get-validation-attempt-audit-image",
+          "label": "Obtener la imagen de auditoría de un flujo de validación",
+          "className": "api-method get"
+        },
+        {
+          "type": "doc",
           "id": "api/resources/validation-attempt-successful",
           "label": "Successful",
           "className": "api-method event"
