@@ -353,13 +353,13 @@ REDEC soporta consentimientos capturados mediante grabación de audio (por ejemp
 
 ### Paso 1: Crear el action_token
 
-Primero, debes <a href="/docs/api/resources/create-action-token/" target="_blank">crear un `action_token`</a> con los campos de audio requeridos en el `action_data`:
+Primero, debes <a href="/docs/api/resources/create-action-token/" target="_blank">crear un `action_token`</a> con los campos de audio requeridos:
 
-- **`audio_reference`**: URL del archivo **MP3** que contiene la grabación del consentimiento
-- **`audio_hash`**: Hash SHA256 del archivo de audio en formato hexadecimal (minúsculas)
+- **`redec_audio_reference`**: URL del archivo **MP3** que contiene la grabación del consentimiento
+- **`redec_audio_hash`**: Hash SHA256 del archivo de audio en formato hexadecimal (minúsculas)
 
 :::warning[Requisitos obligatorios]
-1. **Ambos campos son obligatorios**: Si incluyes uno de estos campos, **debes incluir ambos**. No puedes enviar solo `audio_reference` sin `audio_hash` o viceversa.
+1. **Ambos campos son obligatorios**: Si incluyes uno de estos campos, **debes incluir ambos**. No puedes enviar solo `redec_audio_reference` sin `redec_audio_hash` o viceversa.
 2. **Solo formato MP3**: El archivo de audio **debe ser formato MP3**. No se soportan otros formatos (WAV, AAC, OGG, etc.).
 :::
 
@@ -378,7 +378,7 @@ Una vez generado el `action_token` con los campos de audio, crea el `consent_act
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        action_token: actionToken,              // Token creado con audio_reference y audio_hash
+        action_token: actionToken,              // Token creado con redec_audio_reference y redec_audio_hash
         entity_nin: '12.345.678-9',
         executive_nin: '98.765.432-1',
         user_reference: 'call_center_user_123'
@@ -414,7 +414,7 @@ Una vez generado el `action_token` con los campos de audio, crea el `consent_act
             'Content-Type': 'application/json'
         },
         json={
-            'action_token': action_token,  # Token creado con audio_reference y audio_hash
+            'action_token': action_token,  # Token creado con redec_audio_reference y redec_audio_hash
             'entity_nin': '12.345.678-9',
             'executive_nin': '98.765.432-1',
             'user_reference': 'call_center_user_123'
