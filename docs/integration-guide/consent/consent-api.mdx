@@ -322,7 +322,7 @@ graph LR
     </TabItem>
     <TabItem value="sdk" label="Via SDK">
         1. **En las opciones del SDK** (`consentOptions`): pasa `metadata` en la configuración del componente
-        2. **Al crear el consent action** (paso 4): envía `metadata` en el body del request desde tu backend
+        2. **Al crear el consent action** (vía `POST /api/v1/consent_actions` desde tu backend): envía `metadata` en el body del request
         3. Soyio fusiona ambos objetos. Si hay keys duplicadas, **la metadata del consent action tiene precedencia**
     </TabItem>
 </Tabs>
