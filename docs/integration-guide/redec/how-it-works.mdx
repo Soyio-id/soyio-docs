@@ -76,7 +76,7 @@ Cada consentimiento REDEC registrado genera automáticamente un **recibo PDF** c
 - RUT del ejecutivo (si aplica)
 - Fecha y hora exacta del consentimiento
 - Tipo de consentimiento y producto asociado
-- Método de captura (web, IVR, sucursal, etc.)
+- Canal de captura (`digital`, `phone_call`, `in_person`)
 
 Además, el sistema calcula un **hash SHA256** del PDF generado, que se retorna en la API para verificar la integridad del archivo descargado.
 
@@ -147,7 +147,7 @@ Cada acción de consentimiento REDEC extiende el modelo estándar de consentimie
 - **Executive NIN**: RUT del ejecutivo (opcional)
 - **Consent Template**: Plantilla que define el propósito
 - **Timestamp**: Fecha y hora exacta del consentimiento
-- **Consent Method**: Método de captura (web, IVR, firma, etc.)
+- **Canal** (`channel`): Método de captura (`digital`, `phone_call`, `in_person`)
 - **Agreement**: Se actualiza automáticamente con el consentimiento
 
 :::info[¿Qué son las acciones de consentimiento?]
@@ -162,7 +162,7 @@ El reporte RDC30 consolida todas las acciones de consentimiento en un período:
 - RUT de usuarios que otorgaron consentimiento
 - Fecha y hora de cada consentimiento
 - Tipo de consentimiento
-- Método de captura
+- Canal de captura
 - RUT del ejecutivo (si aplica)
 - Actualizaciones y revocaciones
 

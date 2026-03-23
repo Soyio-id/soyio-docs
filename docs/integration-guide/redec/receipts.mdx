@@ -15,7 +15,7 @@ Un **recibo REDEC** es un documento PDF que contiene evidencia completa de un co
 - **Información del ejecutivo**: RUT del ejecutivo que gestionó (si aplica)
 - **Fecha y hora exacta**: Timestamp del consentimiento
 - **Tipo de consentimiento**: Clasificación del producto crediticio
-- **Método de captura**: Web, IVR, sucursal, etc.
+- **Canal de captura**: `digital`, `phone_call`, `in_person`
 
 Además, el sistema calcula automáticamente un **hash SHA256** del PDF generado. Este hash se almacena por separado y se retorna en la API, permitiéndote verificar la integridad del archivo descargado.
 
