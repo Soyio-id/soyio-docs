@@ -4,6 +4,8 @@ description: Integración vía API (Consentimiento universal)
 ---
 
 import Admonition from '@theme/Admonition';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Integración sin SDK
 
@@ -32,7 +34,7 @@ Cuando integras Soyio, es importante entender las diferencias de trazabilidad en
 | **Trazabilidad** | ✅ End-to-end garantizada | ⚠️ Responsabilidad del comercio |
 | **Interacción con usuario** | Widget en iframe aislado | Tu propia interfaz |
 | **Tokenización** | ✅ Automática | ✅ Via API (action token) |
-| **Contexto de la acción** | ✅ Capturado automáticamente | ⚠️ Debes proporcionarlo |
+| **Metadata de la acción** | ✅ Capturada automáticamente | ⚠️ Debes proporcionarla |
 | **Evidencia** | ✅ Completa y verificable | ⚠️ Depende de tu implementación |
 | **Respaldo de datos para trazabilidad de la acción del usuario** | ✅ Gestionado por Soyio | ⚠️ Tu responsabilidad |
 
@@ -45,7 +47,7 @@ Cuando integras Soyio, es importante entender las diferencias de trazabilidad en
 
 #### Con integración directa vía API
 - **Responsabilidad del comercio**: Al integrar directamente vía API, **tú asumes la responsabilidad** de la acción del usuario
-- **Contexto obligatorio**: Debes incluir toda la información contextual necesaria que permita rastrear la acción hasta tu sistema
+- **Metadata obligatoria**: Debes incluir toda la información contextual necesaria que permita rastrear la acción hasta tu sistema
 - **Respaldo de evidencia**: Es tu responsabilidad mantener el respaldo de la evidencia que respalde la acción del usuario
 
 :::info[Después de la acción]
@@ -230,15 +232,15 @@ Sea cual sea el enfoque que elijas, **te recomendamos encarecidamente presentar 
 
 Cuando el usuario otorga el consentimiento en tu interfaz, crea inmediatamente un token de acción usando el [endpoint de creación de tokens de acción](../../api/resources/create-action-token.api.mdx).
 
-**Importante**: Para una trazabilidad adecuada, incluye información contextual en `action_data` y `contextual_data`:
+**Importante**: Para una trazabilidad adecuada, incluye información contextual en `metadata`. Si el canal es `digital`, también debes incluir `contextual_data`:
 
 ```json title="POST /api/v1/consent_templates/{id}/action_tokens"
 {
-    "context": "onboarding-producto-a",
+    "origin": "onboarding-producto-a",
     "kind": "grant",
-    "action_type": "opt_in_click",
+    "channel": "digital",
     "timestamp": "2024-03-20T15:30:00Z",
-    "action_data": {
+    "metadata": {
         "session_id": "sess_123456789",
         "internal_user_id": "user_12345",
         "campaign_id": "campaign_abc123",
@@ -252,6 +254,13 @@ Cuando el usuario otorga el consentimiento en tu interfaz, crea inmediatamente u
     }
 }
 ```
+
+:::info[Campos del action token]
+- `origin`: Identifica el contexto de negocio donde se captura el consentimiento (ej. `"onboarding-producto-a"`, `"checkout-flow"`)
+- `channel`: Canal de captura. Valores posibles: `digital`, `phone_call`, `in_person`
+- `metadata` (opcional): Objeto JSON libre (max 8 KB) con información adicional de trazabilidad
+- `contextual_data`: Requerido para el canal `digital`. Incluye `ip`, `user_agent` y `url`
+:::
 
 La respuesta incluye el `action_token` que necesitas para crear el registro de consentimiento:
 
@@ -269,26 +278,20 @@ Consulta [Crea un action token](../../api/resources/create-action-token.api.mdx)
 
 ### 4. Crea el registro de consentimiento
 
-Una vez que el usuario haya otorgado su(s) consentimiento(s) y tengas el `action_token`, crea el registro de consentimiento mediante el [endpoint de creación de acción de consentimiento](../../api/resources/create-consent-action.api.mdx), incluyendo la información contextual del método de captura. Opcionalmente, puedes agregar el `user_reference` para asociar el consentimiento con un usuario específico de tu sistema.
-
-**Importante**: Para una trazabilidad completa, incluye información detallada en `consent_method`:
+Una vez que el usuario haya otorgado su(s) consentimiento(s) y tengas el `action_token`, crea el registro de consentimiento mediante el [endpoint de creación de acción de consentimiento](../../api/resources/create-consent-action.api.mdx). Opcionalmente, agrega `user_reference` para asociar el consentimiento con un usuario de tu sistema y `metadata` para enriquecer la trazabilidad.
 
 ```json title="POST /api/v1/consent_actions"
 {
     "action_token": "<action_token_from_step_3>",
-    "user_reference": "user_12345",
-    "consent_method": {
-        "channel": "website",
-        "capture_source": "TuSistemaInterno",
-        "metadata": {
-            "device_fingerprint": "fp_xyz789",
-            "consent_version": "v1.2",
-            "details": "El usuario otorgó consentimiento mediante checkbox en formulario de registro",
-            "form_id": "registration_form_001",
-            "campaign_source": "google_ads",
-            "utm_campaign": "summer_promotion_2024",
-            "user_flow_step": "registration_step_2"
-        }
+    "user_reference": "user_12345", // Opcional
+    "metadata": { // Opcional
+        "device_fingerprint": "fp_xyz789",
+        "consent_version": "v1.2",
+        "details": "El usuario otorgó consentimiento mediante checkbox en formulario de registro",
+        "form_id": "registration_form_001",
+        "campaign_source": "google_ads",
+        "utm_campaign": "summer_promotion_2024",
+        "user_flow_step": "registration_step_2"
     }
 }
 ```
@@ -299,9 +302,46 @@ Puedes usar [Crear un consent action](../../api/resources/create-consent-action.
 
 También puedes crear un [consent commit](../../api/resources/create-consent-commit.api.mdx) si quieres registrar varios consentimientos en una misma transacción. Revisa la [guía de registro agrupado de consentimientos](./consent-capture#opci%C3%B3n-2-crea-un-commit-de-varios-consentimientos-consentcommit) para más información.
 
+## Flujo de metadata
+
+El campo `metadata` te permite asociar información contextual libre a cada acción de consentimiento. Es un objeto JSON con un tamaño máximo de 8 KB.
+
+Puedes enviar `metadata` en **dos momentos** del flujo. Soyio fusiona ambos objetos automáticamente en el `ConsentAction` resultante:
+
+```mermaid
+graph LR
+    A["metadata en<br/>action_token<br/>(paso 3)"] --> C["metadata final<br/>en ConsentAction"]
+    B["metadata en<br/>consent_action<br/>(paso 4)"] --> C
+```
+
+<Tabs>
+    <TabItem value="api" label="Via API" default>
+        1. **Al crear el action token** (paso 3): envía `metadata` en el body del request
+        2. **Al crear el consent action** (paso 4): envía `metadata` en el body del request
+        3. Soyio fusiona ambos objetos. Si hay keys duplicadas, **la metadata del consent action tiene precedencia**
+    </TabItem>
+    <TabItem value="sdk" label="Via SDK">
+        1. **En las opciones del SDK** (`consentOptions`): pasa `metadata` en la configuración del componente
+        2. **Al crear el consent action** (paso 4): envía `metadata` en el body del request desde tu backend
+        3. Soyio fusiona ambos objetos. Si hay keys duplicadas, **la metadata del consent action tiene precedencia**
+    </TabItem>
+</Tabs>
+
+:::info[Tamaño máximo]
+La metadata consolidada tiene un límite de 8 KB. Asegúrate de que la suma de ambos objetos no exceda este límite.
+:::
+
+:::tip[Casos de uso comunes]
+Usa `metadata` para asociar información útil para la trazabilidad de tu negocio, como:
+- Identificadores de sesión o flujo interno
+- Identificadores de campaña o A/B test
+- Versión del formulario de consentimiento
+- Paso del flujo donde se capturó el consentimiento
+:::
+
 ## Mejores prácticas para trazabilidad
 
-Para garantizar una trazabilidad adecuada cuando usas la API directamente, te recomendamos incluir la mayor cantidad de información contextual posible en **dos lugares diferentes**:
+Para garantizar una trazabilidad adecuada cuando usas la API directamente, te recomendamos incluir la mayor cantidad de información contextual posible:
 
 :::warning[Evita información personal identificable (PII)]
 No incluyas datos personales identificables (PII) como nombres completos, emails, números de teléfono completos, o cualquier información que pueda identificar directamente a una persona en los campos de trazabilidad. Usa identificadores internos o datos anonimizados en su lugar.
@@ -309,15 +349,15 @@ No incluyas datos personales identificables (PII) como nombres completos, emails
 
 ### 1. En la creación del action token
 
-Al crear el action token, te recomendamos incluir información contextual en los campos `action_data` y `contextual_data`:
+Incluye información contextual en `metadata` y `contextual_data`:
 
 ```json title="POST /api/v1/consent_templates/{id}/action_tokens"
 {
-    "context": "onboarding-producto-a",
+    "origin": "onboarding-producto-a",
     "kind": "grant",
-    "action_type": "opt_in_click",
+    "channel": "digital",
     "timestamp": "2024-03-20T15:30:00Z",
-    "action_data": {
+    "metadata": {
         "session_id": "sess_123456789",
         "internal_user_id": "user_12345",
         "campaign_id": "campaign_abc123",
@@ -334,24 +374,20 @@ Al crear el action token, te recomendamos incluir información contextual en los
 
 ### 2. En la creación del consent action
 
-Al crear el consent action, te recomendamos incluir información del método de captura en `consent_method`:
+Incluye metadata adicional del método de captura:
 
 ```json title="POST /api/v1/consent_actions"
 {
     "action_token": "<action_token_from_step_3>",
     "user_reference": "user_12345",
-    "consent_method": {
-        "channel": "website",
-        "capture_source": "TuSistemaInterno",
-        "metadata": {
-            "device_fingerprint": "fp_xyz789",
-            "consent_version": "v1.2",
-            "details": "El usuario otorgó consentimiento mediante checkbox en formulario de registro",
-            "form_id": "registration_form_001",
-            "campaign_source": "google_ads",
-            "utm_campaign": "summer_promotion_2024",
-            "user_flow_step": "registration_step_2"
-        }
+    "metadata": {
+        "device_fingerprint": "fp_xyz789",
+        "consent_version": "v1.2",
+        "details": "El usuario otorgó consentimiento mediante checkbox en formulario de registro",
+        "form_id": "registration_form_001",
+        "campaign_source": "google_ads",
+        "utm_campaign": "summer_promotion_2024",
+        "user_flow_step": "registration_step_2"
     }
 }
 ```
@@ -359,10 +395,10 @@ Al crear el consent action, te recomendamos incluir información del método de 
 ### Recomendaciones generales
 
 1. **Incluye la mayor cantidad de información contextual posible** en ambos endpoints:
-   - En `action_data` y `contextual_data` del action token: datos específicos de la acción del usuario
-   - En `consent_method.metadata` del consent action: información del método de captura y contexto legal
+   - En `metadata` y `contextual_data` del action token: datos específicos de la acción del usuario
+   - En `metadata` del consent action: información del método de captura y contexto de negocio
 2. **Mantén logs detallados** de las interacciones del usuario en tu sistema
 3. **Implementa un sistema de auditoría** que permita rastrear cada acción de consentimiento
 4. **Documenta tu proceso** de captura de consentimiento para auditorías futuras
-5. **Usa identificadores únicos** en `action_data` para facilitar la búsqueda posterior de evidencia
+5. **Usa identificadores únicos** en `metadata` para facilitar la búsqueda posterior de evidencia
 6. **Evita PII** en los campos de trazabilidad - usa identificadores internos o datos anonimizados
