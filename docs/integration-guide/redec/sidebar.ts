@@ -39,6 +39,11 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: 'doc',
+      id: 'integration-guide/redec/rdc31',
+      label: 'Genera reportes RDC31',
+    },
+    {
+      type: 'doc',
       id: 'integration-guide/redec/rdc40',
       label: 'Genera reportes RDC40',
     },
