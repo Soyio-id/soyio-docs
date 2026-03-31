@@ -14,12 +14,27 @@ La lectura NFC está disponible para reforzar la verificación de documentos dir
 
 ```json title="Ejemplo de actualización"
 {
-  "mobile_nfc_enabled": true
+  "mobile_nfc_enabled": true,
+  "mobile_nfc_strictness": "always_passthrough"
 }
 ```
 
 :::warning[SDK compatible]
 La lectura NFC solo está soportada en el Soyio React Native SDK usando la integración de componente (WebView). Si el usuario ejecuta el flujo en web, en InAppBrowser o en otro SDK, el paso no aparece aunque la plantilla tenga `mobile_nfc_enabled` en `true`.
+:::
+
+## Controla el nivel de exigencia
+
+Usa `mobile_nfc_strictness` para definir qué ocurre cuando el escaneo NFC falla (skip, error de chip, error MRZ). Solo aplica cuando `mobile_nfc_enabled` es `true`.
+
+| Valor | Comportamiento |
+| :--- | :--- |
+| `always_passthrough` | El resultado NFC es solo metadata; la validación no falla por NFC. Es el valor por defecto y el que recomendamos |
+| `flexible_on_unsupported` | NFC es obligatorio excepto si el dispositivo no lo soporta. Si el dispositivo soporta NFC y falla, la validación falla |
+| `strict` | NFC es siempre obligatorio. Si falla por cualquier razón o el dispositivo no soporta NFC, la validación falla |
+
+:::tip
+Si estás comenzando con NFC, deja el valor por defecto `always_passthrough` para recopilar datos sin afectar tus validaciones. Una vez que confirmes que la lectura funciona bien para tu caso de uso, sube el nivel a `flexible_on_unsupported` o `strict`.
 :::
 
 ## Cómo leer los resultados
