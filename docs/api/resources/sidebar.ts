@@ -602,6 +602,12 @@ const sidebar: SidebarsConfig = {
         },
         {
           "type": "doc",
+          "id": "api/resources/get-validation-attempt-document-image",
+          "label": "Obtener una imagen de documento de un flujo de validación",
+          "className": "api-method get"
+        },
+        {
+          "type": "doc",
           "id": "api/resources/validation-attempt-successful",
           "label": "Successful",
           "className": "api-method event"
@@ -1379,6 +1385,30 @@ const sidebar: SidebarsConfig = {
           "id": "api/resources/consent-action-redec-receipt-generated",
           "label": "REDEC Receipt Generated",
           "className": "api-method event"
+        }
+      ]
+    },
+    {
+      "type": "category",
+      "label": "Permissions",
+      "items": [
+        {
+          "type": "doc",
+          "id": "api/resources/index-permissions",
+          "label": "Obtener permisos disponibles para una superficie de autorizacion",
+          "className": "api-method get"
+        }
+      ]
+    },
+    {
+      "type": "category",
+      "label": "Dashboard",
+      "items": [
+        {
+          "type": "doc",
+          "id": "api/resources/get-dashboard-stats",
+          "label": "Obtener estadísticas agregadas del dashboard",
+          "className": "api-method get"
         }
       ]
     }
