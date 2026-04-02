@@ -1,0 +1,83 @@
+---
+id: get-data-subject-request-config
+title: "Obtener configuración de data subject request"
+description: "Obtener configuración de data subject request"
+sidebar_label: "Obtener configuración de data subject request"
+hide_title: true
+hide_table_of_contents: true
+api: eJzlVs1uGzcQfpUBc0mA7cou0otODVK3cFCgRp0gB9uQRuRYYrxL0uSsa1XYh8kz5NarX6wdcvXfpg0K9FJdtMud+Tg/H7/hSjHOkxpfqdfe3dp5F5Gtd+qmUj5QeTk3aqzmxN8h42U3+0Caf6b7jhIXH1WpSCl4lyip8Up9fXIif4aSjjZkuPEWXtunTw4MgUFGSAUPYgEEP2Ny1iDQo2WfsCXHpCqlvWNyLLgYQmN1jmz0IQn4SiW9oBbliZeB1Fj5DKsqFaLkwbaEpkvAR3Z9/lXq5cnpcehnMfooEWMnMVhdcvg3UUm6NpKRwudvlWLLjfwnRu6SqpQhRttIJ/ZzKFgbzMTROukBPWIbGlnCjhclUAlnQhK/6tdbfNb1nRNnH+2vZMRliGbrYx3TnOKu08uT034T7mfR3xNo3zUGnGfYiZJg6bsIOpKRFWxSDRcNYSLQC9J3wAsC43UndMhJATIsmEMaj0bG61Qnv7S+tmZoZV+px68CxdamZL3LGRhMi5nHaCbolhN/K8U3Kdab9ToSGqn83uIv0WYK7q/qNfX3l1t0OB8Ie2vn6/ebSmGwu/si42Qg/2Qgf6ox2B3gvzQ53GRn7UZ6RrqLlpdqfLXK296RPN/0N9UBs3+S00YR9D86nLmVTG4o6NVKZeCDQlfqAZuO/j8Fl7K2xAs/yKSIDvJCjdWomI/+DFhOOsUHiqWSXWzUWK0ZndCZmX/ckHqEwY4eTtVh/y4pPlhTxCnEjmaY4Png/EL11SEuhvCFmN50upDieXkRqxdKcl7T7FJUrkjThmwbEZCdJdVso8ZqRhizepSH731skdVYvXn/9iiSs3TfUYvHygstGYuOCTqH8OriHO5oKcEGH7X1DmV+OKAGFoSGcioNJki+sdpyZyjVIm4CyctJokzdCfs7cv9l7JB3hDfv34pdorQ+fWJv0Oyl5P82JbgkmMt5RuiEBF7MyZngrWMY5WwtpdFevrAEtuRKKc2uBJx+A611HXspVl8p6259rk6ZIupSiCTVP0peOmKogUwlbb2gnZt1UoYgu9bX7to9ewYXWTx8unavpXH52lGCCB2JFJFuMGKE6Z7QTGs4SywXhSxJYk+5Hn47KQrMEpyXb50bildfuwMsKRg0DT5QgumhbE1hOfIw3erJFAJGhMYmxghhiB8enj421vgEieZPv0mzrh3b4I9JUMOPPm0dDd1alz3/uFM9fXTS6an2bfCOHKe63CNSfbGJeFoPtw/U+fZBbZ69KglfmL7dTsNKicaUvpzWJ/WJLAWfuMXMdYeZ2188CfY6vjkyTI88Cg1aJ9tk8VkNanilPiu0otgLn1gMV6sZJnoXm76X5fuOYh5gMlqixZnQ70omXWnnzih6pTUF3s6g42vZnlr/cCYnVy4iOzkcHPOMPnxCt9zBXq2KxVs5R32vqiGIoiP9Td/3vwMQmxbt
+sidebar_class_name: "get api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+show_extensions: true
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Obtener configuración de data subject request"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/config/data_subject_request"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+<details>
+<summary><strong>Permisos requeridos</strong></summary>
+
+**Dashboard:** necesitas al menos uno de estos permisos.
+- `dsr.dashboard.read`
+- `dsr.dashboard.write`
+- `dsr.dashboard.config`
+- `dsr.dashboard.manage`
+- `config.manage`
+
+**API Keys:** necesitas al menos uno de estos permisos.
+- `data_subject_requests.api.config`
+- `data_subject_requests.api.manage`
+- `config.api.manage`
+
+</details>
+
+
+
+Obtener configuración de data subject request
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Configuración de data subject request obtenida exitosamente","content":{"application/json":{"schema":{"type":"object","properties":{"config":{"type":"object"}}}}}},"401":{"description":"Error de autenticación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"authentication_error"},"title":{"type":"string","example":"Unauthorized"},"status":{"type":"integer","example":401},"detail":{"type":"string","example":"We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

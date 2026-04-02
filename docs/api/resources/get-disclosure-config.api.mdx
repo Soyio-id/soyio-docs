@@ -1,0 +1,84 @@
+---
+id: get-disclosure-config
+title: "Obtener configuración de disclosure"
+description: "Obtener configuración de disclosure"
+sidebar_label: "Obtener configuración de disclosure"
+hide_title: true
+hide_table_of_contents: true
+api: eJztVs1uGzcQfpUBc0mA7Uou0otODVK3cFCgBuwgB1uwRuRYYrxL0uSsalXYh8kz5NarX6wY7upfdVsU6Km6aJec+fabH37DlWKcJTW6Ue+9u7ezJiJb79S4UD5Q93Jh1EjNiH+wSVc+NZE6W1WoSCl4lyip0Up9OxzKn6Gkow0ZZrSF1fb5qwNDYDYw4KdMzhoEerLsE9bkmFShtHdMjgUNQ6iszjwGn5NArlTSc6pRnngZSI2Un34mzapQIQprth0h3dE8smvzr1Bvh2fHhM9j9FF4YiMcrO6Y/xtWkR4bG8lImvNeodhyJf+JkZukCmWI0VaS9/0YOqwNZuJonWSenrAOlSxhw/OOqNC5I+Gv2vUnXnT96MTZR/sbGXHp2Wx9rGOaUdx1ejs8azd0X0T/RKB9UxlwnmGHJcHSNxF0JCMrWKUSLivCRKDnpB+A5wTG60baIQcFyDBnDmk0GBivU5n80vrSmr6UbaGevgkUa5uS9S5HYDDNpx6juUO3vPP3kvxt65Wb7TISGinAqb1fo80NeXJTr0/Byd0aHc76Zr63s/X7uFAY7GlOGOxJUFnfwP3Zev+ZnbWxVJR0Ey0v1ehmlT/8QPI8bsfFQd//ImeRIugXDmwuL5Prk3yzUhnuIPmFWmDV0P9F6Iogqa6J576XUZEp5LkaqUFnPthLcKK4oNhlt4mVGql15yd0ZuqfNs0/wGAHizN1WMkrigtrOhELsaEpJnjdO79RbXGIiyH8Q0xvGt21x+vuRazeKIl03XBXooadhG3abiMW8mUJNduokZoSxqwy3cOPPtbIaqQ+fLo+YnKeHhuq8VihoSZj0TFB4xDeXV7AAy2FbPBRW+9Q5owDqmBOaCiHUmGC5CurLTeGUikiKJC8vEuU2/mO/QO5/5I75C/Ch0/XYpcorc+h2Bs0eyH5vwwJrghmcrIRGmkCL+bkTPDWMQxytJbSYC9eWAJbcl0qza4YnH0HtXUNe0lWWyjr7n3OTjdt1JU0kmT/KHipiKEKcitp6wXtwqyDMgTZtbx1t+7VK7jMguLTrXsvhcuXkY5EaEhEiXSFESNM9sRnUsJ5YrlQZJkSe8r58NuJ0sEswXnZa1yfvPLWHWBJwqCqcEEJJodSNoHlwMNkqyMTCBgRKpsYI4SePyyev1TW+ASJZs+/S7FuHdvgj5ughJ992joaurcue1Li5y9OKj3Rvg7ekeNUdveNVF5uGE/K/paCOt9SqM4zWiXpF6bvt1OzUKIxXV3OymE5lKXgE9eYe91h7u2/ORP26rw5KExPPAgVWifgWXJWvfLdqBMKK6o894lle7WaYqKPsWpbWX5sKOaxJaMlWpxKq93IfOtKtzOK3mlNgbcz6PiqtqfHP53LKZXLyQ7zgyOd0fstdMsd7NWqs7iWM9O2quhJdJrRjtu2/QP9oxfJ
+sidebar_class_name: "get api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+show_extensions: true
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Obtener configuración de disclosure"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/config/disclosure"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+<details>
+<summary><strong>Permisos requeridos</strong></summary>
+
+**Dashboard:** necesitas al menos uno de estos permisos.
+- `disclosure.dashboard.read`
+- `disclosure.dashboard.write`
+- `disclosure.dashboard.config`
+- `disclosure.dashboard.manage`
+- `config.manage`
+
+**API Keys:** necesitas al menos uno de estos permisos.
+- `disclosure.api.config`
+- `disclosure.api.manage`
+- `disclosure.api.manage`
+- `config.api.manage`
+
+</details>
+
+
+
+Obtener configuración de disclosure
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Configuración de disclosure obtenida exitosamente","content":{"application/json":{"schema":{"type":"object","properties":{"config":{"type":"object"}}}}}},"401":{"description":"Error de autenticación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"authentication_error"},"title":{"type":"string","example":"Unauthorized"},"status":{"type":"integer","example":401},"detail":{"type":"string","example":"We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

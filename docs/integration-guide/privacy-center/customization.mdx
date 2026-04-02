@@ -17,8 +17,11 @@ Define qué tipo de control visual utilizar para la gestión de consentimientos.
 Permite controlar la visibilidad del encabezado del Privacy Center y personalizar los textos mostrados para solicitudes ARSOP/REDEC.
 
 - `appearance.config.showHeader`: `boolean`. Muestra u oculta el encabezado principal del componente.
+- `appearance.config.showConsentManagementHeader`: `boolean`. Muestra u oculta el encabezado de la sección de gestión de consentimientos.
 - `content.header.title`: `string`. Sobrescribe el título del encabezado.
 - `content.header.description`: `string`. Sobrescribe la descripción del encabezado.
+- `content.consentManagement.header.title`: `string`. Sobrescribe el título del encabezado en gestión de consentimientos.
+- `content.consentManagement.header.description`: `string`. Sobrescribe la descripción del encabezado en gestión de consentimientos.
 - `content.rightExamples`: `object`. Sobrescribe ejemplos de derechos por tipo de solicitud.
   - Claves soportadas: `access`, `opposition`, `rectification`, `suppression`, `portability`, `redec_update`, `redec_rectification`, `redec_complementation`, `redec_cancellation`.
 
@@ -46,12 +49,15 @@ Cuando esta opción está habilitada:
 Muestra los consentimientos agrupados por alcance (producto/sucursal) para que el usuario navegue más fácil cuando existen múltiples templates.
 
 - `groupConsentsByScope`: `boolean` (por defecto `false`).
+- `consentManagement.scopeGroups`: `array` opcional para definir grupos personalizados en los acordeones.
+  - Estructura por grupo: `{ title: string, scopes: [{ scopeType: 'product' | 'branch', scopeId: string }] }`.
 
 Cuando esta opción está habilitada:
 
 - Los consentimientos con alcance se muestran en acordeones por alcance.
 - Los consentimientos sin alcance se muestran en un grupo general.
 - Puedes combinarla con `allowGranularScopeSelection` para agrupar y, al mismo tiempo, permitir selección por alcance dentro de cada consentimiento.
+- Si defines `consentManagement.scopeGroups`, los alcances incluidos en esos grupos se renderizan bajo los títulos personalizados y el resto mantiene el agrupado por alcance por defecto.
 
 ### Periodo de retención
 
@@ -68,6 +74,12 @@ const privacyCenterOptions = {
       title: 'Centro de privacidad',
       description: 'Gestiona tus solicitudes y preferencias de consentimiento.'
     },
+    consentManagement: {
+      header: {
+        title: 'Gestiona tus permisos',
+        description: 'Configura qué autorizaciones quieres mantener activas.'
+      }
+    },
     rightExamples: {
       access: 'Ejemplo: Quiero conocer qué datos tienen sobre mí.'
     }
@@ -77,9 +89,21 @@ const privacyCenterOptions = {
   consentRetentionPeriod: '30 days',
   allowGranularScopeSelection: true,
   groupConsentsByScope: true,
+  consentManagement: {
+    scopeGroups: [
+      {
+        title: 'Productos financieros',
+        scopes: [
+          { scopeType: 'product', scopeId: 'prod_checking_account' },
+          { scopeType: 'product', scopeId: 'prod_credit_card' }
+        ]
+      }
+    ]
+  },
   appearance: {
     config: {
-      showHeader: true
+      showHeader: true,
+      showConsentManagementHeader: true
     }
   }
 };

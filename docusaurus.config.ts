@@ -114,6 +114,7 @@ const config: Config = {
             specPath: SOYIO_OPENAPI_SPEC_PATH,
             outputDir: 'docs/api/resources',
             showSchemas: false,
+            showExtensions: true,
             sidebarOptions: {
               groupPathsBy: 'tag',
               sidebarGenerators: {

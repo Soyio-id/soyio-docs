@@ -3,38 +3,11 @@ import TabItem from '@theme/TabItem';
 
 # Genera reportes RDC30
 
-Los reportes de Soyio consolidan acciones de consentimiento en un período específico para cumplir con requisitos regulatorios.
+Los reportes RDC30 de Soyio **consolidan acciones de consentimiento en un período específico** para cumplir con los requisitos regulatorios de la NCG 540 de la CMF en Chile.
 
-:::info[Soporte actual]
-Soyio soporta la generación de reportes `rdc30` para cumplimiento con la NCG 540 de la CMF en Chile.
-:::
-
-## ¿Qué es un reporte?
-
-Un reporte consolida todas las acciones de consentimiento registradas durante un período de tiempo. Dependiendo del tipo de reporte, incluye:
-
-- Todas las acciones de consentimiento del período
-- Identificación de los usuarios (RUT para reportes RDC30)
-- Fecha y hora de cada acción
-- Tipo de consentimiento
-- Método de captura
-- Información adicional según el tipo de reporte
-
-## Reporte RDC30
-
-El reporte RDC30 cumple con los requisitos de la NCG 540 de la CMF para instituciones financieras chilenas. Incluye:
-
-- RUT de usuarios que otorgaron consentimiento
-- Fecha y hora de cada acción
-- Tipo de consentimiento
-- Método de captura
-- RUT del ejecutivo (cuando corresponde)
-- Actualizaciones y revocaciones
-
-:::note
+:::tip
 Soyio también soporta [RDC31 para accesos bajo consentimiento](./rdc31.mdx) y [RDC40 para solicitudes de derecho REDEC](./rdc40.mdx).
 :::
-
 
 ### Estructura del reporte
 
@@ -42,13 +15,23 @@ Soyio también soporta [RDC31 para accesos bajo consentimiento](./rdc31.mdx) y [
 
 El contenido del RDC30 se organiza en un encabezado y líneas de detalle en formato de ancho fijo.
 
-- **Encabezado**: incluye código de institución CMF (10 dígitos), identificador de archivo y fecha del reporte.
-- **Detalle por registro**: cada línea representa una acción de consentimiento con su ID único, fecha/hora de consentimiento y fecha/hora de fin.
-- **Campos regulatorios**: se reportan RUT consultado, medio, finalidad, objetivo y RUT del ejecutivo cuando corresponda.
-- **Integridad**: cada línea cierra con un hash encriptado de 64 caracteres.
+- **Código de institución**: código CMF de 10 dígitos asignado a tu institución.
+- **Identificación de archivo**: identificador del tipo de archivo, correspondiente a `RDC30`.
+- **Fecha del reporte**: fecha asociada al archivo reportado.
+- **ID único del consentimiento**: identificador interno del consentimiento registrado.
+- **Fecha del consentimiento**: fecha en la que se registró el consentimiento.
+- **Hora del consentimiento**: hora exacta en la que se registró el consentimiento.
+- **Fecha de fin**: fecha de término de la vigencia o del evento reportado.
+- **Hora de fin**: hora de término de la vigencia o del evento reportado.
+- **RUT consultado**: identificador de la persona titular del consentimiento.
+- **Medio del consentimiento**: canal o mecanismo por el cual se obtuvo el consentimiento.
+- **Finalidad**: propósito para el que fue otorgado el consentimiento.
+- **Objetivo**: tipo de producto o uso asociado al consentimiento.
+- **RUT ejecutivo**: contraparte que obtuvo el consentimiento cuando aplica.
+- **Hash encriptado**: valor de 64 caracteres que resguarda la integridad de la línea reportada.
 
 
-## Crear un reporte
+## Genera un reporte
 
 Crea reportes de cumplimiento usando el dashboard de administración o usando la API de Soyio con el endpoint [`POST /api/v1/reports`](../../api/resources/create-report.api.mdx).
 
@@ -158,7 +141,7 @@ Si el reporte se genera vía API o automáticamente, el campo `generated_by` ser
 
 ## Opciones de generación
 
-Tienes dos formas de generar reportes:
+Genera reportes de dos formas:
 
 ### Opción 1: Generación manual
 
@@ -168,7 +151,7 @@ Crea reportes manualmente cuando los necesites usando el endpoint o el dashboard
 
 ### Opción 2: Generación automática
 
-Activa la generación automática de reportes RDC30 desde la configuración de tu cuenta. Soyio generará un reporte automáticamente cada sábado entre las 00:00 y 01:00.
+Activa la generación automática de reportes RDC30 desde la configuración de tu cuenta. Soyio generará un reporte automáticamente cada sábado entre las 00:00 y 01:00 (UTC).
 
 **Cuándo usar**: Para cumplimiento regulatorio que requiere reportes periódicos (como RDC30). Recibirás notificaciones por webhook cada vez que se genere un reporte.
 
@@ -206,7 +189,7 @@ El campo `content` contiene un texto ASCII con el formato requerido por la CMF:
 El contenido del reporte RDC30 cumple con las especificaciones técnicas de la CMF, por lo que puede ser enviado directamente a su plataforma.
 :::
 
-## Configurar reportes automáticos
+## Configura la generación automática de reportes {#configura-la-generacion-automatica-de-reportes}
 
 Activa la generación automática de reportes usando el dashboard o la API con el endpoint [`PATCH /api/v1/config`](../../api/resources/update-company-config.api.mdx):
 
@@ -225,13 +208,13 @@ Activa la generación automática de reportes usando el dashboard o la API con e
 2. Activa **Reportes periódicos automáticos (RDC30)**
 3. Guarda la configuración
 
-Los reportes se generarán automáticamente cada sábado entre las 00:00 y 01:00. Recibirás una notificación por webhook con el evento [`report.created`](../../api/webhooks.md) cada vez que se genere un reporte.
+Los reportes se generarán automáticamente cada sábado entre las 00:00 y 01:00 (UTC). Recibirás una notificación por webhook con el evento [`report.created`](../../api/webhooks.md) cada vez que se genere un reporte.
 
 :::info[Más detalles]
 Consulta la [guía de configuración](./configuration.mdx#reportes-automáticos) para opciones avanzadas de configuración.
 :::
 
-## Webhooks de reportes
+## Suscríbete al evento de creación de reportes {#suscribete-al-evento-de-creacion-de-reportes}
 
 Suscríbete al webhook [`report.created`](../../api/webhooks.md) para recibir notificaciones cuando se genere un reporte.
 
@@ -279,12 +262,12 @@ app.post('/webhooks/soyio', async (req, res) => {
 });
 ```
 
-## Sincronización con CMF (RDC30)
+## Sincroniza con la CMF
 
 La NCG 540 requiere sincronización semanal con la CMF. Usa webhooks para automatizar este proceso:
 
 **Paso 1: Activa reportes automáticos**
-- Los reportes se generan cada sábado entre las 00:00 y 01:00 automáticamente
+- Los reportes se generan automáticamente cada sábado entre las 00:00 y 01:00 (UTC)
 
 **Paso 2: Suscríbete al webhook [`report.created`](../../api/webhooks.md)**
 - Recibirás el reporte completo con el contenido en cada notificación

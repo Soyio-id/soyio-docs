@@ -211,9 +211,14 @@ Proporciona el `action_token` que obtuviste en el paso anterior. Tanto el `entit
 {
     "action_token": "<action_token>",
     "entity_id": "<id_del_usuario_en_soyio>", // Opcional
-    "user_reference": "<identificador_usuario>" // Opcional
+    "user_reference": "<identificador_usuario>", // Opcional
+    "metadata": { ... } // Opcional
 }
 ```
+
+:::tip[Metadata para trazabilidad]
+Usa el campo `metadata` para asociar información contextual a la acción de consentimiento (identificadores de sesión, campaña, versión de formulario, etc.). Consulta la [guía de integración sin SDK](./consent-api#flujo-de-metadata) para más detalles sobre cómo funciona el flujo de metadata.
+:::
 
 :::tip
 Para revisar validaciones y respuestas del endpoint, consulta [Crear un consent action](../../api/resources/create-consent-action.api.mdx).
@@ -235,6 +240,7 @@ Un `ConsentCommit` puede procesar acciones mixtas de otorgamiento (`grant`) y re
 {
     "user_reference": "<identificador_usuario>", // Opcional
     "entity_id": "<id_del_usuario_en_soyio>", // Opcional
+    "metadata": { ... }, // Opcional
     "consent_actions": [
         {
             "action_token": "<action_token_1>"

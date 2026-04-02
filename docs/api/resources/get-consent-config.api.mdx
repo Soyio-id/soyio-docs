@@ -1,0 +1,84 @@
+---
+id: get-consent-config
+title: "Obtener configuración de consent"
+description: "Obtener configuración de consent"
+sidebar_label: "Obtener configuración de consent"
+hide_title: true
+hide_table_of_contents: true
+api: eJzlVs1uGzcQfpUBc0mA7Uou0otODQy3cFCgBuwgB9uwRuRYYrxL0uSsalXYh8kz9NarX6wYcvVjKU1bFOilumiX5Hz7zd83XCvGeVKTa3Xq3b2ddxHZeqduK+UDlZdzoyZqTnzqXSLH5aCqVKQUZCmpyVp9Ox7Ln6Gkow0ZY7LD1Pb5NweGQBcM8DMmZw0CPVn2CVtyTKpS2jsmxwKFITRWZwajT0nw1irpBbUoT7wKpCbKzz6RZlWpEIUv28JGF45H5/r8q9Tb8ckx27MYfRSS2AkHqwvtf8Mq0mNnIxkJcN6rFFtu5D8xcpdUpQwx2kYi/tKHgrXFTBytk7DTE7ahkSXseFGICp07Ev6q33ziq6YfnBj7aH8lIyYDm52NdUxzivtGb8cn/ZbuV9E/SqK7xoDzDHssCVa+i6AjGVnBJtVw0RAmAr0g/QC8IDBed1IO2SlAhgVzSJPRyHid6uRX1tfWDKnsK/X0TaDY2pSsd9kDg2kx8xjNHbrVnb+X4A91V2/36khoSmoPNn6JdlOKBzt6U/nHWy06nA9W93a+eb+tFAb7BR4Y7DGcLO4DfXFR0PfWbiV5pLtoeaUm1+v8vQeS59v+tjoo8Z+l7SiC/rPGzGlkckMwr9cqYx0EuVJLbDr6HwZbQtoSL/ygiaI8yAs1UaNyfLQLZKK4pFii2MVGTdSmkhM6M/NP22IeYbCj5Yk6TNclxaU1RZRC7GiGCV4Pxm9UXx3iYgj/ENObTpcaeF1e5NQbJW5uqupS1K1I0ra2ts0vXxZX8xk1UTPCmFWjPPzgY4usJur9x6sjJmfpsaMWjxUXWjIWHRN0DuHdxTk80ErIBh+19Q5lbjigBhaEhrIrDSZIvrHacmco1SJqAsmru0S5bO/YP5D7L7lD/iK8/3gl5xKlTbPJeYPmhUv+L12CS4K5tC9CJ0Xg5Tg5E7x1DKPsraU0euEvrIAtuRJKs9/xJ99Ba13HXoLVV8q6e5+jU6aHupRCkugfOS8ZMdRALiVtvaCdm41ThiCb1jfuxr16BRdZOHy6caeSuHytKCRCR4bAkG4wYoTpC5GZ1nCWWC4IWY7kPOV4+N2EKDArcF72OjcEr75xB1gSMGgaXFKC6aFkTWE18jDdaccUAkaExibGCGHgD8vnz401PkGi+fPvkqwbxzb44yKo4SefdoaG7q3LlpT4+bOTTE+1b4N35DjV5f6Q6ost42k93DpQ51sHtXnmqiT1wvT9bgpWSjSm5OWkHtdjWQo+cYu51h3m2v47wv8iydsuYXriUWjQOkHOerMeNO9aHaqqaPDCJ5a99XqGiT7Epu9l+bGjmKeSDI9ocSZFdi3jqyRtb9i805oC76bM8aXrhQz/eCb9KdeMPdoHzZzRhy10qz3s9bqcuJJu6XtVDSSKWvS3fd//Ac8g/n4=
+sidebar_class_name: "get api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+show_extensions: true
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Obtener configuración de consent"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/config/consent"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+<details>
+<summary><strong>Permisos requeridos</strong></summary>
+
+**Dashboard:** necesitas al menos uno de estos permisos.
+- `consent.dashboard.read`
+- `consent.dashboard.write`
+- `consent.dashboard.config`
+- `consent.dashboard.manage`
+- `config.manage`
+
+**API Keys:** necesitas al menos uno de estos permisos.
+- `consent.api.config`
+- `consent.api.manage`
+- `consent.api.manage`
+- `config.api.manage`
+
+</details>
+
+
+
+Obtener configuración de consent
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Configuración de consent obtenida exitosamente","content":{"application/json":{"schema":{"type":"object","properties":{"config":{"type":"object"}}}}}},"401":{"description":"Error de autenticación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"authentication_error"},"title":{"type":"string","example":"Unauthorized"},"status":{"type":"integer","example":401},"detail":{"type":"string","example":"We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

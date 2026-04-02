@@ -23,6 +23,7 @@ Usa el componente Privacy Center del [SDK de Soyio](https://github.com/Soyio-id/
 
 - Ver todos sus consentimientos de forma centralizada con su estado actual (otorgado/no otorgado).
 - Ver los consentimientos organizados por alcance (producto/sucursal) cuando habilitas `groupConsentsByScope`.
+- Ver grupos personalizados de acordeones por conjunto de alcances cuando defines `consentManagement.scopeGroups`.
 - Revisar metadatos clave en el detalle del consentimiento, como alcance y duración (incluyendo duración condicional).
 - Revocar y otorgar consentimientos específicos de forma sencilla.
 
@@ -252,6 +253,68 @@ const privacyCenterOptions = {
 ```
 
 Puedes combinar `groupConsentsByScope` con `allowGranularScopeSelection` para agrupar consentimientos y mantener la selección granular por alcance dentro de cada template.
+
+### Grupos personalizados de acordeón
+
+Si necesitas agrupar múltiples alcances en categorías de negocio (por ejemplo, "Productos financieros" o "Sucursales principales"), puedes definir grupos personalizados.
+
+`consentManagement.scopeGroups`: `array` opcional. Requiere `groupConsentsByScope: true`.
+
+- Cada grupo debe incluir `title` y `scopes`.
+- Cada alcance en `scopes` debe tener `{ scopeType: 'product' | 'branch', scopeId: string }`.
+- Los alcances no incluidos en `scopeGroups` se siguen mostrando con el agrupado por alcance por defecto.
+
+```javascript
+const privacyCenterOptions = {
+  // ...
+  groupConsentsByScope: true,
+  consentManagement: {
+    scopeGroups: [
+      {
+        title: 'Productos financieros',
+        scopes: [
+          { scopeType: 'product', scopeId: 'prod_checking_account' },
+          { scopeType: 'product', scopeId: 'prod_credit_card' }
+        ]
+      },
+      {
+        title: 'Sucursales principales',
+        scopes: [
+          { scopeType: 'branch', scopeId: 'branch_centro' },
+          { scopeType: 'branch', scopeId: 'branch_providencia' }
+        ]
+      }
+    ]
+  }
+};
+```
+
+### Encabezado interno de gestión de consentimientos
+
+Puedes ocultar o personalizar el encabezado de la pantalla de gestión de consentimientos sin afectar el encabezado principal del Privacy Center.
+
+- `appearance.config.showConsentManagementHeader`: `boolean` (por defecto `true`). Muestra u oculta el encabezado de la pantalla de gestión de consentimientos.
+- `content.consentManagement.header.title`: `string`.
+- `content.consentManagement.header.description`: `string`.
+
+```javascript
+const privacyCenterOptions = {
+  // ...
+  appearance: {
+    config: {
+      showConsentManagementHeader: true
+    }
+  },
+  content: {
+    consentManagement: {
+      header: {
+        title: 'Gestiona tus permisos',
+        description: 'Configura qué autorizaciones quieres mantener activas.'
+      }
+    }
+  }
+};
+```
 
 ### Persistencia de consentimientos superpuestos
 

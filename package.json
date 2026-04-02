@@ -18,7 +18,7 @@
     "test:e2e:ui": "playwright test --ui",
     "preinstall": "npx only-allow pnpm",
     "regenerate-api-spec": "scripts/regenerate-api-spec.sh",
-    "regenerate-api-docs": "docusaurus regenerate-api-docs"
+    "regenerate-api-docs": "docusaurus regenerate-api-docs && node scripts/postprocess-api-sidebar.mjs"
   },
   "dependencies": {
     "@docusaurus/core": "^3.9.2",
@@ -82,11 +82,18 @@
   "pnpm": {
     "overrides": {
       "glob": "^10.5.0",
+      "lodash": "^4.17.23",
+      "lodash-es": "^4.17.23",
       "node-forge": "^1.3.2",
       "gray-matter>js-yaml": "3.14.2",
       "js-yaml": "^4.1.1",
       "mdast-util-to-hast": "^13.2.1",
-      "qs": "^6.14.1"
+      "qs": "^6.14.1",
+      "minimatch@>=5.0.0 <5.1.8": "~5.1.8",
+      "minimatch@>=9.0.0 <9.0.7": "~9.0.7",
+      "minimatch@>=10.0.0 <10.2.3": "~10.2.3",
+      "minimatch@<3.1.4": "~3.1.4",
+      "rollup@>=4.0.0 <4.59.0": "~4.59.0"
     }
   },
   "browserslist": {
