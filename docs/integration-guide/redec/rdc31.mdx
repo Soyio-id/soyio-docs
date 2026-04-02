@@ -1,0 +1,316 @@
+---
+title: Genera reportes RDC31
+description: 'Registra accesos bajo consentimiento REDEC y genera el reporte semanal RDC31 con metadata de cuadratura'
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Genera reportes RDC31
+
+El reporte **RDC31** consolida los accesos a la base de deuda realizados bajo un consentimiento REDEC válido. Soyio almacena cada acceso reportable y genera el archivo en el formato de ancho fijo requerido por la CMF.
+
+## Cuándo usar RDC31
+
+Usa RDC31 cuando tu institución:
+
+- consulta directamente la base de deuda consolidada
+- ya registró el consentimiento REDEC del deudor en Soyio
+- necesita informar cada acceso exitoso realizado bajo ese consentimiento
+
+:::info
+RDC31 no reemplaza el registro del consentimiento. Primero registra el consentimiento REDEC y luego informa cada acceso exitoso asociado a ese `redec_id`.
+:::
+
+## Qué registra Soyio
+
+Cada acceso informado incluye:
+
+- `redec_id` del consentimiento usado en la consulta
+- fecha del acceso (`access_date`)
+- hora del acceso (`access_time`)
+- RUT del mandatario, si la consulta fue hecha por un tercero autorizado
+
+Soyio valida antes de persistir:
+
+- que el `redec_id` exista para tu empresa
+- que el consentimiento siga vigente al momento del acceso
+- que no haya sido revocado antes del acceso
+- que el acceso no sea un duplicado exacto
+
+## Paso 1: guarda el `redec_id` del consentimiento
+
+Necesitas conservar el `redec_id` retornado por el flujo REDEC para reutilizarlo cada vez que consultes la base de deuda bajo ese consentimiento.
+
+Si ya generas y almacenas los recibos o webhooks REDEC, usa ese identificador como llave de referencia para RDC31.
+
+## Paso 2: informa cada acceso exitoso
+
+Usa el endpoint `POST /api/v1/redec/accesses` para registrar cada acceso. Puedes enviar una sola entrada o un arreglo cuando procesas múltiples accesos en lote.
+
+### Payload base
+
+```json
+{
+  "redec_id": "REDECIDABC1234567890",
+  "access_date": "20250616",
+  "access_time": "213000",
+  "mandatary_nin": "11.111.111-1"
+}
+```
+
+**Campos clave**:
+
+- `redec_id`: identificador del consentimiento REDEC asociado al acceso
+- `access_date`: fecha del acceso en formato `YYYYMMDD`
+- `access_time`: hora del acceso en formato `HHMMSS`
+- `mandatary_nin`: RUT del mandatario si aplica. Si el acceso fue directo, envía `null` o no lo incluyas
+
+<Tabs>
+  <TabItem value="curl" label="cURL" default>
+    ```bash title="POST /api/v1/redec/accesses"
+    curl -X POST https://api.soyio.id/api/v1/redec/accesses \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "redec_id": "REDECIDABC1234567890",
+        "access_date": "20250616",
+        "access_time": "213000",
+        "mandatary_nin": "11.111.111-1"
+      }'
+    ```
+  </TabItem>
+  <TabItem value="javascript" label="JavaScript">
+    ```javascript title="Registrar un acceso RDC31"
+    const response = await fetch('https://api.soyio.id/api/v1/redec/accesses', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${YOUR_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        redec_id: 'REDECIDABC1234567890',
+        access_date: '20250616',
+        access_time: '213000',
+        mandatary_nin: '11.111.111-1',
+      }),
+    });
+
+    const data = await response.json();
+    console.log('Acceso RDC31 registrado:', data.accesses[0].id);
+    ```
+  </TabItem>
+  <TabItem value="python" label="Python">
+    ```python title="Registrar un acceso RDC31"
+    import requests
+
+    response = requests.post(
+        'https://api.soyio.id/api/v1/redec/accesses',
+        headers={
+            'Authorization': f'Bearer {YOUR_API_KEY}',
+            'Content-Type': 'application/json'
+        },
+        json={
+            'redec_id': 'REDECIDABC1234567890',
+            'access_date': '20250616',
+            'access_time': '213000',
+            'mandatary_nin': '11.111.111-1'
+        }
+    )
+
+    data = response.json()
+    print('Acceso RDC31 registrado:', data['accesses'][0]['id'])
+    ```
+  </TabItem>
+</Tabs>
+
+### Registro masivo
+
+Cuando tu proceso genera múltiples accesos exitosos en la misma corrida, envía un arreglo:
+
+```json title="POST /api/v1/redec/accesses"
+[
+  {
+    "redec_id": "REDECIDABC1234567890",
+    "access_date": "20250616",
+    "access_time": "083000",
+    "mandatary_nin": null
+  },
+  {
+    "redec_id": "REDECIDABC1234567890",
+    "access_date": "20250616",
+    "access_time": "213000",
+    "mandatary_nin": "11.111.111-1"
+  }
+]
+```
+
+:::tip
+Registra cada consulta exitosa por separado. Si consultas dos veces el mismo `redec_id` a distinta hora, informa dos accesos.
+:::
+
+## Paso 3: genera el reporte RDC31
+
+Usa el endpoint [`POST /api/v1/reports`](../../api/resources/create-report.api.mdx) con `kind: "rdc31"` y el rango semanal que deseas reportar.
+
+```json title="Payload base"
+{
+  "kind": "rdc31",
+  "starts_at": "2025-06-14T00:00:00Z",
+  "ends_at": "2025-06-20T23:59:59Z"
+}
+```
+
+<Tabs>
+  <TabItem value="curl" label="cURL" default>
+    ```bash title="POST /api/v1/reports"
+    curl -X POST https://api.soyio.id/api/v1/reports \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "kind": "rdc31",
+        "starts_at": "2025-06-14T00:00:00Z",
+        "ends_at": "2025-06-20T23:59:59Z"
+      }'
+    ```
+  </TabItem>
+  <TabItem value="javascript" label="JavaScript">
+    ```javascript title="Generar RDC31"
+    const response = await fetch('https://api.soyio.id/api/v1/reports', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${YOUR_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        kind: 'rdc31',
+        starts_at: '2025-06-14T00:00:00Z',
+        ends_at: '2025-06-20T23:59:59Z',
+      }),
+    });
+
+    const data = await response.json();
+    console.log('Reporte RDC31 generado:', data.report.id);
+    ```
+  </TabItem>
+  <TabItem value="python" label="Python">
+    ```python title="Generar RDC31"
+    import requests
+
+    response = requests.post(
+        'https://api.soyio.id/api/v1/reports',
+        headers={
+            'Authorization': f'Bearer {YOUR_API_KEY}',
+            'Content-Type': 'application/json'
+        },
+        json={
+            'kind': 'rdc31',
+            'starts_at': '2025-06-14T00:00:00Z',
+            'ends_at': '2025-06-20T23:59:59Z'
+        }
+    )
+
+    data = response.json()
+    print('Reporte RDC31 generado:', data['report']['id'])
+    ```
+  </TabItem>
+</Tabs>
+
+## Qué retorna el reporte
+
+La respuesta incluye el contenido ASCII del archivo y la metadata que necesitas para completar la cuadratura.
+
+```json title="Respuesta de ejemplo"
+{
+  "report": {
+    "id": "rep_abc123...",
+    "kind": "rdc31",
+    "starts_at": "2025-06-14T00:00:00Z",
+    "ends_at": "2025-06-20T23:59:59Z",
+    "created_at": "2025-06-21T00:30:00Z",
+    "generated_by": null,
+    "content": "0000123456RDC3120250620                     \nREDECIDABC1234567890202506162130000111111111\n",
+    "metadata": {
+      "institution_name": "Acme Bank",
+      "institution_code": 123456,
+      "information_date": "20062025",
+      "total_records": 1,
+      "mandatary_accesses_count": 1,
+      "business_day_accesses_count": 1,
+      "non_business_hours_accesses_count": 1
+    }
+  }
+}
+```
+
+### Cómo usar `metadata`
+
+Usa `report.metadata` para completar la carátula de cuadratura del RDC31. Hoy Soyio entrega estas métricas junto al reporte:
+
+- `total_records`
+- `mandatary_accesses_count`
+- `business_day_accesses_count`
+- `non_business_hours_accesses_count`
+
+:::info
+El contenido del archivo y la metadata de cuadratura se generan juntos. Eso te permite automatizar la descarga del TXT y también poblar tu flujo interno de revisión antes de subirlo a la CMF.
+:::
+
+## Formato del archivo
+
+El contenido del RDC31 se entrega en texto ASCII con líneas de ancho fijo.
+
+- **Encabezado**: código de institución CMF, identificador `RDC31`, fecha de referencia y relleno
+- **Detalle**: `redec_id`, fecha de acceso, hora de acceso y RUT del mandatario cuando aplica
+
+```text title="Ejemplo simplificado"
+0000123456RDC3120250620                     
+REDECIDABC1234567890202506162130000111111111
+```
+
+## Configura generación automática {#configura-generacion-automatica}
+
+Activa la generación automática semanal desde la configuración de consentimiento:
+
+```json title="PATCH /api/v1/config"
+{
+  "consent": {
+    "redec_enabled": true,
+    "redec_automatic_rdc31": true
+  }
+}
+```
+
+Cuando esta opción está activa, Soyio genera el RDC31 automáticamente cada sábado después del cierre semanal y lo publica con el webhook [`report.created`](../../api/webhooks.md).
+
+## Usa webhooks para sincronizar el proceso
+
+El webhook [`report.created`](../../api/webhooks.md) se envía también para RDC31. Verifica el campo `kind` antes de procesarlo.
+
+```javascript title="Handler del webhook"
+app.post('/webhooks/soyio', async (req, res) => {
+  const { event, data } = req.body;
+
+  if (event === 'report.created' && data.kind === 'rdc31') {
+    await storeCoverSheetData(data.metadata);
+    await sendToCMF(data.content);
+  }
+
+  res.status(200).send('OK');
+});
+```
+
+## Buenas prácticas
+
+- Guarda el `redec_id` junto con tu solicitud de crédito o evaluación
+- Informa el acceso inmediatamente después de una consulta exitosa
+- Usa el modo masivo solo cuando controles deduplicación en tu propio proceso
+- Automatiza la descarga del reporte con `report.created`
+- Revisa [Configuración](./configuration.mdx#reportes-automáticos) para activar la generación semanal
+
+## Próximos pasos
+
+- [Configuración de REDEC](./configuration.mdx) - Activa reportes automáticos y webhooks
+- [RDC30](./rdc30.mdx) - Genera el reporte semanal de consentimientos
+- [RDC40](./rdc40.mdx) - Genera reportes de solicitudes de derecho REDEC
+- [Cómo funciona REDEC](./how-it-works.mdx) - Entiende cómo se relacionan consentimientos, accesos y reportes
