@@ -11,7 +11,8 @@ Contacta a tu gerente de cuenta en Soyio para habilitar el módulo REDEC en tu c
 - Endpoint `/api/v1/redec/consent_actions`
 - Endpoint `/api/v1/redec/consent_commits`
 - Endpoint `/api/v1/redec/consent_templates`
-- Endpoint `/api/v1/reports` con tipo `rdc30` y `rdc40`
+- Endpoint `/api/v1/redec/accesses`
+- Endpoint `/api/v1/reports` con tipo `rdc30`, `rdc31` y `rdc40`
 - Dashboard de gestión REDEC
 - Configuración de reportes automáticos
 
@@ -30,7 +31,7 @@ Revisa la referencia del API para [Actualizar la configuración de la empresa](.
 :::
 
 :::warning[Código REDEC obligatorio]
-El código REDEC (numérico) es requerido para generar reportes RDC30 válidos. Asegúrate de usar el código correcto asignado por la CMF a tu institución financiera.
+El código REDEC (numérico) es requerido para generar reportes RDC30 y RDC31 válidos. Asegúrate de usar el código correcto asignado por la CMF a tu institución financiera.
 :::
 
 ### 3. Configura credenciales de API
@@ -55,18 +56,22 @@ Una vez habilitado, el endpoint `/redec/consent_actions` estará disponible para
 
 ### Reportes automáticos
 
-Configura la generación automática de reportes RDC30:
+Configura la generación automática de reportes RDC30 y RDC31:
 
 ```json title="PATCH /api/v1/config"
 {
   "consent": {
     "redec_enabled": true,
-    "redec_automatic_rdc30": true
+    "redec_automatic_rdc30": true,
+    "redec_automatic_rdc31": true
   }
 }
 ```
 
-Los reportes se generan automáticamente cada sábado entre las 00:00 y 01:00 cuando esta configuración está habilitada.
+- `redec_automatic_rdc30`: genera el reporte semanal de consentimientos RDC30
+- `redec_automatic_rdc31`: genera el reporte semanal de accesos bajo consentimiento RDC31
+
+Los reportes semanales se generan automáticamente cada sábado después del cierre del período semanal cuando esta configuración está habilitada.
 
 Para reportes automáticos de RDC40 (solicitudes de derecho REDEC), configura:
 
@@ -213,4 +218,5 @@ Revisa la guía completa de [creación de plantillas de consentimiento](../conse
 
 - [Registra consentimientos](./consent-registration.mdx) - Comienza a registrar acciones REDEC
 - [RDC30](./rdc30.mdx) - Crea reportes RDC30 para la CMF
+- [RDC31](./rdc31.mdx) - Registra accesos y genera el reporte semanal RDC31
 - [Cómo funciona](./how-it-works.mdx) - Entiende la arquitectura completa

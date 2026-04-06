@@ -16,10 +16,20 @@ El endpoint `POST /api/v1/redec/consent_actions` registra acciones de consentimi
 - Diseñado específicamente para cumplimiento regulatorio chileno
 - Se incluye automáticamente en reportes RDC30
 
+### API de accesos RDC31
+
+El endpoint `POST /api/v1/redec/accesses` registra cada acceso exitoso a la base de deuda realizado bajo un consentimiento REDEC válido.
+
+**Qué valida**:
+- `redec_id` asociado a tu empresa
+- vigencia del consentimiento al momento del acceso
+- revocación previa al acceso
+- duplicados exactos de fecha y hora
+
 ### API de reportes
 
 Los endpoints de reportes te permiten:
-- Crear reportes RDC30 y RDC40 con rangos de fechas específicos
+- Crear reportes RDC30, RDC31 y RDC40 con rangos de fechas específicos
 - Los reportes se generan automáticamente en formato CMF
 
 ```json title="POST /api/v1/reports"
@@ -35,7 +45,7 @@ Los endpoints de reportes te permiten:
 El sistema envía webhooks para eventos REDEC:
 - `consent_action.created` - Nueva acción de consentimiento registrada
 - `consent_action.redec_receipt_generated` - Recibo PDF de consentimiento REDEC generado y listo para descarga
-- `report.created` - Nuevo reporte generado (verifica `kind: "rdc30"` o `kind: "rdc40"` en el payload)
+- `report.created` - Nuevo reporte generado (verifica `kind: "rdc30"`, `kind: "rdc31"` o `kind: "rdc40"` en el payload)
 - `redec.rdc40_no_changes` - Evento informativo cuando no hubo eventos que generen entradas RDC40 en el período (ver [Genera reportes RDC40](./rdc40.mdx))
 
 #### Webhook de recibos PDF
@@ -63,7 +73,7 @@ El webhook `consent_action.redec_receipt_generated` se envía cuando el recibo P
 - `user_reference`: Tu referencia interna del usuario (si la proporcionaste)
 
 :::tip[Sincronización semanal con CMF]
-Usa el webhook `report.created` y verifica el campo `kind` en el payload para identificar reportes RDC30 y sincronizarlos semanalmente con la CMF según lo requiere la normativa.
+Usa el webhook `report.created` y verifica el campo `kind` en el payload para identificar reportes RDC30 y RDC31 y sincronizarlos semanalmente con la CMF según lo requiere la normativa.
 :::
 
 ### Recibos PDF automáticos
@@ -166,6 +176,16 @@ El reporte RDC30 consolida todas las acciones de consentimiento en un período:
 - RUT del ejecutivo (si aplica)
 - Actualizaciones y revocaciones
 
+### Reporte RDC31
+
+El reporte RDC31 consolida los accesos exitosos a la base de deuda bajo consentimiento:
+
+**Información incluida**:
+- `redec_id` del consentimiento usado
+- fecha y hora de cada acceso
+- RUT del mandatario cuando aplica
+- metadata de cuadratura para la carátula
+
 ## Relación con otros módulos
 
 ### Integración con Consentimiento
@@ -251,7 +271,7 @@ El sistema valida automáticamente:
 Si la plantilla no cumple, el endpoint `/redec/consent_actions` retornará error 400.
 
 :::warning[Solo templates REDEC-compliant en reportes]
-Únicamente las acciones registradas con plantillas REDEC-compliant se incluirán en los reportes RDC30. Las acciones con plantillas no conformes no serán reportables.
+Únicamente las acciones registradas con plantillas REDEC-compliant se incluirán en los reportes RDC30. Además, solo los accesos asociados a consentimientos válidos y vigentes podrán formar parte del RDC31.
 :::
 
 ### Plazos de reporte
