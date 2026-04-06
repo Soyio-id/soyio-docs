@@ -44,6 +44,11 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: 'doc',
+      id: 'integration-guide/consent/consent-metadata',
+      label: 'Metadata en consentimientos',
+    },
+    {
+      type: 'doc',
       id: 'integration-guide/consent/customization',
       label: 'Apariencia y comportamiento',
     },
