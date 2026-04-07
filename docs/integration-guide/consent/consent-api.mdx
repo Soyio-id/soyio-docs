@@ -306,7 +306,7 @@ Para revisar el payload completo y sus validaciones, consulta [Crear un consent 
 
 #### Opción B: Crea un commit de varios consentimientos (`ConsentCommit`)
 
-Si el usuario otorgó (o revocó) varios consentimientos en la misma sesión, registra todos en una sola llamada con el [endpoint de creación de commit de consentimientos](../../api/resources/create-consent-commit.api.mdx). Esto genera una única versión del acuerdo del usuario (`Agreement`) y una sola evidencia.
+Si el usuario otorgó (o revocó) varios consentimientos en la misma sesión, registra todos en una sola llamada con el [endpoint de creación de commit de consentimientos](../../api/resources/create-consent-commit.api.mdx). Esto genera varios `ConsentAction` asociados a una única versión del acuerdo del usuario (`Agreement`) y una sola evidencia.
 
 ```json title="POST /api/v1/consent_commits"
 {
@@ -335,7 +335,7 @@ Consulta la [guía de metadata en consentimientos](./consent-metadata) para ente
 
 Al usar la API directamente asumes la responsabilidad sobre la evidencia de la acción del usuario. Estas recomendaciones te ayudan a cubrir esa responsabilidad:
 
-1. **Incluye la mayor cantidad de información contextual posible** en `metadata` y `contextual_data` de ambos endpoints. Consulta los ejemplos en la [guía de metadata](./consent-metadata)
+1. **Incluye la mayor cantidad de información contextual posible** en `metadata` y `contextual_data` de ambos endpoints. Consulta los ejemplos en la [guía de metadata](./consent-metadata).
 2. **Mantén logs detallados** de las interacciones del usuario en tu sistema
 3. **Implementa un sistema de auditoría** que permita rastrear cada acción de consentimiento hasta tu sistema
 4. **Documenta tu proceso** de captura de consentimiento para auditorías futuras

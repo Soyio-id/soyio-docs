@@ -8,7 +8,7 @@ import TabItem from '@theme/TabItem';
 
 # Metadata en consentimientos
 
-El campo `metadata` te permite asociar información contextual libre a cada acción de consentimiento. Es un objeto JSON con un tamaño máximo de 8 KB.
+El campo `metadata` te permite asociar información contextual libre a cada acción de consentimiento (`ConsentAction`). Es un objeto JSON con un tamaño máximo de 8 KB.
 
 Úsalo para incluir datos de trazabilidad propios de tu sistema: identificadores de sesión, versiones de formulario, origen de campaña, etc.
 
@@ -50,8 +50,8 @@ Si usas un [ConsentCommit](./consent-capture#opci%C3%B3n-2-crea-un-commit-de-var
 ```json title="POST /api/v1/consent_commits"
 {
     "consent_actions": [
-        { "action_token": "<token_1>" },
-        { "action_token": "<token_2>" }
+        { "action_token": "<action_token_1>" },
+        { "action_token": "<action_token_2>" }
     ],
     "metadata": {
         "session_id": "sess_123456789",
@@ -60,7 +60,7 @@ Si usas un [ConsentCommit](./consent-capture#opci%C3%B3n-2-crea-un-commit-de-var
 }
 ```
 
-La metadata del commit se fusiona con la metadata de cada action token individual y se aplica a todos los `ConsentAction` creados dentro del commit.
+La `metadata` del commit se fusiona con la `metadata` de cada action token individual y se aplica a todos los `ConsentAction` creados dentro del commit.
 
 ## Ejemplos por momento del flujo
 
