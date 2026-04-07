@@ -1,0 +1,87 @@
+---
+id: delete-workflow-step
+title: "Eliminar paso de workflow"
+description: "Eliminar paso de workflow"
+sidebar_label: "Eliminar paso de workflow"
+hide_title: true
+hide_table_of_contents: true
+api: eJzNV1FvE0cQ/iuj4QGQrucYBWgthJpCkEC0ikhQhJLIHt+O7SV3u8vuXohr3Y/hN/Str/lj1eydHTuOUqBShV983tuZnZlv9vvGC4w0DTg4wWPrzyel/RzwLEPr2FPU1rxWOEDFJUdebjiM7DBDR54qjuzFeoGGKsYBfu42DbXCDLXBATqKM8xQcSi8duIUB/j6JSguYbkdM/T8qdaeFQ6irznDUMy4IhwsMM6duA7RazPFDPmSKlem0ybD/m+Pfn/04ee9MD1y073qw9OD2YvJFJsmW8X0daE4CvY7w3jyZLLTV7uTvtoZP6bdyVP6pej3+31smjPxGJw1gYM4ebSzK1+bERxQsMClrrQhZbHJcHenv71t33vrQTFQHdlEXVChr/4ymGFhjayICTlX6iJh1/sYxG6xnYMdf+QibmR70r7LMOpYyneIFOuQqhVJl9IVzktfRN2m0vq6qy5Ux1kbqIQzZIlfsmuPuNP0vRFj6/WfrMSki+baRpvIU/brRrs7/WYV7p3ejxkKW5cKjI2wFiXD3NYeCs9KVqgMORyUTIGhmHFxDnHGoGxRV2xiSgoowixGFwa9nrJFyIOda5trhU36CJS3IP6Oi9oHC8YCG0HPC/A/LJDaXFCp1VBO4RC/Ccl3HGztC061ntjafAOeu1+J5wsB09yPMNFGwTPfHfkcPus4A63g/jOtnt+/AWbCuksJyCiIfg40JW2EPpa54R82vpKw0/U7bBHosL38ybGvdAjampSMojAbW/JqSGY+tBOBY8lxIV+9zQtrJlpyuO1lRYamLDiR07c6IqdvcyHLS2OpsTSZjvPEz+LqnOX5TEjpBrO03OMTCQrDrPEyX0Y2XYInC0w+biSe4QWVNf9gBZA0K44zey1hSbbiDAfYWxn1Fmua1azWhyGyC72FVo3cIfYXS6WrfYkDXF76QEaN7eXq3vfI6d5Ff0tlDtlfaNXyt/M1jynAg874IYpabfol577Rp1V1kQQBHrQ/ZNdDlDIsOyF1b3vpV/2wuldyMnaCJ7/HTD5dyPbhlfUVRRzgm+OjrUj2w6eaK9oWJ6hYaTKRoTYEewev4ZznEqyzvtDWkCJgA1zCjElxSqWkAMGWutCxVhxy4QtxGefDwKnlhtGes/k/Y4d0Irw5PpJ9gUPaoBhkvyK1kZL915TgkGHKhj1BLU0g8g9slLPaROilbDWH3ka+MIeo2bSlVLXvolQM/cdQaVNHK8VqZNiZ2FSdjsIOpZGk+lvJCyIy/aRWKnS6/K/VMinFkEzzU3Nq7t2Dg3TpbTg1LwS4NCW2QbiaFYPioiRPHkYbBDHKYT9Ego5KZD+nethrMW3dzJMiBil4W7z81NzwJQWDsqQLDjC6STcjmPcsjK5pYwQyp0KpQxR66+KHi6svpVY2QODp1d8C1qmJ2tntJsjhrQ3Xhoon2iRLDvHqixGkR4WtnDVsYshbhQ75wSriUd7pOhVJ17lKcoZB+iXyr9cDQ4bCMS0u/Xwn35ElZ0OsKPV6N87eRdYb4K5uR+TL2HNlEras5ZlFR4RrpIoZDjbH900ulPdaCSvPbIhiuliMKfB7XzaNLH+q2SeBET3wmsbSeycLVDrIs8LBhMrAW1Guhh588K4bYx7C9h+EW5PpFsnMr1UIMetkaj0dodj/Ekn3/+A7opDDRY/bjl5T0b2iYBfXTLZmvg0Ne7n/dv9oH7M0V6/Be4Ps0gG3RrRYtDuOhE2aZhVgy6bNWdM0/wBsifbK
+sidebar_class_name: "delete api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+show_extensions: true
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Eliminar paso de workflow"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"delete"}
+  path={"/workflows/{workflow_id}/workflow_steps/{id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+<details>
+<summary><strong>Permisos requeridos</strong></summary>
+
+**Dashboard:** necesitas al menos uno de estos permisos.
+- `workflows.dashboard.config`
+- `workflows.dashboard.manage`
+
+**API Keys:** necesitas al menos uno de estos permisos.
+- `workflows.api.config`
+- `workflows.api.manage`
+
+</details>
+
+
+
+Eliminar paso de workflow
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"workflow_id","in":"path","description":"ID del workflow","required":true,"schema":{"type":"string","example":"wf_1B2M2Y8AsgTpgAmY7PhCfg"}},{"name":"id","in":"path","description":"ID del paso","required":true,"schema":{"type":"string","example":"66f01d4f1d0b5a4f7a9c1111"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"204":{"description":"Paso eliminado"},"401":{"description":"Error de autenticación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"authentication_error"},"title":{"type":"string","example":"Unauthorized"},"status":{"type":"integer","example":401},"detail":{"type":"string","example":"We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"}}}}}},"404":{"description":"Recurso no encontrado","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"invalid_request_error"},"title":{"type":"string","example":"Resource not found"},"status":{"type":"integer","example":404},"detail":{"type":"string","example":"Couldn't find <resource> with id '<id>'. Please check your request and try again"}},"title":"NotFoundErrorSchema"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

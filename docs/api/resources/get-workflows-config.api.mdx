@@ -1,0 +1,83 @@
+---
+id: get-workflows-config
+title: "Obtener configuración de workflows"
+description: "Obtener configuración de workflows"
+sidebar_label: "Obtener configuración de workflows"
+hide_title: true
+hide_table_of_contents: true
+api: eJzlVs1uGzcQfpUBc0mA7Uou0otODQK3cFCgBuzAB1uwRuRIYrzLoUmuYlXYh8kz5NarX6wY7urfTVsU6KW6aJccfvvN3zdcq4TzqEa36j27mZ03AZNlp8aFYk/dy4VRIzWndMPhYVbx59iZqkIFip5dpKhGa/X9cCh/hqIO1meU0Q5V2+evDgzB5w0K8DSRswaBnmziiDW5RKpQml0ilwQMva+sziwGn6IgrlXUC6pRntLKkxopnn4inVShfBDOyXZ8dMfyxK7Nv0K9HZ6d8j0PgYPQxEY4WN0R/zesAj02NpCRIOe9QiWbKvmPCVMTVaEMJbSVRP3Qhw5rixlTsE4CT09Y+0qWsEmLjqjQuSfhr9rNJ7559KOTwxzsb2TkSM9md8a6RHMK+4feDs/aLd1vot8QaG4qA44T7LEkWHETQAcysoJVLOGyIowEekH6AdKCwLBupByyU4AJFin5OBoMDOtYRl5ZLq3pU9kW6uk7T6G2MVp22QODcTFlDOYe3eqeZxL8beWV290yEBpVvLj1Odhcji/t6U0HvLRZo8N5X8gzO9+8jwuF3r7IB719CVKWj8H21saSM9JNsGmlRrfrDP9A8jxux8VRZf8q3UYB9J93ZM5fItdH8XatMtpRdAu1xKqh/0+UJZY1pQX3OihKg2mhRmrQmQ/2IxgpLCl04WtCpUZqU7sRnZny07Z8B+jtYHmmjjN1RWFpTSdDPjQ0xQiv+8NvVFsc46L3/xCTTaO79L/uXsTqjRJHNwV1JXrWidC2rLbtLl8WV7ONGqkpYcg60T38xKHGpEbqw831CZPz+NhQjacaCzUZiy4RNA7h3eUFPNBKyHoO2rJDmRQOqIIFoaHsSoURIldW29QYiqXImECm1X2kXK/3iR/I/ZfcIX8RPtxci12kuOkzsTdoDlziv3QJrgjm0rkIjRQBizk549m6BIPsraU4OPAXVpAsuS6UZr/Zz36A2romsQSrLZR1M87R6eaFupJCkuifOC8ZMVRBLiVtWdAuzMYpQ5CPlnfuzr16BZdZMTjeufeSuHyZ6Ej4hgyBIV1hwACTA3WZlHAek1wJsg6JPeV48G4mdDArcCx7jeuDV965IywJGFQVLinC5FirJrAaMEx2YjEBjwGhsjFhAN/zh+Xzl8oajhBp/vy7JOvOJev5tAhK+IXj7qChmXX5JMX0/MVJpieaa8+OXIpld2OI5eWW8aTs7xmo8z2D6jxlVZR6SfTjbu4VSjSmy8tZOSyHsuQ5phpzrTvMtf33NP8gzds+SfSUBr5C6wQ7K866171bdSqjIrwLjkl21+spRvoYqraV5ceGQh5KMjmCxakU2q1Mry5xe5Pmndbk027EnF61DsT453PpUblc7BE/auiM3m+hW+1hr9edxbV0TNuqoifRKUY7btv2D4m4AOM=
+sidebar_class_name: "get api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+show_extensions: true
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Obtener configuración de workflows"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/config/workflows"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+<details>
+<summary><strong>Permisos requeridos</strong></summary>
+
+**Dashboard:** necesitas al menos uno de estos permisos.
+- `workflows.dashboard.read`
+- `workflows.dashboard.write`
+- `workflows.dashboard.config`
+- `workflows.dashboard.manage`
+- `config.manage`
+
+**API Keys:** necesitas al menos uno de estos permisos.
+- `workflows.api.config`
+- `workflows.api.manage`
+- `config.api.manage`
+
+</details>
+
+
+
+Obtener configuración de workflows
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Configuración de workflows obtenida exitosamente","content":{"application/json":{"schema":{"type":"object","properties":{"config":{"type":"object"}}}}}},"401":{"description":"Error de autenticación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"authentication_error"},"title":{"type":"string","example":"Unauthorized"},"status":{"type":"integer","example":401},"detail":{"type":"string","example":"We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

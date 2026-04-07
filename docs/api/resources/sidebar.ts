@@ -121,6 +121,18 @@ const sidebar: SidebarsConfig = {
           "className": "api-method patch"
         },
         {
+          "type": "doc",
+          "id": "api/resources/get-workflows-config",
+          "label": "Obtener configuración de workflows",
+          "className": "api-method get"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/update-workflows-config",
+          "label": "Actualizar configuración de workflows",
+          "className": "api-method patch"
+        },
+        {
           "type": "category",
           "label": "Users",
           "items": [
@@ -590,6 +602,12 @@ const sidebar: SidebarsConfig = {
         },
         {
           "type": "doc",
+          "id": "api/resources/get-validation-attempt-stats",
+          "label": "Obtener estadísticas de intentos de validación",
+          "className": "api-method get"
+        },
+        {
+          "type": "doc",
           "id": "api/resources/get-validation-attempt",
           "label": "Obtener un flujo de validación específico",
           "className": "api-method get"
@@ -779,6 +797,138 @@ const sidebar: SidebarsConfig = {
           "id": "api/resources/data-subject-request-data-missmatch",
           "label": "Data missmatch",
           "className": "api-method event"
+        }
+      ]
+    },
+    {
+      "type": "category",
+      "label": "Workflows",
+      "items": [
+        {
+          "type": "doc",
+          "id": "api/resources/schemas/workflow",
+          "label": "El objeto Workflow",
+          "className": "schema"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/schemas/workflowrun",
+          "label": "El objeto WorkflowRun",
+          "className": "schema"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/index-workflows",
+          "label": "Obtener todos los workflows",
+          "className": "api-method get"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/create-workflow",
+          "label": "Crear un workflow",
+          "className": "api-method post"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/get-workflow-stats",
+          "label": "Obtener métricas agregadas de ejecuciones de workflows",
+          "className": "api-method get"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/get-workflow",
+          "label": "Obtener un workflow específico",
+          "className": "api-method get"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/update-workflow",
+          "label": "Actualizar un workflow",
+          "className": "api-method patch"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/delete-workflow",
+          "label": "Eliminar un workflow",
+          "className": "api-method delete"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/force-run-workflow",
+          "label": "Ejecutar workflow manualmente",
+          "className": "api-method post"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/trigger-workflow-webhook",
+          "label": "Disparar o reanudar workflow mediante webhook",
+          "className": "api-method post"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/index-workflow-steps",
+          "label": "Obtener pasos de un workflow",
+          "className": "api-method get"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/create-workflow-step",
+          "label": "Crear paso en workflow",
+          "className": "api-method post"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/get-workflow-step",
+          "label": "Obtener paso específico de un workflow",
+          "className": "api-method get"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/update-workflow-step",
+          "label": "Actualizar paso de workflow",
+          "className": "api-method patch"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/delete-workflow-step",
+          "label": "Eliminar paso de workflow",
+          "className": "api-method delete"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/index-workflow-runs",
+          "label": "Obtener ejecuciones de un workflow",
+          "className": "api-method get"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/index-workflow-versions",
+          "label": "Obtener historial de versiones de un workflow",
+          "className": "api-method get"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/get-workflow-version",
+          "label": "Obtener una versión específica de un workflow",
+          "className": "api-method get"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/restore-workflow-version",
+          "label": "Restaurar una versión de workflow",
+          "className": "api-method post"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/get-workflow-run",
+          "label": "Obtener una ejecución de workflow",
+          "className": "api-method get"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/submit-workflow-form-submission",
+          "label": "Enviar un formulario pendiente de workflow",
+          "className": "api-method post"
         }
       ]
     },
@@ -1348,6 +1498,12 @@ const sidebar: SidebarsConfig = {
           "type": "doc",
           "id": "api/resources/create-redec-consent-action",
           "label": "Crear un consent action para REDEC",
+          "className": "api-method post"
+        },
+        {
+          "type": "doc",
+          "id": "api/resources/create-redec-access",
+          "label": "Registrar accesos RDC31",
           "className": "api-method post"
         },
         {

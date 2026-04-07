@@ -1,0 +1,87 @@
+---
+id: delete-workflow
+title: "Eliminar un workflow"
+description: "Eliminar un workflow"
+sidebar_label: "Eliminar un workflow"
+hide_title: true
+hide_table_of_contents: true
+api: eJzNVs1uGzcQfpXB5JAE2K7swEULIQjqJg7gIC0M24ER2IY0Wo4kxrskQ3Jlq8I+TJ6ht179YsVwVz+W3LS5FNFFu1zOcL75ht/MAiNNAvYv8cL6m3FpbwNeZ2gde4rammOFfVRccuTlBszQkaeKI3uxXKChirGPWmGG2mAfHcUpZqg4FF478YN9PH4Diku4Xbvx/LnWnhX2o685w1BMuSLsLzDOnXgM0WszwQz5jipXytLteLD/64vfXnz8+TBMzt3ksPr408n09XiCTXMtLoOzJnAQLy/2DuTvYRhLGMClrrQhZbHJ8GBvf3frkffWg2KgOrKJuqBC3/9pMMPCGlkRE3Ku1EVKVu9TELvFLhA7+sRFfAD5sv2WYdSxlP8QKdYhpS2SLoUG54WIqFs4ra+vJYfqOG0DlXAGLPELuvaIr5p+MGJsvf6DlZh00axttIk8Yb9pdLC336zC/ar3C4bC1qUCYyNsRMkwt7WHwrOSFSpDDiclU2AoplzcQJwyKFvUFZuYQAFFmMboQr/XU7YIebBzbXOtsEk/ofIR1k+5qH2wYCywEfa8EP/dEqnNjEqtBnIKh/hNTJ5ysLUvOOV6bGvzDXwe/Ec+XwuZ5mmEsTYKXvruyFdwq+MUtIKnL7V69XSLzMR1BwnIKIh+DjQhbbBZY8PfbXwrYafrd9Yy0HF794NjX+kQtDUJjKIwHVnyakBmPrBjoWOpMCFffc0La8ZaMDz2sSJDExaeyOlHHZHTj7mQ5aWx5FiKTMd5EkVxdcPyfC3CtKUsrfZ4qM2mIPJdZNNhu1xgMt/CnOGMypq/M+yCsOI4tet2kdpEnGIfeyuj3kKrRm4I+9myedS+xD4ur3Qgo0b2bnWre+R0b7a/00zO2M+0atXZ+ZpHFOBZZ/wcm2zbLzn3jT6tqosk9/CsfZFdz1GQLnlOtdle6RXbq1sjJ2PX0+R9xOTTdWsf3lpfUcQ+vrs434nkKHyuuaLd1gMVK00mMtSG4PDkGG54LsE66wttDSkCNsAlTJkUJyglBQi21IWOteKQixqIyzgfBE5VNYj2hs3/GTukE+HdxbnsCxzSBsUg+xWpB5Dsv0KCM4YJG/YEtRSBle1slLPaROgltJpD7wFemEPUbNpUqtp3USqG/R+h0qaOVpLVyEwztik7nUCdSSFJ9nfACyMy5KRSKrQVb8dqCUoxJNP8ylyZJ0/gJN1rG67MayEuDV1tEK5mxaC4KMmTh+EDDRjmcBQiQacWsp9TPuy6VbZu5qnfBUl4m7z8ymz5koRBWdKMAwy3FWUI856F4VoZhiCjH5Q6RPLguvhhdv+l1MoGCDy5/0vIujJRO7tbBDm8t2FtqHisTbLkEO+/GGF6WNjKWcMmhrztvyE/WUU8zLuuTUXq2lylZoVB6iXyL+txIEPRmJaX/Xwv35MlZ0OsKNV6N7X+gxQ/4HV1MSLfxZ4rU8fKWolZdDK3IZmYYV8r0dSpDVE+LRYjCvzBl00jy59r9qkziJp7TSMpq8sFKh3kWWF/TGXgnShW0wo+O+3mj+ewO1c/Gmy3SGa+7iGIWddkJGHSwtoy2eg+h0XBLm6Y7IxJD7T/zdH7o/MjzNIoupG4LQVJBzwa0WLR7jiXK9o0qwBbiWqum6b5G9i4gJI=
+sidebar_class_name: "delete api-method"
+info_path: docs/api/resources/soyio-api
+custom_edit_url: null
+show_extensions: true
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Eliminar un workflow"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"delete"}
+  path={"/workflows/{id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+<details>
+<summary><strong>Permisos requeridos</strong></summary>
+
+**Dashboard:** necesitas al menos uno de estos permisos.
+- `workflows.dashboard.config`
+- `workflows.dashboard.manage`
+
+**API Keys:** necesitas al menos uno de estos permisos.
+- `workflows.api.config`
+- `workflows.api.manage`
+
+</details>
+
+
+
+Eliminar un workflow
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"id","in":"path","description":"ID del workflow","required":true,"schema":{"type":"string","example":"wf_1B2M2Y8AsgTpgAmY7PhCfg"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"204":{"description":"Workflow eliminado"},"401":{"description":"Error de autenticación","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"authentication_error"},"title":{"type":"string","example":"Unauthorized"},"status":{"type":"integer","example":401},"detail":{"type":"string","example":"We could not authenticate your credentials. Please check the documentation at https://docs.soyio.id"}}}}}},"404":{"description":"Recurso no encontrado","content":{"application/json":{"schema":{"type":"object","required":["type","title","status","detail"],"properties":{"type":{"type":"string","example":"invalid_request_error"},"title":{"type":"string","example":"Resource not found"},"status":{"type":"integer","example":404},"detail":{"type":"string","example":"Couldn't find <resource> with id '<id>'. Please check your request and try again"}},"title":"NotFoundErrorSchema"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      
