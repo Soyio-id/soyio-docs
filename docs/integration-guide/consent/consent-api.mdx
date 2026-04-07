@@ -311,7 +311,7 @@ Si el usuario otorgó (o revocó) varios consentimientos en la misma sesión, re
 ```json title="POST /api/v1/consent_commits"
 {
     "user_reference": "user_12345", // Opcional
-    "entity_id": "<entity_token>",  // Opcional
+    "entity_id": "<entity_id>",  // Opcional
     "metadata": {                   // Opcional, se fusiona con la metadata de cada action token
         "session_id": "sess_123456789",
         "form_id": "registration_form_001"
