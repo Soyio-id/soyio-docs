@@ -19,7 +19,7 @@ A continuación, explora la demostración de personalización de apariencia y aj
 <AppearanceDemo />
 
 :::note
-Esta guía cubre las opciones de personalización más comunes. Para documentación técnica completa del SDK y opciones avanzadas, consulta la [documentación oficial del SDK web de Soyio](https://github.com/Soyio-id/soy-io-widget?tab=readme-ov-file#appearance) o la [documentación del SDK mobile de Soyio](https://github.com/Soyio-id/soy-io-rn-sdk).
+Esta guía cubre las opciones de personalización más comunes para el SDK web `@soyio/soyio-widget` (v3+) y el SDK mobile `@soyio/soyio-rn-sdk` (v5+). Para documentación técnica completa y opciones avanzadas, consulta la [documentación oficial del SDK web de Soyio](https://github.com/Soyio-id/soy-io-widget?tab=readme-ov-file#appearance) o la [documentación del SDK mobile de Soyio](https://github.com/Soyio-id/soy-io-rn-sdk).
 :::
 
 ## Estructura
@@ -29,8 +29,9 @@ El objeto `appearance` consta de cuatro secciones principales:
 ```javascript
 const appearance = {
   theme: string,        // Tema predefinido
-  variables: Variables, // Variables CSS globales
-  rules: Rules,         // Reglas CSS por componente
+  mode: string,         // light | dark | auto
+  variables: Variables, // Variables globales de apariencia
+  rules: Rules,         // Reglas CSS por componente/estado
   config: Config,       // Configuración de comportamiento
 };
 ```
@@ -41,9 +42,31 @@ Los temas integrados sirven como base para la personalización: ofrecen paletas 
 
 | Tema | Descripción |
 | ----- | ----------- |
-| `"soyio"` | Tema claro predeterminado con colores de marca Soyio |
-| `"night"` | Tema oscuro con azules profundos y colores apagados |
+| `"soyio"` | Tema principal de Soyio |
 | `"flat"` | Tema minimalista con diseño plano y bordes rectos |
+| `"neutral"` | Paleta más sobria, útil para integraciones con menos carga de marca |
+| `"night"` | Alias deprecado de `theme: "soyio"` con `mode: "dark"` |
+
+### Modos de color
+
+El campo `mode` controla cómo se resuelve la variante clara u oscura del tema:
+
+| Modo | Descripción |
+| ---- | ----------- |
+| `"light"` | Fuerza modo claro |
+| `"dark"` | Fuerza modo oscuro |
+| `"auto"` | Respeta el esquema de color del dispositivo/usuario |
+
+```javascript
+const appearance = {
+  theme: 'soyio',
+  mode: 'dark',
+};
+```
+
+:::info
+`theme: "night"` sigue siendo aceptado por compatibilidad, pero nuevas integraciones deberían usar `theme + mode`.
+:::
 
 ## Variables
 
@@ -51,7 +74,7 @@ Las variables permiten ajustar atributos visuales comunes en todos los component
 
 ### Variables disponibles
 
-#### Tipografía
+#### Variables tipográficas
 
 | Variable | Descripción | Por defecto |
 | -------- | ----------- | ----------- |
@@ -65,8 +88,8 @@ Las variables permiten ajustar atributos visuales comunes en todos los component
 | Variable | Descripción | Por defecto |
 | -------- | ----------- | ----------- |
 | `colorPrimary` | Color principal para elementos interactivos | `"#0570DE"` |
-| `colorPrimarySurface` | Color de fondo para elementos primarios (ej. pestaña activa) | `"#EEF2FF"` |
-| `colorSecondary` | Color secundario para elementos interactivos | `"#A180F0"` |
+| `colorPrimarySurface` | Color de fondo para elementos primarios (ej. pestaña activa) | depende del tema |
+| `colorSecondary` | Color secundario para elementos interactivos | depende del tema |
 | `colorBackground` | Color de fondo | `"#FFFFFF"` |
 
 #### Colores de superficie
@@ -124,6 +147,10 @@ Las variables permiten ajustar atributos visuales comunes en todos los component
 | `colorOverlay` | Color de superposición | `"rgba(0, 0, 0, 0.5)"` |
 | `dataUseIconColor` | Color para iconos de uso de datos en [gestión de consentimientos](./consent/introduction) | Por defecto de la [configuración de la empresa](./company-configuration) |
 
+:::tip
+Si necesitas personalizar sombras (`box-shadow`), hoy debes hacerlo con `appearance.rules`. No existe una variable `shadow` o `boxShadow` a nivel global.
+:::
+
 #### Bordes
 
 | Variable | Descripción | Por defecto |
@@ -172,14 +199,9 @@ rules: {
 
 ### Reglas soportadas
 
-#### Layout
-
-- `.MainContainer` - El contenedor principal
-- `.Card` - Contenedores de tarjeta
-- `.CardTitle` - Texto de título de tarjeta
-- `.Dialog` - Contenedores de diálogo
-- `.DialogOverlay` - Superposiciones de diálogo
-- `.DialogContent` - Áreas de contenido de diálogo
+:::tip
+Las siguientes capturas se tomaron desde Storybook con `theme: "neutral"` y `mode: "light"` para mostrar una base visual consistente. Haz clic en cualquier imagen para verla en tamaño completo.
+:::
 
 #### Tipografía
 
@@ -187,28 +209,98 @@ rules: {
 - `.StepTitle` - Texto de título del indicador de paso (también hereda de `.Title`)
 - `.Description` - Texto de descripción
 
+#### Layout
+
+- `.MainContainer` - El contenedor principal
+
+**Card**
+
+<img src="/img/appearance/card-annotated.png" alt="Ejemplo visual anotado del componente Card" width="100%" style={{ display: 'block', maxWidth: '72rem', margin: '1rem auto 1.5rem', background: '#fff' }} />
+
+- `.Card` - Contenedores de tarjeta
+- `.CardTitle` - Texto de título de tarjeta
+
+**Dialog**
+
+<img src="/img/appearance/dialog-annotated.png" alt="Ejemplo visual anotado del componente Dialog" width="100%" style={{ display: 'block', maxWidth: '72rem', margin: '1rem auto 1.5rem', background: '#fff' }} />
+
+- `.DialogOverlay` - Superposiciones de diálogo
+- `.DialogContent` - Contenedores de contenido de diálogo
+- `.DialogTitle` - Títulos del diálogo
+- `.DialogDescription` - Texto descriptivo del diálogo
+
 #### Inputs
 
+**Input**
+
+<img src="/img/appearance/input-annotated.png" alt="Ejemplo visual anotado de Input, Label y HintIcon" width="100%" style={{ display: 'block', maxWidth: '72rem', margin: '1rem auto 1.5rem', background: '#fff' }} />
+
 - `.Input` - Campos de entrada
-- `.Input--error` - Campos de entrada en estado de error
 - `.Label` - Etiquetas
 - `.HintIcon` - Iconos de ayuda/pista junto a etiquetas de entrada
+
+**Input con error**
+
+<img src="/img/appearance/input-with-error-annotated.png" alt="Ejemplo visual anotado de input con error" width="100%" style={{ display: 'block', maxWidth: '72rem', margin: '1rem auto 1.5rem', background: '#fff' }} />
+
+- `.Input--error` - Campos de entrada en estado de error
+- `.ErrorMessage` - Texto de mensaje de error
+
+**Text area**
+
+<img src="/img/appearance/textarea-annotated.png" alt="Ejemplo visual anotado de textarea" width="100%" style={{ display: 'block', maxWidth: '72rem', margin: '1rem auto 1.5rem', background: '#fff' }} />
+
 - `.TextArea` - Entradas de área de texto
-- `.Select` - Menús desplegables select
+
+**Select**
+
+<img src="/img/appearance/select-annotated.png" alt="Ejemplo visual anotado de Select" width="100%" style={{ display: 'block', maxWidth: '72rem', margin: '1rem auto 1.5rem', background: '#fff' }} />
+
+- `.Select` - Triggers estilo select
+
+**Combobox**
+
+<img src="/img/appearance/combobox-annotated.png" alt="Ejemplo visual anotado de Combobox" width="100%" style={{ display: 'block', maxWidth: '72rem', margin: '1rem auto 1.5rem', background: '#fff' }} />
+
 - `.Combobox` - Entradas de combobox
-- `.NinInput` - Estiliza el campo de entrada para números de identidad nacional
-- `.TrackingCodeInput` - Estiliza el componente de entrada de código de seguimiento
-- `.TrackingCodeInputCell` - Estiliza celdas individuales en la entrada de código de seguimiento
-- `.TrackingCodeInputSeparator` - Estiliza el separador entre celdas de código de seguimiento
+
+**NinInput**
+
+<img src="/img/appearance/nin-input-annotated.png" alt="Ejemplo visual anotado de NinInput" width="100%" style={{ display: 'block', maxWidth: '72rem', margin: '1rem auto 1.5rem', background: '#fff' }} />
+
+- `.NinInput` - Campo de entrada para números de identidad nacional
+
+**TrackingCodeInput**
+
+<img src="/img/appearance/tracking-code-annotated.png" alt="Ejemplo visual anotado de TrackingCodeInput" width="100%" style={{ display: 'block', maxWidth: '72rem', margin: '1rem auto 1.5rem', background: '#fff' }} />
+
+- `.TrackingCodeInput` - Componente de entrada de código de seguimiento
+- `.TrackingCodeInputCell` - Celdas individuales de la entrada de código de seguimiento
+- `.TrackingCodeInputSeparator` - Separador entre celdas de código de seguimiento
 
 #### Botones y enlaces
 
+**Button**
+
+<img src="/img/appearance/button-annotated.png" alt="Ejemplo visual anotado de botón" width="100%" style={{ display: 'block', maxWidth: '48rem', margin: '1rem auto 1.5rem', background: '#fff' }} />
+
 - `.Button` - El componente de botón
+- `.Button--solid` - Variante principal del botón
+- `.Button--outline` - Variante con borde del botón
+- `.Button--ghost` - Variante sutil del botón
+
+**Link**
+
+<img src="/img/appearance/link-annotated.png" alt="Ejemplo visual anotado de enlace" width="100%" style={{ display: 'block', maxWidth: '48rem', margin: '1rem auto 1.5rem', background: '#fff' }} />
+
 - `.Link` - Enlaces
+- `.Button--link` - Variante link del botón
 
 #### Controles de selección
 
 **Checkbox**
+
+<img src="/img/appearance/checkbox-annotated.png" alt="Ejemplo visual anotado de checkbox" width="100%" style={{ display: 'block', maxWidth: '72rem', margin: '1rem auto 1.5rem', background: '#fff' }} />
 
 - `.Checkbox` - El contenedor del checkbox
 - `.CheckboxInput` - El elemento checkbox estilizado (admite `borderRadius`, `borderColor`, `backgroundColor`)
@@ -217,6 +309,8 @@ rules: {
 - `.CheckboxInput--checked` - El estado marcado del checkbox
 
 **Radio**
+
+<img src="/img/appearance/radio-input-annotated.png" alt="Ejemplo visual anotado de radio input" width="100%" style={{ display: 'block', maxWidth: '72rem', margin: '1rem auto 1.5rem', background: '#fff' }} />
 
 - `.Radio` - Contenedores de botón de radio
 - `.RadioButton` - El elemento de botón de radio (el círculo en el que se puede hacer clic)
@@ -227,6 +321,8 @@ rules: {
 
 **Switch**
 
+<img src="/img/appearance/switch-annotated.png" alt="Ejemplo visual anotado de switch" width="100%" style={{ display: 'block', maxWidth: '56rem', margin: '1rem auto 1.5rem', background: '#fff' }} />
+
 - `.Switch` - Interruptores de alternancia (envolvedor)
 - `.SwitchRoot` - Control de switch (pista)
 - `.SwitchThumb` - Pulgar del switch (círculo)
@@ -236,7 +332,9 @@ rules: {
 
 **Radio card**
 
-- `.RadioCard` - Estiliza el elemento de tarjeta envolvente de un elemento de tarjeta de radio
+<img src="/img/appearance/radio-card-annotated.png" alt="Ejemplo visual anotado de radio cards" width="100%" style={{ display: 'block', maxWidth: '72rem', margin: '1rem auto 1.5rem', background: '#fff' }} />
+
+- `.RadioCard` - Tarjeta envolvente de un elemento de tarjeta de radio
 - `.RadioCard--checked` - Estado marcado de la tarjeta de radio
 - `.RadioCardButton` - El elemento de botón de radio dentro de una tarjeta de radio
 - `.RadioCardButton--checked` - Estado marcado del botón de tarjeta de radio
@@ -252,6 +350,8 @@ Los elementos `.RadioCardTitle` también tienen la clase `.CardTitle`, así que 
 
 El indicador de pasos muestra el progreso a través de formularios de varios pasos.
 
+<img src="/img/appearance/step-indicator-annotated.png" alt="Ejemplo visual anotado del indicador de pasos" width="100%" style={{ display: 'block', maxWidth: '72rem', margin: '1rem auto 1.5rem', background: '#fff' }} />
+
 - `.StepIndicatorContainer` - El contenedor que envuelve todos los indicadores de paso
 - `.StepIndicator` - Elemento de indicador de paso individual
 - `.StepIndicator--active` - El paso actualmente activo
@@ -266,11 +366,21 @@ El indicador de pasos muestra el progreso a través de formularios de varios pas
 
 #### Retroalimentación
 
+**Loader**
+
+<img src="/img/appearance/loader-annotated.png" alt="Ejemplo visual anotado de loader" width="100%" style={{ display: 'block', maxWidth: '48rem', margin: '1rem auto 1.5rem', background: '#fff' }} />
+
 - `.Loader` - Indicadores de carga
-- `.ErrorMessage` - Texto de mensaje de error
-- `.TooltipContent` - Estiliza el popover de contenido de un tooltip
+
+**Tooltip**
+
+<img src="/img/appearance/tooltip-annotated.png" alt="Ejemplo visual anotado de tooltip" width="100%" style={{ display: 'block', maxWidth: '72rem', margin: '1rem auto 1.5rem', background: '#fff' }} />
+
+- `.TooltipContent` - Popover de contenido de un tooltip
 
 **Alert**
+
+<img src="/img/appearance/alert-annotated.png" alt="Ejemplo visual anotado de alert" width="100%" style={{ display: 'block', maxWidth: '72rem', margin: '1rem auto 1.5rem', background: '#fff' }} />
 
 - `.Alert` - Cajas de alerta
 - `.Alert--error` - Variante de alerta de error
@@ -282,6 +392,8 @@ El indicador de pasos muestra el progreso a través de formularios de varios pas
 
 **Chip**
 
+<img src="/img/appearance/chip-annotated.png" alt="Ejemplo visual anotado de chips" width="100%" style={{ display: 'block', maxWidth: '72rem', margin: '1rem auto 1.5rem', background: '#fff' }} />
+
 - `.Chip` - Chips/Etiquetas
 - `.Chip--info` - Variante de chip de información
 - `.Chip--green` - Variante de chip verde
@@ -292,7 +404,16 @@ El indicador de pasos muestra el progreso a través de formularios de varios pas
 
 Las siguientes reglas son específicas del **widget de consentimiento** y permiten personalizar elementos de UI relacionados con consentimientos:
 
+**CategoryTag**
+
+<img src="/img/appearance/category-tag-annotated.png" alt="Ejemplo visual anotado de CategoryTag" width="100%" style={{ display: 'block', maxWidth: '48rem', margin: '1rem auto 1.5rem', background: '#fff' }} />
+
 - `.CategoryTag` - Identificador de categoría de uso de datos (ej. "Compartir datos con terceros"). Aparece sobre las descripciones de categoría en vistas de consentimiento expandidas.
+
+**Badge**
+
+<img src="/img/appearance/badge-annotated.png" alt="Ejemplo visual anotado de Badge" width="100%" style={{ display: 'block', maxWidth: '56rem', margin: '1rem auto 1.5rem', background: '#fff' }} />
+
 - `.Badge` - Etiqueta de obligatorio/opcional que aparece en los elementos de consentimiento.
 
 :::note
@@ -338,6 +459,8 @@ Soyio usa [Phosphor Icons](https://phosphoricons.com/), una familia de iconos fl
 
 #### Pesos de icono disponibles
 
+<img src="/img/appearance/icon-weights.png" alt="Ejemplo visual de pesos de icono" width="100%" style={{ display: 'block', maxWidth: '48rem', margin: '1rem auto 1.5rem', border: '1px solid var(--ifm-color-emphasis-200)', borderRadius: '0.75rem', background: '#fff' }} />
+
 | Peso | Descripción |
 | ---- | ----------- |
 | `thin` | Ancho de trazo más delgado |
@@ -361,6 +484,8 @@ const appearance = {
 ```
 
 #### Sobrescrituras de icono por componente
+
+<img src="/img/appearance/icon-component-rules.png" alt="Ejemplo visual de iconRules" width="100%" style={{ display: 'block', maxWidth: '36rem', margin: '1rem auto 1.5rem', border: '1px solid var(--ifm-color-emphasis-200)', borderRadius: '0.75rem', background: '#fff' }} />
 
 Usa `iconRules` para personalizar iconos para componentes específicos. La clave es el nombre del componente (ej., `Alert`, `Switch`) o una clave específica de variante (ej., `Alert.error`):
 
@@ -404,6 +529,8 @@ const appearance = {
 
 También estiliza el icono de pista usando la regla `.HintIcon`.
 
+<img src="/img/appearance/input-with-hint.png" alt="Ejemplo visual del hint icon en un input" width="100%" style={{ display: 'block', maxWidth: '56rem', margin: '1rem auto 1.5rem', border: '1px solid var(--ifm-color-emphasis-200)', borderRadius: '0.75rem', background: '#fff' }} />
+
 ## Ejemplo de configuración completa
 
 Este ejemplo muestra cómo combinar temas, variables, reglas y configuración para personalizar completamente la apariencia de los componentes. Usa esta configuración tanto en el [Centro de Privacidad](./privacy-center/customization) como en el [módulo de Consentimiento](./consent/customization).
@@ -411,68 +538,34 @@ Este ejemplo muestra cómo combinar temas, variables, reglas y configuración pa
 ```javascript
 const appearance = {
   theme: "soyio",
+  mode: "auto",
   variables: {
     fontFamily: "system-ui, sans-serif",
     colorPrimary: "#f54c27",
     colorSecondary: "#f54c27",
-    colorBackground: "#ffffff",
-    colorText: "#1E1B4B",
+    colorBackground: "#0f172a",
+    colorText: "#f8fafc",
+    colorTextSecondary: "#cbd5e1",
     borderRadius: "0.5rem",
-    borderWidth: "3px",
-    borderStyle: "dashed",
+    borderWidth: "2px",
+    borderStyle: "solid",
   },
   rules: {
     ".MainContainer": {
       borderWidth: "1px",
       borderColor: "#E5E7EB",
       borderRadius: "0.25rem",
+      boxShadow: "0 10px 30px rgba(15, 23, 42, 0.18)",
     },
-    ".CheckboxInput": {
-      appearance: "none",
-      backgroundColor: "transparent",
-      cursor: "pointer",
-      width: "1rem",
-      height: "1rem",
-      borderRadius: "9999px",
-      borderWidth: "2px",
-      borderStyle: "solid",
-      borderColor: "var(--colorPrimary)",
+    ".Card": {
+      boxShadow: "0 12px 24px rgba(15, 23, 42, 0.14)",
     },
-    ".CheckboxInput--checked": {
-      borderColor: "var(--colorPrimary)",
-      backgroundColor: "var(--colorPrimary)",
-    },
-    ".CheckboxInput:hover": {
-      borderColor: "var(--colorPrimary)",
-      boxShadow: "0 0 0 2px var(--colorPrimary)",
-    },
-    ".CheckboxInput:focus": {
-      outline: "none",
-      boxShadow: "0 0 0 2px var(--colorPrimary)",
-    },
-    ".CheckboxInput:focus-visible": {
-      outline: "none",
-      boxShadow: "0 0 0 2px var(--colorPrimary)",
-    },
-    ".SwitchRoot": {
-      backgroundColor: "#e5e7eb",
-      borderRadius: "9999px",
-      boxShadow: "none", // Eliminar sombra predeterminada
-    },
-    ".SwitchRoot--checked": {
-      backgroundColor: "var(--colorPrimary)",
-    },
-    ".SwitchThumb": {
-      backgroundColor: "white",
-      borderRadius: "9999px",
-      boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
-    },
-    ".SwitchIcon": {
-      display: "none", // Ocultar los iconos de marca/cruz
+    ".DialogContent": {
+      boxShadow: "0 18px 48px rgba(15, 23, 42, 0.24)",
     },
   },
   config: {
-    helperTextPosition: "top", // Posicionar texto de ayuda encima de las entradas
+    helperTextPosition: "top"
   },
 };
 ```

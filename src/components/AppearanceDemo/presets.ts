@@ -5,10 +5,17 @@ const defaultPresets = {
       theme: 'soyio',
     },
   },
-  Night: {
-    name: 'Night',
+  'Soyio Dark': {
+    name: 'Soyio Dark',
     appearance: {
-      theme: 'night',
+      theme: 'soyio',
+      mode: 'dark',
+    },
+  },
+  Neutral: {
+    name: 'Neutral',
+    appearance: {
+      theme: 'neutral',
     },
   },
   Flat: {
@@ -82,7 +89,8 @@ export const consentPresets = {
   'Custom 3': {
     name: 'Custom 3',
     appearance: {
-      theme: 'night',
+      theme: 'soyio',
+      mode: 'dark',
       variables: {
         colorPrimary: '#ff7f0a',
         colorBackground: '#101012',
@@ -378,7 +386,8 @@ export const privacyCenterPresets = {
   'Custom 3': {
     name: 'Custom 3',
     appearance: {
-      theme: 'night',
+      theme: 'soyio',
+      mode: 'dark',
       variables: {
         colorPrimary: '#ff7f0a',
         colorBackground: '#101012',

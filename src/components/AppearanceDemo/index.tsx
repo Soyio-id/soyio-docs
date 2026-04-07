@@ -15,7 +15,7 @@ const DEFAULT_PRIVACY_CENTER_CONFIG = {
   companyId: 'com_test',
   isSandbox: true,
   demo: true,
-  productionUrl: 'https://privacy.soyio.id',
+  productionUrl: 'https://privacy-center-embed.soyio.id',
 };
 
 // Default config for Consent Box (only needs consentTemplateId, no companyId)
@@ -23,7 +23,7 @@ const DEFAULT_CONSENT_BOX_CONFIG = {
   consentTemplateId: 'constpl_cvssApVPAAqkVMrrxH_7jg' as const,
   isSandbox: true,
   demo: true,
-  productionUrl: 'https://app.soyio.id',
+  productionUrl: 'https://consent-embed.soyio.id',
 };
 
 // Custom hook to detect Docusaurus theme
@@ -296,7 +296,6 @@ const AppearanceDemoContent = () => {
 
     const config = {
       ...baseConfig,
-      // Only include developmentUrl for Privacy Center
       ...(activeTab === 'privacy-center' && {
         developmentUrl: privacyCenterUrl,
       }),

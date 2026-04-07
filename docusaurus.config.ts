@@ -18,7 +18,7 @@ const SOYIO_OPENAPI_SPEC_PATH =
   'https://soyio-docs.s3.amazonaws.com/soyio-open-api.yaml';
 const INTERCOM_LAUNCHER_SELECTOR = '#soyio-intercom-launcher';
 const PRIVACY_CENTER_URL =
-  process.env.SOYIO_PRIVACY_CENTER_URL || 'https://privacy.soyio.id';
+  process.env.SOYIO_PRIVACY_CENTER_URL || 'https://privacy-center-embed.soyio.id';
 
 const intercomSnippet = INTERCOM_APP_ID
   ? `window.intercomSettings={app_id:'${INTERCOM_APP_ID}',hide_default_launcher:true,custom_launcher_selector:'${INTERCOM_LAUNCHER_SELECTOR}',disabled:true};(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/${INTERCOM_APP_ID}';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(document.readyState==='complete'){l();}else if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();`

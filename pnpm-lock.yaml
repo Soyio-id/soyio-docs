@@ -69,8 +69,8 @@ importers:
         specifier: ^4.6.0
         version: 4.7.0(monaco-editor@0.55.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@soyio/soyio-widget':
-        specifier: 2.24.0
-        version: 2.24.0(@types/node@25.3.0)(jiti@1.21.7)(lightningcss@1.30.2)(rollup@4.59.1)(sass@1.93.2)(terser@5.46.0)(typescript@5.5.4)(yaml@2.8.2)
+        specifier: 3.0.0
+        version: 3.0.0(@types/node@25.3.0)(jiti@1.21.7)(lightningcss@1.30.2)(rollup@4.59.1)(sass@1.93.2)(terser@5.46.0)(typescript@5.5.4)(yaml@2.8.2)
       '@types/d3':
         specifier: ^7.4.3
         version: 7.4.3
@@ -2254,8 +2254,8 @@ packages:
   '@slorber/remark-comment@1.0.0':
     resolution: {integrity: sha512-RCE24n7jsOj1M0UPvIQCHTe7fI0sFL4S2nwKVWwHyVr/wI/H8GosgsJGyhnsZoGFnD/P2hLf1mSbrrgSLN93NA==}
 
-  '@soyio/soyio-widget@2.24.0':
-    resolution: {integrity: sha512-heI2aIYQx8icOaHhHxx6YVNHEGJt6SQweKWGN8X6eWwe8NqbBfwtGEQSi8H+1TSZtMLE8FwaMHnMvWgnNdtjjg==}
+  '@soyio/soyio-widget@3.0.0':
+    resolution: {integrity: sha512-RApcdnHIrqH+LAXrZoV5fyyM6CilWZokbiR2h3umlayeugs+voN4zSVEQwx6UpjeJ5O9YRg3p55gwCdLh4fyMA==}
 
   '@standard-schema/spec@1.0.0':
     resolution: {integrity: sha512-m2bOd0f2RT9k8QJx1JN85cZYyH1RqFBdlwtkSlf4tBDYLCiiZnv1fIIwacK6cqwXavOydf0NPToMQgpKq+dVlA==}
@@ -11227,7 +11227,7 @@ snapshots:
       micromark-util-character: 1.2.0
       micromark-util-symbol: 1.1.0
 
-  '@soyio/soyio-widget@2.24.0(@types/node@25.3.0)(jiti@1.21.7)(lightningcss@1.30.2)(rollup@4.59.1)(sass@1.93.2)(terser@5.46.0)(typescript@5.5.4)(yaml@2.8.2)':
+  '@soyio/soyio-widget@3.0.0(@types/node@25.3.0)(jiti@1.21.7)(lightningcss@1.30.2)(rollup@4.59.1)(sass@1.93.2)(terser@5.46.0)(typescript@5.5.4)(yaml@2.8.2)':
     dependencies:
       post-robot: 10.0.46
       vite: 7.2.6(@types/node@25.3.0)(jiti@1.21.7)(lightningcss@1.30.2)(sass@1.93.2)(terser@5.46.0)(yaml@2.8.2)

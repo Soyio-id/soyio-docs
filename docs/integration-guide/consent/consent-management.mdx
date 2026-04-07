@@ -17,6 +17,11 @@ El portal de gestión para usuarios finales está disponible [**solo para el SDK
 Si necesitas revocar consentimientos desde tus sistemas internos por eventos de negocio (por ejemplo, cierre de cuenta o fin de contrato), revisa [Revocación de consentimiento (iniciada por la compañía)](#revocacion-compania).
 :::
 
+:::note
+Los ejemplos de esta página están alineados con `@soyio/soyio-widget` v3+.
+Si personalizas la apariencia del portal, usa `theme + mode` como modelo principal. `theme: 'night'` sigue siendo aceptado por compatibilidad, pero se considera deprecado.
+:::
+
 Los usuarios tienen el derecho fundamental de gestionar su consentimiento y revocarlo en cualquier momento. Soyio te proporciona las herramientas necesarias para cumplir con este requisito legal de manera transparente y auditable.
 
 Usa el componente Privacy Center del [SDK de Soyio](https://github.com/Soyio-id/soy-io-widget) para disponer de un portal de gestión de consentimientos donde tus usuarios pueden:
@@ -173,6 +178,8 @@ privacyCenter.mount("#privacy-center-container");
 ## Configuración avanzada
 
 El Privacy Center permite configurar aspectos avanzados del comportamiento de la gestión de consentimientos mediante parámetros adicionales en la inicialización:
+
+Para una guía más completa de personalización visual y de comportamiento, revisa [Apariencia y comportamiento del Privacy Center](../privacy-center/customization) y la [guía general de apariencia](../appearance).
 
 ### Controles de consentimiento
 
