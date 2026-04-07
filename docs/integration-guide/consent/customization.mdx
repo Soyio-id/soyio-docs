@@ -23,6 +23,13 @@ Cuando un usuario interactúa con una solicitud de consentimiento generada desde
 
 Personaliza el componente de captura de consentimiento para adaptarlo a tu interfaz mediante variables de CSS declaradas en el objeto `appearance` del SDK.
 
+:::note
+Los ejemplos de esta sección están alineados con `@soyio/soyio-widget` v3+ y `@soyio/soyio-rn-sdk` v5+.
+
+- Usa `theme + mode` como modelo principal.
+- `theme: 'night'` sigue siendo aceptado por compatibilidad, pero se considera deprecado.
+:::
+
 <img src="/img/consentimiento-estilos.png" alt="Consent Embed example" width="100%"/>
 
 Asegúrate de mantener los elementos de accesibilidad como el contraste adecuado y el tamaño de fuente legible al personalizar el componente.
@@ -33,16 +40,20 @@ Asegúrate de mantener los elementos de accesibilidad como el contraste adecuado
     const consentOptions = {
         templateId: "<consent_template_id>",
         appearance: {
+          theme: 'soyio',
+          mode: 'auto',
           variables: {
               fontFamily: 'system-ui, sans-serif',
               colorPrimary: '#f54c27',
-              colorBackground: '#ffffff',
+              colorBackground: '#0f172a',
+              colorText: '#f8fafc',
           },
           rules : {
-              '.Checkbox': {
-                accentColor: 'var(--colorPrimary)',
+              '.Card': {
+                boxShadow: '0 12px 24px rgba(15, 23, 42, 0.14)',
               }
           }
+        }
     };
     ```
 
@@ -54,6 +65,7 @@ Asegúrate de mantener los elementos de accesibilidad como el contraste adecuado
     ```jsx
     const appearance = {
         theme: 'soyio',
+        mode: 'dark',
         variables: {
             colorPrimary: '#f54c27',
         }
@@ -69,6 +81,10 @@ Asegúrate de mantener los elementos de accesibilidad como el contraste adecuado
     ```
     </TabItem>
 </Tabs>
+
+:::tip
+Si necesitas sombras (`box-shadow`), configúralas mediante `appearance.rules`. No existe una variable global `shadow`.
+:::
 
 ## Estilos de íconos
 
@@ -95,6 +111,8 @@ Especifica una lista de dominios permitidos para desplegar el componente de capt
 :::info
 La configuración de dominios permitidos se aplica a nivel de compañía y afecta todos los componentes de consentimiento de tu cuenta.
 :::
+
+Los SDKs web y mobile ahora apuntan por defecto al dominio dedicado de consentimiento. Si usas entornos de staging o entornos locales, sigue usando `developmentUrl` para redirigir el embed a tu origen de prueba.
 
 ### Configura las etiquetas de obligatoriedad de consentimientos
 
@@ -214,3 +232,17 @@ Incluye un link al portal de gestión de consentimientos en cada solicitud de co
 :::info
 La configuración de link al portal de gestión de consentimientos se aplica a nivel de compañía y afecta todos los componentes de consentimiento de tu cuenta.
 :::
+
+## Errores de integración frecuentes
+
+Cuando la integración del consentimiento es inválida, el componente muestra mensajes más accionables. Los casos más comunes son:
+
+- `consentTemplateId` inválido o inexistente
+- host del embed no permitido
+- host del embed inválido o mal propagado por la integración
+
+Revisa estas guías si encuentras alguno de esos errores:
+
+- [Gestiona consentimientos](./consent-management)
+- [Actualiza la configuración de consentimiento](../../api/resources/update-consent-config.api.mdx)
+- [Actualiza la configuración de compañía](../../api/resources/update-company-config.api.mdx)

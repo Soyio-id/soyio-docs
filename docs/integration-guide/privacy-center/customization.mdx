@@ -113,6 +113,13 @@ const privacyCenterOptions = {
 
 El parámetro `appearance` permite configurar detalladamente el aspecto visual del componente.
 
+:::note
+Los ejemplos de esta sección están alineados con `@soyio/soyio-widget` v3+ y `@soyio/soyio-rn-sdk` v5+.
+
+- Usa `theme + mode` como modelo principal.
+- `theme: 'night'` sigue funcionando por compatibilidad, pero se considera deprecado.
+:::
+
 ## Variables de personalización
 
 Personaliza la apariencia del Privacy Center usando variables CSS:
@@ -122,38 +129,54 @@ const privacyCenterOptions = {
   // ... configuración básica
   appearance: {
     theme: 'soyio',
+    mode: 'auto',
     variables: {
       // Colores principales
       colorPrimary: '#f54c27',
       colorSecondary: '#f54c27',
-      colorBackground: '#ffffff',
-      colorText: '#1A1F36',
+      colorBackground: '#0f172a',
+      colorText: '#f8fafc',
+      colorTextSecondary: '#cbd5e1',
 
       // Tipografía
       fontFamily: 'system-ui, sans-serif',
-      fontSize: '14px',
+      fontFamilyTitle: 'Manrope, system-ui, sans-serif',
 
-      // Bordes y espaciado
+      // Bordes
       borderRadius: '8px',
       borderWidth: '1px',
-      spacing: '16px',
-
-      // Sombras
-      shadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
+      borderStyle: 'solid',
     },
     rules: {
-      '.DataSubjectRequestForm': {
-        backgroundColor: 'var(--colorBackground)',
-        border: '1px solid #e0e0e0',
-        borderRadius: 'var(--borderRadius)'
+      '.Card': {
+        boxShadow: '0 12px 24px rgba(15, 23, 42, 0.14)',
       },
-      '.ConsentManagement': {
-        padding: 'var(--spacing)'
+      '.DialogContent': {
+        boxShadow: '0 18px 48px rgba(15, 23, 42, 0.24)',
+      },
+      '.CardTitle': {
+        letterSpacing: 'inherit',
+        textTransform: 'none',
+      },
+    },
+    config: {
+      showHeader: true,
+      showConsentManagementHeader: true,
+      consentControl: 'checkbox',
+      mainPageColumns: 2,
+      consentManagementColumns: 2,
+      brandTheme: 'dark',
+      icon: {
+        dataUseVariant: 'duotone',
       }
     }
   }
 };
 ```
+
+:::tip
+Si necesitas sombras (`box-shadow`), configúralas con `appearance.rules`. No existe una variable global `shadow`.
+:::
 
 :::note
 Para obtener más información sobre las variables y reglas de personalización, consulta nuestra [guía de personalización de apariencia](../appearance). Para detalles técnicos adicionales, revisa la [documentación oficial del SDK web de Soyio](https://github.com/Soyio-id/soy-io-widget?tab=readme-ov-file#appearance).
@@ -162,3 +185,16 @@ Para obtener más información sobre las variables y reglas de personalización,
 :::warning
 Asegúrate de mantener los elementos de accesibilidad como el contraste adecuado y el tamaño de fuente legible al personalizar el componente.
 :::
+
+## Errores de integración frecuentes
+
+Cuando la configuración del Privacy Center es inválida, el componente muestra mensajes de ayuda orientados a la integración. Los más comunes son:
+
+- Inicialización inválida: debes usar `companyId` **o** `sessionToken`, pero no ambos.
+- `companyId` inválido: el identificador debe ser un token de compañía válido.
+- Configuración REDEC incompleta: si habilitas `redec` en `enabledRights`, debes enviar `redecOperationIds`.
+
+Consulta también:
+
+- [Obtén un token de sesión para el centro de privacidad](../../api/resources/get-privacy-center-session-token.api.mdx)
+- [Actualiza la configuración del Privacy Center](../../api/resources/update-privacy-center-config.api.mdx)
