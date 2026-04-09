@@ -10764,6 +10764,24 @@
               "type": "string"
             },
             "example": "ent_1B2M2Y8AsgTpgAmY7PhCfg"
+          },
+          {
+            "name": "config",
+            "in": "query",
+            "description": "Configuración opcional para personalizar el token del Privacy Center.",
+            "required": false,
+            "style": "deepObject",
+            "explode": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "cl_carnet_rut": {
+                  "type": "string",
+                  "description": "RUT chileno que se incluirá en `config.cl_carnet_rut` dentro del JWT.",
+                  "example": "12.345.678-5"
+                }
+              }
+            }
           }
         ],
         "responses": {
@@ -10785,7 +10803,7 @@
             }
           },
           "400": {
-            "description": "Error de solicitud - falta el parámetro entity_id",
+            "description": "Error de solicitud - falta entity_id o config.cl_carnet_rut inválido",
             "content": {
               "application/json": {
                 "schema": {
