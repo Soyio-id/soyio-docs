@@ -140,11 +140,11 @@ El flujo de inicialización para el modo autenticado es el siguiente:
 
 Usa el endpoint `GET /api/v1/privacy_center/session_token` para obtener el token de sesión. Este endpoint requiere el `entity_id` de la entidad para la cual se generará el token.
 
-Si también habilitarás el flujo de ejercicio de derechos en modo autenticado, puedes enviar opcionalmente `config[cl_carnet_rut]` para prellenar y bloquear el RUT del usuario durante esa sesión.
+Si también habilitarás el flujo de ejercicio de derechos en modo autenticado, envía opcionalmente `config[cl_carnet_rut]` para prellenar y bloquear el RUT del usuario durante esa sesión.
 
 ```bash title="GET /api/v1/privacy_center/session_token"
 curl --request GET \
-  --url 'https://api.soyio.com/api/v1/privacy_center/session_token?entity_id=<entity_id>&config[cl_carnet_rut]=<user_rut>' \
+  --url 'https://api.soyio.id/api/v1/privacy_center/session_token?entity_id=<entity_id>&config[cl_carnet_rut]=<user_rut>' \
   --header 'Authorization: Bearer <your_process_token>'
 ```
 
@@ -154,6 +154,8 @@ Si usas `config[cl_carnet_rut]`, cualquier DSR creado con ese token deberá envi
 
 :::tip
 Consulta [Obtener un token de sesión para el centro de privacidad](../../api/resources/get-privacy-center-session-token.api.mdx) para revisar parámetros, respuestas y errores del endpoint.
+
+`config[cl_carnet_rut]` es un parámetro opcional adicional para el flujo de DSR autenticado y puede no aparecer de inmediato en la referencia autogenerada si está desactualizada.
 :::
 
 ### Configura el Privacy Center
