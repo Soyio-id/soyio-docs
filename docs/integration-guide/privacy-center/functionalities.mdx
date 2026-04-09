@@ -80,7 +80,9 @@ Este modo es recomendado para:
 
 Para integrar el centro de privacidad en modo autenticado, especifica el `sessionToken` en el componente.
 
-Obtén el `sessionToken` usando el [endpoint `POST /api/v1/privacy_center/session_token` de la API de Soyio](../../api/resources/get-privacy-center-session-token.api.mdx).
+Obtén el `sessionToken` usando el [endpoint `GET /api/v1/privacy_center/session_token` de la API de Soyio](../../api/resources/get-privacy-center-session-token.api.mdx).
+
+Opcionalmente, al crear ese token envía `config[cl_carnet_rut]`. Cuando ese valor está presente, el flujo de DSR en modo autenticado prellena y bloquea el campo de RUT, y la API valida que `contact_information.nin` coincida con el RUT configurado.
 
 <Tabs>
   <TabItem value="web" label="SDK Web" default>
