@@ -129,7 +129,7 @@ const getSessionToken = async (entityId, userRut) => {
 </Tabs>
 
 :::warning Importante
-Si generas el token con `config[cl_carnet_rut]`, el campo RUT del formulario DSR quedará prellenado y bloqueado en el Privacy Center. Además, al crear la solicitud, `contact_information.nin` debe coincidir con ese valor; en caso contrario, la API responderá `400`.
+Si generas el token con `config[cl_carnet_rut]`, el campo RUT del formulario DSR quedará prellenado y bloqueado en el Privacy Center. Además, al crear la solicitud, `contact_information.nin` debe coincidir con ese valor; en caso contrario, la API responderá `422`.
 :::
 
 :::tip
