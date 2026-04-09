@@ -95,21 +95,26 @@ En caso de que no exista un `entity_id` para el usuario en tu sistema, no podrá
 
 ### Obtén el token de sesión
 
-Una vez que el usuario se ha autenticado en tu sistema, usa el endpoint `POST /api/v1/privacy_center/session_token` para obtener el token de sesión.
+Una vez que el usuario se ha autenticado en tu sistema, usa el endpoint `GET /api/v1/privacy_center/session_token` para obtener el token de sesión.
+
+Debes enviar `entity_id` como query param. Opcionalmente, puedes enviar `config[cl_carnet_rut]` para fijar el RUT del usuario durante la sesión autenticada.
 
 <Tabs>
   <TabItem value="web" label="SDK Web" default>
 ```javascript title="Backend - Obtener token de sesión"
-const getSessionToken = async (entityId) => {
-  const response = await fetch('https://api.soyio.com/v1/privacy_center/session_token', {
-    method: 'POST',
+const getSessionToken = async (entityId, userRut) => {
+  const url = new URL('https://api.soyio.com/api/v1/privacy_center/session_token');
+  url.searchParams.append('entity_id', entityId);
+
+  if (userRut) {
+    url.searchParams.append('config[cl_carnet_rut]', userRut);
+  }
+
+  const response = await fetch(url.toString(), {
+    method: 'GET',
     headers: {
-      'Authorization': `Bearer ${process.env.SOYIO_API_KEY}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      entity_id: entityId
-    })
+      'Authorization': `Bearer ${process.env.SOYIO_API_KEY}`
+    }
   });
 
   if (!response.ok) {
@@ -117,11 +122,15 @@ const getSessionToken = async (entityId) => {
   }
 
   const data = await response.json();
-  return data.session_token;
+  return data.token;
 };
 ```
   </TabItem>
 </Tabs>
+
+:::caution Importante
+Si generas el token con `config[cl_carnet_rut]`, el campo RUT del formulario DSR quedará prellenado y bloqueado en el Privacy Center. Además, al crear la solicitud, `contact_information.nin` debe coincidir con ese valor; en caso contrario, la API responderá `400`.
+:::
 
 :::tip
 Revisa la referencia del API para [Obtener un token de sesión para el centro de privacidad](../../api/resources/get-privacy-center-session-token.api.mdx) para mas detalles.
