@@ -51,6 +51,7 @@ Muestra los consentimientos agrupados por alcance (producto/sucursal) para que e
 - `groupConsentsByScope`: `boolean` (por defecto `false`).
 - `consentManagement.scopeGroups`: `array` opcional para definir grupos personalizados en los acordeones.
   - Estructura por grupo: `{ title: string, scopes: [{ scopeType: 'product' | 'branch', scopeId: string }] }`.
+- `consentManagement.allowMultipleOpenScopeGroups`: `boolean` (por defecto `true`). Si lo defines como `false`, abrir un acordeón cierra el resto.
 
 Cuando esta opción está habilitada:
 
@@ -90,6 +91,7 @@ const privacyCenterOptions = {
   allowGranularScopeSelection: true,
   groupConsentsByScope: true,
   consentManagement: {
+    allowMultipleOpenScopeGroups: false,
     scopeGroups: [
       {
         title: 'Productos financieros',

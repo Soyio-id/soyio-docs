@@ -260,6 +260,8 @@ Si necesitas agrupar múltiples alcances en categorías de negocio (por ejemplo,
 
 `consentManagement.scopeGroups`: `array` opcional. Requiere `groupConsentsByScope: true`.
 
+`consentManagement.allowMultipleOpenScopeGroups`: `boolean` (por defecto `true`). Si lo defines como `false`, abrir un acordeón cierra el resto.
+
 - Cada grupo debe incluir `title` y `scopes`.
 - Cada alcance en `scopes` debe tener `{ scopeType: 'product' | 'branch', scopeId: string }`.
 - Los alcances no incluidos en `scopeGroups` se siguen mostrando con el agrupado por alcance por defecto.
@@ -269,6 +271,7 @@ const privacyCenterOptions = {
   // ...
   groupConsentsByScope: true,
   consentManagement: {
+    allowMultipleOpenScopeGroups: false,
     scopeGroups: [
       {
         title: 'Productos financieros',
