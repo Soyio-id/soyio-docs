@@ -2423,9 +2423,13 @@
                 "summary": "Filtrar por email",
                 "value": "{\"email\":{\"like\":\"@example.com\"}}"
               },
-              "data_filter": {
-                "summary": "Filtrar por datos personales",
-                "value": "{\"data\":{\"name\":{\"=\":\"John\"}}}"
+              "global_search_filter": {
+                "summary": "Buscar por id, user_reference o email",
+                "value": "{\"global_search\":{\"like\":\"john\"}}"
+              },
+              "user_reference_filter": {
+                "summary": "Filtrar por user_reference",
+                "value": "{\"user_reference\":{\"like\":\"user_123\"}}"
               }
             }
           },
@@ -7539,6 +7543,14 @@
               "type": "string"
             },
             "examples": {
+              "email_filter": {
+                "summary": "Filtrar por email de la identidad vinculada",
+                "value": "{\"email\":{\"like\":\"@example.com\"}}"
+              },
+              "global_search_filter": {
+                "summary": "Buscar por id, user_reference o email vinculado",
+                "value": "{\"global_search\":{\"like\":\"john\"}}"
+              },
               "user_reference_filter": {
                 "summary": "Filtrar por user_reference exacto",
                 "value": "{\"user_reference\":{\"=\":\"user_123\"}}"
@@ -8539,7 +8551,27 @@
                   "type": "object",
                   "properties": {
                     "config": {
-                      "type": "object"
+                      "type": "object",
+                      "properties": {
+                        "contact_email": {
+                          "type": "string"
+                        },
+                        "public_url": {
+                          "type": "string"
+                        },
+                        "private_url": {
+                          "type": "string"
+                        },
+                        "allow_required_consent_revocation": {
+                          "type": "boolean"
+                        },
+                        "whitelisted_domains": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
                     }
                   }
                 }
@@ -8603,7 +8635,27 @@
                   "type": "object",
                   "properties": {
                     "config": {
-                      "type": "object"
+                      "type": "object",
+                      "properties": {
+                        "contact_email": {
+                          "type": "string"
+                        },
+                        "public_url": {
+                          "type": "string"
+                        },
+                        "private_url": {
+                          "type": "string"
+                        },
+                        "allow_required_consent_revocation": {
+                          "type": "boolean"
+                        },
+                        "whitelisted_domains": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
                     }
                   }
                 }
@@ -8945,6 +8997,9 @@
                   },
                   "private_url": {
                     "type": "string"
+                  },
+                  "allow_required_consent_revocation": {
+                    "type": "boolean"
                   }
                 }
               }
@@ -18813,22 +18868,40 @@
           "status": {
             "type": "string",
             "enum": [
-              "compliant",
+              "complies",
               "non_compliant",
               "partially_compliant"
             ],
-            "description": "El cumplimiento en sí:\n- `compliant`: La entidad cumple con **todos** los `data_requirements`s del template de consentimiento.\n- `non_compliant`: La entidad no cumple con **ningún** `data_requirement`s del template de consentimiento.\n- `partially_compliant`: La entidad cumple **solo con algunos** de los `data_requirements`s del template de consentimiento.\n",
-            "example": "compliant"
+            "description": "El cumplimiento en sí:\n- `complies`: La entidad cumple con **todos** los `data_requirements`s del template de consentimiento.\n- `non_compliant`: La entidad no cumple con **ningún** `data_requirement`s del template de consentimiento.\n- `partially_compliant`: La entidad cumple **solo con algunos** de los `data_requirements`s del template de consentimiento.\n",
+            "example": "complies"
           },
           "consent_template_id": {
             "type": "string",
             "description": "ID del template de consentimiento al cuál corresponde el cumplimiento",
             "example": "constpl_1B2M2Y8AsgTpgAmY7PhCfg"
           },
+          "consent_template_version": {
+            "type": "integer",
+            "description": "Versión exacta del template de consentimiento evaluado en esta fila.",
+            "example": 2
+          },
           "last_consent_action_id": {
             "type": "string",
-            "description": "ID de la última acción de consentimiento asociada al template y esa entidad.",
+            "nullable": true,
+            "description": "ID de la última acción de consentimiento asociada a la entidad para la versión exacta del template evaluado.\nPuede ser `null` aunque exista una acción relacionada en otra versión del mismo template.\n",
             "example": "consact_1B2M2Y8AsgTpgAmY7PhCfg"
+          },
+          "last_related_consent_action_id": {
+            "type": "string",
+            "nullable": true,
+            "description": "ID de la última acción de consentimiento asociada a la entidad en cualquier versión del mismo template.\nNo implica por sí sola que esa acción sea la causa del cumplimiento actual.\n",
+            "example": "consact_1B2M2Y8AsgTpgAmY7PhCfg"
+          },
+          "last_related_consent_action_template_version": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Versión del template asociada a `last_related_consent_action_id`.\nPuede tener valor aunque `last_consent_action_id` sea `null`.\n",
+            "example": 1
           },
           "agreement_id": {
             "type": "string",
@@ -19056,6 +19129,12 @@
                 "type": "string",
                 "description": "URL privada del Centro de Privacidad. Revisa [funcionalidades y modos](/docs/integration-guide/privacy-center/functionalities) del Centro de Privacidad para más información.",
                 "example": "https://private-privacy.example.com"
+              },
+              "allow_required_consent_revocation": {
+                "type": "boolean",
+                "description": "Define si los consentimientos requeridos pueden revocarse desde el Centro de Privacidad.",
+                "default": true,
+                "example": true
               },
               "whitelisted_domains": {
                 "type": "array",
@@ -19376,6 +19455,9 @@
               "contact_email": {
                 "type": "string",
                 "nullable": true
+              },
+              "allow_required_consent_revocation": {
+                "type": "boolean"
               }
             }
           }
