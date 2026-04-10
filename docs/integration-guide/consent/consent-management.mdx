@@ -219,6 +219,21 @@ const privacyCenterOptions = {
 };
 ```
 
+### Revocación de consentimientos requeridos
+
+Por defecto, el Privacy Center permite que los usuarios revocen consentimientos requeridos desde la UI de gestión.
+
+Si necesitas impedir ese comportamiento para tu empresa, puedes deshabilitarlo con la configuración backend `privacy_center.allow_required_consent_revocation`.
+
+- `privacy_center.allow_required_consent_revocation`: `boolean` (por defecto `true`).
+
+Cuando esta configuración está en `false`:
+
+- los consentimientos requeridos dejan de ser revocables para el usuario final en el Privacy Center
+- el comportamiento aplica tanto a la UI como a las validaciones backend
+
+Puedes actualizar esta configuración usando tus endpoints de configuración de empresa en Soyio.
+
 ### Selección granular de alcance
 
 Si tus plantillas tienen múltiples alcances (scopes), puedes habilitar la selección granular para que el usuario decida por alcance dentro de un mismo consentimiento.
