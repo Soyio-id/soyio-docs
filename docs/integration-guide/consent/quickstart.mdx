@@ -158,20 +158,26 @@ Consulta el [endpoint del estado de cumplimiento (`ComplianceStatus`)](../../api
 
 Las respuestas de este endpoint pueden ser:
 
-- `compliant`: el usuario cumple con todos los requerimientos del template.
+- `complies`: el usuario cumple con todos los requerimientos del template.
 - `partially_compliant`: el usuario cumple parcialmente con algunos de los requerimientos del template.
 - `non_compliant`: el usuario no cumple con ninguno de los requerimientos del template.
 
 Te recomendamos consultar el estado de cumplimiento cada vez que necesites usar los datos que el usuario ha entregado.
+
+Si el estado es `complies`, pero `last_consent_action_id` es `null`, revisa los campos relacionados de versión. Eso indica que el Agreement actual cumple con la última versión del template, aunque la última acción explícita de consentimiento puede haber quedado registrada en otra versión del mismo template.
 
 ```JSON title="GET /api/v1/entities/<entity_id>/agreement/compliance_statuses?consent_template_id=<consent_template_id>"
 {
     "compliance_statuses": [
         {
             "consent_template_id": "<consent_template_id>",
-            "entity_id": "<entity_id>",
-            "last_consent_action_id": "<last_consent_action_id>",
-            "status": "compliant"
+            "consent_template_version": 2,
+            "last_consent_action_id": null,
+            "last_related_consent_action_id": "<last_related_consent_action_id>",
+            "last_related_consent_action_template_version": 1,
+            "agreement_id": "<agreement_id>",
+            "status": "complies",
+            "is_revokable": false
         }
     ]
 }

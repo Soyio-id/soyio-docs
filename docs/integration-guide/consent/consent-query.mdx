@@ -20,9 +20,11 @@ El Compliance Status procesa el estado del Agreement para evaluar si el usuario 
 ### Estados de cumplimiento
 
 Los estados de cumplimiento pueden ser:
-- `compliant`: El usuario cumple con todos los requerimientos del template de consentimiento.
+- `complies`: El usuario cumple con todos los requerimientos del template de consentimiento.
 - `non_compliant`: El usuario no cumple con ningún requerimiento del template de consentimiento.
 - `partially_compliant`: El usuario cumple con algunos de los requerimientos del template de consentimiento.
+
+El payload también expone metadatos para distinguir entre el cumplimiento efectivo y la última acción explícita de consentimiento registrada para ese template. Por ejemplo, si `status` es `complies`, pero `last_consent_action_id` es `null` y `last_related_consent_action_template_version` tiene valor, el Agreement actual cumple con la versión evaluada, aunque la última acción explícita haya quedado registrada en otra versión del mismo template.
 
 :::note
 Revisa la [respuesta del endpoint de Compliance Status](/docs/api/resources/get-entity-agreement-compliance-statuses) en nuestra referencia de API.
