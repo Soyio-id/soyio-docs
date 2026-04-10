@@ -5,7 +5,7 @@ description: "Configuración mínima utilizada para renderizado de interfaz en d
 hide_title: true
 hide_table_of_contents: true
 schema: true
-sample: {"icon_variant":"duotone","default_color":"string","features":{"workflows":true},"consent":{"label_display":"optional_only","mandatory_label_text":"required"},"privacy_center":{"public_url":"string","contact_email":"string"}}
+sample: {"icon_variant":"duotone","default_color":"string","features":{"workflows":true},"consent":{"label_display":"optional_only","mandatory_label_text":"required"},"privacy_center":{"public_url":"string","contact_email":"string","allow_required_consent_revocation":true}}
 custom_edit_url: null
 ---
 
@@ -25,7 +25,7 @@ Configuración mínima utilizada para renderizado de interfaz en dashboard.
 
 <Schema
 	defaultCollapsibleOpen={true}
-  schema={{"type":"object","x-tags":["Configuration"],"description":"Configuración mínima utilizada para renderizado de interfaz en dashboard.","properties":{"icon_variant":{"type":"string","enum":["duotone","outline","solid"],"description":"Variante de íconos utilizada por la UI."},"default_color":{"type":"string","nullable":true,"description":"Color base de personalización para íconos en UI."},"features":{"type":"object","description":"Indicadores internos de disponibilidad de módulos para la compañía autenticada.","properties":{"workflows":{"type":"boolean","description":"Indica si la compañía tiene habilitado el módulo de workflows."}}},"consent":{"type":"object","properties":{"label_display":{"type":"string","enum":["optional_only","mandatory_only"]},"mandatory_label_text":{"type":"string","enum":["required","mandatory"]}}},"privacy_center":{"type":"object","properties":{"public_url":{"type":"string","nullable":true},"contact_email":{"type":"string","nullable":true}}}},"title":"UIConfiguration"}}
+  schema={{"type":"object","x-tags":["Configuration"],"description":"Configuración mínima utilizada para renderizado de interfaz en dashboard.","properties":{"icon_variant":{"type":"string","enum":["duotone","outline","solid"],"description":"Variante de íconos utilizada por la UI."},"default_color":{"type":"string","nullable":true,"description":"Color base de personalización para íconos en UI."},"features":{"type":"object","description":"Indicadores internos de disponibilidad de módulos para la compañía autenticada.","properties":{"workflows":{"type":"boolean","description":"Indica si la compañía tiene habilitado el módulo de workflows."}}},"consent":{"type":"object","properties":{"label_display":{"type":"string","enum":["optional_only","mandatory_only"]},"mandatory_label_text":{"type":"string","enum":["required","mandatory"]}}},"privacy_center":{"type":"object","properties":{"public_url":{"type":"string","nullable":true},"contact_email":{"type":"string","nullable":true},"allow_required_consent_revocation":{"type":"boolean"}}}},"title":"UIConfiguration"}}
   schemaType={"response"}
 >
   

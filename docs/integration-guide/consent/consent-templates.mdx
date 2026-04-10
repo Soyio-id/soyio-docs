@@ -299,7 +299,7 @@ Cada vez que se levanta un flujo de consentimiento, se usa la última versión d
 Consulta el historial de versiones de una plantilla usando el endpoint [`GET /api/v1/consent_templates/{id}/versions`](../../api/resources/index-consent-template-versions.api.mdx).
 
 :::warning
-Es importante considerar esto, ya que la evidencia de los consentimientos se asocia a la versión exacta de la plantilla que el usuario aceptó. Si el cambio de la plantilla afecta a los datos o usos que se solicitan, a su vigencia o al alcance del consentimiento (por ejemplo, si se asocia a otro producto o filial), el consentimiento asociado a esa plantilla aparecerá como `no compliant`.
+Es importante considerar esto, ya que la evidencia de los consentimientos se asocia a la versión exacta de la plantilla que el usuario aceptó. Si el cambio de la plantilla afecta a los datos o usos que se solicitan, a su vigencia o al alcance del consentimiento (por ejemplo, si se asocia a otro producto o filial), el consentimiento asociado a esa plantilla puede aparecer como `non_compliant` o seguir en `complies` aunque la última acción explícita de consentimiento haya quedado registrada en una versión anterior.
 :::
 
 ## Próximos pasos
