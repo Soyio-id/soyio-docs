@@ -6,6 +6,10 @@ Al igual que los otros componentes de Soyio, el Privacy Center se puede personal
 
 El Privacy Center ofrece opciones avanzadas para adaptar su funcionamiento a tus necesidades de negocio. Estas opciones se configuran directamente en el objeto de opciones del widget.
 
+:::note
+Esta página documenta opciones de inicialización del SDK. Configuraciones backend de empresa, como `privacy_center.allow_required_consent_revocation`, se administran fuera del widget y afectan el comportamiento visible en el Privacy Center.
+:::
+
 ### Controles de consentimiento
 
 Define qué tipo de control visual utilizar para la gestión de consentimientos.
@@ -51,6 +55,7 @@ Muestra los consentimientos agrupados por alcance (producto/sucursal) para que e
 - `groupConsentsByScope`: `boolean` (por defecto `false`).
 - `consentManagement.scopeGroups`: `array` opcional para definir grupos personalizados en los acordeones.
   - Estructura por grupo: `{ title: string, scopes: [{ scopeType: 'product' | 'branch', scopeId: string }] }`.
+- `consentManagement.allowMultipleOpenScopeGroups`: `boolean` (por defecto `true`). Requiere `groupConsentsByScope: true`. Si lo defines como `false`, abrir un acordeón cierra el resto.
 
 Cuando esta opción está habilitada:
 
@@ -90,6 +95,7 @@ const privacyCenterOptions = {
   allowGranularScopeSelection: true,
   groupConsentsByScope: true,
   consentManagement: {
+    allowMultipleOpenScopeGroups: false,
     scopeGroups: [
       {
         title: 'Productos financieros',
